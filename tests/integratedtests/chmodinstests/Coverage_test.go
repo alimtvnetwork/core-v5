@@ -23,7 +23,7 @@ func Test_Cov_Condition_Defaults(t *testing.T) {
 		"falseSkip": false, "falseContin": false, "falseRecurse": false,
 		"exceptRecurse": true, "exceptSkip": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Condition Defaults", actual)
+	expected.ShouldBeEqual(t, 0, "Condition returns correct value -- Defaults", actual)
 }
 
 func Test_Cov_Condition_IsExitOnInvalid(t *testing.T) {
@@ -35,7 +35,7 @@ func Test_Cov_Condition_IsExitOnInvalid(t *testing.T) {
 		"collectNil": nilC.IsCollectErrorOnInvalid(),
 	}
 	expected := args.Map{"skipTrue": false, "nil": true, "collectNil": true}
-	expected.ShouldBeEqual(t, 0, "Condition IsExitOnInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "Condition returns error -- IsExitOnInvalid", actual)
 }
 
 func Test_Cov_Condition_Clone(t *testing.T) {
@@ -52,7 +52,7 @@ func Test_Cov_Condition_Clone(t *testing.T) {
 		"skip": true, "continue": true, "recursive": true,
 		"nonPtrSkip": true, "nilClone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Condition Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Condition returns correct value -- Clone", actual)
 }
 
 // ── RwxOwnerGroupOther ──
@@ -73,7 +73,7 @@ func Test_Cov_RwxOGO_Methods(t *testing.T) {
 		"is": true, "toString": "-rwxr-x-w-", "noHyphen": "rwxr-x-w-",
 		"string": "-rwxr-x-w-",
 	}
-	expected.ShouldBeEqual(t, 0, "RwxOGO Methods", actual)
+	expected.ShouldBeEqual(t, 0, "RwxOGO returns correct value -- Methods", actual)
 }
 
 func Test_Cov_RwxOGO_ExpandChars(t *testing.T) {
@@ -91,7 +91,7 @@ func Test_Cov_RwxOGO_ExpandChars(t *testing.T) {
 		"gr": "r", "gw": "-", "gx": "x",
 		"otr": "-", "otw": "w", "otx": "-",
 	}
-	expected.ShouldBeEqual(t, 0, "RwxOGO ExpandChars", actual)
+	expected.ShouldBeEqual(t, 0, "RwxOGO returns correct value -- ExpandChars", actual)
 }
 
 func Test_Cov_RwxOGO_IsEqual(t *testing.T) {
@@ -106,7 +106,7 @@ func Test_Cov_RwxOGO_IsEqual(t *testing.T) {
 		"nilA":     nilR.IsEqual(a),
 	}
 	expected := args.Map{"equal": true, "notEqual": false, "nilNil": true, "nilA": false}
-	expected.ShouldBeEqual(t, 0, "RwxOGO IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "RwxOGO returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov_RwxOGO_Clone(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_Cov_RwxOGO_Clone(t *testing.T) {
 		"owner": cloned.Owner, "nilClone": nilR.Clone() == nil,
 	}
 	expected := args.Map{"owner": "rwx", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "RwxOGO Clone", actual)
+	expected.ShouldBeEqual(t, 0, "RwxOGO returns correct value -- Clone", actual)
 }
 
 // ── RwxInstruction ──
@@ -135,7 +135,7 @@ func Test_Cov_RwxInstruction_Clone(t *testing.T) {
 		"nilClone":  nilRI.Clone() == nil,
 	}
 	expected := args.Map{"owner": "rwx", "recursive": true, "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "RwxInstruction Clone", actual)
+	expected.ShouldBeEqual(t, 0, "RwxInstruction returns correct value -- Clone", actual)
 }
 
 // ── BaseRwxInstructions ──
@@ -152,7 +152,7 @@ func Test_Cov_BaseRwxInstructions_Methods(t *testing.T) {
 		"hasAny":  base.HasAnyItem(),
 	}
 	expected := args.Map{"length": 1, "isEmpty": false, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "BaseRwxInstructions Methods", actual)
+	expected.ShouldBeEqual(t, 0, "BaseRwxInstructions returns correct value -- Methods", actual)
 }
 
 func Test_Cov_BaseRwxInstructions_Nil(t *testing.T) {
@@ -162,7 +162,7 @@ func Test_Cov_BaseRwxInstructions_Nil(t *testing.T) {
 		"hasAny": base.HasAnyItem(), "cloneNil": base.Clone() == nil,
 	}
 	expected := args.Map{"length": 0, "isEmpty": true, "hasAny": false, "cloneNil": true}
-	expected.ShouldBeEqual(t, 0, "BaseRwxInstructions Nil", actual)
+	expected.ShouldBeEqual(t, 0, "BaseRwxInstructions returns nil -- Nil", actual)
 }
 
 func Test_Cov_BaseRwxInstructions_Clone(t *testing.T) {
@@ -178,7 +178,7 @@ func Test_Cov_BaseRwxInstructions_Clone(t *testing.T) {
 		"nonPtrLen": nonPtr.Length(),
 	}
 	expected := args.Map{"len": 1, "nonPtrLen": 1}
-	expected.ShouldBeEqual(t, 0, "BaseRwxInstructions Clone", actual)
+	expected.ShouldBeEqual(t, 0, "BaseRwxInstructions returns correct value -- Clone", actual)
 }
 
 // ── ExpandRwxFullString ──
@@ -194,14 +194,14 @@ func Test_Cov_ExpandRwxFullString(t *testing.T) {
 		"owner": "rwx", "group": "r-x", "other": "-w-",
 		"noErr": true, "hasErrBad": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ExpandRwxFullString", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandRwxFullString returns correct value -- with args", actual)
 }
 
 func Test_Cov_ExpandRwxFullStringByFixingFirst(t *testing.T) {
 	result, err := chmodins.ExpandRwxFullStringToOwnerGroupOtherByFixingFirst("-rwx")
 	actual := args.Map{"noErr": err == nil, "owner": result.Owner}
 	expected := args.Map{"noErr": true, "owner": "rwx"}
-	expected.ShouldBeEqual(t, 0, "ExpandByFixingFirst", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandByFixingFirst returns correct value -- with args", actual)
 }
 
 // ── FixRwxFullStringWithWildcards ──
@@ -216,7 +216,7 @@ func Test_Cov_FixRwxFullString(t *testing.T) {
 		"full": "-rwxr-xr-x", "short": 10,
 		"empty": chmodins.AllWildCardsRwxFullString,
 	}
-	expected.ShouldBeEqual(t, 0, "FixRwxFullString", actual)
+	expected.ShouldBeEqual(t, 0, "FixRwxFullString returns correct value -- with args", actual)
 }
 
 // ── GetRwxFullLengthError ──
@@ -226,5 +226,5 @@ func Test_Cov_GetRwxFullLengthError(t *testing.T) {
 	hasErr := chmodins.GetRwxFullLengthError("short")
 	actual := args.Map{"noErr": noErr == nil, "hasErr": hasErr != nil}
 	expected := args.Map{"noErr": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "GetRwxFullLengthError", actual)
+	expected.ShouldBeEqual(t, 0, "GetRwxFullLengthError returns error -- with args", actual)
 }

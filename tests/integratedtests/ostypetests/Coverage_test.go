@@ -52,7 +52,7 @@ func Test_Variation_EnumMethods(t *testing.T) {
 		"isInvalid":      false,
 		"stringVal":      "windows",
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_EnumMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_EnumMethods returns correct value -- with args", actual)
 }
 
 func Test_Variation_Identity_Extended(t *testing.T) {
@@ -83,7 +83,7 @@ func Test_Variation_Identity_Extended(t *testing.T) {
 		"darwinIsLinuxOrMac": true,
 		"anyIsAny":           true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_Identity_Extended", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_Identity_Extended returns correct value -- with args", actual)
 }
 
 func Test_Variation_Is(t *testing.T) {
@@ -100,7 +100,7 @@ func Test_Variation_Is(t *testing.T) {
 		"isByte":  true,
 		"isByteF": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_Is", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_Is returns correct value -- with args", actual)
 }
 
 func Test_Variation_IsAnyMatch(t *testing.T) {
@@ -113,7 +113,7 @@ func Test_Variation_IsAnyMatch(t *testing.T) {
 		"matchFound":    true,
 		"matchNotFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_IsAnyMatch", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_IsAnyMatch returns correct value -- with args", actual)
 }
 
 func Test_Variation_IsStringsMatchAny(t *testing.T) {
@@ -126,7 +126,7 @@ func Test_Variation_IsStringsMatchAny(t *testing.T) {
 		"matchFound":    true,
 		"matchNotFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_IsStringsMatchAny", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_IsStringsMatchAny returns correct value -- with args", actual)
 }
 
 func Test_Variation_IsNameEqual(t *testing.T) {
@@ -143,7 +143,7 @@ func Test_Variation_IsNameEqual(t *testing.T) {
 		"anyNames":    true,
 		"anyNamesNo":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_IsNameEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_IsNameEqual returns correct value -- with args", actual)
 }
 
 func Test_Variation_IsValueEqual(t *testing.T) {
@@ -162,7 +162,7 @@ func Test_Variation_IsValueEqual(t *testing.T) {
 		"anyValsF":    false,
 		"byteValEq":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_IsValueEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_IsValueEqual returns correct value -- with args", actual)
 }
 
 func Test_Variation_Group_Extended(t *testing.T) {
@@ -183,7 +183,7 @@ func Test_Variation_Group_Extended(t *testing.T) {
 		"isPossibleUnix":  true,
 		"windowsNotUnix":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_Group_Extended", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_Group_Extended returns correct value -- with args", actual)
 }
 
 func Test_Variation_JSON(t *testing.T) {
@@ -208,7 +208,7 @@ func Test_Variation_JSON(t *testing.T) {
 		"roundTrip":    true,
 		"dataNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_JSON", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_JSON returns correct value -- with args", actual)
 }
 
 func Test_Variation_Binders(t *testing.T) {
@@ -228,7 +228,7 @@ func Test_Variation_Binders(t *testing.T) {
 		"byteContractsNil": false,
 		"toPtrNil":         false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_Binders", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_Binders returns correct value -- with args", actual)
 }
 
 func Test_Variation_EnumMetadata(t *testing.T) {
@@ -260,7 +260,7 @@ func Test_Variation_EnumMetadata(t *testing.T) {
 		"maxByte":           true,
 		"rangesByteLen":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_EnumMetadata", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_EnumMetadata returns correct value -- with args", actual)
 }
 
 func Test_Variation_UnmarshallEnumToValue(t *testing.T) {
@@ -279,7 +279,7 @@ func Test_Variation_UnmarshallEnumToValue(t *testing.T) {
 		"noError":  true,
 		"valMatch": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation_UnmarshallEnumToValue", actual)
+	expected.ShouldBeEqual(t, 0, "Variation_UnmarshallEnumToValue returns correct value -- with args", actual)
 }
 
 // ── Group enum methods ──
@@ -317,7 +317,7 @@ func Test_Group_EnumMethods(t *testing.T) {
 		"byte":          int(ostype.UnixGroup),
 		"stringVal":     "UnixGroup",
 	}
-	expected.ShouldBeEqual(t, 0, "Group_EnumMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Group_EnumMethods returns correct value -- with args", actual)
 }
 
 func Test_Group_JSON(t *testing.T) {
@@ -338,7 +338,7 @@ func Test_Group_JSON(t *testing.T) {
 		"noError":    true,
 		"roundTrip":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Group_JSON", actual)
+	expected.ShouldBeEqual(t, 0, "Group_JSON returns correct value -- with args", actual)
 }
 
 func Test_Group_Binders(t *testing.T) {
@@ -358,7 +358,7 @@ func Test_Group_Binders(t *testing.T) {
 		"byteContractsNil": false,
 		"toPtrNil":         false,
 	}
-	expected.ShouldBeEqual(t, 0, "Group_Binders", actual)
+	expected.ShouldBeEqual(t, 0, "Group_Binders returns correct value -- with args", actual)
 }
 
 // ── GetCurrentVariant / GetCurrentGroup / GetGroupVariant ──
@@ -374,7 +374,7 @@ func Test_GetCurrentVariant(t *testing.T) {
 	expected := args.Map{
 		"isValid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetCurrentVariant", actual)
+	expected.ShouldBeEqual(t, 0, "GetCurrentVariant returns correct value -- with args", actual)
 }
 
 func Test_GetCurrentGroup(t *testing.T) {
@@ -388,7 +388,7 @@ func Test_GetCurrentGroup(t *testing.T) {
 	expected := args.Map{
 		"isValid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetCurrentGroup", actual)
+	expected.ShouldBeEqual(t, 0, "GetCurrentGroup returns correct value -- with args", actual)
 }
 
 func Test_GetGroupVariant(t *testing.T) {
@@ -404,7 +404,7 @@ func Test_GetGroupVariant(t *testing.T) {
 		"groupValid":     true,
 		"variationValid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetGroupVariant", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroupVariant returns correct value -- with args", actual)
 }
 
 func Test_GetGroupVariantPtr(t *testing.T) {
@@ -418,5 +418,5 @@ func Test_GetGroupVariantPtr(t *testing.T) {
 	expected := args.Map{
 		"notNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetGroupVariantPtr", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroupVariantPtr returns correct value -- with args", actual)
 }

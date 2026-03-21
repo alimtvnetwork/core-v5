@@ -78,7 +78,7 @@ func Test_MinMaxByte_Ranges(t *testing.T) {
 		"rangesLen":    4,
 		"rangesIntLen": 4,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxByte_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxByte_Ranges returns correct value -- with args", actual)
 }
 
 func Test_MinMaxByte_Clone(t *testing.T) {
@@ -100,7 +100,7 @@ func Test_MinMaxByte_Clone(t *testing.T) {
 		"clonedMax":    10,
 		"clonedPtrNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxByte_Clone", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxByte_Clone returns correct value -- with args", actual)
 }
 
 func Test_MinMaxByte_CreateMinMaxInt(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_MinMaxByte_CreateMinMaxInt(t *testing.T) {
 	expected := args.Map{
 		"isNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxByte_CreateMinMaxInt", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxByte_CreateMinMaxInt returns correct value -- with args", actual)
 }
 
 // ── MinMaxInt ──
@@ -175,7 +175,7 @@ func Test_MinMaxInt_Comparisons(t *testing.T) {
 		"isMaxLess9":       true,
 		"isMaxLessEqual8":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxInt_Comparisons", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxInt_Comparisons returns correct value -- with args", actual)
 }
 
 func Test_MinMaxInt_Ranges(t *testing.T) {
@@ -199,7 +199,7 @@ func Test_MinMaxInt_Ranges(t *testing.T) {
 		"firstRange":   3,
 		"lastRange":    7,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxInt_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxInt_Ranges returns correct value -- with args", actual)
 }
 
 func Test_MinMaxInt_CreateRanges(t *testing.T) {
@@ -220,7 +220,7 @@ func Test_MinMaxInt_CreateRanges(t *testing.T) {
 		"combinedLen": 6,
 		"noExtraLen":  3,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxInt_CreateRanges", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxInt_CreateRanges returns correct value -- with args", actual)
 }
 
 func Test_MinMaxInt_RangesExcept(t *testing.T) {
@@ -237,7 +237,7 @@ func Test_MinMaxInt_RangesExcept(t *testing.T) {
 	expected := args.Map{
 		"exceptLen": 4,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxInt_RangesExcept", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxInt_RangesExcept returns correct value -- with args", actual)
 }
 
 func Test_MinMaxInt_Clone(t *testing.T) {
@@ -263,7 +263,7 @@ func Test_MinMaxInt_Clone(t *testing.T) {
 		"clonedPtrNil": false,
 		"nilCloneNil":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxInt_Clone", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxInt_Clone returns correct value -- with args", actual)
 }
 
 func Test_MinMaxInt_IsEqual(t *testing.T) {
@@ -287,7 +287,7 @@ func Test_MinMaxInt_IsEqual(t *testing.T) {
 		"bothNil":     true,
 		"leftNilOnly": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MinMaxInt_IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxInt_IsEqual returns correct value -- with args", actual)
 }
 
 // ── RangeInt ──
@@ -342,7 +342,7 @@ func Test_RangeInt_Methods(t *testing.T) {
 		"rangesLen":          5,
 		"rangesIntLen":       5,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeInt_Methods", actual)
+	expected.ShouldBeEqual(t, 0, "RangeInt_Methods returns correct value -- with args", actual)
 }
 
 func Test_RangeInt_Conversions(t *testing.T) {
@@ -377,7 +377,7 @@ func Test_RangeInt_Conversions(t *testing.T) {
 		"shallowInt8Nil":   false,
 		"shallowByteNil":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeInt_Conversions", actual)
+	expected.ShouldBeEqual(t, 0, "RangeInt_Conversions returns correct value -- with args", actual)
 }
 
 func Test_RangeInt_RangesExcept(t *testing.T) {
@@ -394,7 +394,7 @@ func Test_RangeInt_RangesExcept(t *testing.T) {
 	expected := args.Map{
 		"exceptLen": 4,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeInt_RangesExcept", actual)
+	expected.ShouldBeEqual(t, 0, "RangeInt_RangesExcept returns correct value -- with args", actual)
 }
 
 func Test_RangeInt_CreateRanges(t *testing.T) {
@@ -415,7 +415,7 @@ func Test_RangeInt_CreateRanges(t *testing.T) {
 		"combinedLen": 6,
 		"noExtraLen":  3,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeInt_CreateRanges", actual)
+	expected.ShouldBeEqual(t, 0, "RangeInt_CreateRanges returns correct value -- with args", actual)
 }
 
 func Test_RangeInt_NoMinMax(t *testing.T) {
@@ -433,7 +433,7 @@ func Test_RangeInt_NoMinMax(t *testing.T) {
 		"start":   3,
 		"end":     7,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeInt_NoMinMax", actual)
+	expected.ShouldBeEqual(t, 0, "RangeInt_NoMinMax returns correct value -- with args", actual)
 }
 
 func Test_RangeInt_UsingValues(t *testing.T) {
@@ -451,7 +451,7 @@ func Test_RangeInt_UsingValues(t *testing.T) {
 		"start":   3,
 		"end":     7,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeInt_UsingValues", actual)
+	expected.ShouldBeEqual(t, 0, "RangeInt_UsingValues returns non-empty -- with args", actual)
 }
 
 // ── StartEndInt ──
@@ -512,7 +512,7 @@ func Test_StartEndInt_Ranges(t *testing.T) {
 		"combinedLen": 7,
 		"noExtraLen":  4,
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndInt_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndInt_Ranges returns correct value -- with args", actual)
 }
 
 func Test_StartEndInt_NilIsInvalid(t *testing.T) {
@@ -526,7 +526,7 @@ func Test_StartEndInt_NilIsInvalid(t *testing.T) {
 	expected := args.Map{
 		"isInvalid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndInt_NilIsInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndInt_NilIsInvalid returns nil -- with args", actual)
 }
 
 func Test_StartEndInt_StringFormat(t *testing.T) {
@@ -543,7 +543,7 @@ func Test_StartEndInt_StringFormat(t *testing.T) {
 	expected := args.Map{
 		"formatted": "5 to 10",
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndInt_StringFormat", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndInt_StringFormat returns correct value -- with args", actual)
 }
 
 // ── BaseRange ──
@@ -575,7 +575,7 @@ func Test_BaseRange_Verification(t *testing.T) {
 		"clonedRawInput": "3:7",
 		"stringNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BaseRange_Verification", actual)
+	expected.ShouldBeEqual(t, 0, "BaseRange_Verification returns correct value -- with args", actual)
 }
 
 // ── Within ──
@@ -613,7 +613,7 @@ func Test_Within_RangeInteger_NoBoundary(t *testing.T) {
 		"value":     15,
 		"isInRange": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_NoBoundary", actual)
+	expected.ShouldBeEqual(t, 0, "Within_NoBoundary returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeInteger(t *testing.T) {
@@ -634,7 +634,7 @@ func Test_Within_StringRangeInteger(t *testing.T) {
 		"valBad": 0,
 		"okBad":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeInteger", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeInteger returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeIntegerDefault(t *testing.T) {
@@ -660,7 +660,7 @@ func Test_Within_StringRangeIntegerDefault(t *testing.T) {
 		"valHigh": 100,
 		"okHigh":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeIntegerDefault", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeIntegerDefault returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeTyped(t *testing.T) {
@@ -696,7 +696,7 @@ func Test_Within_StringRangeTyped(t *testing.T) {
 		"valUint16": "50",
 		"okUint16":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeTyped", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeTyped returns non-empty -- with args", actual)
 }
 
 func Test_Within_RangeByte(t *testing.T) {
@@ -727,7 +727,7 @@ func Test_Within_RangeByte(t *testing.T) {
 		"valNoBound": 0,
 		"okNoBound":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_RangeByte", actual)
+	expected.ShouldBeEqual(t, 0, "Within_RangeByte returns non-empty -- with args", actual)
 }
 
 func Test_Within_RangeUint16(t *testing.T) {
@@ -748,7 +748,7 @@ func Test_Within_RangeUint16(t *testing.T) {
 		"valNoBound": 0,
 		"okNoBound":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_RangeUint16", actual)
+	expected.ShouldBeEqual(t, 0, "Within_RangeUint16 returns non-empty -- with args", actual)
 }
 
 func Test_Within_RangeFloat(t *testing.T) {
@@ -779,7 +779,7 @@ func Test_Within_RangeFloat(t *testing.T) {
 		"above":      "10.0",
 		"noBound":    "15.0",
 	}
-	expected.ShouldBeEqual(t, 0, "Within_RangeFloat", actual)
+	expected.ShouldBeEqual(t, 0, "Within_RangeFloat returns non-empty -- with args", actual)
 }
 
 func Test_Within_RangeFloat64(t *testing.T) {
@@ -800,7 +800,7 @@ func Test_Within_RangeFloat64(t *testing.T) {
 		"inRange": "5.0",
 		"below":   "1.0",
 	}
-	expected.ShouldBeEqual(t, 0, "Within_RangeFloat64", actual)
+	expected.ShouldBeEqual(t, 0, "Within_RangeFloat64 returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeFloat(t *testing.T) {
@@ -821,7 +821,7 @@ func Test_Within_StringRangeFloat(t *testing.T) {
 		"valid": true,
 		"bad":   "0.0",
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloat", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloat returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeFloat64(t *testing.T) {
@@ -842,7 +842,7 @@ func Test_Within_StringRangeFloat64(t *testing.T) {
 		"valid": true,
 		"bad":   "0.0",
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloat64", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloat64 returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeFloatDefault(t *testing.T) {
@@ -859,7 +859,7 @@ func Test_Within_StringRangeFloatDefault(t *testing.T) {
 		"ok":    true,
 		"okBad": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloatDefault", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloatDefault returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeFloat64Default(t *testing.T) {
@@ -876,7 +876,7 @@ func Test_Within_StringRangeFloat64Default(t *testing.T) {
 		"ok":    true,
 		"okBad": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloat64Default", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeFloat64Default returns non-empty -- with args", actual)
 }
 
 func Test_Within_StringRangeUint32(t *testing.T) {
@@ -895,7 +895,7 @@ func Test_Within_StringRangeUint32(t *testing.T) {
 		"ok":    true,
 		"okBad": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_StringRangeUint32", actual)
+	expected.ShouldBeEqual(t, 0, "Within_StringRangeUint32 returns non-empty -- with args", actual)
 }
 
 func Test_Within_RangeDefaultInteger(t *testing.T) {
@@ -911,7 +911,7 @@ func Test_Within_RangeDefaultInteger(t *testing.T) {
 		"val": 5,
 		"ok":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Within_RangeDefaultInteger", actual)
+	expected.ShouldBeEqual(t, 0, "Within_RangeDefaultInteger returns non-empty -- with args", actual)
 }
 
 // ── StartEndString ──
@@ -935,7 +935,7 @@ func Test_StartEndString_Verification(t *testing.T) {
 		"hasEnd":    true,
 		"strNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndString", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndString returns correct value -- with args", actual)
 }
 
 func Test_RangeString_Verification(t *testing.T) {
@@ -953,7 +953,7 @@ func Test_RangeString_Verification(t *testing.T) {
 		"end":         "b",
 		"strNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "RangeString", actual)
+	expected.ShouldBeEqual(t, 0, "RangeString returns correct value -- with args", actual)
 }
 
 // ── StartEndSimpleString ──
@@ -993,7 +993,7 @@ func Test_StartEndSimpleString_Verification(t *testing.T) {
 		"endVVNil":       false,
 		"sesNotNil":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndSimpleString", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndSimpleString returns correct value -- with args", actual)
 }
 
 func Test_StartEndSimpleString_Empty(t *testing.T) {
@@ -1013,7 +1013,7 @@ func Test_StartEndSimpleString_Empty(t *testing.T) {
 		"isInvalidStart": true,
 		"isInvalidEnd":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndSimpleString_Empty", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndSimpleString_Empty returns empty -- with args", actual)
 }
 
 func Test_StartEndSimpleString_Nil(t *testing.T) {
@@ -1033,5 +1033,5 @@ func Test_StartEndSimpleString_Nil(t *testing.T) {
 		"endVVNil":       true,
 		"sesNil":         true,
 	}
-	expected.ShouldBeEqual(t, 0, "StartEndSimpleString_Nil", actual)
+	expected.ShouldBeEqual(t, 0, "StartEndSimpleString_Nil returns nil -- with args", actual)
 }

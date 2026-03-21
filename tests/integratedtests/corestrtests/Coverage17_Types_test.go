@@ -32,7 +32,7 @@ func Test_Cov17_ValidValue_Factories(t *testing.T) {
 		"v3Invalid": true,
 		"v4Invalid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue factories", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- factories", actual)
 }
 
 func Test_Cov17_ValidValue_Methods(t *testing.T) {
@@ -57,7 +57,7 @@ func Test_Cov17_ValidValue_Methods(t *testing.T) {
 		"is": true, "isNot": true, "isAnyOf": true, "isContains": true,
 		"isAnyContains": true, "isEqualNonSens": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue methods", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- methods", actual)
 }
 
 func Test_Cov17_ValidValue_Conversions(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_Cov17_ValidValue_Conversions(t *testing.T) {
 		"int": true, "defInt": true, "byte": true, "defByte": true,
 		"bool": true, "float": true, "badInt": true, "emptyBool": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue conversions", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- conversions", actual)
 }
 
 func Test_Cov17_ValidValue_BytesOnce(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_Cov17_ValidValue_BytesOnce(t *testing.T) {
 	_ = v.ValueBytesOncePtr()
 	actual := args.Map{"len1": len(b1), "len2": len(b2)}
 	expected := args.Map{"len1": 5, "len2": 5}
-	expected.ShouldBeEqual(t, 0, "ValidValue BytesOnce", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- BytesOnce", actual)
 }
 
 func Test_Cov17_ValidValue_Regex(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov17_ValidValue_Regex(t *testing.T) {
 	expected := args.Map{
 		"nilMatch": false, "nilFind": true, "nilFindAll": true, "emptyFindAll": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue Regex", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- Regex", actual)
 }
 
 func Test_Cov17_ValidValue_Split(t *testing.T) {
@@ -120,7 +120,7 @@ func Test_Cov17_ValidValue_Split(t *testing.T) {
 	_ = v.SplitNonEmpty(",")
 	_ = v.SplitTrimNonWhitespace(",")
 	expected := args.Map{"splitLen": 3}
-	expected.ShouldBeEqual(t, 0, "ValidValue Split", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- Split", actual)
 }
 
 func Test_Cov17_ValidValue_Clone(t *testing.T) {
@@ -129,7 +129,7 @@ func Test_Cov17_ValidValue_Clone(t *testing.T) {
 	var nilV *corestr.ValidValue
 	actual := args.Map{"cloneVal": c.Value, "nilClone": nilV.Clone() == nil}
 	expected := args.Map{"cloneVal": "hello", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue Clone", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- Clone", actual)
 }
 
 func Test_Cov17_ValidValue_StringAndJson(t *testing.T) {
@@ -145,7 +145,7 @@ func Test_Cov17_ValidValue_StringAndJson(t *testing.T) {
 		"nilFull": nilV.FullString() == "",
 	}
 	expected := args.Map{"str": true, "fullStr": true, "nilStr": true, "nilFull": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue StringAndJson", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- StringAndJson", actual)
 }
 
 func Test_Cov17_ValidValue_ClearDispose(t *testing.T) {
@@ -158,7 +158,7 @@ func Test_Cov17_ValidValue_ClearDispose(t *testing.T) {
 	nilV.Dispose()
 	actual := args.Map{"cleared": v.Value == ""}
 	expected := args.Map{"cleared": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue ClearDispose", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- ClearDispose", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -170,14 +170,14 @@ func Test_Cov17_ValidValues(t *testing.T) {
 	vv.Add("a").AddFull(true, "b", "msg")
 	actual := args.Map{"len": vv.Length(), "empty": vv.IsEmpty(), "hasAny": vv.HasAnyItem()}
 	expected := args.Map{"len": 2, "empty": false, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "ValidValues basic", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- basic", actual)
 }
 
 func Test_Cov17_ValidValues_NilReceiver(t *testing.T) {
 	var vv *corestr.ValidValues
 	actual := args.Map{"len": vv.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ValidValues nil", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns nil -- nil", actual)
 }
 
 func Test_Cov17_ValidValues_Factories(t *testing.T) {
@@ -186,7 +186,7 @@ func Test_Cov17_ValidValues_Factories(t *testing.T) {
 	cap := corestr.NewValidValues(10)
 	actual := args.Map{"len": vv.Length(), "emptyLen": empty.Length(), "capLen": cap.Length()}
 	expected := args.Map{"len": 1, "emptyLen": 0, "capLen": 0}
-	expected.ShouldBeEqual(t, 0, "ValidValues factories", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- factories", actual)
 }
 
 func Test_Cov17_ValidValues_SafeValues(t *testing.T) {
@@ -204,7 +204,7 @@ func Test_Cov17_ValidValues_SafeValues(t *testing.T) {
 		"safe0": true, "safe99": true, "valid0": true, "valid99": true,
 		"valsLen": 2, "validVLen": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValues SafeValues", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- SafeValues", actual)
 }
 
 func Test_Cov17_ValidValues_Strings(t *testing.T) {
@@ -216,7 +216,7 @@ func Test_Cov17_ValidValues_Strings(t *testing.T) {
 		"str":     vv.String() != "",
 	}
 	expected := args.Map{"strLen": 1, "fullLen": 1, "str": true}
-	expected.ShouldBeEqual(t, 0, "ValidValues Strings", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- Strings", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -229,7 +229,7 @@ func Test_Cov17_ValueStatus(t *testing.T) {
 	c := vs2.Clone()
 	actual := args.Map{"invalid": !vs.ValueValid.IsValid, "cloneMsg": c.ValueValid.Message}
 	expected := args.Map{"invalid": true, "cloneMsg": "msg"}
-	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
+	expected.ShouldBeEqual(t, 0, "ValueStatus returns non-empty -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -256,7 +256,7 @@ func Test_Cov17_TextWithLineNumber(t *testing.T) {
 		"notEmptyTxt": true, "notBothEmpty": true,
 		"nilHasLine": false, "nilInvalid": true, "nilLen": 0, "nilEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TextWithLineNumber", actual)
+	expected.ShouldBeEqual(t, 0, "TextWithLineNumber returns non-empty -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -299,7 +299,7 @@ func Test_Cov17_KeyValuePair(t *testing.T) {
 		"hasKey": true, "hasVal": true, "trimKey": true, "trimVal": true,
 		"is": true, "isKey": true, "isVal": true, "notAnyEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- with args", actual)
 }
 
 func Test_Cov17_KeyValuePair_Conversions(t *testing.T) {
@@ -318,7 +318,7 @@ func Test_Cov17_KeyValuePair_Conversions(t *testing.T) {
 	nilKv.Dispose()
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair conversions", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- conversions", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -358,7 +358,7 @@ func Test_Cov17_KeyAnyValuePair(t *testing.T) {
 		"notEmptyStr": true, "notWS": true, "valStr": true,
 		"compile": true, "string": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair", actual)
+	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -396,7 +396,7 @@ func Test_Cov17_HashmapDiff(t *testing.T) {
 		"notEmpty": true, "hasAny": true, "len": 1, "lastIdx": 0,
 		"hasChanges": true, "notEqual": true,
 	}
-	expected.ShouldBeEqual(t, 0, "HashmapDiff", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDiff returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -415,7 +415,7 @@ func Test_Cov17_LeftRight_Factories(t *testing.T) {
 		"left": "a", "right": "b", "valid": true,
 		"inv1Invalid": true, "inv2Invalid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight factories", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- factories", actual)
 }
 
 func Test_Cov17_LeftRight_Methods(t *testing.T) {
@@ -456,7 +456,7 @@ func Test_Cov17_LeftRight_Methods(t *testing.T) {
 		"hasLeft": true, "hasRight": true, "hasWSLeft": true, "hasWSRight": true,
 		"hasSafe": true, "isLeft": true, "isRight": true, "is": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight methods", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- methods", actual)
 }
 
 func Test_Cov17_LeftRight_FromSlice(t *testing.T) {
@@ -478,7 +478,7 @@ func Test_Cov17_LeftRight_FromSlice(t *testing.T) {
 		"lr2Left": "a", "lr3Invalid": true,
 		"lr8Left": "a", "lr8Right": "b",
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight FromSlice", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- FromSlice", actual)
 }
 
 func Test_Cov17_LeftRight_FromSplit(t *testing.T) {
@@ -496,7 +496,7 @@ func Test_Cov17_LeftRight_FromSplit(t *testing.T) {
 		"lr2Left": "key", "lr2Right": "val",
 		"lr3Left": "a", "lr3Right": "b:c",
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight FromSplit", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- FromSplit", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -544,7 +544,7 @@ func Test_Cov17_LeftMiddleRight(t *testing.T) {
 		"notLeftWS": true, "notMiddleWS": true, "notRightWS": true,
 		"hasSafe": true, "isAll": true, "is": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight returns correct value -- with args", actual)
 }
 
 func Test_Cov17_LeftMiddleRight_FromSplit(t *testing.T) {
@@ -560,7 +560,7 @@ func Test_Cov17_LeftMiddleRight_FromSplit(t *testing.T) {
 		"left": "a", "middle": "b", "right": "c",
 		"lmr3Left": "a", "lmr3Middle": "b", "lmr3Right": "c:d",
 	}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight FromSplit", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight returns correct value -- FromSplit", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -597,7 +597,7 @@ func Test_Cov17_SimpleStringOnce_Core(t *testing.T) {
 		"is": true, "isAnyOf": true, "contains": true, "anyContains": true,
 		"nonSens": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce core", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns correct value -- core", actual)
 }
 
 func Test_Cov17_SimpleStringOnce_Set(t *testing.T) {
@@ -606,7 +606,7 @@ func Test_Cov17_SimpleStringOnce_Set(t *testing.T) {
 	err2 := s.SetOnUninitialized("val2")
 	actual := args.Map{"err1Nil": err == nil, "err2NotNil": err2 != nil}
 	expected := args.Map{"err1Nil": true, "err2NotNil": true}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce Set", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns correct value -- Set", actual)
 }
 
 func Test_Cov17_SimpleStringOnce_GetSetOnce(t *testing.T) {
@@ -615,7 +615,7 @@ func Test_Cov17_SimpleStringOnce_GetSetOnce(t *testing.T) {
 	v2 := s.GetSetOnce("second")
 	actual := args.Map{"v1": v, "v2": v2}
 	expected := args.Map{"v1": "first", "v2": "first"}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce GetSetOnce", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns correct value -- GetSetOnce", actual)
 }
 
 func Test_Cov17_SimpleStringOnce_GetOnceFunc(t *testing.T) {
@@ -624,7 +624,7 @@ func Test_Cov17_SimpleStringOnce_GetOnceFunc(t *testing.T) {
 	v2 := s.GetOnceFunc(func() string { return "other" })
 	actual := args.Map{"v1": v, "v2": v2}
 	expected := args.Map{"v1": "computed", "v2": "computed"}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce GetOnceFunc", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns correct value -- GetOnceFunc", actual)
 }
 
 func Test_Cov17_SimpleStringOnce_Conversions(t *testing.T) {
@@ -657,7 +657,7 @@ func Test_Cov17_SimpleStringOnce_Conversions(t *testing.T) {
 		"valByte": true, "float": true, "bool": true, "boolDef": true,
 		"isValBool": true, "yes": true, "badInt": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce conversions", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns correct value -- conversions", actual)
 }
 
 func Test_Cov17_SimpleStringOnce_WithinRange(t *testing.T) {
@@ -668,7 +668,7 @@ func Test_Cov17_SimpleStringOnce_WithinRange(t *testing.T) {
 	_, _ = s.Uint32()
 	actual := args.Map{"v": v, "ok": ok, "v2": v2, "ok2": ok2}
 	expected := args.Map{"v": 50, "ok": true, "v2": 50, "ok2": true}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce WithinRange", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns non-empty -- WithinRange", actual)
 }
 
 func Test_Cov17_SimpleStringOnce_Various(t *testing.T) {
@@ -719,5 +719,5 @@ func Test_Cov17_SimpleStringOnce_Various(t *testing.T) {
 	s.Dispose()
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce various", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce returns correct value -- various", actual)
 }

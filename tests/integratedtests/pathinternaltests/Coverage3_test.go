@@ -22,7 +22,7 @@ func Test_Cov3_RemoveDirIf_ExistingDir(t *testing.T) {
 	// Assert
 	actual := args.Map{"noErr": err == nil, "removed": !pathinternal.IsPathExists(dir)}
 	expected := args.Map{"noErr": true, "removed": true}
-	expected.ShouldBeEqual(t, 0, "RemoveDirIf existing dir", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveDirIf returns correct value -- existing dir", actual)
 }
 
 // ── RemoveDirIfMust — no panic on non-existent ──
@@ -34,7 +34,7 @@ func Test_Cov3_RemoveDirIfMust_NonExistent(t *testing.T) {
 	// Assert
 	actual := args.Map{"noPanic": true}
 	expected := args.Map{"noPanic": true}
-	expected.ShouldBeEqual(t, 0, "RemoveDirIfMust non-existent", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveDirIfMust returns non-empty -- non-existent", actual)
 }
 
 func Test_Cov3_RemoveDirIfMust_FalseCondition(t *testing.T) {
@@ -44,7 +44,7 @@ func Test_Cov3_RemoveDirIfMust_FalseCondition(t *testing.T) {
 	// Assert
 	actual := args.Map{"noPanic": true}
 	expected := args.Map{"noPanic": true}
-	expected.ShouldBeEqual(t, 0, "RemoveDirIfMust false condition", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveDirIfMust returns non-empty -- false condition", actual)
 }
 
 // ── RemoveDirMust ──
@@ -60,7 +60,7 @@ func Test_Cov3_RemoveDirMust(t *testing.T) {
 	// Assert
 	actual := args.Map{"removed": !pathinternal.IsPathExists(dir)}
 	expected := args.Map{"removed": true}
-	expected.ShouldBeEqual(t, 0, "RemoveDirMust", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveDirMust returns correct value -- with args", actual)
 }
 
 // ── RemoveDirMustSimple ──
@@ -76,7 +76,7 @@ func Test_Cov3_RemoveDirMustSimple(t *testing.T) {
 	// Assert
 	actual := args.Map{"removed": !pathinternal.IsPathExists(dir)}
 	expected := args.Map{"removed": true}
-	expected.ShouldBeEqual(t, 0, "RemoveDirMustSimple", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveDirMustSimple returns correct value -- with args", actual)
 }
 
 // ── Clean with triple/quadruple slashes ──
@@ -93,5 +93,5 @@ func Test_Cov3_Clean_MultiSlash(t *testing.T) {
 		"triple": "/a/b",
 		"quad":   "/a/b",
 	}
-	expected.ShouldBeEqual(t, 0, "Clean multi-slash", actual)
+	expected.ShouldBeEqual(t, 0, "Clean returns correct value -- multi-slash", actual)
 }

@@ -23,7 +23,7 @@ func Test_Cov2_GetFunc_FullName(t *testing.T) {
 		"hasName": true,
 		"nilName": "",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_FullName", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_FullName returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_FullNameWithName(t *testing.T) {
@@ -43,7 +43,7 @@ func Test_Cov2_GetFunc_FullNameWithName(t *testing.T) {
 		"nilFull":     "",
 		"nilName":     "",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_FullNameWithName", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_FullNameWithName returns non-empty -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_NameOnly(t *testing.T) {
@@ -59,7 +59,7 @@ func Test_Cov2_GetFunc_NameOnly(t *testing.T) {
 		"hasName": true,
 		"nilName": "",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_NameOnly", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_NameOnly returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_All(t *testing.T) {
@@ -82,7 +82,7 @@ func Test_Cov2_GetFunc_All(t *testing.T) {
 		"emPkg":    "",
 		"emMethod": "",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_All", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_All returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_FuncDirectInvokeName(t *testing.T) {
@@ -98,7 +98,7 @@ func Test_Cov2_GetFunc_FuncDirectInvokeName(t *testing.T) {
 		"hasName":  true,
 		"emptyRes": "",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_FuncDirectInvokeName", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_FuncDirectInvokeName returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_PascalFuncName(t *testing.T) {
@@ -114,7 +114,7 @@ func Test_Cov2_GetFunc_PascalFuncName(t *testing.T) {
 		"empty":   "",
 		"already": "Hello",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_PascalFuncName", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_PascalFuncName returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_GetPkgPathFullName(t *testing.T) {
@@ -132,7 +132,7 @@ func Test_Cov2_GetFunc_GetPkgPathFullName(t *testing.T) {
 		"empty":   "",
 		"noslash": "pkg.Func",
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_GetPkgPathFullName", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_GetPkgPathFullName returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_RunTime(t *testing.T) {
@@ -151,7 +151,7 @@ func Test_Cov2_GetFunc_RunTime(t *testing.T) {
 		"nilRt":    true,
 		"intRt":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_RunTime", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_RunTime returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_GetMethod(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_Cov2_GetFunc_GetMethod(t *testing.T) {
 		"missingMethod": true,
 		"nilItem":       true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethod", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethod returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_GetMethods(t *testing.T) {
@@ -189,7 +189,7 @@ func Test_Cov2_GetFunc_GetMethods(t *testing.T) {
 		"methodsNotNil":    true,
 		"nilMethodsNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethods", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethods returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_GetMethodsNames(t *testing.T) {
@@ -206,7 +206,7 @@ func Test_Cov2_GetFunc_GetMethodsNames(t *testing.T) {
 		"namesNotNil":    names != nil,
 		"nilNamesNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethodsNames", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethodsNames returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetFunc_GetMethodsMap(t *testing.T) {
@@ -223,7 +223,7 @@ func Test_Cov2_GetFunc_GetMethodsMap(t *testing.T) {
 		"mapNotNil":    true,
 		"nilMapNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethodsMap", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethodsMap returns correct value -- with args", actual)
 }
 
 // ── reflectUtils ──
@@ -241,7 +241,7 @@ func Test_Cov2_Utils_MaxLimit(t *testing.T) {
 		"overMax":   10,
 		"equalMax":  10,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_MaxLimit", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_MaxLimit returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_AppendArgs(t *testing.T) {
@@ -258,7 +258,7 @@ func Test_Cov2_Utils_AppendArgs(t *testing.T) {
 		"withLen":  3,
 		"first":    "item",
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_AppendArgs", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_AppendArgs returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_PkgNameOnly(t *testing.T) {
@@ -271,7 +271,7 @@ func Test_Cov2_Utils_PkgNameOnly(t *testing.T) {
 	expected := args.Map{
 		"hasName": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_PkgNameOnly", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_PkgNameOnly returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_FullNameToPkgName(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_Cov2_Utils_FullNameToPkgName(t *testing.T) {
 	expected := args.Map{
 		"name": "mypackage",
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_FullNameToPkgName", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_FullNameToPkgName returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_IsReflectTypeMatch(t *testing.T) {
@@ -311,7 +311,7 @@ func Test_Cov2_Utils_IsReflectTypeMatch(t *testing.T) {
 		"anyOk":    true,
 		"anyNoErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_IsReflectTypeMatch", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_IsReflectTypeMatch returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_IsReflectTypeMatchAny(t *testing.T) {
@@ -330,7 +330,7 @@ func Test_Cov2_Utils_IsReflectTypeMatchAny(t *testing.T) {
 		"diffOk":  false,
 		"diffErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_IsReflectTypeMatchAny", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_IsReflectTypeMatchAny returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_VerifyReflectTypesAny(t *testing.T) {
@@ -363,7 +363,7 @@ func Test_Cov2_Utils_VerifyReflectTypesAny(t *testing.T) {
 		"typeMismatch": false,
 		"typeErr":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_VerifyReflectTypesAny", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_VerifyReflectTypesAny returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Utils_VerifyReflectTypes(t *testing.T) {
@@ -393,7 +393,7 @@ func Test_Cov2_Utils_VerifyReflectTypes(t *testing.T) {
 		"diffOk":   false,
 		"diffErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils_VerifyReflectTypes", actual)
+	expected.ShouldBeEqual(t, 0, "Utils_VerifyReflectTypes returns correct value -- with args", actual)
 }
 
 // ── reflectGetter additional ──
@@ -420,7 +420,7 @@ func Test_Cov2_ReflectGetter_FieldNameWithValuesMap(t *testing.T) {
 		"nilLen":    0,
 		"nilHasErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetter_FieldNameWithValuesMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetter_FieldNameWithValuesMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov2_ReflectGetter_NullFieldsMap(t *testing.T) {
@@ -441,7 +441,7 @@ func Test_Cov2_ReflectGetter_NullFieldsMap(t *testing.T) {
 		"hasNullName": true,
 		"nilLen":      0,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetter_NullFieldsMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetter_NullFieldsMap returns correct value -- with args", actual)
 }
 
 func Test_Cov2_ReflectGetter_NullOrZeroFieldsMap(t *testing.T) {
@@ -464,7 +464,7 @@ func Test_Cov2_ReflectGetter_NullOrZeroFieldsMap(t *testing.T) {
 		"hasZeroAge":  true,
 		"nilLen":      0,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetter_NullOrZeroFieldsMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetter_NullOrZeroFieldsMap returns correct value -- with args", actual)
 }
 
 // ── reflectGetUsingReflectValue additional ──
@@ -490,7 +490,7 @@ func Test_Cov2_ReflectGetRv_FieldNameWithTypeMap(t *testing.T) {
 		"resultLen": 2,
 		"nilResult": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetRv_FieldNameWithTypeMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetRv_FieldNameWithTypeMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov2_ReflectGetRv_FieldNameWithValuesMap(t *testing.T) {
@@ -513,7 +513,7 @@ func Test_Cov2_ReflectGetRv_FieldNameWithValuesMap(t *testing.T) {
 		"noError":   true,
 		"hasName":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetRv_FieldNameWithValuesMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetRv_FieldNameWithValuesMap returns non-empty -- with args", actual)
 }
 
 // ── MapConverter additional ──
@@ -529,7 +529,7 @@ func Test_Cov2_MapConverter_ToKeysStrings(t *testing.T) {
 		"len":   1,
 		"noErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToKeysStrings", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToKeysStrings returns correct value -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToValuesAny(t *testing.T) {
@@ -548,7 +548,7 @@ func Test_Cov2_MapConverter_ToValuesAny(t *testing.T) {
 		"nilLen": 0,
 		"nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToValuesAny", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToValuesAny returns non-empty -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToKeysAny(t *testing.T) {
@@ -567,7 +567,7 @@ func Test_Cov2_MapConverter_ToKeysAny(t *testing.T) {
 		"nilLen": 0,
 		"nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToKeysAny", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToKeysAny returns correct value -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToStringsMust(t *testing.T) {
@@ -579,7 +579,7 @@ func Test_Cov2_MapConverter_ToStringsMust(t *testing.T) {
 	expected := args.Map{
 		"len": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToStringsMust", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToStringsMust returns correct value -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToSortedStringsMust(t *testing.T) {
@@ -596,7 +596,7 @@ func Test_Cov2_MapConverter_ToSortedStringsMust(t *testing.T) {
 		"first":  "a",
 		"nilLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToSortedStringsMust", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToSortedStringsMust returns correct value -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToMapStringAnyRv_NonStringKey(t *testing.T) {
@@ -612,7 +612,7 @@ func Test_Cov2_MapConverter_ToMapStringAnyRv_NonStringKey(t *testing.T) {
 		"len":   2,
 		"noErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToMapStringAnyRv_NonStringKey", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToMapStringAnyRv_NonStringKey returns correct value -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToMapStringAnyRv_NotMap(t *testing.T) {
@@ -625,7 +625,7 @@ func Test_Cov2_MapConverter_ToMapStringAnyRv_NotMap(t *testing.T) {
 	expected := args.Map{
 		"hasErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToMapStringAnyRv_NotMap", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToMapStringAnyRv_NotMap returns correct value -- with args", actual)
 }
 
 func Test_Cov2_MapConverter_ToStringsRv_NotMap(t *testing.T) {
@@ -638,7 +638,7 @@ func Test_Cov2_MapConverter_ToStringsRv_NotMap(t *testing.T) {
 	expected := args.Map{
 		"hasErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToStringsRv_NotMap", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToStringsRv_NotMap returns correct value -- with args", actual)
 }
 
 // ── reflectPath ──
@@ -652,7 +652,7 @@ func Test_Cov2_Path_RepoDir(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Path_RepoDir", actual)
+	expected.ShouldBeEqual(t, 0, "Path_RepoDir returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Path_CurDir(t *testing.T) {
@@ -664,7 +664,7 @@ func Test_Cov2_Path_CurDir(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Path_CurDir", actual)
+	expected.ShouldBeEqual(t, 0, "Path_CurDir returns correct value -- with args", actual)
 }
 
 // ── TypeNamesReferenceString ──
@@ -678,7 +678,7 @@ func Test_Cov2_TypeNamesReferenceString(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeNamesReferenceString", actual)
+	expected.ShouldBeEqual(t, 0, "TypeNamesReferenceString returns correct value -- with args", actual)
 }
 
 // ── TypeNamesString ──
@@ -692,7 +692,7 @@ func Test_Cov2_TypeNamesString(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeNamesString", actual)
+	expected.ShouldBeEqual(t, 0, "TypeNamesString returns correct value -- with args", actual)
 }
 
 // ── ReflectType converter ──
@@ -709,5 +709,5 @@ func Test_Cov2_ReflectType_SafeName(t *testing.T) {
 		"result":    "int",
 		"nilResult": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectType_SafeName", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectType_SafeName returns correct value -- with args", actual)
 }

@@ -32,7 +32,7 @@ func Test_Cov11_ValidValue_New(t *testing.T) {
 		"invMsg": "err-msg", "invValid": false,
 		"invNMValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue constructors", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- constructors", actual)
 }
 
 func Test_Cov11_ValidValue_UsingAny(t *testing.T) {
@@ -44,7 +44,7 @@ func Test_Cov11_ValidValue_UsingAny(t *testing.T) {
 		"autoValid": vvAuto.IsValid,
 	}
 	expected := args.Map{"val": true, "isValid": true, "autoValid": false}
-	expected.ShouldBeEqual(t, 0, "ValidValue UsingAny", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- UsingAny", actual)
 }
 
 func Test_Cov11_ValidValue_State(t *testing.T) {
@@ -67,7 +67,7 @@ func Test_Cov11_ValidValue_State(t *testing.T) {
 		"hasValidNonEmpty": true, "hasValidNonWS": true,
 		"hasSafeNonEmpty": true, "is": true, "isNot": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue state", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- state", actual)
 }
 
 func Test_Cov11_ValidValue_Conversions(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_Cov11_ValidValue_Conversions(t *testing.T) {
 		"badBool": false, "badInt": 99, "badDefInt": 0,
 		"badByte": byte(0), "badDefByte": byte(0),
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue conversions", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- conversions", actual)
 }
 
 func Test_Cov11_ValidValue_HighByte(t *testing.T) {
@@ -108,7 +108,7 @@ func Test_Cov11_ValidValue_HighByte(t *testing.T) {
 		"negByte":  vvNeg.ValueByte(0),
 	}
 	expected := args.Map{"highByte": byte(255), "negByte": byte(0)}
-	expected.ShouldBeEqual(t, 0, "ValidValue high/neg byte", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- high/neg byte", actual)
 }
 
 func Test_Cov11_ValidValue_Search(t *testing.T) {
@@ -133,7 +133,7 @@ func Test_Cov11_ValidValue_Search(t *testing.T) {
 		"equalFold": true, "regexMatch": true, "regexNil": false,
 		"regexFind": "hello", "regexFindNil": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue search", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- search", actual)
 }
 
 func Test_Cov11_ValidValue_RegexFindAll(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_Cov11_ValidValue_RegexFindAll(t *testing.T) {
 		"nilItems": 0, "nilHas": false,
 		"allItems": 1, "allNil": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue regex find all", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- regex find all", actual)
 }
 
 func Test_Cov11_ValidValue_Split(t *testing.T) {
@@ -167,7 +167,7 @@ func Test_Cov11_ValidValue_Split(t *testing.T) {
 		"trimNonWS":  len(vv.SplitTrimNonWhitespace(",")),
 	}
 	expected := args.Map{"splitLen": 4, "nonEmptyLen": 4, "trimNonWS": 4}
-	expected.ShouldBeEqual(t, 0, "ValidValue split", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- split", actual)
 }
 
 func Test_Cov11_ValidValue_Bytes(t *testing.T) {
@@ -182,7 +182,7 @@ func Test_Cov11_ValidValue_Bytes(t *testing.T) {
 		"same":  len(b1) == len(b2),
 	}
 	expected := args.Map{"len1": 5, "len2": 5, "len3": 5, "same": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue bytes", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- bytes", actual)
 }
 
 func Test_Cov11_ValidValue_Clone(t *testing.T) {
@@ -196,7 +196,7 @@ func Test_Cov11_ValidValue_Clone(t *testing.T) {
 		"nilClone":    nilClone == nil,
 	}
 	expected := args.Map{"clonedVal": "hello", "clonedValid": true, "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue clone", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- clone", actual)
 }
 
 func Test_Cov11_ValidValue_StringMethods(t *testing.T) {
@@ -209,7 +209,7 @@ func Test_Cov11_ValidValue_StringMethods(t *testing.T) {
 		"nilFull":  nilVV.FullString(),
 	}
 	expected := args.Map{"str": "hello", "fullStr": true, "nilStr": "", "nilFull": ""}
-	expected.ShouldBeEqual(t, 0, "ValidValue string methods", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- string methods", actual)
 }
 
 func Test_Cov11_ValidValue_ClearDispose(t *testing.T) {
@@ -220,7 +220,7 @@ func Test_Cov11_ValidValue_ClearDispose(t *testing.T) {
 	nilVV.Dispose()  // should not panic
 	actual := args.Map{"val": vv.Value, "valid": vv.IsValid}
 	expected := args.Map{"val": "", "valid": false}
-	expected.ShouldBeEqual(t, 0, "ValidValue clear/dispose", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- clear/dispose", actual)
 }
 
 func Test_Cov11_ValidValue_Json(t *testing.T) {
@@ -232,7 +232,7 @@ func Test_Cov11_ValidValue_Json(t *testing.T) {
 		"jpNotNil": jp != nil,
 	}
 	expected := args.Map{"jsonLen": true, "jpNotNil": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue json", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- json", actual)
 }
 
 func Test_Cov11_ValidValue_Serialize(t *testing.T) {
@@ -240,7 +240,7 @@ func Test_Cov11_ValidValue_Serialize(t *testing.T) {
 	bytes, err := vv.Serialize()
 	actual := args.Map{"hasBytes": len(bytes) > 0, "errNil": err == nil}
 	expected := args.Map{"hasBytes": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "ValidValue serialize", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- serialize", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -266,7 +266,7 @@ func Test_Cov11_ValidValues_Basic(t *testing.T) {
 		"isEmpty": false, "emptyLen": 0, "lastIdx": 2,
 		"hasIdx": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValues basic", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- basic", actual)
 }
 
 func Test_Cov11_ValidValues_UsingValues(t *testing.T) {
@@ -278,7 +278,7 @@ func Test_Cov11_ValidValues_UsingValues(t *testing.T) {
 		"emptyLen": emptyVVS.Length(),
 	}
 	expected := args.Map{"len": 1, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "ValidValues using values", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- using values", actual)
 }
 
 func Test_Cov11_ValidValues_SafeValueAt(t *testing.T) {
@@ -296,7 +296,7 @@ func Test_Cov11_ValidValues_SafeValueAt(t *testing.T) {
 		"at0": "a", "at1": "b", "atOOB": "",
 		"validAt0": "a", "validAt1": "b", "validOOB": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValues safe value at", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- safe value at", actual)
 }
 
 func Test_Cov11_ValidValues_Indexes(t *testing.T) {
@@ -316,7 +316,7 @@ func Test_Cov11_ValidValues_Indexes(t *testing.T) {
 		"valsLen": 2, "val0": "a", "val1": "c",
 		"validLen": 2, "emptyValsLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValues indexes", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- indexes", actual)
 }
 
 func Test_Cov11_ValidValues_Strings(t *testing.T) {
@@ -331,7 +331,7 @@ func Test_Cov11_ValidValues_Strings(t *testing.T) {
 		"strNE":       str != "",
 	}
 	expected := args.Map{"strsLen": 2, "fullStrsLen": 2, "strNE": true}
-	expected.ShouldBeEqual(t, 0, "ValidValues strings", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- strings", actual)
 }
 
 func Test_Cov11_ValidValues_Find(t *testing.T) {
@@ -342,7 +342,7 @@ func Test_Cov11_ValidValues_Find(t *testing.T) {
 	})
 	actual := args.Map{"foundLen": len(found)}
 	expected := args.Map{"foundLen": 1}
-	expected.ShouldBeEqual(t, 0, "ValidValues find", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- find", actual)
 }
 
 func Test_Cov11_ValidValues_Adds(t *testing.T) {
@@ -354,7 +354,7 @@ func Test_Cov11_ValidValues_Adds(t *testing.T) {
 	vvs.AddsPtr() // empty
 	actual := args.Map{"len": vvs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "ValidValues adds", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- adds", actual)
 }
 
 func Test_Cov11_ValidValues_ConcatNew(t *testing.T) {
@@ -371,7 +371,7 @@ func Test_Cov11_ValidValues_ConcatNew(t *testing.T) {
 		"noCloneLen":     concatNoClone.Length(),
 	}
 	expected := args.Map{"concatLen": 2, "concatEmptyLen": 1, "noCloneLen": 1}
-	expected.ShouldBeEqual(t, 0, "ValidValues concat new", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- concat new", actual)
 }
 
 func Test_Cov11_ValidValues_AddValidValues(t *testing.T) {
@@ -383,7 +383,7 @@ func Test_Cov11_ValidValues_AddValidValues(t *testing.T) {
 	vvs.AddValidValues(nil)
 	actual := args.Map{"len": vvs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "ValidValues add valid values", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- add valid values", actual)
 }
 
 func Test_Cov11_ValidValues_AddHashset(t *testing.T) {
@@ -395,7 +395,7 @@ func Test_Cov11_ValidValues_AddHashset(t *testing.T) {
 	vvs.AddHashsetMap(nil)
 	actual := args.Map{"len": vvs.Length()}
 	expected := args.Map{"len": 4}
-	expected.ShouldBeEqual(t, 0, "ValidValues add hashset", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- add hashset", actual)
 }
 
 func Test_Cov11_ValidValues_HashmapMap(t *testing.T) {
@@ -405,7 +405,7 @@ func Test_Cov11_ValidValues_HashmapMap(t *testing.T) {
 	m := vvs.Map()
 	actual := args.Map{"hmLen": hm.Length(), "mapLen": len(m)}
 	expected := args.Map{"hmLen": 2, "mapLen": 2}
-	expected.ShouldBeEqual(t, 0, "ValidValues hashmap/map", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues returns non-empty -- hashmap/map", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -426,7 +426,7 @@ func Test_Cov11_ValueStatus_Basic(t *testing.T) {
 		"vsValid": false, "vs2Msg": "err",
 		"clonedMsg": "err", "clonedIdx": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "ValueStatus basic", actual)
+	expected.ShouldBeEqual(t, 0, "ValueStatus returns non-empty -- basic", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -456,7 +456,7 @@ func Test_Cov11_KeyValuePair_Basic(t *testing.T) {
 		"hasKey": true, "hasVal": true, "isKVEmpty": false,
 		"compile": true, "str": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair basic", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- basic", actual)
 }
 
 func Test_Cov11_KeyValuePair_Conversions(t *testing.T) {
@@ -484,7 +484,7 @@ func Test_Cov11_KeyValuePair_Conversions(t *testing.T) {
 		"float": true, "defFloat": true,
 		"trimKey": "k", "trimVal": "42",
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair conversions", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- conversions", actual)
 }
 
 func Test_Cov11_KeyValuePair_Is(t *testing.T) {
@@ -500,7 +500,7 @@ func Test_Cov11_KeyValuePair_Is(t *testing.T) {
 		"is": true, "isKey": true, "isVal": true,
 		"isAnyE": false, "formatStr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair is", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- is", actual)
 }
 
 func Test_Cov11_KeyValuePair_ValValid(t *testing.T) {
@@ -517,7 +517,7 @@ func Test_Cov11_KeyValuePair_ValValid(t *testing.T) {
 		"vvVal": "v", "vvValid": true,
 		"optVal": "v", "optMsg": "msg",
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair value valid", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns non-empty -- value valid", actual)
 }
 
 func Test_Cov11_KeyValuePair_ClearDispose(t *testing.T) {
@@ -528,7 +528,7 @@ func Test_Cov11_KeyValuePair_ClearDispose(t *testing.T) {
 	nilKV.Dispose()
 	actual := args.Map{"key": kv.Key, "val": kv.Value}
 	expected := args.Map{"key": "", "val": ""}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair clear/dispose", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- clear/dispose", actual)
 }
 
 func Test_Cov11_KeyValuePair_Json(t *testing.T) {
@@ -548,7 +548,7 @@ func Test_Cov11_KeyValuePair_Json(t *testing.T) {
 		"jsonLen": true, "jpNotNil": true,
 		"bytesLen": true, "errNil": true, "mustLen": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair json", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- json", actual)
 }
 
 func Test_Cov11_KeyValuePair_HighByte(t *testing.T) {
@@ -564,7 +564,7 @@ func Test_Cov11_KeyValuePair_HighByte(t *testing.T) {
 		"highByte": byte(0), "highDefB": byte(0),
 		"badByte": byte(5), "badDefByte": byte(0),
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair high byte", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair returns correct value -- high byte", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -589,7 +589,7 @@ func Test_Cov11_KeyAnyValuePair_Basic(t *testing.T) {
 		"hasNonNil": true, "hasValue": true, "isValNull": false,
 		"valStr": true, "compile": true, "str": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair basic", actual)
+	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair returns correct value -- basic", actual)
 }
 
 func Test_Cov11_KeyAnyValuePair_NilValue(t *testing.T) {
@@ -603,7 +603,7 @@ func Test_Cov11_KeyAnyValuePair_NilValue(t *testing.T) {
 	expected := args.Map{
 		"isNull": true, "isEmptyS": true, "isWS": true, "valStr": "",
 	}
-	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair nil value", actual)
+	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair returns nil -- nil value", actual)
 }
 
 func Test_Cov11_KeyAnyValuePair_ClearDispose(t *testing.T) {
@@ -614,7 +614,7 @@ func Test_Cov11_KeyAnyValuePair_ClearDispose(t *testing.T) {
 	nilKAV.Dispose()
 	actual := args.Map{"key": kav.Key, "valNil": kav.Value == nil}
 	expected := args.Map{"key": "", "valNil": true}
-	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair clear/dispose", actual)
+	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair returns correct value -- clear/dispose", actual)
 }
 
 func Test_Cov11_KeyAnyValuePair_Json(t *testing.T) {
@@ -638,7 +638,7 @@ func Test_Cov11_KeyAnyValuePair_Json(t *testing.T) {
 		"bytesLen": true, "errNil": true, "mustLen": true,
 		"binderNN": true, "jsonerNN": true, "injectorNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair json", actual)
+	expected.ShouldBeEqual(t, 0, "KeyAnyValuePair returns correct value -- json", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -669,7 +669,7 @@ func Test_Cov11_TextWithLineNumber_Basic(t *testing.T) {
 		"emptyHas": false, "emptyInv": true, "emptyIsE": true,
 		"nilLen": 0, "nilIsE": true, "nilText": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TextWithLineNumber", actual)
+	expected.ShouldBeEqual(t, 0, "TextWithLineNumber returns non-empty -- with args", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -696,7 +696,7 @@ func Test_Cov11_HashmapDiff_Basic(t *testing.T) {
 		"nilLen": 0, "rawLen": 2, "nilRaw": 0, "mapAny": 2,
 		"nilMap": 0, "keysLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "HashmapDiff basic", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDiff returns correct value -- basic", actual)
 }
 
 func Test_Cov11_HashmapDiff_Compare(t *testing.T) {
@@ -713,7 +713,7 @@ func Test_Cov11_HashmapDiff_Compare(t *testing.T) {
 		"isEqual": true, "isNotEqual": false,
 		"hasChanges": true, "noChanges": false,
 	}
-	expected.ShouldBeEqual(t, 0, "HashmapDiff compare", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDiff returns correct value -- compare", actual)
 }
 
 func Test_Cov11_HashmapDiff_Diff(t *testing.T) {
@@ -741,7 +741,7 @@ func Test_Cov11_HashmapDiff_Diff(t *testing.T) {
 		"shouldMsgNE": true, "logMsgNE": true,
 		"rawMapLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "HashmapDiff diff", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDiff returns correct value -- diff", actual)
 }
 
 func Test_Cov11_HashmapDiff_NoDiff(t *testing.T) {
@@ -750,7 +750,7 @@ func Test_Cov11_HashmapDiff_NoDiff(t *testing.T) {
 	diffHM := hd.HashmapDiffUsingRaw(same)
 	actual := args.Map{"diffLen": diffHM.Length()}
 	expected := args.Map{"diffLen": 0}
-	expected.ShouldBeEqual(t, 0, "HashmapDiff no diff", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDiff returns empty -- no diff", actual)
 }
 
 func Test_Cov11_HashmapDiff_Serialize(t *testing.T) {
@@ -758,7 +758,7 @@ func Test_Cov11_HashmapDiff_Serialize(t *testing.T) {
 	bytes, err := hd.Serialize()
 	actual := args.Map{"hasBytes": len(bytes) > 0, "errNil": err == nil}
 	expected := args.Map{"hasBytes": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "HashmapDiff serialize", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDiff returns correct value -- serialize", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -806,7 +806,7 @@ func Test_Cov11_LeftRight_Constructors(t *testing.T) {
 		"trimLeft": "a", "trimRight": "b",
 		"trim1Left": "a", "trimNilValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight constructors", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- constructors", actual)
 }
 
 func Test_Cov11_LeftRight_Methods(t *testing.T) {
@@ -843,7 +843,7 @@ func Test_Cov11_LeftRight_Methods(t *testing.T) {
 		"hasSafe": true, "isLeft": true, "isRight": true,
 		"is": true, "reLeft": true, "reRight": false, "reNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight methods", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- methods", actual)
 }
 
 func Test_Cov11_LeftRight_Equal(t *testing.T) {
@@ -861,7 +861,7 @@ func Test_Cov11_LeftRight_Equal(t *testing.T) {
 		"equal": true, "notEqual": false,
 		"bothNil": true, "oneNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight equal", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- equal", actual)
 }
 
 func Test_Cov11_LeftRight_ClonePtrNonPtr(t *testing.T) {
@@ -875,7 +875,7 @@ func Test_Cov11_LeftRight_ClonePtrNonPtr(t *testing.T) {
 		"ptrNotNil":  ptr != nil,
 	}
 	expected := args.Map{"clonedLeft": "a", "nonPtrLeft": "a", "ptrNotNil": true}
-	expected.ShouldBeEqual(t, 0, "LeftRight clone/ptr", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- clone/ptr", actual)
 }
 
 func Test_Cov11_LeftRight_ClearDispose(t *testing.T) {
@@ -886,7 +886,7 @@ func Test_Cov11_LeftRight_ClearDispose(t *testing.T) {
 	nilLR.Dispose()
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "", "right": ""}
-	expected.ShouldBeEqual(t, 0, "LeftRight clear/dispose", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- clear/dispose", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -909,7 +909,7 @@ func Test_Cov11_LeftMiddleRight_Constructors(t *testing.T) {
 		"left": "l", "mid": "m", "right": "r", "valid": true,
 		"invValid": false, "invNMVal": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight constructors", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight returns correct value -- constructors", actual)
 }
 
 func Test_Cov11_LeftMiddleRight_Methods(t *testing.T) {
@@ -946,7 +946,7 @@ func Test_Cov11_LeftMiddleRight_Methods(t *testing.T) {
 		"hasVNWSL": true, "hasVNWSR": true, "hasVNWSM": true,
 		"hasSafe": true, "isAll": true, "is": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight methods", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight returns correct value -- methods", actual)
 }
 
 func Test_Cov11_LeftMiddleRight_Clone(t *testing.T) {
@@ -959,7 +959,7 @@ func Test_Cov11_LeftMiddleRight_Clone(t *testing.T) {
 		"lrRight":    lr.Right,
 	}
 	expected := args.Map{"clonedLeft": "l", "lrLeft": "l", "lrRight": "r"}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight clone", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight returns correct value -- clone", actual)
 }
 
 func Test_Cov11_LeftMiddleRight_ClearDispose(t *testing.T) {
@@ -970,7 +970,7 @@ func Test_Cov11_LeftMiddleRight_ClearDispose(t *testing.T) {
 	nilLMR.Dispose()
 	actual := args.Map{"left": lmr.Left, "mid": lmr.Middle}
 	expected := args.Map{"left": "", "mid": ""}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight clear/dispose", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight returns correct value -- clear/dispose", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -996,7 +996,7 @@ func Test_Cov11_CollectionsOfCollection_Basic(t *testing.T) {
 		"len": 2, "isEmpty": false, "hasItems": true,
 		"allLen": 3, "itemsLen": 2, "listLen": 3, "toCollLen": 3,
 	}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection basic", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns correct value -- basic", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -1019,7 +1019,7 @@ func Test_Cov11_HashsetsCollection_Basic(t *testing.T) {
 		"len": 2, "isEmpty": false, "hasItems": true,
 		"listLen": 2, "listPtrNN": true, "strListLen": 3,
 	}
-	expected.ShouldBeEqual(t, 0, "HashsetsCollection basic", actual)
+	expected.ShouldBeEqual(t, 0, "HashsetsCollection returns correct value -- basic", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -1044,7 +1044,7 @@ func Test_Cov11_KeyValueCollection_Basic(t *testing.T) {
 		"hasAny": true, "lastIdx": 1, "hasIdx": true,
 		"hasKey": true, "isContains": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection basic", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- basic", actual)
 }
 
 func Test_Cov11_KeyValueCollection_Access(t *testing.T) {
@@ -1070,7 +1070,7 @@ func Test_Cov11_KeyValueCollection_Access(t *testing.T) {
 		"lastKey": "k2", "lastODKey": "k2",
 		"val": "v1", "found": true, "notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection access", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- access", actual)
 }
 
 func Test_Cov11_KeyValueCollection_EmptyAccess(t *testing.T) {
@@ -1084,7 +1084,7 @@ func Test_Cov11_KeyValueCollection_EmptyAccess(t *testing.T) {
 		"safeVal":  safeVal,
 	}
 	expected := args.Map{"firstNil": true, "lastNil": true, "safeVal": ""}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection empty access", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns empty -- empty access", actual)
 }
 
 func Test_Cov11_KeyValueCollection_Adds(t *testing.T) {
@@ -1108,7 +1108,7 @@ func Test_Cov11_KeyValueCollection_Adds(t *testing.T) {
 	kvc.AddsHashmaps()
 	actual := args.Map{"len": kvc.Length()}
 	expected := args.Map{"len": 7}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection adds", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- adds", actual)
 }
 
 func Test_Cov11_KeyValueCollection_Strings(t *testing.T) {
@@ -1139,7 +1139,7 @@ func Test_Cov11_KeyValueCollection_Strings(t *testing.T) {
 		"keysLen": 2, "valsLen": 2, "sortedLen": 2,
 		"joinNE": true, "joinKNE": true, "joinVNE": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection strings", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- strings", actual)
 }
 
 func Test_Cov11_KeyValueCollection_Find(t *testing.T) {
@@ -1150,7 +1150,7 @@ func Test_Cov11_KeyValueCollection_Find(t *testing.T) {
 	})
 	actual := args.Map{"foundLen": len(found)}
 	expected := args.Map{"foundLen": 1}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection find", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- find", actual)
 }
 
 func Test_Cov11_KeyValueCollection_SafeValueAt(t *testing.T) {
@@ -1167,7 +1167,7 @@ func Test_Cov11_KeyValueCollection_SafeValueAt(t *testing.T) {
 		"emptyLen": len(valsEmpty),
 	}
 	expected := args.Map{"safe0": "v1", "safeOOB": "", "valsLen": 1, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection safe value at", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- safe value at", actual)
 }
 
 func Test_Cov11_KeyValueCollection_HashmapMap(t *testing.T) {
@@ -1177,7 +1177,7 @@ func Test_Cov11_KeyValueCollection_HashmapMap(t *testing.T) {
 	m := kvc.Map()
 	actual := args.Map{"hmLen": hm.Length(), "mapLen": len(m)}
 	expected := args.Map{"hmLen": 1, "mapLen": 1}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection hashmap/map", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- hashmap/map", actual)
 }
 
 func Test_Cov11_KeyValueCollection_Json(t *testing.T) {
@@ -1200,5 +1200,5 @@ func Test_Cov11_KeyValueCollection_Json(t *testing.T) {
 		"modelLen": 1, "modelAnyNN": true,
 		"bytesLen": true, "errNil": true, "mustLen": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection json", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- json", actual)
 }

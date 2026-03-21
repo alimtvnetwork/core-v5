@@ -14,7 +14,7 @@ func Test_Cov2_Bytes_HandleWithPanic_NoError(t *testing.T) {
 	b.HandleWithPanic()
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "HandleWithPanic_NoError", actual)
+	expected.ShouldBeEqual(t, 0, "HandleWithPanic_NoError panics -- with args", actual)
 }
 
 func Test_Cov2_Bytes_HandleWithPanic_WithError(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_Cov2_Bytes_HandleWithPanic_WithError(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "HandleWithPanic_WithError", actual)
+	expected.ShouldBeEqual(t, 0, "HandleWithPanic_WithError panics -- with args", actual)
 }
 
 func Test_Cov2_Integers_HandleWithPanic_NoError(t *testing.T) {
@@ -38,7 +38,7 @@ func Test_Cov2_Integers_HandleWithPanic_NoError(t *testing.T) {
 	i.HandleWithPanic()
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "Integers_HandleWithPanic_NoError", actual)
+	expected.ShouldBeEqual(t, 0, "Integers_HandleWithPanic_NoError panics -- with args", actual)
 }
 
 func Test_Cov2_Integers_HandleWithPanic_WithError(t *testing.T) {
@@ -54,19 +54,19 @@ func Test_Cov2_Integers_HandleWithPanic_WithError(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "Integers_HandleWithPanic_WithError", actual)
+	expected.ShouldBeEqual(t, 0, "Integers_HandleWithPanic_WithError panics -- with args", actual)
 }
 
 func Test_Cov2_Bytes_HasAnyItem_Empty(t *testing.T) {
 	b := &coreconverted.Bytes{Values: []byte{}}
 	actual := args.Map{"hasAny": b.HasAnyItem(), "isEmpty": b.IsEmpty()}
 	expected := args.Map{"hasAny": false, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Bytes_HasAnyItem_Empty", actual)
+	expected.ShouldBeEqual(t, 0, "Bytes_HasAnyItem_Empty returns empty -- with args", actual)
 }
 
 func Test_Cov2_Integers_HasAnyItem_Empty(t *testing.T) {
 	i := &coreconverted.Integers{Values: []int{}}
 	actual := args.Map{"hasAny": i.HasAnyItem(), "isEmpty": i.IsEmpty()}
 	expected := args.Map{"hasAny": false, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Integers_HasAnyItem_Empty", actual)
+	expected.ShouldBeEqual(t, 0, "Integers_HasAnyItem_Empty returns empty -- with args", actual)
 }

@@ -14,9 +14,9 @@ import (
 // ── CaseV1 additional methods ──
 
 func Test_Cov4_CaseV1_Input(t *testing.T) {
-	c := coretestcases.CaseV1{ArrangeInput: "hello"}
+	c := coretestcases.CaseV1{ArrangeInput: "hello returns correct value -- with args"}
 	actual := args.Map{"val": fmt.Sprintf("%v", c.Input())}
-	expected := args.Map{"val": "hello"}
+	expected := args.Map{"val": "hello returns correct value -- with args"}
 	expected.ShouldBeEqual(t, 0, "CaseV1.Input -- hello", actual)
 }
 
@@ -77,15 +77,15 @@ func Test_Cov4_CaseV1_SetExpected(t *testing.T) {
 func Test_Cov4_CaseV1_ShouldBeEqualFirst(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "equal first test",
-		ExpectedInput: "hello",
+		ExpectedInput: "hello returns correct value -- with args",
 	}
-	c.ShouldBeEqualFirst(t, "hello")
+	c.ShouldBeEqualFirst(t, "hello returns correct value -- with args")
 }
 
 func Test_Cov4_CaseV1_ShouldBeTrimEqualFirst(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "trim equal first test",
-		ExpectedInput: "hello",
+		ExpectedInput: "hello returns correct value -- with args",
 	}
 	c.ShouldBeTrimEqualFirst(t, "  hello  ")
 }
@@ -137,12 +137,12 @@ func Test_Cov4_CaseNilSafe_ShouldBeSafeFirst(t *testing.T) {
 func Test_Cov4_CaseV1_VerifyTypeOfMatch_SkipVerify(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "skip verify",
-		ExpectedInput: "hello",
+		ExpectedInput: "hello returns correct value -- with args",
 		IsEnable:      issetter.True,
 		// VerifyTypeOf not set → IsTypeInvalidOrSkipVerify returns true
 	}
 	// Should not panic — just skips
-	c.VerifyTypeOfMatch(t, 0, "hello")
+	c.VerifyTypeOfMatch(t, 0, "hello returns correct value -- with args")
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
 	expected.ShouldBeEqual(t, 0, "VerifyTypeOfMatch skip verify -- no VerifyTypeOf", actual)
@@ -153,9 +153,9 @@ func Test_Cov4_CaseV1_VerifyTypeOfMatch_SkipVerify(t *testing.T) {
 func Test_Cov4_CaseV1_ShouldBeEqual_StringWrap(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "string wrap test",
-		ExpectedInput: "hello",
+		ExpectedInput: "hello returns correct value -- with args",
 	}
-	c.ShouldBeEqual(t, 0, "hello")
+	c.ShouldBeEqual(t, 0, "hello returns correct value -- with args")
 }
 
 // ── CaseV1 ShouldBeEqual empty string ──

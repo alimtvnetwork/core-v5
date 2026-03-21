@@ -61,7 +61,7 @@ func Test_Cov2_BaseTestCase_ShouldAsserters(t *testing.T) {
 		"actualLen": 1,
 		"actualVal": "ok",
 	}
-	expected.ShouldBeEqual(t, 0, "BaseTestCase should asserters", actual)
+	expected.ShouldBeEqual(t, 0, "BaseTestCase returns correct value -- should asserters", actual)
 }
 
 func Test_Cov2_BaseTestCase_TypeValidation(t *testing.T) {
@@ -92,7 +92,7 @@ func Test_Cov2_BaseTestCase_TypeValidation(t *testing.T) {
 		"mismatchErr": true,
 		"passErrNil":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "BaseTestCase type validation", actual)
+	expected.ShouldBeEqual(t, 0, "BaseTestCase returns non-empty -- type validation", actual)
 }
 
 func Test_Cov2_Compare_IsMatch(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_Cov2_Compare_IsMatch(t *testing.T) {
 		"sortedNotEmpty": true,
 		"printHasIndex":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Compare IsMatch", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsMatch", actual)
 }
 
 func Test_Cov2_ComparingInstruction_IsMatch(t *testing.T) {
@@ -150,7 +150,7 @@ func Test_Cov2_ComparingInstruction_IsMatch(t *testing.T) {
 		"hashReset": true,
 		"match":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "ComparingInstruction IsMatch", actual)
+	expected.ShouldBeEqual(t, 0, "ComparingInstruction returns correct value -- IsMatch", actual)
 }
 
 func Test_Cov2_SimpleTestCase_ShouldAsserters(t *testing.T) {
@@ -171,7 +171,7 @@ func Test_Cov2_SimpleTestCase_ShouldAsserters(t *testing.T) {
 		"stringNotEmpty":     true,
 		"linesStringNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleTestCase should asserters", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleTestCase returns correct value -- should asserters", actual)
 }
 
 func Test_Cov2_SkipHelpers(t *testing.T) {
@@ -189,7 +189,7 @@ func Test_Cov2_SkipHelpers(t *testing.T) {
 
 	actual := args.Map{"runCount": runCount}
 	expected := args.Map{"runCount": 2}
-	expected.ShouldBeEqual(t, 0, "Skip helpers invoked", actual)
+	expected.ShouldBeEqual(t, 0, "Skip returns correct value -- helpers invoked", actual)
 }
 
 func Test_Cov2_IsCompare_And_GetAssertHelpers(t *testing.T) {
@@ -257,5 +257,5 @@ func Test_Cov2_IsCompare_And_GetAssertHelpers(t *testing.T) {
 		"errorMatch":       true,
 		"emptyErrorMatch":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsCompare and getAssert helpers", actual)
+	expected.ShouldBeEqual(t, 0, "IsCompare returns correct value -- and getAssert helpers", actual)
 }

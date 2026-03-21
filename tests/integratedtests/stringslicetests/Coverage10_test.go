@@ -19,7 +19,7 @@ func Test_Cov10_EmptyPtr(t *testing.T) {
 	result := stringslice.EmptyPtr()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "EmptyPtr returns empty slice", actual)
+	expected.ShouldBeEqual(t, 0, "EmptyPtr returns empty -- returns empty slice", actual)
 }
 
 // ── MakePtr ──
@@ -28,7 +28,7 @@ func Test_Cov10_MakePtr(t *testing.T) {
 	result := stringslice.MakePtr(3, 5)
 	actual := args.Map{"len": len(result), "capGe5": cap(result) >= 5}
 	expected := args.Map{"len": 3, "capGe5": true}
-	expected.ShouldBeEqual(t, 0, "MakePtr returns slice with length and capacity", actual)
+	expected.ShouldBeEqual(t, 0, "MakePtr returns non-empty -- returns slice with length and capacity", actual)
 }
 
 // ── MakeLenPtr ──
@@ -37,7 +37,7 @@ func Test_Cov10_MakeLenPtr(t *testing.T) {
 	result := stringslice.MakeLenPtr(4)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 4}
-	expected.ShouldBeEqual(t, 0, "MakeLenPtr returns slice with length", actual)
+	expected.ShouldBeEqual(t, 0, "MakeLenPtr returns non-empty -- returns slice with length", actual)
 }
 
 // ── MakeDefaultPtr ──
@@ -46,7 +46,7 @@ func Test_Cov10_MakeDefaultPtr(t *testing.T) {
 	result := stringslice.MakeDefaultPtr(5)
 	actual := args.Map{"len": len(result), "capGe5": cap(result) >= 5}
 	expected := args.Map{"len": 0, "capGe5": true}
-	expected.ShouldBeEqual(t, 0, "MakeDefaultPtr returns zero-len slice with capacity", actual)
+	expected.ShouldBeEqual(t, 0, "MakeDefaultPtr returns non-empty -- returns zero-len slice with capacity", actual)
 }
 
 // ── FirstPtr ──
@@ -55,7 +55,7 @@ func Test_Cov10_FirstPtr(t *testing.T) {
 	result := stringslice.FirstPtr([]string{"x", "y"})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": "x"}
-	expected.ShouldBeEqual(t, 0, "FirstPtr returns first element", actual)
+	expected.ShouldBeEqual(t, 0, "FirstPtr returns correct value -- returns first element", actual)
 }
 
 // ── LastPtr ──
@@ -64,7 +64,7 @@ func Test_Cov10_LastPtr(t *testing.T) {
 	result := stringslice.LastPtr([]string{"x", "y"})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": "y"}
-	expected.ShouldBeEqual(t, 0, "LastPtr returns last element", actual)
+	expected.ShouldBeEqual(t, 0, "LastPtr returns correct value -- returns last element", actual)
 }
 
 // ── FirstOrDefaultPtr ──
@@ -105,7 +105,7 @@ func Test_Cov10_LastIndexPtr(t *testing.T) {
 	result := stringslice.LastIndexPtr([]string{"a", "b", "c"})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": 2}
-	expected.ShouldBeEqual(t, 0, "LastIndexPtr returns last index", actual)
+	expected.ShouldBeEqual(t, 0, "LastIndexPtr returns correct value -- returns last index", actual)
 }
 
 // ── LastSafeIndexPtr ──
@@ -162,7 +162,7 @@ func Test_Cov10_LengthOfPointer(t *testing.T) {
 	result := stringslice.LengthOfPointer([]string{"a", "b"})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": 2}
-	expected.ShouldBeEqual(t, 0, "LengthOfPointer returns length", actual)
+	expected.ShouldBeEqual(t, 0, "LengthOfPointer returns correct value -- returns length", actual)
 }
 
 // ── TrimmedEachWordsPtr ──
@@ -535,7 +535,7 @@ func Test_Cov10_ExpandByFunc_SomeEmpty(t *testing.T) {
 	})
 	actual := args.Map{"len": len(result), "first": result[0], "last": result[1]}
 	expected := args.Map{"len": 2, "first": "a1", "last": "a2"}
-	expected.ShouldBeEqual(t, 0, "ExpandByFunc skips nil expansions", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandByFunc returns nil -- skips nil expansions", actual)
 }
 
 func Test_Cov10_ExpandByFunc_Empty(t *testing.T) {
@@ -1009,7 +1009,7 @@ func Test_Cov10_PrependLineNew(t *testing.T) {
 	result := stringslice.PrependLineNew("first", []string{"a", "b"})
 	actual := args.Map{"len": len(result), "first": result[0], "last": result[2]}
 	expected := args.Map{"len": 3, "first": "first", "last": "b"}
-	expected.ShouldBeEqual(t, 0, "PrependLineNew prepends single line", actual)
+	expected.ShouldBeEqual(t, 0, "PrependLineNew returns correct value -- prepends single line", actual)
 }
 
 // ── AppendLineNew ──
@@ -1018,7 +1018,7 @@ func Test_Cov10_AppendLineNew(t *testing.T) {
 	result := stringslice.AppendLineNew([]string{"a"}, "b")
 	actual := args.Map{"len": len(result), "first": result[0], "last": result[1]}
 	expected := args.Map{"len": 2, "first": "a", "last": "b"}
-	expected.ShouldBeEqual(t, 0, "AppendLineNew appends single line", actual)
+	expected.ShouldBeEqual(t, 0, "AppendLineNew returns correct value -- appends single line", actual)
 }
 
 // ── Clone ──
@@ -1043,28 +1043,28 @@ func Test_Cov10_First(t *testing.T) {
 	result := stringslice.First([]string{"x", "y"})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": "x"}
-	expected.ShouldBeEqual(t, 0, "First returns first element", actual)
+	expected.ShouldBeEqual(t, 0, "First returns correct value -- returns first element", actual)
 }
 
 func Test_Cov10_Last(t *testing.T) {
 	result := stringslice.Last([]string{"x", "y"})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": "y"}
-	expected.ShouldBeEqual(t, 0, "Last returns last element", actual)
+	expected.ShouldBeEqual(t, 0, "Last returns correct value -- returns last element", actual)
 }
 
 func Test_Cov10_IndexAt(t *testing.T) {
 	result := stringslice.IndexAt([]string{"a", "b", "c"}, 2)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": "c"}
-	expected.ShouldBeEqual(t, 0, "IndexAt returns element at index", actual)
+	expected.ShouldBeEqual(t, 0, "IndexAt returns correct value -- returns element at index", actual)
 }
 
 func Test_Cov10_Empty(t *testing.T) {
 	result := stringslice.Empty()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Empty returns empty slice", actual)
+	expected.ShouldBeEqual(t, 0, "Empty returns empty -- returns empty slice", actual)
 }
 
 func Test_Cov10_IsEmpty_True(t *testing.T) {
@@ -1125,21 +1125,21 @@ func Test_Cov10_MakeDefault(t *testing.T) {
 	result := stringslice.MakeDefault(10)
 	actual := args.Map{"len": len(result), "capGe10": cap(result) >= 10}
 	expected := args.Map{"len": 0, "capGe10": true}
-	expected.ShouldBeEqual(t, 0, "MakeDefault returns zero-len with capacity", actual)
+	expected.ShouldBeEqual(t, 0, "MakeDefault returns non-empty -- returns zero-len with capacity", actual)
 }
 
 func Test_Cov10_MakeLen(t *testing.T) {
 	result := stringslice.MakeLen(3)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "MakeLen returns slice with length", actual)
+	expected.ShouldBeEqual(t, 0, "MakeLen returns non-empty -- returns slice with length", actual)
 }
 
 func Test_Cov10_Make(t *testing.T) {
 	result := stringslice.Make(2, 5)
 	actual := args.Map{"len": len(result), "capGe5": cap(result) >= 5}
 	expected := args.Map{"len": 2, "capGe5": true}
-	expected.ShouldBeEqual(t, 0, "Make returns slice with length and capacity", actual)
+	expected.ShouldBeEqual(t, 0, "Make returns non-empty -- returns slice with length and capacity", actual)
 }
 
 // ── SafeIndexes — OOB and negative ──
@@ -1148,14 +1148,14 @@ func Test_Cov10_SafeIndexes_WithOOB(t *testing.T) {
 	result := stringslice.SafeIndexes([]string{"a", "b"}, 0, 5, -1, 1)
 	actual := args.Map{"len": len(result), "first": result[0], "second": result[1], "third": result[2], "fourth": result[3]}
 	expected := args.Map{"len": 4, "first": "a", "second": "", "third": "", "fourth": "b"}
-	expected.ShouldBeEqual(t, 0, "SafeIndexes handles OOB and negative with empty strings", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexes returns empty -- handles OOB and negative with empty strings", actual)
 }
 
 func Test_Cov10_SafeIndexes_EmptySlice(t *testing.T) {
 	result := stringslice.SafeIndexes(nil, 0)
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 1, "first": ""}
-	expected.ShouldBeEqual(t, 0, "SafeIndexes returns default for empty slice", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexes returns empty -- returns default for empty slice", actual)
 }
 
 // ── NonEmptySlice — with empty strings ──

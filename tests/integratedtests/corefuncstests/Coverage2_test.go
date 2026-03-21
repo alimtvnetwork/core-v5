@@ -14,21 +14,21 @@ func Test_Cov2_GetFunc_NotNil(t *testing.T) {
 	f := corefuncs.GetFunc(corefuncs.GetFuncName)
 	actual := args.Map{"notNil": f != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "GetFunc returns non-nil for valid func", actual)
+	expected.ShouldBeEqual(t, 0, "GetFunc returns nil -- returns non-nil for valid func", actual)
 }
 
 func Test_Cov2_GetFuncFullName_HasDot(t *testing.T) {
 	name := corefuncs.GetFuncFullName(corefuncs.GetFuncName)
 	actual := args.Map{"notEmpty": name != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GetFuncFullName returns non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "GetFuncFullName returns empty -- returns non-empty", actual)
 }
 
 func Test_Cov2_GetFuncName_Short(t *testing.T) {
 	name := corefuncs.GetFuncName(corefuncs.GetFuncName)
 	actual := args.Map{"result": name}
 	expected := args.Map{"result": "GetFuncName"}
-	expected.ShouldBeEqual(t, 0, "GetFuncName returns short name", actual)
+	expected.ShouldBeEqual(t, 0, "GetFuncName returns correct value -- returns short name", actual)
 }
 
 // ── NamedActionFuncWrapper.Next ──
@@ -130,7 +130,7 @@ func Test_Cov2_InOutErrWrapperOf_ToLegacy(t *testing.T) {
 	out, err := legacy.Exec("hi")
 	actual := args.Map{"output": out, "isNil": err == nil}
 	expected := args.Map{"output": 2, "isNil": true}
-	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf ToLegacy", actual)
+	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf returns error -- ToLegacy", actual)
 }
 
 func Test_Cov2_InActionErrWrapperOf_ToLegacy(t *testing.T) {
@@ -141,7 +141,7 @@ func Test_Cov2_InActionErrWrapperOf_ToLegacy(t *testing.T) {
 	_, err := legacy.Exec("hi")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf ToLegacy", actual)
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf returns error -- ToLegacy", actual)
 }
 
 func Test_Cov2_InOutFuncWrapperOf_ToLegacy(t *testing.T) {
@@ -152,7 +152,7 @@ func Test_Cov2_InOutFuncWrapperOf_ToLegacy(t *testing.T) {
 	out, err := legacy.Exec("hi")
 	actual := args.Map{"output": out, "isNil": err == nil}
 	expected := args.Map{"output": 2, "isNil": true}
-	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf ToLegacy", actual)
+	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf returns correct value -- ToLegacy", actual)
 }
 
 func Test_Cov2_ResultDelegatingWrapperOf_ToLegacy(t *testing.T) {
@@ -164,7 +164,7 @@ func Test_Cov2_ResultDelegatingWrapperOf_ToLegacy(t *testing.T) {
 	err := legacy.Exec(&s)
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf ToLegacy", actual)
+	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf returns correct value -- ToLegacy", actual)
 }
 
 // ── InOutErrFuncWrapper.Exec ──
@@ -176,7 +176,7 @@ func Test_Cov2_LegacyInOutErr_Exec(t *testing.T) {
 	out, err := w.Exec("input")
 	actual := args.Map{"output": out, "isNil": err == nil}
 	expected := args.Map{"output": "ok", "isNil": true}
-	expected.ShouldBeEqual(t, 0, "LegacyInOutErr Exec", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyInOutErr returns error -- Exec", actual)
 }
 
 // ── ResultDelegatingFuncWrapper.Exec ──
@@ -188,7 +188,7 @@ func Test_Cov2_LegacyResultDelegating_Exec(t *testing.T) {
 	err := w.Exec("target")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating Exec", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating returns correct value -- Exec", actual)
 }
 
 // ── SerializeOutputFuncWrapperOf.Exec ──
@@ -200,7 +200,7 @@ func Test_Cov2_SerializeWrapper_Exec(t *testing.T) {
 	bytes, err := w.Exec("hello")
 	actual := args.Map{"result": string(bytes), "isNil": err == nil}
 	expected := args.Map{"result": "hello", "isNil": true}
-	expected.ShouldBeEqual(t, 0, "SerializeWrapper Exec", actual)
+	expected.ShouldBeEqual(t, 0, "SerializeWrapper returns correct value -- Exec", actual)
 }
 
 // ── InActionReturnsErrFuncWrapperOf.Exec / AsActionFunc ──
@@ -212,7 +212,7 @@ func Test_Cov2_InActionErrWrapper_Exec(t *testing.T) {
 	err := w.Exec("test")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "InActionErrWrapper Exec", actual)
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapper returns error -- Exec", actual)
 }
 
 // ── InOutErrFuncWrapperOf.Exec ──
@@ -224,7 +224,7 @@ func Test_Cov2_InOutErrWrapperOf_Exec(t *testing.T) {
 	out, err := w.Exec("abc")
 	actual := args.Map{"output": out, "isNil": err == nil}
 	expected := args.Map{"output": 3, "isNil": true}
-	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf Exec", actual)
+	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf returns error -- Exec", actual)
 }
 
 // ── InOutFuncWrapperOf.Exec ──
@@ -236,7 +236,7 @@ func Test_Cov2_InOutFuncWrapperOf_Exec(t *testing.T) {
 	out := w.Exec("test")
 	actual := args.Map{"output": out}
 	expected := args.Map{"output": 4}
-	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf Exec", actual)
+	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf returns correct value -- Exec", actual)
 }
 
 // ── ResultDelegatingFuncWrapperOf.Exec ──
@@ -249,5 +249,5 @@ func Test_Cov2_ResultDelegatingWrapperOf_Exec(t *testing.T) {
 	err := w.Exec(&s)
 	actual := args.Map{"value": s, "isNil": err == nil}
 	expected := args.Map{"value": "bound", "isNil": true}
-	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf Exec", actual)
+	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf returns correct value -- Exec", actual)
 }

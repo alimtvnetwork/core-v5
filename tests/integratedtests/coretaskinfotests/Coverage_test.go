@@ -32,7 +32,7 @@ func Test_Cov_Info_NilGetters(t *testing.T) {
 		"safeName": "", "safeDesc": "", "safeUrl": "",
 		"safeHintUrl": "", "safeErrUrl": "", "safeExUrl": "", "safeCh": "",
 	}
-	expected.ShouldBeEqual(t, 0, "Info nil getters", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns nil -- nil getters", actual)
 }
 
 // ── Info with values ──
@@ -68,7 +68,7 @@ func Test_Cov_Info_DefinedGetters(t *testing.T) {
 		"hasHintUrl": true, "hasErrorUrl": true, "hasExampleUrl": true,
 		"hasChainingEx": true, "hasExamples": true, "hasExcludeOpts": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Info defined getters", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns correct value -- defined getters", actual)
 }
 
 func Test_Cov_Info_IsName(t *testing.T) {
@@ -78,7 +78,7 @@ func Test_Cov_Info_IsName(t *testing.T) {
 		"noMatch": info.IsName("other"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Info IsName", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns correct value -- IsName", actual)
 }
 
 // ── IsInclude / IsExclude checks ──
@@ -122,7 +122,7 @@ func Test_Cov_Info_IsInclude_NoExcludeOptions(t *testing.T) {
 		"isExcludePayload": false, "excludeRootName": false, "excludeDescription": false,
 		"excludeUrl": false, "excludeHintUrl": false, "excludeErrorUrl": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Info IsInclude no exclude options", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns empty -- IsInclude no exclude options", actual)
 }
 
 func Test_Cov_Info_NilIncludeAdditionalErrorWrap(t *testing.T) {
@@ -147,7 +147,7 @@ func Test_Cov_Info_Clone(t *testing.T) {
 		"url":  cloned.Url,
 	}
 	expected := args.Map{"name": "task", "desc": "desc", "url": "url"}
-	expected.ShouldBeEqual(t, 0, "Info Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns correct value -- Clone", actual)
 }
 
 func Test_Cov_Info_ClonePtr_Nil(t *testing.T) {
@@ -171,7 +171,7 @@ func Test_Cov_Info_ToPtr(t *testing.T) {
 	ptr := info.ToPtr()
 	actual := args.Map{"name": ptr.RootName}
 	expected := args.Map{"name": "task"}
-	expected.ShouldBeEqual(t, 0, "Info ToPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns correct value -- ToPtr", actual)
 }
 
 func Test_Cov_Info_ToNonPtr(t *testing.T) {
@@ -179,7 +179,7 @@ func Test_Cov_Info_ToNonPtr(t *testing.T) {
 	nonPtr := info.ToNonPtr()
 	actual := args.Map{"name": nonPtr.RootName}
 	expected := args.Map{"name": "task"}
-	expected.ShouldBeEqual(t, 0, "Info ToNonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns correct value -- ToNonPtr", actual)
 }
 
 // ── SetSecure / SetPlain ──
@@ -243,5 +243,5 @@ func Test_Cov_Info_ExamplesAsSlice_Defined(t *testing.T) {
 	slice := info.ExamplesAsSlice()
 	actual := args.Map{"len": slice.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Info ExamplesAsSlice defined", actual)
+	expected.ShouldBeEqual(t, 0, "Info returns correct value -- ExamplesAsSlice defined", actual)
 }

@@ -23,7 +23,7 @@ func Test_IsNullOrEmpty(t *testing.T) {
 		"empty":    true,
 		"nonEmpty": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsNullOrEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsNullOrEmpty returns empty -- with args", actual)
 }
 
 func Test_IsNullOrEmptyOrWhitespace(t *testing.T) {
@@ -42,7 +42,7 @@ func Test_IsNullOrEmptyOrWhitespace(t *testing.T) {
 		"space": true,
 		"text":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsNullOrEmptyOrWhitespace", actual)
+	expected.ShouldBeEqual(t, 0, "IsNullOrEmptyOrWhitespace returns empty -- with args", actual)
 }
 
 func Test_IsEmptyOrWhitespace(t *testing.T) {
@@ -61,7 +61,7 @@ func Test_IsEmptyOrWhitespace(t *testing.T) {
 		"tabs":      true,
 		"text":      false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEmptyOrWhitespace", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmptyOrWhitespace returns empty -- with args", actual)
 }
 
 func Test_NonEmptySlice(t *testing.T) {
@@ -78,7 +78,7 @@ func Test_NonEmptySlice(t *testing.T) {
 		"resultLen": 3,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "NonEmptySlice", actual)
+	expected.ShouldBeEqual(t, 0, "NonEmptySlice returns empty -- with args", actual)
 }
 
 func Test_NonEmptySlicePtr(t *testing.T) {
@@ -95,7 +95,7 @@ func Test_NonEmptySlicePtr(t *testing.T) {
 		"resultLen": 2,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "NonEmptySlicePtr", actual)
+	expected.ShouldBeEqual(t, 0, "NonEmptySlicePtr returns empty -- with args", actual)
 }
 
 func Test_NonEmptyJoin(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_NonEmptyJoin(t *testing.T) {
 		"result": "a,b",
 		"empty":  "",
 	}
-	expected.ShouldBeEqual(t, 0, "NonEmptyJoin", actual)
+	expected.ShouldBeEqual(t, 0, "NonEmptyJoin returns empty -- with args", actual)
 }
 
 func Test_NonWhitespaceSlice(t *testing.T) {
@@ -132,7 +132,7 @@ func Test_NonWhitespaceSlice(t *testing.T) {
 		"nilLen":    0,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceSlice", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceSlice returns correct value -- with args", actual)
 }
 
 func Test_NonWhitespaceTrimSlice(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_NonWhitespaceTrimSlice(t *testing.T) {
 		"emptyLen":  0,
 		"firstItem": "a",
 	}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceTrimSlice", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceTrimSlice returns correct value -- with args", actual)
 }
 
 func Test_NonWhitespaceJoin(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_NonWhitespaceJoin(t *testing.T) {
 		"nil":    "",
 		"empty":  "",
 	}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoin", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoin returns correct value -- with args", actual)
 }
 
 func Test_Clone(t *testing.T) {
@@ -193,7 +193,7 @@ func Test_Clone(t *testing.T) {
 		"emptyLen":  0,
 		"firstItem": "a",
 	}
-	expected.ShouldBeEqual(t, 0, "Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns correct value -- with args", actual)
 }
 
 func Test_CurlyWrapIf(t *testing.T) {
@@ -210,7 +210,7 @@ func Test_CurlyWrapIf(t *testing.T) {
 		"curlyNotEmpty":   true,
 		"noCurlyNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "CurlyWrapIf", actual)
+	expected.ShouldBeEqual(t, 0, "CurlyWrapIf returns correct value -- with args", actual)
 }
 
 func Test_AnyToString(t *testing.T) {
@@ -230,7 +230,7 @@ func Test_AnyToString(t *testing.T) {
 		"nilResult": "",
 		"intResult": "42",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyToString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToString returns correct value -- with args", actual)
 }
 
 func Test_AnyToFieldNameString(t *testing.T) {
@@ -247,7 +247,7 @@ func Test_AnyToFieldNameString(t *testing.T) {
 		"resultNotEmpty": true,
 		"nilResult":      "",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyToFieldNameString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToFieldNameString returns correct value -- with args", actual)
 }
 
 func Test_AnyToStringUsing(t *testing.T) {
@@ -267,7 +267,7 @@ func Test_AnyToStringUsing(t *testing.T) {
 		"withoutFieldsNotEmpty": true,
 		"nilResult":            "",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyToStringUsing", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToStringUsing returns correct value -- with args", actual)
 }
 
 func Test_MaskLine(t *testing.T) {
@@ -290,7 +290,7 @@ func Test_MaskLine(t *testing.T) {
 		"longLine":  "abcdef",
 		"emptyMask": "abc",
 	}
-	expected.ShouldBeEqual(t, 0, "MaskLine", actual)
+	expected.ShouldBeEqual(t, 0, "MaskLine returns correct value -- with args", actual)
 }
 
 func Test_MaskTrimLine(t *testing.T) {
@@ -307,7 +307,7 @@ func Test_MaskTrimLine(t *testing.T) {
 		"result":    "abcXXXXXXX",
 		"emptyLine": "XXXXXXXXXX",
 	}
-	expected.ShouldBeEqual(t, 0, "MaskTrimLine", actual)
+	expected.ShouldBeEqual(t, 0, "MaskTrimLine returns correct value -- with args", actual)
 }
 
 func Test_SplitLeftRight(t *testing.T) {
@@ -333,7 +333,7 @@ func Test_SplitLeftRight(t *testing.T) {
 		"l3": "key",
 		"r3": "value",
 	}
-	expected.ShouldBeEqual(t, 0, "SplitLeftRight", actual)
+	expected.ShouldBeEqual(t, 0, "SplitLeftRight returns correct value -- with args", actual)
 }
 
 func Test_ReplaceTemplateMap(t *testing.T) {
@@ -357,7 +357,7 @@ func Test_ReplaceTemplateMap(t *testing.T) {
 		"emptyTemplate": "",
 		"emptyMap":      "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "ReplaceTemplateMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReplaceTemplateMap returns correct value -- with args", actual)
 }
 
 func Test_ReflectInterfaceVal(t *testing.T) {
@@ -378,7 +378,7 @@ func Test_ReflectInterfaceVal(t *testing.T) {
 		"result":    42,
 		"ptrResult": 42,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectInterfaceVal", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectInterfaceVal returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_Basic(t *testing.T) {
@@ -407,7 +407,7 @@ func Test_SliceToMapConverter_Basic(t *testing.T) {
 		"stringsLen": 3,
 		"safeLen":    3,
 	}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter_Basic", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter_Basic returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_Hashset(t *testing.T) {
@@ -428,7 +428,7 @@ func Test_SliceToMapConverter_Hashset(t *testing.T) {
 		"hasB": true,
 		"hasD": false,
 	}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter_Hashset", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter_Hashset returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_LineSplitMap(t *testing.T) {
@@ -460,7 +460,7 @@ func Test_SliceToMapConverter_LineSplitMap(t *testing.T) {
 		"emptyLen":   0,
 		"val1":       "val1",
 	}
-	expected.ShouldBeEqual(t, 0, "LineSplitMap", actual)
+	expected.ShouldBeEqual(t, 0, "LineSplitMap returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_LineProcessorMap(t *testing.T) {
@@ -488,7 +488,7 @@ func Test_SliceToMapConverter_LineProcessorMap(t *testing.T) {
 		"nilProcLen":  0,
 		"emptyLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMap", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMap returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_LineProcessorMapStringInteger(t *testing.T) {
@@ -512,7 +512,7 @@ func Test_SliceToMapConverter_LineProcessorMapStringInteger(t *testing.T) {
 		"withTrimLen": 2,
 		"nilProcLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringInteger", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringInteger returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_LineProcessorMapStringAny(t *testing.T) {
@@ -536,7 +536,7 @@ func Test_SliceToMapConverter_LineProcessorMapStringAny(t *testing.T) {
 		"withTrimLen": 2,
 		"nilProcLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAny", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAny returns correct value -- with args", actual)
 }
 
 func Test_SliceToMapConverter_EmptySafeStrings(t *testing.T) {
@@ -550,5 +550,5 @@ func Test_SliceToMapConverter_EmptySafeStrings(t *testing.T) {
 	expected := args.Map{
 		"safeLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "EmptySafeStrings", actual)
+	expected.ShouldBeEqual(t, 0, "EmptySafeStrings returns empty -- with args", actual)
 }

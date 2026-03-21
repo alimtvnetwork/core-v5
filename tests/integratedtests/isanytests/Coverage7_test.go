@@ -54,21 +54,21 @@ func Test_Cov7_Conclusive_BothNil(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive(nil, nil)
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": true, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns nil -- both nil", actual)
 }
 
 func Test_Cov7_Conclusive_LeftNil(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive(nil, "x")
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": false, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive left nil", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns nil -- left nil", actual)
 }
 
 func Test_Cov7_Conclusive_RightNil(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive("x", nil)
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": false, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive right nil", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns nil -- right nil", actual)
 }
 
 func Test_Cov7_Conclusive_SameRef(t *testing.T) {
@@ -76,14 +76,14 @@ func Test_Cov7_Conclusive_SameRef(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive(s, s)
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": true, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive same ref", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns correct value -- same ref", actual)
 }
 
 func Test_Cov7_Conclusive_DiffType(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive(1, "1")
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": false, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive diff type", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns correct value -- diff type", actual)
 }
 
 func Test_Cov7_Conclusive_BothNilPtr(t *testing.T) {
@@ -91,7 +91,7 @@ func Test_Cov7_Conclusive_BothNilPtr(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive(p1, p2)
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": true, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive both nil ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns nil -- both nil ptr", actual)
 }
 
 func Test_Cov7_Conclusive_OneNilPtr(t *testing.T) {
@@ -100,7 +100,7 @@ func Test_Cov7_Conclusive_OneNilPtr(t *testing.T) {
 	isEqual, isConclusive := isany.Conclusive(p1, &v)
 	actual := args.Map{"equal": isEqual, "conclusive": isConclusive}
 	expected := args.Map{"equal": false, "conclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive one nil ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns nil -- one nil ptr", actual)
 }
 
 func Test_Cov7_Conclusive_SameTypeDiffValue(t *testing.T) {
@@ -130,21 +130,21 @@ func Test_Cov7_DefinedItems_Empty(t *testing.T) {
 	allDefined, items := isany.DefinedItems()
 	actual := args.Map{"allDefined": allDefined, "len": len(items)}
 	expected := args.Map{"allDefined": false, "len": 0}
-	expected.ShouldBeEqual(t, 0, "DefinedItems empty", actual)
+	expected.ShouldBeEqual(t, 0, "DefinedItems returns empty -- empty", actual)
 }
 
 func Test_Cov7_DefinedItems_AllDefined(t *testing.T) {
 	allDefined, items := isany.DefinedItems("a", 1, true)
 	actual := args.Map{"allDefined": allDefined, "len": len(items)}
 	expected := args.Map{"allDefined": true, "len": 3}
-	expected.ShouldBeEqual(t, 0, "DefinedItems all defined", actual)
+	expected.ShouldBeEqual(t, 0, "DefinedItems returns correct value -- all defined", actual)
 }
 
 func Test_Cov7_DefinedItems_SomeNil(t *testing.T) {
 	allDefined, items := isany.DefinedItems("a", nil, "b")
 	actual := args.Map{"allDefined": allDefined, "len": len(items)}
 	expected := args.Map{"allDefined": false, "len": 2}
-	expected.ShouldBeEqual(t, 0, "DefinedItems some nil", actual)
+	expected.ShouldBeEqual(t, 0, "DefinedItems returns nil -- some nil", actual)
 }
 
 // ── DefinedLeftRight ──
@@ -153,14 +153,14 @@ func Test_Cov7_DefinedLeftRight_BothDefined(t *testing.T) {
 	l, r := isany.DefinedLeftRight("a", "b")
 	actual := args.Map{"left": l, "right": r}
 	expected := args.Map{"left": true, "right": true}
-	expected.ShouldBeEqual(t, 0, "DefinedLeftRight both defined", actual)
+	expected.ShouldBeEqual(t, 0, "DefinedLeftRight returns correct value -- both defined", actual)
 }
 
 func Test_Cov7_DefinedLeftRight_LeftNil(t *testing.T) {
 	l, r := isany.DefinedLeftRight(nil, "b")
 	actual := args.Map{"left": l, "right": r}
 	expected := args.Map{"left": false, "right": true}
-	expected.ShouldBeEqual(t, 0, "DefinedLeftRight left nil", actual)
+	expected.ShouldBeEqual(t, 0, "DefinedLeftRight returns nil -- left nil", actual)
 }
 
 // ── NullLeftRight ──
@@ -169,7 +169,7 @@ func Test_Cov7_NullLeftRight_BothDefined(t *testing.T) {
 	l, r := isany.NullLeftRight("a", "b")
 	actual := args.Map{"left": l, "right": r}
 	expected := args.Map{"left": false, "right": false}
-	expected.ShouldBeEqual(t, 0, "NullLeftRight both defined", actual)
+	expected.ShouldBeEqual(t, 0, "NullLeftRight returns correct value -- both defined", actual)
 }
 
 // ── FloatingPointType / FloatingPointTypeRv ──
@@ -313,20 +313,20 @@ func Test_Cov7_Function_ValidFunc(t *testing.T) {
 func Test_Cov7_JsonEqual_Strings(t *testing.T) {
 	actual := args.Map{"result": isany.JsonEqual("abc", "abc")}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "JsonEqual strings match", actual)
+	expected.ShouldBeEqual(t, 0, "JsonEqual returns correct value -- strings match", actual)
 }
 
 func Test_Cov7_JsonEqual_Ints(t *testing.T) {
 	actual := args.Map{"result": isany.JsonEqual(1, 1)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "JsonEqual ints match", actual)
+	expected.ShouldBeEqual(t, 0, "JsonEqual returns correct value -- ints match", actual)
 }
 
 func Test_Cov7_JsonEqual_Structs(t *testing.T) {
 	type s struct{ A int }
 	actual := args.Map{"result": isany.JsonEqual(s{1}, s{1})}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "JsonEqual structs match", actual)
+	expected.ShouldBeEqual(t, 0, "JsonEqual returns correct value -- structs match", actual)
 }
 
 func Test_Cov7_JsonEqual_Different(t *testing.T) {

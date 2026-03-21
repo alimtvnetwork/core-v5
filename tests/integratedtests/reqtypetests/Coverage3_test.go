@@ -33,7 +33,7 @@ func Test_Cov3_Request_ValueTypes(t *testing.T) {
 		"valueByte":    true,
 		"value":        true,
 	}
-	expected.ShouldBeEqual(t, 0, "Value type accessors", actual)
+	expected.ShouldBeEqual(t, 0, "Value returns correct value -- type accessors", actual)
 }
 
 func Test_Cov3_Request_EnumMethods(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_Cov3_Request_EnumMethods(t *testing.T) {
 		"isValidRange":  true,
 		"rangeDynMap":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "Enum methods", actual)
+	expected.ShouldBeEqual(t, 0, "Enum returns correct value -- methods", actual)
 }
 
 func Test_Cov3_Request_MinMaxAny(t *testing.T) {
@@ -84,7 +84,7 @@ func Test_Cov3_Request_MinMaxAny(t *testing.T) {
 	// Assert
 	actual := args.Map{"minNotNil": min != nil, "maxNotNil": max != nil}
 	expected := args.Map{"minNotNil": true, "maxNotNil": true}
-	expected.ShouldBeEqual(t, 0, "MinMaxAny", actual)
+	expected.ShouldBeEqual(t, 0, "MinMaxAny returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Request_IsInBetween(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_Cov3_Request_IsInBetween(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"inBetween": true, "outOfRange": false}
-	expected.ShouldBeEqual(t, 0, "IsInBetween", actual)
+	expected.ShouldBeEqual(t, 0, "IsInBetween returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Request_GetInBetweenStatus(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_Cov3_Request_GetInBetweenStatus(t *testing.T) {
 		"outSuccess": false,
 		"outHasErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetInBetweenStatus", actual)
+	expected.ShouldBeEqual(t, 0, "GetInBetweenStatus returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Request_GetStatusAnyOf_Match(t *testing.T) {
@@ -125,7 +125,7 @@ func Test_Cov3_Request_GetStatusAnyOf_Match(t *testing.T) {
 	// Assert
 	actual := args.Map{"isSuccess": status.IsSuccess, "indexMatch": status.IndexMatch}
 	expected := args.Map{"isSuccess": true, "indexMatch": 1}
-	expected.ShouldBeEqual(t, 0, "GetStatusAnyOf match", actual)
+	expected.ShouldBeEqual(t, 0, "GetStatusAnyOf returns correct value -- match", actual)
 }
 
 func Test_Cov3_Request_GetStatusAnyOf_NoMatch(t *testing.T) {
@@ -135,7 +135,7 @@ func Test_Cov3_Request_GetStatusAnyOf_NoMatch(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": status.Error != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "GetStatusAnyOf no match", actual)
+	expected.ShouldBeEqual(t, 0, "GetStatusAnyOf returns empty -- no match", actual)
 }
 
 func Test_Cov3_Request_CompositeLogical(t *testing.T) {
@@ -180,7 +180,7 @@ func Test_Cov3_Request_CompositeLogical(t *testing.T) {
 		"isAnyOf":       true,
 		"isAnyValues":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "Composite logical", actual)
+	expected.ShouldBeEqual(t, 0, "Composite returns correct value -- logical", actual)
 }
 
 func Test_Cov3_Request_JsonMarshalUnmarshal(t *testing.T) {
@@ -203,7 +203,7 @@ func Test_Cov3_Request_JsonMarshalUnmarshal(t *testing.T) {
 		"unmarshalNoErr": true,
 		"equal":          true,
 	}
-	expected.ShouldBeEqual(t, 0, "JSON marshal/unmarshal", actual)
+	expected.ShouldBeEqual(t, 0, "JSON returns correct value -- marshal/unmarshal", actual)
 }
 
 func Test_Cov3_Request_ToPtrToSimple(t *testing.T) {
@@ -224,7 +224,7 @@ func Test_Cov3_Request_ToPtrToSimple(t *testing.T) {
 		"simpleValue": true,
 		"nilSimple":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "ToPtr ToSimple", actual)
+	expected.ShouldBeEqual(t, 0, "ToPtr returns correct value -- ToSimple", actual)
 }
 
 func Test_Cov3_Request_EnumType(t *testing.T) {
@@ -233,7 +233,7 @@ func Test_Cov3_Request_EnumType(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "EnumType", actual)
+	expected.ShouldBeEqual(t, 0, "EnumType returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Request_AsBinders(t *testing.T) {
@@ -259,7 +259,7 @@ func Test_Cov3_Request_AsBinders(t *testing.T) {
 		"actionTyper":   true,
 		"jsonMarshaller": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AsBinder interfaces", actual)
+	expected.ShouldBeEqual(t, 0, "AsBinder returns correct value -- interfaces", actual)
 }
 
 func Test_Cov3_Request_IsNotAnyOfReqs_Match(t *testing.T) {
@@ -271,7 +271,7 @@ func Test_Cov3_Request_IsNotAnyOfReqs_Match(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"notAny": true, "match": false}
-	expected.ShouldBeEqual(t, 0, "IsNotAnyOfReqs match", actual)
+	expected.ShouldBeEqual(t, 0, "IsNotAnyOfReqs returns correct value -- match", actual)
 }
 
 func Test_Cov3_Request_IsAnyOfReqs_Match(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_Cov3_Request_IsAnyOfReqs_Match(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "IsAnyOfReqs match", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyOfReqs returns correct value -- match", actual)
 }
 
 func Test_Cov3_Request_IsAnyNamesOf(t *testing.T) {
@@ -295,7 +295,7 @@ func Test_Cov3_Request_IsAnyNamesOf(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Request_IsAnyEnumsEqual_NoMatch(t *testing.T) {
@@ -307,5 +307,5 @@ func Test_Cov3_Request_IsAnyEnumsEqual_NoMatch(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"noMatch": false}
-	expected.ShouldBeEqual(t, 0, "IsAnyEnumsEqual no match", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyEnumsEqual returns empty -- no match", actual)
 }

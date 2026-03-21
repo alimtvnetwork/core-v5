@@ -18,21 +18,21 @@ func Test_I30_Hashset_IsEmpty_New(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"empty": hs.IsEmpty(), "items": hs.HasItems(), "len": hs.Length(), "hasAny": hs.HasAnyItem()}
 	expected := args.Map{"empty": true, "items": false, "len": 0, "hasAny": false}
-	expected.ShouldBeEqual(t, 0, "Hashset empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- empty", actual)
 }
 
 func Test_I30_Hashset_Length_Nil(t *testing.T) {
 	var hs *corestr.Hashset
 	actual := args.Map{"len": hs.Length(), "empty": hs.IsEmpty()}
 	expected := args.Map{"len": 0, "empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset nil length", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- nil length", actual)
 }
 
 func Test_I30_Hashset_IsEmptyLock(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"empty": hs.IsEmptyLock()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEmptyLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- IsEmptyLock", actual)
 }
 
 func Test_I30_Hashset_LengthLock(t *testing.T) {
@@ -40,7 +40,7 @@ func Test_I30_Hashset_LengthLock(t *testing.T) {
 	hs.Add("a")
 	actual := args.Map{"len": hs.LengthLock()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset LengthLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- LengthLock", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -52,7 +52,7 @@ func Test_I30_Hashset_Add(t *testing.T) {
 	hs.Add("a")
 	actual := args.Map{"has": hs.Has("a"), "len": hs.Length()}
 	expected := args.Map{"has": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset Add", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Add", actual)
 }
 
 func Test_I30_Hashset_AddBool(t *testing.T) {
@@ -61,7 +61,7 @@ func Test_I30_Hashset_AddBool(t *testing.T) {
 	existed2 := hs.AddBool("a")
 	actual := args.Map{"existed1": existed1, "existed2": existed2}
 	expected := args.Map{"existed1": false, "existed2": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddBool", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddBool", actual)
 }
 
 func Test_I30_Hashset_AddNonEmpty(t *testing.T) {
@@ -70,7 +70,7 @@ func Test_I30_Hashset_AddNonEmpty(t *testing.T) {
 	hs.AddNonEmpty("a")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset AddNonEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- AddNonEmpty", actual)
 }
 
 func Test_I30_Hashset_AddNonEmptyWhitespace(t *testing.T) {
@@ -79,7 +79,7 @@ func Test_I30_Hashset_AddNonEmptyWhitespace(t *testing.T) {
 	hs.AddNonEmptyWhitespace("a")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset AddNonEmptyWhitespace", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- AddNonEmptyWhitespace", actual)
 }
 
 func Test_I30_Hashset_AddIf(t *testing.T) {
@@ -88,7 +88,7 @@ func Test_I30_Hashset_AddIf(t *testing.T) {
 	hs.AddIf(false, "b")
 	actual := args.Map{"hasA": hs.Has("a"), "hasB": hs.Has("b")}
 	expected := args.Map{"hasA": true, "hasB": false}
-	expected.ShouldBeEqual(t, 0, "Hashset AddIf", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddIf", actual)
 }
 
 func Test_I30_Hashset_AddIfMany(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_I30_Hashset_AddIfMany(t *testing.T) {
 	hs.AddIfMany(false, "c")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddIfMany", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddIfMany", actual)
 }
 
 func Test_I30_Hashset_AddFunc(t *testing.T) {
@@ -105,7 +105,7 @@ func Test_I30_Hashset_AddFunc(t *testing.T) {
 	hs.AddFunc(func() string { return "computed" })
 	actual := args.Map{"has": hs.Has("computed")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddFunc", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddFunc", actual)
 }
 
 func Test_I30_Hashset_AddFuncErr_NoErr(t *testing.T) {
@@ -113,7 +113,7 @@ func Test_I30_Hashset_AddFuncErr_NoErr(t *testing.T) {
 	hs.AddFuncErr(func() (string, error) { return "ok", nil }, func(e error) {})
 	actual := args.Map{"has": hs.Has("ok")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddFuncErr no err", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- AddFuncErr no err", actual)
 }
 
 func Test_I30_Hashset_AddFuncErr_Err(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_I30_Hashset_AddFuncErr_Err(t *testing.T) {
 	hs.AddFuncErr(func() (string, error) { return "", fmt.Errorf("fail") }, func(e error) { called = true })
 	actual := args.Map{"empty": hs.IsEmpty(), "called": called}
 	expected := args.Map{"empty": true, "called": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddFuncErr err", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns error -- AddFuncErr err", actual)
 }
 
 func Test_I30_Hashset_AddLock(t *testing.T) {
@@ -130,7 +130,7 @@ func Test_I30_Hashset_AddLock(t *testing.T) {
 	hs.AddLock("a")
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddLock", actual)
 }
 
 func Test_I30_Hashset_AddPtr(t *testing.T) {
@@ -139,7 +139,7 @@ func Test_I30_Hashset_AddPtr(t *testing.T) {
 	hs.AddPtr(&s)
 	actual := args.Map{"has": hs.Has("hello")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddPtr", actual)
 }
 
 func Test_I30_Hashset_AddPtrLock(t *testing.T) {
@@ -148,7 +148,7 @@ func Test_I30_Hashset_AddPtrLock(t *testing.T) {
 	hs.AddPtrLock(&s)
 	actual := args.Map{"has": hs.Has("hello")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddPtrLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddPtrLock", actual)
 }
 
 func Test_I30_Hashset_Adds(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_I30_Hashset_Adds(t *testing.T) {
 	hs.Adds("a", "b")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset Adds", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Adds", actual)
 }
 
 func Test_I30_Hashset_Adds_Nil(t *testing.T) {
@@ -164,7 +164,7 @@ func Test_I30_Hashset_Adds_Nil(t *testing.T) {
 	hs.Adds(nil...)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Adds nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- Adds nil", actual)
 }
 
 func Test_I30_Hashset_AddStrings(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_I30_Hashset_AddStrings(t *testing.T) {
 	hs.AddStrings([]string{"a", "b"})
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddStrings", actual)
 }
 
 func Test_I30_Hashset_AddStrings_Nil(t *testing.T) {
@@ -180,7 +180,7 @@ func Test_I30_Hashset_AddStrings_Nil(t *testing.T) {
 	hs.AddStrings(nil)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddStrings nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddStrings nil", actual)
 }
 
 func Test_I30_Hashset_AddStringsLock(t *testing.T) {
@@ -188,7 +188,7 @@ func Test_I30_Hashset_AddStringsLock(t *testing.T) {
 	hs.AddStringsLock([]string{"a"})
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddStringsLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddStringsLock", actual)
 }
 
 func Test_I30_Hashset_AddStringsLock_Nil(t *testing.T) {
@@ -196,7 +196,7 @@ func Test_I30_Hashset_AddStringsLock_Nil(t *testing.T) {
 	hs.AddStringsLock(nil)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddStringsLock nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddStringsLock nil", actual)
 }
 
 func Test_I30_Hashset_AddHashsetItems(t *testing.T) {
@@ -205,7 +205,7 @@ func Test_I30_Hashset_AddHashsetItems(t *testing.T) {
 	hs.AddHashsetItems(other)
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddHashsetItems", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddHashsetItems", actual)
 }
 
 func Test_I30_Hashset_AddHashsetItems_Nil(t *testing.T) {
@@ -213,7 +213,7 @@ func Test_I30_Hashset_AddHashsetItems_Nil(t *testing.T) {
 	hs.AddHashsetItems(nil)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddHashsetItems nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddHashsetItems nil", actual)
 }
 
 func Test_I30_Hashset_AddItemsMap(t *testing.T) {
@@ -221,7 +221,7 @@ func Test_I30_Hashset_AddItemsMap(t *testing.T) {
 	hs.AddItemsMap(map[string]bool{"a": true, "b": false})
 	actual := args.Map{"hasA": hs.Has("a"), "hasB": hs.Has("b")}
 	expected := args.Map{"hasA": true, "hasB": false}
-	expected.ShouldBeEqual(t, 0, "Hashset AddItemsMap", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddItemsMap", actual)
 }
 
 func Test_I30_Hashset_AddItemsMap_Nil(t *testing.T) {
@@ -229,7 +229,7 @@ func Test_I30_Hashset_AddItemsMap_Nil(t *testing.T) {
 	hs.AddItemsMap(nil)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddItemsMap nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddItemsMap nil", actual)
 }
 
 func Test_I30_Hashset_AddCollection(t *testing.T) {
@@ -238,7 +238,7 @@ func Test_I30_Hashset_AddCollection(t *testing.T) {
 	hs.AddCollection(coll)
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddCollection", actual)
 }
 
 func Test_I30_Hashset_AddCollection_Nil(t *testing.T) {
@@ -246,7 +246,7 @@ func Test_I30_Hashset_AddCollection_Nil(t *testing.T) {
 	hs.AddCollection(nil)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCollection nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddCollection nil", actual)
 }
 
 func Test_I30_Hashset_AddCollections(t *testing.T) {
@@ -256,7 +256,7 @@ func Test_I30_Hashset_AddCollections(t *testing.T) {
 	hs.AddCollections(c1, nil, c2)
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCollections", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddCollections", actual)
 }
 
 func Test_I30_Hashset_AddCollections_Nil(t *testing.T) {
@@ -264,7 +264,7 @@ func Test_I30_Hashset_AddCollections_Nil(t *testing.T) {
 	hs.AddCollections(nil...)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCollections nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddCollections nil", actual)
 }
 
 func Test_I30_Hashset_AddWithWgLock(t *testing.T) {
@@ -275,7 +275,7 @@ func Test_I30_Hashset_AddWithWgLock(t *testing.T) {
 	wg.Wait()
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddWithWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- AddWithWgLock", actual)
 }
 
 func Test_I30_Hashset_AddSimpleSlice(t *testing.T) {
@@ -284,7 +284,7 @@ func Test_I30_Hashset_AddSimpleSlice(t *testing.T) {
 	hs.AddSimpleSlice(&ss)
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddSimpleSlice", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddSimpleSlice", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -295,42 +295,42 @@ func Test_I30_Hashset_Has_Contains(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"has": hs.Has("a"), "contains": hs.Contains("a"), "missing": hs.IsMissing("b")}
 	expected := args.Map{"has": true, "contains": true, "missing": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Has/Contains/IsMissing", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Has/Contains/IsMissing", actual)
 }
 
 func Test_I30_Hashset_HasLock(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"hl": hs.HasLock("a"), "hwl": hs.HasWithLock("a"), "ml": hs.IsMissingLock("z")}
 	expected := args.Map{"hl": true, "hwl": true, "ml": true}
-	expected.ShouldBeEqual(t, 0, "Hashset lock variants", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- lock variants", actual)
 }
 
 func Test_I30_Hashset_HasAllStrings(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	actual := args.Map{"all": hs.HasAllStrings([]string{"a", "b"}), "miss": hs.HasAllStrings([]string{"a", "c"})}
 	expected := args.Map{"all": true, "miss": false}
-	expected.ShouldBeEqual(t, 0, "Hashset HasAllStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- HasAllStrings", actual)
 }
 
 func Test_I30_Hashset_HasAll(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	actual := args.Map{"all": hs.HasAll("a", "b"), "miss": hs.HasAll("a", "c")}
 	expected := args.Map{"all": true, "miss": false}
-	expected.ShouldBeEqual(t, 0, "Hashset HasAll", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- HasAll", actual)
 }
 
 func Test_I30_Hashset_HasAny(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"any": hs.HasAny("z", "a"), "none": hs.HasAny("x", "y")}
 	expected := args.Map{"any": true, "none": false}
-	expected.ShouldBeEqual(t, 0, "Hashset HasAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- HasAny", actual)
 }
 
 func Test_I30_Hashset_IsAllMissing(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"allMiss": hs.IsAllMissing("x", "y"), "notAll": hs.IsAllMissing("a", "x")}
 	expected := args.Map{"allMiss": true, "notAll": false}
-	expected.ShouldBeEqual(t, 0, "Hashset IsAllMissing", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- IsAllMissing", actual)
 }
 
 func Test_I30_Hashset_HasAllCollectionItems(t *testing.T) {
@@ -338,7 +338,7 @@ func Test_I30_Hashset_HasAllCollectionItems(t *testing.T) {
 	coll := corestr.New.Collection.Strings([]string{"a"})
 	actual := args.Map{"has": hs.HasAllCollectionItems(coll), "nil": hs.HasAllCollectionItems(nil)}
 	expected := args.Map{"has": true, "nil": false}
-	expected.ShouldBeEqual(t, 0, "Hashset HasAllCollectionItems", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- HasAllCollectionItems", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -349,28 +349,28 @@ func Test_I30_Hashset_List(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"len": len(hs.List())}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset List", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- List", actual)
 }
 
 func Test_I30_Hashset_ListPtr(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"len": len(hs.ListPtr())}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset ListPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ListPtr", actual)
 }
 
 func Test_I30_Hashset_ListCopyLock(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"len": len(hs.ListCopyLock())}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset ListCopyLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ListCopyLock", actual)
 }
 
 func Test_I30_Hashset_Items(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"len": len(hs.Items())}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset Items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Items", actual)
 }
 
 func Test_I30_Hashset_Collection(t *testing.T) {
@@ -378,7 +378,7 @@ func Test_I30_Hashset_Collection(t *testing.T) {
 	coll := hs.Collection()
 	actual := args.Map{"len": coll.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset Collection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Collection", actual)
 }
 
 func Test_I30_Hashset_SortedList(t *testing.T) {
@@ -386,7 +386,7 @@ func Test_I30_Hashset_SortedList(t *testing.T) {
 	sorted := hs.SortedList()
 	actual := args.Map{"first": sorted[0], "second": sorted[1]}
 	expected := args.Map{"first": "a", "second": "b"}
-	expected.ShouldBeEqual(t, 0, "Hashset SortedList", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- SortedList", actual)
 }
 
 func Test_I30_Hashset_OrderedList(t *testing.T) {
@@ -394,7 +394,7 @@ func Test_I30_Hashset_OrderedList(t *testing.T) {
 	ol := hs.OrderedList()
 	actual := args.Map{"len": len(ol)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset OrderedList", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- OrderedList", actual)
 }
 
 func Test_I30_Hashset_OrderedList_Empty(t *testing.T) {
@@ -402,7 +402,7 @@ func Test_I30_Hashset_OrderedList_Empty(t *testing.T) {
 	ol := hs.OrderedList()
 	actual := args.Map{"len": len(ol)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset OrderedList empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- OrderedList empty", actual)
 }
 
 func Test_I30_Hashset_ListPtrSortedAsc(t *testing.T) {
@@ -410,7 +410,7 @@ func Test_I30_Hashset_ListPtrSortedAsc(t *testing.T) {
 	sorted := hs.ListPtrSortedAsc()
 	actual := args.Map{"first": sorted[0]}
 	expected := args.Map{"first": "a"}
-	expected.ShouldBeEqual(t, 0, "Hashset ListPtrSortedAsc", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ListPtrSortedAsc", actual)
 }
 
 func Test_I30_Hashset_ListPtrSortedDsc(t *testing.T) {
@@ -418,21 +418,21 @@ func Test_I30_Hashset_ListPtrSortedDsc(t *testing.T) {
 	sorted := hs.ListPtrSortedDsc()
 	actual := args.Map{"first": sorted[0]}
 	expected := args.Map{"first": "b"}
-	expected.ShouldBeEqual(t, 0, "Hashset ListPtrSortedDsc", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ListPtrSortedDsc", actual)
 }
 
 func Test_I30_Hashset_SafeStrings(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"len": len(hs.SafeStrings())}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset SafeStrings empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- SafeStrings empty", actual)
 }
 
 func Test_I30_Hashset_Lines(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"len": len(hs.Lines())}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset Lines empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- Lines empty", actual)
 }
 
 func Test_I30_Hashset_SimpleSlice(t *testing.T) {
@@ -440,7 +440,7 @@ func Test_I30_Hashset_SimpleSlice(t *testing.T) {
 	ss := hs.SimpleSlice()
 	actual := args.Map{"len": ss.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset SimpleSlice", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- SimpleSlice", actual)
 }
 
 func Test_I30_Hashset_SimpleSlice_Empty(t *testing.T) {
@@ -448,7 +448,7 @@ func Test_I30_Hashset_SimpleSlice_Empty(t *testing.T) {
 	ss := hs.SimpleSlice()
 	actual := args.Map{"empty": ss.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset SimpleSlice empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- SimpleSlice empty", actual)
 }
 
 func Test_I30_Hashset_MapStringAny(t *testing.T) {
@@ -456,7 +456,7 @@ func Test_I30_Hashset_MapStringAny(t *testing.T) {
 	m := hs.MapStringAny()
 	actual := args.Map{"len": len(m)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset MapStringAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- MapStringAny", actual)
 }
 
 func Test_I30_Hashset_MapStringAny_Empty(t *testing.T) {
@@ -464,7 +464,7 @@ func Test_I30_Hashset_MapStringAny_Empty(t *testing.T) {
 	m := hs.MapStringAny()
 	actual := args.Map{"len": len(m)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset MapStringAny empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- MapStringAny empty", actual)
 }
 
 func Test_I30_Hashset_MapStringAnyDiff(t *testing.T) {
@@ -472,7 +472,7 @@ func Test_I30_Hashset_MapStringAnyDiff(t *testing.T) {
 	d := hs.MapStringAnyDiff()
 	actual := args.Map{"notNil": d != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset MapStringAnyDiff", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- MapStringAnyDiff", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -484,7 +484,7 @@ func Test_I30_Hashset_Resize(t *testing.T) {
 	hs.Resize(100)
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Resize", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Resize", actual)
 }
 
 func Test_I30_Hashset_Resize_AlreadyLarger(t *testing.T) {
@@ -492,7 +492,7 @@ func Test_I30_Hashset_Resize_AlreadyLarger(t *testing.T) {
 	hs.Resize(1)
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Hashset Resize already larger", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Resize already larger", actual)
 }
 
 func Test_I30_Hashset_ResizeLock(t *testing.T) {
@@ -500,7 +500,7 @@ func Test_I30_Hashset_ResizeLock(t *testing.T) {
 	hs.ResizeLock(100)
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset ResizeLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ResizeLock", actual)
 }
 
 func Test_I30_Hashset_ResizeLock_AlreadyLarger(t *testing.T) {
@@ -508,7 +508,7 @@ func Test_I30_Hashset_ResizeLock_AlreadyLarger(t *testing.T) {
 	hs.ResizeLock(1)
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Hashset ResizeLock already larger", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ResizeLock already larger", actual)
 }
 
 func Test_I30_Hashset_AddCapacities(t *testing.T) {
@@ -516,7 +516,7 @@ func Test_I30_Hashset_AddCapacities(t *testing.T) {
 	hs.AddCapacities(10, 20)
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCapacities", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddCapacities", actual)
 }
 
 func Test_I30_Hashset_AddCapacities_Empty(t *testing.T) {
@@ -524,7 +524,7 @@ func Test_I30_Hashset_AddCapacities_Empty(t *testing.T) {
 	hs.AddCapacities()
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCapacities empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- AddCapacities empty", actual)
 }
 
 func Test_I30_Hashset_AddCapacitiesLock(t *testing.T) {
@@ -532,7 +532,7 @@ func Test_I30_Hashset_AddCapacitiesLock(t *testing.T) {
 	hs.AddCapacitiesLock(10)
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCapacitiesLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddCapacitiesLock", actual)
 }
 
 func Test_I30_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
@@ -540,7 +540,7 @@ func Test_I30_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
 	hs.AddCapacitiesLock()
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddCapacitiesLock empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- AddCapacitiesLock empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -552,7 +552,7 @@ func Test_I30_Hashset_ConcatNewHashsets_NoArgs(t *testing.T) {
 	c := hs.ConcatNewHashsets(true)
 	actual := args.Map{"has": c.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset ConcatNewHashsets no args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- ConcatNewHashsets no args", actual)
 }
 
 func Test_I30_Hashset_ConcatNewHashsets_WithArgs(t *testing.T) {
@@ -561,7 +561,7 @@ func Test_I30_Hashset_ConcatNewHashsets_WithArgs(t *testing.T) {
 	c := hs.ConcatNewHashsets(true, other, nil)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset ConcatNewHashsets with args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- ConcatNewHashsets with args", actual)
 }
 
 func Test_I30_Hashset_ConcatNewStrings_NoArgs(t *testing.T) {
@@ -569,7 +569,7 @@ func Test_I30_Hashset_ConcatNewStrings_NoArgs(t *testing.T) {
 	c := hs.ConcatNewStrings(true)
 	actual := args.Map{"has": c.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset ConcatNewStrings no args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- ConcatNewStrings no args", actual)
 }
 
 func Test_I30_Hashset_ConcatNewStrings_WithArgs(t *testing.T) {
@@ -577,7 +577,7 @@ func Test_I30_Hashset_ConcatNewStrings_WithArgs(t *testing.T) {
 	c := hs.ConcatNewStrings(true, []string{"b", "c"})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Hashset ConcatNewStrings with args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- ConcatNewStrings with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -589,7 +589,7 @@ func Test_I30_Hashset_Filter(t *testing.T) {
 	filtered := hs.Filter(func(s string) bool { return len(s) > 1 })
 	actual := args.Map{"len": filtered.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset Filter", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Filter", actual)
 }
 
 func Test_I30_Hashset_GetFilteredItems(t *testing.T) {
@@ -597,7 +597,7 @@ func Test_I30_Hashset_GetFilteredItems(t *testing.T) {
 	result := hs.GetFilteredItems(func(s string, i int) (string, bool, bool) { return s, true, false })
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetFilteredItems", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetFilteredItems", actual)
 }
 
 func Test_I30_Hashset_GetFilteredItems_Empty(t *testing.T) {
@@ -605,7 +605,7 @@ func Test_I30_Hashset_GetFilteredItems_Empty(t *testing.T) {
 	result := hs.GetFilteredItems(func(s string, i int) (string, bool, bool) { return s, true, false })
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset GetFilteredItems empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- GetFilteredItems empty", actual)
 }
 
 func Test_I30_Hashset_GetFilteredItems_Break(t *testing.T) {
@@ -613,7 +613,7 @@ func Test_I30_Hashset_GetFilteredItems_Break(t *testing.T) {
 	result := hs.GetFilteredItems(func(s string, i int) (string, bool, bool) { return s, true, true })
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetFilteredItems break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetFilteredItems break", actual)
 }
 
 func Test_I30_Hashset_GetFilteredCollection(t *testing.T) {
@@ -621,7 +621,7 @@ func Test_I30_Hashset_GetFilteredCollection(t *testing.T) {
 	coll := hs.GetFilteredCollection(func(s string, i int) (string, bool, bool) { return s, true, false })
 	actual := args.Map{"len": coll.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetFilteredCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetFilteredCollection", actual)
 }
 
 func Test_I30_Hashset_GetFilteredCollection_Empty(t *testing.T) {
@@ -629,7 +629,7 @@ func Test_I30_Hashset_GetFilteredCollection_Empty(t *testing.T) {
 	coll := hs.GetFilteredCollection(func(s string, i int) (string, bool, bool) { return s, true, false })
 	actual := args.Map{"empty": coll.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset GetFilteredCollection empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- GetFilteredCollection empty", actual)
 }
 
 func Test_I30_Hashset_GetFilteredCollection_Break(t *testing.T) {
@@ -637,7 +637,7 @@ func Test_I30_Hashset_GetFilteredCollection_Break(t *testing.T) {
 	coll := hs.GetFilteredCollection(func(s string, i int) (string, bool, bool) { return s, true, true })
 	actual := args.Map{"len": coll.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetFilteredCollection break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetFilteredCollection break", actual)
 }
 
 func Test_I30_Hashset_GetAllExceptHashset(t *testing.T) {
@@ -646,7 +646,7 @@ func Test_I30_Hashset_GetAllExceptHashset(t *testing.T) {
 	result := hs.GetAllExceptHashset(exc)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExceptHashset", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetAllExceptHashset", actual)
 }
 
 func Test_I30_Hashset_GetAllExceptHashset_Nil(t *testing.T) {
@@ -654,7 +654,7 @@ func Test_I30_Hashset_GetAllExceptHashset_Nil(t *testing.T) {
 	result := hs.GetAllExceptHashset(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExceptHashset nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- GetAllExceptHashset nil", actual)
 }
 
 func Test_I30_Hashset_GetAllExcept(t *testing.T) {
@@ -662,7 +662,7 @@ func Test_I30_Hashset_GetAllExcept(t *testing.T) {
 	result := hs.GetAllExcept([]string{"a"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExcept", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetAllExcept", actual)
 }
 
 func Test_I30_Hashset_GetAllExcept_Nil(t *testing.T) {
@@ -670,7 +670,7 @@ func Test_I30_Hashset_GetAllExcept_Nil(t *testing.T) {
 	result := hs.GetAllExcept(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExcept nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- GetAllExcept nil", actual)
 }
 
 func Test_I30_Hashset_GetAllExceptSpread(t *testing.T) {
@@ -678,7 +678,7 @@ func Test_I30_Hashset_GetAllExceptSpread(t *testing.T) {
 	result := hs.GetAllExceptSpread("a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExceptSpread", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetAllExceptSpread", actual)
 }
 
 func Test_I30_Hashset_GetAllExceptSpread_Nil(t *testing.T) {
@@ -686,7 +686,7 @@ func Test_I30_Hashset_GetAllExceptSpread_Nil(t *testing.T) {
 	result := hs.GetAllExceptSpread(nil...)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExceptSpread nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- GetAllExceptSpread nil", actual)
 }
 
 func Test_I30_Hashset_GetAllExceptCollection(t *testing.T) {
@@ -695,7 +695,7 @@ func Test_I30_Hashset_GetAllExceptCollection(t *testing.T) {
 	result := hs.GetAllExceptCollection(coll)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExceptCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- GetAllExceptCollection", actual)
 }
 
 func Test_I30_Hashset_GetAllExceptCollection_Nil(t *testing.T) {
@@ -703,7 +703,7 @@ func Test_I30_Hashset_GetAllExceptCollection_Nil(t *testing.T) {
 	result := hs.GetAllExceptCollection(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset GetAllExceptCollection nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- GetAllExceptCollection nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -715,7 +715,7 @@ func Test_I30_Hashset_AddsUsingFilter(t *testing.T) {
 	hs.AddsUsingFilter(func(s string, i int) (string, bool, bool) { return s, true, false }, "a", "b")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsUsingFilter", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddsUsingFilter", actual)
 }
 
 func Test_I30_Hashset_AddsUsingFilter_Nil(t *testing.T) {
@@ -723,7 +723,7 @@ func Test_I30_Hashset_AddsUsingFilter_Nil(t *testing.T) {
 	hs.AddsUsingFilter(nil, nil...)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsUsingFilter nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddsUsingFilter nil", actual)
 }
 
 func Test_I30_Hashset_AddsUsingFilter_Break(t *testing.T) {
@@ -731,7 +731,7 @@ func Test_I30_Hashset_AddsUsingFilter_Break(t *testing.T) {
 	hs.AddsUsingFilter(func(s string, i int) (string, bool, bool) { return s, true, true }, "a", "b")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsUsingFilter break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddsUsingFilter break", actual)
 }
 
 func Test_I30_Hashset_AddsAnyUsingFilter_Nil(t *testing.T) {
@@ -739,7 +739,7 @@ func Test_I30_Hashset_AddsAnyUsingFilter_Nil(t *testing.T) {
 	hs.AddsAnyUsingFilter(nil, nil...)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsAnyUsingFilter nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddsAnyUsingFilter nil", actual)
 }
 
 func Test_I30_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
@@ -747,7 +747,7 @@ func Test_I30_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
 	hs.AddsAnyUsingFilter(func(s string, i int) (string, bool, bool) { return s, true, false }, nil, "hello")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsAnyUsingFilter nil item", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddsAnyUsingFilter nil item", actual)
 }
 
 func Test_I30_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
@@ -755,7 +755,7 @@ func Test_I30_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
 	hs.AddsAnyUsingFilter(func(s string, i int) (string, bool, bool) { return s, true, true }, "a", "b")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsAnyUsingFilter break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddsAnyUsingFilter break", actual)
 }
 
 func Test_I30_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
@@ -763,7 +763,7 @@ func Test_I30_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
 	hs.AddsAnyUsingFilterLock(nil, nil...)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsAnyUsingFilterLock nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddsAnyUsingFilterLock nil", actual)
 }
 
 func Test_I30_Hashset_AddsAnyUsingFilterLock_Break(t *testing.T) {
@@ -771,7 +771,7 @@ func Test_I30_Hashset_AddsAnyUsingFilterLock_Break(t *testing.T) {
 	hs.AddsAnyUsingFilterLock(func(s string, i int) (string, bool, bool) { return s, true, true }, "a", "b")
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset AddsAnyUsingFilterLock break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddsAnyUsingFilterLock break", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -783,7 +783,7 @@ func Test_I30_Hashset_Remove(t *testing.T) {
 	hs.Remove("a")
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": false}
-	expected.ShouldBeEqual(t, 0, "Hashset Remove", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Remove", actual)
 }
 
 func Test_I30_Hashset_SafeRemove(t *testing.T) {
@@ -792,7 +792,7 @@ func Test_I30_Hashset_SafeRemove(t *testing.T) {
 	hs.SafeRemove("missing")
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset SafeRemove", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- SafeRemove", actual)
 }
 
 func Test_I30_Hashset_RemoveWithLock(t *testing.T) {
@@ -800,7 +800,7 @@ func Test_I30_Hashset_RemoveWithLock(t *testing.T) {
 	hs.RemoveWithLock("a")
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset RemoveWithLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- RemoveWithLock", actual)
 }
 
 func Test_I30_Hashset_Clear(t *testing.T) {
@@ -808,7 +808,7 @@ func Test_I30_Hashset_Clear(t *testing.T) {
 	hs.Clear()
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Clear", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Clear", actual)
 }
 
 func Test_I30_Hashset_Clear_Nil(t *testing.T) {
@@ -816,7 +816,7 @@ func Test_I30_Hashset_Clear_Nil(t *testing.T) {
 	result := hs.Clear()
 	actual := args.Map{"nil": result == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Clear nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- Clear nil", actual)
 }
 
 func Test_I30_Hashset_Dispose(t *testing.T) {
@@ -824,7 +824,7 @@ func Test_I30_Hashset_Dispose(t *testing.T) {
 	hs.Dispose()
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Dispose", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Dispose", actual)
 }
 
 func Test_I30_Hashset_Dispose_Nil(t *testing.T) {
@@ -832,7 +832,7 @@ func Test_I30_Hashset_Dispose_Nil(t *testing.T) {
 	hs.Dispose() // should not panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Dispose nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- Dispose nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -843,21 +843,21 @@ func Test_I30_Hashset_IsEquals_Same(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"same": hs.IsEquals(hs)}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEquals same ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- IsEquals same ptr", actual)
 }
 
 func Test_I30_Hashset_IsEquals_BothNil(t *testing.T) {
 	var hs *corestr.Hashset
 	actual := args.Map{"eq": hs.IsEquals(nil)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEquals both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- IsEquals both nil", actual)
 }
 
 func Test_I30_Hashset_IsEquals_OneNil(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"eq": hs.IsEquals(nil)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEquals one nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- IsEquals one nil", actual)
 }
 
 func Test_I30_Hashset_IsEquals_BothEmpty(t *testing.T) {
@@ -865,7 +865,7 @@ func Test_I30_Hashset_IsEquals_BothEmpty(t *testing.T) {
 	hs2 := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"eq": hs1.IsEquals(hs2)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEquals both empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- IsEquals both empty", actual)
 }
 
 func Test_I30_Hashset_IsEquals_DiffLen(t *testing.T) {
@@ -873,7 +873,7 @@ func Test_I30_Hashset_IsEquals_DiffLen(t *testing.T) {
 	hs2 := corestr.New.Hashset.Strings([]string{"a", "b"})
 	actual := args.Map{"eq": hs1.IsEquals(hs2)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEquals diff len", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- IsEquals diff len", actual)
 }
 
 func Test_I30_Hashset_IsEquals_DiffItems(t *testing.T) {
@@ -881,7 +881,7 @@ func Test_I30_Hashset_IsEquals_DiffItems(t *testing.T) {
 	hs2 := corestr.New.Hashset.Strings([]string{"b"})
 	actual := args.Map{"eq": hs1.IsEquals(hs2)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEquals diff items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- IsEquals diff items", actual)
 }
 
 func Test_I30_Hashset_IsEqual(t *testing.T) {
@@ -889,14 +889,14 @@ func Test_I30_Hashset_IsEqual(t *testing.T) {
 	hs2 := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"eq": hs1.IsEqual(hs2)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- IsEqual", actual)
 }
 
 func Test_I30_Hashset_IsEqualsLock(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"eq": hs.IsEqualsLock(hs)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashset IsEqualsLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- IsEqualsLock", actual)
 }
 
 func Test_I30_Hashset_ToLowerSet(t *testing.T) {
@@ -904,7 +904,7 @@ func Test_I30_Hashset_ToLowerSet(t *testing.T) {
 	lower := hs.ToLowerSet()
 	actual := args.Map{"has": lower.Has("abc")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset ToLowerSet", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ToLowerSet", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -915,70 +915,70 @@ func Test_I30_Hashset_String_Empty(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"notEmpty": hs.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset String empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- String empty", actual)
 }
 
 func Test_I30_Hashset_String_WithItems(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"notEmpty": hs.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset String with items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- String with items", actual)
 }
 
 func Test_I30_Hashset_StringLock(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"notEmpty": hs.StringLock() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset StringLock empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- StringLock empty", actual)
 }
 
 func Test_I30_Hashset_StringLock_WithItems(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"notEmpty": hs.StringLock() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset StringLock with items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- StringLock with items", actual)
 }
 
 func Test_I30_Hashset_Join(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"val": hs.Join(",")}
 	expected := args.Map{"val": "a"}
-	expected.ShouldBeEqual(t, 0, "Hashset Join", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Join", actual)
 }
 
 func Test_I30_Hashset_JoinLine(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"val": hs.JoinLine()}
 	expected := args.Map{"val": "a"}
-	expected.ShouldBeEqual(t, 0, "Hashset JoinLine", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JoinLine", actual)
 }
 
 func Test_I30_Hashset_JoinSorted_Empty(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"val": hs.JoinSorted(",")}
 	expected := args.Map{"val": ""}
-	expected.ShouldBeEqual(t, 0, "Hashset JoinSorted empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- JoinSorted empty", actual)
 }
 
 func Test_I30_Hashset_JoinSorted(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"b", "a"})
 	actual := args.Map{"val": hs.JoinSorted(",")}
 	expected := args.Map{"val": "a,b"}
-	expected.ShouldBeEqual(t, 0, "Hashset JoinSorted", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JoinSorted", actual)
 }
 
 func Test_I30_Hashset_NonEmptyJoins(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"notEmpty": hs.NonEmptyJoins(",") != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset NonEmptyJoins", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- NonEmptyJoins", actual)
 }
 
 func Test_I30_Hashset_NonWhitespaceJoins(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"notEmpty": hs.NonWhitespaceJoins(",") != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset NonWhitespaceJoins", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- NonWhitespaceJoins", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -990,7 +990,7 @@ func Test_I30_Hashset_JsonModel(t *testing.T) {
 	jm := hs.JsonModel()
 	actual := args.Map{"len": len(jm)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset JsonModel", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JsonModel", actual)
 }
 
 func Test_I30_Hashset_JsonModel_Empty(t *testing.T) {
@@ -998,14 +998,14 @@ func Test_I30_Hashset_JsonModel_Empty(t *testing.T) {
 	jm := hs.JsonModel()
 	actual := args.Map{"len": len(jm)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset JsonModel empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- JsonModel empty", actual)
 }
 
 func Test_I30_Hashset_JsonModelAny(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	actual := args.Map{"notNil": hs.JsonModelAny() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset JsonModelAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JsonModelAny", actual)
 }
 
 func Test_I30_Hashset_MarshalJSON(t *testing.T) {
@@ -1013,7 +1013,7 @@ func Test_I30_Hashset_MarshalJSON(t *testing.T) {
 	b, err := hs.MarshalJSON()
 	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
 	expected := args.Map{"noErr": true, "hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Hashset MarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- MarshalJSON", actual)
 }
 
 func Test_I30_Hashset_UnmarshalJSON(t *testing.T) {
@@ -1021,7 +1021,7 @@ func Test_I30_Hashset_UnmarshalJSON(t *testing.T) {
 	err := hs.UnmarshalJSON([]byte(`{"a":true}`))
 	actual := args.Map{"noErr": err == nil, "has": hs.Has("a")}
 	expected := args.Map{"noErr": true, "has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- UnmarshalJSON", actual)
 }
 
 func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
@@ -1029,7 +1029,7 @@ func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
 	err := hs.UnmarshalJSON([]byte(`{invalid`))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashset UnmarshalJSON err", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns error -- UnmarshalJSON err", actual)
 }
 
 func Test_I30_Hashset_Json(t *testing.T) {
@@ -1037,7 +1037,7 @@ func Test_I30_Hashset_Json(t *testing.T) {
 	j := hs.Json()
 	actual := args.Map{"hasBytes": j.HasBytes()}
 	expected := args.Map{"hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Json", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Json", actual)
 }
 
 func Test_I30_Hashset_JsonPtr(t *testing.T) {
@@ -1045,7 +1045,7 @@ func Test_I30_Hashset_JsonPtr(t *testing.T) {
 	jp := hs.JsonPtr()
 	actual := args.Map{"notNil": jp != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset JsonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JsonPtr", actual)
 }
 
 func Test_I30_Hashset_Serialize(t *testing.T) {
@@ -1053,7 +1053,7 @@ func Test_I30_Hashset_Serialize(t *testing.T) {
 	b, err := hs.Serialize()
 	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
 	expected := args.Map{"noErr": true, "hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Serialize", actual)
 }
 
 func Test_I30_Hashset_Deserialize(t *testing.T) {
@@ -1062,7 +1062,7 @@ func Test_I30_Hashset_Deserialize(t *testing.T) {
 	err := hs.Deserialize(&target)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Deserialize", actual)
 }
 
 func Test_I30_Hashset_ParseInjectUsingJson(t *testing.T) {
@@ -1072,7 +1072,7 @@ func Test_I30_Hashset_ParseInjectUsingJson(t *testing.T) {
 	result, err := hs2.ParseInjectUsingJson(jr)
 	actual := args.Map{"noErr": err == nil, "has": result.Has("a")}
 	expected := args.Map{"noErr": true, "has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ParseInjectUsingJson", actual)
 }
 
 func Test_I30_Hashset_ParseInjectUsingJson_Err(t *testing.T) {
@@ -1081,7 +1081,7 @@ func Test_I30_Hashset_ParseInjectUsingJson_Err(t *testing.T) {
 	_, err := hs.ParseInjectUsingJson(badJson)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashset ParseInjectUsingJson err", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns error -- ParseInjectUsingJson err", actual)
 }
 
 func Test_I30_Hashset_JsonParseSelfInject(t *testing.T) {
@@ -1091,35 +1091,35 @@ func Test_I30_Hashset_JsonParseSelfInject(t *testing.T) {
 	err := hs2.JsonParseSelfInject(jr)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashset JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JsonParseSelfInject", actual)
 }
 
 func Test_I30_Hashset_AsJsoner(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"notNil": hs.AsJsoner() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AsJsoner", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsoner", actual)
 }
 
 func Test_I30_Hashset_AsJsonContractsBinder(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"notNil": hs.AsJsonContractsBinder() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AsJsonContractsBinder", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonContractsBinder", actual)
 }
 
 func Test_I30_Hashset_AsJsonParseSelfInjector(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"notNil": hs.AsJsonParseSelfInjector() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AsJsonParseSelfInjector", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonParseSelfInjector", actual)
 }
 
 func Test_I30_Hashset_AsJsonMarshaller(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(5)
 	actual := args.Map{"notNil": hs.AsJsonMarshaller() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AsJsonMarshaller", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonMarshaller", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1131,7 +1131,7 @@ func Test_I30_Hashset_DistinctDiffLinesRaw_BothEmpty(t *testing.T) {
 	result := hs.DistinctDiffLinesRaw()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLinesRaw both empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- DistinctDiffLinesRaw both empty", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_LeftOnly(t *testing.T) {
@@ -1139,7 +1139,7 @@ func Test_I30_Hashset_DistinctDiffLinesRaw_LeftOnly(t *testing.T) {
 	result := hs.DistinctDiffLinesRaw()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLinesRaw left only", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLinesRaw left only", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_RightOnly(t *testing.T) {
@@ -1147,7 +1147,7 @@ func Test_I30_Hashset_DistinctDiffLinesRaw_RightOnly(t *testing.T) {
 	result := hs.DistinctDiffLinesRaw("a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLinesRaw right only", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLinesRaw right only", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_Both(t *testing.T) {
@@ -1155,7 +1155,7 @@ func Test_I30_Hashset_DistinctDiffLinesRaw_Both(t *testing.T) {
 	result := hs.DistinctDiffLinesRaw("b", "c")
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLinesRaw both", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLinesRaw both", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLines_BothEmpty(t *testing.T) {
@@ -1163,7 +1163,7 @@ func Test_I30_Hashset_DistinctDiffLines_BothEmpty(t *testing.T) {
 	result := hs.DistinctDiffLines()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLines both empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- DistinctDiffLines both empty", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLines_LeftOnly(t *testing.T) {
@@ -1171,7 +1171,7 @@ func Test_I30_Hashset_DistinctDiffLines_LeftOnly(t *testing.T) {
 	result := hs.DistinctDiffLines()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLines left only", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLines left only", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLines_RightOnly(t *testing.T) {
@@ -1179,7 +1179,7 @@ func Test_I30_Hashset_DistinctDiffLines_RightOnly(t *testing.T) {
 	result := hs.DistinctDiffLines("a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLines right only", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLines right only", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffLines_Both(t *testing.T) {
@@ -1187,7 +1187,7 @@ func Test_I30_Hashset_DistinctDiffLines_Both(t *testing.T) {
 	result := hs.DistinctDiffLines("b", "c")
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffLines both", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLines both", actual)
 }
 
 func Test_I30_Hashset_DistinctDiffHashset(t *testing.T) {
@@ -1196,7 +1196,7 @@ func Test_I30_Hashset_DistinctDiffHashset(t *testing.T) {
 	result := hs.DistinctDiffHashset(other)
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Hashset DistinctDiffHashset", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffHashset", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1208,7 +1208,7 @@ func Test_I30_Hashset_WrapDoubleQuote(t *testing.T) {
 	result := hs.WrapDoubleQuote()
 	actual := args.Map{"hasAny": result.HasAnyItem()}
 	expected := args.Map{"hasAny": true}
-	expected.ShouldBeEqual(t, 0, "Hashset WrapDoubleQuote", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapDoubleQuote", actual)
 }
 
 func Test_I30_Hashset_WrapDoubleQuoteIfMissing(t *testing.T) {
@@ -1216,7 +1216,7 @@ func Test_I30_Hashset_WrapDoubleQuoteIfMissing(t *testing.T) {
 	result := hs.WrapDoubleQuoteIfMissing()
 	actual := args.Map{"hasAny": result.HasAnyItem()}
 	expected := args.Map{"hasAny": true}
-	expected.ShouldBeEqual(t, 0, "Hashset WrapDoubleQuoteIfMissing", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapDoubleQuoteIfMissing", actual)
 }
 
 func Test_I30_Hashset_WrapSingleQuote(t *testing.T) {
@@ -1224,7 +1224,7 @@ func Test_I30_Hashset_WrapSingleQuote(t *testing.T) {
 	result := hs.WrapSingleQuote()
 	actual := args.Map{"hasAny": result.HasAnyItem()}
 	expected := args.Map{"hasAny": true}
-	expected.ShouldBeEqual(t, 0, "Hashset WrapSingleQuote", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapSingleQuote", actual)
 }
 
 func Test_I30_Hashset_WrapSingleQuoteIfMissing(t *testing.T) {
@@ -1232,7 +1232,7 @@ func Test_I30_Hashset_WrapSingleQuoteIfMissing(t *testing.T) {
 	result := hs.WrapSingleQuoteIfMissing()
 	actual := args.Map{"hasAny": result.HasAnyItem()}
 	expected := args.Map{"hasAny": true}
-	expected.ShouldBeEqual(t, 0, "Hashset WrapSingleQuoteIfMissing", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapSingleQuoteIfMissing", actual)
 }
 
 func Test_I30_Hashset_Transpile_Empty(t *testing.T) {
@@ -1240,7 +1240,7 @@ func Test_I30_Hashset_Transpile_Empty(t *testing.T) {
 	result := hs.Transpile(func(s string) string { return s })
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset Transpile empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- Transpile empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1255,7 +1255,7 @@ func Test_I30_Hashset_AddStringsPtrWgLock(t *testing.T) {
 	wg.Wait()
 	actual := args.Map{"len": hs.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashset AddStringsPtrWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddStringsPtrWgLock", actual)
 }
 
 func Test_I30_Hashset_AddHashsetWgLock(t *testing.T) {
@@ -1267,7 +1267,7 @@ func Test_I30_Hashset_AddHashsetWgLock(t *testing.T) {
 	wg.Wait()
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddHashsetWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddHashsetWgLock", actual)
 }
 
 func Test_I30_Hashset_AddHashsetWgLock_Nil(t *testing.T) {
@@ -1276,7 +1276,7 @@ func Test_I30_Hashset_AddHashsetWgLock_Nil(t *testing.T) {
 	hs.AddHashsetWgLock(nil, wg)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddHashsetWgLock nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddHashsetWgLock nil", actual)
 }
 
 func Test_I30_Hashset_AddItemsMapWgLock(t *testing.T) {
@@ -1288,7 +1288,7 @@ func Test_I30_Hashset_AddItemsMapWgLock(t *testing.T) {
 	wg.Wait()
 	actual := args.Map{"hasA": hs.Has("a"), "hasB": hs.Has("b")}
 	expected := args.Map{"hasA": true, "hasB": false}
-	expected.ShouldBeEqual(t, 0, "Hashset AddItemsMapWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddItemsMapWgLock", actual)
 }
 
 func Test_I30_Hashset_AddItemsMapWgLock_Nil(t *testing.T) {
@@ -1297,5 +1297,5 @@ func Test_I30_Hashset_AddItemsMapWgLock_Nil(t *testing.T) {
 	hs.AddItemsMapWgLock(nil, wg)
 	actual := args.Map{"empty": hs.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashset AddItemsMapWgLock nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddItemsMapWgLock nil", actual)
 }

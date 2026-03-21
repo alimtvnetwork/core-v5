@@ -29,7 +29,7 @@ func Test_C18_Dynamic_Constructors(t *testing.T) {
 		"dValid": true, "dvValid": true, "dpValid": true,
 		"invValid": false, "invPNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic constructors", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- constructors", actual)
 }
 
 func Test_C18_Dynamic_Clone(t *testing.T) {
@@ -54,7 +54,7 @@ func Test_C18_Dynamic_DataValue(t *testing.T) {
 		"value": d.Value(),
 	}
 	expected := args.Map{"data": "hello", "value": "hello"}
-	expected.ShouldBeEqual(t, 0, "Dynamic Data/Value", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- Data/Value", actual)
 }
 
 func Test_C18_Dynamic_Length(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_C18_Dynamic_IsNull_IsValid(t *testing.T) {
 	expected := args.Map{
 		"isNull": false, "isValid": true, "isInvalid": false, "nilNull": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic IsNull/IsValid", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns non-empty -- IsNull/IsValid", actual)
 }
 
 func Test_C18_Dynamic_IsPointer_IsValueType(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_C18_Dynamic_IsStructStringChecks(t *testing.T) {
 	expected := args.Map{
 		"nullOrEmpty": false, "nullOrEmptyOrWs": false, "nilNullOrEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic IsStructString*", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- IsStructString*", actual)
 }
 
 func Test_C18_Dynamic_TypeChecks(t *testing.T) {
@@ -137,7 +137,7 @@ func Test_C18_Dynamic_TypeChecks(t *testing.T) {
 		"isStruct": true, "isFunc": true, "isSlice": true,
 		"isSliceMap": true, "isMap": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic type checks", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- type checks", actual)
 }
 
 func Test_C18_Dynamic_IntDefault(t *testing.T) {
@@ -186,7 +186,7 @@ func Test_C18_Dynamic_ValueCasts(t *testing.T) {
 		"valInt": 42, "valUInt": uint(10), "valStrings": 1,
 		"valBool": true, "valInt64": int64(100),
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic ValueCasts", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- ValueCasts", actual)
 
 	// Wrong type casts
 	badInt := coredynamic.NewDynamic("str", true)
@@ -438,7 +438,7 @@ func Test_C18_SimpleRequest(t *testing.T) {
 		"msg": "msg", "req": "data", "val": "data",
 		"srValid": true, "srInv": false, "srInvNo": false,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns correct value -- with args", actual)
 }
 
 func Test_C18_SimpleRequest_TypeMismatch(t *testing.T) {
@@ -485,7 +485,7 @@ func Test_C18_SimpleResult(t *testing.T) {
 	expected := args.Map{
 		"result": "data", "valid": true, "inv": false, "invNoMsg": false,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleResult", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns correct value -- with args", actual)
 }
 
 func Test_C18_SimpleResult_TypeMismatch(t *testing.T) {
@@ -541,7 +541,7 @@ func Test_C18_TypedDynamic(t *testing.T) {
 		"invalid": false, "str": "hello", "tdVVal": "world",
 		"ptrVal": 42, "invVal": false, "invPVal": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- with args", actual)
 }
 
 func Test_C18_TypedDynamic_Json(t *testing.T) {
@@ -807,7 +807,7 @@ func Test_C18_LeftRight(t *testing.T) {
 		"empty": false, "hasAny": true, "hasLeft": true,
 		"hasRight": true, "leftEmpty": false, "rightEmpty": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- with args", actual)
 
 	_ = lr.LeftToDynamic()
 	_ = lr.RightToDynamic()

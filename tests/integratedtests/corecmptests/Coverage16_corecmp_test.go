@@ -17,35 +17,35 @@ func Test_Cov16_AnyItem_BothNil(t *testing.T) {
 	// Arrange / Act / Assert
 	actual := args.Map{"result": corecmp.AnyItem(nil, nil)}
 	expected := args.Map{"result": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "AnyItem both nil", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns nil -- both nil", actual)
 }
 
 func Test_Cov16_AnyItem_LeftNil(t *testing.T) {
 	// Arrange / Act / Assert
 	actual := args.Map{"result": corecmp.AnyItem(nil, "a")}
 	expected := args.Map{"result": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "AnyItem left nil", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns nil -- left nil", actual)
 }
 
 func Test_Cov16_AnyItem_RightNil(t *testing.T) {
 	// Arrange / Act / Assert
 	actual := args.Map{"result": corecmp.AnyItem("a", nil)}
 	expected := args.Map{"result": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "AnyItem right nil", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns nil -- right nil", actual)
 }
 
 func Test_Cov16_AnyItem_Equal(t *testing.T) {
 	// Arrange / Act / Assert
 	actual := args.Map{"result": corecmp.AnyItem("hello", "hello")}
 	expected := args.Map{"result": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "AnyItem equal", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns correct value -- equal", actual)
 }
 
 func Test_Cov16_AnyItem_Inconclusive(t *testing.T) {
 	// Arrange / Act / Assert
 	actual := args.Map{"result": corecmp.AnyItem("a", "b")}
 	expected := args.Map{"result": corecomparator.Inconclusive}
-	expected.ShouldBeEqual(t, 0, "AnyItem inconclusive", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns correct value -- inconclusive", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -64,7 +64,7 @@ func Test_Cov16_Byte_AllBranches(t *testing.T) {
 		"less":    corecomparator.LeftLess,
 		"greater": corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "Byte all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Byte returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_BytePtr_AllBranches(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_Cov16_BytePtr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "BytePtr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -105,7 +105,7 @@ func Test_Cov16_Integer8_AllBranches(t *testing.T) {
 		"less":    corecomparator.LeftLess,
 		"greater": corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer8 all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8 returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_Integer8Ptr_AllBranches(t *testing.T) {
@@ -127,7 +127,7 @@ func Test_Cov16_Integer8Ptr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer8Ptr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8Ptr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -146,7 +146,7 @@ func Test_Cov16_Integer16_AllBranches(t *testing.T) {
 		"less":    corecomparator.LeftLess,
 		"greater": corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer16 all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16 returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_Integer16Ptr_AllBranches(t *testing.T) {
@@ -168,7 +168,7 @@ func Test_Cov16_Integer16Ptr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer16Ptr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16Ptr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -187,7 +187,7 @@ func Test_Cov16_Integer32_AllBranches(t *testing.T) {
 		"less":    corecomparator.LeftLess,
 		"greater": corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer32 all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32 returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_Integer32Ptr_AllBranches(t *testing.T) {
@@ -209,7 +209,7 @@ func Test_Cov16_Integer32Ptr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer32Ptr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32Ptr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -228,7 +228,7 @@ func Test_Cov16_Integer64_AllBranches(t *testing.T) {
 		"less":    corecomparator.LeftLess,
 		"greater": corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer64 all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64 returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_Integer64Ptr_AllBranches(t *testing.T) {
@@ -250,7 +250,7 @@ func Test_Cov16_Integer64Ptr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "Integer64Ptr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -276,7 +276,7 @@ func Test_Cov16_IntegerPtr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "IntegerPtr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerPtr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -294,7 +294,7 @@ func Test_Cov16_IsIntegersEqual_AllBranches(t *testing.T) {
 	expected := args.Map{
 		"bothNil": true, "leftNil": false, "rightNil": false, "equal": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual all branches", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_IsIntegersEqualPtr_AllBranches(t *testing.T) {
@@ -314,7 +314,7 @@ func Test_Cov16_IsIntegersEqualPtr_AllBranches(t *testing.T) {
 		"bothNil": true, "leftNil": false, "rightNil": false,
 		"equal": true, "diffLen": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -334,7 +334,7 @@ func Test_Cov16_IsStringsEqualPtr_AllBranches(t *testing.T) {
 		"bothNil": true, "leftNil": false, "rightNil": false,
 		"diffLen": false, "equal": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -355,7 +355,7 @@ func Test_Cov16_IsStringsEqualWithoutOrder_AllBranches(t *testing.T) {
 		"bothNil": true, "leftNil": false, "rightNil": false,
 		"diffLen": false, "sorted": true, "notEqual": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder all branches", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns non-empty -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -378,7 +378,7 @@ func Test_Cov16_Time_AllBranches(t *testing.T) {
 		"less":    corecomparator.LeftLess,
 		"greater": corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "Time all branches", actual)
+	expected.ShouldBeEqual(t, 0, "Time returns correct value -- all branches", actual)
 }
 
 func Test_Cov16_TimePtr_AllBranches(t *testing.T) {
@@ -401,7 +401,7 @@ func Test_Cov16_TimePtr_AllBranches(t *testing.T) {
 		"equal":    corecomparator.Equal,
 		"less":     corecomparator.LeftLess,
 	}
-	expected.ShouldBeEqual(t, 0, "TimePtr all branches", actual)
+	expected.ShouldBeEqual(t, 0, "TimePtr returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -430,7 +430,7 @@ func Test_Cov16_VersionSliceByte_AllBranches(t *testing.T) {
 		"lessLen":      corecomparator.LeftLess,
 		"greatLen":     corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte all branches", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns correct value -- all branches", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -459,5 +459,5 @@ func Test_Cov16_VersionSliceInteger_AllBranches(t *testing.T) {
 		"lessLen":      corecomparator.LeftLess,
 		"greatLen":     corecomparator.LeftGreater,
 	}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger all branches", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns correct value -- all branches", actual)
 }

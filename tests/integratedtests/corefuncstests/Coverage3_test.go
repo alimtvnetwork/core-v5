@@ -50,7 +50,7 @@ func Test_Cov3_LegacyInOutErr_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": true}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "LegacyInOutErr AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyInOutErr returns error -- AsActionFunc", actual)
 }
 
 func Test_Cov3_LegacyInOutErr_AsActionReturnsErrorFunc_Fail(t *testing.T) {
@@ -65,7 +65,7 @@ func Test_Cov3_LegacyInOutErr_AsActionReturnsErrorFunc_Fail(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "LegacyInOutErr failure", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyInOutErr returns error -- failure", actual)
 }
 
 func Test_Cov3_LegacyInOutErr_AsActionReturnsErrorFunc_Success(t *testing.T) {
@@ -80,7 +80,7 @@ func Test_Cov3_LegacyInOutErr_AsActionReturnsErrorFunc_Success(t *testing.T) {
 	// Assert
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "LegacyInOutErr success", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyInOutErr returns error -- success", actual)
 }
 
 // ── ResultDelegatingFuncWrapper — AsActionFunc / AsActionReturnsErrorFunc ──
@@ -97,7 +97,7 @@ func Test_Cov3_LegacyResultDelegating_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": true}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating returns correct value -- AsActionFunc", actual)
 }
 
 func Test_Cov3_LegacyResultDelegating_AsActionReturnsErrorFunc_Fail(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_Cov3_LegacyResultDelegating_AsActionReturnsErrorFunc_Fail(t *testing.T
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating failure", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating returns correct value -- failure", actual)
 }
 
 func Test_Cov3_LegacyResultDelegating_AsActionReturnsErrorFunc_Success(t *testing.T) {
@@ -127,7 +127,7 @@ func Test_Cov3_LegacyResultDelegating_AsActionReturnsErrorFunc_Success(t *testin
 	// Assert
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating success", actual)
+	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating returns correct value -- success", actual)
 }
 
 // ── Generic wrappers — AsActionFunc / AsActionReturnsErrorFunc ──
@@ -144,7 +144,7 @@ func Test_Cov3_InOutErrWrapperOf_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": true}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf returns error -- AsActionFunc", actual)
 }
 
 func Test_Cov3_InOutErrWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) {
@@ -159,7 +159,7 @@ func Test_Cov3_InOutErrWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf failure", actual)
+	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf returns error -- failure", actual)
 }
 
 func Test_Cov3_InOutFuncWrapperOf_AsActionFunc(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_Cov3_InOutFuncWrapperOf_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": true}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf returns correct value -- AsActionFunc", actual)
 }
 
 func Test_Cov3_InOutFuncWrapperOf_AsActionReturnsErrorFunc(t *testing.T) {
@@ -185,7 +185,7 @@ func Test_Cov3_InOutFuncWrapperOf_AsActionReturnsErrorFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf returns nil", actual)
+	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf returns nil -- returns nil", actual)
 }
 
 func Test_Cov3_InActionErrWrapperOf_AsActionFunc(t *testing.T) {
@@ -198,7 +198,7 @@ func Test_Cov3_InActionErrWrapperOf_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": true}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf returns error -- AsActionFunc", actual)
 }
 
 func Test_Cov3_InActionErrWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) {
@@ -213,7 +213,7 @@ func Test_Cov3_InActionErrWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) 
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf failure", actual)
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf returns error -- failure", actual)
 }
 
 func Test_Cov3_InActionErrWrapperOf_AsActionReturnsErrorFunc_Success(t *testing.T) {
@@ -226,7 +226,7 @@ func Test_Cov3_InActionErrWrapperOf_AsActionReturnsErrorFunc_Success(t *testing.
 	// Assert
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf success", actual)
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf returns error -- success", actual)
 }
 
 func Test_Cov3_ResultDelegatingWrapperOf_AsActionFunc(t *testing.T) {
@@ -240,7 +240,7 @@ func Test_Cov3_ResultDelegatingWrapperOf_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": true}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf returns correct value -- AsActionFunc", actual)
 }
 
 func Test_Cov3_ResultDelegatingWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) {
@@ -256,7 +256,7 @@ func Test_Cov3_ResultDelegatingWrapperOf_AsActionReturnsErrorFunc_Fail(t *testin
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf failure", actual)
+	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf returns correct value -- failure", actual)
 }
 
 func Test_Cov3_SerializeWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) {
@@ -271,7 +271,7 @@ func Test_Cov3_SerializeWrapperOf_AsActionReturnsErrorFunc_Fail(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "SerializeWrapperOf failure", actual)
+	expected.ShouldBeEqual(t, 0, "SerializeWrapperOf returns correct value -- failure", actual)
 }
 
 func Test_Cov3_SerializeWrapperOf_AsActionReturnsErrorFunc_Success(t *testing.T) {
@@ -286,7 +286,7 @@ func Test_Cov3_SerializeWrapperOf_AsActionReturnsErrorFunc_Success(t *testing.T)
 	// Assert
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "SerializeWrapperOf success", actual)
+	expected.ShouldBeEqual(t, 0, "SerializeWrapperOf returns correct value -- success", actual)
 }
 
 // ── NamedActionFuncWrapper — AsActionFunc ──
@@ -302,5 +302,5 @@ func Test_Cov3_NamedAction_AsActionFunc(t *testing.T) {
 	// Assert
 	actual := args.Map{"called": called}
 	expected := args.Map{"called": true}
-	expected.ShouldBeEqual(t, 0, "NamedAction AsActionFunc", actual)
+	expected.ShouldBeEqual(t, 0, "NamedAction returns correct value -- AsActionFunc", actual)
 }

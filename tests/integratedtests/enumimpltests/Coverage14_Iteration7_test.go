@@ -18,14 +18,14 @@ func Test_Cov14_ConvAnyValToInteger_FromString(t *testing.T) {
 	result := enumimpl.ConvEnumAnyValToInteger("hello")
 	actual := args.Map{"isMinInt": result < -999999}
 	expected := args.Map{"isMinInt": true}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger string", actual)
+	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger returns correct value -- string", actual)
 }
 
 func Test_Cov14_ConvAnyValToInteger_FromInt(t *testing.T) {
 	result := enumimpl.ConvEnumAnyValToInteger(42)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": 42}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger int", actual)
+	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger returns correct value -- int", actual)
 }
 
 func Test_Cov14_ConvAnyValToInteger_FromFloat(t *testing.T) {
@@ -33,7 +33,7 @@ func Test_Cov14_ConvAnyValToInteger_FromFloat(t *testing.T) {
 	result := enumimpl.ConvEnumAnyValToInteger(3.14)
 	actual := args.Map{"isMinInt": result < -999999}
 	expected := args.Map{"isMinInt": true}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger float", actual)
+	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger returns correct value -- float", actual)
 }
 
 func Test_Cov14_ConvAnyValToInteger_FromByte(t *testing.T) {
@@ -41,7 +41,7 @@ func Test_Cov14_ConvAnyValToInteger_FromByte(t *testing.T) {
 	result := enumimpl.ConvEnumAnyValToInteger(byte(7))
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": 7}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger byte", actual)
+	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger returns correct value -- byte", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -54,7 +54,7 @@ func Test_Cov14_DynamicMap_DiffRaw_RegardlessType(t *testing.T) {
 	diff := dm.DiffRaw(true, enumimpl.DynamicMap{"a": "1", "b": 1})
 	actual := args.Map{"diffLen": len(diff)}
 	expected := args.Map{"diffLen": 0}
-	expected.ShouldBeEqual(t, 0, "DiffRaw regardless type", actual)
+	expected.ShouldBeEqual(t, 0, "DiffRaw returns correct value -- regardless type", actual)
 }
 
 func Test_Cov14_DynamicMap_ConvMapInt8String_Overflow(t *testing.T) {
@@ -62,7 +62,7 @@ func Test_Cov14_DynamicMap_ConvMapInt8String_Overflow(t *testing.T) {
 	result := dm.ConvMapInt8String()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ConvMapInt8String overflow", actual)
+	expected.ShouldBeEqual(t, 0, "ConvMapInt8String returns correct value -- overflow", actual)
 }
 
 func Test_Cov14_DynamicMap_ConvMapInt16String_Overflow(t *testing.T) {
@@ -70,7 +70,7 @@ func Test_Cov14_DynamicMap_ConvMapInt16String_Overflow(t *testing.T) {
 	result := dm.ConvMapInt16String()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ConvMapInt16String overflow", actual)
+	expected.ShouldBeEqual(t, 0, "ConvMapInt16String returns correct value -- overflow", actual)
 }
 
 func Test_Cov14_DynamicMap_ConvMapInt32String_Overflow(t *testing.T) {
@@ -78,7 +78,7 @@ func Test_Cov14_DynamicMap_ConvMapInt32String_Overflow(t *testing.T) {
 	result := dm.ConvMapInt32String()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ConvMapInt32String overflow", actual)
+	expected.ShouldBeEqual(t, 0, "ConvMapInt32String returns correct value -- overflow", actual)
 }
 
 func Test_Cov14_DynamicMap_ConvMapUInt16String_Negative(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_Cov14_DynamicMap_ConvMapUInt16String_Negative(t *testing.T) {
 	result := dm.ConvMapUInt16String()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ConvMapUInt16String negative", actual)
+	expected.ShouldBeEqual(t, 0, "ConvMapUInt16String returns correct value -- negative", actual)
 }
 
 func Test_Cov14_DynamicMap_ConvMapStringString_NotFound(t *testing.T) {
@@ -94,7 +94,7 @@ func Test_Cov14_DynamicMap_ConvMapStringString_NotFound(t *testing.T) {
 	result := dm.ConvMapStringString()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ConvMapStringString not found", actual)
+	expected.ShouldBeEqual(t, 0, "ConvMapStringString returns correct value -- not found", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -107,7 +107,7 @@ func Test_Cov14_DynamicMap_KeyValueByte_NotANumber(t *testing.T) {
 	val, isFound, isFailed := dm.KeyValueByte("key")
 	actual := args.Map{"val": fmt.Sprintf("%d", val), "isFound": isFound, "isFailed": isFailed}
 	expected := args.Map{"val": "0", "isFound": true, "isFailed": false}
-	expected.ShouldBeEqual(t, 0, "KeyValueByte not-a-number", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueByte returns correct value -- not-a-number", actual)
 }
 
 func Test_Cov14_DynamicMap_KeyValueByte_OutOfRange(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_Cov14_DynamicMap_KeyValueByte_OutOfRange(t *testing.T) {
 	val, isFound, isFailed := dm.KeyValueByte("key")
 	actual := args.Map{"val": fmt.Sprintf("%d", val), "isFound": isFound, "isFailed": isFailed}
 	expected := args.Map{"val": "0", "isFound": true, "isFailed": true}
-	expected.ShouldBeEqual(t, 0, "KeyValueByte out of range", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueByte returns correct value -- out of range", actual)
 }
 
 func Test_Cov14_DynamicMap_KeyValueInt_NotANumber(t *testing.T) {
@@ -123,7 +123,7 @@ func Test_Cov14_DynamicMap_KeyValueInt_NotANumber(t *testing.T) {
 	_, isFound, isFailed := dm.KeyValueInt("key")
 	actual := args.Map{"isFound": isFound, "isFailed": isFailed}
 	expected := args.Map{"isFound": true, "isFailed": true}
-	expected.ShouldBeEqual(t, 0, "KeyValueInt not-a-number", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueInt returns correct value -- not-a-number", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -141,7 +141,7 @@ func Test_Cov14_BasicByte_GetValueByName_WrappedQuote(t *testing.T) {
 
 	actual := args.Map{"val": fmt.Sprintf("%d", val), "hasErr": err != nil}
 	expected := args.Map{"val": "0", "hasErr": false}
-	expected.ShouldBeEqual(t, 0, "BasicByte GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte returns correct value -- GetValueByName", actual)
 }
 
 func Test_Cov14_BasicString_GetValueByName_WrappedQuote(t *testing.T) {
@@ -152,7 +152,7 @@ func Test_Cov14_BasicString_GetValueByName_WrappedQuote(t *testing.T) {
 
 	actual := args.Map{"val": val, "hasErr": err != nil}
 	expected := args.Map{"val": "Alpha", "hasErr": false}
-	expected.ShouldBeEqual(t, 0, "BasicString GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString returns correct value -- GetValueByName", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -173,7 +173,7 @@ func Test_Cov14_NewBasicStringCreator_CreateUsingStringersSpread(t *testing.T) {
 	)
 	actual := args.Map{"typeName": bs.TypeName(), "length": bs.Length()}
 	expected := args.Map{"typeName": "TestStringerEnum", "length": 3}
-	expected.ShouldBeEqual(t, 0, "CreateUsingStringersSpread", actual)
+	expected.ShouldBeEqual(t, 0, "CreateUsingStringersSpread returns correct value -- with args", actual)
 }
 
 func Test_Cov14_NewBasicStringCreator_CreateUsingStringersSpread_MinMax(t *testing.T) {
@@ -185,5 +185,5 @@ func Test_Cov14_NewBasicStringCreator_CreateUsingStringersSpread_MinMax(t *testi
 	)
 	actual := args.Map{"length": bs.Length()}
 	expected := args.Map{"length": 3}
-	expected.ShouldBeEqual(t, 0, "CreateUsingStringersSpread min/max", actual)
+	expected.ShouldBeEqual(t, 0, "CreateUsingStringersSpread returns correct value -- min/max", actual)
 }

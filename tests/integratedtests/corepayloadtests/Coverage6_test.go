@@ -34,7 +34,7 @@ func Test_Cov6_PayloadWrapper_Basic(t *testing.T) {
 		"taskType": "task", "idStr": "id-1", "hasAny": true,
 		"payloadDyn": true, "dynPayloads": true, "payloadsStr": true, "value": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper basic", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- basic", actual)
 }
 
 func Test_Cov6_PayloadWrapper_IsChecks(t *testing.T) {
@@ -54,7 +54,7 @@ func Test_Cov6_PayloadWrapper_IsChecks(t *testing.T) {
 		"isName": true, "isNotName": false, "isId": true,
 		"isTask": true, "isEntity": true, "isCat": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper IsChecks", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- IsChecks", actual)
 }
 
 func Test_Cov6_PayloadWrapper_IsEqual(t *testing.T) {
@@ -75,7 +75,7 @@ func Test_Cov6_PayloadWrapper_IsEqual(t *testing.T) {
 		"equal": true, "notEqual": false, "samePtr": true,
 		"nilBoth": true, "nilLeft": false, "payEq": true, "payNotEq": false,
 	}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov6_PayloadWrapper_JSON(t *testing.T) {
@@ -95,7 +95,7 @@ func Test_Cov6_PayloadWrapper_JSON(t *testing.T) {
 		"jsonNotEmpty": true, "prettyNotEmpty": true, "strNotEmpty": true,
 		"bLen": true, "noErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper JSON", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- JSON", actual)
 }
 
 func Test_Cov6_PayloadWrapper_SetDynamicPayloads(t *testing.T) {
@@ -109,7 +109,7 @@ func Test_Cov6_PayloadWrapper_SetDynamicPayloads(t *testing.T) {
 		"nilErr":  nilErr != nil,
 	}
 	expected := args.Map{"noErr": true, "payload": "new", "nilErr": true}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper SetDynamicPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- SetDynamicPayloads", actual)
 }
 
 func Test_Cov6_PayloadWrapper_All(t *testing.T) {
@@ -119,7 +119,7 @@ func Test_Cov6_PayloadWrapper_All(t *testing.T) {
 	id, name, entity, cat, dynP := pw.All()
 	actual := args.Map{"id": id, "name": name, "entity": entity, "cat": cat, "dynP": string(dynP)}
 	expected := args.Map{"id": "id", "name": "n", "entity": "e", "cat": "c", "dynP": "p"}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper All", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- All", actual)
 }
 
 func Test_Cov6_PayloadWrapper_AllSafe_Nil(t *testing.T) {
@@ -127,7 +127,7 @@ func Test_Cov6_PayloadWrapper_AllSafe_Nil(t *testing.T) {
 	id, name, entity, cat, dynP := pw.AllSafe()
 	actual := args.Map{"id": id, "name": name, "entity": entity, "cat": cat, "dynP": string(dynP)}
 	expected := args.Map{"id": "", "name": "", "entity": "", "cat": "", "dynP": ""}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper AllSafe nil", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns nil -- AllSafe nil", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -171,7 +171,7 @@ func Test_Cov6_User_Comprehensive(t *testing.T) {
 		"strNN": true, "prettyNN": true,
 		"nilEmpty": true, "nilPwEmpty": true, "nilAuthEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "User comprehensive", actual)
+	expected.ShouldBeEqual(t, 0, "User returns correct value -- comprehensive", actual)
 }
 
 func Test_Cov6_User_Clone(t *testing.T) {
@@ -185,7 +185,7 @@ func Test_Cov6_User_Clone(t *testing.T) {
 		"nilClonePtr": nilU.ClonePtr() == nil,
 	}
 	expected := args.Map{"cloneName": "Alice", "cpName": "Alice", "nilClonePtr": true}
-	expected.ShouldBeEqual(t, 0, "User Clone", actual)
+	expected.ShouldBeEqual(t, 0, "User returns correct value -- Clone", actual)
 }
 
 func Test_Cov6_User_JSON(t *testing.T) {
@@ -198,7 +198,7 @@ func Test_Cov6_User_JSON(t *testing.T) {
 		"bLen": len(b) > 0, "noErr": err == nil,
 	}
 	expected := args.Map{"jHas": true, "jpNN": true, "bLen": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "User JSON", actual)
+	expected.ShouldBeEqual(t, 0, "User returns correct value -- JSON", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -231,7 +231,7 @@ func Test_Cov6_AuthInfo_Basic(t *testing.T) {
 		"idInt": 123, "idUint": uint(123),
 		"strNN": true, "nilEmpty": true, "nilActionEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo basic", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- basic", actual)
 }
 
 func Test_Cov6_AuthInfo_Setters(t *testing.T) {
@@ -243,7 +243,7 @@ func Test_Cov6_AuthInfo_Setters(t *testing.T) {
 		"action": ai.ActionType, "resource": ai.ResourceName, "id": ai.Identifier,
 	}
 	expected := args.Map{"action": "create", "resource": "/api", "id": "id-1"}
-	expected.ShouldBeEqual(t, 0, "AuthInfo setters", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- setters", actual)
 }
 
 func Test_Cov6_AuthInfo_Clone(t *testing.T) {
@@ -257,7 +257,7 @@ func Test_Cov6_AuthInfo_Clone(t *testing.T) {
 		"nilClone":    nilAI.ClonePtr() == nil,
 	}
 	expected := args.Map{"cloneAction": "create", "cpAction": "create", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "AuthInfo Clone", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- Clone", actual)
 }
 
 func Test_Cov6_AuthInfo_JSON(t *testing.T) {
@@ -266,7 +266,7 @@ func Test_Cov6_AuthInfo_JSON(t *testing.T) {
 	jp := ai.JsonPtr()
 	actual := args.Map{"jHas": j.HasBytes(), "jpNN": jp != nil}
 	expected := args.Map{"jHas": true, "jpNN": true}
-	expected.ShouldBeEqual(t, 0, "AuthInfo JSON", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- JSON", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -280,7 +280,7 @@ func Test_Cov6_PayloadsCollection_Add(t *testing.T) {
 	pc.Adds(corepayload.PayloadWrapper{Name: "t2"}, corepayload.PayloadWrapper{Name: "t3"})
 	actual := args.Map{"len": len(pc.Items)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection Add", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection returns correct value -- Add", actual)
 }
 
 func Test_Cov6_PayloadsCollection_AddsPtr(t *testing.T) {
@@ -290,7 +290,7 @@ func Test_Cov6_PayloadsCollection_AddsPtr(t *testing.T) {
 	pc.AddsPtr()
 	actual := args.Map{"len": len(pc.Items)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection AddsPtr", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection returns correct value -- AddsPtr", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -312,7 +312,7 @@ func Test_Cov6_BytesCreateInstruction(t *testing.T) {
 		"name": "test", "id": "id", "task": "task",
 		"entity": "entity", "cat": "cat", "hasMany": true, "payLen": 7,
 	}
-	expected.ShouldBeEqual(t, 0, "BytesCreateInstruction", actual)
+	expected.ShouldBeEqual(t, 0, "BytesCreateInstruction returns correct value -- with args", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -327,7 +327,7 @@ func Test_Cov6_SessionInfo_IsEmpty(t *testing.T) {
 		"nilEmpty": nilSI.IsEmpty(),
 	}
 	expected := args.Map{"isEmpty": true, "nilEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SessionInfo IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns empty -- IsEmpty", actual)
 }
 
 func Test_Cov6_SessionInfo_Clone(t *testing.T) {
@@ -339,5 +339,5 @@ func Test_Cov6_SessionInfo_Clone(t *testing.T) {
 		"nilClone": nilSI.ClonePtr() == nil,
 	}
 	expected := args.Map{"cloneId": "s1", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "SessionInfo Clone", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns correct value -- Clone", actual)
 }

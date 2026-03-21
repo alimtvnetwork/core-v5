@@ -48,7 +48,7 @@ func Test_Index_EnumMethods(t *testing.T) {
 		"stringVal":      "Major",
 		"rangeNamesCsv":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_EnumMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Index_EnumMethods returns correct value -- with args", actual)
 }
 
 func Test_Index_AllVariants(t *testing.T) {
@@ -67,7 +67,7 @@ func Test_Index_AllVariants(t *testing.T) {
 		"buildValid":   true,
 		"invalidValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_AllVariants", actual)
+	expected.ShouldBeEqual(t, 0, "Index_AllVariants returns correct value -- with args", actual)
 }
 
 func Test_Index_Comparisons(t *testing.T) {
@@ -91,7 +91,7 @@ func Test_Index_Comparisons(t *testing.T) {
 		"isAnyNamesOf":   true,
 		"isAnyValsEq":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_Comparisons", actual)
+	expected.ShouldBeEqual(t, 0, "Index_Comparisons returns correct value -- with args", actual)
 }
 
 func Test_Index_JSON(t *testing.T) {
@@ -113,7 +113,7 @@ func Test_Index_JSON(t *testing.T) {
 		"unmarshalErr": "<nil>",
 		"roundTrip":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_JSON", actual)
+	expected.ShouldBeEqual(t, 0, "Index_JSON returns correct value -- with args", actual)
 }
 
 func Test_Index_Binders(t *testing.T) {
@@ -135,7 +135,7 @@ func Test_Index_Binders(t *testing.T) {
 		"toPtrNil":         false,
 		"enumTypeNil":      false,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_Binders", actual)
+	expected.ShouldBeEqual(t, 0, "Index_Binders returns correct value -- with args", actual)
 }
 
 func Test_Index_EnumMetadata(t *testing.T) {
@@ -171,5 +171,5 @@ func Test_Index_EnumMetadata(t *testing.T) {
 		"valueInt16":       0,
 		"valueInt32":       0,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_EnumMetadata", actual)
+	expected.ShouldBeEqual(t, 0, "Index_EnumMetadata returns correct value -- with args", actual)
 }

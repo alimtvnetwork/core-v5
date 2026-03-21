@@ -30,7 +30,7 @@ func Test_Cov7_SessionInfo_Empty(t *testing.T) {
 		"isNameEmpty": true, "idInt": -1, "idUint": uint(0),
 		"nilEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo empty", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns empty -- empty", actual)
 }
 
 func Test_Cov7_SessionInfo_Valid(t *testing.T) {
@@ -52,7 +52,7 @@ func Test_Cov7_SessionInfo_Valid(t *testing.T) {
 		"hasUser": true, "isNameEq": true, "isNameNeq": false,
 		"idInt": 42, "idUint": uint(42),
 	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo valid", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns non-empty -- valid", actual)
 }
 
 func Test_Cov7_SessionInfo_Clone(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_Cov7_SessionInfo_Clone(t *testing.T) {
 		"clonedId": "1", "ptrNotNil": true,
 		"clonePtrNN": true, "nilCloneNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo clone", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns correct value -- clone", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -108,7 +108,7 @@ func Test_Cov7_AuthInfo_Empty(t *testing.T) {
 		"hasUserInfo": false, "hasSession": false,
 		"idInt": -1, "idUint": uint(0), "nilEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo empty", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns empty -- empty", actual)
 }
 
 func Test_Cov7_AuthInfo_Setters(t *testing.T) {
@@ -132,7 +132,7 @@ func Test_Cov7_AuthInfo_Setters(t *testing.T) {
 		"action": "action", "resource": "resource", "id": "42",
 		"hasUI": false, "hasSI": true, "idInt": 42,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo setters", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- setters", actual)
 }
 
 func Test_Cov7_AuthInfo_NilSetters(t *testing.T) {
@@ -155,7 +155,7 @@ func Test_Cov7_AuthInfo_NilSetters(t *testing.T) {
 		"r4NN": true, "r5NN": true, "r6NN": true,
 		"r7NN": true, "r8NN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo nil setters", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns nil -- nil setters", actual)
 }
 
 func Test_Cov7_AuthInfo_Clone(t *testing.T) {
@@ -177,7 +177,7 @@ func Test_Cov7_AuthInfo_Clone(t *testing.T) {
 		"clonedId": "1", "ptrNN": true,
 		"clonePtrNN": true, "nilCloneNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo clone", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- clone", actual)
 }
 
 func Test_Cov7_AuthInfo_Json(t *testing.T) {
@@ -195,7 +195,7 @@ func Test_Cov7_AuthInfo_Json(t *testing.T) {
 	expected := args.Map{
 		"jsonLen": true, "jpNN": true, "strNE": true, "prettyNE": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo json", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- json", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -220,7 +220,7 @@ func Test_Cov7_UserInfo_Empty(t *testing.T) {
 		"isUserE": true, "isSysE": true,
 		"nilEmpty": true, "nilUserE": true, "nilSysE": true,
 	}
-	expected.ShouldBeEqual(t, 0, "UserInfo empty", actual)
+	expected.ShouldBeEqual(t, 0, "UserInfo returns empty -- empty", actual)
 }
 
 func Test_Cov7_UserInfo_Setters(t *testing.T) {
@@ -233,7 +233,7 @@ func Test_Cov7_UserInfo_Setters(t *testing.T) {
 		"hasSysUser": ui.HasSystemUser(),
 	}
 	expected := args.Map{"hasUser": true, "hasSysUser": true}
-	expected.ShouldBeEqual(t, 0, "UserInfo setters", actual)
+	expected.ShouldBeEqual(t, 0, "UserInfo returns correct value -- setters", actual)
 }
 
 func Test_Cov7_UserInfo_NilSetters(t *testing.T) {
@@ -245,7 +245,7 @@ func Test_Cov7_UserInfo_NilSetters(t *testing.T) {
 		"r1NN": r1 != nil, "r2NN": r2 != nil, "r3NN": r3 != nil,
 	}
 	expected := args.Map{"r1NN": true, "r2NN": true, "r3NN": true}
-	expected.ShouldBeEqual(t, 0, "UserInfo nil setters", actual)
+	expected.ShouldBeEqual(t, 0, "UserInfo returns nil -- nil setters", actual)
 }
 
 func Test_Cov7_UserInfo_Clone(t *testing.T) {
@@ -273,7 +273,7 @@ func Test_Cov7_UserInfo_Clone(t *testing.T) {
 		"clonePtrNN": true, "nonPtrHasU": true,
 		"nilCloneNil": true, "nilNonPtrE": true,
 	}
-	expected.ShouldBeEqual(t, 0, "UserInfo clone", actual)
+	expected.ShouldBeEqual(t, 0, "UserInfo returns correct value -- clone", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -305,7 +305,7 @@ func Test_Cov7_PayloadProperties_Basic(t *testing.T) {
 		"entity": "ent", "category": "cat",
 		"hasManyF": false, "single": true,
 	}
-	expected.ShouldBeEqual(t, 0, "payloadProperties basic", actual)
+	expected.ShouldBeEqual(t, 0, "payloadProperties returns correct value -- basic", actual)
 }
 
 func Test_Cov7_PayloadProperties_Setters(t *testing.T) {
@@ -331,7 +331,7 @@ func Test_Cov7_PayloadProperties_Setters(t *testing.T) {
 		"name": "nm", "id": "id2",
 		"category": "c2", "entity": "e2", "hasMany": true,
 	}
-	expected.ShouldBeEqual(t, 0, "payloadProperties setters", actual)
+	expected.ShouldBeEqual(t, 0, "payloadProperties returns correct value -- setters", actual)
 }
 
 func Test_Cov7_PayloadProperties_SingleRecord(t *testing.T) {
@@ -340,7 +340,7 @@ func Test_Cov7_PayloadProperties_SingleRecord(t *testing.T) {
 	props.SetSingleRecordFlag()
 	actual := args.Map{"hasMany": pw.HasManyRecords}
 	expected := args.Map{"hasMany": false}
-	expected.ShouldBeEqual(t, 0, "payloadProperties single record", actual)
+	expected.ShouldBeEqual(t, 0, "payloadProperties returns correct value -- single record", actual)
 }
 
 func Test_Cov7_PayloadProperties_DynPayloads(t *testing.T) {
@@ -354,7 +354,7 @@ func Test_Cov7_PayloadProperties_DynPayloads(t *testing.T) {
 		"newDyn": len(props.DynamicPayloads()) > 0,
 	}
 	expected := args.Map{"dynLen": true, "errNil": true, "newDyn": true}
-	expected.ShouldBeEqual(t, 0, "payloadProperties dyn payloads", actual)
+	expected.ShouldBeEqual(t, 0, "payloadProperties returns correct value -- dyn payloads", actual)
 }
 
 func Test_Cov7_PayloadProperties_All(t *testing.T) {
@@ -378,7 +378,7 @@ func Test_Cov7_PayloadProperties_All(t *testing.T) {
 		"id2": "1", "name2": "n", "entity2": "e", "category2": "c",
 		"dynLen2": true,
 	}
-	expected.ShouldBeEqual(t, 0, "payloadProperties all", actual)
+	expected.ShouldBeEqual(t, 0, "payloadProperties returns correct value -- all", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -396,7 +396,7 @@ func Test_Cov7_PayloadsCollection_Adds(t *testing.T) {
 	pc.AddsPtr()
 	actual := args.Map{"len": len(pc.Items)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection adds", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection returns correct value -- adds", actual)
 }
 
 func Test_Cov7_PayloadsCollection_AddsOptions(t *testing.T) {
@@ -407,7 +407,7 @@ func Test_Cov7_PayloadsCollection_AddsOptions(t *testing.T) {
 	pc.AddsOptions(false, pw1, pw2)
 	actual := args.Map{"len": len(pc.Items)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection adds options", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection returns correct value -- adds options", actual)
 }
 
 func Test_Cov7_PayloadsCollection_AddsPtrOptions(t *testing.T) {
@@ -418,5 +418,5 @@ func Test_Cov7_PayloadsCollection_AddsPtrOptions(t *testing.T) {
 	pc.AddsPtrOptions(false, pw1, pw2)
 	actual := args.Map{"len": len(pc.Items)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection adds ptr options", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection returns correct value -- adds ptr options", actual)
 }

@@ -275,7 +275,7 @@ func Test_Cov4_SimpleSlice_FirstOrDefault(t *testing.T) {
 		"lastOrDef":    ss.LastOrDefault(),
 	}
 	expected := args.Map{"first": "a", "emptyDefault": "", "lastOrDef": "b"}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice FirstOrDefault/LastOrDefault returns expected", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- FirstOrDefault/LastOrDefault returns expected", actual)
 }
 
 // ── SimpleSlice — SafeAt ──

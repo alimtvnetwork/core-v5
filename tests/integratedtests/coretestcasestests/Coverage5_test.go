@@ -70,7 +70,7 @@ func Test_Cov5_GenericGherkins_WhenFallback(t *testing.T) {
 	// Just verifying it uses When as fallback title — no assertion needed beyond no panic
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "When fallback", actual)
+	expected.ShouldBeEqual(t, 0, "When returns correct value -- fallback", actual)
 }
 
 // ── GenericGherkins — Getters ──
@@ -79,7 +79,7 @@ func Test_Cov5_GenericGherkins_CaseTitle(t *testing.T) {
 	tc := coretestcases.GenericGherkins[string, string]{Title: "my-title"}
 	actual := args.Map{"title": tc.CaseTitle()}
 	expected := args.Map{"title": "my-title"}
-	expected.ShouldBeEqual(t, 0, "GenericGherkins CaseTitle", actual)
+	expected.ShouldBeEqual(t, 0, "GenericGherkins returns correct value -- CaseTitle", actual)
 }
 
 func Test_Cov5_GenericGherkins_InputExpectedActual(t *testing.T) {
@@ -94,7 +94,7 @@ func Test_Cov5_GenericGherkins_InputExpectedActual(t *testing.T) {
 		"actual":   fmt.Sprintf("%v", tc.TypedActual()),
 	}
 	expected := args.Map{"input": "in", "expected": "exp", "actual": "act"}
-	expected.ShouldBeEqual(t, 0, "GenericGherkins getters", actual)
+	expected.ShouldBeEqual(t, 0, "GenericGherkins returns correct value -- getters", actual)
 }
 
 func Test_Cov5_GenericGherkins_SetActual(t *testing.T) {
@@ -102,7 +102,7 @@ func Test_Cov5_GenericGherkins_SetActual(t *testing.T) {
 	tc.SetTypedActual("new")
 	actual := args.Map{"actual": fmt.Sprintf("%v", tc.TypedActual())}
 	expected := args.Map{"actual": "new"}
-	expected.ShouldBeEqual(t, 0, "GenericGherkins SetActual", actual)
+	expected.ShouldBeEqual(t, 0, "GenericGherkins returns correct value -- SetActual", actual)
 }
 
 func Test_Cov5_GenericGherkins_SetExpected(t *testing.T) {
@@ -110,5 +110,5 @@ func Test_Cov5_GenericGherkins_SetExpected(t *testing.T) {
 	tc.Expected = "exp"
 	actual := args.Map{"expected": fmt.Sprintf("%v", tc.TypedExpected())}
 	expected := args.Map{"expected": "exp"}
-	expected.ShouldBeEqual(t, 0, "GenericGherkins SetExpected", actual)
+	expected.ShouldBeEqual(t, 0, "GenericGherkins returns correct value -- SetExpected", actual)
 }

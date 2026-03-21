@@ -19,14 +19,14 @@ func Test_C17_ZeroSetAny_NonNil(t *testing.T) {
 	coredynamic.ZeroSetAny(&s)
 	actual := args.Map{"x": s.X}
 	expected := args.Map{"x": 0}
-	expected.ShouldBeEqual(t, 0, "ZeroSetAny non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "ZeroSetAny returns nil -- non-nil", actual)
 }
 
 func Test_C17_ZeroSetAny_Nil(t *testing.T) {
 	coredynamic.ZeroSetAny(nil) // should not panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "ZeroSetAny nil", actual)
+	expected.ShouldBeEqual(t, 0, "ZeroSetAny returns nil -- nil", actual)
 }
 
 func Test_C17_SafeZeroSet_Nil(t *testing.T) {
@@ -56,7 +56,7 @@ func Test_C17_KeyVal_KeyDynamic_ValueDynamic(t *testing.T) {
 		"kValid": true, "vValid": true,
 		"kdpValid": true, "vdpValid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal Dynamic methods", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- Dynamic methods", actual)
 }
 
 func Test_C17_KeyVal_IsKeyNull_IsValueNull(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_C17_KeyVal_IsKeyNull_IsValueNull(t *testing.T) {
 		"keyNull2":  true,
 		"valNull2":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal null checks", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- null checks", actual)
 }
 
 func Test_C17_KeyVal_IsKeyNullOrEmptyString(t *testing.T) {
@@ -88,7 +88,7 @@ func Test_C17_KeyVal_IsKeyNullOrEmptyString(t *testing.T) {
 		"empty":    true,
 		"nonEmpty": false,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal IsKeyNullOrEmptyString", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns empty -- IsKeyNullOrEmptyString", actual)
 }
 
 func Test_C17_KeyVal_String(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_C17_KeyVal_String(t *testing.T) {
 	s := kv.String()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal String", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- String", actual)
 }
 
 func Test_C17_KeyVal_ValueReflectValue(t *testing.T) {
@@ -104,7 +104,7 @@ func Test_C17_KeyVal_ValueReflectValue(t *testing.T) {
 	rv := kv.ValueReflectValue()
 	actual := args.Map{"valid": rv.IsValid(), "kind": rv.Kind() == reflect.Int}
 	expected := args.Map{"valid": true, "kind": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueReflectValue", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ValueReflectValue", actual)
 }
 
 func Test_C17_KeyVal_ValueInt(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_C17_KeyVal_ValueInt(t *testing.T) {
 	kvBad := coredynamic.KeyVal{Key: "k", Value: "nope"}
 	actual := args.Map{"ok": kv.ValueInt(), "bad": kvBad.ValueInt()}
 	expected := args.Map{"ok": 42, "bad": -1}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueInt", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ValueInt", actual)
 }
 
 func Test_C17_KeyVal_ValueUInt(t *testing.T) {
@@ -120,7 +120,7 @@ func Test_C17_KeyVal_ValueUInt(t *testing.T) {
 	kvBad := coredynamic.KeyVal{Key: "k", Value: "nope"}
 	actual := args.Map{"ok": kv.ValueUInt(), "bad": kvBad.ValueUInt()}
 	expected := args.Map{"ok": uint(5), "bad": uint(0)}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueUInt", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ValueUInt", actual)
 }
 
 func Test_C17_KeyVal_ValueStrings(t *testing.T) {
@@ -128,7 +128,7 @@ func Test_C17_KeyVal_ValueStrings(t *testing.T) {
 	kvBad := coredynamic.KeyVal{Key: "k", Value: 42}
 	actual := args.Map{"ok": len(kv.ValueStrings()), "bad": kvBad.ValueStrings() == nil}
 	expected := args.Map{"ok": 2, "bad": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueStrings", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns non-empty -- ValueStrings", actual)
 }
 
 func Test_C17_KeyVal_ValueBool(t *testing.T) {
@@ -136,7 +136,7 @@ func Test_C17_KeyVal_ValueBool(t *testing.T) {
 	kvBad := coredynamic.KeyVal{Key: "k", Value: "nope"}
 	actual := args.Map{"ok": kv.ValueBool(), "bad": kvBad.ValueBool()}
 	expected := args.Map{"ok": true, "bad": false}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueBool", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ValueBool", actual)
 }
 
 func Test_C17_KeyVal_ValueInt64(t *testing.T) {
@@ -144,7 +144,7 @@ func Test_C17_KeyVal_ValueInt64(t *testing.T) {
 	kvBad := coredynamic.KeyVal{Key: "k", Value: "nope"}
 	actual := args.Map{"ok": kv.ValueInt64(), "bad": kvBad.ValueInt64()}
 	expected := args.Map{"ok": int64(99), "bad": int64(-1)}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueInt64", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ValueInt64", actual)
 }
 
 func Test_C17_KeyVal_CastKeyVal(t *testing.T) {
@@ -158,7 +158,7 @@ func Test_C17_KeyVal_CastKeyVal(t *testing.T) {
 	errNil := nilKv.CastKeyVal(&k, &v)
 	actual := args.Map{"nilErr": errNil != nil}
 	expected := args.Map{"nilErr": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal CastKeyVal", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- CastKeyVal", actual)
 }
 
 func Test_C17_KeyVal_ReflectSetKey(t *testing.T) {
@@ -167,13 +167,13 @@ func Test_C17_KeyVal_ReflectSetKey(t *testing.T) {
 	err := kv.ReflectSetKey(&k)
 	actual := args.Map{"noErr": err == nil, "k": k}
 	expected := args.Map{"noErr": true, "k": "hello"}
-	expected.ShouldBeEqual(t, 0, "KeyVal ReflectSetKey", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ReflectSetKey", actual)
 
 	var nilKv *coredynamic.KeyVal
 	errNil := nilKv.ReflectSetKey(&k)
 	actual2 := args.Map{"nilErr": errNil != nil}
 	expected2 := args.Map{"nilErr": true}
-	expected2.ShouldBeEqual(t, 1, "KeyVal ReflectSetKey nil", actual2)
+	expected2.ShouldBeEqual(t, 1, "KeyVal returns nil -- ReflectSetKey nil", actual2)
 }
 
 func Test_C17_KeyVal_ValueNullErr(t *testing.T) {
@@ -190,7 +190,7 @@ func Test_C17_KeyVal_ValueNullErr(t *testing.T) {
 		"okErr":   true,
 		"nilErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueNullErr", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns error -- ValueNullErr", actual)
 }
 
 func Test_C17_KeyVal_KeyNullErr(t *testing.T) {
@@ -207,7 +207,7 @@ func Test_C17_KeyVal_KeyNullErr(t *testing.T) {
 		"okErr":   true,
 		"nilErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal KeyNullErr", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns error -- KeyNullErr", actual)
 }
 
 func Test_C17_KeyVal_KeyString_ValueString(t *testing.T) {
@@ -230,7 +230,7 @@ func Test_C17_KeyVal_KeyString_ValueString(t *testing.T) {
 		"pNilKs": "",
 		"pNilVs": "",
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal KeyString/ValueString", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns non-empty -- KeyString/ValueString", actual)
 }
 
 func Test_C17_KeyVal_KeyReflectSet_ValueReflectSet_ReflectSetTo(t *testing.T) {
@@ -247,7 +247,7 @@ func Test_C17_KeyVal_KeyReflectSet_ValueReflectSet_ReflectSetTo(t *testing.T) {
 		"k": "k", "v": "v", "v2": "v",
 		"e1": true, "e2": true, "e3": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal ReflectSet", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ReflectSet", actual)
 
 	var nilKv *coredynamic.KeyVal
 	actual2 := args.Map{
@@ -256,7 +256,7 @@ func Test_C17_KeyVal_KeyReflectSet_ValueReflectSet_ReflectSetTo(t *testing.T) {
 		"e3": nilKv.ReflectSetTo(&v2) != nil,
 	}
 	expected2 := args.Map{"e1": true, "e2": true, "e3": true}
-	expected2.ShouldBeEqual(t, 1, "KeyVal ReflectSet nil", actual2)
+	expected2.ShouldBeEqual(t, 1, "KeyVal returns nil -- ReflectSet nil", actual2)
 }
 
 func Test_C17_KeyVal_ReflectSetToMust(t *testing.T) {
@@ -265,7 +265,7 @@ func Test_C17_KeyVal_ReflectSetToMust(t *testing.T) {
 	kv.ReflectSetToMust(&v)
 	actual := args.Map{"v": v}
 	expected := args.Map{"v": "v"}
-	expected.ShouldBeEqual(t, 0, "KeyVal ReflectSetToMust", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ReflectSetToMust", actual)
 }
 
 func Test_C17_KeyVal_Json(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_C17_KeyVal_Json(t *testing.T) {
 	expected := args.Map{
 		"jOk": true, "jpOk": true, "mOk": true, "maOk": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal Json", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- Json", actual)
 }
 
 func Test_C17_KeyVal_ParseInjectUsingJson(t *testing.T) {
@@ -294,7 +294,7 @@ func Test_C17_KeyVal_ParseInjectUsingJson(t *testing.T) {
 	_ = err
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ParseInjectUsingJson", actual)
 }
 
 func Test_C17_KeyVal_JsonParseSelfInject(t *testing.T) {
@@ -304,7 +304,7 @@ func Test_C17_KeyVal_JsonParseSelfInject(t *testing.T) {
 	_ = err
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- JsonParseSelfInject", actual)
 }
 
 func Test_C17_KeyVal_Serialize(t *testing.T) {
@@ -312,7 +312,7 @@ func Test_C17_KeyVal_Serialize(t *testing.T) {
 	b, err := kv.Serialize()
 	actual := args.Map{"noErr": err == nil, "hasData": len(b) > 0}
 	expected := args.Map{"noErr": true, "hasData": true}
-	expected.ShouldBeEqual(t, 0, "KeyVal Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- Serialize", actual)
 }
 
 // ==========================================================================
@@ -326,7 +326,7 @@ func Test_C17_KeyValCollection_AddPtr(t *testing.T) {
 	kvc.AddPtr(&kv)
 	actual := args.Map{"len": kvc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection AddPtr", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- AddPtr", actual)
 }
 
 func Test_C17_KeyValCollection_AddMany(t *testing.T) {
@@ -335,7 +335,7 @@ func Test_C17_KeyValCollection_AddMany(t *testing.T) {
 	kvc.AddMany(coredynamic.KeyVal{Key: "a"}, coredynamic.KeyVal{Key: "b"})
 	actual := args.Map{"len": kvc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection AddMany", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- AddMany", actual)
 }
 
 func Test_C17_KeyValCollection_AddManyPtr(t *testing.T) {
@@ -345,14 +345,14 @@ func Test_C17_KeyValCollection_AddManyPtr(t *testing.T) {
 	kvc.AddManyPtr(nil, &a, nil)
 	actual := args.Map{"len": kvc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection AddManyPtr", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- AddManyPtr", actual)
 }
 
 func Test_C17_KeyValCollection_Items_Nil(t *testing.T) {
 	var kvc *coredynamic.KeyValCollection
 	actual := args.Map{"isNil": kvc.Items() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection Items nil", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns nil -- Items nil", actual)
 }
 
 func Test_C17_KeyValCollection_MapAnyItems(t *testing.T) {
@@ -361,13 +361,13 @@ func Test_C17_KeyValCollection_MapAnyItems(t *testing.T) {
 	m := kvc.MapAnyItems()
 	actual := args.Map{"hasItems": m.Length() > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection MapAnyItems", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- MapAnyItems", actual)
 
 	empty := coredynamic.EmptyKeyValCollection()
 	me := empty.MapAnyItems()
 	actual2 := args.Map{"empty": me.IsEmpty()}
 	expected2 := args.Map{"empty": true}
-	expected2.ShouldBeEqual(t, 1, "KeyValCollection MapAnyItems empty", actual2)
+	expected2.ShouldBeEqual(t, 1, "KeyValCollection returns empty -- MapAnyItems empty", actual2)
 }
 
 func Test_C17_KeyValCollection_JsonMapResults(t *testing.T) {
@@ -376,7 +376,7 @@ func Test_C17_KeyValCollection_JsonMapResults(t *testing.T) {
 	mr, err := kvc.JsonMapResults()
 	actual := args.Map{"noErr": err == nil, "notNil": mr != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection JsonMapResults", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- JsonMapResults", actual)
 }
 
 func Test_C17_KeyValCollection_JsonResultsCollection(t *testing.T) {
@@ -385,7 +385,7 @@ func Test_C17_KeyValCollection_JsonResultsCollection(t *testing.T) {
 	jrc := kvc.JsonResultsCollection()
 	actual := args.Map{"notNil": jrc != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection JsonResultsCollection", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- JsonResultsCollection", actual)
 }
 
 func Test_C17_KeyValCollection_JsonResultsPtrCollection(t *testing.T) {
@@ -394,7 +394,7 @@ func Test_C17_KeyValCollection_JsonResultsPtrCollection(t *testing.T) {
 	jrpc := kvc.JsonResultsPtrCollection()
 	actual := args.Map{"notNil": jrpc != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection JsonResultsPtrCollection", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- JsonResultsPtrCollection", actual)
 }
 
 func Test_C17_KeyValCollection_GetPagesSize(t *testing.T) {
@@ -410,7 +410,7 @@ func Test_C17_KeyValCollection_GetPagesSize(t *testing.T) {
 		"pages2": 3,
 		"pages0": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection GetPagesSize", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- GetPagesSize", actual)
 }
 
 func Test_C17_KeyValCollection_GetPagedCollection(t *testing.T) {
@@ -421,7 +421,7 @@ func Test_C17_KeyValCollection_GetPagedCollection(t *testing.T) {
 	pages := kvc.GetPagedCollection(2)
 	actual := args.Map{"pageCount": len(pages)}
 	expected := args.Map{"pageCount": 3}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection GetPagedCollection", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- GetPagedCollection", actual)
 }
 
 func Test_C17_KeyValCollection_GetSinglePageCollection(t *testing.T) {
@@ -432,7 +432,7 @@ func Test_C17_KeyValCollection_GetSinglePageCollection(t *testing.T) {
 	page := kvc.GetSinglePageCollection(2, 1)
 	actual := args.Map{"len": page.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection GetSinglePageCollection", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- GetSinglePageCollection", actual)
 }
 
 func Test_C17_KeyValCollection_AllKeys_AllKeysSorted_AllValues(t *testing.T) {
@@ -452,7 +452,7 @@ func Test_C17_KeyValCollection_AllKeys_AllKeysSorted_AllValues(t *testing.T) {
 		"sorted0":  "a",
 		"valsLen":  2,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection AllKeys/Sorted/Values", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns non-empty -- AllKeys/Sorted/Values", actual)
 }
 
 func Test_C17_KeyValCollection_String(t *testing.T) {
@@ -463,7 +463,7 @@ func Test_C17_KeyValCollection_String(t *testing.T) {
 	sNil := nilKvc.String()
 	actual := args.Map{"notEmpty": s != "", "nilEmpty": sNil == ""}
 	expected := args.Map{"notEmpty": true, "nilEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection String", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- String", actual)
 }
 
 func Test_C17_KeyValCollection_Json(t *testing.T) {
@@ -481,7 +481,7 @@ func Test_C17_KeyValCollection_Json(t *testing.T) {
 		"jpOk": true, "mOk": true, "maOk": true,
 		"jHasBytes": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection Json", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Json", actual)
 }
 
 func Test_C17_KeyValCollection_Serialize_JsonString_JsonStringMust(t *testing.T) {
@@ -511,7 +511,7 @@ func Test_C17_KeyValCollection_Serialize_JsonString_JsonStringMust(t *testing.T)
 		"sHandled":  true,
 		"smHandled": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection Serialize/JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Serialize/JsonString", actual)
 }
 
 func Test_C17_KeyValCollection_Clone(t *testing.T) {
@@ -531,7 +531,7 @@ func Test_C17_KeyValCollection_Clone(t *testing.T) {
 		"cloneLen": 1, "ptrLen": 1,
 		"nilClone": true, "npLen": 1, "ppNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection Clone", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Clone", actual)
 }
 
 func Test_C17_KeyValCollection_ParseInjectUsingJson(t *testing.T) {
@@ -541,7 +541,7 @@ func Test_C17_KeyValCollection_ParseInjectUsingJson(t *testing.T) {
 	_ = err
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- ParseInjectUsingJson", actual)
 }
 
 func Test_C17_KeyValCollection_JsonParseSelfInject(t *testing.T) {
@@ -551,7 +551,7 @@ func Test_C17_KeyValCollection_JsonParseSelfInject(t *testing.T) {
 	_ = err
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "KeyValCollection JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- JsonParseSelfInject", actual)
 }
 
 // ==========================================================================
@@ -568,7 +568,7 @@ func Test_C17_TypeStatus_IsValid_NilPtr(t *testing.T) {
 		"nilValid":   false,
 		"nilInvalid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns nil -- nil", actual)
 }
 
 func Test_C17_TypeStatus_Branches(t *testing.T) {
@@ -597,7 +597,7 @@ func Test_C17_TypeStatus_Branches(t *testing.T) {
 		"leftFull":           "string",
 		"rightFull":          "string",
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus same type", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- same type", actual)
 }
 
 func Test_C17_TypeStatus_NotMatch(t *testing.T) {
@@ -621,7 +621,7 @@ func Test_C17_TypeStatus_NotMatch(t *testing.T) {
 		"srcErrNotNil":   true,
 		"valErrNotNil":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus NotMatch", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- NotMatch", actual)
 }
 
 func Test_C17_TypeStatus_MustBeSame_Panic(t *testing.T) {
@@ -637,7 +637,7 @@ func Test_C17_TypeStatus_MustBeSame_Panic(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "TypeStatus MustBeSame panic", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus panics -- MustBeSame panic", actual)
 }
 
 func Test_C17_TypeStatus_SrcDestinationMustBeSame_Panic(t *testing.T) {
@@ -653,7 +653,7 @@ func Test_C17_TypeStatus_SrcDestinationMustBeSame_Panic(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "TypeStatus SrcDestinationMustBeSame panic", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus panics -- SrcDestinationMustBeSame panic", actual)
 }
 
 func Test_C17_TypeStatus_IsEqual(t *testing.T) {
@@ -675,7 +675,7 @@ func Test_C17_TypeStatus_IsEqual(t *testing.T) {
 		"nilOne":  false,
 		"oneNil":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- IsEqual", actual)
 }
 
 func Test_C17_TypeStatus_NullTypes(t *testing.T) {
@@ -692,7 +692,7 @@ func Test_C17_TypeStatus_NullTypes(t *testing.T) {
 		"leftFull":  "<nil>",
 		"rightFull": "<nil>",
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus null types", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- null types", actual)
 }
 
 func Test_C17_TypeStatus_PointerTypes(t *testing.T) {
@@ -714,7 +714,7 @@ func Test_C17_TypeStatus_PointerTypes(t *testing.T) {
 		"npRight":   true,
 		"sameReg":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus pointer types", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- pointer types", actual)
 }
 
 // ==========================================================================
@@ -733,7 +733,7 @@ func Test_C17_CastTo_Match(t *testing.T) {
 		"matched": true,
 		"noErr":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "CastTo match", actual)
+	expected.ShouldBeEqual(t, 0, "CastTo returns correct value -- match", actual)
 }
 
 func Test_C17_CastTo_NoMatch(t *testing.T) {
@@ -746,7 +746,7 @@ func Test_C17_CastTo_NoMatch(t *testing.T) {
 		"matched": false,
 		"hasErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "CastTo no match", actual)
+	expected.ShouldBeEqual(t, 0, "CastTo returns empty -- no match", actual)
 }
 
 // ==========================================================================
@@ -764,14 +764,14 @@ func Test_C17_TypeNotEqualErr(t *testing.T) {
 		"same": true,
 		"diff": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeNotEqualErr", actual)
+	expected.ShouldBeEqual(t, 0, "TypeNotEqualErr returns error -- with args", actual)
 }
 
 func Test_C17_TypeMustBeSame_NoPanic(t *testing.T) {
 	coredynamic.TypeMustBeSame("a", "b") // same types, no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "TypeMustBeSame no panic", actual)
+	expected.ShouldBeEqual(t, 0, "TypeMustBeSame panics -- no panic", actual)
 }
 
 func Test_C17_TypeMustBeSame_Panic(t *testing.T) {
@@ -786,7 +786,7 @@ func Test_C17_TypeMustBeSame_Panic(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "TypeMustBeSame panic", actual)
+	expected.ShouldBeEqual(t, 0, "TypeMustBeSame panics -- panic", actual)
 }
 
 // ==========================================================================
@@ -804,7 +804,7 @@ func Test_C17_TypesIndexOf(t *testing.T) {
 		"found":    1,
 		"notFound": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "TypesIndexOf", actual)
+	expected.ShouldBeEqual(t, 0, "TypesIndexOf returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -828,7 +828,7 @@ func Test_C17_MapAnyItemDiff_Basic(t *testing.T) {
 		"lastIdx":   0,
 		"nilLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff basic", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- basic", actual)
 }
 
 func Test_C17_MapAnyItemDiff_Raw_Clear(t *testing.T) {
@@ -850,7 +850,7 @@ func Test_C17_MapAnyItemDiff_Raw_Clear(t *testing.T) {
 		"nilClearLen": 0,
 		"clearedLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff Raw/Clear", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- Raw/Clear", actual)
 }
 
 func Test_C17_MapAnyItemDiff_Json(t *testing.T) {
@@ -864,7 +864,7 @@ func Test_C17_MapAnyItemDiff_Json(t *testing.T) {
 		"pjOk": pj != "",
 	}
 	expected := args.Map{"jOk": true, "jpOk": true, "pjOk": true}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff Json", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- Json", actual)
 }
 
 func Test_C17_MapAnyItemDiff_IsRawEqual(t *testing.T) {
@@ -877,7 +877,7 @@ func Test_C17_MapAnyItemDiff_IsRawEqual(t *testing.T) {
 		"equal":    true,
 		"notEqual": false,
 	}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff IsRawEqual", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- IsRawEqual", actual)
 }
 
 func Test_C17_MapAnyItemDiff_HasAnyChanges(t *testing.T) {
@@ -890,7 +890,7 @@ func Test_C17_MapAnyItemDiff_HasAnyChanges(t *testing.T) {
 		"noChanges":  false,
 		"hasChanges": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff HasAnyChanges", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- HasAnyChanges", actual)
 }
 
 func Test_C17_MapAnyItemDiff_DiffMethods(t *testing.T) {
@@ -926,7 +926,7 @@ func Test_C17_MapAnyItemDiff_DiffMethods(t *testing.T) {
 		"maiNotNil":   true,
 		"rmdNotNil":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff diff methods", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- diff methods", actual)
 }
 
 func Test_C17_MapAnyItemDiff_LogPrettyJsonString(t *testing.T) {
@@ -936,7 +936,7 @@ func Test_C17_MapAnyItemDiff_LogPrettyJsonString(t *testing.T) {
 	empty.LogPrettyJsonString()
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff LogPrettyJsonString", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff returns correct value -- LogPrettyJsonString", actual)
 }
 
 // ==========================================================================
@@ -958,7 +958,7 @@ func Test_C17_LeftRight_DeserializeLeft_Right(t *testing.T) {
 		"dlOk": true, "drOk": true,
 		"nilDl": true, "nilDr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight DeserializeLeft/Right", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- DeserializeLeft/Right", actual)
 }
 
 func Test_C17_LeftRight_TypeStatus(t *testing.T) {
@@ -974,7 +974,7 @@ func Test_C17_LeftRight_TypeStatus(t *testing.T) {
 		"isSame": true,
 		"nilSame": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight TypeStatus", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- TypeStatus", actual)
 }
 
 // ==========================================================================
@@ -998,7 +998,7 @@ func Test_C17_Dynamic_ClonePtr(t *testing.T) {
 		"cpValid": true, "npValid": true,
 		"ppNotNil": true, "nilCp": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic ClonePtr/NonPtr/Ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- ClonePtr/NonPtr/Ptr", actual)
 }
 
 // ==========================================================================
@@ -1035,7 +1035,7 @@ func Test_C17_Dynamic_TypeChecks(t *testing.T) {
 		"isMap":       true,
 		"isValueType": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic type checks", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- type checks", actual)
 }
 
 // ==========================================================================
@@ -1049,7 +1049,7 @@ func Test_C17_Dynamic_ConvertUsingFunc(t *testing.T) {
 	}, reflect.TypeOf(""))
 	actual := args.Map{"valid": result.IsValid()}
 	expected := args.Map{"valid": true}
-	expected.ShouldBeEqual(t, 0, "Dynamic ConvertUsingFunc", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- ConvertUsingFunc", actual)
 }
 
 // ==========================================================================
@@ -1083,5 +1083,5 @@ func Test_C17_CastedResult_Methods(t *testing.T) {
 		"hasIssues": false,
 		"nilInv":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "CastedResult methods", actual)
+	expected.ShouldBeEqual(t, 0, "CastedResult returns correct value -- methods", actual)
 }

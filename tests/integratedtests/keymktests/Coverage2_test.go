@@ -33,7 +33,7 @@ func Test_Cov2_KeyWithLegend_Group(t *testing.T) {
 		"stateName":   actual["stateName"],
 		"ignoreLeg":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend basic getters", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- basic getters", actual)
 }
 
 func Test_Cov2_KeyWithLegend_GroupString(t *testing.T) {
@@ -46,7 +46,7 @@ func Test_Cov2_KeyWithLegend_GroupString(t *testing.T) {
 	result := kl.GroupString("testGroup")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend GroupString", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- GroupString", actual)
 }
 
 func Test_Cov2_KeyWithLegend_UpToGroup(t *testing.T) {
@@ -59,7 +59,7 @@ func Test_Cov2_KeyWithLegend_UpToGroup(t *testing.T) {
 	result := kl.UpToGroup("grp1")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend UpToGroup", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- UpToGroup", actual)
 }
 
 func Test_Cov2_KeyWithLegend_UpToGroupString(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_Cov2_KeyWithLegend_UpToGroupString(t *testing.T) {
 	result := kl.UpToGroupString("grp2")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend UpToGroupString", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- UpToGroupString", actual)
 }
 
 func Test_Cov2_KeyWithLegend_Item(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_Cov2_KeyWithLegend_Item(t *testing.T) {
 	result := kl.Item("item1")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend Item", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- Item", actual)
 }
 
 func Test_Cov2_KeyWithLegend_ItemString(t *testing.T) {
@@ -98,7 +98,7 @@ func Test_Cov2_KeyWithLegend_ItemString(t *testing.T) {
 	result := kl.ItemString("myItem")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend ItemString", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- ItemString", actual)
 }
 
 func Test_Cov2_KeyWithLegend_ItemInt(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov2_KeyWithLegend_ItemInt(t *testing.T) {
 	result := kl.ItemInt(42)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend ItemInt", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- ItemInt", actual)
 }
 
 func Test_Cov2_KeyWithLegend_ItemUInt(t *testing.T) {
@@ -124,7 +124,7 @@ func Test_Cov2_KeyWithLegend_ItemUInt(t *testing.T) {
 	result := kl.ItemUInt(7)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend ItemUInt", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- ItemUInt", actual)
 }
 
 func Test_Cov2_KeyWithLegend_ItemWithoutUser(t *testing.T) {
@@ -137,7 +137,7 @@ func Test_Cov2_KeyWithLegend_ItemWithoutUser(t *testing.T) {
 	result := kl.ItemWithoutUser("noUser")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend ItemWithoutUser", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- ItemWithoutUser", actual)
 }
 
 func Test_Cov2_KeyWithLegend_ItemWithoutUserGroup(t *testing.T) {
@@ -150,7 +150,7 @@ func Test_Cov2_KeyWithLegend_ItemWithoutUserGroup(t *testing.T) {
 	result := kl.ItemWithoutUserGroup("noUG")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend ItemWithoutUserGroup", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- ItemWithoutUserGroup", actual)
 }
 
 func Test_Cov2_KeyWithLegend_ItemWithoutUserStateGroup(t *testing.T) {
@@ -163,7 +163,7 @@ func Test_Cov2_KeyWithLegend_ItemWithoutUserStateGroup(t *testing.T) {
 	result := kl.ItemWithoutUserStateGroup("noUSG")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend ItemWithoutUserStateGroup", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- ItemWithoutUserStateGroup", actual)
 }
 
 func Test_Cov2_KeyWithLegend_GroupItemIntRange(t *testing.T) {
@@ -176,7 +176,7 @@ func Test_Cov2_KeyWithLegend_GroupItemIntRange(t *testing.T) {
 	result := kl.GroupItemIntRange("grp", 1, 3)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend GroupItemIntRange", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- GroupItemIntRange", actual)
 }
 
 func Test_Cov2_KeyWithLegend_UserStringWithoutState(t *testing.T) {
@@ -189,7 +189,7 @@ func Test_Cov2_KeyWithLegend_UserStringWithoutState(t *testing.T) {
 	result := kl.UserStringWithoutState("userX")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KeyWithLegend UserStringWithoutState", actual)
+	expected.ShouldBeEqual(t, 0, "KeyWithLegend returns non-empty -- UserStringWithoutState", actual)
 }
 
 // ── FixedLegend ──
@@ -198,14 +198,14 @@ func Test_Cov2_FixedLegend_Compile(t *testing.T) {
 	result := keymk.FixedLegend.Compile(false, "r", "p", "g", "s", "u", "i")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "FixedLegend Compile", actual)
+	expected.ShouldBeEqual(t, 0, "FixedLegend returns correct value -- Compile", actual)
 }
 
 func Test_Cov2_FixedLegend_CompileKeepFormatOnEmpty(t *testing.T) {
 	result := keymk.FixedLegend.CompileKeepFormatOnEmpty("r", "p", "", "s", "u", "i")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "FixedLegend CompileKeepFormatOnEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "FixedLegend returns empty -- CompileKeepFormatOnEmpty", actual)
 }
 
 func Test_Cov2_FixedLegend_FormatKeyMap(t *testing.T) {
@@ -218,7 +218,7 @@ func Test_Cov2_FixedLegend_FormatKeyMap(t *testing.T) {
 		"formatNotEmpty": true,
 		"mapLen":         6,
 	}
-	expected.ShouldBeEqual(t, 0, "FixedLegend FormatKeyMap", actual)
+	expected.ShouldBeEqual(t, 0, "FixedLegend returns correct value -- FormatKeyMap", actual)
 }
 
 // ── TemplateReplacer CompileUsingReplacerMap ──
@@ -233,7 +233,7 @@ func Test_Cov2_TemplateReplacer_CompileUsingReplacerMap(t *testing.T) {
 	})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TemplateReplacer CompileUsingReplacerMap", actual)
+	expected.ShouldBeEqual(t, 0, "TemplateReplacer returns correct value -- CompileUsingReplacerMap", actual)
 }
 
 func Test_Cov2_TemplateReplacer_CompileUsingReplacerMap_EmptyMap(t *testing.T) {
@@ -243,7 +243,7 @@ func Test_Cov2_TemplateReplacer_CompileUsingReplacerMap_EmptyMap(t *testing.T) {
 	result := tr.CompileUsingReplacerMap(true, map[string]string{})
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": key.CompiledChain()}
-	expected.ShouldBeEqual(t, 0, "TemplateReplacer CompileUsingReplacerMap empty", actual)
+	expected.ShouldBeEqual(t, 0, "TemplateReplacer returns empty -- CompileUsingReplacerMap empty", actual)
 }
 
 // ── ParseInjectUsingJson ──
@@ -263,7 +263,7 @@ func Test_Cov2_Key_ParseInjectUsingJson(t *testing.T) {
 		"mainName": mainName,
 	}
 	expected := args.Map{"noErr": true, "notNil": true, "mainName": mainName}
-	expected.ShouldBeEqual(t, 0, "Key ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- ParseInjectUsingJson", actual)
 }
 
 func Test_Cov2_Key_JsonParseSelfInject(t *testing.T) {
@@ -273,7 +273,7 @@ func Test_Cov2_Key_JsonParseSelfInject(t *testing.T) {
 	err := target.JsonParseSelfInject(jsonResult)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Key JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JsonParseSelfInject", actual)
 }
 
 // ── CompileReplaceCurlyKeyMapUsingItems ──
@@ -286,7 +286,7 @@ func Test_Cov2_Key_CompileReplaceCurlyKeyMapUsingItems(t *testing.T) {
 	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key CompileReplaceCurlyKeyMapUsingItems", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- CompileReplaceCurlyKeyMapUsingItems", actual)
 }
 
 // ── PathTemplatePrefixRelativeId ──
@@ -295,12 +295,12 @@ func Test_Cov2_NewKey_PathTemplatePrefixRelativeIdDefault(t *testing.T) {
 	key := keymk.NewKey.PathTemplatePrefixRelativeIdDefault()
 	actual := args.Map{"notNil": key != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewKey PathTemplatePrefixRelativeIdDefault", actual)
+	expected.ShouldBeEqual(t, 0, "NewKey returns correct value -- PathTemplatePrefixRelativeIdDefault", actual)
 }
 
 func Test_Cov2_NewKey_PathTemplatePrefixRelativeIdFileDefault(t *testing.T) {
 	key := keymk.NewKey.PathTemplatePrefixRelativeIdFileDefault()
 	actual := args.Map{"notNil": key != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewKey PathTemplatePrefixRelativeIdFileDefault", actual)
+	expected.ShouldBeEqual(t, 0, "NewKey returns correct value -- PathTemplatePrefixRelativeIdFileDefault", actual)
 }

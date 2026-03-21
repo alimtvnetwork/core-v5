@@ -20,7 +20,7 @@ func Test_Cov6_New_Valid(t *testing.T) {
 		"typeNotEmpty": r.TypeName != "",
 	}
 	expected := args.Map{"hasError": false, "hasBytes": true, "typeNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "New valid", actual)
+	expected.ShouldBeEqual(t, 0, "New returns non-empty -- valid", actual)
 }
 
 func Test_Cov6_NewPtr_Valid(t *testing.T) {
@@ -31,7 +31,7 @@ func Test_Cov6_NewPtr_Valid(t *testing.T) {
 		"hasBytes":  len(r.Bytes) > 0,
 	}
 	expected := args.Map{"notNil": true, "hasError": false, "hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "NewPtr valid", actual)
+	expected.ShouldBeEqual(t, 0, "NewPtr returns non-empty -- valid", actual)
 }
 
 func Test_Cov6_New_Nil(t *testing.T) {
@@ -41,7 +41,7 @@ func Test_Cov6_New_Nil(t *testing.T) {
 		"hasBytes": len(r.Bytes) > 0,
 	}
 	expected := args.Map{"hasError": false, "hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "New nil", actual)
+	expected.ShouldBeEqual(t, 0, "New returns nil -- nil", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -56,7 +56,7 @@ func Test_Cov6_Result_Length(t *testing.T) {
 		"nilLen": nilR.Length(),
 	}
 	expected := args.Map{"len": 7, "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "Result Length", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Length", actual)
 }
 
 func Test_Cov6_Result_HasError(t *testing.T) {
@@ -67,7 +67,7 @@ func Test_Cov6_Result_HasError(t *testing.T) {
 		"nilErr": nilR.HasError(),
 	}
 	expected := args.Map{"noErr": false, "nilErr": false}
-	expected.ShouldBeEqual(t, 0, "Result HasError", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- HasError", actual)
 }
 
 func Test_Cov6_Result_IsEmptyError(t *testing.T) {
@@ -78,14 +78,14 @@ func Test_Cov6_Result_IsEmptyError(t *testing.T) {
 		"nilEmptyErr": nilR.IsEmptyError(),
 	}
 	expected := args.Map{"emptyErr": true, "nilEmptyErr": true}
-	expected.ShouldBeEqual(t, 0, "Result IsEmptyError", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns empty -- IsEmptyError", actual)
 }
 
 func Test_Cov6_Result_ErrorString(t *testing.T) {
 	r := corejson.NewPtr("hello")
 	actual := args.Map{"errStr": r.ErrorString()}
 	expected := args.Map{"errStr": ""}
-	expected.ShouldBeEqual(t, 0, "Result ErrorString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- ErrorString", actual)
 }
 
 func Test_Cov6_Result_IsErrorEqual(t *testing.T) {
@@ -95,7 +95,7 @@ func Test_Cov6_Result_IsErrorEqual(t *testing.T) {
 		"oneNotNil":  r.IsErrorEqual(errors.New("test")),
 	}
 	expected := args.Map{"bothNil": true, "oneNotNil": false}
-	expected.ShouldBeEqual(t, 0, "Result IsErrorEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- IsErrorEqual", actual)
 }
 
 func Test_Cov6_Result_IsEmpty(t *testing.T) {
@@ -107,7 +107,7 @@ func Test_Cov6_Result_IsEmpty(t *testing.T) {
 		"hasAny":    r.HasAnyItem(),
 	}
 	expected := args.Map{"notEmpty": false, "nilEmpty": true, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "Result IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns empty -- IsEmpty", actual)
 }
 
 func Test_Cov6_Result_IsAnyNull(t *testing.T) {
@@ -118,7 +118,7 @@ func Test_Cov6_Result_IsAnyNull(t *testing.T) {
 		"nilNull":  nilR.IsAnyNull(),
 	}
 	expected := args.Map{"notNull": false, "nilNull": true}
-	expected.ShouldBeEqual(t, 0, "Result IsAnyNull", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- IsAnyNull", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -137,7 +137,7 @@ func Test_Cov6_Result_JsonString(t *testing.T) {
 		"jsonStr": "\"hello\"", "safeStr": "\"hello\"",
 		"nilJsonStr": "",
 	}
-	expected.ShouldBeEqual(t, 0, "Result JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- JsonString", actual)
 }
 
 func Test_Cov6_Result_PrettyJsonString(t *testing.T) {
@@ -148,7 +148,7 @@ func Test_Cov6_Result_PrettyJsonString(t *testing.T) {
 		"nilPretty": nilR.PrettyJsonString(),
 	}
 	expected := args.Map{"prettyNE": true, "nilPretty": ""}
-	expected.ShouldBeEqual(t, 0, "Result PrettyJsonString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- PrettyJsonString", actual)
 }
 
 func Test_Cov6_Result_PrettyJsonStringOrErrString(t *testing.T) {
@@ -159,14 +159,14 @@ func Test_Cov6_Result_PrettyJsonStringOrErrString(t *testing.T) {
 		"nilNotEmpty": nilR.PrettyJsonStringOrErrString() != "",
 	}
 	expected := args.Map{"prettyNE": true, "nilNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Result PrettyJsonStringOrErrString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- PrettyJsonStringOrErrString", actual)
 }
 
 func Test_Cov6_Result_String(t *testing.T) {
 	r := corejson.NewPtr("hello")
 	actual := args.Map{"strNE": r.String() != ""}
 	expected := args.Map{"strNE": true}
-	expected.ShouldBeEqual(t, 0, "Result String", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- String", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -183,7 +183,7 @@ func Test_Cov6_Result_SafeBytes(t *testing.T) {
 		"safeVals":  len(r.SafeValues()) > 0,
 	}
 	expected := args.Map{"hasBytes": true, "nilEmpty": 0, "values": true, "safeVals": true}
-	expected.ShouldBeEqual(t, 0, "Result SafeBytes", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- SafeBytes", actual)
 }
 
 func Test_Cov6_Result_Raw(t *testing.T) {
@@ -198,7 +198,7 @@ func Test_Cov6_Result_Raw(t *testing.T) {
 		"nilErrNN":  nilErr != nil,
 	}
 	expected := args.Map{"hasBytes": true, "errNil": true, "nilBytes": 0, "nilErrNN": true}
-	expected.ShouldBeEqual(t, 0, "Result Raw", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Raw", actual)
 }
 
 func Test_Cov6_Result_RawMust(t *testing.T) {
@@ -206,7 +206,7 @@ func Test_Cov6_Result_RawMust(t *testing.T) {
 	raw := r.RawMust()
 	actual := args.Map{"hasBytes": len(raw) > 0}
 	expected := args.Map{"hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Result RawMust", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- RawMust", actual)
 }
 
 func Test_Cov6_Result_RawString(t *testing.T) {
@@ -214,7 +214,7 @@ func Test_Cov6_Result_RawString(t *testing.T) {
 	str, err := r.RawString()
 	actual := args.Map{"strNE": str != "", "errNil": err == nil}
 	expected := args.Map{"strNE": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "Result RawString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- RawString", actual)
 }
 
 func Test_Cov6_Result_RawStringMust(t *testing.T) {
@@ -222,7 +222,7 @@ func Test_Cov6_Result_RawStringMust(t *testing.T) {
 	str := r.RawStringMust()
 	actual := args.Map{"strNE": str != ""}
 	expected := args.Map{"strNE": true}
-	expected.ShouldBeEqual(t, 0, "Result RawStringMust", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- RawStringMust", actual)
 }
 
 func Test_Cov6_Result_RawErrString(t *testing.T) {
@@ -230,7 +230,7 @@ func Test_Cov6_Result_RawErrString(t *testing.T) {
 	raw, errMsg := r.RawErrString()
 	actual := args.Map{"hasRaw": len(raw) > 0, "errEmpty": errMsg == ""}
 	expected := args.Map{"hasRaw": true, "errEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Result RawErrString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- RawErrString", actual)
 }
 
 func Test_Cov6_Result_RawPrettyString(t *testing.T) {
@@ -238,7 +238,7 @@ func Test_Cov6_Result_RawPrettyString(t *testing.T) {
 	pretty, err := r.RawPrettyString()
 	actual := args.Map{"prettyNE": pretty != "", "errNil": err == nil}
 	expected := args.Map{"prettyNE": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "Result RawPrettyString", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- RawPrettyString", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -259,7 +259,7 @@ func Test_Cov6_Result_HasBytes(t *testing.T) {
 		"hasBytes": true, "hasJson": true, "hasJsonB": true,
 		"hasSafe": true, "hasIssues": false, "isEmptyJson": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Result HasBytes", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- HasBytes", actual)
 }
 
 func Test_Cov6_Result_BytesTypeName(t *testing.T) {
@@ -271,7 +271,7 @@ func Test_Cov6_Result_BytesTypeName(t *testing.T) {
 		"safeType":  r.SafeBytesTypeName() != "",
 	}
 	expected := args.Map{"typeNE": true, "nilType": "", "safeType": true}
-	expected.ShouldBeEqual(t, 0, "Result BytesTypeName", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- BytesTypeName", actual)
 }
 
 func Test_Cov6_Result_MeaningfulError(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_Cov6_Result_MeaningfulError(t *testing.T) {
 		"errMsg":     r.MeaningfulErrorMessage(),
 	}
 	expected := args.Map{"validErr": true, "nilErrNN": true, "errMsg": ""}
-	expected.ShouldBeEqual(t, 0, "Result MeaningfulError", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- MeaningfulError", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -296,7 +296,7 @@ func Test_Cov6_Result_Unmarshal(t *testing.T) {
 	err := r.Unmarshal(&target)
 	actual := args.Map{"errNil": err == nil, "target": target}
 	expected := args.Map{"errNil": true, "target": "hello"}
-	expected.ShouldBeEqual(t, 0, "Result Unmarshal", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Unmarshal", actual)
 }
 
 func Test_Cov6_Result_Unmarshal_Nil(t *testing.T) {
@@ -305,7 +305,7 @@ func Test_Cov6_Result_Unmarshal_Nil(t *testing.T) {
 	err := nilR.Unmarshal(&target)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Result Unmarshal nil", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns nil -- Unmarshal nil", actual)
 }
 
 func Test_Cov6_Result_Deserialize(t *testing.T) {
@@ -314,7 +314,7 @@ func Test_Cov6_Result_Deserialize(t *testing.T) {
 	err := r.Deserialize(&target)
 	actual := args.Map{"errNil": err == nil, "target": target}
 	expected := args.Map{"errNil": true, "target": "hello"}
-	expected.ShouldBeEqual(t, 0, "Result Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Deserialize", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -333,7 +333,7 @@ func Test_Cov6_Result_Serialize(t *testing.T) {
 		"nilErrNN":  nilErr != nil,
 	}
 	expected := args.Map{"hasBytes": true, "errNil": true, "nilBytes": true, "nilErrNN": true}
-	expected.ShouldBeEqual(t, 0, "Result Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Serialize", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -357,7 +357,7 @@ func Test_Cov6_Result_Clone(t *testing.T) {
 		"clonedLen": 7, "shallowLen": 7,
 		"ptrNotNil": true, "nilCloneNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Result Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Clone", actual)
 }
 
 func Test_Cov6_Result_CloneIf(t *testing.T) {
@@ -369,14 +369,14 @@ func Test_Cov6_Result_CloneIf(t *testing.T) {
 		"notClonedLen": notCloned.Length(),
 	}
 	expected := args.Map{"clonedLen": 7, "notClonedLen": 7}
-	expected.ShouldBeEqual(t, 0, "Result CloneIf", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- CloneIf", actual)
 }
 
 func Test_Cov6_Result_CloneError(t *testing.T) {
 	r := corejson.NewPtr("hello")
 	actual := args.Map{"cloneErrNil": r.CloneError() == nil}
 	expected := args.Map{"cloneErrNil": true}
-	expected.ShouldBeEqual(t, 0, "Result CloneError", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- CloneError", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -403,7 +403,7 @@ func Test_Cov6_Result_PtrNonPtr(t *testing.T) {
 		"toPtrNN": true, "toNonPtrLen": 7,
 		"nilNonPtrHasErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Result Ptr/NonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Ptr/NonPtr", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -419,7 +419,7 @@ func Test_Cov6_Result_IsEqual(t *testing.T) {
 		"notEqual": r1.IsEqual(r3),
 	}
 	expected := args.Map{"equal": true, "notEqual": false}
-	expected.ShouldBeEqual(t, 0, "Result IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov6_Result_IsEqualPtr(t *testing.T) {
@@ -438,7 +438,7 @@ func Test_Cov6_Result_IsEqualPtr(t *testing.T) {
 		"equal": true, "notEqual": false,
 		"bothNil": true, "oneNil": false, "samePtr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Result IsEqualPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- IsEqualPtr", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -464,7 +464,7 @@ func Test_Cov6_Result_Json(t *testing.T) {
 		"jsonLen": true, "jsonPtrNN": true,
 		"modelLen": 7, "nilModelErr": true, "modelAnyNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Result Json", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Json", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -482,7 +482,7 @@ func Test_Cov6_Result_Dispose(t *testing.T) {
 		"typeName": r.TypeName,
 	}
 	expected := args.Map{"bytesNil": true, "errNil": true, "typeName": ""}
-	expected.ShouldBeEqual(t, 0, "Result Dispose", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Dispose", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -499,7 +499,7 @@ func Test_Cov6_Result_BytesError(t *testing.T) {
 		"nilBENil":  nilBE == nil,
 	}
 	expected := args.Map{"beNotNil": true, "nilBENil": true}
-	expected.ShouldBeEqual(t, 0, "Result BytesError", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns error -- BytesError", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -510,14 +510,14 @@ func Test_Cov6_Result_CombineErrorWithRefString_NoError(t *testing.T) {
 	r := corejson.NewPtr("hello")
 	actual := args.Map{"result": r.CombineErrorWithRefString("ref1")}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "Result CombineErrorWithRefString no error", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns empty -- CombineErrorWithRefString no error", actual)
 }
 
 func Test_Cov6_Result_CombineErrorWithRefError_NoError(t *testing.T) {
 	r := corejson.NewPtr("hello")
 	actual := args.Map{"result": r.CombineErrorWithRefError("ref1") == nil}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "Result CombineErrorWithRefError no error", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns empty -- CombineErrorWithRefError no error", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -535,7 +535,7 @@ func Test_Cov6_Result_InterfaceAdapters(t *testing.T) {
 		"injectorNN": injector != nil,
 	}
 	expected := args.Map{"binderNN": true, "jsonerNN": true, "injectorNN": true}
-	expected.ShouldBeEqual(t, 0, "Result InterfaceAdapters", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- InterfaceAdapters", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -554,7 +554,7 @@ func Test_Cov6_Result_DeserializedFieldsToMap(t *testing.T) {
 		"sfmNil":   sfm == nil,
 	}
 	expected := args.Map{"fmNil": true, "hasErr": true, "sfmNil": true}
-	expected.ShouldBeEqual(t, 0, "Result DeserializedFieldsToMap", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- DeserializedFieldsToMap", actual)
 }
 
 func Test_Cov6_Result_FieldsNames(t *testing.T) {
@@ -568,7 +568,7 @@ func Test_Cov6_Result_FieldsNames(t *testing.T) {
 		"safeNotNil":  safeNames != nil,
 	}
 	expected := args.Map{"namesNotNil": true, "hasErr": true, "safeNotNil": true}
-	expected.ShouldBeEqual(t, 0, "Result FieldsNames", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- FieldsNames", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -585,7 +585,7 @@ func Test_Cov6_Result_Map(t *testing.T) {
 		"nilMapLen": len(nilM),
 	}
 	expected := args.Map{"hasBytes": true, "nilMapLen": 0}
-	expected.ShouldBeEqual(t, 0, "Result Map", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- Map", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -600,7 +600,7 @@ func Test_Cov6_Result_SerializeSkipExistingIssues(t *testing.T) {
 		"errNil":   err == nil,
 	}
 	expected := args.Map{"hasBytes": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "Result SerializeSkipExistingIssues", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- SerializeSkipExistingIssues", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -613,7 +613,7 @@ func Test_Cov6_Result_UnmarshalSkipExistingIssues(t *testing.T) {
 	err := r.UnmarshalSkipExistingIssues(&target)
 	actual := args.Map{"errNil": err == nil, "target": target}
 	expected := args.Map{"errNil": true, "target": "hello"}
-	expected.ShouldBeEqual(t, 0, "Result UnmarshalSkipExistingIssues", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- UnmarshalSkipExistingIssues", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -629,7 +629,7 @@ func Test_Cov6_Result_UnmarshalResult(t *testing.T) {
 		"hasErr": err != nil,
 	}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Result UnmarshalResult", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- UnmarshalResult", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -646,7 +646,7 @@ func Test_Cov6_Result_ParseInjectUsingJson(t *testing.T) {
 		"errNil":   err == nil,
 	}
 	expected := args.Map{"parsedNN": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "Result ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- ParseInjectUsingJson", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -660,7 +660,7 @@ func Test_Cov6_Result_SafeNonIssueBytes(t *testing.T) {
 		"safeValsPtr":  len(r.SafeValuesPtr()) > 0,
 	}
 	expected := args.Map{"safeNonIssue": true, "safeValsPtr": true}
-	expected.ShouldBeEqual(t, 0, "Result SafeNonIssueBytes", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- SafeNonIssueBytes", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -676,7 +676,7 @@ func Test_Cov6_Result_PrettyJsonBuffer(t *testing.T) {
 		"bufLen": buf.Len() > 0,
 	}
 	expected := args.Map{"bufNN": true, "errNil": true, "bufLen": true}
-	expected.ShouldBeEqual(t, 0, "Result PrettyJsonBuffer", actual)
+	expected.ShouldBeEqual(t, 0, "Result returns correct value -- PrettyJsonBuffer", actual)
 }
 
 // ═══════════════════════════════════════════

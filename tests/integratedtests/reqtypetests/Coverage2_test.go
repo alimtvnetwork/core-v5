@@ -12,111 +12,111 @@ import (
 func Test_Cov2_Min(t *testing.T) {
 	actual := args.Map{"value": reqtype.Min()}
 	expected := args.Map{"value": reqtype.Invalid}
-	expected.ShouldBeEqual(t, 0, "Min returns Invalid", actual)
+	expected.ShouldBeEqual(t, 0, "Min returns error -- returns Invalid", actual)
 }
 
 func Test_Cov2_Max(t *testing.T) {
 	actual := args.Map{"notInvalid": reqtype.Max() != reqtype.Invalid}
 	expected := args.Map{"notInvalid": true}
-	expected.ShouldBeEqual(t, 0, "Max returns non-Invalid", actual)
+	expected.ShouldBeEqual(t, 0, "Max returns error -- returns non-Invalid", actual)
 }
 
 func Test_Cov2_RangesInBetween(t *testing.T) {
 	result := reqtype.RangesInBetween(reqtype.Create, reqtype.Delete)
 	actual := args.Map{"len": len(result), "firstIsCreate": result[0] == reqtype.Create}
 	expected := args.Map{"len": 4, "firstIsCreate": true}
-	expected.ShouldBeEqual(t, 0, "RangesInBetween Create-Delete", actual)
+	expected.ShouldBeEqual(t, 0, "RangesInBetween returns correct value -- Create-Delete", actual)
 }
 
 func Test_Cov2_RangesStrings(t *testing.T) {
 	result := reqtype.RangesStrings(reqtype.Create, reqtype.Read)
 	actual := args.Map{"len": len(result), "firstNotEmpty": result[0] != ""}
 	expected := args.Map{"len": 2, "firstNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangesStrings", actual)
+	expected.ShouldBeEqual(t, 0, "RangesStrings returns correct value -- with args", actual)
 }
 
 func Test_Cov2_RangesStrings_Empty(t *testing.T) {
 	result := reqtype.RangesStrings()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "RangesStrings empty", actual)
+	expected.ShouldBeEqual(t, 0, "RangesStrings returns empty -- empty", actual)
 }
 
 func Test_Cov2_RangesString(t *testing.T) {
 	result := reqtype.RangesString(", ", reqtype.Create, reqtype.Read)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangesString", actual)
+	expected.ShouldBeEqual(t, 0, "RangesString returns correct value -- with args", actual)
 }
 
 func Test_Cov2_RangesStringDefaultJoiner(t *testing.T) {
 	result := reqtype.RangesStringDefaultJoiner(reqtype.Create, reqtype.Read)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangesStringDefaultJoiner", actual)
+	expected.ShouldBeEqual(t, 0, "RangesStringDefaultJoiner returns correct value -- with args", actual)
 }
 
 func Test_Cov2_RangesNotMeet(t *testing.T) {
 	result := reqtype.RangesNotMeet("test msg", reqtype.Create, reqtype.Read)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangesNotMeet", actual)
+	expected.ShouldBeEqual(t, 0, "RangesNotMeet returns correct value -- with args", actual)
 }
 
 func Test_Cov2_RangesNotMeet_Empty(t *testing.T) {
 	result := reqtype.RangesNotMeet("test msg")
 	actual := args.Map{"empty": result == ""}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "RangesNotMeet empty", actual)
+	expected.ShouldBeEqual(t, 0, "RangesNotMeet returns empty -- empty", actual)
 }
 
 func Test_Cov2_RangesNotMeetError(t *testing.T) {
 	err := reqtype.RangesNotMeetError("test msg", reqtype.Create)
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "RangesNotMeetError", actual)
+	expected.ShouldBeEqual(t, 0, "RangesNotMeetError returns error -- with args", actual)
 }
 
 func Test_Cov2_RangesNotMeetError_Empty(t *testing.T) {
 	err := reqtype.RangesNotMeetError("test msg")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "RangesNotMeetError empty", actual)
+	expected.ShouldBeEqual(t, 0, "RangesNotMeetError returns empty -- empty", actual)
 }
 
 func Test_Cov2_RangesInvalidErr(t *testing.T) {
 	err := reqtype.RangesInvalidErr()
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "RangesInvalidErr", actual)
+	expected.ShouldBeEqual(t, 0, "RangesInvalidErr returns error -- with args", actual)
 }
 
 func Test_Cov2_RangesNotSupportedFor(t *testing.T) {
 	err := reqtype.RangesNotSupportedFor("msg", reqtype.Create)
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "RangesNotSupportedFor", actual)
+	expected.ShouldBeEqual(t, 0, "RangesNotSupportedFor returns correct value -- with args", actual)
 }
 
 func Test_Cov2_RangesNotSupportedFor_Empty(t *testing.T) {
 	err := reqtype.RangesNotSupportedFor("msg")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "RangesNotSupportedFor empty", actual)
+	expected.ShouldBeEqual(t, 0, "RangesNotSupportedFor returns empty -- empty", actual)
 }
 
 func Test_Cov2_RangesOnlySupportedFor(t *testing.T) {
 	err := reqtype.RangesOnlySupportedFor("msg", reqtype.Create)
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "RangesOnlySupportedFor", actual)
+	expected.ShouldBeEqual(t, 0, "RangesOnlySupportedFor returns correct value -- with args", actual)
 }
 
 func Test_Cov2_RangesOnlySupportedFor_Empty(t *testing.T) {
 	err := reqtype.RangesOnlySupportedFor("msg")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "RangesOnlySupportedFor empty", actual)
+	expected.ShouldBeEqual(t, 0, "RangesOnlySupportedFor returns empty -- empty", actual)
 }
 
 // ── Request methods not yet covered ──
@@ -124,83 +124,83 @@ func Test_Cov2_RangesOnlySupportedFor_Empty(t *testing.T) {
 func Test_Cov2_Request_IsStopEnableStart(t *testing.T) {
 	actual := args.Map{"result": reqtype.Create.IsStopEnableStart()}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsStopEnableStart always false", actual)
+	expected.ShouldBeEqual(t, 0, "IsStopEnableStart returns non-empty -- always false", actual)
 }
 
 func Test_Cov2_Request_IsStopDisable(t *testing.T) {
 	actual := args.Map{"result": reqtype.Create.IsStopDisable()}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsStopDisable always false", actual)
+	expected.ShouldBeEqual(t, 0, "IsStopDisable returns non-empty -- always false", actual)
 }
 
 func Test_Cov2_Request_AllNameValues(t *testing.T) {
 	actual := args.Map{"notEmpty": len(reqtype.Create.AllNameValues()) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AllNameValues", actual)
+	expected.ShouldBeEqual(t, 0, "AllNameValues returns non-empty -- with args", actual)
 }
 
 func Test_Cov2_Request_OnlySupportedErr(t *testing.T) {
 	err := reqtype.Create.OnlySupportedErr("Create")
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "OnlySupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "OnlySupportedErr returns error -- with args", actual)
 }
 
 func Test_Cov2_Request_OnlySupportedMsgErr(t *testing.T) {
 	err := reqtype.Create.OnlySupportedMsgErr("test", "Create")
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "OnlySupportedMsgErr", actual)
+	expected.ShouldBeEqual(t, 0, "OnlySupportedMsgErr returns error -- with args", actual)
 }
 
 func Test_Cov2_Request_IsReadOrUpdateLogically(t *testing.T) {
 	actual := args.Map{"read": reqtype.Read.IsReadOrUpdateLogically()}
 	expected := args.Map{"read": true}
-	expected.ShouldBeEqual(t, 0, "IsReadOrUpdateLogically", actual)
+	expected.ShouldBeEqual(t, 0, "IsReadOrUpdateLogically returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Request_IsOnExistOrSkipOnNonExistLogically(t *testing.T) {
 	actual := args.Map{"result": reqtype.ExistCheck.IsOnExistOrSkipOnNonExistLogically()}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsOnExistOrSkipOnNonExistLogically", actual)
+	expected.ShouldBeEqual(t, 0, "IsOnExistOrSkipOnNonExistLogically returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Request_CurrentNotImpl(t *testing.T) {
 	err := reqtype.Create.CurrentNotImpl(nil)
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "CurrentNotImpl nil ref", actual)
+	expected.ShouldBeEqual(t, 0, "CurrentNotImpl returns nil -- nil ref", actual)
 
 	err2 := reqtype.Create.CurrentNotImpl("ref", "extra msg")
 	actual2 := args.Map{"hasError": err2 != nil}
 	expected2 := args.Map{"hasError": true}
-	expected2.ShouldBeEqual(t, 1, "CurrentNotImpl with ref", actual2)
+	expected2.ShouldBeEqual(t, 1, "CurrentNotImpl returns non-empty -- with ref", actual2)
 }
 
 func Test_Cov2_Request_NotSupportedErr(t *testing.T) {
 	err := reqtype.Create.NotSupportedErr("msg", "ref")
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "NotSupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "NotSupportedErr returns error -- with args", actual)
 }
 
 func Test_Cov2_Request_IsNotAnyOfReqs_Empty(t *testing.T) {
 	actual := args.Map{"result": reqtype.Create.IsNotAnyOfReqs()}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsNotAnyOfReqs empty", actual)
+	expected.ShouldBeEqual(t, 0, "IsNotAnyOfReqs returns empty -- empty", actual)
 }
 
 func Test_Cov2_Request_IsAnyOfReqs_Empty(t *testing.T) {
 	actual := args.Map{"result": reqtype.Create.IsAnyOfReqs()}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsAnyOfReqs empty", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyOfReqs returns empty -- empty", actual)
 }
 
 func Test_Cov2_Request_GetStatusAnyOf_Empty(t *testing.T) {
 	status := reqtype.Create.GetStatusAnyOf()
 	actual := args.Map{"isSuccess": status.IsSuccess}
 	expected := args.Map{"isSuccess": true}
-	expected.ShouldBeEqual(t, 0, "GetStatusAnyOf empty", actual)
+	expected.ShouldBeEqual(t, 0, "GetStatusAnyOf returns empty -- empty", actual)
 }
 
 func Test_Cov2_Request_IsAnyHttpMethod(t *testing.T) {
@@ -213,20 +213,20 @@ func Test_Cov2_Request_IsAnyHttpMethod(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyHttpMethod", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyHttpMethod returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Request_IsEnumEqual(t *testing.T) {
 	actual := args.Map{"result": reqtype.Create.IsEnumEqual(reqtype.Create.AsBasicEnumContractsBinder())}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsEnumEqual", actual)
+	expected.ShouldBeEqual(t, 0, "IsEnumEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Request_IsAnyEnumsEqual(t *testing.T) {
 	r := reqtype.Create
 	actual := args.Map{"result": r.IsAnyEnumsEqual(reqtype.Read.AsBasicEnumContractsBinder(), reqtype.Create.AsBasicEnumContractsBinder())}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsAnyEnumsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyEnumsEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Request_MinInt_MaxInt(t *testing.T) {
@@ -240,19 +240,19 @@ func Test_Cov2_Request_MinInt_MaxInt(t *testing.T) {
 		"maxValid": true,
 		"minByte":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "MinInt MaxInt MinByte", actual)
+	expected.ShouldBeEqual(t, 0, "MinInt returns correct value -- MaxInt MinByte", actual)
 }
 
 func Test_Cov2_Request_Format(t *testing.T) {
 	actual := args.Map{"notEmpty": reqtype.Create.Format("%s") != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Format", actual)
+	expected.ShouldBeEqual(t, 0, "Format returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Request_DynamicAction(t *testing.T) {
 	actual := args.Map{"isDynamic": reqtype.DynamicAction.String() != ""}
 	expected := args.Map{"isDynamic": true}
-	expected.ShouldBeEqual(t, 0, "DynamicAction string", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicAction returns correct value -- string", actual)
 }
 
 // ── Identity checks for remaining values ──
@@ -324,7 +324,7 @@ func Test_Cov2_Request_RemainingIdentity(t *testing.T) {
 		"merge":             true,
 		"mergeLines":        true,
 	}
-	expected.ShouldBeEqual(t, 0, "Remaining identity checks", actual)
+	expected.ShouldBeEqual(t, 0, "Remaining returns correct value -- identity checks", actual)
 }
 
 // ── Logical group negatives ──
@@ -348,7 +348,7 @@ func Test_Cov2_Request_LogicalGroupNegatives(t *testing.T) {
 		"touchNotUpdate":   false,
 		"touchNotOverride": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Logical group negatives", actual)
+	expected.ShouldBeEqual(t, 0, "Logical returns correct value -- group negatives", actual)
 }
 
 // ── Composite logical groups ──
@@ -370,7 +370,7 @@ func Test_Cov2_Request_IsAnyAction_Values(t *testing.T) {
 		"pause":   true,
 		"resumed": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyAction values", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyAction returns non-empty -- values", actual)
 }
 
 func Test_Cov2_Request_IsAnyHttp_Values(t *testing.T) {
@@ -386,7 +386,7 @@ func Test_Cov2_Request_IsAnyHttp_Values(t *testing.T) {
 		"delete": true,
 		"patch":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyHttp values", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyHttp returns non-empty -- values", actual)
 }
 
 func Test_Cov2_Request_IsAnyCreate_Values(t *testing.T) {
@@ -404,7 +404,7 @@ func Test_Cov2_Request_IsAnyCreate_Values(t *testing.T) {
 		"createOrSkip":    true,
 		"dropCreate":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyCreate values", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyCreate returns non-empty -- values", actual)
 }
 
 func Test_Cov2_Request_IsAnyDrop_Values(t *testing.T) {
@@ -422,7 +422,7 @@ func Test_Cov2_Request_IsAnyDrop_Values(t *testing.T) {
 		"dropCreate":  true,
 		"dropSkip":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyDrop values", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyDrop returns non-empty -- values", actual)
 }
 
 func Test_Cov2_Request_IsDropSafe_Values(t *testing.T) {
@@ -434,7 +434,7 @@ func Test_Cov2_Request_IsDropSafe_Values(t *testing.T) {
 		"deleteSkip": true,
 		"dropSkip":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsDropSafe values", actual)
+	expected.ShouldBeEqual(t, 0, "IsDropSafe returns non-empty -- values", actual)
 }
 
 func Test_Cov2_Request_IsAnySkipOnExist_Values(t *testing.T) {
@@ -450,5 +450,5 @@ func Test_Cov2_Request_IsAnySkipOnExist_Values(t *testing.T) {
 		"deleteSkip":   true,
 		"dropSkip":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnySkipOnExist values", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnySkipOnExist returns non-empty -- values", actual)
 }

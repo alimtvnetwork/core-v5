@@ -16,56 +16,56 @@ func Test_Cov16_CloneSlice_Nil(t *testing.T) {
 	result := corestr.CloneSlice(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "CloneSlice nil", actual)
+	expected.ShouldBeEqual(t, 0, "CloneSlice returns nil -- nil", actual)
 }
 
 func Test_Cov16_CloneSlice_WithItems(t *testing.T) {
 	result := corestr.CloneSlice([]string{"a", "b"})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 2, "first": "a"}
-	expected.ShouldBeEqual(t, 0, "CloneSlice items", actual)
+	expected.ShouldBeEqual(t, 0, "CloneSlice returns correct value -- items", actual)
 }
 
 func Test_Cov16_CloneSliceIf_Empty(t *testing.T) {
 	result := corestr.CloneSliceIf(true)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "CloneSliceIf empty", actual)
+	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns empty -- empty", actual)
 }
 
 func Test_Cov16_CloneSliceIf_NoClone(t *testing.T) {
 	result := corestr.CloneSliceIf(false, "a", "b")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "CloneSliceIf noClone", actual)
+	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns correct value -- noClone", actual)
 }
 
 func Test_Cov16_CloneSliceIf_Clone(t *testing.T) {
 	result := corestr.CloneSliceIf(true, "a", "b")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "CloneSliceIf clone", actual)
+	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns correct value -- clone", actual)
 }
 
 func Test_Cov16_AnyToString_Empty(t *testing.T) {
 	s := corestr.AnyToString(false, "")
 	actual := args.Map{"isEmpty": s == ""}
 	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyToString empty", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToString returns empty -- empty", actual)
 }
 
 func Test_Cov16_AnyToString_WithFieldName(t *testing.T) {
 	s := corestr.AnyToString(true, "hello")
 	actual := args.Map{"nonEmpty": s != ""}
 	expected := args.Map{"nonEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyToString withField", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToString returns non-empty -- withField", actual)
 }
 
 func Test_Cov16_AnyToString_WithoutFieldName(t *testing.T) {
 	s := corestr.AnyToString(false, "hello")
 	actual := args.Map{"nonEmpty": s != ""}
 	expected := args.Map{"nonEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyToString noField", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToString returns correct value -- noField", actual)
 }
 
 func Test_Cov16_AnyToString_Ptr(t *testing.T) {
@@ -73,26 +73,26 @@ func Test_Cov16_AnyToString_Ptr(t *testing.T) {
 	s := corestr.AnyToString(false, &val)
 	actual := args.Map{"nonEmpty": s != ""}
 	expected := args.Map{"nonEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyToString ptr", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToString returns correct value -- ptr", actual)
 }
 
 func Test_Cov16_AllIndividualStringsOfStringsLength_Nil(t *testing.T) {
 	actual := args.Map{"len": corestr.AllIndividualStringsOfStringsLength(nil)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength nil", actual)
+	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength returns nil -- nil", actual)
 }
 
 func Test_Cov16_AllIndividualStringsOfStringsLength_Items(t *testing.T) {
 	items := [][]string{{"a", "b"}, {"c"}}
 	actual := args.Map{"len": corestr.AllIndividualStringsOfStringsLength(&items)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength items", actual)
+	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength returns correct value -- items", actual)
 }
 
 func Test_Cov16_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
 	actual := args.Map{"len": corestr.AllIndividualsLengthOfSimpleSlices()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices nil", actual)
+	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns nil -- nil", actual)
 }
 
 func Test_Cov16_AllIndividualsLengthOfSimpleSlices_Items(t *testing.T) {
@@ -100,7 +100,7 @@ func Test_Cov16_AllIndividualsLengthOfSimpleSlices_Items(t *testing.T) {
 	s2 := corestr.New.SimpleSlice.Lines("c")
 	actual := args.Map{"len": corestr.AllIndividualsLengthOfSimpleSlices(s1, s2)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices items", actual)
+	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns correct value -- items", actual)
 }
 
 func Test_Cov16_StringUtils(t *testing.T) {
@@ -120,7 +120,7 @@ func Test_Cov16_StringUtils(t *testing.T) {
 		"dblIfMissing_empty": true, "dblIfMissing_wrapped": true, "dblIfMissing_plain": true,
 		"sglIfMissing_empty": true, "sglIfMissing_wrapped": true, "sglIfMissing_plain": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringUtils", actual)
+	expected.ShouldBeEqual(t, 0, "StringUtils returns correct value -- with args", actual)
 }
 
 func Test_Cov16_EmptyCreator_All(t *testing.T) {
@@ -143,7 +143,7 @@ func Test_Cov16_EmptyCreator_All(t *testing.T) {
 	_ = corestr.Empty.CharHashsetMap()
 	actual := args.Map{"allCreated": true}
 	expected := args.Map{"allCreated": true}
-	expected.ShouldBeEqual(t, 0, "EmptyCreator all", actual)
+	expected.ShouldBeEqual(t, 0, "EmptyCreator returns empty -- all", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -156,7 +156,7 @@ func Test_Cov16_HashmapDataModel(t *testing.T) {
 	dm2 := corestr.NewHashmapsDataModelUsing(hm)
 	actual := args.Map{"hmNotNil": hm != nil, "dm2NotNil": dm2 != nil, "hmNotEmpty": !hm.IsEmpty()}
 	expected := args.Map{"hmNotNil": true, "dm2NotNil": true, "hmNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "HashmapDataModel", actual)
+	expected.ShouldBeEqual(t, 0, "HashmapDataModel returns correct value -- with args", actual)
 }
 
 func Test_Cov16_HashsetDataModel(t *testing.T) {
@@ -165,7 +165,7 @@ func Test_Cov16_HashsetDataModel(t *testing.T) {
 	dm2 := corestr.NewHashsetsDataModelUsing(hs)
 	actual := args.Map{"hsNotNil": hs != nil, "dm2NotNil": dm2 != nil}
 	expected := args.Map{"hsNotNil": true, "dm2NotNil": true}
-	expected.ShouldBeEqual(t, 0, "HashsetDataModel", actual)
+	expected.ShouldBeEqual(t, 0, "HashsetDataModel returns correct value -- with args", actual)
 }
 
 func Test_Cov16_HashsetsCollectionDataModel(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov16_HashsetsCollectionDataModel(t *testing.T) {
 	dm2 := corestr.NewHashsetsCollectionDataModelUsing(hc)
 	actual := args.Map{"hcNotNil": hc != nil, "dm2NotNil": dm2 != nil}
 	expected := args.Map{"hcNotNil": true, "dm2NotNil": true}
-	expected.ShouldBeEqual(t, 0, "HashsetsCollectionDataModel", actual)
+	expected.ShouldBeEqual(t, 0, "HashsetsCollectionDataModel returns correct value -- with args", actual)
 }
 
 func Test_Cov16_CharCollectionDataModel(t *testing.T) {
@@ -186,7 +186,7 @@ func Test_Cov16_CharCollectionDataModel(t *testing.T) {
 	dm2 := corestr.NewCharCollectionMapDataModelUsing(ccm)
 	actual := args.Map{"ccmNotNil": ccm != nil, "dm2NotNil": dm2 != nil}
 	expected := args.Map{"ccmNotNil": true, "dm2NotNil": true}
-	expected.ShouldBeEqual(t, 0, "CharCollectionDataModel", actual)
+	expected.ShouldBeEqual(t, 0, "CharCollectionDataModel returns correct value -- with args", actual)
 }
 
 func Test_Cov16_CharHashsetDataModel(t *testing.T) {
@@ -198,21 +198,21 @@ func Test_Cov16_CharHashsetDataModel(t *testing.T) {
 	dm2 := corestr.NewCharHashsetMapDataModelUsing(chm)
 	actual := args.Map{"chmNotNil": chm != nil, "dm2NotNil": dm2 != nil}
 	expected := args.Map{"chmNotNil": true, "dm2NotNil": true}
-	expected.ShouldBeEqual(t, 0, "CharHashsetDataModel", actual)
+	expected.ShouldBeEqual(t, 0, "CharHashsetDataModel returns correct value -- with args", actual)
 }
 
 func Test_Cov16_SimpleStringOnceModel(t *testing.T) {
 	m := corestr.SimpleStringOnceModel{Value: "hello", IsInitialize: true}
 	actual := args.Map{"value": m.Value}
 	expected := args.Map{"value": "hello"}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnceModel", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnceModel returns correct value -- with args", actual)
 }
 
 func Test_Cov16_CollectionsOfCollectionModel(t *testing.T) {
 	m := corestr.CollectionsOfCollectionModel{Items: []*corestr.Collection{}}
 	actual := args.Map{"notNil": m.Items != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollectionModel", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollectionModel returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -229,14 +229,14 @@ func Test_Cov16_Collection_Basic(t *testing.T) {
 		"empty": true, "hasItems": false, "len": 0,
 		"count": 0, "lastIdx": -1, "hasIdx0": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection basic", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- basic", actual)
 }
 
 func Test_Cov16_Collection_NilReceiver(t *testing.T) {
 	var c *corestr.Collection
 	actual := args.Map{"len": c.Length(), "empty": c.IsEmpty()}
 	expected := args.Map{"len": 0, "empty": true}
-	expected.ShouldBeEqual(t, 0, "Collection nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns nil -- nil receiver", actual)
 }
 
 func Test_Cov16_Collection_Add(t *testing.T) {
@@ -244,7 +244,7 @@ func Test_Cov16_Collection_Add(t *testing.T) {
 	c.Add("a").Add("b")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection Add", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Add", actual)
 }
 
 func Test_Cov16_Collection_AddNonEmpty(t *testing.T) {
@@ -253,7 +253,7 @@ func Test_Cov16_Collection_AddNonEmpty(t *testing.T) {
 	c.AddNonEmpty("a")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddNonEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns empty -- AddNonEmpty", actual)
 }
 
 func Test_Cov16_Collection_AddNonEmptyWhitespace(t *testing.T) {
@@ -262,7 +262,7 @@ func Test_Cov16_Collection_AddNonEmptyWhitespace(t *testing.T) {
 	c.AddNonEmptyWhitespace("a")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddNonEmptyWhitespace", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns empty -- AddNonEmptyWhitespace", actual)
 }
 
 func Test_Cov16_Collection_AddError(t *testing.T) {
@@ -271,7 +271,7 @@ func Test_Cov16_Collection_AddError(t *testing.T) {
 	c.AddError(errors.New("e"))
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddError", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns error -- AddError", actual)
 }
 
 func Test_Cov16_Collection_AddIf(t *testing.T) {
@@ -280,7 +280,7 @@ func Test_Cov16_Collection_AddIf(t *testing.T) {
 	c.AddIf(true, "add")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddIf", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddIf", actual)
 }
 
 func Test_Cov16_Collection_AddIfMany(t *testing.T) {
@@ -289,7 +289,7 @@ func Test_Cov16_Collection_AddIfMany(t *testing.T) {
 	c.AddIfMany(true, "c", "d")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddIfMany", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddIfMany", actual)
 }
 
 func Test_Cov16_Collection_Adds(t *testing.T) {
@@ -297,7 +297,7 @@ func Test_Cov16_Collection_Adds(t *testing.T) {
 	c.Adds("a", "b", "c")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection Adds", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Adds", actual)
 }
 
 func Test_Cov16_Collection_AddStrings(t *testing.T) {
@@ -305,7 +305,7 @@ func Test_Cov16_Collection_AddStrings(t *testing.T) {
 	c.AddStrings([]string{"x", "y"})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddStrings", actual)
 }
 
 func Test_Cov16_Collection_AddFunc(t *testing.T) {
@@ -313,7 +313,7 @@ func Test_Cov16_Collection_AddFunc(t *testing.T) {
 	c.AddFunc(func() string { return "hello" })
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddFunc", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddFunc", actual)
 }
 
 func Test_Cov16_Collection_AddFuncErr_NoErr(t *testing.T) {
@@ -324,7 +324,7 @@ func Test_Cov16_Collection_AddFuncErr_NoErr(t *testing.T) {
 	)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddFuncErr noErr", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns error -- AddFuncErr noErr", actual)
 }
 
 func Test_Cov16_Collection_AddFuncErr_WithErr(t *testing.T) {
@@ -336,7 +336,7 @@ func Test_Cov16_Collection_AddFuncErr_WithErr(t *testing.T) {
 	)
 	actual := args.Map{"len": c.Length(), "called": called}
 	expected := args.Map{"len": 0, "called": true}
-	expected.ShouldBeEqual(t, 0, "Collection AddFuncErr withErr", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns error -- AddFuncErr withErr", actual)
 }
 
 func Test_Cov16_Collection_AddLock(t *testing.T) {
@@ -344,7 +344,7 @@ func Test_Cov16_Collection_AddLock(t *testing.T) {
 	c.AddLock("a")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddLock", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddLock", actual)
 }
 
 func Test_Cov16_Collection_AddsLock(t *testing.T) {
@@ -352,7 +352,7 @@ func Test_Cov16_Collection_AddsLock(t *testing.T) {
 	c.AddsLock("a", "b")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddsLock", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddsLock", actual)
 }
 
 func Test_Cov16_Collection_AddCollection(t *testing.T) {
@@ -362,7 +362,7 @@ func Test_Cov16_Collection_AddCollection(t *testing.T) {
 	c1.AddCollection(corestr.New.Collection.Empty())
 	actual := args.Map{"len": c1.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddCollection", actual)
 }
 
 func Test_Cov16_Collection_AddCollections(t *testing.T) {
@@ -374,7 +374,7 @@ func Test_Cov16_Collection_AddCollections(t *testing.T) {
 	)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddCollections", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddCollections", actual)
 }
 
 func Test_Cov16_Collection_RemoveAt(t *testing.T) {
@@ -382,28 +382,28 @@ func Test_Cov16_Collection_RemoveAt(t *testing.T) {
 	ok := c.RemoveAt(1)
 	actual := args.Map{"ok": ok, "len": c.Length(), "negFail": c.RemoveAt(-1), "bigFail": c.RemoveAt(100)}
 	expected := args.Map{"ok": true, "len": 2, "negFail": false, "bigFail": false}
-	expected.ShouldBeEqual(t, 0, "Collection RemoveAt", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- RemoveAt", actual)
 }
 
 func Test_Cov16_Collection_ListStrings(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
 	actual := args.Map{"listLen": len(c.ListStrings()), "listPtrLen": len(c.ListStringsPtr())}
 	expected := args.Map{"listLen": 1, "listPtrLen": 1}
-	expected.ShouldBeEqual(t, 0, "Collection ListStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ListStrings", actual)
 }
 
 func Test_Cov16_Collection_LengthLock(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	actual := args.Map{"len": c.LengthLock()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection LengthLock", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- LengthLock", actual)
 }
 
 func Test_Cov16_Collection_IsEmptyLock(t *testing.T) {
 	c := corestr.New.Collection.Empty()
 	actual := args.Map{"empty": c.IsEmptyLock()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Collection IsEmptyLock", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns empty -- IsEmptyLock", actual)
 }
 
 func Test_Cov16_Collection_AsError(t *testing.T) {
@@ -414,7 +414,7 @@ func Test_Cov16_Collection_AsError(t *testing.T) {
 	hasDef := c.AsDefaultError() != nil
 	actual := args.Map{"nilDef": nilDef, "nilSep": nilSep, "hasDef": hasDef}
 	expected := args.Map{"nilDef": true, "nilSep": true, "hasDef": true}
-	expected.ShouldBeEqual(t, 0, "Collection AsError", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns error -- AsError", actual)
 }
 
 func Test_Cov16_Collection_ToError(t *testing.T) {
@@ -425,7 +425,7 @@ func Test_Cov16_Collection_ToError(t *testing.T) {
 	hasToErr := c.ToError(",") != nil
 	actual := args.Map{"nilToErr": nilToErr, "nilToDef": nilToDef, "hasToErr": hasToErr}
 	expected := args.Map{"nilToErr": true, "nilToDef": true, "hasToErr": true}
-	expected.ShouldBeEqual(t, 0, "Collection ToError", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns error -- ToError", actual)
 }
 
 func Test_Cov16_Collection_EachItemSplitBy(t *testing.T) {
@@ -433,7 +433,7 @@ func Test_Cov16_Collection_EachItemSplitBy(t *testing.T) {
 	result := c.EachItemSplitBy(",")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection EachItemSplitBy", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- EachItemSplitBy", actual)
 }
 
 func Test_Cov16_Collection_ConcatNew(t *testing.T) {
@@ -441,7 +441,7 @@ func Test_Cov16_Collection_ConcatNew(t *testing.T) {
 	newC := c.ConcatNew(0, "b", "c")
 	actual := args.Map{"len": newC.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ConcatNew", actual)
 }
 
 func Test_Cov16_Collection_IsEquals(t *testing.T) {
@@ -449,7 +449,7 @@ func Test_Cov16_Collection_IsEquals(t *testing.T) {
 	b := corestr.New.Collection.Strings([]string{"a", "b"})
 	actual := args.Map{"equal": a.IsEquals(b)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "Collection IsEquals", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- IsEquals", actual)
 }
 
 func Test_Cov16_Collection_IsEqualsWithSensitive(t *testing.T) {
@@ -460,7 +460,7 @@ func Test_Cov16_Collection_IsEqualsWithSensitive(t *testing.T) {
 		"caseSensitive":   a.IsEqualsWithSensitive(true, b),
 	}
 	expected := args.Map{"caseInsensitive": true, "caseSensitive": false}
-	expected.ShouldBeEqual(t, 0, "Collection IsEqualsWithSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns non-empty -- IsEqualsWithSensitive", actual)
 }
 
 func Test_Cov16_Collection_JsonString(t *testing.T) {
@@ -471,7 +471,7 @@ func Test_Cov16_Collection_JsonString(t *testing.T) {
 		"strJSON":  c.StringJSON() != "",
 	}
 	expected := args.Map{"json": true, "jsonMust": true, "strJSON": true}
-	expected.ShouldBeEqual(t, 0, "Collection JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- JsonString", actual)
 }
 
 func Test_Cov16_Collection_AddHashmapsValues(t *testing.T) {
@@ -483,7 +483,7 @@ func Test_Cov16_Collection_AddHashmapsValues(t *testing.T) {
 	c.AddHashmapsValues(corestr.New.Hashmap.Empty())
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddHashmapsValues", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns non-empty -- AddHashmapsValues", actual)
 }
 
 func Test_Cov16_Collection_AddHashmapsKeys(t *testing.T) {
@@ -494,7 +494,7 @@ func Test_Cov16_Collection_AddHashmapsKeys(t *testing.T) {
 	c.AddHashmapsKeys(nil)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddHashmapsKeys", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddHashmapsKeys", actual)
 }
 
 func Test_Cov16_Collection_AddPointerCollectionsLock(t *testing.T) {
@@ -503,14 +503,14 @@ func Test_Cov16_Collection_AddPointerCollectionsLock(t *testing.T) {
 	c.AddPointerCollectionsLock(c2)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddPointerCollectionsLock", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddPointerCollectionsLock", actual)
 }
 
 func Test_Cov16_Collection_HasIndex(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	actual := args.Map{"has0": c.HasIndex(0), "has1": c.HasIndex(1), "has2": c.HasIndex(2), "hasNeg": c.HasIndex(-1)}
 	expected := args.Map{"has0": true, "has1": true, "has2": false, "hasNeg": false}
-	expected.ShouldBeEqual(t, 0, "Collection HasIndex", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- HasIndex", actual)
 }
 
 func Test_Cov16_Collection_Extended(t *testing.T) {
@@ -583,7 +583,7 @@ func Test_Cov16_Collection_Extended(t *testing.T) {
 
 	actual := args.Map{"exercised": true}
 	expected := args.Map{"exercised": true}
-	expected.ShouldBeEqual(t, 0, "Collection extended methods", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- extended methods", actual)
 }
 
 func Test_Cov16_Collection_Filter(t *testing.T) {
@@ -605,7 +605,7 @@ func Test_Cov16_Collection_Filter(t *testing.T) {
 	_ = c.FilterPtrLock(ptrFilterFn)
 	actual := args.Map{"filteredLen": len(filtered)}
 	expected := args.Map{"filteredLen": 2}
-	expected.ShouldBeEqual(t, 0, "Collection Filter", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Filter", actual)
 }
 
 func Test_Cov16_Collection_AppendAnys(t *testing.T) {
@@ -620,7 +620,7 @@ func Test_Cov16_Collection_AppendAnys(t *testing.T) {
 	c.AddsNonEmpty()
 	actual := args.Map{"hasItems": c.HasAnyItem()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Collection AppendAnys", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AppendAnys", actual)
 }
 
 func Test_Cov16_Collection_AddNonEmptyStrings(t *testing.T) {
@@ -628,7 +628,7 @@ func Test_Cov16_Collection_AddNonEmptyStrings(t *testing.T) {
 	c.AddNonEmptyStrings("a", "", "b")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddNonEmptyStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns empty -- AddNonEmptyStrings", actual)
 }
 
 func Test_Cov16_Collection_AddNonEmptyStringsSlice(t *testing.T) {
@@ -636,7 +636,7 @@ func Test_Cov16_Collection_AddNonEmptyStringsSlice(t *testing.T) {
 	c.AddNonEmptyStringsSlice([]string{"a", "", "b"})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddNonEmptyStringsSlice", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns empty -- AddNonEmptyStringsSlice", actual)
 }
 
 func Test_Cov16_Collection_ExpandMerge(t *testing.T) {
@@ -649,7 +649,7 @@ func Test_Cov16_Collection_ExpandMerge(t *testing.T) {
 	)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection ExpandSlicePlusAdd", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ExpandSlicePlusAdd", actual)
 }
 
 func Test_Cov16_Collection_MergeSlicesOfSlice(t *testing.T) {
@@ -657,7 +657,7 @@ func Test_Cov16_Collection_MergeSlicesOfSlice(t *testing.T) {
 	c.MergeSlicesOfSlice([]string{"a", "b"}, []string{"c"})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection MergeSlicesOfSlice", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- MergeSlicesOfSlice", actual)
 }
 
 func Test_Cov16_Collection_GetAllExcept(t *testing.T) {
@@ -666,7 +666,7 @@ func Test_Cov16_Collection_GetAllExcept(t *testing.T) {
 	r2 := c.GetAllExcept([]string{"b"})
 	actual := args.Map{"rLen": len(r), "r2Len": len(r2)}
 	expected := args.Map{"rLen": 2, "r2Len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection GetAllExcept", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetAllExcept", actual)
 }
 
 func Test_Cov16_Collection_GetHashsetPlusHasAll(t *testing.T) {
@@ -674,7 +674,7 @@ func Test_Cov16_Collection_GetHashsetPlusHasAll(t *testing.T) {
 	hs, hasAll := c.GetHashsetPlusHasAll([]string{"a", "b"})
 	actual := args.Map{"hasAll": hasAll, "hsNotNil": hs != nil}
 	expected := args.Map{"hasAll": true, "hsNotNil": true}
-	expected.ShouldBeEqual(t, 0, "Collection GetHashsetPlusHasAll", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetHashsetPlusHasAll", actual)
 }
 
 func Test_Cov16_Collection_AddStringsByFuncChecking(t *testing.T) {
@@ -685,7 +685,7 @@ func Test_Cov16_Collection_AddStringsByFuncChecking(t *testing.T) {
 	)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddStringsByFuncChecking", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddStringsByFuncChecking", actual)
 }
 
 func Test_Cov16_Collection_AddFuncResult(t *testing.T) {
@@ -693,7 +693,7 @@ func Test_Cov16_Collection_AddFuncResult(t *testing.T) {
 	c.AddFuncResult(func() string { return "hello" })
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddFuncResult", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddFuncResult", actual)
 }
 
 func Test_Cov16_Collection_ParseInjectUsingJson(t *testing.T) {
@@ -703,7 +703,7 @@ func Test_Cov16_Collection_ParseInjectUsingJson(t *testing.T) {
 	_, err := c2.ParseInjectUsingJson(j)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Collection ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ParseInjectUsingJson", actual)
 }
 
 func Test_Cov16_Collection_ClearDispose(t *testing.T) {
@@ -714,5 +714,5 @@ func Test_Cov16_Collection_ClearDispose(t *testing.T) {
 	c.Dispose()
 	actual := args.Map{"clearedLen": lenAfterClear}
 	expected := args.Map{"clearedLen": 0}
-	expected.ShouldBeEqual(t, 0, "Collection ClearDispose", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ClearDispose", actual)
 }

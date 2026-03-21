@@ -16,7 +16,7 @@ func Test_C2_IsResultTypeOf_ActualTypeNil(t *testing.T) {
 	r := results.Result[any]{Value: nil}
 	actual := args.Map{"result": r.IsResultTypeOf("something")}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsResultTypeOf nil value vs non-nil expected", actual)
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf returns nil -- nil value vs non-nil expected", actual)
 }
 
 func Test_C2_IsResultTypeOf_NilExpected_NonZeroValue(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_C2_IsResultTypeOf_NilExpected_NonZeroValue(t *testing.T) {
 	r := results.Result[string]{Value: "hello"}
 	actual := args.Map{"result": r.IsResultTypeOf(nil)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsResultTypeOf nil expected with non-zero value", actual)
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf returns nil -- nil expected with non-zero value", actual)
 }
 
 func Test_C2_IsResultTypeOf_NilExpected_ZeroInt(t *testing.T) {
@@ -32,7 +32,7 @@ func Test_C2_IsResultTypeOf_NilExpected_ZeroInt(t *testing.T) {
 	r := results.Result[int]{Value: 0}
 	actual := args.Map{"result": r.IsResultTypeOf(nil)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsResultTypeOf nil expected with zero int", actual)
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf returns nil -- nil expected with zero int", actual)
 }
 
 // ── Result.String — ensure all 3 branches are covered ──
@@ -101,7 +101,7 @@ func Test_C2_FromResultAny_TypeAssertionFails(t *testing.T) {
 	// Both assertions fail → zero values
 	actual := args.Map{"value": typed.Value, "result2": typed.Result2}
 	expected := args.Map{"value": "", "result2": 0}
-	expected.ShouldBeEqual(t, 0, "FromResultAny type assertion fails", actual)
+	expected.ShouldBeEqual(t, 0, "FromResultAny returns correct value -- type assertion fails", actual)
 }
 
 func Test_C2_FromResultAny_SingleResult(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_C2_FromResultAny_SingleResult(t *testing.T) {
 	typed := results.FromResultAny[string, int](r)
 	actual := args.Map{"value": typed.Value, "result2": typed.Result2}
 	expected := args.Map{"value": "hello", "result2": 0}
-	expected.ShouldBeEqual(t, 0, "FromResultAny single result", actual)
+	expected.ShouldBeEqual(t, 0, "FromResultAny returns correct value -- single result", actual)
 }
 
 // ── InvokeWithPanicRecovery — method with receiver ──
@@ -131,7 +131,7 @@ func Test_C2_Invoke_WithReceiver(t *testing.T) {
 	r := results.InvokeWithPanicRecovery((*testReceiver).Greet, &testReceiver{Name: "World"})
 	actual := args.Map{"panicked": r.Panicked, "value": fmt.Sprintf("%v", r.Value)}
 	expected := args.Map{"panicked": false, "value": "hello World"}
-	expected.ShouldBeEqual(t, 0, "Invoke with receiver", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns non-empty -- with receiver", actual)
 }
 
 func Test_C2_Invoke_NilReceiver_PanicRecovery(t *testing.T) {
@@ -139,7 +139,7 @@ func Test_C2_Invoke_NilReceiver_PanicRecovery(t *testing.T) {
 	r := results.InvokeWithPanicRecovery((*testReceiver).Greet, nil)
 	actual := args.Map{"panicked": r.Panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "Invoke nil receiver panic", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke panics -- nil receiver panic", actual)
 }
 
 func Test_C2_Invoke_WithNonNilArgs(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_C2_Invoke_FuncReturningOnlyError(t *testing.T) {
 	r := results.InvokeWithPanicRecovery(fn, nil)
 	actual := args.Map{"hasError": r.HasError(), "returnCount": r.ReturnCount}
 	expected := args.Map{"hasError": true, "returnCount": 1}
-	expected.ShouldBeEqual(t, 0, "Invoke func returning only error", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns error -- func returning only error", actual)
 }
 
 func Test_C2_Invoke_FuncReturningNilError(t *testing.T) {
@@ -162,7 +162,7 @@ func Test_C2_Invoke_FuncReturningNilError(t *testing.T) {
 	r := results.InvokeWithPanicRecovery(fn, nil)
 	actual := args.Map{"hasError": r.HasError(), "returnCount": r.ReturnCount}
 	expected := args.Map{"hasError": false, "returnCount": 1}
-	expected.ShouldBeEqual(t, 0, "Invoke func returning nil error", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- func returning nil error", actual)
 }
 
 func Test_C2_Invoke_FuncReturningIntAndNonError(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_C2_Invoke_FuncReturningIntAndNonError(t *testing.T) {
 		"hasError":    r.HasError(),
 	}
 	expected := args.Map{"panicked": false, "returnCount": 2, "hasError": false}
-	expected.ShouldBeEqual(t, 0, "Invoke func with non-error second return", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns error -- func with non-error second return", actual)
 }
 
 func Test_C2_Invoke_PanicFunc(t *testing.T) {
@@ -182,7 +182,7 @@ func Test_C2_Invoke_PanicFunc(t *testing.T) {
 	r := results.InvokeWithPanicRecovery(fn, nil)
 	actual := args.Map{"panicked": r.Panicked, "panicVal": fmt.Sprintf("%v", r.PanicValue)}
 	expected := args.Map{"panicked": true, "panicVal": "deliberate"}
-	expected.ShouldBeEqual(t, 0, "Invoke panic func", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke panics -- panic func", actual)
 }
 
 // ── ShouldMatchResult with explicit compareFields ──

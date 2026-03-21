@@ -57,7 +57,7 @@ func Test_C15_TypedPayloadWrapper_Constructors(t *testing.T) {
 		"data":       "Alice",
 		"typedData":  "alice@test.com",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper constructors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- constructors", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_NilChecks(t *testing.T) {
@@ -108,7 +108,7 @@ func Test_C15_TypedPayloadWrapper_NilChecks(t *testing.T) {
 		"payStr":  "",
 		"length":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper nil checks", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns nil -- nil checks", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_ErrorHandling(t *testing.T) {
@@ -127,7 +127,7 @@ func Test_C15_TypedPayloadWrapper_ErrorHandling(t *testing.T) {
 		"safe":    true,
 		"err":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper error handling", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns error -- error handling", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Strings(t *testing.T) {
@@ -142,7 +142,7 @@ func Test_C15_TypedPayloadWrapper_Strings(t *testing.T) {
 		"prettyNotEmpty": true,
 		"jsonNotEmpty":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper strings", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- strings", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_JSON(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_C15_TypedPayloadWrapper_JSON(t *testing.T) {
 		"tdjpOK":  true,
 		"tdjbOK":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- JSON", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_MarshalJSON_Nil(t *testing.T) {
@@ -180,7 +180,7 @@ func Test_C15_TypedPayloadWrapper_MarshalJSON_Nil(t *testing.T) {
 	_, err := nilTW.MarshalJSON()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper MarshalJSON nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns nil -- MarshalJSON nil", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_UnmarshalJSON(t *testing.T) {
@@ -196,7 +196,7 @@ func Test_C15_TypedPayloadWrapper_UnmarshalJSON(t *testing.T) {
 		"noErr":  true,
 		"parsed": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- UnmarshalJSON", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_SerializeMust(t *testing.T) {
@@ -204,7 +204,7 @@ func Test_C15_TypedPayloadWrapper_SerializeMust(t *testing.T) {
 	b := tw.SerializeMust()
 	actual := args.Map{"len": len(b) > 0}
 	expected := args.Map{"len": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper SerializeMust", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- SerializeMust", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Serialize_Nil(t *testing.T) {
@@ -212,7 +212,7 @@ func Test_C15_TypedPayloadWrapper_Serialize_Nil(t *testing.T) {
 	_, err := nilTW.Serialize()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Serialize nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns nil -- Serialize nil", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_GetAs(t *testing.T) {
@@ -233,7 +233,7 @@ func Test_C15_TypedPayloadWrapper_GetAs(t *testing.T) {
 		"s": "hello", "sOk": true, "iOk": false, "i64Ok": false,
 		"f64Ok": false, "f32Ok": false, "bOk": false, "byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- GetAs", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_ValueMethods(t *testing.T) {
@@ -250,7 +250,7 @@ func Test_C15_TypedPayloadWrapper_ValueMethods(t *testing.T) {
 		"int":  42,
 		"bool": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Value methods", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Value methods", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Setters(t *testing.T) {
@@ -271,7 +271,7 @@ func Test_C15_TypedPayloadWrapper_Setters(t *testing.T) {
 		"entity": "newEntity",
 		"cat":    "newCat",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Setters", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Setters", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_SetTypedData(t *testing.T) {
@@ -285,7 +285,7 @@ func Test_C15_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 		"noErr": true,
 		"name":  "Bob",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper SetTypedData", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- SetTypedData", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_SetTypedData_Nil(t *testing.T) {
@@ -293,7 +293,7 @@ func Test_C15_TypedPayloadWrapper_SetTypedData_Nil(t *testing.T) {
 	err := nilTW.SetTypedData(testUser{})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper SetTypedData nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns nil -- SetTypedData nil", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_SetTypedDataMust(t *testing.T) {
@@ -301,7 +301,7 @@ func Test_C15_TypedPayloadWrapper_SetTypedDataMust(t *testing.T) {
 	tw.SetTypedDataMust(testUser{Name: "Charlie"})
 	actual := args.Map{"name": tw.Data().Name}
 	expected := args.Map{"name": "Charlie"}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper SetTypedDataMust", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- SetTypedDataMust", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Clone(t *testing.T) {
@@ -326,7 +326,7 @@ func Test_C15_TypedPayloadWrapper_Clone(t *testing.T) {
 		"nilClone":    true,
 		"nilErr":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Clone", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_ToPayloadWrapper(t *testing.T) {
@@ -345,7 +345,7 @@ func Test_C15_TypedPayloadWrapper_ToPayloadWrapper(t *testing.T) {
 		"vNotNil": true,
 		"nilPW":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper ToPayloadWrapper", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- ToPayloadWrapper", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Reparse(t *testing.T) {
@@ -363,7 +363,7 @@ func Test_C15_TypedPayloadWrapper_Reparse(t *testing.T) {
 		"nilErr":  true,
 		"parsed":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Reparse", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Reparse", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_ClearDispose(t *testing.T) {
@@ -371,13 +371,13 @@ func Test_C15_TypedPayloadWrapper_ClearDispose(t *testing.T) {
 	tw.Clear()
 	actual := args.Map{"isEmpty": tw.IsEmpty()}
 	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Clear", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Clear", actual)
 
 	tw2 := makeTypedWrapper(t)
 	tw2.Dispose()
 	actual2 := args.Map{"isNull": tw2.IsNull()}
 	expected2 := args.Map{"isNull": true}
-	expected2.ShouldBeEqual(t, 0, "TypedPayloadWrapper Dispose", actual2)
+	expected2.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Dispose", actual2)
 
 	var nilTW *corepayload.TypedPayloadWrapper[testUser]
 	nilTW.Clear()   // should not panic
@@ -401,7 +401,7 @@ func Test_C15_TypedPayloadWrapper_Attributes(t *testing.T) {
 		"nilAttr":     true,
 		"nilInit":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Attributes", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Attributes", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_IdInteger(t *testing.T) {
@@ -415,7 +415,7 @@ func Test_C15_TypedPayloadWrapper_IdInteger(t *testing.T) {
 		"id":    42,
 		"nilId": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper IdInteger", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- IdInteger", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_HandleError_NoError(t *testing.T) {
@@ -450,7 +450,7 @@ func Test_C15_TypedPayloadWrapper_Factories(t *testing.T) {
 		"e5": true, "n5": "E",
 		"e6": true, "n6": "F",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper factories", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- factories", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Must(t *testing.T) {
@@ -458,7 +458,7 @@ func Test_C15_TypedPayloadWrapper_Must(t *testing.T) {
 	tw := corepayload.NewTypedPayloadWrapperMust[testUser](pw)
 	actual := args.Map{"name": tw.Data().Name}
 	expected := args.Map{"name": "X"}
-	expected.ShouldBeEqual(t, 0, "NewTypedPayloadWrapperMust", actual)
+	expected.ShouldBeEqual(t, 0, "NewTypedPayloadWrapperMust returns correct value -- with args", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_Deserialize(t *testing.T) {
@@ -473,7 +473,7 @@ func Test_C15_TypedPayloadWrapper_Deserialize(t *testing.T) {
 		"noErr": true,
 		"name":  "Alice",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapperDeserialize", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapperDeserialize returns correct value -- with args", actual)
 }
 
 func Test_C15_TypedPayloadWrapper_DeserializeUsingJsonResult(t *testing.T) {
@@ -489,7 +489,7 @@ func Test_C15_TypedPayloadWrapper_DeserializeUsingJsonResult(t *testing.T) {
 		"noErr": true,
 		"name":  "Alice",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapperDeserializeUsingJsonResult", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapperDeserializeUsingJsonResult returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -532,7 +532,7 @@ func Test_C15_TypedPayloadCollection_Core(t *testing.T) {
 		"emptyLen": 0,
 		"emptyE":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection core", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- core", actual)
 }
 
 func Test_C15_TypedPayloadCollection_NilReceiver(t *testing.T) {
@@ -547,7 +547,7 @@ func Test_C15_TypedPayloadCollection_NilReceiver(t *testing.T) {
 		"isEmpty": true,
 		"items":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns nil -- nil", actual)
 }
 
 func Test_C15_TypedPayloadCollection_ElementAccess(t *testing.T) {
@@ -584,7 +584,7 @@ func Test_C15_TypedPayloadCollection_ElementAccess(t *testing.T) {
 		"elod":       true,
 		"esafe":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection element access", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- element access", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Mutation(t *testing.T) {
@@ -595,7 +595,7 @@ func Test_C15_TypedPayloadCollection_Mutation(t *testing.T) {
 	col.Adds(tw, tw)
 	actual := args.Map{"len": col.Length()}
 	expected := args.Map{"len": 4}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection mutation", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- mutation", actual)
 }
 
 func Test_C15_TypedPayloadCollection_AddCollection(t *testing.T) {
@@ -604,7 +604,7 @@ func Test_C15_TypedPayloadCollection_AddCollection(t *testing.T) {
 	col.AddCollection(col2)
 	actual := args.Map{"len": col.Length()}
 	expected := args.Map{"len": 4}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection AddCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- AddCollection", actual)
 }
 
 func Test_C15_TypedPayloadCollection_RemoveAt(t *testing.T) {
@@ -614,7 +614,7 @@ func Test_C15_TypedPayloadCollection_RemoveAt(t *testing.T) {
 	neg := col.RemoveAt(-1)
 	actual := args.Map{"ok": ok, "bad": bad, "neg": neg, "len": col.Length()}
 	expected := args.Map{"ok": true, "bad": false, "neg": false, "len": 1}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection RemoveAt", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- RemoveAt", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Iteration(t *testing.T) {
@@ -642,7 +642,7 @@ func Test_C15_TypedPayloadCollection_Iteration(t *testing.T) {
 		"dataNames": 2,
 		"breakCnt":  1,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection iteration", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- iteration", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Filter(t *testing.T) {
@@ -682,7 +682,7 @@ func Test_C15_TypedPayloadCollection_Filter(t *testing.T) {
 		"byIdNotNil":    true,
 		"countF":        2,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection filter", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- filter", actual)
 }
 
 func Test_C15_TypedPayloadCollection_SkipTake(t *testing.T) {
@@ -697,7 +697,7 @@ func Test_C15_TypedPayloadCollection_SkipTake(t *testing.T) {
 		"skipLen": 1,
 		"takeLen": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection SkipTake", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- SkipTake", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Extraction(t *testing.T) {
@@ -725,7 +725,7 @@ func Test_C15_TypedPayloadCollection_Extraction(t *testing.T) {
 		"emptyNames":  0,
 		"emptyIds":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection extraction", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- extraction", actual)
 }
 
 func Test_C15_TypedPayloadCollection_ToPayloadsCollection(t *testing.T) {
@@ -741,7 +741,7 @@ func Test_C15_TypedPayloadCollection_ToPayloadsCollection(t *testing.T) {
 		"len":      2,
 		"emptyLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection ToPayloadsCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- ToPayloadsCollection", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Clone(t *testing.T) {
@@ -764,7 +764,7 @@ func Test_C15_TypedPayloadCollection_Clone(t *testing.T) {
 		"emptyErr":  true,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- Clone", actual)
 }
 
 func Test_C15_TypedPayloadCollection_ConcatNew(t *testing.T) {
@@ -779,7 +779,7 @@ func Test_C15_TypedPayloadCollection_ConcatNew(t *testing.T) {
 		"noErr": true,
 		"len":   3,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- ConcatNew", actual)
 }
 
 func Test_C15_TypedPayloadCollection_ClearDispose(t *testing.T) {
@@ -787,13 +787,13 @@ func Test_C15_TypedPayloadCollection_ClearDispose(t *testing.T) {
 	col.Clear()
 	actual := args.Map{"isEmpty": col.IsEmpty()}
 	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection Clear", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- Clear", actual)
 
 	col2 := makeTypedCollection(t)
 	col2.Dispose()
 	actual2 := args.Map{"isEmpty2": col2.IsEmpty()}
 	expected2 := args.Map{"isEmpty2": true}
-	expected2.ShouldBeEqual(t, 0, "TypedPayloadCollection Dispose", actual2)
+	expected2.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- Dispose", actual2)
 
 	var nilCol *corepayload.TypedPayloadCollection[testUser]
 	nilCol.Clear()   // no panic
@@ -812,7 +812,7 @@ func Test_C15_TypedPayloadCollection_LockMethods(t *testing.T) {
 		"lenLock":   2,
 		"emptyLock": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection lock methods", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- lock methods", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Paging(t *testing.T) {
@@ -839,7 +839,7 @@ func Test_C15_TypedPayloadCollection_Paging(t *testing.T) {
 		"withInfoLen":   3,
 		"smallPages":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection paging", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- paging", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Validation(t *testing.T) {
@@ -858,7 +858,7 @@ func Test_C15_TypedPayloadCollection_Validation(t *testing.T) {
 		"mergedErr": true,
 		"errsLen":   0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection validation", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns non-empty -- validation", actual)
 }
 
 func Test_C15_TypedPayloadCollection_EmptyValidation(t *testing.T) {
@@ -871,7 +871,7 @@ func Test_C15_TypedPayloadCollection_EmptyValidation(t *testing.T) {
 		"isValid":   true,
 		"errs":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection empty validation", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns empty -- empty validation", actual)
 }
 
 func Test_C15_TypedPayloadCollection_SingleAndFromData(t *testing.T) {
@@ -898,7 +898,7 @@ func Test_C15_TypedPayloadCollection_SingleAndFromData(t *testing.T) {
 		"emptyLen":     0,
 		"mustLen":      1,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection Single/FromData", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollection returns correct value -- Single/FromData", actual)
 }
 
 func Test_C15_TypedPayloadCollection_FromPayloads(t *testing.T) {
@@ -914,7 +914,7 @@ func Test_C15_TypedPayloadCollection_FromPayloads(t *testing.T) {
 		"len":    2,
 		"nilLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollectionFromPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadCollectionFromPayloads returns correct value -- with args", actual)
 }
 
 func Test_C15_TypedPayloadCollection_Deserialize(t *testing.T) {
@@ -954,7 +954,7 @@ func Test_C15_MapTypedPayloads(t *testing.T) {
 		"emptyLen":    0,
 		"emptyDatLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "MapTypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "MapTypedPayloads returns correct value -- with args", actual)
 }
 
 func Test_C15_FlatMapTypedPayloads(t *testing.T) {
@@ -980,7 +980,7 @@ func Test_C15_FlatMapTypedPayloads(t *testing.T) {
 		"emptyLen":    0,
 		"emptyDatLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "FlatMapTypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "FlatMapTypedPayloads returns correct value -- with args", actual)
 }
 
 func Test_C15_ReduceTypedPayloads(t *testing.T) {
@@ -1006,7 +1006,7 @@ func Test_C15_ReduceTypedPayloads(t *testing.T) {
 		"empty":     99,
 		"emptyData": 77,
 	}
-	expected.ShouldBeEqual(t, 0, "ReduceTypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "ReduceTypedPayloads returns correct value -- with args", actual)
 }
 
 func Test_C15_GroupTypedPayloads(t *testing.T) {
@@ -1029,7 +1029,7 @@ func Test_C15_GroupTypedPayloads(t *testing.T) {
 		"dataGroupsLen": 2,
 		"emptyLen":      0,
 	}
-	expected.ShouldBeEqual(t, 0, "GroupTypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "GroupTypedPayloads returns correct value -- with args", actual)
 }
 
 func Test_C15_PartitionTypedPayloads(t *testing.T) {
@@ -1051,7 +1051,7 @@ func Test_C15_PartitionTypedPayloads(t *testing.T) {
 		"emLen":       0,
 		"enmLen":      0,
 	}
-	expected.ShouldBeEqual(t, 0, "PartitionTypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "PartitionTypedPayloads returns correct value -- with args", actual)
 }
 
 func Test_C15_AnyAllTypedPayloads(t *testing.T) {
@@ -1082,7 +1082,7 @@ func Test_C15_AnyAllTypedPayloads(t *testing.T) {
 		"anyEmpty": false,
 		"allEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AnyAll TypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "AnyAll returns correct value -- TypedPayloads", actual)
 }
 
 func Test_C15_ConvertTypedPayloads(t *testing.T) {
@@ -1102,7 +1102,7 @@ func Test_C15_ConvertTypedPayloads(t *testing.T) {
 		"emptyErr": true,
 		"emptyLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "ConvertTypedPayloads", actual)
+	expected.ShouldBeEqual(t, 0, "ConvertTypedPayloads returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -1120,14 +1120,14 @@ func Test_C15_DeserializePayloadTo(t *testing.T) {
 		"noErr": true,
 		"name":  "X",
 	}
-	expected.ShouldBeEqual(t, 0, "DeserializePayloadTo", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializePayloadTo returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializePayloadTo_Nil(t *testing.T) {
 	_, err := corepayload.DeserializePayloadTo[testUser](nil)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "DeserializePayloadTo nil", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializePayloadTo returns nil -- nil", actual)
 }
 
 func Test_C15_DeserializePayloadToMust(t *testing.T) {
@@ -1135,7 +1135,7 @@ func Test_C15_DeserializePayloadToMust(t *testing.T) {
 	u := corepayload.DeserializePayloadToMust[testUser](pw)
 	actual := args.Map{"name": u.Name}
 	expected := args.Map{"name": "Y"}
-	expected.ShouldBeEqual(t, 0, "DeserializePayloadToMust", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializePayloadToMust returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializePayloadToSlice(t *testing.T) {
@@ -1150,14 +1150,14 @@ func Test_C15_DeserializePayloadToSlice(t *testing.T) {
 		"noErr": true,
 		"len":   2,
 	}
-	expected.ShouldBeEqual(t, 0, "DeserializePayloadToSlice", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializePayloadToSlice returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializePayloadToSlice_Nil(t *testing.T) {
 	result, err := corepayload.DeserializePayloadToSlice[testUser](nil)
 	actual := args.Map{"hasErr": err != nil, "len": len(result)}
 	expected := args.Map{"hasErr": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "DeserializePayloadToSlice nil", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializePayloadToSlice returns nil -- nil", actual)
 }
 
 func Test_C15_DeserializePayloadToSliceMust(t *testing.T) {
@@ -1166,7 +1166,7 @@ func Test_C15_DeserializePayloadToSliceMust(t *testing.T) {
 	result := corepayload.DeserializePayloadToSliceMust[testUser](pw)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "DeserializePayloadToSliceMust", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializePayloadToSliceMust returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializeAttributesPayloadTo(t *testing.T) {
@@ -1176,14 +1176,14 @@ func Test_C15_DeserializeAttributesPayloadTo(t *testing.T) {
 	result, err := corepayload.DeserializeAttributesPayloadTo[testUser](attr)
 	actual := args.Map{"noErr": err == nil, "name": result.Name}
 	expected := args.Map{"noErr": true, "name": "Test"}
-	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadTo", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadTo returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializeAttributesPayloadTo_Nil(t *testing.T) {
 	_, err := corepayload.DeserializeAttributesPayloadTo[testUser](nil)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadTo nil", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadTo returns nil -- nil", actual)
 }
 
 func Test_C15_DeserializeAttributesPayloadToMust(t *testing.T) {
@@ -1193,7 +1193,7 @@ func Test_C15_DeserializeAttributesPayloadToMust(t *testing.T) {
 	result := corepayload.DeserializeAttributesPayloadToMust[testUser](attr)
 	actual := args.Map{"name": result.Name}
 	expected := args.Map{"name": "MustTest"}
-	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadToMust", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadToMust returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializeAttributesPayloadToSlice(t *testing.T) {
@@ -1203,12 +1203,12 @@ func Test_C15_DeserializeAttributesPayloadToSlice(t *testing.T) {
 	result, err := corepayload.DeserializeAttributesPayloadToSlice[testUser](attr)
 	actual := args.Map{"noErr": err == nil, "len": len(result)}
 	expected := args.Map{"noErr": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadToSlice", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadToSlice returns correct value -- with args", actual)
 }
 
 func Test_C15_DeserializeAttributesPayloadToSlice_Nil(t *testing.T) {
 	result, err := corepayload.DeserializeAttributesPayloadToSlice[testUser](nil)
 	actual := args.Map{"hasErr": err != nil, "len": len(result)}
 	expected := args.Map{"hasErr": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadToSlice nil", actual)
+	expected.ShouldBeEqual(t, 0, "DeserializeAttributesPayloadToSlice returns nil -- nil", actual)
 }

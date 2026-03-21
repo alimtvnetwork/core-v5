@@ -203,7 +203,7 @@ func Test_Cov3_FilterByFields_MissingKey(t *testing.T) {
 		"hasValue":    true,
 		"hasPanicked": true,
 	}
-	expected.ShouldBeEqual(t, 0, "filterByFields missing key", actual)
+	expected.ShouldBeEqual(t, 0, "filterByFields returns correct value -- missing key", actual)
 }
 
 // ── Three-return method ──

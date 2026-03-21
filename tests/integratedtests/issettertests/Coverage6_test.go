@@ -113,7 +113,7 @@ func Test_Cov6_GetSet(t *testing.T) {
 		"false": issetter.GetSet(false, issetter.True, issetter.False) == issetter.False,
 	}
 	expected := args.Map{"true": true, "false": true}
-	expected.ShouldBeEqual(t, 0, "GetSet", actual)
+	expected.ShouldBeEqual(t, 0, "GetSet returns correct value -- with args", actual)
 }
 
 func Test_Cov6_GetSetByte(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_Cov6_GetSetByte(t *testing.T) {
 		"false": issetter.GetSetByte(false, 1, 2) == issetter.False,
 	}
 	expected := args.Map{"true": true, "false": true}
-	expected.ShouldBeEqual(t, 0, "GetSetByte", actual)
+	expected.ShouldBeEqual(t, 0, "GetSetByte returns correct value -- with args", actual)
 }
 
 func Test_Cov6_GetSetUnset(t *testing.T) {
@@ -131,7 +131,7 @@ func Test_Cov6_GetSetUnset(t *testing.T) {
 		"unset": issetter.GetSetUnset(false) == issetter.Unset,
 	}
 	expected := args.Map{"set": true, "unset": true}
-	expected.ShouldBeEqual(t, 0, "GetSetUnset", actual)
+	expected.ShouldBeEqual(t, 0, "GetSetUnset returns correct value -- with args", actual)
 }
 
 // ── GetSetterByComparing ──
@@ -172,7 +172,7 @@ func Test_Cov6_NewBool(t *testing.T) {
 		"false": issetter.NewBool(false) == issetter.False,
 	}
 	expected := args.Map{"true": true, "false": true}
-	expected.ShouldBeEqual(t, 0, "NewBool", actual)
+	expected.ShouldBeEqual(t, 0, "NewBool returns correct value -- with args", actual)
 }
 
 func Test_Cov6_NewMust_Valid(t *testing.T) {
@@ -197,7 +197,7 @@ func Test_Cov6_MinMax(t *testing.T) {
 		"minByte": 0, "maxByte": 4,
 		"csv": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Min/Max/MinByte/MaxByte/RangeNamesCsv", actual)
+	expected.ShouldBeEqual(t, 0, "Min/Max/MinByte/MaxByte/RangeNamesCsv returns correct value -- with args", actual)
 }
 
 // ── IsUnSetOrUninitialized ──
@@ -209,7 +209,7 @@ func Test_Cov6_IsUnSetOrUninitialized(t *testing.T) {
 		"true":   issetter.True.IsUnSetOrUninitialized(),
 	}
 	expected := args.Map{"uninit": true, "unset": true, "true": false}
-	expected.ShouldBeEqual(t, 0, "IsUnSetOrUninitialized", actual)
+	expected.ShouldBeEqual(t, 0, "IsUnSetOrUninitialized returns correct value -- with args", actual)
 }
 
 // ── GetBool ──
@@ -220,7 +220,7 @@ func Test_Cov6_GetBool(t *testing.T) {
 		"false": issetter.GetBool(false) == issetter.False,
 	}
 	expected := args.Map{"true": true, "false": true}
-	expected.ShouldBeEqual(t, 0, "GetBool", actual)
+	expected.ShouldBeEqual(t, 0, "GetBool returns correct value -- with args", actual)
 }
 
 // ── YesNoMappedValue -- uninit ──

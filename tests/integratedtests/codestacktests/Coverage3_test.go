@@ -13,7 +13,7 @@ func Test_Cov3_TraceCollection_NilLength(t *testing.T) {
 	var tc *codestack.TraceCollection
 	actual := args.Map{"length": tc.Length(), "isEmpty": tc.IsEmpty()}
 	expected := args.Map{"length": 0, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.Length nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.Length returns nil -- nil receiver", actual)
 }
 
 func Test_Cov3_TraceCollection_Adds_Empty(t *testing.T) {
@@ -22,7 +22,7 @@ func Test_Cov3_TraceCollection_Adds_Empty(t *testing.T) {
 	tc.Adds()
 	actual := args.Map{"same": tc.Length() == before}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.Adds empty does nothing", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.Adds returns empty -- empty does nothing", actual)
 }
 
 func Test_Cov3_TraceCollection_AddsIf_False(t *testing.T) {
@@ -31,7 +31,7 @@ func Test_Cov3_TraceCollection_AddsIf_False(t *testing.T) {
 	tc.AddsIf(false, codestack.Trace{})
 	actual := args.Map{"same": tc.Length() == before}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsIf false does nothing", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsIf returns non-empty -- false does nothing", actual)
 }
 
 func Test_Cov3_TraceCollection_AddsIf_True(t *testing.T) {
@@ -40,7 +40,7 @@ func Test_Cov3_TraceCollection_AddsIf_True(t *testing.T) {
 	tc.AddsIf(true, codestack.Trace{PackageName: "test"})
 	actual := args.Map{"grew": tc.Length() > before}
 	expected := args.Map{"grew": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsIf true adds", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsIf returns non-empty -- true adds", actual)
 }
 
 func Test_Cov3_TraceCollection_AddsPtr_Empty(t *testing.T) {
@@ -49,7 +49,7 @@ func Test_Cov3_TraceCollection_AddsPtr_Empty(t *testing.T) {
 	tc.AddsPtr(true)
 	actual := args.Map{"same": tc.Length() == before}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr empty does nothing", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr returns empty -- empty does nothing", actual)
 }
 
 func Test_Cov3_TraceCollection_AddsPtr_NilTrace(t *testing.T) {
@@ -58,7 +58,7 @@ func Test_Cov3_TraceCollection_AddsPtr_NilTrace(t *testing.T) {
 	tc.AddsPtr(true, nil)
 	actual := args.Map{"same": tc.Length() == before}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr nil trace skipped", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr returns nil -- nil trace skipped", actual)
 }
 
 func Test_Cov3_TraceCollection_AddsPtr_SkipIssues(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_Cov3_TraceCollection_AddsPtr_SkipIssues(t *testing.T) {
 	tc.AddsPtr(true, badTrace)
 	actual := args.Map{"same": tc.Length() == before}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr skips issues", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr returns correct value -- skips issues", actual)
 }
 
 func Test_Cov3_TraceCollection_AddsPtr_NoSkip(t *testing.T) {
@@ -78,21 +78,21 @@ func Test_Cov3_TraceCollection_AddsPtr_NoSkip(t *testing.T) {
 	tc.AddsPtr(false, goodTrace)
 	actual := args.Map{"grew": tc.Length() > before}
 	expected := args.Map{"grew": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr no skip adds", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsPtr returns empty -- no skip adds", actual)
 }
 
 func Test_Cov3_TraceCollection_FirstOrDefault_Empty(t *testing.T) {
 	tc := &codestack.TraceCollection{}
 	actual := args.Map{"isNil": tc.FirstOrDefault() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.FirstOrDefault empty", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.FirstOrDefault returns empty -- empty", actual)
 }
 
 func Test_Cov3_TraceCollection_LastOrDefault_Empty(t *testing.T) {
 	tc := &codestack.TraceCollection{}
 	actual := args.Map{"isNil": tc.LastOrDefault() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.LastOrDefault empty", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.LastOrDefault returns empty -- empty", actual)
 }
 
 func Test_Cov3_TraceCollection_HasIndex(t *testing.T) {
@@ -105,7 +105,7 @@ func Test_Cov3_TraceCollection_HasIndex(t *testing.T) {
 		"hasZero":  tc.HasIndex(0),
 		"hasMega":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.HasIndex", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.HasIndex returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_GetPagesSize(t *testing.T) {
@@ -120,7 +120,7 @@ func Test_Cov3_TraceCollection_GetPagesSize(t *testing.T) {
 		"negPage":  0,
 		"valid":    tc.GetPagesSize(3) > 0,
 	}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.GetPagesSize", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.GetPagesSize returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_Filter(t *testing.T) {
@@ -130,7 +130,7 @@ func Test_Cov3_TraceCollection_Filter(t *testing.T) {
 	})
 	actual := args.Map{"notEmpty": len(filtered) > 0}
 	expected := args.Map{"notEmpty": len(filtered) > 0}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter takes all", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter returns correct value -- takes all", actual)
 }
 
 func Test_Cov3_TraceCollection_Filter_BreakEarly(t *testing.T) {
@@ -140,7 +140,7 @@ func Test_Cov3_TraceCollection_Filter_BreakEarly(t *testing.T) {
 	})
 	actual := args.Map{"len": len(filtered)}
 	expected := args.Map{"len": len(filtered)}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter break early", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter returns correct value -- break early", actual)
 }
 
 func Test_Cov3_TraceCollection_SafeLimitCollection(t *testing.T) {
@@ -148,7 +148,7 @@ func Test_Cov3_TraceCollection_SafeLimitCollection(t *testing.T) {
 	limited := tc.SafeLimitCollection(999)
 	actual := args.Map{"safeLen": limited.Length() == tc.Length()}
 	expected := args.Map{"safeLen": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.SafeLimitCollection exceeds length", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.SafeLimitCollection returns correct value -- exceeds length", actual)
 }
 
 func Test_Cov3_TraceCollection_ConcatNew(t *testing.T) {
@@ -163,7 +163,7 @@ func Test_Cov3_TraceCollection_ConcatNew(t *testing.T) {
 		"origSame": true,
 		"newGrew":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNew returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_ConcatNewPtr(t *testing.T) {
@@ -173,63 +173,63 @@ func Test_Cov3_TraceCollection_ConcatNewPtr(t *testing.T) {
 	newTc := tc.ConcatNewPtr(tr)
 	actual := args.Map{"origSame": tc.Length() == origLen, "newNotEmpty": newTc.Length() > 0}
 	expected := args.Map{"origSame": true, "newNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNewPtr", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNewPtr returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_StackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.StackTraces() != ""}
 	expected := args.Map{"notEmpty": tc.StackTraces() != ""}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.StackTraces", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.StackTraces returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_StackTracesJsonResult(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.StackTracesJsonResult() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.StackTracesJsonResult", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.StackTracesJsonResult returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_NewStackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.NewStackTraces(1) != ""}
 	expected := args.Map{"notEmpty": tc.NewStackTraces(1) != ""}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.NewStackTraces", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.NewStackTraces returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_NewDefaultStackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.NewDefaultStackTraces() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.NewDefaultStackTraces", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.NewDefaultStackTraces returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_NewStackTracesJsonResult(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.NewStackTracesJsonResult(1) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.NewStackTracesJsonResult", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.NewStackTracesJsonResult returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_NewDefaultStackTracesJsonResult(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.NewDefaultStackTracesJsonResult() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.NewDefaultStackTracesJsonResult", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.NewDefaultStackTracesJsonResult returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_SkipDynamic(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.SkipDynamic(1) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.SkipDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.SkipDynamic returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_TakeDynamic(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.TakeDynamic(1) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.TakeDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.TakeDynamic returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_TakeCollection(t *testing.T) {
@@ -237,7 +237,7 @@ func Test_Cov3_TraceCollection_TakeCollection(t *testing.T) {
 	taken := tc.TakeCollection(1)
 	actual := args.Map{"len": taken.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.TakeCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.TakeCollection returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_LimitCollection(t *testing.T) {
@@ -245,28 +245,28 @@ func Test_Cov3_TraceCollection_LimitCollection(t *testing.T) {
 	limited := tc.LimitCollection(1)
 	actual := args.Map{"len": limited.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.LimitCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.LimitCollection returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_LimitDynamic(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.LimitDynamic(1) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.LimitDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.LimitDynamic returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_FirstOrDefaultDynamic(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.FirstOrDefaultDynamic() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.FirstOrDefaultDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.FirstOrDefaultDynamic returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_LastOrDefaultDynamic(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notNil": tc.LastOrDefaultDynamic() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.LastOrDefaultDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.LastOrDefaultDynamic returns correct value -- with args", actual)
 }
 
 // ── newTraceCollection factory coverage ──
@@ -278,7 +278,7 @@ func Test_Cov3_NewTraces_Cap(t *testing.T) {
 	}
 	actual := args.Map{"notEmpty": tc.Length() > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "newStacksCreator.All", actual)
+	expected.ShouldBeEqual(t, 0, "newStacksCreator.All returns correct value -- with args", actual)
 }
 
 // ── NameOf with real func names ──
@@ -295,35 +295,35 @@ func Test_Cov3_NameOf_All_WithDot(t *testing.T) {
 		"pkgNotEmpty":    true,
 		"methodNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "NameOf.All with dotted path", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.All returns non-empty -- with dotted path", actual)
 }
 
 func Test_Cov3_NameOf_MethodByFullName(t *testing.T) {
 	result := codestack.NameOf.MethodByFullName("github.com/pkg.Method")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameOf.MethodByFullName", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.MethodByFullName returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NameOf_PackageByFullName(t *testing.T) {
 	result := codestack.NameOf.PackageByFullName("github.com/pkg.Method")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameOf.PackageByFullName", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.PackageByFullName returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NameOf_CurrentFuncFullPath(t *testing.T) {
 	result := codestack.NameOf.CurrentFuncFullPath("github.com/pkg.Method")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameOf.CurrentFuncFullPath", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.CurrentFuncFullPath returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NameOf_JoinPackageNameWithRelative(t *testing.T) {
 	result := codestack.NameOf.JoinPackageNameWithRelative("github.com/pkg.Method", "SubMethod")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameOf.JoinPackageNameWithRelative", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.JoinPackageNameWithRelative returns non-empty -- with args", actual)
 }
 
 // ── File getter additional coverage ──
@@ -332,32 +332,32 @@ func Test_Cov3_File_PathLineSep(t *testing.T) {
 	fp, ln := codestack.File.PathLineSep(0)
 	actual := args.Map{"pathNotEmpty": fp != "", "linePositive": ln > 0}
 	expected := args.Map{"pathNotEmpty": true, "linePositive": true}
-	expected.ShouldBeEqual(t, 0, "File.PathLineSep", actual)
+	expected.ShouldBeEqual(t, 0, "File.PathLineSep returns correct value -- with args", actual)
 }
 
 func Test_Cov3_File_PathLineSepDefault(t *testing.T) {
 	fp, ln := codestack.File.PathLineSepDefault()
 	actual := args.Map{"pathNotEmpty": fp != "", "linePositive": ln > 0}
 	expected := args.Map{"pathNotEmpty": true, "linePositive": true}
-	expected.ShouldBeEqual(t, 0, "File.PathLineSepDefault", actual)
+	expected.ShouldBeEqual(t, 0, "File.PathLineSepDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov3_File_FilePathWithLineString(t *testing.T) {
 	actual := args.Map{"notEmpty": codestack.File.FilePathWithLineString(0) != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.FilePathWithLineString", actual)
+	expected.ShouldBeEqual(t, 0, "File.FilePathWithLineString returns non-empty -- with args", actual)
 }
 
 func Test_Cov3_File_PathLineStringDefault(t *testing.T) {
 	actual := args.Map{"notEmpty": codestack.File.PathLineStringDefault() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.PathLineStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "File.PathLineStringDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov3_File_CurrentFilePath(t *testing.T) {
 	actual := args.Map{"notEmpty": codestack.File.CurrentFilePath() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.CurrentFilePath", actual)
+	expected.ShouldBeEqual(t, 0, "File.CurrentFilePath returns correct value -- with args", actual)
 }
 
 // ── Dir additional coverage ──
@@ -365,19 +365,19 @@ func Test_Cov3_File_CurrentFilePath(t *testing.T) {
 func Test_Cov3_Dir_Get(t *testing.T) {
 	actual := args.Map{"notEmpty": codestack.Dir.Get(0) != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.Get", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.Get returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Dir_RepoDir(t *testing.T) {
 	actual := args.Map{"notEmpty": codestack.Dir.RepoDir() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.RepoDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.RepoDir returns correct value -- with args", actual)
 }
 
 func Test_Cov3_Dir_RepoDirJoin(t *testing.T) {
 	actual := args.Map{"notEmpty": codestack.Dir.RepoDirJoin("sub") != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.RepoDirJoin", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.RepoDirJoin returns correct value -- with args", actual)
 }
 
 // ── isSkippablePackage ──
@@ -387,7 +387,7 @@ func Test_Cov3_SkippablePackage_ViaTrace(t *testing.T) {
 	trace := codestack.New.Default()
 	actual := args.Map{"notSkippable": !trace.IsSkippable}
 	expected := args.Map{"notSkippable": true}
-	expected.ShouldBeEqual(t, 0, "isSkippablePackage returns false for app code", actual)
+	expected.ShouldBeEqual(t, 0, "isSkippablePackage returns non-empty -- returns false for app code", actual)
 }
 
 // ── TraceCollection.AddsUsingSkipDefault ──
@@ -397,7 +397,7 @@ func Test_Cov3_TraceCollection_AddsUsingSkipDefault(t *testing.T) {
 	tc.AddsUsingSkipDefault(0)
 	actual := args.Map{"notEmpty": tc.Length() > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsUsingSkipDefault", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.AddsUsingSkipDefault returns correct value -- with args", actual)
 }
 
 // ── TraceCollection.ConcatNewUsingSkip ──
@@ -407,7 +407,7 @@ func Test_Cov3_TraceCollection_ConcatNewUsingSkip(t *testing.T) {
 	newTc := tc.ConcatNewUsingSkip(0)
 	actual := args.Map{"notEmpty": newTc.Length() > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNewUsingSkip", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNewUsingSkip returns correct value -- with args", actual)
 }
 
 func Test_Cov3_TraceCollection_ConcatNewUsingSkipPlusCount(t *testing.T) {
@@ -415,5 +415,5 @@ func Test_Cov3_TraceCollection_ConcatNewUsingSkipPlusCount(t *testing.T) {
 	newTc := tc.ConcatNewUsingSkipPlusCount(0, 5)
 	actual := args.Map{"notEmpty": newTc.Length() > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNewUsingSkipPlusCount", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection.ConcatNewUsingSkipPlusCount returns correct value -- with args", actual)
 }

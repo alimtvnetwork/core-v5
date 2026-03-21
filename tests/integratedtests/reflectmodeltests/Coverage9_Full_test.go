@@ -22,7 +22,7 @@ func Test_C9_FieldProcessor_IsFieldType(t *testing.T) {
 		"matchInt":  fp.IsFieldType(reflect.TypeOf(0)),
 	}
 	expected := args.Map{"matchStr": true, "matchInt": false}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor.IsFieldType", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor.IsFieldType returns correct value -- with args", actual)
 
 	var nilFp *reflectmodel.FieldProcessor
 	if nilFp.IsFieldType(reflect.TypeOf("")) { t.Fatal("nil should return false") }
@@ -39,7 +39,7 @@ func Test_C9_FieldProcessor_IsFieldKind(t *testing.T) {
 		"matchInt": fp.IsFieldKind(reflect.Int),
 	}
 	expected := args.Map{"matchStr": true, "matchInt": false}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor.IsFieldKind", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor.IsFieldKind returns correct value -- with args", actual)
 
 	var nilFp *reflectmodel.FieldProcessor
 	if nilFp.IsFieldKind(reflect.String) { t.Fatal("nil should return false") }
@@ -61,7 +61,7 @@ func Test_C9_InvalidReflectValueKindModel(t *testing.T) {
 		"emptyError": false,
 		"isValid":    false,
 	}
-	expected.ShouldBeEqual(t, 0, "InvalidReflectValueKindModel", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidReflectValueKindModel returns error -- with args", actual)
 }
 
 func Test_C9_ReflectValueKind_NilReceiver(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_C9_ReflectValueKind_NilReceiver(t *testing.T) {
 		"typeName":   "",
 		"ptrIface":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns nil -- nil receiver", actual)
 }
 
 func Test_C9_ReflectValueKind_Valid(t *testing.T) {
@@ -109,7 +109,7 @@ func Test_C9_ReflectValueKind_Valid(t *testing.T) {
 		"pkgNotEmpty":   true,
 		"typeNotEmpty":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind valid", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns non-empty -- valid", actual)
 
 	// PointerRv for valid value
 	ptrRv := rvk.PointerRv()
@@ -188,7 +188,7 @@ func Test_C9_MethodProcessor_BasicMethods(t *testing.T) {
 		"funcNotNil":    true,
 		"typeNotNil":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor basic", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns correct value -- basic", actual)
 }
 
 func Test_C9_MethodProcessor_NilReceiver(t *testing.T) {
@@ -211,7 +211,7 @@ func Test_C9_MethodProcessor_NilReceiver(t *testing.T) {
 		"isPrivate":    false,
 		"typeNil":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- nil", actual)
 
 	// GetInArgsTypes/GetOutArgsTypes/GetInArgsTypesNames on nil
 	if len(nilMp.GetInArgsTypes()) != 0 { t.Fatal("expected empty") }
@@ -335,7 +335,7 @@ func Test_C9_MethodProcessor_IsEqual(t *testing.T) {
 		"nilRight":     false,
 		"selfEqual":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns correct value -- IsEqual", actual)
 }
 
 // ── MethodProcessor — VerifyInArgs / VerifyOutArgs / ValidateMethodArgs ──

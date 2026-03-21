@@ -24,7 +24,7 @@ func Test_C16_Dynamic_Deserialize_NilReceiver(t *testing.T) {
 		"hasErr":    true,
 		"isInvalid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Deserialize nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "Deserialize returns nil -- nil receiver", actual)
 }
 
 func Test_C16_Dynamic_ValueMarshal_NilReceiver(t *testing.T) {
@@ -32,7 +32,7 @@ func Test_C16_Dynamic_ValueMarshal_NilReceiver(t *testing.T) {
 	_, err := d.ValueMarshal()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValueMarshal nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "ValueMarshal returns nil -- nil receiver", actual)
 }
 
 func Test_C16_Dynamic_ValueMarshal_Valid(t *testing.T) {
@@ -46,7 +46,7 @@ func Test_C16_Dynamic_ValueMarshal_Valid(t *testing.T) {
 		"noErr":   true,
 		"hasData": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValueMarshal valid", actual)
+	expected.ShouldBeEqual(t, 0, "ValueMarshal returns non-empty -- valid", actual)
 }
 
 func Test_C16_Dynamic_JsonPayloadMust(t *testing.T) {
@@ -54,7 +54,7 @@ func Test_C16_Dynamic_JsonPayloadMust(t *testing.T) {
 	b := d.JsonPayloadMust()
 	actual := args.Map{"hasData": len(b) > 0}
 	expected := args.Map{"hasData": true}
-	expected.ShouldBeEqual(t, 0, "JsonPayloadMust", actual)
+	expected.ShouldBeEqual(t, 0, "JsonPayloadMust returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_JsonBytesPtr_Null(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_C16_Dynamic_JsonBytesPtr_Null(t *testing.T) {
 		"noErr":  true,
 		"empty":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "JsonBytesPtr null data", actual)
+	expected.ShouldBeEqual(t, 0, "JsonBytesPtr returns correct value -- null data", actual)
 }
 
 func Test_C16_Dynamic_JsonBytesPtr_Valid(t *testing.T) {
@@ -82,7 +82,7 @@ func Test_C16_Dynamic_JsonBytesPtr_Valid(t *testing.T) {
 		"noErr":   true,
 		"hasData": true,
 	}
-	expected.ShouldBeEqual(t, 0, "JsonBytesPtr valid", actual)
+	expected.ShouldBeEqual(t, 0, "JsonBytesPtr returns non-empty -- valid", actual)
 }
 
 func Test_C16_Dynamic_MarshalJSON(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_C16_Dynamic_MarshalJSON(t *testing.T) {
 		"noErr":   true,
 		"hasData": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "MarshalJSON returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_UnmarshalJSON_Nil(t *testing.T) {
@@ -104,7 +104,7 @@ func Test_C16_Dynamic_UnmarshalJSON_Nil(t *testing.T) {
 	err := d.UnmarshalJSON([]byte(`"hello"`))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON returns nil -- nil receiver", actual)
 }
 
 func Test_C16_Dynamic_JsonModel_JsonModelAny(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_C16_Dynamic_JsonModel_JsonModelAny(t *testing.T) {
 		"model":    "x",
 		"modelAny": "x",
 	}
-	expected.ShouldBeEqual(t, 0, "JsonModel/JsonModelAny", actual)
+	expected.ShouldBeEqual(t, 0, "JsonModel/JsonModelAny returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_Json_JsonPtr(t *testing.T) {
@@ -131,7 +131,7 @@ func Test_C16_Dynamic_Json_JsonPtr(t *testing.T) {
 	expected := args.Map{
 		"ptrNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Json/JsonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Json/JsonPtr returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ParseInjectUsingJson_Error(t *testing.T) {
@@ -161,7 +161,7 @@ func Test_C16_Dynamic_JsonBytes_JsonString(t *testing.T) {
 		"bytesOK": true,
 		"strOK":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "JsonBytes/JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "JsonBytes/JsonString returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_JsonStringMust(t *testing.T) {
@@ -169,7 +169,7 @@ func Test_C16_Dynamic_JsonStringMust(t *testing.T) {
 	s := d.JsonStringMust()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "JsonStringMust", actual)
+	expected.ShouldBeEqual(t, 0, "JsonStringMust returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -190,7 +190,7 @@ func Test_C16_Dynamic_IsStructStringNullOrEmpty(t *testing.T) {
 		"null":    true,
 		"hasVal":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsStructStringNullOrEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsStructStringNullOrEmpty returns empty -- with args", actual)
 }
 
 func Test_C16_Dynamic_IsStructStringNullOrEmptyOrWhitespace(t *testing.T) {
@@ -204,7 +204,7 @@ func Test_C16_Dynamic_IsStructStringNullOrEmptyOrWhitespace(t *testing.T) {
 		"whitespace": true,
 		"hasVal":     false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsStructStringNullOrEmptyOrWhitespace", actual)
+	expected.ShouldBeEqual(t, 0, "IsStructStringNullOrEmptyOrWhitespace returns empty -- with args", actual)
 }
 
 func Test_C16_Dynamic_IntDefault(t *testing.T) {
@@ -224,7 +224,7 @@ func Test_C16_Dynamic_IntDefault(t *testing.T) {
 		"valNull": 99, "okNull": false,
 		"valBad": 77, "okBad": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IntDefault", actual)
+	expected.ShouldBeEqual(t, 0, "IntDefault returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_Float64(t *testing.T) {
@@ -246,7 +246,7 @@ func Test_C16_Dynamic_Float64(t *testing.T) {
 		"errNull": true,
 		"errBad":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Float64", actual)
+	expected.ShouldBeEqual(t, 0, "Float64 returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ValueUInt(t *testing.T) {
@@ -260,7 +260,7 @@ func Test_C16_Dynamic_ValueUInt(t *testing.T) {
 		"ok":   uint(5),
 		"fail": uint(0),
 	}
-	expected.ShouldBeEqual(t, 0, "ValueUInt", actual)
+	expected.ShouldBeEqual(t, 0, "ValueUInt returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ValueStrings(t *testing.T) {
@@ -274,7 +274,7 @@ func Test_C16_Dynamic_ValueStrings(t *testing.T) {
 		"ok":   2,
 		"fail": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValueStrings", actual)
+	expected.ShouldBeEqual(t, 0, "ValueStrings returns non-empty -- with args", actual)
 }
 
 func Test_C16_Dynamic_ValueBool(t *testing.T) {
@@ -288,7 +288,7 @@ func Test_C16_Dynamic_ValueBool(t *testing.T) {
 		"ok":   true,
 		"fail": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValueBool", actual)
+	expected.ShouldBeEqual(t, 0, "ValueBool returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ValueInt64(t *testing.T) {
@@ -302,7 +302,7 @@ func Test_C16_Dynamic_ValueInt64(t *testing.T) {
 		"ok":   int64(99),
 		"fail": int64(-1),
 	}
-	expected.ShouldBeEqual(t, 0, "ValueInt64", actual)
+	expected.ShouldBeEqual(t, 0, "ValueInt64 returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ValueNullErr(t *testing.T) {
@@ -322,7 +322,7 @@ func Test_C16_Dynamic_ValueNullErr(t *testing.T) {
 		"errNull": true,
 		"errOk":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValueNullErr", actual)
+	expected.ShouldBeEqual(t, 0, "ValueNullErr returns error -- with args", actual)
 }
 
 func Test_C16_Dynamic_ValueString_NonString(t *testing.T) {
@@ -338,7 +338,7 @@ func Test_C16_Dynamic_ValueString_NonString(t *testing.T) {
 		"intStr":  true,
 		"nilStr":  "",
 	}
-	expected.ShouldBeEqual(t, 0, "ValueString non-string", actual)
+	expected.ShouldBeEqual(t, 0, "ValueString returns non-empty -- non-string", actual)
 }
 
 func Test_C16_Dynamic_Bytes(t *testing.T) {
@@ -362,7 +362,7 @@ func Test_C16_Dynamic_Bytes(t *testing.T) {
 		"nilB":    true,
 		"wrongOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Bytes", actual)
+	expected.ShouldBeEqual(t, 0, "Bytes returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -380,7 +380,7 @@ func Test_C16_Dynamic_MapToKeyVal(t *testing.T) {
 		"noErr": true,
 		"hasKv": true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapToKeyVal", actual)
+	expected.ShouldBeEqual(t, 0, "MapToKeyVal returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ReflectType(t *testing.T) {
@@ -392,7 +392,7 @@ func Test_C16_Dynamic_ReflectType(t *testing.T) {
 	expected := args.Map{
 		"name": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectType", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectType returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_IsReflectTypeOf(t *testing.T) {
@@ -405,7 +405,7 @@ func Test_C16_Dynamic_IsReflectTypeOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsReflectTypeOf", actual)
+	expected.ShouldBeEqual(t, 0, "IsReflectTypeOf returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ItemUsingIndex(t *testing.T) {
@@ -420,7 +420,7 @@ func Test_C16_Dynamic_ItemUsingIndex(t *testing.T) {
 		"item":    "b",
 		"rvValid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ItemUsingIndex", actual)
+	expected.ShouldBeEqual(t, 0, "ItemUsingIndex returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ItemUsingKey(t *testing.T) {
@@ -435,7 +435,7 @@ func Test_C16_Dynamic_ItemUsingKey(t *testing.T) {
 		"item":    42,
 		"rvValid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ItemUsingKey", actual)
+	expected.ShouldBeEqual(t, 0, "ItemUsingKey returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ReflectSetTo(t *testing.T) {
@@ -450,7 +450,7 @@ func Test_C16_Dynamic_ReflectSetTo(t *testing.T) {
 		"noErr": true,
 		"val":   "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectSetTo", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectSetTo returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_ReflectSetTo_Nil(t *testing.T) {
@@ -458,7 +458,7 @@ func Test_C16_Dynamic_ReflectSetTo_Nil(t *testing.T) {
 	err := d.ReflectSetTo(nil)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ReflectSetTo nil", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectSetTo returns nil -- nil", actual)
 }
 
 func Test_C16_Dynamic_Loop(t *testing.T) {
@@ -470,7 +470,7 @@ func Test_C16_Dynamic_Loop(t *testing.T) {
 	})
 	actual := args.Map{"called": called, "sum": sum}
 	expected := args.Map{"called": true, "sum": 60}
-	expected.ShouldBeEqual(t, 0, "Loop", actual)
+	expected.ShouldBeEqual(t, 0, "Loop returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_Loop_Break(t *testing.T) {
@@ -482,7 +482,7 @@ func Test_C16_Dynamic_Loop_Break(t *testing.T) {
 	})
 	actual := args.Map{"count": count}
 	expected := args.Map{"count": 1}
-	expected.ShouldBeEqual(t, 0, "Loop break", actual)
+	expected.ShouldBeEqual(t, 0, "Loop returns correct value -- break", actual)
 }
 
 func Test_C16_Dynamic_Loop_Invalid(t *testing.T) {
@@ -490,7 +490,7 @@ func Test_C16_Dynamic_Loop_Invalid(t *testing.T) {
 	called := d.Loop(func(i int, item any) bool { return false })
 	actual := args.Map{"called": called}
 	expected := args.Map{"called": false}
-	expected.ShouldBeEqual(t, 0, "Loop invalid", actual)
+	expected.ShouldBeEqual(t, 0, "Loop returns error -- invalid", actual)
 }
 
 func Test_C16_Dynamic_FilterAsDynamicCollection(t *testing.T) {
@@ -500,7 +500,7 @@ func Test_C16_Dynamic_FilterAsDynamicCollection(t *testing.T) {
 	})
 	actual := args.Map{"count": result.Length()}
 	expected := args.Map{"count": 3}
-	expected.ShouldBeEqual(t, 0, "FilterAsDynamicCollection", actual)
+	expected.ShouldBeEqual(t, 0, "FilterAsDynamicCollection returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_FilterAsDynamicCollection_Break(t *testing.T) {
@@ -510,7 +510,7 @@ func Test_C16_Dynamic_FilterAsDynamicCollection_Break(t *testing.T) {
 	})
 	actual := args.Map{"count": result.Length()}
 	expected := args.Map{"count": 2}
-	expected.ShouldBeEqual(t, 0, "FilterAsDynamicCollection break", actual)
+	expected.ShouldBeEqual(t, 0, "FilterAsDynamicCollection returns correct value -- break", actual)
 }
 
 func Test_C16_Dynamic_FilterAsDynamicCollection_Invalid(t *testing.T) {
@@ -520,7 +520,7 @@ func Test_C16_Dynamic_FilterAsDynamicCollection_Invalid(t *testing.T) {
 	})
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "FilterAsDynamicCollection invalid", actual)
+	expected.ShouldBeEqual(t, 0, "FilterAsDynamicCollection returns error -- invalid", actual)
 }
 
 func Test_C16_Dynamic_LoopMap(t *testing.T) {
@@ -532,7 +532,7 @@ func Test_C16_Dynamic_LoopMap(t *testing.T) {
 	})
 	actual := args.Map{"called": called, "count": count}
 	expected := args.Map{"called": true, "count": 2}
-	expected.ShouldBeEqual(t, 0, "LoopMap", actual)
+	expected.ShouldBeEqual(t, 0, "LoopMap returns correct value -- with args", actual)
 }
 
 func Test_C16_Dynamic_LoopMap_Break(t *testing.T) {
@@ -544,7 +544,7 @@ func Test_C16_Dynamic_LoopMap_Break(t *testing.T) {
 	})
 	actual := args.Map{"called": called, "count": count}
 	expected := args.Map{"called": true, "count": 1}
-	expected.ShouldBeEqual(t, 0, "LoopMap break", actual)
+	expected.ShouldBeEqual(t, 0, "LoopMap returns correct value -- break", actual)
 }
 
 func Test_C16_Dynamic_LoopMap_Invalid(t *testing.T) {
@@ -552,7 +552,7 @@ func Test_C16_Dynamic_LoopMap_Invalid(t *testing.T) {
 	called := d.LoopMap(func(i int, key, value any) bool { return false })
 	actual := args.Map{"called": called}
 	expected := args.Map{"called": false}
-	expected.ShouldBeEqual(t, 0, "LoopMap invalid", actual)
+	expected.ShouldBeEqual(t, 0, "LoopMap returns error -- invalid", actual)
 }
 
 // ==========================================================================
@@ -580,7 +580,7 @@ func Test_C16_DynamicStatus(t *testing.T) {
 		"nilClone":   true,
 		"validClone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicStatus", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicStatus returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -600,7 +600,7 @@ func Test_C16_ValueStatus(t *testing.T) {
 		"valid": false,
 		"noMsg": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
+	expected.ShouldBeEqual(t, 0, "ValueStatus returns non-empty -- with args", actual)
 }
 
 // ==========================================================================
@@ -628,7 +628,7 @@ func Test_C16_SimpleRequest(t *testing.T) {
 		"invMsg":   "bad",
 		"noMsg":    "",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest constructors", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns correct value -- constructors", actual)
 }
 
 func Test_C16_SimpleRequest_TypeMismatch(t *testing.T) {
@@ -646,7 +646,7 @@ func Test_C16_SimpleRequest_TypeMismatch(t *testing.T) {
 		"err2":    true,
 		"errNone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest GetErrorOnTypeMismatch", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns error -- GetErrorOnTypeMismatch", actual)
 }
 
 func Test_C16_SimpleRequest_IsPointer(t *testing.T) {
@@ -661,7 +661,7 @@ func Test_C16_SimpleRequest_IsPointer(t *testing.T) {
 		"isPtr":    true,
 		"isNotPtr": false,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest IsPointer", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns correct value -- IsPointer", actual)
 }
 
 func Test_C16_SimpleRequest_InvalidError(t *testing.T) {
@@ -682,7 +682,7 @@ func Test_C16_SimpleRequest_InvalidError(t *testing.T) {
 		"same":    true,
 		"noEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns error -- InvalidError", actual)
 }
 
 // ==========================================================================
@@ -708,7 +708,7 @@ func Test_C16_SimpleResult(t *testing.T) {
 		"invMsg":     "bad",
 		"noMsg":      "",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleResult constructors", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns correct value -- constructors", actual)
 }
 
 func Test_C16_SimpleResult_TypeMismatch(t *testing.T) {
@@ -726,7 +726,7 @@ func Test_C16_SimpleResult_TypeMismatch(t *testing.T) {
 		"err2":    true,
 		"errNone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleResult GetErrorOnTypeMismatch", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns error -- GetErrorOnTypeMismatch", actual)
 }
 
 func Test_C16_SimpleResult_InvalidError(t *testing.T) {
@@ -747,7 +747,7 @@ func Test_C16_SimpleResult_InvalidError(t *testing.T) {
 		"same":    true,
 		"noEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleResult InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns error -- InvalidError", actual)
 }
 
 func Test_C16_SimpleResult_Clone(t *testing.T) {
@@ -766,7 +766,7 @@ func Test_C16_SimpleResult_Clone(t *testing.T) {
 		"ptrRes":     "data",
 		"nilIsNil":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleResult Clone", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns correct value -- Clone", actual)
 }
 
 // ==========================================================================
@@ -792,7 +792,7 @@ func Test_C16_TypedDynamic_Full(t *testing.T) {
 		"invOk":  true,
 		"invPOk": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic core", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- core", actual)
 }
 
 func Test_C16_TypedDynamic_JSON(t *testing.T) {
@@ -827,7 +827,7 @@ func Test_C16_TypedDynamic_JSON(t *testing.T) {
 		"bOK":      bOk,
 		"bLen":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- JSON", actual)
 }
 
 func Test_C16_TypedDynamic_UnmarshalJSON(t *testing.T) {
@@ -843,7 +843,7 @@ func Test_C16_TypedDynamic_UnmarshalJSON(t *testing.T) {
 		"val":   "updated",
 		"valid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- UnmarshalJSON", actual)
 }
 
 func Test_C16_TypedDynamic_Bytes_IsBytes(t *testing.T) {
@@ -851,7 +851,7 @@ func Test_C16_TypedDynamic_Bytes_IsBytes(t *testing.T) {
 	b, ok := d.Bytes()
 	actual := args.Map{"ok": ok, "len": len(b)}
 	expected := args.Map{"ok": true, "len": 2}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Bytes []byte", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Bytes []byte", actual)
 }
 
 func Test_C16_TypedDynamic_GetAs(t *testing.T) {
@@ -881,7 +881,7 @@ func Test_C16_TypedDynamic_GetAs(t *testing.T) {
 		"i64Ok": false, "uOk": false, "f64Ok": false, "f32Ok": false,
 		"bOk": false, "byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- GetAs", actual)
 }
 
 func Test_C16_TypedDynamic_Value_Methods(t *testing.T) {
@@ -904,7 +904,7 @@ func Test_C16_TypedDynamic_Value_Methods(t *testing.T) {
 		"bool":   true,
 		"badStr": "7",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Value methods", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Value methods", actual)
 }
 
 func Test_C16_TypedDynamic_Clone(t *testing.T) {
@@ -933,7 +933,7 @@ func Test_C16_TypedDynamic_Clone(t *testing.T) {
 		"ptrNotNil": true,
 		"dynValid":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Clone", actual)
 }
 
 func Test_C16_TypedDynamic_Deserialize(t *testing.T) {
@@ -953,7 +953,7 @@ func Test_C16_TypedDynamic_Deserialize(t *testing.T) {
 		"valid":  true,
 		"nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Deserialize", actual)
 }
 
 func Test_C16_TypedDynamic_JsonModel(t *testing.T) {
@@ -966,7 +966,7 @@ func Test_C16_TypedDynamic_JsonModel(t *testing.T) {
 		"model":    "x",
 		"modelAny": "x",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic JsonModel", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- JsonModel", actual)
 }
 
 // ==========================================================================
@@ -1013,7 +1013,7 @@ func Test_C16_TypedSimpleRequest(t *testing.T) {
 		"nilMsg":   "",
 		"nilStr":   "",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- with args", actual)
 }
 
 func Test_C16_TypedSimpleRequest_InvalidError(t *testing.T) {
@@ -1036,7 +1036,7 @@ func Test_C16_TypedSimpleRequest_InvalidError(t *testing.T) {
 		"noErr":  true,
 		"nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns error -- InvalidError", actual)
 }
 
 func Test_C16_TypedSimpleRequest_JSON(t *testing.T) {
@@ -1064,7 +1064,7 @@ func Test_C16_TypedSimpleRequest_JSON(t *testing.T) {
 		"model":   "hello",
 		"any":     "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- JSON", actual)
 }
 
 func Test_C16_TypedSimpleRequest_GetAs(t *testing.T) {
@@ -1085,7 +1085,7 @@ func Test_C16_TypedSimpleRequest_GetAs(t *testing.T) {
 		"s": "hello", "sOk": true, "iOk": false, "i64Ok": false,
 		"f64Ok": false, "f32Ok": false, "bOk": false, "byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- GetAs", actual)
 }
 
 func Test_C16_TypedSimpleRequest_Clone(t *testing.T) {
@@ -1119,7 +1119,7 @@ func Test_C16_TypedSimpleRequest_Clone(t *testing.T) {
 		"nilTD":        true,
 		"nilDyn":       true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest Clone/Convert", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- Clone/Convert", actual)
 }
 
 // ==========================================================================
@@ -1164,7 +1164,7 @@ func Test_C16_TypedSimpleResult(t *testing.T) {
 		"nilMsg":   "",
 		"nilStr":   "",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- with args", actual)
 }
 
 func Test_C16_TypedSimpleResult_InvalidError(t *testing.T) {
@@ -1187,7 +1187,7 @@ func Test_C16_TypedSimpleResult_InvalidError(t *testing.T) {
 		"noErr":  true,
 		"nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns error -- InvalidError", actual)
 }
 
 func Test_C16_TypedSimpleResult_JSON(t *testing.T) {
@@ -1215,7 +1215,7 @@ func Test_C16_TypedSimpleResult_JSON(t *testing.T) {
 		"model":   "hello",
 		"any":     "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- JSON", actual)
 }
 
 func Test_C16_TypedSimpleResult_GetAs(t *testing.T) {
@@ -1235,7 +1235,7 @@ func Test_C16_TypedSimpleResult_GetAs(t *testing.T) {
 		"s": "hello", "sOk": true, "iOk": false, "i64Ok": false,
 		"f64Ok": false, "bOk": false, "byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- GetAs", actual)
 }
 
 func Test_C16_TypedSimpleResult_Clone(t *testing.T) {
@@ -1275,7 +1275,7 @@ func Test_C16_TypedSimpleResult_Clone(t *testing.T) {
 		"nilTD":      true,
 		"nilDyn":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult Clone/Convert", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- Clone/Convert", actual)
 }
 
 // ==========================================================================
@@ -1293,14 +1293,14 @@ func Test_C16_SafeTypeName(t *testing.T) {
 		"nil":    "",
 		"int":    "int",
 	}
-	expected.ShouldBeEqual(t, 0, "SafeTypeName", actual)
+	expected.ShouldBeEqual(t, 0, "SafeTypeName returns correct value -- with args", actual)
 }
 
 func Test_C16_Type(t *testing.T) {
 	rt := coredynamic.Type("hello")
 	actual := args.Map{"kind": rt.Kind() == reflect.String}
 	expected := args.Map{"kind": true}
-	expected.ShouldBeEqual(t, 0, "Type", actual)
+	expected.ShouldBeEqual(t, 0, "Type returns correct value -- with args", actual)
 }
 
 func Test_C16_IsAnyTypesOf(t *testing.T) {
@@ -1315,14 +1315,14 @@ func Test_C16_IsAnyTypesOf(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyTypesOf", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyTypesOf returns correct value -- with args", actual)
 }
 
 func Test_C16_AnyToReflectVal(t *testing.T) {
 	rv := coredynamic.AnyToReflectVal("hello")
 	actual := args.Map{"valid": rv.IsValid()}
 	expected := args.Map{"valid": true}
-	expected.ShouldBeEqual(t, 0, "AnyToReflectVal", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToReflectVal returns correct value -- with args", actual)
 }
 
 func Test_C16_PointerOrNonPointer(t *testing.T) {
@@ -1344,7 +1344,7 @@ func Test_C16_ZeroSet(t *testing.T) {
 	coredynamic.ZeroSet(rv)
 	actual := args.Map{"x": s.X}
 	expected := args.Map{"x": 0}
-	expected.ShouldBeEqual(t, 0, "ZeroSet", actual)
+	expected.ShouldBeEqual(t, 0, "ZeroSet returns correct value -- with args", actual)
 }
 
 func Test_C16_LengthOfReflect(t *testing.T) {
@@ -1352,7 +1352,7 @@ func Test_C16_LengthOfReflect(t *testing.T) {
 	l := coredynamic.LengthOfReflect(rv)
 	actual := args.Map{"len": l}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LengthOfReflect", actual)
+	expected.ShouldBeEqual(t, 0, "LengthOfReflect returns correct value -- with args", actual)
 }
 
 // ==========================================================================
@@ -1370,7 +1370,7 @@ func Test_C16_BytesConverter(t *testing.T) {
 		"noErr": true,
 		"val":   "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToString", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToString", actual)
 }
 
 func Test_C16_BytesConverter_SafeCastString(t *testing.T) {
@@ -1384,7 +1384,7 @@ func Test_C16_BytesConverter_SafeCastString(t *testing.T) {
 		"val":   "raw",
 		"empty": "",
 	}
-	expected.ShouldBeEqual(t, 0, "BytesConverter SafeCastString", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- SafeCastString", actual)
 }
 
 func Test_C16_BytesConverter_CastString(t *testing.T) {
@@ -1402,7 +1402,7 @@ func Test_C16_BytesConverter_CastString(t *testing.T) {
 		"noErr":    true,
 		"errEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BytesConverter CastString", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- CastString", actual)
 }
 
 func Test_C16_BytesConverter_ToBool(t *testing.T) {
@@ -1410,7 +1410,7 @@ func Test_C16_BytesConverter_ToBool(t *testing.T) {
 	val, err := bc.ToBool()
 	actual := args.Map{"val": val, "noErr": err == nil}
 	expected := args.Map{"val": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToBool", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToBool", actual)
 }
 
 func Test_C16_BytesConverter_ToBoolMust(t *testing.T) {
@@ -1418,7 +1418,7 @@ func Test_C16_BytesConverter_ToBoolMust(t *testing.T) {
 	val := bc.ToBoolMust()
 	actual := args.Map{"val": val}
 	expected := args.Map{"val": false}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToBoolMust", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToBoolMust", actual)
 }
 
 func Test_C16_BytesConverter_ToStringMust(t *testing.T) {
@@ -1426,7 +1426,7 @@ func Test_C16_BytesConverter_ToStringMust(t *testing.T) {
 	val := bc.ToStringMust()
 	actual := args.Map{"val": val}
 	expected := args.Map{"val": "hi"}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToStringMust", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToStringMust", actual)
 }
 
 func Test_C16_BytesConverter_ToStrings(t *testing.T) {
@@ -1434,7 +1434,7 @@ func Test_C16_BytesConverter_ToStrings(t *testing.T) {
 	val, err := bc.ToStrings()
 	actual := args.Map{"len": len(val), "noErr": err == nil}
 	expected := args.Map{"len": 2, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToStrings", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToStrings", actual)
 }
 
 func Test_C16_BytesConverter_ToStringsMust(t *testing.T) {
@@ -1442,7 +1442,7 @@ func Test_C16_BytesConverter_ToStringsMust(t *testing.T) {
 	val := bc.ToStringsMust()
 	actual := args.Map{"len": len(val)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToStringsMust", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToStringsMust", actual)
 }
 
 func Test_C16_BytesConverter_ToInt64(t *testing.T) {
@@ -1450,7 +1450,7 @@ func Test_C16_BytesConverter_ToInt64(t *testing.T) {
 	val, err := bc.ToInt64()
 	actual := args.Map{"val": val, "noErr": err == nil}
 	expected := args.Map{"val": int64(42), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToInt64", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToInt64", actual)
 }
 
 func Test_C16_BytesConverter_ToInt64Must(t *testing.T) {
@@ -1458,7 +1458,7 @@ func Test_C16_BytesConverter_ToInt64Must(t *testing.T) {
 	val := bc.ToInt64Must()
 	actual := args.Map{"val": val}
 	expected := args.Map{"val": int64(99)}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToInt64Must", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToInt64Must", actual)
 }
 
 func Test_C16_BytesConverter_Deserialize(t *testing.T) {
@@ -1467,7 +1467,7 @@ func Test_C16_BytesConverter_Deserialize(t *testing.T) {
 	err := bc.Deserialize(&s)
 	actual := args.Map{"val": s, "noErr": err == nil}
 	expected := args.Map{"val": "hello", "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BytesConverter Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- Deserialize", actual)
 }
 
 func Test_C16_BytesConverter_DeserializeMust(t *testing.T) {
@@ -1476,7 +1476,7 @@ func Test_C16_BytesConverter_DeserializeMust(t *testing.T) {
 	bc.DeserializeMust(&i)
 	actual := args.Map{"val": i}
 	expected := args.Map{"val": 42}
-	expected.ShouldBeEqual(t, 0, "BytesConverter DeserializeMust", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- DeserializeMust", actual)
 }
 
 func Test_C16_BytesConverterUsingJsonResult(t *testing.T) {
@@ -1490,5 +1490,5 @@ func Test_C16_BytesConverterUsingJsonResult(t *testing.T) {
 		"noErr": true,
 		"notNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "NewBytesConverterUsingJsonResult", actual)
+	expected.ShouldBeEqual(t, 0, "NewBytesConverterUsingJsonResult returns correct value -- with args", actual)
 }

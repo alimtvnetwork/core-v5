@@ -303,7 +303,7 @@ func Test_Cov6_TypedErrorFunctionsExecuteResults_True_NoErrors(t *testing.T) {
 	results, err := conditional.TypedErrorFunctionsExecuteResults[string](true, trueFuncs, nil)
 	actual := args.Map{"len": len(results), "isNil": err == nil}
 	expected := args.Map{"len": 2, "isNil": true}
-	expected.ShouldBeEqual(t, 0, "TypedErrorFunctionsExecuteResults no errors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedErrorFunctionsExecuteResults returns empty -- no errors", actual)
 }
 
 func Test_Cov6_TypedErrorFunctionsExecuteResults_WithErrors(t *testing.T) {
@@ -315,14 +315,14 @@ func Test_Cov6_TypedErrorFunctionsExecuteResults_WithErrors(t *testing.T) {
 	results, err := conditional.TypedErrorFunctionsExecuteResults[string](true, trueFuncs, nil)
 	actual := args.Map{"len": len(results), "hasError": err != nil}
 	expected := args.Map{"len": 1, "hasError": true}
-	expected.ShouldBeEqual(t, 0, "TypedErrorFunctionsExecuteResults with errors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedErrorFunctionsExecuteResults returns error -- with errors", actual)
 }
 
 func Test_Cov6_TypedErrorFunctionsExecuteResults_Empty(t *testing.T) {
 	results, err := conditional.TypedErrorFunctionsExecuteResults[string](true, nil, nil)
 	actual := args.Map{"isNil": results == nil, "errNil": err == nil}
 	expected := args.Map{"isNil": true, "errNil": true}
-	expected.ShouldBeEqual(t, 0, "TypedErrorFunctionsExecuteResults empty", actual)
+	expected.ShouldBeEqual(t, 0, "TypedErrorFunctionsExecuteResults returns empty -- empty", actual)
 }
 
 // ── BoolFunctionsByOrder ──
@@ -334,7 +334,7 @@ func Test_Cov6_BoolFunctionsByOrder_FirstTrue(t *testing.T) {
 	)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "BoolFunctionsByOrder first true", actual)
+	expected.ShouldBeEqual(t, 0, "BoolFunctionsByOrder returns non-empty -- first true", actual)
 }
 
 func Test_Cov6_BoolFunctionsByOrder_AllFalse(t *testing.T) {
@@ -344,7 +344,7 @@ func Test_Cov6_BoolFunctionsByOrder_AllFalse(t *testing.T) {
 	)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "BoolFunctionsByOrder all false", actual)
+	expected.ShouldBeEqual(t, 0, "BoolFunctionsByOrder returns non-empty -- all false", actual)
 }
 
 func Test_Cov6_BoolFunctionsByOrder_Empty(t *testing.T) {
@@ -388,7 +388,7 @@ func Test_Cov6_IfAny_True(t *testing.T) {
 	result := conditional.IfAny(true, "yes", "no")
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "yes"}
-	expected.ShouldBeEqual(t, 0, "IfAny true", actual)
+	expected.ShouldBeEqual(t, 0, "IfAny returns non-empty -- true", actual)
 }
 
 func Test_Cov6_IfFuncAny_True(t *testing.T) {
@@ -398,5 +398,5 @@ func Test_Cov6_IfFuncAny_True(t *testing.T) {
 	)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "yes"}
-	expected.ShouldBeEqual(t, 0, "IfFuncAny true", actual)
+	expected.ShouldBeEqual(t, 0, "IfFuncAny returns non-empty -- true", actual)
 }

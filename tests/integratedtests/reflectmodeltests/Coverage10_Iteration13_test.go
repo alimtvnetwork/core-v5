@@ -65,7 +65,7 @@ func Test_I13_Invoke_ReturnPtr(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{}, 42)
 	actual := args.Map{"noErr": err == nil, "val": results[0]}
 	expected := args.Map{"noErr": true, "val": 42}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ReturnPtr", actual)
 }
 
 func Test_I13_Invoke_ReturnSlice(t *testing.T) {
@@ -73,7 +73,7 @@ func Test_I13_Invoke_ReturnSlice(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "notNil": results[0] != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnSlice", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ReturnSlice", actual)
 }
 
 func Test_I13_Invoke_ReturnMap(t *testing.T) {
@@ -81,7 +81,7 @@ func Test_I13_Invoke_ReturnMap(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "notNil": results[0] != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnMap", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ReturnMap", actual)
 }
 
 func Test_I13_Invoke_ReturnNilPtr(t *testing.T) {
@@ -89,7 +89,7 @@ func Test_I13_Invoke_ReturnNilPtr(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnNilPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilPtr", actual)
 }
 
 func Test_I13_Invoke_ReturnNilSlice(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_I13_Invoke_ReturnNilSlice(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnNilSlice", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilSlice", actual)
 }
 
 func Test_I13_Invoke_ReturnNilMap(t *testing.T) {
@@ -105,7 +105,7 @@ func Test_I13_Invoke_ReturnNilMap(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnNilMap", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilMap", actual)
 }
 
 func Test_I13_Invoke_ReturnInterface(t *testing.T) {
@@ -113,7 +113,7 @@ func Test_I13_Invoke_ReturnInterface(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "val": results[0]}
 	expected := args.Map{"noErr": true, "val": "hello"}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnInterface", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ReturnInterface", actual)
 }
 
 func Test_I13_Invoke_ReturnNilInterface(t *testing.T) {
@@ -121,7 +121,7 @@ func Test_I13_Invoke_ReturnNilInterface(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnNilInterface", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilInterface", actual)
 }
 
 func Test_I13_Invoke_ReturnChan(t *testing.T) {
@@ -129,7 +129,7 @@ func Test_I13_Invoke_ReturnChan(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "notNil": results[0] != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnChan", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ReturnChan", actual)
 }
 
 func Test_I13_Invoke_ReturnFunc(t *testing.T) {
@@ -137,7 +137,7 @@ func Test_I13_Invoke_ReturnFunc(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "notNil": results[0] != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnFunc", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ReturnFunc", actual)
 }
 
 func Test_I13_Invoke_ReturnNilFunc(t *testing.T) {
@@ -145,7 +145,7 @@ func Test_I13_Invoke_ReturnNilFunc(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnNilFunc", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilFunc", actual)
 }
 
 func Test_I13_Invoke_ReturnNilChan(t *testing.T) {
@@ -153,7 +153,7 @@ func Test_I13_Invoke_ReturnNilChan(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke ReturnNilChan", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilChan", actual)
 }
 
 func Test_I13_Invoke_NoArgs(t *testing.T) {
@@ -161,7 +161,7 @@ func Test_I13_Invoke_NoArgs(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "len": len(results)}
 	expected := args.Map{"noErr": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "Invoke NoArgs", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- NoArgs", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -176,7 +176,7 @@ func Test_I13_Invoke_TypeMismatch(t *testing.T) {
 	}
 	actual := args.Map{"hasErr": true}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Invoke type mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- type mismatch", actual)
 }
 
 func Test_I13_Invoke_ManyArgs_Success(t *testing.T) {
@@ -184,7 +184,7 @@ func Test_I13_Invoke_ManyArgs_Success(t *testing.T) {
 	results, err := mp.Invoke(ptrReturner{}, 1, 2, 3, 4)
 	actual := args.Map{"noErr": err == nil, "val": results[0]}
 	expected := args.Map{"noErr": true, "val": 10}
-	expected.ShouldBeEqual(t, 0, "Invoke ManyArgs success", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns correct value -- ManyArgs success", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -196,7 +196,7 @@ func Test_I13_InvokeFirstAndError_Success(t *testing.T) {
 	first, funcErr, procErr := mp.InvokeFirstAndError(ptrReturner{}, 5)
 	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr == nil, "first": first}
 	expected := args.Map{"procErr": true, "funcErr": true, "first": "ok:5"}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError success", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- success", actual)
 }
 
 func Test_I13_InvokeFirstAndError_FuncError(t *testing.T) {
@@ -204,7 +204,7 @@ func Test_I13_InvokeFirstAndError_FuncError(t *testing.T) {
 	_, funcErr, procErr := mp.InvokeFirstAndError(ptrReturner{}, -1)
 	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr != nil}
 	expected := args.Map{"procErr": true, "funcErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError func error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- func error", actual)
 }
 
 func Test_I13_InvokeFirstAndError_ProcessingError(t *testing.T) {
@@ -212,7 +212,7 @@ func Test_I13_InvokeFirstAndError_ProcessingError(t *testing.T) {
 	_, _, procErr := mp.InvokeFirstAndError(ptrReturner{}, "wrong_type")
 	actual := args.Map{"hasErr": procErr != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError processing error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- processing error", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -224,7 +224,7 @@ func Test_I13_InvokeError_ReturnsError(t *testing.T) {
 	funcErr, procErr := mp.InvokeError(ptrReturner{})
 	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr != nil}
 	expected := args.Map{"procErr": true, "funcErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeError returns error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeError returns error -- returns error", actual)
 }
 
 func Test_I13_InvokeError_NilError(t *testing.T) {
@@ -232,7 +232,7 @@ func Test_I13_InvokeError_NilError(t *testing.T) {
 	funcErr, procErr := mp.InvokeError(ptrReturner{})
 	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr == nil}
 	expected := args.Map{"procErr": true, "funcErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeError nil error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeError returns nil -- nil error", actual)
 }
 
 func Test_I13_InvokeError_ProcessingError(t *testing.T) {
@@ -240,7 +240,7 @@ func Test_I13_InvokeError_ProcessingError(t *testing.T) {
 	_, procErr := mp.InvokeError(ptrReturner{}, "extra_arg")
 	actual := args.Map{"hasErr": procErr != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeError processing error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeError returns error -- processing error", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -252,7 +252,7 @@ func Test_I13_GetFirstResponseOfInvoke_Error(t *testing.T) {
 	_, err := mp.GetFirstResponseOfInvoke(ptrReturner{}) // wrong args count
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke error", actual)
+	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke returns error -- error", actual)
 }
 
 func Test_I13_InvokeResultOfIndex_Error(t *testing.T) {
@@ -260,7 +260,7 @@ func Test_I13_InvokeResultOfIndex_Error(t *testing.T) {
 	_, err := mp.InvokeResultOfIndex(0, ptrReturner{}) // wrong args count
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex returns error -- error", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -273,7 +273,7 @@ func Test_I13_GetOutArgsTypes_Cached(t *testing.T) {
 	out2 := mp.GetOutArgsTypes() // should use cache
 	actual := args.Map{"len1": len(out1), "len2": len(out2), "same": len(out1) == len(out2)}
 	expected := args.Map{"len1": 2, "len2": 2, "same": true}
-	expected.ShouldBeEqual(t, 0, "GetOutArgsTypes cached", actual)
+	expected.ShouldBeEqual(t, 0, "GetOutArgsTypes returns correct value -- cached", actual)
 }
 
 func Test_I13_GetInArgsTypes_Cached(t *testing.T) {
@@ -282,7 +282,7 @@ func Test_I13_GetInArgsTypes_Cached(t *testing.T) {
 	in2 := mp.GetInArgsTypes() // cache
 	actual := args.Map{"len1": len(in1), "len2": len(in2)}
 	expected := args.Map{"len1": 2, "len2": 2}
-	expected.ShouldBeEqual(t, 0, "GetInArgsTypes cached", actual)
+	expected.ShouldBeEqual(t, 0, "GetInArgsTypes returns correct value -- cached", actual)
 }
 
 func Test_I13_GetInArgsTypesNames_Cached(t *testing.T) {
@@ -291,7 +291,7 @@ func Test_I13_GetInArgsTypesNames_Cached(t *testing.T) {
 	n2 := mp.GetInArgsTypesNames() // cache
 	actual := args.Map{"len1": len(n1), "len2": len(n2)}
 	expected := args.Map{"len1": 2, "len2": 2}
-	expected.ShouldBeEqual(t, 0, "GetInArgsTypesNames cached", actual)
+	expected.ShouldBeEqual(t, 0, "GetInArgsTypesNames returns correct value -- cached", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -304,7 +304,7 @@ func Test_I13_IsEqual_SameSignatureDiffMethods(t *testing.T) {
 	// Same signature (receiver → error), same name won't match but types will
 	actual := args.Map{"isEqual": mp1.IsEqual(mp2)}
 	expected := args.Map{"isEqual": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual same signature diff methods", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- same signature diff methods", actual)
 }
 
 func Test_I13_IsNotEqual_DiffSignature(t *testing.T) {
@@ -312,7 +312,7 @@ func Test_I13_IsNotEqual_DiffSignature(t *testing.T) {
 	mp2 := getPtrMP("ReturnSlice")
 	actual := args.Map{"notEqual": mp1.IsNotEqual(mp2)}
 	expected := args.Map{"notEqual": true}
-	expected.ShouldBeEqual(t, 0, "IsNotEqual diff signature", actual)
+	expected.ShouldBeEqual(t, 0, "IsNotEqual returns correct value -- diff signature", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -324,7 +324,7 @@ func Test_I13_VerifyInArgs_Success(t *testing.T) {
 	ok, err := mp.VerifyInArgs([]any{ptrReturner{}, 42})
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyInArgs success", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyInArgs returns correct value -- success", actual)
 }
 
 func Test_I13_VerifyInArgs_TypeMismatch(t *testing.T) {
@@ -332,7 +332,7 @@ func Test_I13_VerifyInArgs_TypeMismatch(t *testing.T) {
 	ok, err := mp.VerifyInArgs([]any{ptrReturner{}, "wrong"})
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyInArgs type mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyInArgs returns correct value -- type mismatch", actual)
 }
 
 func Test_I13_VerifyOutArgs_Success(t *testing.T) {
@@ -340,7 +340,7 @@ func Test_I13_VerifyOutArgs_Success(t *testing.T) {
 	ok, err := mp.VerifyOutArgs([]any{"", errors.New("")})
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyOutArgs success", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyOutArgs returns correct value -- success", actual)
 }
 
 func Test_I13_VerifyOutArgs_LenMismatch(t *testing.T) {
@@ -348,7 +348,7 @@ func Test_I13_VerifyOutArgs_LenMismatch(t *testing.T) {
 	ok, err := mp.VerifyOutArgs([]any{"only_one"})
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyOutArgs length mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyOutArgs returns correct value -- length mismatch", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -360,7 +360,7 @@ func Test_I13_ValidateMethodArgs_CountMismatch_Detailed(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{ptrReturner{}, 1})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs count mismatch detailed", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns non-empty -- count mismatch detailed", actual)
 }
 
 func Test_I13_ValidateMethodArgs_TypeMismatch_Detailed(t *testing.T) {
@@ -368,7 +368,7 @@ func Test_I13_ValidateMethodArgs_TypeMismatch_Detailed(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{ptrReturner{}, "wrong", 2, 3, 4})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs type mismatch detailed", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns non-empty -- type mismatch detailed", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -393,7 +393,7 @@ func Test_I13_RVK_IntKind(t *testing.T) {
 		"typeName":  true,
 		"pkgPath":   "",
 	}
-	expected.ShouldBeEqual(t, 0, "RVK Int kind", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns correct value -- Int kind", actual)
 }
 
 func Test_I13_RVK_BoolKind(t *testing.T) {
@@ -404,7 +404,7 @@ func Test_I13_RVK_BoolKind(t *testing.T) {
 	}
 	actual := args.Map{"actInst": rvk.ActualInstance(), "typeName": rvk.TypeName() != ""}
 	expected := args.Map{"actInst": true, "typeName": true}
-	expected.ShouldBeEqual(t, 0, "RVK Bool kind", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns correct value -- Bool kind", actual)
 }
 
 func Test_I13_RVK_SliceKind(t *testing.T) {
@@ -417,7 +417,7 @@ func Test_I13_RVK_SliceKind(t *testing.T) {
 	ptrIface := rvk.PointerInterface()
 	actual := args.Map{"ptrNotNil": ptr != nil, "ptrIfaceNotNil": ptrIface != nil}
 	expected := args.Map{"ptrNotNil": true, "ptrIfaceNotNil": true}
-	expected.ShouldBeEqual(t, 0, "RVK Slice kind", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns correct value -- Slice kind", actual)
 }
 
 func Test_I13_RVK_MapKind(t *testing.T) {
@@ -428,7 +428,7 @@ func Test_I13_RVK_MapKind(t *testing.T) {
 	}
 	actual := args.Map{"actNotNil": rvk.ActualInstance() != nil, "typeName": rvk.TypeName() != ""}
 	expected := args.Map{"actNotNil": true, "typeName": true}
-	expected.ShouldBeEqual(t, 0, "RVK Map kind", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns correct value -- Map kind", actual)
 }
 
 func Test_I13_RVK_StructKind(t *testing.T) {
@@ -443,7 +443,7 @@ func Test_I13_RVK_StructKind(t *testing.T) {
 		"actInst": rvk.ActualInstance() != nil,
 	}
 	expected := args.Map{"pkgPath": true, "actInst": true}
-	expected.ShouldBeEqual(t, 0, "RVK Struct kind", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns correct value -- Struct kind", actual)
 }
 
 func Test_I13_RVK_PtrKind(t *testing.T) {
@@ -455,7 +455,7 @@ func Test_I13_RVK_PtrKind(t *testing.T) {
 	}
 	actual := args.Map{"typeName": rvk.TypeName() != "", "pkgPath": true}
 	expected := args.Map{"typeName": true, "pkgPath": true}
-	expected.ShouldBeEqual(t, 0, "RVK Ptr kind", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns correct value -- Ptr kind", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -474,14 +474,14 @@ func Test_I13_ReflectValue_Fields(t *testing.T) {
 		"methodsLen": len(rv.MethodsNames), "raw": rv.RawData,
 	}
 	expected := args.Map{"typeName": "TestType", "fieldsLen": 2, "methodsLen": 1, "raw": "raw"}
-	expected.ShouldBeEqual(t, 0, "ReflectValue fields", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValue returns correct value -- fields", actual)
 }
 
 func Test_I13_ReflectValue_Empty(t *testing.T) {
 	rv := reflectmodel.ReflectValue{}
 	actual := args.Map{"typeName": rv.TypeName, "raw": rv.RawData == nil}
 	expected := args.Map{"typeName": "", "raw": true}
-	expected.ShouldBeEqual(t, 0, "ReflectValue empty", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValue returns empty -- empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -496,7 +496,7 @@ func Test_I13_FieldProcessor_IntField(t *testing.T) {
 		"typeOk": fp.IsFieldType(reflect.TypeOf(0)),
 	}
 	expected := args.Map{"isInt": true, "isStr": false, "typeOk": true}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor Int field", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor returns correct value -- Int field", actual)
 }
 
 func Test_I13_FieldProcessor_BoolField(t *testing.T) {
@@ -506,7 +506,7 @@ func Test_I13_FieldProcessor_BoolField(t *testing.T) {
 		"typeOk": fp.IsFieldType(reflect.TypeOf(true)),
 	}
 	expected := args.Map{"isBool": true, "typeOk": true}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor Bool field", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor returns correct value -- Bool field", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -518,7 +518,7 @@ func Test_I13_GetOutArgsTypes_NoReturn(t *testing.T) {
 	out := mp.GetOutArgsTypes()
 	actual := args.Map{"len": len(out)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "GetOutArgsTypes no return", actual)
+	expected.ShouldBeEqual(t, 0, "GetOutArgsTypes returns empty -- no return", actual)
 }
 
 func Test_I13_GetInArgsTypes_ReceiverOnly(t *testing.T) {
@@ -526,7 +526,7 @@ func Test_I13_GetInArgsTypes_ReceiverOnly(t *testing.T) {
 	in := mp.GetInArgsTypes()
 	actual := args.Map{"len": len(in)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "GetInArgsTypes receiver only", actual)
+	expected.ShouldBeEqual(t, 0, "GetInArgsTypes returns correct value -- receiver only", actual)
 }
 
 func Test_I13_GetInArgsTypesNames_ReceiverOnly(t *testing.T) {
@@ -534,7 +534,7 @@ func Test_I13_GetInArgsTypesNames_ReceiverOnly(t *testing.T) {
 	names := mp.GetInArgsTypesNames()
 	actual := args.Map{"len": len(names)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "GetInArgsTypesNames receiver only", actual)
+	expected.ShouldBeEqual(t, 0, "GetInArgsTypesNames returns correct value -- receiver only", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -547,7 +547,7 @@ func Test_I13_InArgsVerifyRv_Match(t *testing.T) {
 	ok, err := mp.InArgsVerifyRv(types)
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "InArgsVerifyRv match", actual)
+	expected.ShouldBeEqual(t, 0, "InArgsVerifyRv returns correct value -- match", actual)
 }
 
 func Test_I13_InArgsVerifyRv_Mismatch(t *testing.T) {
@@ -556,7 +556,7 @@ func Test_I13_InArgsVerifyRv_Mismatch(t *testing.T) {
 	ok, err := mp.InArgsVerifyRv(types)
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InArgsVerifyRv mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "InArgsVerifyRv returns correct value -- mismatch", actual)
 }
 
 func Test_I13_OutArgsVerifyRv_Match(t *testing.T) {
@@ -567,7 +567,7 @@ func Test_I13_OutArgsVerifyRv_Match(t *testing.T) {
 	ok, err := mp.OutArgsVerifyRv(types)
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "OutArgsVerifyRv match", actual)
+	expected.ShouldBeEqual(t, 0, "OutArgsVerifyRv returns correct value -- match", actual)
 }
 
 func Test_I13_OutArgsVerifyRv_Mismatch(t *testing.T) {
@@ -576,7 +576,7 @@ func Test_I13_OutArgsVerifyRv_Mismatch(t *testing.T) {
 	ok, err := mp.OutArgsVerifyRv(types)
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "OutArgsVerifyRv mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "OutArgsVerifyRv returns correct value -- mismatch", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -589,5 +589,5 @@ func Test_I13_ValidateMethodArgs_MultiTypeMismatch(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{ptrReturner{}, "a", "b", "c", "d"})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs multi type mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns non-empty -- multi type mismatch", actual)
 }

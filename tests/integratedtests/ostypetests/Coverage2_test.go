@@ -60,7 +60,7 @@ func Test_Cov2_Group_BasicMethods(t *testing.T) {
 		"typeNameNE":  true,
 		"rangesCsvNE": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Group basic methods", actual)
+	expected.ShouldBeEqual(t, 0, "Group returns correct value -- basic methods", actual)
 }
 
 func Test_Cov2_Group_EnumMethods(t *testing.T) {
@@ -90,7 +90,7 @@ func Test_Cov2_Group_EnumMethods(t *testing.T) {
 		"formatNE":     true,
 		"toPtr":        true,
 	}
-	expected.ShouldBeEqual(t, 0, "Group enum methods", actual)
+	expected.ShouldBeEqual(t, 0, "Group returns correct value -- enum methods", actual)
 }
 
 func Test_Cov2_Group_AnyMethods(t *testing.T) {
@@ -108,7 +108,7 @@ func Test_Cov2_Group_AnyMethods(t *testing.T) {
 		"isAnyValues":    true,
 		"isAnyValuesNo":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Group any methods", actual)
+	expected.ShouldBeEqual(t, 0, "Group returns correct value -- any methods", actual)
 }
 
 func Test_Cov2_Group_JSON(t *testing.T) {
@@ -127,7 +127,7 @@ func Test_Cov2_Group_JSON(t *testing.T) {
 		"unmarshalErr": true,
 		"same":         true,
 	}
-	expected.ShouldBeEqual(t, 0, "Group JSON", actual)
+	expected.ShouldBeEqual(t, 0, "Group returns correct value -- JSON", actual)
 }
 
 func Test_Cov2_Group_Binders(t *testing.T) {
@@ -142,7 +142,7 @@ func Test_Cov2_Group_Binders(t *testing.T) {
 		"jsonBinder":     true,
 		"byteBinder":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "Group binders", actual)
+	expected.ShouldBeEqual(t, 0, "Group returns correct value -- binders", actual)
 }
 
 // ── Variation methods ──
@@ -184,7 +184,7 @@ func Test_Cov2_Variation_BasicMethods(t *testing.T) {
 		"isActualUnix": true,
 		"group":       true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation basic methods", actual)
+	expected.ShouldBeEqual(t, 0, "Variation returns correct value -- basic methods", actual)
 }
 
 func Test_Cov2_Variation_MatchMethods(t *testing.T) {
@@ -208,19 +208,19 @@ func Test_Cov2_Variation_MatchMethods(t *testing.T) {
 		"isStrMatch":   true,
 		"isStrMatchNo": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation match methods", actual)
+	expected.ShouldBeEqual(t, 0, "Variation returns correct value -- match methods", actual)
 }
 
 func Test_Cov2_Variation_GroupForWindows(t *testing.T) {
 	actual := args.Map{"group": ostype.Windows.Group() == ostype.WindowsGroup}
 	expected := args.Map{"group": true}
-	expected.ShouldBeEqual(t, 0, "Variation group windows", actual)
+	expected.ShouldBeEqual(t, 0, "Variation returns correct value -- group windows", actual)
 }
 
 func Test_Cov2_Variation_GroupForAndroid(t *testing.T) {
 	actual := args.Map{"group": ostype.Android.Group() == ostype.AndroidGroup}
 	expected := args.Map{"group": true}
-	expected.ShouldBeEqual(t, 0, "Variation group android", actual)
+	expected.ShouldBeEqual(t, 0, "Variation returns correct value -- group android", actual)
 }
 
 // ── GetGroup / GetVariant / GetGroupVariant ──
@@ -228,65 +228,65 @@ func Test_Cov2_Variation_GroupForAndroid(t *testing.T) {
 func Test_Cov2_GetGroup_Windows(t *testing.T) {
 	actual := args.Map{"result": ostype.GetGroup("windows") == ostype.WindowsGroup}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "GetGroup windows", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroup returns correct value -- windows", actual)
 }
 
 func Test_Cov2_GetGroup_Android(t *testing.T) {
 	actual := args.Map{"result": ostype.GetGroup("android") == ostype.AndroidGroup}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "GetGroup android", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroup returns correct value -- android", actual)
 }
 
 func Test_Cov2_GetGroup_Linux(t *testing.T) {
 	actual := args.Map{"result": ostype.GetGroup("linux") == ostype.UnixGroup}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "GetGroup linux", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroup returns correct value -- linux", actual)
 }
 
 func Test_Cov2_GetGroup_Invalid(t *testing.T) {
 	actual := args.Map{"result": ostype.GetGroup("invalid-os") == ostype.InvalidGroup}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "GetGroup invalid", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroup returns error -- invalid", actual)
 }
 
 func Test_Cov2_GetVariant_Linux(t *testing.T) {
 	actual := args.Map{"result": ostype.GetVariant("linux") == ostype.Linux}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "GetVariant linux", actual)
+	expected.ShouldBeEqual(t, 0, "GetVariant returns correct value -- linux", actual)
 }
 
 func Test_Cov2_GetVariant_Unknown(t *testing.T) {
 	actual := args.Map{"result": ostype.GetVariant("nonexistent") == ostype.Unknown}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "GetVariant unknown", actual)
+	expected.ShouldBeEqual(t, 0, "GetVariant returns correct value -- unknown", actual)
 }
 
 func Test_Cov2_GetGroupVariant(t *testing.T) {
 	gv := ostype.GetGroupVariant()
 	actual := args.Map{"groupValid": gv.Group.IsValid() || gv.Group == ostype.InvalidGroup}
 	expected := args.Map{"groupValid": true}
-	expected.ShouldBeEqual(t, 0, "GetGroupVariant", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroupVariant returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetGroupVariantPtr(t *testing.T) {
 	gv := ostype.GetGroupVariantPtr()
 	actual := args.Map{"notNil": gv != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "GetGroupVariantPtr", actual)
+	expected.ShouldBeEqual(t, 0, "GetGroupVariantPtr returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetCurrentGroup(t *testing.T) {
 	g := ostype.GetCurrentGroup()
 	actual := args.Map{"valid": g != ostype.InvalidGroup}
 	expected := args.Map{"valid": true}
-	expected.ShouldBeEqual(t, 0, "GetCurrentGroup", actual)
+	expected.ShouldBeEqual(t, 0, "GetCurrentGroup returns correct value -- with args", actual)
 }
 
 func Test_Cov2_GetCurrentVariant(t *testing.T) {
 	v := ostype.GetCurrentVariant()
 	actual := args.Map{"valid": v != ostype.Unknown}
 	expected := args.Map{"valid": true}
-	expected.ShouldBeEqual(t, 0, "GetCurrentVariant", actual)
+	expected.ShouldBeEqual(t, 0, "GetCurrentVariant returns correct value -- with args", actual)
 }
 
 // ── Variation JSON ──
@@ -307,7 +307,7 @@ func Test_Cov2_Variation_JSON(t *testing.T) {
 		"unmarshalErr": true,
 		"same":         true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation JSON", actual)
+	expected.ShouldBeEqual(t, 0, "Variation returns correct value -- JSON", actual)
 }
 
 func Test_Cov2_Variation_Binders(t *testing.T) {
@@ -324,5 +324,5 @@ func Test_Cov2_Variation_Binders(t *testing.T) {
 		"byte":  true,
 		"toPtr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variation binders", actual)
+	expected.ShouldBeEqual(t, 0, "Variation returns correct value -- binders", actual)
 }

@@ -17,7 +17,7 @@ func Test_Cov9_MapStringStringOnce_AllKeys(t *testing.T) {
 	keysCached := mo.AllKeys() // second call uses cache
 	actual := args.Map{"len": len(keys), "cachedLen": len(keysCached)}
 	expected := args.Map{"len": 2, "cachedLen": 2}
-	expected.ShouldBeEqual(t, 0, "AllKeys returns all keys", actual)
+	expected.ShouldBeEqual(t, 0, "AllKeys returns correct value -- returns all keys", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_AllKeys_Empty(t *testing.T) {
@@ -34,7 +34,7 @@ func Test_Cov9_MapStringStringOnce_AllValues(t *testing.T) {
 	valsCached := mo.AllValues() // second call uses cache
 	actual := args.Map{"len": len(vals), "cachedLen": len(valsCached)}
 	expected := args.Map{"len": 1, "cachedLen": 1}
-	expected.ShouldBeEqual(t, 0, "AllValues returns all values", actual)
+	expected.ShouldBeEqual(t, 0, "AllValues returns non-empty -- returns all values", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_AllValues_Empty(t *testing.T) {
@@ -51,7 +51,7 @@ func Test_Cov9_MapStringStringOnce_AllKeysSorted(t *testing.T) {
 	sortedCached := mo.AllKeysSorted() // second call uses cache
 	actual := args.Map{"first": sorted[0], "cachedFirst": sortedCached[0]}
 	expected := args.Map{"first": "a", "cachedFirst": "a"}
-	expected.ShouldBeEqual(t, 0, "AllKeysSorted returns sorted keys", actual)
+	expected.ShouldBeEqual(t, 0, "AllKeysSorted returns correct value -- returns sorted keys", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_AllKeysSorted_Empty(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_Cov9_MapStringStringOnce_AllValuesSorted(t *testing.T) {
 	sortedCached := mo.AllValuesSorted() // second call uses cache
 	actual := args.Map{"first": sorted[0], "cachedFirst": sortedCached[0]}
 	expected := args.Map{"first": "a", "cachedFirst": "a"}
-	expected.ShouldBeEqual(t, 0, "AllValuesSorted returns sorted values", actual)
+	expected.ShouldBeEqual(t, 0, "AllValuesSorted returns non-empty -- returns sorted values", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_AllValuesSorted_Empty(t *testing.T) {
@@ -83,7 +83,7 @@ func Test_Cov9_MapStringStringOnce_GetValue(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"k": "v"} })
 	actual := args.Map{"val": mo.GetValue("k"), "missing": mo.GetValue("x")}
 	expected := args.Map{"val": "v", "missing": ""}
-	expected.ShouldBeEqual(t, 0, "GetValue returns value or empty", actual)
+	expected.ShouldBeEqual(t, 0, "GetValue returns empty -- returns value or empty", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_GetValueWithStatus(t *testing.T) {
@@ -92,21 +92,21 @@ func Test_Cov9_MapStringStringOnce_GetValueWithStatus(t *testing.T) {
 	_, ok2 := mo.GetValueWithStatus("x")
 	actual := args.Map{"val": v1, "found": ok1, "notFound": ok2}
 	expected := args.Map{"val": "v", "found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "GetValueWithStatus returns status", actual)
+	expected.ShouldBeEqual(t, 0, "GetValueWithStatus returns non-empty -- returns status", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_Has_IsMissing(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"k": "v"} })
 	actual := args.Map{"has": mo.Has("k"), "missing": mo.IsMissing("x"), "missingK": mo.IsMissing("k")}
 	expected := args.Map{"has": true, "missing": true, "missingK": false}
-	expected.ShouldBeEqual(t, 0, "Has and IsMissing correct", actual)
+	expected.ShouldBeEqual(t, 0, "Has returns correct value -- and IsMissing correct", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_HasAll(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"a": "1", "b": "2"} })
 	actual := args.Map{"allFound": mo.HasAll("a", "b"), "oneMissing": mo.HasAll("a", "c")}
 	expected := args.Map{"allFound": true, "oneMissing": false}
-	expected.ShouldBeEqual(t, 0, "HasAll correct", actual)
+	expected.ShouldBeEqual(t, 0, "HasAll returns correct value -- correct", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_Strings(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_Cov9_MapStringStringOnce_Strings(t *testing.T) {
 	sCached := mo.Strings() // cached path
 	actual := args.Map{"len": len(s), "cachedLen": len(sCached)}
 	expected := args.Map{"len": 1, "cachedLen": 1}
-	expected.ShouldBeEqual(t, 0, "Strings returns kv lines", actual)
+	expected.ShouldBeEqual(t, 0, "Strings returns correct value -- returns kv lines", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_Strings_Empty(t *testing.T) {
@@ -139,7 +139,7 @@ func Test_Cov9_MapStringStringOnce_String(t *testing.T) {
 	s := mo.String()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "String returns csv-like output", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- returns csv-like output", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_ValuesPtr(t *testing.T) {
@@ -147,7 +147,7 @@ func Test_Cov9_MapStringStringOnce_ValuesPtr(t *testing.T) {
 	vp := mo.ValuesPtr()
 	actual := args.Map{"notNil": vp != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "ValuesPtr returns ptr", actual)
+	expected.ShouldBeEqual(t, 0, "ValuesPtr returns non-empty -- returns ptr", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_Length_Nil(t *testing.T) {
@@ -161,35 +161,35 @@ func Test_Cov9_MapStringStringOnce_IsEqual_BothNil(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return nil })
 	actual := args.Map{"eq": mo.IsEqual(nil)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns nil -- both nil", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_IsEqual_DiffLen(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"a": "1"} })
 	actual := args.Map{"eq": mo.IsEqual(map[string]string{"a": "1", "b": "2"})}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff length", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- diff length", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_IsEqual_DiffValue(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"a": "1"} })
 	actual := args.Map{"eq": mo.IsEqual(map[string]string{"a": "2"})}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff value", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- diff value", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_IsEqual_MissingKey(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"a": "1"} })
 	actual := args.Map{"eq": mo.IsEqual(map[string]string{"b": "1"})}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual missing key", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- missing key", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_IsEqual_Match(t *testing.T) {
 	mo := coreonce.NewMapStringStringOncePtr(func() map[string]string { return map[string]string{"a": "1"} })
 	actual := args.Map{"eq": mo.IsEqual(map[string]string{"a": "1"})}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual match", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- match", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_Serialize(t *testing.T) {
@@ -197,7 +197,7 @@ func Test_Cov9_MapStringStringOnce_Serialize(t *testing.T) {
 	b, err := mo.Serialize()
 	actual := args.Map{"hasBytes": len(b) > 0, "noErr": err == nil}
 	expected := args.Map{"hasBytes": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Serialize returns bytes", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize returns correct value -- returns bytes", actual)
 }
 
 func Test_Cov9_MapStringStringOnce_UnmarshalJSON(t *testing.T) {
@@ -205,7 +205,7 @@ func Test_Cov9_MapStringStringOnce_UnmarshalJSON(t *testing.T) {
 	err := mo.UnmarshalJSON([]byte(`{"x":"y"}`))
 	actual := args.Map{"noErr": err == nil, "val": mo.GetValue("x")}
 	expected := args.Map{"noErr": true, "val": "y"}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON parses json", actual)
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON returns correct value -- parses json", actual)
 }
 
 // ==========================================================================
@@ -218,7 +218,7 @@ func Test_Cov9_StringsOnce_UniqueMap(t *testing.T) {
 	mCached := so.UniqueMap() // cached path
 	actual := args.Map{"len": len(m), "cachedLen": len(mCached), "hasA": m["a"]}
 	expected := args.Map{"len": 2, "cachedLen": 2, "hasA": true}
-	expected.ShouldBeEqual(t, 0, "UniqueMap returns unique map", actual)
+	expected.ShouldBeEqual(t, 0, "UniqueMap returns correct value -- returns unique map", actual)
 }
 
 func Test_Cov9_StringsOnce_UniqueMap_Nil(t *testing.T) {
@@ -234,7 +234,7 @@ func Test_Cov9_StringsOnce_UniqueMapLock(t *testing.T) {
 	m := so.UniqueMapLock()
 	actual := args.Map{"len": len(m)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "UniqueMapLock returns locked unique map", actual)
+	expected.ShouldBeEqual(t, 0, "UniqueMapLock returns correct value -- returns locked unique map", actual)
 }
 
 func Test_Cov9_StringsOnce_CsvLines(t *testing.T) {
@@ -242,7 +242,7 @@ func Test_Cov9_StringsOnce_CsvLines(t *testing.T) {
 	lines := so.CsvLines()
 	actual := args.Map{"len": len(lines)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "CsvLines returns csv lines", actual)
+	expected.ShouldBeEqual(t, 0, "CsvLines returns correct value -- returns csv lines", actual)
 }
 
 func Test_Cov9_StringsOnce_Csv(t *testing.T) {
@@ -250,7 +250,7 @@ func Test_Cov9_StringsOnce_Csv(t *testing.T) {
 	csv := so.Csv()
 	actual := args.Map{"notEmpty": csv != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Csv returns csv string", actual)
+	expected.ShouldBeEqual(t, 0, "Csv returns correct value -- returns csv string", actual)
 }
 
 func Test_Cov9_StringsOnce_Sorted(t *testing.T) {
@@ -259,7 +259,7 @@ func Test_Cov9_StringsOnce_Sorted(t *testing.T) {
 	sCached := so.Sorted() // cached path
 	actual := args.Map{"first": s[0], "cachedFirst": sCached[0]}
 	expected := args.Map{"first": "a", "cachedFirst": "a"}
-	expected.ShouldBeEqual(t, 0, "Sorted returns sorted values", actual)
+	expected.ShouldBeEqual(t, 0, "Sorted returns non-empty -- returns sorted values", actual)
 }
 
 func Test_Cov9_StringsOnce_RangesMap(t *testing.T) {
@@ -267,7 +267,7 @@ func Test_Cov9_StringsOnce_RangesMap(t *testing.T) {
 	m := so.RangesMap()
 	actual := args.Map{"xIdx": m["x"], "yIdx": m["y"]}
 	expected := args.Map{"xIdx": 0, "yIdx": 1}
-	expected.ShouldBeEqual(t, 0, "RangesMap returns index map", actual)
+	expected.ShouldBeEqual(t, 0, "RangesMap returns correct value -- returns index map", actual)
 }
 
 func Test_Cov9_StringsOnce_RangesMap_Empty(t *testing.T) {
@@ -282,7 +282,7 @@ func Test_Cov9_StringsOnce_HasAll(t *testing.T) {
 	so := coreonce.NewStringsOncePtr(func() []string { return []string{"a", "b"} })
 	actual := args.Map{"all": so.HasAll("a", "b"), "missing": so.HasAll("a", "c")}
 	expected := args.Map{"all": true, "missing": false}
-	expected.ShouldBeEqual(t, 0, "HasAll correct", actual)
+	expected.ShouldBeEqual(t, 0, "HasAll returns correct value -- correct", actual)
 }
 
 func Test_Cov9_StringsOnce_JsonStringMust(t *testing.T) {
@@ -290,7 +290,7 @@ func Test_Cov9_StringsOnce_JsonStringMust(t *testing.T) {
 	s := so.JsonStringMust()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "JsonStringMust returns json", actual)
+	expected.ShouldBeEqual(t, 0, "JsonStringMust returns correct value -- returns json", actual)
 }
 
 func Test_Cov9_StringsOnce_String(t *testing.T) {
@@ -298,7 +298,7 @@ func Test_Cov9_StringsOnce_String(t *testing.T) {
 	s := so.String()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "String returns csv output", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- returns csv output", actual)
 }
 
 func Test_Cov9_StringsOnce_Length_Nil(t *testing.T) {
@@ -334,7 +334,7 @@ func Test_Cov9_IntegersOnce_Sorted(t *testing.T) {
 	sCached := io.Sorted() // cached path
 	actual := args.Map{"first": s[0], "cachedFirst": sCached[0]}
 	expected := args.Map{"first": 1, "cachedFirst": 1}
-	expected.ShouldBeEqual(t, 0, "Sorted returns sorted ints", actual)
+	expected.ShouldBeEqual(t, 0, "Sorted returns correct value -- returns sorted ints", actual)
 }
 
 func Test_Cov9_IntegersOnce_RangesMap(t *testing.T) {
@@ -342,7 +342,7 @@ func Test_Cov9_IntegersOnce_RangesMap(t *testing.T) {
 	m := io.RangesMap()
 	actual := args.Map{"v10": m[10], "v20": m[20]}
 	expected := args.Map{"v10": 0, "v20": 1}
-	expected.ShouldBeEqual(t, 0, "RangesMap returns index map", actual)
+	expected.ShouldBeEqual(t, 0, "RangesMap returns correct value -- returns index map", actual)
 }
 
 func Test_Cov9_IntegersOnce_RangesMap_Empty(t *testing.T) {
@@ -358,7 +358,7 @@ func Test_Cov9_IntegersOnce_RangesBoolMap(t *testing.T) {
 	m := io.RangesBoolMap()
 	actual := args.Map{"has5": m[5], "has10": m[10]}
 	expected := args.Map{"has5": true, "has10": true}
-	expected.ShouldBeEqual(t, 0, "RangesBoolMap returns bool map", actual)
+	expected.ShouldBeEqual(t, 0, "RangesBoolMap returns correct value -- returns bool map", actual)
 }
 
 func Test_Cov9_IntegersOnce_RangesBoolMap_Empty(t *testing.T) {
@@ -374,7 +374,7 @@ func Test_Cov9_IntegersOnce_UniqueMap(t *testing.T) {
 	m := io.UniqueMap()
 	actual := args.Map{"len": len(m)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "UniqueMap returns unique map", actual)
+	expected.ShouldBeEqual(t, 0, "UniqueMap returns correct value -- returns unique map", actual)
 }
 
 func Test_Cov9_IntegersOnce_UniqueMap_Empty(t *testing.T) {
@@ -389,14 +389,14 @@ func Test_Cov9_IntegersOnce_IsEqual_DiffCount(t *testing.T) {
 	io := coreonce.NewIntegersOncePtr(func() []int { return []int{1, 2, 1} })
 	actual := args.Map{"eq": io.IsEqual(1, 2)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff count", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- diff count", actual)
 }
 
 func Test_Cov9_IntegersOnce_IsEqual_DiffValues(t *testing.T) {
 	io := coreonce.NewIntegersOncePtr(func() []int { return []int{1, 2} })
 	actual := args.Map{"eq": io.IsEqual(1, 3)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff values", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns non-empty -- diff values", actual)
 }
 
 func Test_Cov9_IntegersOnce_Aliases(t *testing.T) {
@@ -417,7 +417,7 @@ func Test_Cov9_IntegersOnce_Aliases(t *testing.T) {
 		"listLen":    2,
 		"strNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IntegersOnce aliases work", actual)
+	expected.ShouldBeEqual(t, 0, "IntegersOnce returns correct value -- aliases work", actual)
 }
 
 // ==========================================================================
@@ -428,14 +428,14 @@ func Test_Cov9_StringsOnce_IsEqual_DiffCount(t *testing.T) {
 	so := coreonce.NewStringsOncePtr(func() []string { return []string{"a", "b"} })
 	actual := args.Map{"eq": so.IsEqual("a")}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff count", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- diff count", actual)
 }
 
 func Test_Cov9_StringsOnce_IsEqual_DiffValues(t *testing.T) {
 	so := coreonce.NewStringsOncePtr(func() []string { return []string{"a", "b"} })
 	actual := args.Map{"eq": so.IsEqual("a", "c")}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff values", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns non-empty -- diff values", actual)
 }
 
 // ==========================================================================
@@ -447,28 +447,28 @@ func Test_Cov9_ByteOnce_UnmarshalJSON(t *testing.T) {
 	err := bo.UnmarshalJSON([]byte(`65`))
 	actual := args.Map{"noErr": err == nil, "val": int(bo.Value())}
 	expected := args.Map{"noErr": true, "val": 65}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON parses byte", actual)
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON returns correct value -- parses byte", actual)
 }
 
 func Test_Cov9_ByteOnce_Int(t *testing.T) {
 	bo := coreonce.NewByteOncePtr(func() byte { return 42 })
 	actual := args.Map{"int": bo.Int()}
 	expected := args.Map{"int": 42}
-	expected.ShouldBeEqual(t, 0, "Int returns int value", actual)
+	expected.ShouldBeEqual(t, 0, "Int returns correct value -- returns int value", actual)
 }
 
 func Test_Cov9_ByteOnce_IsEmpty_IsZero(t *testing.T) {
 	bo := coreonce.NewByteOncePtr(func() byte { return 0 })
 	actual := args.Map{"empty": bo.IsEmpty(), "zero": bo.IsZero()}
 	expected := args.Map{"empty": true, "zero": true}
-	expected.ShouldBeEqual(t, 0, "IsEmpty and IsZero on zero byte", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmpty returns empty -- and IsZero on zero byte", actual)
 }
 
 func Test_Cov9_ByteOnce_IsPositive_IsNegative(t *testing.T) {
 	bo := coreonce.NewByteOncePtr(func() byte { return 5 })
 	actual := args.Map{"pos": bo.IsPositive(), "neg": bo.IsNegative()}
 	expected := args.Map{"pos": true, "neg": false}
-	expected.ShouldBeEqual(t, 0, "IsPositive and IsNegative on positive byte", actual)
+	expected.ShouldBeEqual(t, 0, "IsPositive returns correct value -- and IsNegative on positive byte", actual)
 }
 
 // ==========================================================================
@@ -480,7 +480,7 @@ func Test_Cov9_IntegerOnce_UnmarshalJSON(t *testing.T) {
 	err := io.UnmarshalJSON([]byte(`42`))
 	actual := args.Map{"noErr": err == nil, "val": io.Value()}
 	expected := args.Map{"noErr": true, "val": 42}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON parses int", actual)
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON returns correct value -- parses int", actual)
 }
 
 func Test_Cov9_IntegerOnce_ComparisonMethods(t *testing.T) {
@@ -513,7 +513,7 @@ func Test_Cov9_IntegerOnce_ComparisonMethods(t *testing.T) {
 		"positive":      true,
 		"negative":      false,
 	}
-	expected.ShouldBeEqual(t, 0, "IntegerOnce comparison methods", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerOnce returns correct value -- comparison methods", actual)
 }
 
 // ==========================================================================
@@ -525,7 +525,7 @@ func Test_Cov9_BoolOnce_UnmarshalJSON(t *testing.T) {
 	err := bo.UnmarshalJSON([]byte(`true`))
 	actual := args.Map{"noErr": err == nil, "val": bo.Value()}
 	expected := args.Map{"noErr": true, "val": true}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON parses bool", actual)
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON returns correct value -- parses bool", actual)
 }
 
 // ==========================================================================
@@ -537,7 +537,7 @@ func Test_Cov9_BytesOnce_UnmarshalJSON(t *testing.T) {
 	err := bo.UnmarshalJSON([]byte(`"aGVsbG8="`))
 	actual := args.Map{"noErr": err == nil, "hasData": len(bo.Value()) > 0}
 	expected := args.Map{"noErr": true, "hasData": true}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON parses bytes", actual)
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON returns correct value -- parses bytes", actual)
 }
 
 func Test_Cov9_BytesOnce_NilInitializerFunc(t *testing.T) {
@@ -545,7 +545,7 @@ func Test_Cov9_BytesOnce_NilInitializerFunc(t *testing.T) {
 	val := bo.Value()
 	actual := args.Map{"isNil": val == nil, "len": bo.Length(), "empty": bo.IsEmpty()}
 	expected := args.Map{"isNil": true, "len": 0, "empty": true}
-	expected.ShouldBeEqual(t, 0, "BytesOnce nil initializer", actual)
+	expected.ShouldBeEqual(t, 0, "BytesOnce returns nil -- nil initializer", actual)
 }
 
 // ==========================================================================
@@ -557,7 +557,7 @@ func Test_Cov9_StringOnce_SplitLeftRight_Single(t *testing.T) {
 	left, right := so.SplitLeftRight("=")
 	actual := args.Map{"left": left, "right": right}
 	expected := args.Map{"left": "only", "right": ""}
-	expected.ShouldBeEqual(t, 0, "SplitLeftRight single element", actual)
+	expected.ShouldBeEqual(t, 0, "SplitLeftRight returns correct value -- single element", actual)
 }
 
 func Test_Cov9_StringOnce_SplitLeftRight_Two(t *testing.T) {
@@ -565,7 +565,7 @@ func Test_Cov9_StringOnce_SplitLeftRight_Two(t *testing.T) {
 	left, right := so.SplitLeftRight("=")
 	actual := args.Map{"left": left, "right": right}
 	expected := args.Map{"left": "k", "right": "v"}
-	expected.ShouldBeEqual(t, 0, "SplitLeftRight two parts", actual)
+	expected.ShouldBeEqual(t, 0, "SplitLeftRight returns correct value -- two parts", actual)
 }
 
 func Test_Cov9_StringOnce_SplitLeftRightTrim(t *testing.T) {
@@ -573,7 +573,7 @@ func Test_Cov9_StringOnce_SplitLeftRightTrim(t *testing.T) {
 	left, right := so.SplitLeftRightTrim("=")
 	actual := args.Map{"left": left, "right": right}
 	expected := args.Map{"left": "k", "right": "v"}
-	expected.ShouldBeEqual(t, 0, "SplitLeftRightTrim trims spaces", actual)
+	expected.ShouldBeEqual(t, 0, "SplitLeftRightTrim returns correct value -- trims spaces", actual)
 }
 
 func Test_Cov9_StringOnce_MoreMethods(t *testing.T) {
@@ -602,5 +602,5 @@ func Test_Cov9_StringOnce_MoreMethods(t *testing.T) {
 		"errNotNil":  true,
 		"vp":         true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringOnce methods", actual)
+	expected.ShouldBeEqual(t, 0, "StringOnce returns correct value -- methods", actual)
 }

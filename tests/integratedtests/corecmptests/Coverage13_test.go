@@ -17,49 +17,49 @@ func Test_Cov13_AnyItem_BothNil(t *testing.T) {
 	result := corecmp.AnyItem(nil, nil)
 	actual := args.Map{"equal": result.IsEqual()}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem both nil", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns nil -- both nil", actual)
 }
 
 func Test_Cov13_AnyItem_LeftNil(t *testing.T) {
 	result := corecmp.AnyItem(nil, "hello")
 	actual := args.Map{"notEqual": result.IsNotEqual()}
 	expected := args.Map{"notEqual": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem left nil", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns nil -- left nil", actual)
 }
 
 func Test_Cov13_AnyItem_RightNil(t *testing.T) {
 	result := corecmp.AnyItem("hello", nil)
 	actual := args.Map{"notEqual": result.IsNotEqual()}
 	expected := args.Map{"notEqual": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem right nil", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns nil -- right nil", actual)
 }
 
 func Test_Cov13_AnyItem_Equal(t *testing.T) {
 	result := corecmp.AnyItem(42, 42)
 	actual := args.Map{"equal": result.IsEqual()}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem equal", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns correct value -- equal", actual)
 }
 
 func Test_Cov13_AnyItem_Inconclusive(t *testing.T) {
 	result := corecmp.AnyItem(42, 99)
 	actual := args.Map{"inconclusive": result.IsInconclusive()}
 	expected := args.Map{"inconclusive": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem inconclusive", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns correct value -- inconclusive", actual)
 }
 
 func Test_Cov13_AnyItem_EqualStrings(t *testing.T) {
 	result := corecmp.AnyItem("abc", "abc")
 	actual := args.Map{"equal": result.IsEqual()}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem equal strings", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns correct value -- equal strings", actual)
 }
 
 func Test_Cov13_AnyItem_DifferentStrings(t *testing.T) {
 	result := corecmp.AnyItem("abc", "xyz")
 	actual := args.Map{"inconclusive": result.IsInconclusive()}
 	expected := args.Map{"inconclusive": true}
-	expected.ShouldBeEqual(t, 0, "AnyItem different strings", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItem returns correct value -- different strings", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -70,35 +70,35 @@ func Test_Cov13_Byte_Equal(t *testing.T) {
 	result := corecmp.Byte(5, 5)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Byte equal", actual)
+	expected.ShouldBeEqual(t, 0, "Byte returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Byte_LeftLess(t *testing.T) {
 	result := corecmp.Byte(1, 5)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Byte left less", actual)
+	expected.ShouldBeEqual(t, 0, "Byte returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Byte_LeftGreater(t *testing.T) {
 	result := corecmp.Byte(10, 5)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Byte left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Byte returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_Byte_Zero(t *testing.T) {
 	result := corecmp.Byte(0, 0)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Byte zero", actual)
+	expected.ShouldBeEqual(t, 0, "Byte returns correct value -- zero", actual)
 }
 
 func Test_Cov13_Byte_Max(t *testing.T) {
 	result := corecmp.Byte(255, 0)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Byte max", actual)
+	expected.ShouldBeEqual(t, 0, "Byte returns correct value -- max", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -109,7 +109,7 @@ func Test_Cov13_BytePtr_BothNil(t *testing.T) {
 	result := corecmp.BytePtr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "BytePtr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_BytePtr_LeftNil(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_Cov13_BytePtr_LeftNil(t *testing.T) {
 	result := corecmp.BytePtr(nil, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "BytePtr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_BytePtr_RightNil(t *testing.T) {
@@ -125,7 +125,7 @@ func Test_Cov13_BytePtr_RightNil(t *testing.T) {
 	result := corecmp.BytePtr(&b, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "BytePtr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_BytePtr_Equal(t *testing.T) {
@@ -133,7 +133,7 @@ func Test_Cov13_BytePtr_Equal(t *testing.T) {
 	result := corecmp.BytePtr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "BytePtr equal", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns correct value -- equal", actual)
 }
 
 func Test_Cov13_BytePtr_LeftLess(t *testing.T) {
@@ -141,7 +141,7 @@ func Test_Cov13_BytePtr_LeftLess(t *testing.T) {
 	result := corecmp.BytePtr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "BytePtr left less", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns correct value -- left less", actual)
 }
 
 func Test_Cov13_BytePtr_LeftGreater(t *testing.T) {
@@ -149,7 +149,7 @@ func Test_Cov13_BytePtr_LeftGreater(t *testing.T) {
 	result := corecmp.BytePtr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "BytePtr left greater", actual)
+	expected.ShouldBeEqual(t, 0, "BytePtr returns correct value -- left greater", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -160,28 +160,28 @@ func Test_Cov13_Integer_Equal(t *testing.T) {
 	result := corecmp.Integer(42, 42)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer_LeftLess(t *testing.T) {
 	result := corecmp.Integer(1, 100)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer left less", actual)
+	expected.ShouldBeEqual(t, 0, "Integer returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Integer_LeftGreater(t *testing.T) {
 	result := corecmp.Integer(100, 1)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Integer left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Integer returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_Integer_Negative(t *testing.T) {
 	result := corecmp.Integer(-5, 5)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer negative", actual)
+	expected.ShouldBeEqual(t, 0, "Integer returns correct value -- negative", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -192,7 +192,7 @@ func Test_Cov13_IntegerPtr_BothNil(t *testing.T) {
 	result := corecmp.IntegerPtr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "IntegerPtr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerPtr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_IntegerPtr_LeftNil(t *testing.T) {
@@ -200,7 +200,7 @@ func Test_Cov13_IntegerPtr_LeftNil(t *testing.T) {
 	result := corecmp.IntegerPtr(nil, &v)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "IntegerPtr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerPtr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_IntegerPtr_RightNil(t *testing.T) {
@@ -208,7 +208,7 @@ func Test_Cov13_IntegerPtr_RightNil(t *testing.T) {
 	result := corecmp.IntegerPtr(&v, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "IntegerPtr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerPtr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_IntegerPtr_Equal(t *testing.T) {
@@ -216,7 +216,7 @@ func Test_Cov13_IntegerPtr_Equal(t *testing.T) {
 	result := corecmp.IntegerPtr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "IntegerPtr equal", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerPtr returns correct value -- equal", actual)
 }
 
 func Test_Cov13_IntegerPtr_LeftLess(t *testing.T) {
@@ -224,7 +224,7 @@ func Test_Cov13_IntegerPtr_LeftLess(t *testing.T) {
 	result := corecmp.IntegerPtr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "IntegerPtr left less", actual)
+	expected.ShouldBeEqual(t, 0, "IntegerPtr returns correct value -- left less", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -235,28 +235,28 @@ func Test_Cov13_Integer8_Equal(t *testing.T) {
 	result := corecmp.Integer8(5, 5)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer8 equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8 returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer8_LeftLess(t *testing.T) {
 	result := corecmp.Integer8(-10, 10)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer8 left less", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8 returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Integer8_LeftGreater(t *testing.T) {
 	result := corecmp.Integer8(10, -10)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Integer8 left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8 returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_Integer8Ptr_BothNil(t *testing.T) {
 	result := corecmp.Integer8Ptr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer8Ptr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8Ptr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_Integer8Ptr_LeftNil(t *testing.T) {
@@ -264,7 +264,7 @@ func Test_Cov13_Integer8Ptr_LeftNil(t *testing.T) {
 	result := corecmp.Integer8Ptr(nil, &v)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer8Ptr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8Ptr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_Integer8Ptr_RightNil(t *testing.T) {
@@ -272,7 +272,7 @@ func Test_Cov13_Integer8Ptr_RightNil(t *testing.T) {
 	result := corecmp.Integer8Ptr(&v, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer8Ptr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8Ptr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_Integer8Ptr_Equal(t *testing.T) {
@@ -280,7 +280,7 @@ func Test_Cov13_Integer8Ptr_Equal(t *testing.T) {
 	result := corecmp.Integer8Ptr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer8Ptr equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer8Ptr returns correct value -- equal", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -291,28 +291,28 @@ func Test_Cov13_Integer16_Equal(t *testing.T) {
 	result := corecmp.Integer16(100, 100)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer16 equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16 returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer16_LeftLess(t *testing.T) {
 	result := corecmp.Integer16(-100, 100)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer16 left less", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16 returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Integer16_LeftGreater(t *testing.T) {
 	result := corecmp.Integer16(100, -100)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Integer16 left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16 returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_Integer16Ptr_BothNil(t *testing.T) {
 	result := corecmp.Integer16Ptr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer16Ptr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16Ptr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_Integer16Ptr_LeftNil(t *testing.T) {
@@ -320,7 +320,7 @@ func Test_Cov13_Integer16Ptr_LeftNil(t *testing.T) {
 	result := corecmp.Integer16Ptr(nil, &v)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer16Ptr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16Ptr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_Integer16Ptr_RightNil(t *testing.T) {
@@ -328,7 +328,7 @@ func Test_Cov13_Integer16Ptr_RightNil(t *testing.T) {
 	result := corecmp.Integer16Ptr(&v, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer16Ptr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16Ptr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_Integer16Ptr_Equal(t *testing.T) {
@@ -336,7 +336,7 @@ func Test_Cov13_Integer16Ptr_Equal(t *testing.T) {
 	result := corecmp.Integer16Ptr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer16Ptr equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer16Ptr returns correct value -- equal", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -347,28 +347,28 @@ func Test_Cov13_Integer32_Equal(t *testing.T) {
 	result := corecmp.Integer32(1000, 1000)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer32 equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32 returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer32_LeftLess(t *testing.T) {
 	result := corecmp.Integer32(-1000, 1000)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer32 left less", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32 returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Integer32_LeftGreater(t *testing.T) {
 	result := corecmp.Integer32(1000, -1000)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Integer32 left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32 returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_Integer32Ptr_BothNil(t *testing.T) {
 	result := corecmp.Integer32Ptr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer32Ptr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32Ptr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_Integer32Ptr_LeftNil(t *testing.T) {
@@ -376,7 +376,7 @@ func Test_Cov13_Integer32Ptr_LeftNil(t *testing.T) {
 	result := corecmp.Integer32Ptr(nil, &v)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer32Ptr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32Ptr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_Integer32Ptr_RightNil(t *testing.T) {
@@ -384,7 +384,7 @@ func Test_Cov13_Integer32Ptr_RightNil(t *testing.T) {
 	result := corecmp.Integer32Ptr(&v, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer32Ptr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32Ptr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_Integer32Ptr_Equal(t *testing.T) {
@@ -392,7 +392,7 @@ func Test_Cov13_Integer32Ptr_Equal(t *testing.T) {
 	result := corecmp.Integer32Ptr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer32Ptr equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32Ptr returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer32Ptr_LeftLess(t *testing.T) {
@@ -400,7 +400,7 @@ func Test_Cov13_Integer32Ptr_LeftLess(t *testing.T) {
 	result := corecmp.Integer32Ptr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer32Ptr left less", actual)
+	expected.ShouldBeEqual(t, 0, "Integer32Ptr returns correct value -- left less", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -411,28 +411,28 @@ func Test_Cov13_Integer64_Equal(t *testing.T) {
 	result := corecmp.Integer64(100000, 100000)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer64 equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64 returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer64_LeftLess(t *testing.T) {
 	result := corecmp.Integer64(-100000, 100000)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Integer64 left less", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64 returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Integer64_LeftGreater(t *testing.T) {
 	result := corecmp.Integer64(100000, -100000)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Integer64 left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64 returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_Integer64Ptr_BothNil(t *testing.T) {
 	result := corecmp.Integer64Ptr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer64Ptr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_Integer64Ptr_LeftNil(t *testing.T) {
@@ -440,7 +440,7 @@ func Test_Cov13_Integer64Ptr_LeftNil(t *testing.T) {
 	result := corecmp.Integer64Ptr(nil, &v)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer64Ptr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_Integer64Ptr_RightNil(t *testing.T) {
@@ -448,7 +448,7 @@ func Test_Cov13_Integer64Ptr_RightNil(t *testing.T) {
 	result := corecmp.Integer64Ptr(&v, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "Integer64Ptr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_Integer64Ptr_Equal(t *testing.T) {
@@ -456,7 +456,7 @@ func Test_Cov13_Integer64Ptr_Equal(t *testing.T) {
 	result := corecmp.Integer64Ptr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Integer64Ptr equal", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Integer64Ptr_LeftGreater(t *testing.T) {
@@ -464,7 +464,7 @@ func Test_Cov13_Integer64Ptr_LeftGreater(t *testing.T) {
 	result := corecmp.Integer64Ptr(&a, &b)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Integer64Ptr left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns correct value -- left greater", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -474,57 +474,57 @@ func Test_Cov13_Integer64Ptr_LeftGreater(t *testing.T) {
 func Test_Cov13_IsIntegersEqual_BothNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqual(nil, nil)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns nil -- both nil", actual)
 }
 
 func Test_Cov13_IsIntegersEqual_LeftNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqual(nil, []int{1})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns nil -- left nil", actual)
 }
 
 func Test_Cov13_IsIntegersEqual_RightNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqual([]int{1}, nil)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns nil -- right nil", actual)
 }
 
 func Test_Cov13_IsIntegersEqual_Same(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqual([]int{1, 2, 3}, []int{1, 2, 3})}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual same", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns correct value -- same", actual)
 }
 
 func Test_Cov13_IsIntegersEqual_Different(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqual([]int{1, 2}, []int{1, 3})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual different", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns correct value -- different", actual)
 }
 
 func Test_Cov13_IsIntegersEqual_DifferentLength(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqual([]int{1}, []int{1, 2})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqual different length", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns correct value -- different length", actual)
 }
 
 func Test_Cov13_IsIntegersEqualPtr_BothNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsIntegersEqualPtr(nil, nil)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_IsIntegersEqualPtr_LeftNil(t *testing.T) {
 	right := []int{1}
 	actual := args.Map{"equal": corecmp.IsIntegersEqualPtr(nil, &right)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_IsIntegersEqualPtr_RightNil(t *testing.T) {
 	left := []int{1}
 	actual := args.Map{"equal": corecmp.IsIntegersEqualPtr(&left, nil)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_IsIntegersEqualPtr_DifferentLength(t *testing.T) {
@@ -532,7 +532,7 @@ func Test_Cov13_IsIntegersEqualPtr_DifferentLength(t *testing.T) {
 	right := []int{1, 2}
 	actual := args.Map{"equal": corecmp.IsIntegersEqualPtr(&left, &right)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr different length", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr returns correct value -- different length", actual)
 }
 
 func Test_Cov13_IsIntegersEqualPtr_Same(t *testing.T) {
@@ -540,7 +540,7 @@ func Test_Cov13_IsIntegersEqualPtr_Same(t *testing.T) {
 	right := []int{1, 2, 3}
 	actual := args.Map{"equal": corecmp.IsIntegersEqualPtr(&left, &right)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr same", actual)
+	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr returns correct value -- same", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -550,67 +550,67 @@ func Test_Cov13_IsIntegersEqualPtr_Same(t *testing.T) {
 func Test_Cov13_IsStringsEqual_BothNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqual(nil, nil)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqual both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqual returns nil -- both nil", actual)
 }
 
 func Test_Cov13_IsStringsEqual_LeftNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqual(nil, []string{"a"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqual left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqual returns nil -- left nil", actual)
 }
 
 func Test_Cov13_IsStringsEqual_RightNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqual([]string{"a"}, nil)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqual right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqual returns nil -- right nil", actual)
 }
 
 func Test_Cov13_IsStringsEqual_Same(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqual([]string{"a", "b"}, []string{"a", "b"})}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqual same", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqual returns correct value -- same", actual)
 }
 
 func Test_Cov13_IsStringsEqual_Different(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqual([]string{"a"}, []string{"b"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqual different", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqual returns correct value -- different", actual)
 }
 
 func Test_Cov13_IsStringsEqual_DifferentLength(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqual([]string{"a"}, []string{"a", "b"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqual different length", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqual returns correct value -- different length", actual)
 }
 
 func Test_Cov13_IsStringsEqualPtr_BothNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualPtr(nil, nil)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_IsStringsEqualPtr_LeftNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualPtr(nil, []string{"a"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_IsStringsEqualPtr_RightNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualPtr([]string{"a"}, nil)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_IsStringsEqualPtr_DifferentLength(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualPtr([]string{"a"}, []string{"a", "b"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr different length", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr returns correct value -- different length", actual)
 }
 
 func Test_Cov13_IsStringsEqualPtr_Same(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualPtr([]string{"x", "y"}, []string{"x", "y"})}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr same", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualPtr returns correct value -- same", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -620,43 +620,43 @@ func Test_Cov13_IsStringsEqualPtr_Same(t *testing.T) {
 func Test_Cov13_IsStringsEqualWithoutOrder_BothNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder(nil, nil)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns nil -- both nil", actual)
 }
 
 func Test_Cov13_IsStringsEqualWithoutOrder_LeftNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder(nil, []string{"a"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns nil -- left nil", actual)
 }
 
 func Test_Cov13_IsStringsEqualWithoutOrder_RightNil(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder([]string{"a"}, nil)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns nil -- right nil", actual)
 }
 
 func Test_Cov13_IsStringsEqualWithoutOrder_DifferentLength(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder([]string{"a"}, []string{"a", "b"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder different length", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns non-empty -- different length", actual)
 }
 
 func Test_Cov13_IsStringsEqualWithoutOrder_SameOrder(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder([]string{"a", "b"}, []string{"a", "b"})}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder same order", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns non-empty -- same order", actual)
 }
 
 func Test_Cov13_IsStringsEqualWithoutOrder_DifferentOrder(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder([]string{"b", "a"}, []string{"a", "b"})}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder different order", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns non-empty -- different order", actual)
 }
 
 func Test_Cov13_IsStringsEqualWithoutOrder_Mismatch(t *testing.T) {
 	actual := args.Map{"equal": corecmp.IsStringsEqualWithoutOrder([]string{"a", "b"}, []string{"a", "c"})}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "IsStringsEqualWithoutOrder returns non-empty -- mismatch", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -668,7 +668,7 @@ func Test_Cov13_Time_Equal(t *testing.T) {
 	result := corecmp.Time(now, now)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "Time equal", actual)
+	expected.ShouldBeEqual(t, 0, "Time returns correct value -- equal", actual)
 }
 
 func Test_Cov13_Time_LeftLess(t *testing.T) {
@@ -677,7 +677,7 @@ func Test_Cov13_Time_LeftLess(t *testing.T) {
 	result := corecmp.Time(now, later)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "Time left less", actual)
+	expected.ShouldBeEqual(t, 0, "Time returns correct value -- left less", actual)
 }
 
 func Test_Cov13_Time_LeftGreater(t *testing.T) {
@@ -686,14 +686,14 @@ func Test_Cov13_Time_LeftGreater(t *testing.T) {
 	result := corecmp.Time(now, earlier)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "Time left greater", actual)
+	expected.ShouldBeEqual(t, 0, "Time returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_TimePtr_BothNil(t *testing.T) {
 	result := corecmp.TimePtr(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "TimePtr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "TimePtr returns nil -- both nil", actual)
 }
 
 func Test_Cov13_TimePtr_LeftNil(t *testing.T) {
@@ -701,7 +701,7 @@ func Test_Cov13_TimePtr_LeftNil(t *testing.T) {
 	result := corecmp.TimePtr(nil, &now)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "TimePtr left nil", actual)
+	expected.ShouldBeEqual(t, 0, "TimePtr returns nil -- left nil", actual)
 }
 
 func Test_Cov13_TimePtr_RightNil(t *testing.T) {
@@ -709,7 +709,7 @@ func Test_Cov13_TimePtr_RightNil(t *testing.T) {
 	result := corecmp.TimePtr(&now, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "TimePtr right nil", actual)
+	expected.ShouldBeEqual(t, 0, "TimePtr returns nil -- right nil", actual)
 }
 
 func Test_Cov13_TimePtr_Equal(t *testing.T) {
@@ -718,7 +718,7 @@ func Test_Cov13_TimePtr_Equal(t *testing.T) {
 	result := corecmp.TimePtr(&now, &same)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "TimePtr equal", actual)
+	expected.ShouldBeEqual(t, 0, "TimePtr returns correct value -- equal", actual)
 }
 
 func Test_Cov13_TimePtr_LeftLess(t *testing.T) {
@@ -727,7 +727,7 @@ func Test_Cov13_TimePtr_LeftLess(t *testing.T) {
 	result := corecmp.TimePtr(&now, &later)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "TimePtr left less", actual)
+	expected.ShouldBeEqual(t, 0, "TimePtr returns correct value -- left less", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -738,56 +738,56 @@ func Test_Cov13_VersionSliceByte_BothNil(t *testing.T) {
 	result := corecmp.VersionSliceByte(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte both nil", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns nil -- both nil", actual)
 }
 
 func Test_Cov13_VersionSliceByte_LeftNil(t *testing.T) {
 	result := corecmp.VersionSliceByte(nil, []byte{1, 0, 0})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte left nil", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns nil -- left nil", actual)
 }
 
 func Test_Cov13_VersionSliceByte_RightNil(t *testing.T) {
 	result := corecmp.VersionSliceByte([]byte{1, 0, 0}, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte right nil", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns nil -- right nil", actual)
 }
 
 func Test_Cov13_VersionSliceByte_Equal(t *testing.T) {
 	result := corecmp.VersionSliceByte([]byte{1, 2, 3}, []byte{1, 2, 3})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte equal", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns correct value -- equal", actual)
 }
 
 func Test_Cov13_VersionSliceByte_LeftLess(t *testing.T) {
 	result := corecmp.VersionSliceByte([]byte{1, 0, 0}, []byte{1, 0, 1})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte left less", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns correct value -- left less", actual)
 }
 
 func Test_Cov13_VersionSliceByte_LeftGreater(t *testing.T) {
 	result := corecmp.VersionSliceByte([]byte{2, 0, 0}, []byte{1, 9, 9})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte left greater", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_VersionSliceByte_ShorterLeft(t *testing.T) {
 	result := corecmp.VersionSliceByte([]byte{1, 0}, []byte{1, 0, 0})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte shorter left", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns correct value -- shorter left", actual)
 }
 
 func Test_Cov13_VersionSliceByte_ShorterRight(t *testing.T) {
 	result := corecmp.VersionSliceByte([]byte{1, 0, 0}, []byte{1, 0})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "VersionSliceByte shorter right", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceByte returns correct value -- shorter right", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -798,61 +798,61 @@ func Test_Cov13_VersionSliceInteger_BothNil(t *testing.T) {
 	result := corecmp.VersionSliceInteger(nil, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger both nil", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns nil -- both nil", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_LeftNil(t *testing.T) {
 	result := corecmp.VersionSliceInteger(nil, []int{1, 0, 0})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger left nil", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns nil -- left nil", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_RightNil(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{1, 0, 0}, nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.NotEqual}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger right nil", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns nil -- right nil", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_Equal(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{1, 2, 3}, []int{1, 2, 3})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger equal", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns correct value -- equal", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_LeftLess(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{1, 0, 0}, []int{1, 0, 1})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger left less", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns correct value -- left less", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_LeftGreater(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{2, 0, 0}, []int{1, 9, 9})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger left greater", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns correct value -- left greater", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_ShorterLeft(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{1, 0}, []int{1, 0, 0})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftLess}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger shorter left", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns correct value -- shorter left", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_ShorterRight(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{1, 0, 0}, []int{1, 0})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger shorter right", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns correct value -- shorter right", actual)
 }
 
 func Test_Cov13_VersionSliceInteger_Empty(t *testing.T) {
 	result := corecmp.VersionSliceInteger([]int{}, []int{})
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": corecomparator.Equal}
-	expected.ShouldBeEqual(t, 0, "VersionSliceInteger empty", actual)
+	expected.ShouldBeEqual(t, 0, "VersionSliceInteger returns empty -- empty", actual)
 }

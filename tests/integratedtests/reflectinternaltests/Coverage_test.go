@@ -24,7 +24,7 @@ func Test_TypeName(t *testing.T) {
 		"nil":     "",
 		"slice":   "[]int",
 	}
-	expected.ShouldBeEqual(t, 0, "TypeName", actual)
+	expected.ShouldBeEqual(t, 0, "TypeName returns correct value -- with args", actual)
 }
 
 // ── TypeNames ──
@@ -45,7 +45,7 @@ func Test_TypeNames(t *testing.T) {
 		"shortLen":  2,
 		"fullFirst": "int",
 	}
-	expected.ShouldBeEqual(t, 0, "TypeNames", actual)
+	expected.ShouldBeEqual(t, 0, "TypeNames returns correct value -- with args", actual)
 }
 
 // ── TypeNameToValidVariableName ──
@@ -66,7 +66,7 @@ func Test_TypeNameToValidVariableName(t *testing.T) {
 		"withPtr":  reflectinternal.TypeNameToValidVariableName("*MyType"),
 		"withSlice": reflectinternal.TypeNameToValidVariableName("[]MyType"),
 	}
-	expected.ShouldBeEqual(t, 0, "TypeNameToValidVariableName", actual)
+	expected.ShouldBeEqual(t, 0, "TypeNameToValidVariableName returns non-empty -- with args", actual)
 }
 
 // ── isChecker ──
@@ -93,7 +93,7 @@ func Test_Is_Null(t *testing.T) {
 		"nilIsDefined":  false,
 		"valIsDefined":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_Null", actual)
+	expected.ShouldBeEqual(t, 0, "Is_Null returns correct value -- with args", actual)
 }
 
 func Test_Is_NullRv(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_Is_NullRv(t *testing.T) {
 		"slice":    false,
 		"int":      false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_NullRv", actual)
+	expected.ShouldBeEqual(t, 0, "Is_NullRv returns correct value -- with args", actual)
 }
 
 func Test_Is_TypeChecks(t *testing.T) {
@@ -141,7 +141,7 @@ func Test_Is_TypeChecks(t *testing.T) {
 		"primitiveStr":  true,
 		"primitiveBool": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_TypeChecks", actual)
+	expected.ShouldBeEqual(t, 0, "Is_TypeChecks returns correct value -- with args", actual)
 }
 
 func Test_Is_Pointer(t *testing.T) {
@@ -157,7 +157,7 @@ func Test_Is_Pointer(t *testing.T) {
 		"ptrIsPtr":   true,
 		"valNotPtr":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_Pointer", actual)
+	expected.ShouldBeEqual(t, 0, "Is_Pointer returns correct value -- with args", actual)
 }
 
 func Test_Is_Function(t *testing.T) {
@@ -179,7 +179,7 @@ func Test_Is_Function(t *testing.T) {
 		"isNotFunc":  true,
 		"nilIsFunc":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_Function", actual)
+	expected.ShouldBeEqual(t, 0, "Is_Function returns correct value -- with args", actual)
 }
 
 func Test_Is_FuncTypeOf(t *testing.T) {
@@ -192,7 +192,7 @@ func Test_Is_FuncTypeOf(t *testing.T) {
 		"funcType":   true,
 		"intType":    false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_FuncTypeOf", actual)
+	expected.ShouldBeEqual(t, 0, "Is_FuncTypeOf returns correct value -- with args", actual)
 }
 
 func Test_Is_SliceOrArrayOf(t *testing.T) {
@@ -205,7 +205,7 @@ func Test_Is_SliceOrArrayOf(t *testing.T) {
 		"sliceType": true,
 		"intType":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_SliceOrArrayOf", actual)
+	expected.ShouldBeEqual(t, 0, "Is_SliceOrArrayOf returns correct value -- with args", actual)
 }
 
 func Test_Is_NumberKind(t *testing.T) {
@@ -222,7 +222,7 @@ func Test_Is_NumberKind(t *testing.T) {
 		"string": false,
 		"bool":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_NumberKind", actual)
+	expected.ShouldBeEqual(t, 0, "Is_NumberKind returns correct value -- with args", actual)
 }
 
 func Test_Is_PrimitiveKind(t *testing.T) {
@@ -239,7 +239,7 @@ func Test_Is_PrimitiveKind(t *testing.T) {
 		"bool":   true,
 		"struct": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_PrimitiveKind", actual)
+	expected.ShouldBeEqual(t, 0, "Is_PrimitiveKind returns correct value -- with args", actual)
 }
 
 func Test_Is_Zero(t *testing.T) {
@@ -258,7 +258,7 @@ func Test_Is_Zero(t *testing.T) {
 		"nonEmptyStr": false,
 		"nilVal":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_Zero", actual)
+	expected.ShouldBeEqual(t, 0, "Is_Zero returns correct value -- with args", actual)
 }
 
 func Test_Is_ZeroRv_Struct(t *testing.T) {
@@ -274,7 +274,7 @@ func Test_Is_ZeroRv_Struct(t *testing.T) {
 		"zeroStruct":    true,
 		"nonZeroStruct": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_ZeroRv_Struct", actual)
+	expected.ShouldBeEqual(t, 0, "Is_ZeroRv_Struct returns correct value -- with args", actual)
 }
 
 func Test_Is_ZeroRv_Array(t *testing.T) {
@@ -287,7 +287,7 @@ func Test_Is_ZeroRv_Array(t *testing.T) {
 		"zeroArray":    true,
 		"nonZeroArray": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_ZeroRv_Array", actual)
+	expected.ShouldBeEqual(t, 0, "Is_ZeroRv_Array returns correct value -- with args", actual)
 }
 
 func Test_Is_Struct(t *testing.T) {
@@ -310,7 +310,7 @@ func Test_Is_Struct(t *testing.T) {
 		"rvStruct":   true,
 		"rvInt":      false,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_Struct", actual)
+	expected.ShouldBeEqual(t, 0, "Is_Struct returns correct value -- with args", actual)
 }
 
 func Test_Is_Conclusive(t *testing.T) {
@@ -341,7 +341,7 @@ func Test_Is_Conclusive(t *testing.T) {
 		"diffTypeEq": false,
 		"diffTypeConc": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_Conclusive", actual)
+	expected.ShouldBeEqual(t, 0, "Is_Conclusive returns correct value -- with args", actual)
 }
 
 func Test_Is_AnyEqual(t *testing.T) {
@@ -360,7 +360,7 @@ func Test_Is_AnyEqual(t *testing.T) {
 		"diffSlice":  false,
 		"nilBoth":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "Is_AnyEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Is_AnyEqual returns correct value -- with args", actual)
 }
 
 // ── Converter ──
@@ -379,7 +379,7 @@ func Test_Converter_ArgsToReflectValues(t *testing.T) {
 		"resultLen": 3,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "Converter_ArgsToReflectValues", actual)
+	expected.ShouldBeEqual(t, 0, "Converter_ArgsToReflectValues returns non-empty -- with args", actual)
 }
 
 func Test_Converter_ReflectValuesToInterfaces(t *testing.T) {
@@ -399,7 +399,7 @@ func Test_Converter_ReflectValuesToInterfaces(t *testing.T) {
 		"resultLen": 2,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "Converter_ReflectValuesToInterfaces", actual)
+	expected.ShouldBeEqual(t, 0, "Converter_ReflectValuesToInterfaces returns non-empty -- with args", actual)
 }
 
 func Test_Converter_InterfacesToTypes(t *testing.T) {
@@ -422,7 +422,7 @@ func Test_Converter_InterfacesToTypes(t *testing.T) {
 		"namesVLen":   1,
 		"emptyLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "Converter_InterfacesToTypes", actual)
+	expected.ShouldBeEqual(t, 0, "Converter_InterfacesToTypes returns correct value -- with args", actual)
 }
 
 func Test_Converter_ReflectValToInterfaces(t *testing.T) {
@@ -448,7 +448,7 @@ func Test_Converter_ReflectValToInterfaces(t *testing.T) {
 		"notSliceLen": 0,
 		"emptyLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "Converter_ReflectValToInterfaces", actual)
+	expected.ShouldBeEqual(t, 0, "Converter_ReflectValToInterfaces returns correct value -- with args", actual)
 }
 
 func Test_Converter_ReflectInterfaceVal(t *testing.T) {
@@ -468,7 +468,7 @@ func Test_Converter_ReflectInterfaceVal(t *testing.T) {
 		"result":    int64(42),
 		"ptrResult": 42,
 	}
-	expected.ShouldBeEqual(t, 0, "Converter_ReflectInterfaceVal", actual)
+	expected.ShouldBeEqual(t, 0, "Converter_ReflectInterfaceVal returns correct value -- with args", actual)
 }
 
 // ── SliceConverter ──
@@ -487,7 +487,7 @@ func Test_SliceConverter_Length(t *testing.T) {
 		"nilLen":   0,
 		"intLen":   0,
 	}
-	expected.ShouldBeEqual(t, 0, "SliceConverter_Length", actual)
+	expected.ShouldBeEqual(t, 0, "SliceConverter_Length returns correct value -- with args", actual)
 }
 
 func Test_SliceConverter_ToStrings(t *testing.T) {
@@ -508,7 +508,7 @@ func Test_SliceConverter_ToStrings(t *testing.T) {
 		"emptyLen":  0,
 		"emptyNoErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SliceConverter_ToStrings", actual)
+	expected.ShouldBeEqual(t, 0, "SliceConverter_ToStrings returns correct value -- with args", actual)
 }
 
 func Test_SliceConverter_ToStringsMust(t *testing.T) {
@@ -522,7 +522,7 @@ func Test_SliceConverter_ToStringsMust(t *testing.T) {
 	expected := args.Map{
 		"resultLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "SliceConverter_ToStringsMust", actual)
+	expected.ShouldBeEqual(t, 0, "SliceConverter_ToStringsMust returns correct value -- with args", actual)
 }
 
 func Test_SliceConverter_ToAnyItemsAsync(t *testing.T) {
@@ -539,7 +539,7 @@ func Test_SliceConverter_ToAnyItemsAsync(t *testing.T) {
 		"resultLen": 3,
 		"nilLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "SliceConverter_ToAnyItemsAsync", actual)
+	expected.ShouldBeEqual(t, 0, "SliceConverter_ToAnyItemsAsync returns correct value -- with args", actual)
 }
 
 // ── MapConverter ──
@@ -562,7 +562,7 @@ func Test_MapConverter_ToStrings(t *testing.T) {
 		"nilLen":    0,
 		"nilNoErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToStrings", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToStrings returns correct value -- with args", actual)
 }
 
 func Test_MapConverter_ToSortedStrings(t *testing.T) {
@@ -580,7 +580,7 @@ func Test_MapConverter_ToSortedStrings(t *testing.T) {
 		"noError":   true,
 		"first":     "a",
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToSortedStrings", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToSortedStrings returns correct value -- with args", actual)
 }
 
 func Test_MapConverter_ToKeysValuesAny(t *testing.T) {
@@ -605,7 +605,7 @@ func Test_MapConverter_ToKeysValuesAny(t *testing.T) {
 		"nilValsLen": 0,
 		"nilNoErr":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToKeysValuesAny", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToKeysValuesAny returns non-empty -- with args", actual)
 }
 
 func Test_MapConverter_ToMapStringAny(t *testing.T) {
@@ -626,7 +626,7 @@ func Test_MapConverter_ToMapStringAny(t *testing.T) {
 		"nilLen":    0,
 		"nilNoErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_ToMapStringAny", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_ToMapStringAny returns correct value -- with args", actual)
 }
 
 func Test_MapConverter_Length(t *testing.T) {
@@ -637,7 +637,7 @@ func Test_MapConverter_Length(t *testing.T) {
 	expected := args.Map{
 		"mapLen": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "MapConverter_Length", actual)
+	expected.ShouldBeEqual(t, 0, "MapConverter_Length returns correct value -- with args", actual)
 }
 
 // ── ReflectGetter ──
@@ -667,7 +667,7 @@ func Test_ReflectGetter_PublicValuesMapStruct(t *testing.T) {
 		"nilLen":    0,
 		"nilHasErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetter_PublicValuesMapStruct", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetter_PublicValuesMapStruct returns non-empty -- with args", actual)
 }
 
 func Test_ReflectGetter_FieldNamesMap(t *testing.T) {
@@ -694,7 +694,7 @@ func Test_ReflectGetter_FieldNamesMap(t *testing.T) {
 		"nilLen":    0,
 		"nilHasErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetter_FieldNamesMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetter_FieldNamesMap returns correct value -- with args", actual)
 }
 
 func Test_ReflectGetter_StructFieldsMap(t *testing.T) {
@@ -717,5 +717,5 @@ func Test_ReflectGetter_StructFieldsMap(t *testing.T) {
 		"resultLen": 2,
 		"nilLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectGetter_StructFieldsMap", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectGetter_StructFieldsMap returns correct value -- with args", actual)
 }

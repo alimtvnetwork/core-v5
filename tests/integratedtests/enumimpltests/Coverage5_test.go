@@ -38,7 +38,7 @@ func Test_Cov5_BasicInt16_Default(t *testing.T) {
 		"length":       3,
 		"enumType":     "Integer16",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_Default", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_Default returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_IsAnyOf(t *testing.T) {
@@ -58,7 +58,7 @@ func Test_Cov5_BasicInt16_IsAnyOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_IsAnyOf returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_IsAnyNamesOf(t *testing.T) {
@@ -76,7 +76,7 @@ func Test_Cov5_BasicInt16_IsAnyNamesOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_GetValueByName(t *testing.T) {
@@ -99,7 +99,7 @@ func Test_Cov5_BasicInt16_GetValueByName(t *testing.T) {
 		"noErr":    true,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_GetValueByName returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_GetStringValue(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov5_BasicInt16_GetStringValue(t *testing.T) {
 
 	actual := args.Map{"val": bi.GetStringValue(0)}
 	expected := args.Map{"val": "Invalid"}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_GetStringValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_GetStringValue returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_Ranges(t *testing.T) {
@@ -131,7 +131,7 @@ func Test_Cov5_BasicInt16_Ranges(t *testing.T) {
 		"hmLen":       true,
 		"hmPtrNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_Ranges returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_ToEnumJsonBytes(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_Cov5_BasicInt16_ToEnumJsonBytes(t *testing.T) {
 		"noErr":    true,
 		"notFound": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_ToEnumJsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_ToEnumJsonBytes returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_AppendPrependJoinValue(t *testing.T) {
@@ -168,7 +168,7 @@ func Test_Cov5_BasicInt16_AppendPrependJoinValue(t *testing.T) {
 
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_AppendPrependJoinValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_AppendPrependJoinValue returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_AppendPrependJoinNamer(t *testing.T) {
@@ -182,7 +182,7 @@ func Test_Cov5_BasicInt16_AppendPrependJoinNamer(t *testing.T) {
 
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "A.B"}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_AppendPrependJoinNamer", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_AppendPrependJoinNamer returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_ToNumberString(t *testing.T) {
@@ -194,7 +194,7 @@ func Test_Cov5_BasicInt16_ToNumberString(t *testing.T) {
 
 	actual := args.Map{"notEmpty": bi.ToNumberString(1) != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_ToNumberString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_ToNumberString returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_UnmarshallToValue(t *testing.T) {
@@ -232,7 +232,7 @@ func Test_Cov5_BasicInt16_UnmarshallToValue(t *testing.T) {
 		"validVal":    int16(1),
 		"validErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_UnmarshallToValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_UnmarshallToValue returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_ExpectingEnumValueError(t *testing.T) {
@@ -256,7 +256,7 @@ func Test_Cov5_BasicInt16_ExpectingEnumValueError(t *testing.T) {
 		"mismatchErr": true,
 		"parseErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_ExpectingEnumValueError", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_ExpectingEnumValueError returns error -- with args", actual)
 }
 
 // ── newBasicInt16Creator paths ──
@@ -269,7 +269,7 @@ func Test_Cov5_BasicInt16_CreateUsingMap(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName(), "length": bi.Length()}
 	expected := args.Map{"typeName": "testInt16Enum", "length": 2}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_CreateUsingMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_CreateUsingMap returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_WithAliasMap(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_Cov5_BasicInt16_WithAliasMap(t *testing.T) {
 	val, err := bi.GetValueByName("on")
 	actual := args.Map{"aliasVal": val, "noErr": err == nil}
 	expected := args.Map{"aliasVal": int16(1), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_WithAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_WithAliasMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_DefaultAllCases(t *testing.T) {
@@ -296,7 +296,7 @@ func Test_Cov5_BasicInt16_DefaultAllCases(t *testing.T) {
 	val, err := bi.GetValueByName("active")
 	actual := args.Map{"lowerVal": val, "noErr": err == nil}
 	expected := args.Map{"lowerVal": int16(1), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_DefaultAllCases", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_DefaultAllCases returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_DefaultWithAliasMapAllCases(t *testing.T) {
@@ -310,7 +310,7 @@ func Test_Cov5_BasicInt16_DefaultWithAliasMapAllCases(t *testing.T) {
 	val, err := bi.GetValueByName("ENABLED")
 	actual := args.Map{"upperAlias": val, "noErr": err == nil}
 	expected := args.Map{"upperAlias": int16(1), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_DefaultWithAliasMapAllCases", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_DefaultWithAliasMapAllCases returns non-empty -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_CreateUsingMapPlusAliasMapOptions(t *testing.T) {
@@ -325,7 +325,7 @@ func Test_Cov5_BasicInt16_CreateUsingMapPlusAliasMapOptions(t *testing.T) {
 	val, err := bi.GetValueByName("ON")
 	actual := args.Map{"val": val, "noErr": err == nil}
 	expected := args.Map{"val": int16(1), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_CreateUsingMapPlusAliasMapOptions", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_CreateUsingMapPlusAliasMapOptions returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_UsingFirstItemSliceAliasMap(t *testing.T) {
@@ -338,7 +338,7 @@ func Test_Cov5_BasicInt16_UsingFirstItemSliceAliasMap(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName()}
 	expected := args.Map{"typeName": "enumimpltests.myInt16"}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_UsingFirstItemSliceAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_UsingFirstItemSliceAliasMap returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_UsingTypeSlice(t *testing.T) {
@@ -349,7 +349,7 @@ func Test_Cov5_BasicInt16_UsingTypeSlice(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName()}
 	expected := args.Map{"typeName": "testInt16"}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_UsingTypeSlice", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_UsingTypeSlice returns correct value -- with args", actual)
 }
 
 func Test_Cov5_BasicInt16_GetValueByString(t *testing.T) {
@@ -361,7 +361,7 @@ func Test_Cov5_BasicInt16_GetValueByString(t *testing.T) {
 
 	actual := args.Map{"byName": bi.GetValueByString("Active")}
 	expected := args.Map{"byName": int16(1)}
-	expected.ShouldBeEqual(t, 0, "BasicInt16_GetValueByString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt16_GetValueByString returns correct value -- with args", actual)
 }
 
 type mockNamer5 struct{ name string }

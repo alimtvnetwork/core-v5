@@ -23,7 +23,7 @@ func Test_Cov10_TextValidator_ToString_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "TextValidator ToString nil", actual)
+	expected.ShouldBeEqual(t, 0, "TextValidator returns nil -- ToString nil", actual)
 }
 
 func Test_Cov10_TextValidator_String_Nil(t *testing.T) {
@@ -36,7 +36,7 @@ func Test_Cov10_TextValidator_String_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "TextValidator String nil", actual)
+	expected.ShouldBeEqual(t, 0, "TextValidator returns nil -- String nil", actual)
 }
 
 func Test_Cov10_TextValidator_SearchTextFinalized_Nil(t *testing.T) {
@@ -49,7 +49,7 @@ func Test_Cov10_TextValidator_SearchTextFinalized_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "TextValidator SearchTextFinalized nil", actual)
+	expected.ShouldBeEqual(t, 0, "TextValidator returns nil -- SearchTextFinalized nil", actual)
 }
 
 func Test_Cov10_TextValidator_IsMatch_Nil(t *testing.T) {
@@ -62,7 +62,7 @@ func Test_Cov10_TextValidator_IsMatch_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"matches": result}
 	expected := args.Map{"matches": false}
-	expected.ShouldBeEqual(t, 0, "TextValidator IsMatch nil", actual)
+	expected.ShouldBeEqual(t, 0, "TextValidator returns nil -- IsMatch nil", actual)
 }
 
 func Test_Cov10_TextValidator_VerifyDetailError_Nil(t *testing.T) {
@@ -77,7 +77,7 @@ func Test_Cov10_TextValidator_VerifyDetailError_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "TextValidator MethodName nil", actual)
+	expected.ShouldBeEqual(t, 0, "TextValidator returns nil -- MethodName nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -179,7 +179,7 @@ func Test_Cov10_SliceValidatorVerify_ActualNonEmptyComparingZero(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "actual non-empty comparing zero", actual)
+	expected.ShouldBeEqual(t, 0, "actual returns empty -- non-empty comparing zero", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -203,5 +203,5 @@ func Test_Cov10_SliceValidatorMessages_NilErrEmptyStr(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": false}
-	expected.ShouldBeEqual(t, 0, "nil err empty string result", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- err empty string result", actual)
 }

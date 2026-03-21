@@ -17,7 +17,7 @@ func Test_Cov_ParseRwxInstruction_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"resultNil": result == nil, "hasErr": err != nil}
 	expected := args.Map{"resultNil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ParseRwxInstruction nil", actual)
+	expected.ShouldBeEqual(t, 0, "ParseRwxInstruction returns nil -- nil", actual)
 }
 
 func Test_Cov_ParseRwxInstruction_EmptyBytes(t *testing.T) {
@@ -28,7 +28,7 @@ func Test_Cov_ParseRwxInstruction_EmptyBytes(t *testing.T) {
 	// Assert
 	actual := args.Map{"resultNil": result == nil, "hasErr": err != nil}
 	expected := args.Map{"resultNil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ParseRwxInstruction empty bytes", actual)
+	expected.ShouldBeEqual(t, 0, "ParseRwxInstruction returns empty -- empty bytes", actual)
 }
 
 func Test_Cov_ParseRwxInstruction_InvalidJson(t *testing.T) {
@@ -65,7 +65,7 @@ func Test_Cov_ParseRwxInstruction_Success(t *testing.T) {
 		"owner": "rwx", "group": "r-x", "other": "r--",
 		"recursive": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ParseRwxInstruction success", actual)
+	expected.ShouldBeEqual(t, 0, "ParseRwxInstruction returns correct value -- success", actual)
 }
 
 // ── ParseRwxInstructionUsingJsonResultMust ──
@@ -82,7 +82,7 @@ func Test_Cov_ParseRwxInstructionMust_Success(t *testing.T) {
 	// Assert
 	actual := args.Map{"owner": result.Owner, "recursive": result.IsRecursive}
 	expected := args.Map{"owner": "rwx", "recursive": false}
-	expected.ShouldBeEqual(t, 0, "ParseRwxInstructionMust success", actual)
+	expected.ShouldBeEqual(t, 0, "ParseRwxInstructionMust returns correct value -- success", actual)
 }
 
 func Test_Cov_ParseRwxInstructionMust_Panic(t *testing.T) {
@@ -103,7 +103,7 @@ func Test_Cov_ParseBaseRwxInstructions_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"resultNil": result == nil, "hasErr": err != nil}
 	expected := args.Map{"resultNil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructions nil", actual)
+	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructions returns nil -- nil", actual)
 }
 
 func Test_Cov_ParseBaseRwxInstructions_EmptyBytes(t *testing.T) {
@@ -114,7 +114,7 @@ func Test_Cov_ParseBaseRwxInstructions_EmptyBytes(t *testing.T) {
 	// Assert
 	actual := args.Map{"resultNil": result == nil, "hasErr": err != nil}
 	expected := args.Map{"resultNil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructions empty bytes", actual)
+	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructions returns empty -- empty bytes", actual)
 }
 
 func Test_Cov_ParseBaseRwxInstructions_InvalidJson(t *testing.T) {
@@ -146,7 +146,7 @@ func Test_Cov_ParseBaseRwxInstructions_Success(t *testing.T) {
 		"len":    result.Length(),
 	}
 	expected := args.Map{"noErr": true, "notNil": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructions success", actual)
+	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructions returns correct value -- success", actual)
 }
 
 // ── ParseBaseRwxInstructionsUsingJsonResultMust ──
@@ -167,7 +167,7 @@ func Test_Cov_ParseBaseRwxInstructionsMust_Success(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": result.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructionsMust success", actual)
+	expected.ShouldBeEqual(t, 0, "ParseBaseRwxInstructionsMust returns correct value -- success", actual)
 }
 
 func Test_Cov_ParseBaseRwxInstructionsMust_Panic(t *testing.T) {
