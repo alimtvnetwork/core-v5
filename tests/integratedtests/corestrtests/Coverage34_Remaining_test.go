@@ -207,8 +207,8 @@ func Test_C34_KVC_Find(t *testing.T) {
 
 func Test_C34_KVC_AddIf(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.AddIf(true, corestr.KeyValuePair{Key: "k", Value: "v"})
-	kvc.AddIf(false, corestr.KeyValuePair{Key: "k2", Value: "v2"})
+	kvc.AddIf(true, "k", "v")
+	kvc.AddIf(false, "k2", "v2")
 }
 
 func Test_C34_KVC_AddMap(t *testing.T) {
