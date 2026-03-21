@@ -2038,7 +2038,8 @@ func Test_C32_149_Collection_AddWithWgLock_Proper(t *testing.T) {
 
 func Test_C32_150_MapAnyItems_DiffRaw(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2)
+	m.Add("a", 1)
+	m.Add("b", 2)
 	diff := m.DiffRaw(false, map[string]any{"a": 1, "b": 3})
 	_ = diff
 }
