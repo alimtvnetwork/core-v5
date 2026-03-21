@@ -806,7 +806,7 @@ func Test_CovJson_S1_52_AnyTo_SerializedFieldsMap(t *testing.T) {
 func Test_CovJson_S1_53_CastingAny_FromToDefault(t *testing.T) {
 	from := map[string]int{"a": 1}
 	var to map[string]int
-	err := corejson.CastingAny.FromToDefault(from, &to)
+	err := corejson.CastAny.FromToDefault(from, &to)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
@@ -815,7 +815,7 @@ func Test_CovJson_S1_53_CastingAny_FromToDefault(t *testing.T) {
 func Test_CovJson_S1_54_CastingAny_FromToReflection(t *testing.T) {
 	from := map[string]int{"a": 1}
 	var to map[string]int
-	err := corejson.CastingAny.FromToReflection(from, &to)
+	err := corejson.CastAny.FromToReflection(from, &to)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
@@ -824,7 +824,7 @@ func Test_CovJson_S1_54_CastingAny_FromToReflection(t *testing.T) {
 func Test_CovJson_S1_55_CastingAny_OrDeserializeTo(t *testing.T) {
 	from := map[string]int{"a": 1}
 	var to map[string]int
-	err := corejson.CastingAny.OrDeserializeTo(from, &to)
+	err := corejson.CastAny.OrDeserializeTo(from, &to)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
@@ -832,7 +832,7 @@ func Test_CovJson_S1_55_CastingAny_OrDeserializeTo(t *testing.T) {
 
 func Test_CovJson_S1_56_CastingAny_FromBytes(t *testing.T) {
 	var to map[string]int
-	err := corejson.CastingAny.FromToDefault([]byte(`{"a":1}`), &to)
+	err := corejson.CastAny.FromToDefault([]byte(`{"a":1}`), &to)
 	if err != nil || to["a"] != 1 {
 		t.Fatal("expected a=1")
 	}
@@ -840,7 +840,7 @@ func Test_CovJson_S1_56_CastingAny_FromBytes(t *testing.T) {
 
 func Test_CovJson_S1_57_CastingAny_FromString(t *testing.T) {
 	var to map[string]int
-	err := corejson.CastingAny.FromToDefault(`{"a":1}`, &to)
+	err := corejson.CastAny.FromToDefault(`{"a":1}`, &to)
 	if err != nil || to["a"] != 1 {
 		t.Fatal("expected a=1")
 	}
