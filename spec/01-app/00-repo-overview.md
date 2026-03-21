@@ -111,7 +111,7 @@ go get github.com/alimtvnetwork/core
 ## Related Docs
 
 - [Folder Map](./01-folder-map.md)
-- [Codegen Deprecation Plan](./10-codegen-deprecation-plan.md)
+- [Module Splitting Decision](./26-module-splitting-decision.md)
 - [Go Modernization Plan](./11-go-modernization.md)
 - [CMD Entrypoints](./12-cmd-entrypoints.md)
 - [Testing Patterns](./13-testing-patterns.md)

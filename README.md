@@ -987,7 +987,7 @@ Detailed architecture and conventions documentation for AI agents and contributo
 | Repository Overview | [`/spec/01-app/00-repo-overview.md`](/spec/01-app/00-repo-overview.md) |
 | Folder Map | [`/spec/01-app/01-folder-map.md`](/spec/01-app/01-folder-map.md) |
 | Per-Folder Specs | [`/spec/01-app/folders/`](/spec/01-app/folders/) |
-| Codegen Deprecation Plan | [`/spec/01-app/10-codegen-deprecation-plan.md`](/spec/01-app/10-codegen-deprecation-plan.md) |
+| Module Splitting Decision | [`/spec/01-app/26-module-splitting-decision.md`](/spec/01-app/26-module-splitting-decision.md) |
 | Go Modernization Plan | [`/spec/01-app/11-go-modernization.md`](/spec/01-app/11-go-modernization.md) |
 | CMD Entrypoints | [`/spec/01-app/12-cmd-entrypoints.md`](/spec/01-app/12-cmd-entrypoints.md) |
 | Testing Patterns | [`/spec/01-app/13-testing-patterns.md`](/spec/01-app/13-testing-patterns.md) |
