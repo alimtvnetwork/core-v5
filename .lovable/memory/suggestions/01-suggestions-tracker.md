@@ -46,8 +46,8 @@
 - **rationale**: All other packages have READMEs. These are small leaf packages but should be documented for completeness.
 - **proposed change**: Create README.md for each with purpose, types/constants, and usage examples.
 - **acceptance criteria**: All packages have README.md.
-- **status**: open
-- **completion notes**: —
+- **status**: ✅ done
+- **completion notes**: Created README.md for all 10 packages: cmdconsts, coremath, defaultcapacity, dtformats, extensionsconst, filemode, iserror, osconsts, regconsts, testconsts.
 
 ### S-012: Pointer Receiver Audit
 - **suggestionId**: S-012
