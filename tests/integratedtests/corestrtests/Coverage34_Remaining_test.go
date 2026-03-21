@@ -289,7 +289,7 @@ func Test_C34_NKVC_UsingKeyValuePairs(t *testing.T) {
 	_ = corestr.New.KeyValues.UsingKeyValuePairs(corestr.KeyValuePair{Key: "k", Value: "v"})
 }
 func Test_C34_NKVC_UsingKeyValueStrings(t *testing.T) {
-	_ = corestr.New.KeyValues.UsingKeyValueStrings("k", "v")
+	_ = corestr.New.KeyValues.UsingKeyValueStrings([]string{"k"}, []string{"v"})
 }
 func Test_C34_NKVC_UsingMap(t *testing.T) {
 	_ = corestr.New.KeyValues.UsingMap(map[string]string{"k": "v"})
