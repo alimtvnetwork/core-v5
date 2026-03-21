@@ -1445,7 +1445,7 @@ func Test_C27_177_Utils_WrapDouble(t *testing.T) {
 }
 
 func Test_C27_178_Utils_WrapSingle(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 	if u.WrapSingle("hi") != "'hi'" {
 		t.Error("expected wrapped")
 	}
