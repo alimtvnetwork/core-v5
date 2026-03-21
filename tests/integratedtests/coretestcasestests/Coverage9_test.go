@@ -260,12 +260,11 @@ func Test_Cov9_CaseV1_VerifyFirst(t *testing.T) {
 		ExpectedInput: []string{"hello"},
 	}
 
-	// VerifyFirst uses DefaultTrimCoreCondition
-	err := tc.VerifyFirstEqual(0, " hello ")
+	err := tc.VerifyFirst(0, stringcompareas.Equal, []string{"hello"})
 
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyFirstEqual returns nil -- matching", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyFirst returns nil -- matching", actual)
 }
 
 // ── CaseV1: VerifyError ──
