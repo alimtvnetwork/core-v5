@@ -914,7 +914,8 @@ func Test_C32_69_MapAnyItems_JsonResultOfKey(t *testing.T) {
 
 func Test_C32_70_MapAnyItems_JsonResultOfKeys(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2)
+	m.Add("a", 1)
+	m.Add("b", 2)
 	mr := m.JsonResultOfKeys("a", "b")
 	if mr == nil {
 		t.Errorf("expected non-nil")
