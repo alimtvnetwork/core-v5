@@ -15,22 +15,22 @@ func Test_Cov34_CastAny_StringToPtr(t *testing.T) {
 	jsonStr := `{"key":"value"}`
 	var result map[string]string
 
-	err := corejson.CastAny.Deserialize(jsonStr, &result)
+	err := corejson.CastAny.OrDeserializeTo(jsonStr, &result)
 
 	actual := args.Map{"noErr": err == nil, "key": result["key"]}
 	expected := args.Map{"noErr": true, "key": "value"}
-	expected.ShouldBeEqual(t, 0, "CastAny.Deserialize works -- string input", actual)
+	expected.ShouldBeEqual(t, 0, "CastAny.OrDeserializeTo works -- string input", actual)
 }
 
 func Test_Cov34_CastAny_BytesToPtr(t *testing.T) {
 	jsonBytes := []byte(`{"key":"value"}`)
 	var result map[string]string
 
-	err := corejson.CastAny.Deserialize(jsonBytes, &result)
+	err := corejson.CastAny.OrDeserializeTo(jsonBytes, &result)
 
 	actual := args.Map{"noErr": err == nil, "key": result["key"]}
 	expected := args.Map{"noErr": true, "key": "value"}
-	expected.ShouldBeEqual(t, 0, "CastAny.Deserialize works -- []byte input", actual)
+	expected.ShouldBeEqual(t, 0, "CastAny.OrDeserializeTo works -- []byte input", actual)
 }
 
 // ── anyTo: string case ──
