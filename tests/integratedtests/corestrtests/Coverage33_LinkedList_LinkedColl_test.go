@@ -167,7 +167,7 @@ func Test_C33_LL_AddStringsPtrToNode(t *testing.T) {
 // ── newLinkedListCreator ──
 
 func Test_C33_NLLC_Empty(t *testing.T)   { _ = corestr.New.LinkedList.Empty() }
-func Test_C33_NLLC_Create(t *testing.T)  { _ = corestr.New.LinkedList.Create([]string{"a"}) }
+func Test_C33_NLLC_Create(t *testing.T)  { _ = corestr.New.LinkedList.Create() }
 func Test_C33_NLLC_Strings(t *testing.T) { _ = corestr.New.LinkedList.Strings([]string{"a"}) }
 func Test_C33_NLLC_SpreadStrings(t *testing.T) {
 	_ = corestr.New.LinkedList.SpreadStrings("a", "b")
@@ -177,9 +177,6 @@ func Test_C33_NLLC_PointerStringsPtr(t *testing.T) {
 	s := "a"
 	_ = corestr.New.LinkedList.PointerStringsPtr(&[]*string{&s})
 	_ = corestr.New.LinkedList.PointerStringsPtr(nil)
-}
-func Test_C33_NLLC_StringsWithCap(t *testing.T) {
-	_ = corestr.New.LinkedList.StringsWithCap([]string{"a"})
 }
 
 // ── LinkedCollections ──
