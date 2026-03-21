@@ -438,7 +438,8 @@ func Test_I16_DC_Add_And_At(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
 	d := coredynamic.NewDynamic("hello", true)
 	dc.Add(d)
-	actual := args.Map{"len": dc.Length(), "atVal": dc.At(0).ValueString()}
+	atVal := dc.At(0)
+	actual := args.Map{"len": dc.Length(), "atVal": atVal.ValueString()}
 	expected := args.Map{"len": 1, "atVal": "hello"}
 	expected.ShouldBeEqual(t, 0, "DC returns correct value -- Add+At", actual)
 }
