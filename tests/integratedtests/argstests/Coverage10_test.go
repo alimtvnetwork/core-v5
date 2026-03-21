@@ -424,7 +424,7 @@ func Test_CovArgs_27_Map_GetAsStringSliceFirstOfNames(t *testing.T) {
 // --- LeftRight ---
 
 func Test_CovArgs_28_LeftRight(t *testing.T) {
-	lr := args.LeftRightAny{Left: "a", Right: "b", Expect: 1}
+	lr := &args.LeftRightAny{Left: "a", Right: "b", Expect: 1}
 	if lr.FirstItem() != "a" {
 		t.Fatal("expected a")
 	}
@@ -434,25 +434,197 @@ func Test_CovArgs_28_LeftRight(t *testing.T) {
 	if lr.Expected() != 1 {
 		t.Fatal("expected 1")
 	}
+	if lr.ArgsCount() != 2 {
+		t.Fatal("expected 2")
+	}
+	if !lr.HasFirst() {
+		t.Fatal("expected true")
+	}
+	if !lr.HasSecond() {
+		t.Fatal("expected true")
+	}
+	if !lr.HasLeft() {
+		t.Fatal("expected true")
+	}
+	if !lr.HasRight() {
+		t.Fatal("expected true")
+	}
+	if !lr.HasExpect() {
+		t.Fatal("expected true")
+	}
+	va := lr.ValidArgs()
+	if len(va) != 2 {
+		t.Fatal("expected 2")
+	}
+	a := lr.Args(2)
+	if len(a) != 2 {
+		t.Fatal("expected 2")
+	}
+	sl := lr.Slice()
+	if len(sl) < 2 {
+		t.Fatal("expected at least 2")
+	}
+	_ = lr.GetByIndex(0)
+	_ = lr.String()
+	a2 := lr.ArgTwo()
+	if a2.First != "a" {
+		t.Fatal("expected a")
+	}
+	c := lr.Clone()
+	if c.Left != "a" {
+		t.Fatal("expected a")
+	}
+	lrV := args.LeftRightAny{Left: "a", Right: "b"}
+	_ = lrV.AsTwoParameter()
+	_ = lrV.AsArgBaseContractsBinder()
 }
 
 // --- Holder ---
 
 func Test_CovArgs_29_Holder(t *testing.T) {
-	h := &args.Holder{
-		Title:    "test",
-		TestFunc: func() {},
+	fn := func(s string) string { return s }
+	h := &args.HolderAny{
+		First:    "a",
+		Second:   "b",
+		Third:    "c",
+		Fourth:   "d",
+		Fifth:    "e",
+		Sixth:    "f",
+		WorkFunc: fn,
+		Expect:   "x",
 	}
-	if h.Title != "test" {
-		t.Fatal("expected test")
+	if h.FirstItem() != "a" {
+		t.Fatal("expected a")
 	}
+	if h.SecondItem() != "b" {
+		t.Fatal("expected b")
+	}
+	if h.ThirdItem() != "c" {
+		t.Fatal("expected c")
+	}
+	if h.FourthItem() != "d" {
+		t.Fatal("expected d")
+	}
+	if h.FifthItem() != "e" {
+		t.Fatal("expected e")
+	}
+	if h.SixthItem() != "f" {
+		t.Fatal("expected f")
+	}
+	if h.Expected() != "x" {
+		t.Fatal("expected x")
+	}
+	if h.ArgsCount() != 7 {
+		t.Fatal("expected 7")
+	}
+	if !h.HasFirst() {
+		t.Fatal("expected true")
+	}
+	if !h.HasSecond() {
+		t.Fatal("expected true")
+	}
+	if !h.HasThird() {
+		t.Fatal("expected true")
+	}
+	if !h.HasFourth() {
+		t.Fatal("expected true")
+	}
+	if !h.HasFifth() {
+		t.Fatal("expected true")
+	}
+	if !h.HasSixth() {
+		t.Fatal("expected true")
+	}
+	if !h.HasFunc() {
+		t.Fatal("expected true")
+	}
+	if !h.HasExpect() {
+		t.Fatal("expected true")
+	}
+	_ = h.GetWorkFunc()
+	_ = h.GetFuncName()
+	va := h.ValidArgs()
+	if len(va) != 6 {
+		t.Fatal("expected 6")
+	}
+	a := h.Args(6)
+	if len(a) != 6 {
+		t.Fatal("expected 6")
+	}
+	sl := h.Slice()
+	if len(sl) < 6 {
+		t.Fatal("expected at least 6")
+	}
+	_ = h.GetByIndex(0)
+	_ = h.String()
+	_ = h.ArgTwo()
+	_ = h.ArgThree()
+	_ = h.ArgFour()
+	_ = h.ArgFive()
+	hv := args.HolderAny{First: "a"}
+	_ = hv.AsSixthParameter()
+	_ = hv.AsArgFuncContractsBinder()
 }
 
 // --- String ---
 
 func Test_CovArgs_30_String(t *testing.T) {
-	s := args.String{First: "hello", Expect: "world"}
-	if s.FirstItem() != "hello" {
+	s := args.String("hello")
+	if s.String() != "hello" {
 		t.Fatal("expected hello")
+	}
+	if s.Length() != 5 {
+		t.Fatal("expected 5")
+	}
+	if s.Count() != 5 {
+		t.Fatal("expected 5")
+	}
+	if s.AscIILength() != 5 {
+		t.Fatal("expected 5")
+	}
+	if s.IsEmpty() {
+		t.Fatal("expected false")
+	}
+	if !s.HasCharacter() {
+		t.Fatal("expected true")
+	}
+	if !s.IsDefined() {
+		t.Fatal("expected true")
+	}
+	if s.IsEmptyOrWhitespace() {
+		t.Fatal("expected false")
+	}
+	_ = s.Bytes()
+	_ = s.Runes()
+	_ = s.TrimSpace()
+	_ = s.DoubleQuote()
+	_ = s.DoubleQuoteQ()
+	_ = s.SingleQuote()
+	_ = s.ValueDoubleQuote()
+	_ = s.ReplaceAll("h", "H")
+	_ = s.Concat("world")
+	_ = s.Join(",", "world")
+	_ = s.Split(",")
+	_ = s.Substring(0, 3)
+}
+
+func Test_CovArgs_31_String_Empty(t *testing.T) {
+	s := args.String("")
+	if !s.IsEmpty() {
+		t.Fatal("expected true")
+	}
+	if s.HasCharacter() {
+		t.Fatal("expected false")
+	}
+	if !s.IsEmptyOrWhitespace() {
+		t.Fatal("expected true")
+	}
+}
+
+func Test_CovArgs_32_String_TrimReplaceMap(t *testing.T) {
+	s := args.String("Hello {name}")
+	r := s.TrimReplaceMap(map[string]string{"{name}": "World"})
+	if r.String() != "Hello World" {
+		t.Fatalf("expected 'Hello World', got '%s'", r.String())
 	}
 }
