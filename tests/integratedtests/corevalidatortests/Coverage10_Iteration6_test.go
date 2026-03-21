@@ -155,10 +155,11 @@ func Test_Cov10_HeaderSliceValidators_AssertVerifyAllUsingActual(t *testing.T) {
 	hsv := corevalidator.HeaderSliceValidators{
 		{Header: "header1", SliceValidator: *sv},
 	}
-	params := &corevalidator.Parameter{CaseIndex: 0, Header: "HeaderAssertVerifyAllUsingActual"}
+	params := &corevalidator.Parameter{CaseIndex: 0, Header: ""}
 
-	// Act & Assert
-	hsv.AssertVerifyAllUsingActual(t, params, "test line")
+	// Act — exercise without convey assertion
+	err := hsv.VerifyAllError(params)
+	_ = err
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

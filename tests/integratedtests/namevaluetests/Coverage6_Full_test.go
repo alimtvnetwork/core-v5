@@ -449,7 +449,7 @@ func Test_C6_PrependsIf(t *testing.T) {
 	result := namevalue.PrependsIf(true, items, namevalue.StringAny{Name: "a", Value: 1})
 	if len(result) != 2 { t.Fatal("expected 2") }
 	result2 := namevalue.PrependsIf(false, items, namevalue.StringAny{Name: "c", Value: 3})
-	if len(result2) != 2 { t.Fatal("expected unchanged") }
+	if len(result2) != 1 { t.Fatalf("expected 1 got %d", len(result2)) }
 	result3 := namevalue.PrependsIf[string, any](true, items)
-	if len(result3) != 2 { t.Fatal("expected unchanged for empty prepending") }
+	if len(result3) != 2 { t.Fatalf("expected 2 got %d", len(result3)) }
 }

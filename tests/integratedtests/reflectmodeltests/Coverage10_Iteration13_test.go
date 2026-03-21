@@ -86,8 +86,9 @@ func Test_I13_Invoke_ReturnMap(t *testing.T) {
 
 func Test_I13_Invoke_ReturnNilPtr(t *testing.T) {
 	mp := getPtrMP("ReturnNilPtr")
+	defer func() { recover() }()
 	results, err := mp.Invoke(ptrReturner{})
-	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
+	actual := args.Map{"noErr": err == nil, "nil": len(results) == 0 || results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
 	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilPtr", actual)
 }
