@@ -563,12 +563,12 @@ func Test_CovPL_S4_60_NUC_Methods(t *testing.T) {
 	_ = corepayload.New.User.NonSysCreateId("id", "name", "type")
 	_ = corepayload.New.User.System("name", "type")
 	_ = corepayload.New.User.SystemId("id", "name", "type")
-	_ = corepayload.New.User.UsingNameTypeStringer("name", stringerImpl{"type"})
-	_ = corepayload.New.User.SysUsingNameTypeStringer("name", stringerImpl{"type"})
+	_ = corepayload.New.User.UsingNameTypeStringer("name", seg4Stringer{"type"})
+	_ = corepayload.New.User.SysUsingNameTypeStringer("name", seg4Stringer{"type"})
 	_ = corepayload.New.User.UsingName("name")
 	_ = corepayload.New.User.All(false, "id", "name", "type", "token", "hash")
-	_ = corepayload.New.User.AllTypeStringer(false, "id", "name", stringerImpl{"type"}, "token", "hash")
-	_ = corepayload.New.User.AllUsingStringer(false, "id", "name", stringerImpl{"type"}, "token", "hash")
+	_ = corepayload.New.User.AllTypeStringer(false, "id", "name", seg4Stringer{"type"}, "token", "hash")
+	_ = corepayload.New.User.AllUsingStringer(false, "id", "name", seg4Stringer{"type"}, "token", "hash")
 }
 
 func Test_CovPL_S4_61_NUC_Deserialize(t *testing.T) {
@@ -1386,8 +1386,8 @@ func Test_CovPL_S4_120_PCITS_PayloadCreateInstruction(t *testing.T) {
 	inst := corepayload.PayloadCreateInstructionTypeStringer{
 		Name:                 "n",
 		Identifier:           "1",
-		TaskTypeNameStringer: stringerImpl{"task"},
-		CategoryNameStringer: stringerImpl{"cat"},
+		TaskTypeNameStringer: seg4Stringer{"task"},
+		CategoryNameStringer: seg4Stringer{"cat"},
 		HasManyRecords:       false,
 		Payloads:             map[string]int{"a": 1},
 	}
@@ -1406,9 +1406,9 @@ func Test_CovPL_S4_121_BCIS_Fields(t *testing.T) {
 	inst := corepayload.BytesCreateInstructionStringer{
 		Name:           "n",
 		Identifier:     "1",
-		TaskTypeName:   stringerImpl{"task"},
+		TaskTypeName:   seg4Stringer{"task"},
 		EntityType:     "e",
-		CategoryName:   stringerImpl{"cat"},
+		CategoryName:   seg4Stringer{"cat"},
 		HasManyRecords: false,
 		Payloads:       []byte("x"),
 	}
