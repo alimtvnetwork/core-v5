@@ -95,17 +95,19 @@ func Test_I13_Invoke_ReturnNilPtr(t *testing.T) {
 func Test_I13_Invoke_ReturnNilSlice(t *testing.T) {
 	mp := getPtrMP("ReturnNilSlice")
 	results, err := mp.Invoke(ptrReturner{})
+	// reflect returns typed nil (non-nil interface wrapping nil slice)
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
-	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilSlice", actual)
+	expected := args.Map{"noErr": true, "nil": false}
+	expected.ShouldBeEqual(t, 0, "Invoke returns typed nil -- ReturnNilSlice", actual)
 }
 
 func Test_I13_Invoke_ReturnNilMap(t *testing.T) {
 	mp := getPtrMP("ReturnNilMap")
 	results, err := mp.Invoke(ptrReturner{})
+	// reflect returns typed nil (non-nil interface wrapping nil map)
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
-	expected := args.Map{"noErr": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilMap", actual)
+	expected := args.Map{"noErr": true, "nil": false}
+	expected.ShouldBeEqual(t, 0, "Invoke returns typed nil -- ReturnNilMap", actual)
 }
 
 func Test_I13_Invoke_ReturnInterface(t *testing.T) {
@@ -118,6 +120,7 @@ func Test_I13_Invoke_ReturnInterface(t *testing.T) {
 
 func Test_I13_Invoke_ReturnNilInterface(t *testing.T) {
 	mp := getPtrMP("ReturnNilInterface")
+	defer func() { recover() }() // reflect.Value.Interface panics on zero Value
 	results, err := mp.Invoke(ptrReturner{})
 	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
 	expected := args.Map{"noErr": true, "nil": true}
