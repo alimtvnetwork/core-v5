@@ -7,6 +7,7 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/coretests/results"
+	"github.com/alimtvnetwork/core/corevalidator"
 	"github.com/alimtvnetwork/core/enums/stringcompareas"
 	"github.com/alimtvnetwork/core/issetter"
 )
@@ -135,12 +136,12 @@ func Test_Cov10_AsSimpleTestCaseWrapperContractsBinder(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov10_VerifyTypeOfMatch(t *testing.T) {
-	strType := "string"
+	vt := coretests.NewVerifyTypeOf("actual")
 	c := coretestcases.CaseV1{
 		Title:         "type match",
 		ExpectedInput: "hello",
 		IsEnable:      issetter.True,
-		VerifyTypeOf:  &strType,
+		VerifyTypeOf:  vt,
 	}
 	c.VerifyTypeOfMatch(t, 0, "actual")
 }
@@ -150,12 +151,12 @@ func Test_Cov10_VerifyTypeOfMatch(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov10_VerifyTypeOfMust(t *testing.T) {
-	strType := "string"
+	vt := coretests.NewVerifyTypeOf("actual")
 	c := coretestcases.CaseV1{
 		Title:         "type must",
 		ExpectedInput: "hello",
 		IsEnable:      issetter.True,
-		VerifyTypeOf:  &strType,
+		VerifyTypeOf:  vt,
 	}
 	c.VerifyTypeOfMust(t, 0, "actual")
 }
@@ -165,12 +166,12 @@ func Test_Cov10_VerifyTypeOfMust(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov10_VerifyType(t *testing.T) {
-	strType := "string"
+	vt := coretests.NewVerifyTypeOf("actual")
 	c := coretestcases.CaseV1{
 		Title:         "verify type",
 		ExpectedInput: "hello",
 		IsEnable:      issetter.True,
-		VerifyTypeOf:  &strType,
+		VerifyTypeOf:  vt,
 	}
 	c.VerifyType(t, 0, "actual")
 }
@@ -180,12 +181,12 @@ func Test_Cov10_VerifyType(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov10_VerifyTypeMust(t *testing.T) {
-	strType := "string"
+	vt := coretests.NewVerifyTypeOf("actual")
 	c := coretestcases.CaseV1{
 		Title:         "verify type must",
 		ExpectedInput: "hello",
 		IsEnable:      issetter.True,
-		VerifyTypeOf:  &strType,
+		VerifyTypeOf:  vt,
 	}
 	c.VerifyTypeMust(t, 0, "actual")
 }
@@ -201,7 +202,7 @@ func Test_Cov10_SliceValidatorCondition(t *testing.T) {
 	}
 	sv := c.SliceValidatorCondition(
 		stringcompareas.Equal,
-		0,
+		corevalidator.DefaultDisabledCoreCondition,
 		[]string{"hello"},
 	)
 	actual := args.Map{"hasActual": len(sv.ActualLines) > 0}
@@ -218,7 +219,7 @@ func Test_Cov10_VerifyAllEqualCondition(t *testing.T) {
 		Title:         "verify all equal condition",
 		ExpectedInput: "hello",
 	}
-	err := c.VerifyAllEqualCondition(0, 0, "hello")
+	err := c.VerifyAllEqualCondition(0, corevalidator.DefaultDisabledCoreCondition, "hello")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "VerifyAllEqualCondition passes", actual)
@@ -229,12 +230,12 @@ func Test_Cov10_VerifyAllEqualCondition(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov10_VerifyError_WithTypeVerify(t *testing.T) {
-	strType := "string"
+	vt := coretests.NewVerifyTypeOf("actual")
 	c := coretestcases.CaseV1{
 		Title:         "verify error with type",
 		ExpectedInput: "hello",
 		IsEnable:      issetter.True,
-		VerifyTypeOf:  &strType,
+		VerifyTypeOf:  vt,
 	}
 	err := c.VerifyError(0, stringcompareas.Equal, "hello")
 	actual := args.Map{"noErr": err == nil}

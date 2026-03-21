@@ -1323,7 +1323,8 @@ func Test_CovPL_S2_75_UserInfo(t *testing.T) {
 	if nilUI.ClonePtr() != nil {
 		t.Fatal("expected nil")
 	}
-	if nilUI.ToNonPtr().HasUser() {
+	nonPtr := nilUI.ToNonPtr()
+	if nonPtr.HasUser() {
 		t.Fatal("expected false")
 	}
 }

@@ -2,6 +2,7 @@ package coredynamictests
 
 import (
 	"reflect"
+	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/coredynamic"
@@ -1745,14 +1746,12 @@ func Test_C31_161_CollectionClone(t *testing.T) {
 
 func Test_C31_162_CollectionLock_AddWithWgLock(t *testing.T) {
 	c := coredynamic.NewCollection[int](4)
-	var wg = &(struct{ sync.WaitGroup }{}).WaitGroup
-	wg2 := new(sync.WaitGroup)
-	wg2.Add(1)
-	c.AddWithWgLock(wg2, 42)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	c.AddWithWgLock(wg, 42)
 	if c.Length() != 1 {
 		t.Errorf("expected 1")
 	}
-	_ = wg
 }
 
 // ═══════════════════════════════════════════════════════════════════════

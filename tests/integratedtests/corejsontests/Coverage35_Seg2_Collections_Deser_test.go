@@ -1087,7 +1087,7 @@ func Test_CovJsonS2_CR02_NewResult(t *testing.T) {
 	_ = corejson.NewResult.Many(1, 2, 3)
 	_ = corejson.NewResult.Serialize(1)
 	_ = corejson.NewResult.Marshal(1)
-	_ = corejson.NewResult.ApplyMust(1)
+	_ = corejson.NewResult.Serialize(1) // ApplyMust does not exist, use Serialize
 }
 
 func Test_CovJsonS2_CR03_NewResultCreator_DeserializeUsingBytes_DeserializeUsingResult(t *testing.T) {

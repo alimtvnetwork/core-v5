@@ -1653,8 +1653,8 @@ func Test_C33_181_DynamicCollection_Json(t *testing.T) {
 	dc := coredynamic.NewDynamicCollection(4)
 	dc.Add(coredynamic.NewDynamicValid(1))
 	j := dc.Json()
-	if j.IsNil() {
-		t.Error("expected non-nil json result")
+	if j.HasError() {
+		t.Error("expected no error in json result")
 	}
 }
 

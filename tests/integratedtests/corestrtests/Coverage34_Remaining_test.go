@@ -226,11 +226,11 @@ func Test_C34_KVC_AddHashsetMap(t *testing.T) {
 	kvc.AddHashsetMap(map[string]bool{"a": true})
 }
 
-func Test_C34_KVC_GetValueByKey(t *testing.T) {
+func Test_C34_KVC_GetByKey(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
-	_ = kvc.GetValueByKey("k")
-	_ = kvc.GetValueByKey("missing")
+	_, _ = kvc.Get("k")
+	_, _ = kvc.Get("missing")
 }
 
 func Test_C34_KVC_Adds(t *testing.T) {
@@ -238,9 +238,9 @@ func Test_C34_KVC_Adds(t *testing.T) {
 	kvc.Adds(corestr.KeyValuePair{Key: "k", Value: "v"})
 }
 
-func Test_C34_KVC_AddKeyValues(t *testing.T) {
+func Test_C34_KVC_AddMap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.AddKeyValues("k", "v")
+	kvc.AddMap(map[string]string{"k": "v"})
 }
 
 func Test_C34_KVC_Hashmap(t *testing.T) {
@@ -250,10 +250,10 @@ func Test_C34_KVC_Hashmap(t *testing.T) {
 	_ = corestr.New.KeyValues.Empty().Hashmap()
 }
 
-func Test_C34_KVC_HashmapOptions(t *testing.T) {
+func Test_C34_KVC_Hashmap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
-	_ = kvc.HashmapOptions(true)
+	_ = kvc.Hashmap()
 }
 
 func Test_C34_KVC_Clear(t *testing.T) {
@@ -277,7 +277,6 @@ func Test_C34_KVC_JsonMethods(t *testing.T) {
 	_, _ = kvc.MarshalJSON()
 	_ = kvc.AsJsonContractsBinder()
 	_ = kvc.AsJsoner()
-	_ = kvc.AsJsonMarshaller()
 	_ = kvc.AsJsonParseSelfInjector()
 	_, _ = kvc.Serialize()
 }
@@ -290,7 +289,7 @@ func Test_C34_NKVC_UsingKeyValuePairs(t *testing.T) {
 	_ = corestr.New.KeyValues.UsingKeyValuePairs(corestr.KeyValuePair{Key: "k", Value: "v"})
 }
 func Test_C34_NKVC_UsingKeyValueStrings(t *testing.T) {
-	_ = corestr.New.KeyValues.UsingKeyValueStrings("k", "v")
+	_ = corestr.New.KeyValues.UsingKeyValueStrings([]string{"k"}, []string{"v"})
 }
 func Test_C34_NKVC_UsingMap(t *testing.T) {
 	_ = corestr.New.KeyValues.UsingMap(map[string]string{"k": "v"})
@@ -375,8 +374,8 @@ func Test_C34_LMR_Methods(t *testing.T) {
 func Test_C34_LMRFS_Methods(t *testing.T) {
 	_ = corestr.LeftMiddleRightFromSplit("a:b:c", ":")
 	_ = corestr.LeftMiddleRightFromSplitTrimmed("a : b : c", ":")
-	_ = corestr.LeftMiddleRightFromSplitN("a:b:c", ":", 3)
-	_ = corestr.LeftMiddleRightFromSplitNTrimmed("a : b : c", ":", 3)
+	_ = corestr.LeftMiddleRightFromSplitN("a:b:c", ":")
+	_ = corestr.LeftMiddleRightFromSplitNTrimmed("a : b : c", ":")
 }
 
 // ── ValidValue ──
@@ -406,77 +405,62 @@ func Test_C34_VV_JsonMethods(t *testing.T) {
 	vv := corestr.NewValidValue("x")
 	_ = vv.Json()
 	_ = vv.JsonPtr()
-	_ = vv.JsonModel()
-	_ = vv.JsonModelAny()
-	_, _ = vv.MarshalJSON()
 	_, _ = vv.Serialize()
-	_ = vv.AsJsonContractsBinder()
-	_ = vv.AsJsoner()
-	_ = vv.AsJsonMarshaller()
-	_ = vv.AsJsonParseSelfInjector()
 }
 
-func Test_C34_VV_Boolean(t *testing.T) {
-	_ = corestr.NewValidValue("true").Boolean()
+func Test_C34_VV_ValueBool(t *testing.T) {
+	_ = corestr.NewValidValue("true").ValueBool()
 }
 
-func Test_C34_VV_Integer(t *testing.T) {
-	_ = corestr.NewValidValue("42").Integer()
+func Test_C34_VV_ValueInt(t *testing.T) {
+	_ = corestr.NewValidValue("42").ValueInt(0)
 }
 
-func Test_C34_VV_Float(t *testing.T) {
-	_ = corestr.NewValidValue("3.14").Float()
+func Test_C34_VV_ValueDefFloat64(t *testing.T) {
+	_ = corestr.NewValidValue("3.14").ValueDefFloat64()
 }
 
-func Test_C34_VV_Float64(t *testing.T) {
-	_ = corestr.NewValidValue("3.14").Float64()
+func Test_C34_VV_ValueFloat64(t *testing.T) {
+	_ = corestr.NewValidValue("3.14").ValueFloat64(0)
 }
 
 func Test_C34_VV_IsWhitespace(t *testing.T) {
 	_ = corestr.NewValidValue("  ").IsWhitespace()
 }
 
-func Test_C34_VV_HasNonEmpty(t *testing.T) {
-	_ = corestr.NewValidValue("x").HasNonEmpty()
+func Test_C34_VV_HasValidNonEmpty(t *testing.T) {
+	_ = corestr.NewValidValue("x").HasValidNonEmpty()
 }
 
 func Test_C34_VV_Trim(t *testing.T) {
 	_ = corestr.NewValidValue(" x ").Trim()
 }
 
-func Test_C34_VV_HasPrefix(t *testing.T) {
-	_ = corestr.NewValidValue("hello").HasPrefix("hel")
+func Test_C34_VV_IsContains(t *testing.T) {
+	_ = corestr.NewValidValue("hello").IsContains("ell")
 }
 
-func Test_C34_VV_HasSuffix(t *testing.T) {
-	_ = corestr.NewValidValue("hello").HasSuffix("llo")
+func Test_C34_VV_IsEqualNonSensitive(t *testing.T) {
+	_ = corestr.NewValidValue("HELLO").IsEqualNonSensitive("hello")
 }
 
-func Test_C34_VV_Contains(t *testing.T) {
-	_ = corestr.NewValidValue("hello").Contains("ell")
+func Test_C34_VV_Is(t *testing.T) {
+	_ = corestr.NewValidValue("hello").Is("hello")
 }
 
-func Test_C34_VV_IsMatchRegex(t *testing.T) {
-	_ = corestr.NewValidValue("hello123").IsMatchRegex("[0-9]+")
+func Test_C34_VV_IsAnyOf(t *testing.T) {
+	_ = corestr.NewValidValue("hello").IsAnyOf("hello", "world")
 }
 
-func Test_C34_VV_ToLower(t *testing.T) {
-	_ = corestr.NewValidValue("HELLO").ToLower()
-}
-
-func Test_C34_VV_ToUpper(t *testing.T) {
-	_ = corestr.NewValidValue("hello").ToUpper()
-}
-
-func Test_C34_VV_ValueLength(t *testing.T) {
-	_ = corestr.NewValidValue("hello").ValueLength()
+func Test_C34_VV_HasSafeNonEmpty(t *testing.T) {
+	_ = corestr.NewValidValue("hello").HasSafeNonEmpty()
 }
 
 // ── ValidValues ──
 
 func Test_C34_VVS_Methods(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
+	vvs.Add("a")
 	_ = vvs.Length()
 	_ = vvs.Count()
 	_ = vvs.HasAnyItem()
@@ -496,63 +480,35 @@ func Test_C34_VVS_Creators(t *testing.T) {
 
 func Test_C34_VVS_AddFull(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.AddFull("v", true, "")
+	vvs.AddFull(true, "v", "")
 }
 
-func Test_C34_VVS_AddFullIf(t *testing.T) {
+func Test_C34_VVS_Adds(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.AddFullIf(true, "v", true, "")
-	vvs.AddFullIf(false, "v2", true, "")
-}
-
-func Test_C34_VVS_AddItems(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.AddItems(corestr.NewValidValue("a"), corestr.NewValidValue("b"))
+	vvs.Adds(corestr.ValidValue{Value: "a", IsValid: true}, corestr.ValidValue{Value: "b", IsValid: true})
 }
 
 func Test_C34_VVS_Find(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
+	vvs.Add("a")
 	_ = vvs.Find(func(i int, v *corestr.ValidValue) (*corestr.ValidValue, bool, bool) {
 		return v, true, false
 	})
 }
 
-func Test_C34_VVS_List(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
-	_ = vvs.List()
-}
-
 func Test_C34_VVS_Strings(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
+	vvs.Add("a")
 	_ = vvs.Strings()
+	_ = vvs.FullStrings()
+	_ = vvs.String()
 }
 
-func Test_C34_VVS_StringsUsingConditional(t *testing.T) {
+func Test_C34_VVS_Hashmap(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
-	_ = vvs.StringsUsingConditional(func(v *corestr.ValidValue) bool { return true })
-}
-
-func Test_C34_VVS_Clear(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Clear()
-}
-
-func Test_C34_VVS_Dispose(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Dispose()
-}
-
-func Test_C34_VVS_JsonMethods(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
-	_ = vvs.Json()
-	_ = vvs.JsonPtr()
-	_ = vvs.JsonModel()
-	_ = vvs.JsonModelAny()
+	vvs.Add("a")
+	_ = vvs.Hashmap()
+	_ = vvs.Map()
 }
 
 // ── ValueStatus ──

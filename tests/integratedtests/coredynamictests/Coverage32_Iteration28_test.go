@@ -679,7 +679,8 @@ func Test_C32_53_MapAnyItems_AddJsonResultPtr(t *testing.T) {
 
 func Test_C32_54_MapAnyItems_AllKeys_AllKeysSorted_AllValues(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("b", 2).Add("a", 1)
+	m.Add("b", 2)
+	m.Add("a", 1)
 	keys := m.AllKeys()
 	if len(keys) != 2 {
 		t.Errorf("expected 2")
@@ -862,7 +863,9 @@ func Test_C32_65_MapAnyItems_AddManyMapResultsUsingOption(t *testing.T) {
 
 func Test_C32_66_MapAnyItems_GetNewMapUsingKeys(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2).Add("c", 3)
+	m.Add("a", 1)
+	m.Add("b", 2)
+	m.Add("c", 3)
 	sub := m.GetNewMapUsingKeys(false, "a", "c")
 	if sub.Length() != 2 {
 		t.Errorf("expected 2")
@@ -911,7 +914,8 @@ func Test_C32_69_MapAnyItems_JsonResultOfKey(t *testing.T) {
 
 func Test_C32_70_MapAnyItems_JsonResultOfKeys(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2)
+	m.Add("a", 1)
+	m.Add("b", 2)
 	mr := m.JsonResultOfKeys("a", "b")
 	if mr == nil {
 		t.Errorf("expected non-nil")
@@ -953,7 +957,8 @@ func Test_C32_73_MapAnyItems_GetSinglePageCollection_Small(t *testing.T) {
 
 func Test_C32_74_MapAnyItems_IsEqualRaw(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2)
+	m.Add("a", 1)
+	m.Add("b", 2)
 	if !m.IsEqualRaw(map[string]any{"a": 1, "b": 2}) {
 		t.Errorf("expected equal")
 	}
@@ -1899,7 +1904,8 @@ func Test_C32_141_DynCol_SafeLimitCollection(t *testing.T) {
 func Test_C32_142_DynCol_At_First_Last_Accessors(t *testing.T) {
 	dc := coredynamic.NewDynamicCollection(4)
 	dc.AddAny("a", true).AddAny("b", true).AddAny("c", true)
-	if dc.At(1).ValueString() == "" {
+	atVal := dc.At(1)
+	if atVal.ValueString() == "" {
 		t.Errorf("expected non-empty")
 	}
 	f := dc.First()
@@ -2033,7 +2039,8 @@ func Test_C32_149_Collection_AddWithWgLock_Proper(t *testing.T) {
 
 func Test_C32_150_MapAnyItems_DiffRaw(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2)
+	m.Add("a", 1)
+	m.Add("b", 2)
 	diff := m.DiffRaw(false, map[string]any{"a": 1, "b": 3})
 	_ = diff
 }

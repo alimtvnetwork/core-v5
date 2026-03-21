@@ -14,16 +14,16 @@ import (
 
 // --- CountStateChangeTracker ---
 
-type mockLengthGetter struct {
+type cov14MockLengthGetter struct {
 	length int
 }
 
-func (m *mockLengthGetter) Length() int {
+func (m *cov14MockLengthGetter) Length() int {
 	return m.length
 }
 
 func Test_CovErr_01_CountStateChangeTracker(t *testing.T) {
-	mg := &mockLengthGetter{length: 5}
+	mg := &cov14MockLengthGetter{length: 5}
 	tracker := errcore.NewCountStateChangeTracker(mg)
 	if !tracker.IsSameState() {
 		t.Fatal("expected same state")

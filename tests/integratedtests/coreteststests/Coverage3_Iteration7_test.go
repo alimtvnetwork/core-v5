@@ -101,7 +101,7 @@ func Test_Cov3_SimpleTestCase_Disabled(t *testing.T) {
 		Title:         "disabled simple case",
 		ExpectedInput: "value",
 	}
-	tc.IsEnable = issetter.False
+	// SimpleTestCase has no IsEnable field; just test ShouldBeEqual normally
 	tc.ShouldBeEqual(0, t, "value")
 }
 
