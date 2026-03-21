@@ -78,3 +78,43 @@ func Test_Cov10_GetSinglePageCollection_NegativePagePanic(t *testing.T) {
 	expected := args.Map{"didPanic": true}
 	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection negative page panics", actual)
 }
+
+// ── AddsUsingSkipUsingFilter: skip-continue and end-of-loop return ──
+// Covers TraceCollection.go L119-120 (continue) and L141 (return)
+
+func Test_Cov10_AddsUsingSkipUsingFilter_SkipContinue(t *testing.T) {
+	// Arrange
+	tcVal := codestack.New.StackTrace.Default(1, 3)
+	tc := &tcVal
+	takeAll := func(trace *codestack.Trace) (bool, bool) {
+		return true, false
+	}
+
+	// Act — isSkipInvalid=true, isBreakOnceInvalid=false, high skip index
+	tc.AddsUsingSkipUsingFilter(true, false, 900, 5, takeAll)
+
+	// Assert — original items preserved, no new invalid ones added
+	actual := args.Map{"hasItems": tc.HasAnyItem()}
+	expected := args.Map{"hasItems": true}
+	expected.ShouldBeEqual(t, 0, "AddsUsingSkipUsingFilter skips invalid -- continues", actual)
+}
+
+// ── AddsUsingSkipUsingFilter: valid traces with filter that takes all, no break ──
+// Covers TraceCollection.go L141 (end-of-loop return after processing all)
+
+func Test_Cov10_AddsUsingSkipUsingFilter_AllValid_NoBreak(t *testing.T) {
+	// Arrange
+	tcVal := codestack.TraceCollection{}
+	tc := &tcVal
+	takeAll := func(trace *codestack.Trace) (bool, bool) {
+		return true, false
+	}
+
+	// Act — start from current stack, small count
+	tc.AddsUsingSkipUsingFilter(false, false, 1, 3, takeAll)
+
+	// Assert
+	actual := args.Map{"hasItems": tc.HasAnyItem()}
+	expected := args.Map{"hasItems": true}
+	expected.ShouldBeEqual(t, 0, "AddsUsingSkipUsingFilter returns at loop end -- no break", actual)
+}
