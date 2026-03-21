@@ -25,8 +25,8 @@ func Test_Cov10_AddsUsingSkip_SkipContinue(t *testing.T) {
 // Covers newTraceCollection.go L13-15 (Default) indirectly
 
 func Test_Cov10_StackTrace_Default(t *testing.T) {
-	// Arrange & Act
-	tc := codestack.New.StackTrace.Default(1, 3)
+	// Arrange & Act — use skip=0 to ensure we capture current call stack
+	tc := codestack.New.StackTrace.Default(0, 10)
 
 	// Assert
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
