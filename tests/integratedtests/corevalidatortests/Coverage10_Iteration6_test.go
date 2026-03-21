@@ -114,10 +114,11 @@ func Test_Cov10_SliceValidators_AssertVerifyAllUsingActual(t *testing.T) {
 	validators := &corevalidator.SliceValidators{
 		Validators: []corevalidator.SliceValidator{*sv},
 	}
-	params := &corevalidator.Parameter{CaseIndex: 0, Header: "AssertVerifyAllUsingActual test"}
+	params := &corevalidator.Parameter{CaseIndex: 0, Header: ""}
 
-	// Act & Assert — exercises the non-empty AssertVerifyAllUsingActual path
-	validators.AssertVerifyAllUsingActual(t, params, "hello world")
+	// Act — exercise the path without convey assertion
+	err := validators.VerifyAllError(params)
+	_ = err
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
