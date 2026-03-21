@@ -21,12 +21,12 @@ func Test_Cov10_AddsUsingSkip_SkipContinue(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "All continues past invalid -- no break", actual)
 }
 
-// ── newStacksCreator.Default ──
-// Covers newTraceCollection.go L13-15 (Default) indirectly
+// ── newStacksCreator.DefaultCount — captures current call stack ──
+// Covers newTraceCollection.go indirectly
 
 func Test_Cov10_StackTrace_Default(t *testing.T) {
-	// Arrange & Act — use skip=0 to ensure we capture current call stack
-	tc := codestack.New.StackTrace.Default(0, 10)
+	// Arrange & Act — use DefaultCount to avoid double-skip
+	tc := codestack.New.StackTrace.DefaultCount(0)
 
 	// Assert
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
@@ -38,8 +38,8 @@ func Test_Cov10_StackTrace_Default(t *testing.T) {
 // Covers TraceCollection.go L529 (end-of-loop return)
 
 func Test_Cov10_FilterWithLimit_NaturalExhaustion(t *testing.T) {
-	// Arrange
-	tcVal := codestack.New.StackTrace.Default(0, 10)
+	// Arrange — use DefaultCount which reliably captures frames
+	tcVal := codestack.New.StackTrace.DefaultCount(0)
 	tc := &tcVal
 	takeAll := func(trace *codestack.Trace) (bool, bool) {
 		return true, false
@@ -54,29 +54,37 @@ func Test_Cov10_FilterWithLimit_NaturalExhaustion(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FilterWithLimit returns all -- natural loop end", actual)
 }
 
-// ── GetSinglePageCollection: negative page panic ──
+// ── GetSinglePageCollection: page=0 causes panic ──
 // Covers TraceCollection.go L419-426
 
 func Test_Cov10_GetSinglePageCollection_NegativePagePanic(t *testing.T) {
 	// Arrange — need items for the method to proceed
-	tcVal := codestack.New.StackTrace.Default(0, 30)
+	tcVal := codestack.New.StackTrace.DefaultCount(0)
 	tc := &tcVal
 
-	// Act — page 0 or -1 may not panic; just verify no crash
-	result := tc.GetSinglePageCollection(5, 1)
+	// Act — pageIndex=0 → skipItems = eachPageSize*(0-1) = negative → panic
+	didPanic := false
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+		tc.GetSinglePageCollection(5, 0)
+	}()
 
 	// Assert
-	actual := args.Map{"notNil": result != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection returns result -- valid page", actual)
+	actual := args.Map{"didPanic": didPanic}
+	expected := args.Map{"didPanic": true}
+	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection panics on zero pageIndex", actual)
 }
 
 // ── AddsUsingSkipUsingFilter: skip-continue and end-of-loop return ──
 // Covers TraceCollection.go L119-120 (continue) and L141 (return)
 
 func Test_Cov10_AddsUsingSkipUsingFilter_SkipContinue(t *testing.T) {
-	// Arrange — start with items
-	tcVal := codestack.New.StackTrace.Default(0, 10)
+	// Arrange — start with items using DefaultCount
+	tcVal := codestack.New.StackTrace.DefaultCount(0)
 	tc := &tcVal
 	initialLen := tc.Length()
 	takeAll := func(trace *codestack.Trace) (bool, bool) {
