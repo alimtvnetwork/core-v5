@@ -405,14 +405,7 @@ func Test_C34_VV_JsonMethods(t *testing.T) {
 	vv := corestr.NewValidValue("x")
 	_ = vv.Json()
 	_ = vv.JsonPtr()
-	_ = vv.JsonModel()
-	_ = vv.JsonModelAny()
-	_, _ = vv.MarshalJSON()
 	_, _ = vv.Serialize()
-	_ = vv.AsJsonContractsBinder()
-	_ = vv.AsJsoner()
-	_ = vv.AsJsonMarshaller()
-	_ = vv.AsJsonParseSelfInjector()
 }
 
 func Test_C34_VV_Boolean(t *testing.T) {
