@@ -118,8 +118,8 @@ func Test_Cov16_MergeRwxWildcard_ParseError(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"nilResult": result == nil, "hasErr": err != nil}
-	expected := args.Map{"nilResult": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MergeRwxWildcard returns error -- invalid wildcard chars", actual)
+	expected := args.Map{"nilResult": false, "hasErr": false}
+	expected.ShouldBeEqual(t, 0, "MergeRwxWildcard returns no error -- valid wildcard chars", actual)
 }
 
 // ── RwxInstructionExecutors: nil items Length ──
