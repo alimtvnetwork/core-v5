@@ -377,7 +377,7 @@ func Test_CovSSCreator_08_Deserialize(t *testing.T) {
 // --- utils ---
 
 func Test_CovUtils_01_WrapDoubleIfMissing(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 	if u.WrapDoubleIfMissing("hello") != `"hello"` {
 		t.Fatal("expected wrapped")
 	}
@@ -393,7 +393,7 @@ func Test_CovUtils_01_WrapDoubleIfMissing(t *testing.T) {
 }
 
 func Test_CovUtils_02_WrapSingleIfMissing(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 	if u.WrapSingleIfMissing("hello") != "'hello'" {
 		t.Fatal("expected wrapped")
 	}
@@ -409,7 +409,7 @@ func Test_CovUtils_02_WrapSingleIfMissing(t *testing.T) {
 }
 
 func Test_CovUtils_03_WrapDouble_WrapSingle_WrapTilda(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 	if u.WrapDouble("hello") != `"hello"` {
 		t.Fatal("expected wrapped")
 	}
