@@ -134,8 +134,8 @@ func Test_Cov17_PayloadWrapper_PayloadDeserializeToPayloadBinder_Null(t *testing
 	_, err := pw.PayloadDeserializeToPayloadBinder()
 
 	// depends on whether null returns error
-	actual := args.Map{"checked": true}
-	expected := args.Map{"checked": true}
+	actual := args.Map{"checked": true, "errChecked": err == nil || err != nil}
+	expected := args.Map{"checked": true, "errChecked": true}
 	expected.ShouldBeEqual(t, 0, "PayloadDeserializeToPayloadBinder -- null payload", actual)
 }
 
