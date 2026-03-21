@@ -229,22 +229,22 @@ func Test_C33_LC_PushBack(t *testing.T) {
 }
 
 func Test_C33_LC_AllIndividualItemsLength(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a", "b"})
+	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	_ = lc.AllIndividualItemsLength()
 }
 
 func Test_C33_LC_First(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.First()
 }
 
 func Test_C33_LC_Single(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.Single()
 }
 
 func Test_C33_LC_Last(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.Last()
 }
 
@@ -270,30 +270,30 @@ func Test_C33_LC_RemoveNodeByIndex(t *testing.T) {
 }
 
 func Test_C33_LC_List(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.List()
 }
 
 func Test_C33_LC_Loop(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 		return false
 	})
 }
 
 func Test_C33_LC_String(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.String()
 	_ = corestr.New.LinkedCollection.Empty().String()
 }
 
 func Test_C33_LC_Clear(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Clear()
 }
 
 func Test_C33_LC_JsonMethods(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.Json()
 	_ = lc.JsonPtr()
 	_ = lc.JsonModel()
@@ -306,7 +306,7 @@ func Test_C33_LC_JsonMethods(t *testing.T) {
 }
 
 func Test_C33_LC_SimpleSlice(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.SimpleSlice()
 }
 
@@ -321,7 +321,7 @@ func Test_C33_LC_AddCollectionToNode(t *testing.T) {
 func Test_C33_NLLCC_Empty(t *testing.T)  { _ = corestr.New.LinkedCollection.Empty() }
 func Test_C33_NLLCC_Create(t *testing.T) { _ = corestr.New.LinkedCollection.Create([]string{"a"}) }
 func Test_C33_NLLCC_Strings(t *testing.T) {
-	_ = corestr.New.LinkedCollection.Strings([]string{"a"})
+	_ = corestr.New.LinkedCollection.Strings("a")
 }
 func Test_C33_NLLCC_PointerStringsPtr(t *testing.T) {
 	s := "a"
@@ -409,32 +409,32 @@ func Test_C33_LCN_HasElement(t *testing.T) {
 }
 
 func Test_C33_LCN_AddNext(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Head().AddNext(lc, corestr.New.Collection.Strings([]string{"x"}))
 }
 
 func Test_C33_LCN_AddNextNode(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	newNode := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings([]string{"x"})}
 	lc.Head().AddNextNode(lc, newNode)
 }
 
 func Test_C33_LCN_AddStringsToNode(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Head().AddStringsToNode(lc, false, []string{"b"}, false)
 }
 
 func Test_C33_LCN_AddCollectionToNode(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Head().AddCollectionToNode(lc, false, corestr.New.Collection.Strings([]string{"b"}))
 }
 
 func Test_C33_LCN_Clone(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.Head().Clone()
 }
 
 func Test_C33_LCN_String(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	_ = lc.Head().String()
 }
