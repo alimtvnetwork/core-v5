@@ -14,9 +14,9 @@ import (
 //                         newTypedPayloadWrapperCreator, instruction stringers
 // ══════════════════════════════════════════════════════════════════════════════
 
-type stringerImpl struct{ val string }
+type seg4Stringer struct{ val string }
 
-func (s stringerImpl) String() string { return s.val }
+func (s seg4Stringer) String() string { return s.val }
 
 func newPWSeg4() *corepayload.PayloadWrapper {
 	pw, _ := corepayload.New.PayloadWrapper.Create(
