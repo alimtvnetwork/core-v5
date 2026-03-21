@@ -90,9 +90,8 @@
 | # | Task | Effort | Risk |
 |---|------|--------|------|
 | 1 | **D.2 — Diagnostic snapshots** | Small | Low |
-| 2 | **D.1 — Test title audit** | Large | Low (multi-session, ~40+ packages) |
-| 3 | **C.4 — Module splitting** | Large | Medium |
-| 4 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 2 | **C.4 — Module splitting** | Large | Medium |
+| 3 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
 **Recommended**: **D.2** (diagnostic snapshots) as the next actionable task.
 
