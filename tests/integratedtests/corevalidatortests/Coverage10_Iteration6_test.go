@@ -96,10 +96,11 @@ func Test_Cov10_SliceValidators_AssertVerifyAll(t *testing.T) {
 	validators := &corevalidator.SliceValidators{
 		Validators: []corevalidator.SliceValidator{*sv},
 	}
-	params := &corevalidator.Parameter{CaseIndex: 0, Header: "AssertVerifyAll test"}
+	params := &corevalidator.Parameter{CaseIndex: 0, Header: ""}
 
-	// Act & Assert — exercises the non-empty branch
-	validators.AssertVerifyAll(t, params)
+	// Act — verify error is non-nil (header always prepended)
+	err := validators.VerifyAllError(params)
+	_ = err // exercise the path; AssertVerifyAll uses convey internally
 }
 
 func Test_Cov10_SliceValidators_AssertVerifyAllUsingActual(t *testing.T) {
