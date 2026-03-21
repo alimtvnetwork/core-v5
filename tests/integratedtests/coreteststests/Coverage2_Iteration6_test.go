@@ -80,7 +80,7 @@ func Test_Cov2_SimpleTestCase_ShouldHaveNoError(t *testing.T) {
 	}
 
 	// Act & Assert
-	tc.ShouldHaveNoError(0, t)
+	tc.ShouldHaveNoError(0, t, nil)
 }
 
 func Test_Cov2_SimpleTestCase_ShouldContains(t *testing.T) {
