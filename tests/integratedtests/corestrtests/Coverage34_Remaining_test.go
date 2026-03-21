@@ -504,13 +504,11 @@ func Test_C34_VVS_Strings(t *testing.T) {
 	_ = vvs.String()
 }
 
-func Test_C34_VVS_JsonMethods(t *testing.T) {
+func Test_C34_VVS_Hashmap(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
-	_ = vvs.Json()
-	_ = vvs.JsonPtr()
-	_ = vvs.JsonModel()
-	_ = vvs.JsonModelAny()
+	vvs.Add("a")
+	_ = vvs.Hashmap()
+	_ = vvs.Map()
 }
 
 // ── ValueStatus ──
