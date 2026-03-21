@@ -68,7 +68,7 @@ func Test_Cov10_TextValidator_IsMatch_Nil(t *testing.T) {
 func Test_Cov10_TextValidator_VerifyDetailError_Nil(t *testing.T) {
 	// Arrange
 	var tv *corevalidator.TextValidator
-	params := &corevalidator.Parameter{CaseIndex: 0, Header: "test"}
+	_ = &corevalidator.Parameter{CaseIndex: 0, Header: "test"}
 
 	// Act — verifyDetailErrorUsingLineProcessing is called via VerifyError
 	// nil receiver should return nil

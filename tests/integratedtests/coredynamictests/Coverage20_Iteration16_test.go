@@ -514,9 +514,11 @@ func Test_I16_DC_First_Last(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
 	dc.AddAny("first", true)
 	dc.AddAny("last", true)
+	first := dc.First()
+	last := dc.Last()
 	actual := args.Map{
-		"first":     dc.First().ValueString(),
-		"last":      dc.Last().ValueString(),
+		"first":     first.ValueString(),
+		"last":      last.ValueString(),
 		"lastIdx":   dc.LastIndex(),
 		"hasIdx":    dc.HasIndex(1),
 		"noIdx":     dc.HasIndex(5),
