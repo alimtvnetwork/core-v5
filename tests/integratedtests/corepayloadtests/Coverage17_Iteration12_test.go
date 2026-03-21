@@ -444,11 +444,11 @@ func Test_Cov17_PayloadsCollection_ParseInjectUsingJsonMust_Success(t *testing.T
 	expected.ShouldBeEqual(t, 0, "ParseInjectUsingJsonMust returns self -- valid json", actual)
 }
 
-// ── PayloadsCollectionPaging: PagingByIndex negative index ──
+// ── PayloadsCollectionPaging: GetSinglePageCollection negative index ──
 // Covers PayloadsCollectionPaging.go L81-87
 
-func Test_Cov17_PayloadsCollection_PagingByIndex_Panic(t *testing.T) {
-	coll := corepayload.New.PayloadsCollection.Empty()
+func Test_Cov17_PayloadsCollection_GetSinglePageCollection_Panic(t *testing.T) {
+	coll := New.PayloadsCollection.Empty()
 	for i := 0; i < 20; i++ {
 		coll.AddsPtr(&corepayload.PayloadWrapper{Name: "item"})
 	}
@@ -460,12 +460,12 @@ func Test_Cov17_PayloadsCollection_PagingByIndex_Panic(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		coll.PagingByIndex(0, 5) // pageIndex 0 -> negative skip
+		coll.GetSinglePageCollection(5, 0) // pageIndex 0 -> negative skip
 	}()
 
 	actual := args.Map{"didPanic": didPanic}
 	expected := args.Map{"didPanic": true}
-	expected.ShouldBeEqual(t, 0, "PagingByIndex panics -- zero page index", actual)
+	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection panics -- zero page index", actual)
 }
 
 // ── TypedPayloadCollection: AddCollection empty ──
