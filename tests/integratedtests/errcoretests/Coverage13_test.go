@@ -218,7 +218,7 @@ func Test_Cov13_HandleFullStringsWithTracesGetter_Panic(t *testing.T) {
 
 func Test_Cov13_RawErrCollection_AddErrorGetters(t *testing.T) {
 	// Arrange
-	ec := errcore.NewErrCollection()
+	ec := &errcore.RawErrCollection{}
 	g1 := &cov13ErrorGetter{err: errors.New("e1")}
 	g2 := &cov13ErrorGetter{err: nil} // nil error
 	var g3 *cov13ErrorGetter          // nil getter
@@ -237,7 +237,7 @@ func Test_Cov13_RawErrCollection_AddErrorGetters(t *testing.T) {
 
 func Test_Cov13_RawErrCollection_AddCompiledErrorGetters(t *testing.T) {
 	// Arrange
-	ec := errcore.NewErrCollection()
+	ec := &errcore.RawErrCollection{}
 	g1 := &cov13CompiledErrGetter{err: errors.New("ce1")}
 	g2 := &cov13CompiledErrGetter{err: nil}
 	var g3 *cov13CompiledErrGetter
@@ -272,7 +272,7 @@ func Test_Cov13_RawErrCollection_NilLength(t *testing.T) {
 
 func Test_Cov13_RawErrCollection_SerializeWithoutTraces(t *testing.T) {
 	// Arrange
-	ec := errcore.NewErrCollection()
+	ec := &errcore.RawErrCollection{}
 	ec.AddError(errors.New("test-error"))
 
 	// Act
@@ -289,7 +289,7 @@ func Test_Cov13_RawErrCollection_SerializeWithoutTraces(t *testing.T) {
 
 func Test_Cov13_RawErrCollection_CompiledJsonStringWithTraces(t *testing.T) {
 	// Arrange
-	ec := errcore.NewErrCollection()
+	ec := &errcore.RawErrCollection{}
 	ec.AddError(errors.New("test-json-error"))
 
 	// Act
