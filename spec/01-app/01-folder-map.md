@@ -79,7 +79,6 @@
 | `coreinterface/` | `serializerinf/` | Serializer interfaces |
 | `chmodhelper/` | `chmodclasstype/` | Chmod class type enums |
 | `chmodhelper/` | `chmodins/` | Chmod instruction types |
-| `codegen/` | `codegentype/` | Code generation type variants |
 | `codegen/` | `fmtcodegentype/` | Format code generation type variants |
 | `codegen/` | `aukast/` | AST utilities for codegen |
 | `internal/` | `reflectinternal/` | Reflection helpers |
