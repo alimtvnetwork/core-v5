@@ -679,7 +679,8 @@ func Test_C32_53_MapAnyItems_AddJsonResultPtr(t *testing.T) {
 
 func Test_C32_54_MapAnyItems_AllKeys_AllKeysSorted_AllValues(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("b", 2).Add("a", 1)
+	m.Add("b", 2)
+	m.Add("a", 1)
 	keys := m.AllKeys()
 	if len(keys) != 2 {
 		t.Errorf("expected 2")
