@@ -16,7 +16,7 @@
 core.go                  ← root package: slice/map factory helpers
 ├── chmodhelper/          ← file-system chmod parsing, verification, application
 ├── cmd/                  ← CLI entry-points (main, server, client, sample)
-├── codegen/              ← unit-test code generation (DEPRECATED — see 10-codegen-deprecation-plan.md)
+│   # codegen/ removed (v1.6.0)
 ├── codestack/            ← call-stack capture & trace formatting
 ├── conditional/          ← generic ternary helpers (Bool, Int, String, …)
 ├── constants/            ← global constants, line separators per OS, capacity defaults
