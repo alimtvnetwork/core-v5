@@ -78,10 +78,11 @@
 - **Acceptance criteria**: All test titles follow `"{Function} returns {Result} -- {Input Context}"` format
 - **Completed**: All 15,161 titles across 65 packages now conform. Auto-conformer script applied across all integrated test packages.
 
-### D.2 — Diagnostic Output Regression Tests
+### D.2 — Diagnostic Output Regression Tests ✅ Done
 - **Objective**: Create snapshot tests for diagnostic output formatting
 - **Dependencies**: None
 - **Acceptance criteria**: Snapshot tests pass for all formatter outputs
+- **Completed**: Created `errcore/Coverage11_DiagnosticSnapshots_test.go` with 25 snapshot tests covering MapMismatchError, LineDiffToString, LineDiff, SliceDiffSummary, GherkinsString, ExpectingRecord, ExpectationMessageDef, Expecting, ExpectingSimple, ExpectingSimpleNoType.
 
 ---
 
@@ -89,11 +90,10 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **D.2 — Diagnostic snapshots** | Small | Low |
-| 2 | **C.4 — Module splitting** | Large | Medium |
-| 3 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **C.4 — Module splitting** | Large | Medium |
+| 2 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **D.2** (diagnostic snapshots) as the next actionable task.
+**Recommended**: **C.4** (module splitting architecture decision) as the next actionable task.
 
 ---
 
