@@ -277,7 +277,6 @@ func Test_C34_KVC_JsonMethods(t *testing.T) {
 	_, _ = kvc.MarshalJSON()
 	_ = kvc.AsJsonContractsBinder()
 	_ = kvc.AsJsoner()
-	_ = kvc.AsJsonMarshaller()
 	_ = kvc.AsJsonParseSelfInjector()
 	_, _ = kvc.Serialize()
 }
