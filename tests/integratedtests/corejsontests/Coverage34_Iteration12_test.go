@@ -108,22 +108,22 @@ func Test_Cov34_Result_IsEqual_SameBytes(t *testing.T) {
 	r1 := corejson.NewResult.UsingBytesTypePtr([]byte(`{"a":1}`), "T")
 	r2 := corejson.NewResult.UsingBytesTypePtr([]byte(`{"a":1}`), "T")
 
-	result := r1.IsEqual(r2)
+	result := r1.IsEqualPtr(r2)
 
 	actual := args.Map{"equal": result}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual returns true -- same bytes same type", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr returns true -- same bytes same type", actual)
 }
 
 func Test_Cov34_Result_IsEqual_DiffType(t *testing.T) {
 	r1 := corejson.NewResult.UsingBytesTypePtr([]byte(`{"a":1}`), "TypeA")
 	r2 := corejson.NewResult.UsingBytesTypePtr([]byte(`{"a":1}`), "TypeB")
 
-	result := r1.IsEqual(r2)
+	result := r1.IsEqualPtr(r2)
 
 	actual := args.Map{"equal": result}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual returns false -- different type names", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr returns false -- different type names", actual)
 }
 
 // ── MapResults: Unmarshal empty bytes ──
