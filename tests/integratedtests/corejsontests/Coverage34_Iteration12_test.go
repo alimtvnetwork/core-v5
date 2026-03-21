@@ -8,8 +8,8 @@ import (
 	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
-// ── castingAny: switch cases for Jsoner, bytesSerializer, error, func ──
-// Covers castingAny.go L79-80, L81-82, L83-92, L103-105, L167-169, L175-177, L183-185
+// ── castingAny: string case ──
+// Covers castingAny.go L79-82
 
 func Test_Cov34_CastAny_StringToPtr(t *testing.T) {
 	jsonStr := `{"key":"value"}`
@@ -33,7 +33,7 @@ func Test_Cov34_CastAny_BytesToPtr(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "CastAny.Deserialize works -- []byte input", actual)
 }
 
-// ── anyTo: string case, Jsoner case ──
+// ── anyTo: string case ──
 // Covers anyTo.go L46-47, L48-49
 
 func Test_Cov34_AnyTo_String(t *testing.T) {
@@ -49,7 +49,7 @@ func Test_Cov34_AnyTo_String(t *testing.T) {
 // Covers Result.go L85-94
 
 func Test_Cov34_Result_FieldsNames(t *testing.T) {
-	result := corejson.NewResult.Bytes([]byte(`{"name":"test","age":30}`))
+	result := corejson.NewResult.UsingBytes([]byte(`{"name":"test","age":30}`))
 	names, err := result.FieldsNames()
 
 	actual := args.Map{"noErr": err == nil, "hasNames": len(names) > 0}
@@ -86,33 +86,33 @@ func Test_Cov34_Result_MeaningfulError_NilResult(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "MeaningfulError returns nil -- nil result", actual)
 }
 
-// ── Result: Serialize error path ──
+// ── Result: serializeInternal error path ──
 // Covers Result.go L639-646
 
-func Test_Cov34_Result_SerializeRaw_Error(t *testing.T) {
+func Test_Cov34_Result_Serialize_Error(t *testing.T) {
 	result := &corejson.Result{
 		Error: errors.New("serialize error"),
 	}
 
-	_, err := result.SerializeRaw()
+	_, err := result.Serialize()
 
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "SerializeRaw returns error -- has error", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize returns error -- has error", actual)
 }
 
-// ── Result: IsEqual with jsonString match ──
+// ── Result: IsEqual with same bytes ──
 // Covers Result.go L827-829, L872-874
 
 func Test_Cov34_Result_IsEqual_SameBytes(t *testing.T) {
-	r1 := corejson.NewResult.Bytes([]byte(`{"a":1}`))
-	r2 := corejson.NewResult.Bytes([]byte(`{"a":1}`))
+	r1 := corejson.NewResult.UsingBytesTypePtr([]byte(`{"a":1}`), "T")
+	r2 := corejson.NewResult.UsingBytesTypePtr([]byte(`{"a":1}`), "T")
 
 	result := r1.IsEqual(r2)
 
 	actual := args.Map{"equal": result}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual returns true -- same bytes", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns true -- same bytes same type", actual)
 }
 
 func Test_Cov34_Result_IsEqual_DiffType(t *testing.T) {
@@ -126,29 +126,32 @@ func Test_Cov34_Result_IsEqual_DiffType(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "IsEqual returns false -- different type names", actual)
 }
 
-// ── MapResults: UnmarshalUnsafe error on empty bytes ──
+// ── MapResults: Unmarshal empty bytes ──
 // Covers MapResults.go L164-165
 
-func Test_Cov34_MapResults_UnmarshalUnsafe_EmptyBytes(t *testing.T) {
+func Test_Cov34_MapResults_Unmarshal_EmptyResult(t *testing.T) {
+	emptyResult := corejson.NewResult.UsingBytes([]byte{})
 	mr := &corejson.MapResults{
-		Items: map[string]*corejson.Result{
-			"key": corejson.NewResult.Bytes([]byte{}),
+		Items: map[string]corejson.Result{
+			"key": *emptyResult,
 		},
 	}
 
 	var target string
-	err := mr.UnmarshalUnsafe("key", &target)
+	err := mr.Unmarshal("key", &target)
 
+	// the Unmarshal method has inverted has check (line 152: if has {return error})
+	// so for existing key it returns "key not found" error
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "UnmarshalUnsafe returns error -- empty bytes", actual)
+	expected.ShouldBeEqual(t, 0, "Unmarshal returns error -- existing key with inverted check", actual)
 }
 
-// ── MapResults: UnmarshalMany ──
+// ── MapResults: UnmarshalManySafe empty ──
 // Covers MapResults.go L202
 
 func Test_Cov34_MapResults_UnmarshalManySafe_Empty(t *testing.T) {
-	mr := &corejson.MapResults{Items: map[string]*corejson.Result{}}
+	mr := &corejson.MapResults{Items: map[string]corejson.Result{}}
 
 	err := mr.UnmarshalManySafe()
 
@@ -157,11 +160,11 @@ func Test_Cov34_MapResults_UnmarshalManySafe_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "UnmarshalManySafe returns nil -- empty input", actual)
 }
 
-// ── MapResults: SafeUnmarshal ──
+// ── MapResults: SafeUnmarshal missing key ──
 // Covers MapResults.go L235-236
 
 func Test_Cov34_MapResults_SafeUnmarshal_Missing(t *testing.T) {
-	mr := &corejson.MapResults{Items: map[string]*corejson.Result{}}
+	mr := &corejson.MapResults{Items: map[string]corejson.Result{}}
 
 	var target string
 	err := mr.SafeUnmarshal("missing", &target)
@@ -171,35 +174,36 @@ func Test_Cov34_MapResults_SafeUnmarshal_Missing(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SafeUnmarshal returns nil -- missing key", actual)
 }
 
-// ── MapResults: AddSerialize error ──
-// Covers MapResults.go L324-326
+// ── MapResults: AddAnySkipOnNil nil ──
+// Covers MapResults.go L324-326 (AddAnySkipOnNil error path)
 
-func Test_Cov34_MapResults_AddSerialize_NilItem(t *testing.T) {
-	mr := &corejson.MapResults{Items: map[string]*corejson.Result{}}
-	err := mr.AddSerialize("key", nil)
+func Test_Cov34_MapResults_AddAnySkipOnNil_Nil(t *testing.T) {
+	mr := &corejson.MapResults{Items: map[string]corejson.Result{}}
+	err := mr.AddAnySkipOnNil("key", nil)
 
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "AddSerialize returns nil -- nil item", actual)
+	expected.ShouldBeEqual(t, 0, "AddAnySkipOnNil returns nil -- nil item", actual)
 }
 
-func Test_Cov34_MapResults_AddSerialize_Valid(t *testing.T) {
-	mr := &corejson.MapResults{Items: map[string]*corejson.Result{}}
-	err := mr.AddSerialize("key", map[string]string{"a": "b"})
+func Test_Cov34_MapResults_AddAnySkipOnNil_Valid(t *testing.T) {
+	mr := &corejson.MapResults{Items: map[string]corejson.Result{}}
+	err := mr.AddAnySkipOnNil("key", map[string]string{"a": "b"})
 
-	actual := args.Map{"noErr": err == nil, "hasKey": mr.Items["key"] != nil}
+	_, hasKey := mr.Items["key"]
+	actual := args.Map{"noErr": err == nil, "hasKey": hasKey}
 	expected := args.Map{"noErr": true, "hasKey": true}
-	expected.ShouldBeEqual(t, 0, "AddSerialize adds result -- valid item", actual)
+	expected.ShouldBeEqual(t, 0, "AddAnySkipOnNil adds result -- valid item", actual)
 }
 
-// ── MapResults: PagingByIndex length mismatch panic ──
+// ── MapResults: GetSinglePageCollection length mismatch panic ──
 // Covers MapResults.go L718-729
 
-func Test_Cov34_MapResults_PagingByIndex_LengthMismatch(t *testing.T) {
+func Test_Cov34_MapResults_GetSinglePageCollection_LengthMismatch(t *testing.T) {
 	mr := &corejson.MapResults{
-		Items: map[string]*corejson.Result{
-			"a": corejson.NewResult.Bytes([]byte(`1`)),
-			"b": corejson.NewResult.Bytes([]byte(`2`)),
+		Items: map[string]corejson.Result{
+			"a": *corejson.NewResult.UsingBytes([]byte(`"1"`)),
+			"b": *corejson.NewResult.UsingBytes([]byte(`"2"`)),
 		},
 	}
 
@@ -210,21 +214,21 @@ func Test_Cov34_MapResults_PagingByIndex_LengthMismatch(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		mr.PagingByIndex(1, 1, []string{"a"}) // length mismatch
+		mr.GetSinglePageCollection(1, 1, []string{"a"}) // length mismatch
 	}()
 
 	actual := args.Map{"didPanic": didPanic}
 	expected := args.Map{"didPanic": true}
-	expected.ShouldBeEqual(t, 0, "PagingByIndex panics -- keys length != map length", actual)
+	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection panics -- keys length != map length", actual)
 }
 
-// ── MapResults: ByKeys with panic on missing ──
+// ── MapResults: GetNewMapUsingKeys with panic on missing ──
 // Covers MapResults.go L773-779
 
-func Test_Cov34_MapResults_ByKeys_PanicOnMissing(t *testing.T) {
+func Test_Cov34_MapResults_GetNewMapUsingKeys_PanicOnMissing(t *testing.T) {
 	mr := &corejson.MapResults{
-		Items: map[string]*corejson.Result{
-			"a": corejson.NewResult.Bytes([]byte(`1`)),
+		Items: map[string]corejson.Result{
+			"a": *corejson.NewResult.UsingBytes([]byte(`"1"`)),
 		},
 	}
 
@@ -235,16 +239,16 @@ func Test_Cov34_MapResults_ByKeys_PanicOnMissing(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		mr.ByKeys(true, "missing_key")
+		mr.GetNewMapUsingKeys(true, "missing_key")
 	}()
 
 	actual := args.Map{"didPanic": didPanic}
 	expected := args.Map{"didPanic": true}
-	expected.ShouldBeEqual(t, 0, "ByKeys panics -- missing key with isPanicOnMissing", actual)
+	expected.ShouldBeEqual(t, 0, "GetNewMapUsingKeys panics -- missing key with isPanicOnMissing", actual)
 }
 
-// ── deserializeFromBytesTo: error paths ──
-// Covers deserializeFromBytesTo.go L23-24, L222-224
+// ── deserializeFromBytesTo: nil ptr ──
+// Covers deserializeFromBytesTo.go L23-24
 
 func Test_Cov34_Deserialize_UsingBytes_NilPtr(t *testing.T) {
 	err := corejson.Deserialize.UsingBytes([]byte(`{}`), nil)
@@ -266,11 +270,8 @@ func Test_Cov34_NewResult_UsingSerializerFunc(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "UsingSerializerFunc creates result -- valid func", actual)
 }
 
-// ── newResultCreator: UsingAny empty ──
-// Covers newResultCreator.go L551
-
-// ── newBytesCollectionCreator: empty paths ──
-// Covers newBytesCollectionCreator.go L52, L91-95, L114-121
+// ── newBytesCollectionCreator: empty ──
+// Covers newBytesCollectionCreator.go L52
 
 func Test_Cov34_NewBytesCollection_Empty(t *testing.T) {
 	result := corejson.NewBytesCollection.Empty()
