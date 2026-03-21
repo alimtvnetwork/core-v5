@@ -684,7 +684,7 @@ core/
 │   ├── reflectinternal/         #   Reflection helpers
 │   └── strutilinternal/         #   String utility internals
 │
-├── codegen/                     # ⚠️ DEPRECATED — test boilerplate generation
+├── # codegen/ removed (v1.6.0) — was test boilerplate generation
 ├── cmd/                         # CLI entrypoints (main, server, client, sample)
 │
 ├── spec/                        # Architecture docs, coding guidelines, issue tracking
