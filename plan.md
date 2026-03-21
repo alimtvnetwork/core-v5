@@ -78,10 +78,11 @@
 - **Acceptance criteria**: All test titles follow `"{Function} returns {Result} -- {Input Context}"` format
 - **Completed**: All 15,161 titles across 65 packages now conform. Auto-conformer script applied across all integrated test packages.
 
-### D.2 — Diagnostic Output Regression Tests
+### D.2 — Diagnostic Output Regression Tests ✅ Done
 - **Objective**: Create snapshot tests for diagnostic output formatting
 - **Dependencies**: None
 - **Acceptance criteria**: Snapshot tests pass for all formatter outputs
+- **Completed**: Created `errcore/Coverage11_DiagnosticSnapshots_test.go` with 25 snapshot tests covering MapMismatchError, LineDiffToString, LineDiff, SliceDiffSummary, GherkinsString, ExpectingRecord, ExpectationMessageDef, Expecting, ExpectingSimple, ExpectingSimpleNoType.
 
 ---
 
