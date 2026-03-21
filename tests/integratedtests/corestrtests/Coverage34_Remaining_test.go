@@ -408,28 +408,28 @@ func Test_C34_VV_JsonMethods(t *testing.T) {
 	_, _ = vv.Serialize()
 }
 
-func Test_C34_VV_Boolean(t *testing.T) {
-	_ = corestr.NewValidValue("true").Boolean()
+func Test_C34_VV_ValueBool(t *testing.T) {
+	_ = corestr.NewValidValue("true").ValueBool()
 }
 
-func Test_C34_VV_Integer(t *testing.T) {
-	_ = corestr.NewValidValue("42").Integer()
+func Test_C34_VV_ValueInt(t *testing.T) {
+	_ = corestr.NewValidValue("42").ValueInt(0)
 }
 
-func Test_C34_VV_Float(t *testing.T) {
-	_ = corestr.NewValidValue("3.14").Float()
+func Test_C34_VV_ValueDefFloat64(t *testing.T) {
+	_ = corestr.NewValidValue("3.14").ValueDefFloat64()
 }
 
-func Test_C34_VV_Float64(t *testing.T) {
-	_ = corestr.NewValidValue("3.14").Float64()
+func Test_C34_VV_ValueFloat64(t *testing.T) {
+	_ = corestr.NewValidValue("3.14").ValueFloat64(0)
 }
 
 func Test_C34_VV_IsWhitespace(t *testing.T) {
 	_ = corestr.NewValidValue("  ").IsWhitespace()
 }
 
-func Test_C34_VV_HasNonEmpty(t *testing.T) {
-	_ = corestr.NewValidValue("x").HasNonEmpty()
+func Test_C34_VV_HasValidNonEmpty(t *testing.T) {
+	_ = corestr.NewValidValue("x").HasValidNonEmpty()
 }
 
 func Test_C34_VV_Trim(t *testing.T) {
