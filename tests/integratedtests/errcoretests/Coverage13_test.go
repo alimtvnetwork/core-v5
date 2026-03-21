@@ -319,14 +319,15 @@ func Test_Cov13_StackEnhance_MsgSkip_Empty(t *testing.T) {
 
 func Test_Cov13_StackEnhance_MsgErrorSkip_ExistingStackTrace(t *testing.T) {
 	// Arrange
-	msg := fmt.Sprintf("existing error [StackTrace]")
+	msg := "existing error Stack-Trace present"
 	err := errors.New("wrapped")
 
 	// Act
 	result := errcore.StackEnhance.MsgErrorSkip(0, msg, err)
 
 	// Assert
-	actual := args.Map{"hasContent": len(result) > 0, "containsStackTrace": strings.Contains(result, "StackTrace")}
+	actual := args.Map{"hasContent": len(result) > 0, "containsStackTrace": strings.Contains(result, "Stack-Trace")}
 	expected := args.Map{"hasContent": true, "containsStackTrace": true}
+	expected.ShouldBeEqual(t, 0, "MsgErrorSkip returns compiled msg -- existing stack trace", actual)
 	expected.ShouldBeEqual(t, 0, "MsgErrorSkip returns compiled msg -- existing stack trace", actual)
 }
