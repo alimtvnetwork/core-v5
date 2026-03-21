@@ -1278,7 +1278,7 @@ func Test_Cov10_StackEnhance_Msg_NonEmpty(t *testing.T) {
 	result := errcore.StackEnhance.Msg("hello")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance Msg non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.Msg returns non-empty -- non-empty message", actual)
 }
 
 func Test_Cov10_StackEnhance_MsgToErrSkip_Empty(t *testing.T) {
@@ -1299,14 +1299,14 @@ func Test_Cov10_StackEnhance_FmtSkip_NonEmpty(t *testing.T) {
 	err := errcore.StackEnhance.FmtSkip(0, "hello %d", 1)
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance FmtSkip non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.FmtSkip returns error -- non-empty format", actual)
 }
 
 func Test_Cov10_StackEnhance_MsgErrorSkip_NilErr(t *testing.T) {
 	result := errcore.StackEnhance.MsgErrorSkip(0, "msg", nil)
 	actual := args.Map{"empty": result == ""}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance MsgErrorSkip nil err", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.MsgErrorSkip returns empty -- nil error input", actual)
 }
 
 func Test_Cov10_StackEnhance_MsgErrorSkip_WithErr(t *testing.T) {
