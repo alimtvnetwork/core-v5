@@ -133,7 +133,7 @@ func Test_Cov34_MapResults_Unmarshal_EmptyResult(t *testing.T) {
 	emptyResult := corejson.NewResult.UsingBytes([]byte{})
 	mr := &corejson.MapResults{
 		Items: map[string]corejson.Result{
-			"key": *emptyResult,
+			"key": emptyResult,
 		},
 	}
 
