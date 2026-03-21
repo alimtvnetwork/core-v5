@@ -436,32 +436,24 @@ func Test_C34_VV_Trim(t *testing.T) {
 	_ = corestr.NewValidValue(" x ").Trim()
 }
 
-func Test_C34_VV_HasPrefix(t *testing.T) {
-	_ = corestr.NewValidValue("hello").HasPrefix("hel")
+func Test_C34_VV_IsContains(t *testing.T) {
+	_ = corestr.NewValidValue("hello").IsContains("ell")
 }
 
-func Test_C34_VV_HasSuffix(t *testing.T) {
-	_ = corestr.NewValidValue("hello").HasSuffix("llo")
+func Test_C34_VV_IsEqualNonSensitive(t *testing.T) {
+	_ = corestr.NewValidValue("HELLO").IsEqualNonSensitive("hello")
 }
 
-func Test_C34_VV_Contains(t *testing.T) {
-	_ = corestr.NewValidValue("hello").Contains("ell")
+func Test_C34_VV_Is(t *testing.T) {
+	_ = corestr.NewValidValue("hello").Is("hello")
 }
 
-func Test_C34_VV_IsMatchRegex(t *testing.T) {
-	_ = corestr.NewValidValue("hello123").IsMatchRegex("[0-9]+")
+func Test_C34_VV_IsAnyOf(t *testing.T) {
+	_ = corestr.NewValidValue("hello").IsAnyOf("hello", "world")
 }
 
-func Test_C34_VV_ToLower(t *testing.T) {
-	_ = corestr.NewValidValue("HELLO").ToLower()
-}
-
-func Test_C34_VV_ToUpper(t *testing.T) {
-	_ = corestr.NewValidValue("hello").ToUpper()
-}
-
-func Test_C34_VV_ValueLength(t *testing.T) {
-	_ = corestr.NewValidValue("hello").ValueLength()
+func Test_C34_VV_HasSafeNonEmpty(t *testing.T) {
+	_ = corestr.NewValidValue("hello").HasSafeNonEmpty()
 }
 
 // ── ValidValues ──
