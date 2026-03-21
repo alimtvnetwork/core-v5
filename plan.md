@@ -91,10 +91,9 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **C.4 — Module splitting** | Large | Medium |
-| 2 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **C.4** (module splitting architecture decision) as the next actionable task.
+**Note**: All proactive tasks are complete. Only **B.1 (codegen removal)** remains, blocked on user running an external audit (`grep` across auk-go repos) to confirm no consumers.
 
 ---
 
