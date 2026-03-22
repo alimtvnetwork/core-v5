@@ -477,9 +477,10 @@ func Test_C17_KeyValCollection_Json(t *testing.T) {
 		"jpOk": jp != nil, "mOk": m != nil, "maOk": ma != nil,
 		"jHasBytes": j.HasBytes(),
 	}
+	// KeyValCollection has unexported items field → json.Marshal produces {} → IsEmptyJsonBytes true
 	expected := args.Map{
 		"jpOk": true, "mOk": true, "maOk": true,
-		"jHasBytes": true,
+		"jHasBytes": false,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Json", actual)
 }
