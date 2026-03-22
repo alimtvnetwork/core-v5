@@ -86,7 +86,8 @@ func Test_Cov43_NewHashmapCreator_KeyValuesStrings_EmptyKeys(t *testing.T) {
 func Test_Cov43_NewHashmapCreator_UsingMap(t *testing.T) {
 	m := map[string]string{"x": "y"}
 	hm := corestr.New.Hashmap.UsingMap(m)
-	tc := coretestcases.CaseV1{Title: "UsingMap", ExpectedInput: "y", ActualInput: hm.Get("x")}
+	val, _ := hm.Get("x")
+	tc := coretestcases.CaseV1{Title: "UsingMap", ExpectedInput: "y", ActualInput: val}
 	tc.ShouldBeEqual(t, 0)
 }
 
@@ -375,7 +376,8 @@ func Test_Cov43_NewCharHashsetMapCreator_Strings_Nil(t *testing.T) {
 func Test_Cov43_HashmapDataModel_NewUsingDataModel(t *testing.T) {
 	dm := &corestr.HashmapDataModel{Items: map[string]string{"k": "v"}}
 	hm := corestr.NewHashmapUsingDataModel(dm)
-	tc := coretestcases.CaseV1{Title: "NewHashmapUsingDataModel", ExpectedInput: "v", ActualInput: hm.Get("k")}
+	val, _ := hm.Get("k")
+	tc := coretestcases.CaseV1{Title: "NewHashmapUsingDataModel", ExpectedInput: "v", ActualInput: val}
 	tc.ShouldBeEqual(t, 0)
 }
 
@@ -441,7 +443,7 @@ func Test_Cov43_HashsetsCollectionDataModel_NewUsingDataModel(t *testing.T) {
 
 func Test_Cov43_HashsetsCollectionDataModel_NewDataModelUsing(t *testing.T) {
 	hs1 := corestr.New.Hashset.StringsSpreadItems("a")
-	hsc := corestr.New.HashsetsCollection.UsingHashsets(hs1)
+	hsc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs1)
 	dm := corestr.NewHashsetsCollectionDataModelUsing(hsc)
 	tc := coretestcases.CaseV1{Title: "NewHashsetsCollectionDataModelUsing", ExpectedInput: 1, ActualInput: len(dm.Items)}
 	tc.ShouldBeEqual(t, 0)
@@ -621,14 +623,14 @@ func Test_Cov43_CloneSlice_Nil(t *testing.T) {
 
 func Test_Cov43_CloneSliceIf_Clone(t *testing.T) {
 	input := []string{"a", "b"}
-	result := corestr.CloneSliceIf(true, input)
+	result := corestr.CloneSliceIf(true, input...)
 	tc := coretestcases.CaseV1{Title: "CloneSliceIf clone", ExpectedInput: 2, ActualInput: len(result)}
 	tc.ShouldBeEqual(t, 0)
 }
 
 func Test_Cov43_CloneSliceIf_NoClone(t *testing.T) {
 	input := []string{"a", "b"}
-	result := corestr.CloneSliceIf(false, input)
+	result := corestr.CloneSliceIf(false, input...)
 	tc := coretestcases.CaseV1{Title: "CloneSliceIf no clone same ref", ExpectedInput: 2, ActualInput: len(result)}
 	tc.ShouldBeEqual(t, 0)
 }
@@ -639,13 +641,14 @@ func Test_Cov43_CloneSliceIf_NoClone(t *testing.T) {
 
 func Test_Cov43_AllIndividualStringsOfStringsLength_Valid(t *testing.T) {
 	input := [][]string{{"a", "b"}, {"c"}}
-	result := corestr.AllIndividualStringsOfStringsLength(input)
+	result := corestr.AllIndividualStringsOfStringsLength(&input)
 	tc := coretestcases.CaseV1{Title: "AllIndividualStringsOfStringsLength", ExpectedInput: 3, ActualInput: result}
 	tc.ShouldBeEqual(t, 0)
 }
 
 func Test_Cov43_AllIndividualStringsOfStringsLength_Empty(t *testing.T) {
-	result := corestr.AllIndividualStringsOfStringsLength([][]string{})
+	input := [][]string{}
+	result := corestr.AllIndividualStringsOfStringsLength(&input)
 	tc := coretestcases.CaseV1{Title: "AllIndividualStringsOfStringsLength empty", ExpectedInput: 0, ActualInput: result}
 	tc.ShouldBeEqual(t, 0)
 }
@@ -653,13 +656,13 @@ func Test_Cov43_AllIndividualStringsOfStringsLength_Empty(t *testing.T) {
 func Test_Cov43_AllIndividualsLengthOfSimpleSlices_Valid(t *testing.T) {
 	ss1 := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
 	ss2 := corestr.New.SimpleSlice.Strings([]string{"c"})
-	result := corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{ss1, ss2})
+	result := corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2)
 	tc := coretestcases.CaseV1{Title: "AllIndividualsLengthOfSimpleSlices", ExpectedInput: 3, ActualInput: result}
 	tc.ShouldBeEqual(t, 0)
 }
 
 func Test_Cov43_AllIndividualsLengthOfSimpleSlices_Empty(t *testing.T) {
-	result := corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{})
+	result := corestr.AllIndividualsLengthOfSimpleSlices()
 	tc := coretestcases.CaseV1{Title: "AllIndividualsLengthOfSimpleSlices empty", ExpectedInput: 0, ActualInput: result}
 	tc.ShouldBeEqual(t, 0)
 }
