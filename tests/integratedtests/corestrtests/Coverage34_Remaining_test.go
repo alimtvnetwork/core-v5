@@ -938,7 +938,7 @@ func Test_C34_CharCollectionDataModel(t *testing.T) {
 }
 
 func Test_C34_CharHashsetDataModel(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(5)
+	chm := corestr.New.CharHashsetMap.Cap(5, 5)
 	chm.AddStrings("apple")
 	dm := corestr.NewCharHashsetMapDataModelUsing(chm)
 	_ = corestr.NewCharHashsetMapUsingDataModel(dm)
