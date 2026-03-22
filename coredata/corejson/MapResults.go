@@ -149,7 +149,7 @@ func (it *MapResults) Unmarshal(
 ) error {
 	result, has := it.Items[key]
 
-	if has {
+	if !has {
 		return errcore.
 			KeyNotExistInMapType.
 			Error("Given key not found!", key)

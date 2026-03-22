@@ -354,7 +354,7 @@ func Test_I8_Collection_Paging(t *testing.T) {
 
 func Test_I8_Collection_New(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	c2 := c.New(5)
+	c2 := c.New()
 	if c2.Length() != 0 { t.Fatal("expected empty new") }
 }
 
@@ -373,8 +373,8 @@ func Test_I8_Collection_AddStringsByFuncChecking(t *testing.T) {
 
 func Test_I8_Collection_ExpandSlicePlusAdd(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	c.ExpandSlicePlusAdd([]string{"a", "b"}, func(s string) string {
-		return strings.ToUpper(s)
+	c.ExpandSlicePlusAdd([]string{"a", "b"}, func(s string) []string {
+		return []string{strings.ToUpper(s)}
 	})
 }
 
@@ -475,15 +475,16 @@ func Test_I8_Hashmap_AddVariants(t *testing.T) {
 func Test_I8_Hashmap_AddCollectionMaps(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdateMap(map[string]string{"a": "1"})
-	h.AddsOrUpdates("b", "2", "c", "3")
+	h.AddsOrUpdates(corestr.KeyValuePair{Key: "b", Value: "2"}, corestr.KeyValuePair{Key: "c", Value: "3"})
 
 	kav := []corestr.KeyAnyValuePair{{Key: "d", Value: "4"}}
-	h.AddOrUpdateKeyAnyValues(kav)
+	h.AddOrUpdateKeyAnyValues(kav...)
 
-	kvs := corestr.New.KeyValues.Empty()
-	kvs.Add("e", "5")
-	h.AddOrUpdateKeyValues(kvs)
-	h.AddOrUpdateCollection(kvs)
+	h.AddOrUpdateKeyValues(corestr.KeyValuePair{Key: "e", Value: "5"})
+
+	keys := corestr.New.Collection.Strings([]string{"f"})
+	vals := corestr.New.Collection.Strings([]string{"6"})
+	h.AddOrUpdateCollection(keys, vals)
 
 	h2 := corestr.New.Hashmap.Empty()
 	h2.AddOrUpdate("f", "6")
@@ -578,7 +579,7 @@ func Test_I8_Hashmap_IsEqual(t *testing.T) {
 	h1.AddOrUpdate("a", "1")
 	h2 := corestr.New.Hashmap.Empty()
 	h2.AddOrUpdate("a", "1")
-	if !h1.IsEqualPtr(&h2) { t.Fatal("expected equal") }
+	if !h1.IsEqualPtr(h2) { t.Fatal("expected equal") }
 	_ = h1.IsEqualPtrLock(&h2)
 }
 
