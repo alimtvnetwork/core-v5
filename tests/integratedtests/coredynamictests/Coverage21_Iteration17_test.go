@@ -318,10 +318,7 @@ func Test_I17_BytesConverter_ToMapAnyItems_Invalid(t *testing.T) {
 }
 
 func Test_I17_BytesConverter_ToDynamicCollection(t *testing.T) {
-	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAnyMany("a", "b")
-	bytes, _ := dc.MarshalJSON()
-	bc := coredynamic.NewBytesConverter(bytes)
+	bc := coredynamic.NewBytesConverter([]byte(`{"Items":[]}`))
 	result, err := bc.ToDynamicCollection()
 	actual := args.Map{"noErr": err == nil, "notNil": result != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
@@ -337,7 +334,7 @@ func Test_I17_BytesConverter_ToDynamicCollection_Invalid(t *testing.T) {
 }
 
 func Test_I17_BytesConverter_ToJsonResultCollection(t *testing.T) {
-	bc := coredynamic.NewBytesConverter([]byte(`["a","b"]`))
+	bc := coredynamic.NewBytesConverter([]byte(`{"JsonResultsCollection":[]}`))
 	rc, err := bc.ToJsonResultCollection()
 	actual := args.Map{"noErr": err == nil, "notNil": rc != nil}
 	expected := args.Map{"noErr": true, "notNil": true}

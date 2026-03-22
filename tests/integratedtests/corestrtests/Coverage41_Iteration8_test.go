@@ -959,7 +959,7 @@ func Test_I8_SimpleSlice_Properties(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_Contains(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	if !s.IsContains("a") { t.Fatal("contains a") }
 	if s.IsContains("z") { t.Fatal("no z") }
 	_ = s.IndexOf("b")
@@ -970,26 +970,26 @@ func Test_I8_SimpleSlice_Contains(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_Wrap(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	_ = s.WrapDoubleQuote()
-	s2 := corestr.New.SimpleSlice.Items("c")
+	s2 := corestr.New.SimpleSlice.SpreadStrings("c")
 	_ = s2.WrapSingleQuote()
-	s3 := corestr.New.SimpleSlice.Items("d")
+	s3 := corestr.New.SimpleSlice.SpreadStrings("d")
 	_ = s3.WrapTildaQuote()
-	s4 := corestr.New.SimpleSlice.Items("e")
+	s4 := corestr.New.SimpleSlice.SpreadStrings("e")
 	_ = s4.WrapDoubleQuoteIfMissing()
-	s5 := corestr.New.SimpleSlice.Items("f")
+	s5 := corestr.New.SimpleSlice.SpreadStrings("f")
 	_ = s5.WrapSingleQuoteIfMissing()
 }
 
 func Test_I8_SimpleSlice_Transpile(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	_ = s.Transpile(func(s string) string { return strings.ToUpper(s) })
 	_ = s.TranspileJoin(func(s string) string { return s }, ", ")
 }
 
 func Test_I8_SimpleSlice_Join(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	_ = s.Join(", ")
 	_ = s.JoinLine()
 	_ = s.JoinLineEofLine()
@@ -998,13 +998,13 @@ func Test_I8_SimpleSlice_Join(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_Hashset(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	h := s.Hashset()
 	if h.Length() != 2 { t.Fatal("expected 2") }
 }
 
 func Test_I8_SimpleSlice_Error(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("err1", "err2")
+	s := corestr.New.SimpleSlice.SpreadStrings("err1", "err2")
 	_ = s.AsDefaultError()
 	_ = s.AsError("; ")
 }
@@ -1177,7 +1177,7 @@ func Test_I8_NewCreators(t *testing.T) {
 	_ = corestr.New.LinkedList.Strings([]string{"a"})
 
 	_ = corestr.New.SimpleSlice.Empty()
-	_ = corestr.New.SimpleSlice.Items("a", "b")
+	_ = corestr.New.SimpleSlice.SpreadStrings("a", "b")
 
 	_ = corestr.New.KeyValues.Empty()
 
@@ -1215,8 +1215,8 @@ func Test_I8_AllIndividualStringsOfStringsLength(t *testing.T) {
 }
 
 func Test_I8_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
-	s1 := corestr.New.SimpleSlice.Items("a", "bb")
-	s2 := corestr.New.SimpleSlice.Items("ccc")
+	s1 := corestr.New.SimpleSlice.SpreadStrings("a", "bb")
+	s2 := corestr.New.SimpleSlice.SpreadStrings("ccc")
 	result := corestr.AllIndividualsLengthOfSimpleSlices(s1, s2)
 	if result != 6 { t.Fatalf("expected 6, got %d", result) }
 }

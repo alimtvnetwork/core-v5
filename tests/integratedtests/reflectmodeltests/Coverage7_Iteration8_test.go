@@ -296,6 +296,7 @@ func Test_I8_MP_InvokeFirstAndError_Success(t *testing.T) {
 	} else {
 		if first.(int) != 10 {
 			t.Fatal("expected 10")
+		}
 	}
 }
 

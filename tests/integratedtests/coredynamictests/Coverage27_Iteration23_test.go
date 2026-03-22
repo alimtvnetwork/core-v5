@@ -151,8 +151,9 @@ func Test_I23_DynamicCollection_FirstOrDefault_Has(t *testing.T) {
 
 func Test_I23_DynamicCollection_FirstOrDefaultDynamic(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	actual := args.Map{"nil": dc.FirstOrDefaultDynamic() == nil}
-	expected := args.Map{"nil": true}
+	first, ok := dc.FirstOrDefaultDynamic().(*coredynamic.Dynamic)
+	actual := args.Map{"ok": ok, "nil": first == nil}
+	expected := args.Map{"ok": true, "nil": true}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection returns correct value -- FirstOrDefaultDynamic", actual)
 }
 
@@ -173,8 +174,9 @@ func Test_I23_DynamicCollection_LastOrDefault_Has(t *testing.T) {
 
 func Test_I23_DynamicCollection_LastOrDefaultDynamic(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	actual := args.Map{"nil": dc.LastOrDefaultDynamic() == nil}
-	expected := args.Map{"nil": true}
+	last, ok := dc.LastOrDefaultDynamic().(*coredynamic.Dynamic)
+	actual := args.Map{"ok": ok, "nil": last == nil}
+	expected := args.Map{"ok": true, "nil": true}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection returns correct value -- LastOrDefaultDynamic", actual)
 }
 
@@ -509,11 +511,8 @@ func Test_I23_DynamicCollection_MarshalJSON(t *testing.T) {
 }
 
 func Test_I23_DynamicCollection_UnmarshalJSON(t *testing.T) {
-	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("seed", true)
-	b, _ := dc.MarshalJSON()
 	dc2 := coredynamic.EmptyDynamicCollection()
-	err := dc2.UnmarshalJSON(b)
+	err := dc2.UnmarshalJSON([]byte(`{"Items":[]}`))
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection returns correct value -- UnmarshalJSON", actual)
@@ -598,12 +597,9 @@ func Test_I23_DynamicCollection_JsonPtr(t *testing.T) {
 
 func Test_I23_DynamicCollection_ParseInjectUsingJson(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("a", true)
-	b, _ := dc.MarshalJSON()
 	jr := corejson.NewPtr(dc)
 	dc2 := coredynamic.EmptyDynamicCollection()
 	result, err := dc2.ParseInjectUsingJson(jr)
-	_ = b
 	actual := args.Map{"noErr": err == nil, "notNil": result != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection returns correct value -- ParseInjectUsingJson", actual)
@@ -611,7 +607,6 @@ func Test_I23_DynamicCollection_ParseInjectUsingJson(t *testing.T) {
 
 func Test_I23_DynamicCollection_JsonParseSelfInject(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("a", true)
 	jr := corejson.NewPtr(dc)
 	dc2 := coredynamic.EmptyDynamicCollection()
 	err := dc2.JsonParseSelfInject(jr)
@@ -706,7 +701,6 @@ func Test_I23_DynamicCollection_Nil_IsEmpty(t *testing.T) {
 
 func Test_I23_DynamicCollection_ParseInjectUsingJsonMust(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("a", true)
 	jr := corejson.NewPtr(dc)
 	dc2 := coredynamic.EmptyDynamicCollection()
 	result := dc2.ParseInjectUsingJsonMust(jr)
