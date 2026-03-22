@@ -1363,6 +1363,26 @@ function Invoke-PreCommitCheck {
         }
     }
 
+    # Fast regression guard (legacy CaseV1 fields + invalid corejson.Result.Err usage)
+    $regressionScript = Join-Path $PSScriptRoot "scripts" "check-integrated-regressions.ps1"
+    if (-not (Test-Path $regressionScript)) {
+        Write-Fail "Regression guard script not found: $regressionScript"
+        exit 1
+    }
+
+    Write-Host "  Running regression guard scan..." -ForegroundColor Yellow
+    if ($singlePkg) {
+        & $regressionScript -SinglePackage $singlePkg
+    }
+    else {
+        & $regressionScript
+    }
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Fail "Regression guard failed. Fix reported issues before PC."
+        exit 1
+    }
+
     # Discover test packages
     $testBaseDir = Join-Path $PSScriptRoot "tests" "integratedtests"
     if ($singlePkg) {
