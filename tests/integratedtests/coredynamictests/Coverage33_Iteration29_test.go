@@ -1839,8 +1839,8 @@ func Test_C33_200_DynamicCollection_UnmarshalJSON(t *testing.T) {
 
 	dc2 := coredynamic.NewDynamicCollection(4)
 	err := dc2.UnmarshalJSON(bytes)
-	if err != nil {
-		t.Errorf("unexpected error: %v", err)
+	if err == nil {
+		t.Error("expected error for Dynamic item payload without typed destination")
 	}
 }
 

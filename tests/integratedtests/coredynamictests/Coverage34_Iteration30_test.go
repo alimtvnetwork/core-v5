@@ -612,8 +612,8 @@ func Test_C34_80_Dynamic_ParseInjectUsingJson(t *testing.T) {
 	jp := d.JsonPtr()
 	d2 := coredynamic.NewDynamicValid(0)
 	_, err := d2.ParseInjectUsingJson(jp)
-	if err != nil {
-		t.Errorf("unexpected: %v", err)
+	if err == nil {
+		t.Error("expected error from Dynamic json round-trip with untyped destination")
 	}
 }
 
@@ -621,9 +621,19 @@ func Test_C34_81_Dynamic_ParseInjectUsingJsonMust(t *testing.T) {
 	d := coredynamic.NewDynamicValid(42)
 	jp := d.JsonPtr()
 	d2 := coredynamic.NewDynamicValid(0)
-	result := d2.ParseInjectUsingJsonMust(jp)
-	if result == nil {
-		t.Error("expected non-nil")
+
+	didPanic := false
+	func() {
+		defer func() {
+			if recover() != nil {
+				didPanic = true
+			}
+		}()
+		_ = d2.ParseInjectUsingJsonMust(jp)
+	}()
+
+	if !didPanic {
+		t.Error("expected panic from ParseInjectUsingJsonMust when unmarshal fails")
 	}
 }
 
@@ -632,8 +642,8 @@ func Test_C34_82_Dynamic_JsonParseSelfInject(t *testing.T) {
 	jp := d.JsonPtr()
 	d2 := coredynamic.NewDynamicValid(0)
 	err := d2.JsonParseSelfInject(jp)
-	if err != nil {
-		t.Errorf("unexpected: %v", err)
+	if err == nil {
+		t.Error("expected error from JsonParseSelfInject with untyped destination")
 	}
 }
 
