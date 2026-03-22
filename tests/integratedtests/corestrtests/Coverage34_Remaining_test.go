@@ -904,7 +904,7 @@ func Test_C34_NCCMC_Items(t *testing.T) {
 }
 
 func Test_C34_NCCMC_ItemsPtrWithCap(t *testing.T) {
-	_ = corestr.New.CharCollectionMap.ItemsPtrWithCap(5, map[byte]*corestr.Collection{})
+	_ = corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 3, []string{"apple"})
 }
 
 func Test_C34_NCHMC_CapItems(t *testing.T) {
