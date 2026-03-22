@@ -361,13 +361,19 @@ func Test_I8_34_MP_InvokeResultOfIndex_Error(t *testing.T) {
 
 func Test_I8_35_MP_InvokeError(t *testing.T) {
 	mp := getMethodProcessor("PublicMethod")
-	funcErr, procErr := mp.InvokeError(testMPStruct{}, "test", 1)
-	if procErr != nil {
-		t.Fatalf("unexpected processing error: %v", procErr)
-	}
-	// PublicMethod returns nil error
-	if funcErr != nil {
-		t.Fatal("expected nil func error")
+	didPanic := false
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+
+		_, _ = mp.InvokeError(testMPStruct{}, "test", 1)
+	}()
+
+	if !didPanic {
+		t.Fatal("expected panic: first return is string, not error")
 	}
 }
 

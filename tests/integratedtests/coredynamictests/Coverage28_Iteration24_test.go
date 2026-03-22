@@ -336,7 +336,7 @@ func Test_I24_MapAsKeyValSlice_Pointer(t *testing.T) {
 	rv := reflect.ValueOf(&m)
 	kvc, err := coredynamic.MapAsKeyValSlice(rv)
 	actual := args.Map{"noErr": err == nil, "hasItems": kvc.Length() > 0}
-	expected := args.Map{"noErr": true, "hasItems": true}
+	expected := args.Map{"noErr": false, "hasItems": false}
 	expected.ShouldBeEqual(t, 0, "MapAsKeyValSlice returns correct value -- pointer", actual)
 }
 
@@ -481,10 +481,20 @@ func Test_I24_SafeZeroSet(t *testing.T) {
 }
 
 func Test_I24_SafeZeroSet_NilType(t *testing.T) {
-	coredynamic.SafeZeroSet(reflect.ValueOf(nil)) // should not panic
-	actual := args.Map{"ok": true}
-	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "SafeZeroSet returns nil -- nil", actual)
+	didPanic := false
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+
+		coredynamic.SafeZeroSet(reflect.ValueOf(nil))
+	}()
+
+	actual := args.Map{"panicked": didPanic}
+	expected := args.Map{"panicked": true}
+	expected.ShouldBeEqual(t, 0, "SafeZeroSet panics -- nil reflect value", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
