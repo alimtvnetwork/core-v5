@@ -39,7 +39,7 @@ func NewMapAnyItemsUsingAnyTypeMap(
 	}
 
 	rv := reflect.ValueOf(anyTypeOfMap)
-	convertedMap, err := reflectinternal.MapConverter.ToMapStringAny(rv)
+	convertedMap, err := reflectinternal.MapConverter.ToMapStringAnyRv(rv)
 
 	if err != nil {
 		return EmptyMapAnyItems(), err
