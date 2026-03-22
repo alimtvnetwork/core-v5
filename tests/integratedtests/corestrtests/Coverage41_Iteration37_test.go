@@ -831,7 +831,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Nil(t *
 
 func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Accept(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Value, true, false
 	}
