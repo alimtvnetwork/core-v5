@@ -883,7 +883,7 @@ func Test_C34_CHM_Basic(t *testing.T) {
 	_ = chm.Length()
 	_ = chm.IsEmpty()
 	_ = chm.HasItems()
-	_ = chm.Has('a')
+	_ = chm.Has("apple")
 	_ = chm.GetMap()
 	_ = chm.List()
 	_ = chm.SortedListAsc()
