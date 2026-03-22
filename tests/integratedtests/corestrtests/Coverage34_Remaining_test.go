@@ -827,7 +827,7 @@ func Test_C34_NHCC_Empty(t *testing.T)  { _ = corestr.New.HashsetsCollection.Emp
 func Test_C34_NHCC_Cap(t *testing.T)    { _ = corestr.New.HashsetsCollection.Cap(5) }
 func Test_C34_NHCC_LenCap(t *testing.T) { _ = corestr.New.HashsetsCollection.LenCap(0, 5) }
 func Test_C34_NHCC_UsingHashsets(t *testing.T) {
-	_ = corestr.New.HashsetsCollection.UsingHashsets(corestr.New.Hashset.StringsSpreadItems("a"))
+	_ = corestr.New.HashsetsCollection.UsingHashsets(*corestr.New.Hashset.StringsSpreadItems("a"))
 }
 func Test_C34_NHCC_UsingHashsetsPointers(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
