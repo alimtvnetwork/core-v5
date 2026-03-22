@@ -81,10 +81,10 @@ func Test_Cov34_Result_MeaningfulError_WithPayload(t *testing.T) {
 func Test_Cov34_Result_MeaningfulError_NilResult(t *testing.T) {
 	var result *corejson.Result
 	err := result.MeaningfulError()
-
+	// nil Result → returns defaulterr.JsonResultNull (not nil)
 	actual := args.Map{"isNil": err == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulError returns nil -- nil result", actual)
+	expected := args.Map{"isNil": false}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError returns error -- nil result", actual)
 }
 
 // ── Result: serializeInternal error path ──

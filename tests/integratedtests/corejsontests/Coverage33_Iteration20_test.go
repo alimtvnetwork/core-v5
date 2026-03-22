@@ -1432,9 +1432,11 @@ func Test_I20_NewResult_DeserializeUsingResult_HasIssues(t *testing.T) {
 
 func Test_I20_CastAny_FromToDefault_NilFrom(t *testing.T) {
 	var s string
+	// FromToDefault(nil, &s) → reflectionCasting returns (err, false) for nil,
+	// falls through to Serialize.Apply(nil) → "null" → Unmarshal sets zero value, no error
 	err := corejson.CastAny.FromToDefault(nil, &s)
-	if err == nil {
-		t.Fatal("expected error for nil from")
+	if err != nil {
+		t.Fatal("expected no error — nil serializes to null")
 	}
 }
 

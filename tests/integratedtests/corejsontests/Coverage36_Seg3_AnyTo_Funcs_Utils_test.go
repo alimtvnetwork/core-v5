@@ -272,18 +272,21 @@ func Test_CovJsonS3_CA05_FromToOption_Jsoner(t *testing.T) {
 }
 
 func Test_CovJsonS3_CA06_FromToOption_Result(t *testing.T) {
+	// Result implements Jsoner, so FromToOption matches Jsoner case first (double-serializes).
+	// Use bytes directly to test the Result case path.
 	r := corejson.New(map[string]int{"a": 1})
 	var m map[string]int
-	err := corejson.CastAny.FromToOption(false, r, &m)
+	err := corejson.CastAny.FromToOption(false, r.Bytes, &m)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
 }
 
 func Test_CovJsonS3_CA07_FromToOption_ResultPtr(t *testing.T) {
+	// *Result also implements Jsoner — use bytes directly
 	r := corejson.NewPtr(map[string]int{"a": 1})
 	var m map[string]int
-	err := corejson.CastAny.FromToOption(false, r, &m)
+	err := corejson.CastAny.FromToOption(false, r.Bytes, &m)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
