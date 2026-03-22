@@ -814,10 +814,10 @@ func Test_I8_Hashset_Except(t *testing.T) {
 
 func Test_I8_Hashset_Concat(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	c1 := h.ConcatNewStrings("b", "c")
+	c1 := h.ConcatNewStrings(false, []string{"b"}, []string{"c"})
 	_ = c1
 	h2 := corestr.New.Hashset.StringsSpreadItems("d")
-	c2 := h.ConcatNewHashsets(h2)
+	c2 := h.ConcatNewHashsets(false, h2)
 	_ = c2
 }
 
