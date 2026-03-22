@@ -2,6 +2,7 @@ package corestrtests
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 	"testing"
 
