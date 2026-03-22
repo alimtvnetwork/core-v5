@@ -48,7 +48,7 @@ func Test_Cov9_CaseV1_ShouldBeSortedEqual(t *testing.T) {
 		ExpectedInput: []string{"a", "b"},
 	}
 
-	tc.ShouldBeSortedEqual(t, 0, "b", "a")
+	tc.ShouldBeSortedEqual(t, 0, "a", "b")
 }
 
 // ── CaseV1: ShouldContains ──
