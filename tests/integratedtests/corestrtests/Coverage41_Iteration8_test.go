@@ -354,7 +354,7 @@ func Test_I8_Collection_Paging(t *testing.T) {
 
 func Test_I8_Collection_New(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	c2 := c.New(5)
+	c2 := c.New()
 	if c2.Length() != 0 { t.Fatal("expected empty new") }
 }
 
