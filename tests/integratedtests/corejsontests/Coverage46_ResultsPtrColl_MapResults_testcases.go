@@ -141,9 +141,9 @@ var ptrCollAddResultTestCase = coretestcases.CaseV1{
 }
 
 var ptrCollAddsNilTestCase = coretestcases.CaseV1{
-	Title: "ResultsPtrCollection Adds returns 0 -- nil results skipped",
+	Title: "ResultsPtrCollection Adds returns 1 -- nil element appended via variadic",
 	ExpectedInput: args.Map{
-		"length": 0,
+		"length": 1,
 	},
 }
 
