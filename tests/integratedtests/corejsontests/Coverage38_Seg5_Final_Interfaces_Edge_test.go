@@ -62,13 +62,13 @@ func Test_CovJsonS5_R05_Result_RawStringMust(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R06_Result_IsValid_IsInvalid(t *testing.T) {
+func Test_CovJsonS5_R06_Result_HasSafeItems_HasIssuesOrEmpty(t *testing.T) {
 	r := corejson.New(1)
-	if !r.IsValid() {
-		t.Fatal("expected valid")
+	if !r.HasSafeItems() {
+		t.Fatal("expected has safe items")
 	}
-	if r.IsInvalid() {
-		t.Fatal("expected not invalid")
+	if r.HasIssuesOrEmpty() {
+		t.Fatal("expected no issues")
 	}
 }
 
