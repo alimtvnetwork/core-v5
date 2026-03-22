@@ -28,17 +28,17 @@ func Test_CovJsonS5_R02_NewPtr_NilInput(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R03_Result_ToSafeBytes_ToSafeBytesSwallowErr(t *testing.T) {
+func Test_CovJsonS5_R03_Result_SafeBytes_Raw(t *testing.T) {
 	r := corejson.New(1)
-	_, _ = r.ToSafeBytes()
-	_ = r.ToSafeBytesSwallowErr()
+	_, _ = r.Raw()
+	_ = r.SafeBytes()
 	// with error
 	re := corejson.Result{Error: errors.New("fail")}
-	_, err := re.ToSafeBytes()
+	_, err := re.Raw()
 	if err == nil {
 		t.Fatal("expected error")
 	}
-	_ = re.ToSafeBytesSwallowErr()
+	_ = re.SafeBytes()
 }
 
 func Test_CovJsonS5_R04_Result_PrettyJsonString(t *testing.T) {
