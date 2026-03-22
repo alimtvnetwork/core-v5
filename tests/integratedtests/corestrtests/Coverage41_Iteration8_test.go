@@ -699,8 +699,9 @@ func Test_I8_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	var wg sync.WaitGroup
 	wg.Add(1)
-	items := map[string]string{"a": "1"}
-	h.AddOrUpdateStringsPtrWgLock(&items, &wg)
+	keys := []string{"a"}
+	values := []string{"1"}
+	h.AddOrUpdateStringsPtrWgLock(&wg, keys, values)
 	wg.Wait()
 }
 
