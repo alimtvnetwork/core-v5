@@ -262,10 +262,10 @@ func Test_CovJsonS5_BC03_BytesCollection_GetMethods(t *testing.T) {
 func Test_CovJsonS5_BC04_BytesCollection_Strings(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(2)
 	bc.Add([]byte("a"))
-	_ = bc.GetStrings()
-	_ = bc.GetStringsPtr()
+	_ = bc.Strings()
+	_ = bc.StringsPtr()
 	empty := corejson.NewBytesCollection.UsingCap(0)
-	_ = empty.GetStrings()
+	_ = empty.Strings()
 }
 
 func Test_CovJsonS5_BC05_BytesCollection_Json(t *testing.T) {
