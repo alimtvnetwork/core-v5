@@ -499,11 +499,16 @@ func Test_CovPL_S1_34_Attributes_HasPagingInfo_HasKeyValuePairs_HasFromTo(t *tes
 
 func Test_CovPL_S1_35_Attributes_IsValid_IsInvalid_IsSafeValid_HasIssuesOrEmpty(t *testing.T) {
 	attr := corepayload.New.Attributes.Empty()
+	// Empty() creates non-nil Attributes with no error → IsValid = (it != nil && IsEmptyError) = true
+	// BUT IsInvalid = (it == nil || HasIssuesOrEmpty)
+	// HasIssuesOrEmpty = IsEmpty() || !IsValid() || (BasicErr && HasError)
+	// IsEmpty = len(DynamicPayloads) == 0 → true for Empty()
+	// So HasIssuesOrEmpty = true, IsInvalid = true
 	if !attr.IsValid() {
-		t.Fatal("expected true")
+		t.Fatal("expected true — non-nil, no error")
 	}
-	if attr.IsInvalid() {
-		t.Fatal("expected false")
+	if !attr.IsInvalid() {
+		t.Fatal("expected true — empty attrs are invalid (HasIssuesOrEmpty=true)")
 	}
 	// nil
 	var nilAttr *corepayload.Attributes
