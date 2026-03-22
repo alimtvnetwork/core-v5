@@ -947,7 +947,7 @@ func Test_I8_SimpleSlice_SkipTakeLimit(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_Properties(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	if s.Length() != 2 { t.Fatal("length") }
 	if s.Count() != 2 { t.Fatal("count") }
 	if s.IsEmpty() { t.Fatal("not empty") }

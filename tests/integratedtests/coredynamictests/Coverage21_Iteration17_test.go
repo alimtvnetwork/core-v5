@@ -194,7 +194,8 @@ func Test_I17_BytesConverter_ToHashmapMust(t *testing.T) {
 }
 
 func Test_I17_BytesConverter_ToHashset(t *testing.T) {
-	bc := coredynamic.NewBytesConverter([]byte(`["a","b"]`))
+	// Hashset internal is map[string]bool, so JSON must be object not array
+	bc := coredynamic.NewBytesConverter([]byte(`{"a":true,"b":true}`))
 	hs, err := bc.ToHashset()
 	actual := args.Map{"noErr": err == nil, "notNil": hs != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
@@ -210,7 +211,7 @@ func Test_I17_BytesConverter_ToHashset_Invalid(t *testing.T) {
 }
 
 func Test_I17_BytesConverter_ToHashsetMust(t *testing.T) {
-	bc := coredynamic.NewBytesConverter([]byte(`["x"]`))
+	bc := coredynamic.NewBytesConverter([]byte(`{"x":true}`))
 	hs := bc.ToHashsetMust()
 	actual := args.Map{"notNil": hs != nil}
 	expected := args.Map{"notNil": true}
