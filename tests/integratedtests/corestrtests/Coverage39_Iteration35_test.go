@@ -1134,7 +1134,7 @@ func Test_Cov39_LC_JsonModelAny(t *testing.T) {
 func Test_Cov39_LC_Json(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.Add(corestr.New.Collection.Strings([]string{"a"}))
-	if lc.Json().HasError() {
+	if lc.Json().Error != nil {
 		t.Error("unexpected error")
 	}
 }

@@ -775,10 +775,9 @@ func Test_Seg3_Collection_JoinLine_Empty(t *testing.T) {
 func Test_Seg3_Collection_Joins(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	c.Adds("a", "b")
-	actual := args.Map{"val": c.Joins(",", "c", "d")}
+	actual := args.Map{"nonEmpty": c.Joins(",", "c", "d") != ""}
 	expected := args.Map{"nonEmpty": true}
-	actual2 := args.Map{"nonEmpty": c.Joins(",", "c") != ""}
-	expected.ShouldBeEqual(t, 0, "Joins -- non-empty", actual2)
+	expected.ShouldBeEqual(t, 0, "Joins -- non-empty", actual)
 }
 
 func Test_Seg3_Collection_Joins_NoExtra(t *testing.T) {
