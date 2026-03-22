@@ -5,8 +5,12 @@ import (
 )
 
 func LengthOfReflect(reflectVal reflect.Value) int {
+	if !reflectVal.IsValid() {
+		return 0
+	}
+
 	if reflectVal.Kind() == reflect.Ptr {
-		return LengthOfReflect(reflect.Indirect(reflect.ValueOf(reflectVal)))
+		return LengthOfReflect(reflect.Indirect(reflectVal))
 	}
 
 	switch reflectVal.Kind() {

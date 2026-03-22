@@ -55,7 +55,8 @@ func (it *Result) DeserializedFieldsToMap() (
 		return map[string]any{}, nil
 	}
 
-	parsingErr = it.Deserialize(fieldsMap)
+	fieldsMap = map[string]any{}
+	parsingErr = it.Deserialize(&fieldsMap)
 
 	return fieldsMap, parsingErr
 }

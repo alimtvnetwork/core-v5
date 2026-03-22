@@ -1262,9 +1262,8 @@ func Test_I8_CharCollectionMap_Ops(t *testing.T) {
 	_ = m.LengthOfLock('a')
 	_ = m.LengthOfCollectionFromFirstChar("apple")
 
-	coll := corestr.New.Collection.Strings([]string{"apple"})
-	_ = m.HasWithCollection(coll)
-	_ = m.HasWithCollectionLock(coll)
+	_, _ = m.HasWithCollection("apple")
+	_, _ = m.HasWithCollectionLock("apple")
 
 	_ = m.GetCollection("a", false)
 	_ = m.GetCollectionLock("a", false)
@@ -1273,8 +1272,8 @@ func Test_I8_CharCollectionMap_Ops(t *testing.T) {
 	m2 := corestr.New.CharCollectionMap.Items([]string{"apple", "avocado", "banana"})
 	_ = m.IsEquals(m2)
 	_ = m.IsEqualsLock(m2)
-	_ = m.IsEqualsCaseSensitive(m2, true)
-	_ = m.IsEqualsCaseSensitiveLock(m2, true)
+	_ = m.IsEqualsCaseSensitive(true, m2)
+	_ = m.IsEqualsCaseSensitiveLock(true, m2)
 }
 
 func Test_I8_CharCollectionMap_Add(t *testing.T) {
@@ -1340,8 +1339,10 @@ func Test_I8_LeftMiddleRightFromSplit(t *testing.T) {
 
 func Test_I8_ValidValues(t *testing.T) {
 	vv := corestr.ValidValues{
-		{Value: "a", IsValid: true},
-		{Value: "b", IsValid: false},
+		ValidValues: []*corestr.ValidValue{
+			{Value: "a", IsValid: true},
+			{Value: "b", IsValid: false},
+		},
 	}
 	_ = len(vv)
 }

@@ -15,6 +15,10 @@ type KeyValCollection struct {
 	items []KeyVal
 }
 
+type keyValCollectionJsonModel struct {
+	Items []KeyVal `json:"Items"`
+}
+
 func EmptyKeyValCollection() *KeyValCollection {
 	return NewKeyValCollection(constants.Zero)
 }
@@ -307,7 +311,9 @@ func (it *KeyValCollection) String() string {
 }
 
 func (it KeyValCollection) JsonModel() any {
-	return it
+	return keyValCollectionJsonModel{
+		Items: it.items,
+	}
 }
 
 func (it KeyValCollection) JsonModelAny() any {
@@ -315,22 +321,34 @@ func (it KeyValCollection) JsonModelAny() any {
 }
 
 func (it KeyValCollection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(it.JsonModel())
 }
 
 func (it KeyValCollection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(it.JsonModel())
 }
 
 //goland:noinspection GoLinterLocal
 func (it *KeyValCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*KeyValCollection, error) {
-	err := jsonResult.Unmarshal(it)
+	jsonModel := keyValCollectionJsonModel{}
+	err := jsonResult.Unmarshal(&jsonModel)
 
 	if err != nil {
-		return nil, err
+		legacyItems := []KeyVal{}
+		legacyErr := jsonResult.Unmarshal(&legacyItems)
+
+		if legacyErr != nil {
+			return nil, err
+		}
+
+		it.items = legacyItems
+
+		return it, nil
 	}
+
+	it.items = jsonModel.Items
 
 	return it, nil
 }
