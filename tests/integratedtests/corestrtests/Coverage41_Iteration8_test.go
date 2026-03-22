@@ -874,8 +874,8 @@ func Test_I8_Hashset_DistinctDiff(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b", "c")
 	b := corestr.New.Hashset.StringsSpreadItems("a")
 	_ = a.DistinctDiffHashset(b)
-	_ = a.DistinctDiffLines([]string{"a"})
-	_ = a.DistinctDiffLinesRaw([]string{"a"})
+	_ = a.DistinctDiffLines("a")
+	_ = a.DistinctDiffLinesRaw("a")
 }
 
 func Test_I8_Hashset_String(t *testing.T) {
