@@ -401,7 +401,7 @@ func Test_Cov58_Collection_AddPointerCollectionsLock(t *testing.T) {
 
 func Test_Cov58_Collection_AddHashmapsValues(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"k": "v"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	c.AddHashmapsValues(hm)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
@@ -418,7 +418,7 @@ func Test_Cov58_Collection_AddHashmapsValues_NilAndEmpty(t *testing.T) {
 
 func Test_Cov58_Collection_AddHashmapsKeys(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"k": "v"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	c.AddHashmapsKeys(hm)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
@@ -435,7 +435,7 @@ func Test_Cov58_Collection_AddHashmapsKeys_Nil(t *testing.T) {
 
 func Test_Cov58_Collection_AddHashmapsKeysValues(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"k": "v"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	c.AddHashmapsKeysValues(hm)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
@@ -452,7 +452,7 @@ func Test_Cov58_Collection_AddHashmapsKeysValues_Nil(t *testing.T) {
 
 func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"k": "v", "k2": "v2"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v", "k2": "v2"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Key + "=" + pair.Value, true, false
 	}
@@ -464,7 +464,7 @@ func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 
 func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"a": "1", "b": "2", "c": "3"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2", "c": "3"})
 	count := 0
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		count++
@@ -487,7 +487,7 @@ func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter_Nil(t *testing.T) {
 
 func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter_Skip(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"k": "v"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return "", false, false
 	}
