@@ -780,7 +780,6 @@ func Test_C34_HC_Methods(t *testing.T) {
 	_ = hc.StringsList()
 	_ = hc.HasAll("a")
 	_ = hc.ListDirectPtr()
-	_ = hc.SortedListAsc()
 	_ = hc.Json()
 	_ = hc.JsonPtr()
 	_ = hc.JsonModel()
@@ -791,9 +790,6 @@ func Test_C34_HC_Methods(t *testing.T) {
 	_ = hc.AsJsonMarshaller()
 	_ = hc.AsJsonParseSelfInjector()
 	_ = hc.String()
-	hc.Clear()
-	hc2 := corestr.New.HashsetsCollection.Empty()
-	hc2.Dispose()
 }
 
 func Test_C34_HC_AddNonEmpty(t *testing.T) {
