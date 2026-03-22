@@ -853,7 +853,7 @@ func Test_I8_Hashset_AsyncOps(t *testing.T) {
 	wg3 := sync.WaitGroup{}
 	wg3.Add(1)
 	items := map[string]bool{"y": true}
-	h.AddItemsMapWgLock(items, &wg3)
+	h.AddItemsMapWgLock(&items, &wg3)
 	wg3.Wait()
 
 	wg4 := sync.WaitGroup{}
