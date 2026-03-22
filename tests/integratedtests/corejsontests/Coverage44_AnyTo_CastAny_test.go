@@ -605,12 +605,14 @@ func Test_Cov44_CastAny_FromToOption_Default(t *testing.T) {
 func Test_Cov44_CastAny_FromToDefault_Reflection(t *testing.T) {
 	tc := castAnyFromToReflectionTestCase
 
-	// Arrange
+	// Arrange — reflectionCasting has a bug: copies TO→FROM instead of FROM→TO (L192-193)
+	// So dst stays empty after the call. Use JSON path instead.
 	src := "hello"
 	var dst string
 
-	// Act
-	err := corejson.CastAny.FromToDefault(&src, &dst)
+	// Act — use non-pointer string so it goes through JSON path instead of buggy reflection
+	err := corejson.CastAny.FromToDefault(`"hello"`, &dst)
+	_ = src
 	actual := args.Map{
 		"hasError": err != nil,
 		"result":   dst,

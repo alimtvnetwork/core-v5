@@ -438,7 +438,9 @@ func Test_Cov42_Deserialize_FromTo(t *testing.T) {
 	var s string
 
 	// Act
-	err := corejson.Deserialize.FromTo("hello", &s)
+	// "hello" is not valid JSON — FromTo → CastAny.FromToDefault → case string → json.Unmarshal fails
+	// Use quoted JSON string instead
+	err := corejson.Deserialize.FromTo(`"hello"`, &s)
 	actual := args.Map{
 		"hasError": err != nil,
 		"result":   s,

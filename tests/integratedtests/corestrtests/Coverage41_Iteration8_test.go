@@ -674,7 +674,9 @@ func Test_I8_Hashmap_Diff(t *testing.T) {
 func Test_I8_Hashmap_ConcatNew(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("a", "1")
-	h2 := h.ConcatNew("b", "2", "c", "3")
+	other := corestr.New.Hashmap.Empty()
+	other.AddOrUpdate("b", "2")
+	h2 := h.ConcatNew(false, other)
 	_ = h2
 	h3 := h.ConcatNewUsingMaps(map[string]string{"d": "4"})
 	_ = h3
