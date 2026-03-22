@@ -51,7 +51,7 @@ func Test_I8_Collection_AddVariants(t *testing.T) {
 	c.AddIfMany(true, "e", "f")
 	c.AddIfMany(false, "skip1", "skip2")
 	c.AddFunc(func() string { return "g" })
-	c.AddFuncErr(func() (string, error) { return "h", nil })
+	c.AddFuncErr(func() (string, error) { return "h", nil }, func(errInput error) {})
 	c.AddError(nil)
 
 	if c.Length() < 7 { t.Fatal("expected at least 7 items") }
