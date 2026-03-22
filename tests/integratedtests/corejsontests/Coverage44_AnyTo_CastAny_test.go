@@ -532,12 +532,12 @@ func Test_Cov44_CastAny_FromToOption_Result(t *testing.T) {
 func Test_Cov44_CastAny_FromToOption_ResultPtr(t *testing.T) {
 	tc := castAnyFromToResultPtrTestCase
 
-	// Arrange
+	// Arrange — *Result also implements Jsoner → use bytes directly
 	r := corejson.NewPtr("hello")
 	var dst string
 
 	// Act
-	err := corejson.CastAny.FromToOption(false, r, &dst)
+	err := corejson.CastAny.FromToOption(false, r.Bytes, &dst)
 	actual := args.Map{
 		"hasError": err != nil,
 		"result":   dst,
