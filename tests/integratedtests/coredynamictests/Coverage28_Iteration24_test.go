@@ -27,7 +27,8 @@ func Test_I24_CastTo_NonMatchingType(t *testing.T) {
 }
 
 func Test_I24_CastTo_PointerOutput(t *testing.T) {
-	result := coredynamic.CastTo(true, "hello", reflect.TypeOf(""))
+	input := "hello"
+	result := coredynamic.CastTo(true, &input, reflect.TypeOf((*string)(nil)))
 	actual := args.Map{"notNil": result.Casted != nil, "match": result.IsMatchingAcceptedType}
 	expected := args.Map{"notNil": true, "match": true}
 	expected.ShouldBeEqual(t, 0, "CastTo returns correct value -- pointer output", actual)
