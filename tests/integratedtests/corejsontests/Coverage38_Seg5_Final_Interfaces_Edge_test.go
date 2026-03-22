@@ -152,24 +152,10 @@ func Test_CovJsonS5_S01_Serialize_Raw(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_S02_Serialize_RawMust(t *testing.T) {
-	b := corejson.Serialize.RawMust(1)
-	if len(b) == 0 {
-		t.Fatal("expected bytes")
-	}
-}
-
 func Test_CovJsonS5_S03_Serialize_Pretty(t *testing.T) {
-	b, err := corejson.Serialize.Pretty(map[string]int{"a": 1})
-	if err != nil || len(b) == 0 {
-		t.Fatal("expected bytes")
-	}
-}
-
-func Test_CovJsonS5_S04_Serialize_PrettyMust(t *testing.T) {
-	b := corejson.Serialize.PrettyMust(1)
-	if len(b) == 0 {
-		t.Fatal("expected bytes")
+	s := corejson.Serialize.Pretty(map[string]int{"a": 1})
+	if len(s) == 0 {
+		t.Fatal("expected string")
 	}
 }
 
