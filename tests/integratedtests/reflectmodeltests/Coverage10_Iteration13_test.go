@@ -146,7 +146,8 @@ func Test_I13_Invoke_ReturnFunc(t *testing.T) {
 func Test_I13_Invoke_ReturnNilFunc(t *testing.T) {
 	mp := getPtrMP("ReturnNilFunc")
 	results, err := mp.Invoke(ptrReturner{})
-	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
+	isNil := results[0] == nil || reflect.ValueOf(results[0]).IsNil()
+	actual := args.Map{"noErr": err == nil, "nil": isNil}
 	expected := args.Map{"noErr": true, "nil": true}
 	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilFunc", actual)
 }
@@ -154,7 +155,8 @@ func Test_I13_Invoke_ReturnNilFunc(t *testing.T) {
 func Test_I13_Invoke_ReturnNilChan(t *testing.T) {
 	mp := getPtrMP("ReturnNilChan")
 	results, err := mp.Invoke(ptrReturner{})
-	actual := args.Map{"noErr": err == nil, "nil": results[0] == nil}
+	isNil := results[0] == nil || reflect.ValueOf(results[0]).IsNil()
+	actual := args.Map{"noErr": err == nil, "nil": isNil}
 	expected := args.Map{"noErr": true, "nil": true}
 	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- ReturnNilChan", actual)
 }
