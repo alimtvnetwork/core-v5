@@ -912,7 +912,7 @@ func Test_C34_NCHMC_CapItems(t *testing.T) {
 }
 
 func Test_C34_NCHMC_Strings(t *testing.T) {
-	_ = corestr.New.CharHashsetMap.Strings("a", "b")
+	_ = corestr.New.CharHashsetMap.Strings(5, []string{"a", "b"})
 }
 
 // ── DataModel conversions ──

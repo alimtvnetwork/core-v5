@@ -1182,7 +1182,7 @@ func Test_Cov37_Json(t *testing.T) {
 	s := corestr.New.SimpleSlice.Lines("a")
 	result := s.Json()
 	if result.HasError() {
-		t.Errorf("unexpected error: %v", result.Error())
+		t.Errorf("unexpected error: %v", result.Error)
 	}
 }
 

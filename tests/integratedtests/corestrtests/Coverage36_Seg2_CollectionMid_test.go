@@ -651,7 +651,9 @@ func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("a", "1").Add("b", "2").Add("c", "3")
+	h.AddOrUpdate("a", "1")
+	h.AddOrUpdate("b", "2")
+	h.AddOrUpdate("c", "3")
 	filter := func(kvp corestr.KeyValuePair) (string, bool, bool) {
 		return kvp.Key, true, true // accept and break immediately
 	}

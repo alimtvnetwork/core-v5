@@ -845,7 +845,7 @@ func Test_I32_Collection_UnmarshalJSON_Err(t *testing.T) {
 func Test_I32_Collection_Json(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
 	j := c.Json()
-	actual := args.Map{"notNil": j.Bytes() != nil}
+	actual := args.Map{"notNil": j.Bytes != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Json", actual)
 }
