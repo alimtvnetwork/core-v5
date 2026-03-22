@@ -779,7 +779,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsValues_Nil(t *testing.T) {
 
 func Test_Cov41_CharCollectionMap_AddHashmapsValues_Valid(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "val1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "val1"})
 	m.AddHashmapsValues(hm)
 	tc := caseV1Compat{
 		Name:     "AddHashmapsValues valid",
