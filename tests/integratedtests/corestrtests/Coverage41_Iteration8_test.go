@@ -865,9 +865,9 @@ func Test_I8_Hashset_AsyncOps(t *testing.T) {
 
 func Test_I8_Hashset_AddsUsingFilter(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddsUsingFilter(func(s string) bool { return s != "" }, "a", "", "b")
-	h.AddsAnyUsingFilter(func(a any) bool { return a != nil }, "c", nil)
-	h.AddsAnyUsingFilterLock(func(a any) bool { return true }, "d")
+	h.AddsUsingFilter(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, str != "", false }), "a", "", "b")
+	h.AddsAnyUsingFilter(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, str != "", false }), "c", nil)
+	h.AddsAnyUsingFilterLock(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }), "d")
 }
 
 func Test_I8_Hashset_DistinctDiff(t *testing.T) {
