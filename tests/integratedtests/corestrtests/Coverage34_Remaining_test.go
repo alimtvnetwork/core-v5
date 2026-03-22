@@ -238,19 +238,19 @@ func Test_C34_KVC_Adds(t *testing.T) {
 	kvc.Adds(corestr.KeyValuePair{Key: "k", Value: "v"})
 }
 
-func Test_C34_KVC_AddMap(t *testing.T) {
+func Test_C34_KVC_AddMap2(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.AddMap(map[string]string{"k": "v"})
 }
 
-func Test_C34_KVC_Hashmap(t *testing.T) {
+func Test_C34_KVC_Hashmap2(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
 	_ = kvc.Hashmap()
 	_ = corestr.New.KeyValues.Empty().Hashmap()
 }
 
-func Test_C34_KVC_Hashmap(t *testing.T) {
+func Test_C34_KVC_Hashmap3(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
 	_ = kvc.Hashmap()
