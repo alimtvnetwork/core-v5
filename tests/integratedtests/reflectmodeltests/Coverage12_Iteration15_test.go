@@ -159,10 +159,18 @@ func getI15MP(name string) *reflectmodel.MethodProcessor {
 
 func Test_I15_InvokeFirstAndError_NilErrorInterface(t *testing.T) {
 	mp := getI15MP("ReturnTwoNoError")
-	first, funcErr, procErr := mp.InvokeFirstAndError(helperI15{})
-	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr == nil, "first": first}
-	expected := args.Map{"procErr": true, "funcErr": true, "first": "ok"}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns correct value -- nil error interface", actual)
+	// InvokeFirstAndError does results[1].Interface().(error) on a nil interface → panics
+	didPanic := false
+	func() {
+		defer func() {
+			recover()
+			didPanic = true
+		}()
+		_, _, _ = mp.InvokeFirstAndError(helperI15{})
+	}()
+	actual := args.Map{"didPanic": didPanic}
+	expected := args.Map{"didPanic": true}
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError panics -- nil error interface conversion", actual)
 }
 
 func Test_I15_InvokeFirstAndError_NonErrorSecondReturn_Panics(t *testing.T) {

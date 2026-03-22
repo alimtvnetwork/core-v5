@@ -291,12 +291,12 @@ func Test_I16_KVC_JsonStringMust(t *testing.T) {
 	c := coredynamic.EmptyKeyValCollection()
 	c.Add(coredynamic.KeyVal{Key: "k", Value: "v"})
 	// JsonStringMust panics with nil because HandleError panics on empty JSON ({})
+	// Note: panic(nil) means r == nil, so we track entry into recover itself
 	didPanic := false
 	func() {
 		defer func() {
-			if r := recover(); r != nil {
-				didPanic = true
-			}
+			recover()
+			didPanic = true
 		}()
 		_ = c.JsonStringMust()
 	}()
