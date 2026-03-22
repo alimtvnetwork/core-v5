@@ -380,7 +380,7 @@ func Test_Cov66_LC_Tail_Empty(t *testing.T) {
 // =============================================================================
 
 func Test_Cov66_COC_Json(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	r := coc.Json()
 	actual := args.Map{"noErr": r.Error == nil}
@@ -389,7 +389,7 @@ func Test_Cov66_COC_Json(t *testing.T) {
 }
 
 func Test_Cov66_COC_JsonModel(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	m := coc.JsonModel()
 	actual := args.Map{"nonNil": m.Items != nil}
@@ -398,14 +398,14 @@ func Test_Cov66_COC_JsonModel(t *testing.T) {
 }
 
 func Test_Cov66_COC_JsonModelAny(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	actual := args.Map{"nonNil": coc.JsonModelAny() != nil}
 	expected := args.Map{"nonNil": true}
 	expected.ShouldBeEqual(t, 0, "COC JsonModelAny", actual)
 }
 
 func Test_Cov66_COC_MarshalJSON(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	b, err := coc.MarshalJSON()
 	actual := args.Map{"noErr": err == nil, "nonEmpty": len(b) > 0}
@@ -414,10 +414,10 @@ func Test_Cov66_COC_MarshalJSON(t *testing.T) {
 }
 
 func Test_Cov66_COC_UnmarshalJSON(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	b, _ := coc.MarshalJSON()
-	coc2 := corestr.New.CollectionsOfCollection.Create()
+	coc2 := corestr.New.CollectionsOfCollection.Empty()
 	err := coc2.UnmarshalJSON(b)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -425,10 +425,10 @@ func Test_Cov66_COC_UnmarshalJSON(t *testing.T) {
 }
 
 func Test_Cov66_COC_ParseInjectUsingJson(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	jr := coc.JsonPtr()
-	coc2 := corestr.New.CollectionsOfCollection.Create()
+	coc2 := corestr.New.CollectionsOfCollection.Empty()
 	r, err := coc2.ParseInjectUsingJson(jr)
 	actual := args.Map{"noErr": err == nil, "nonNil": r != nil}
 	expected := args.Map{"noErr": true, "nonNil": true}
@@ -436,7 +436,7 @@ func Test_Cov66_COC_ParseInjectUsingJson(t *testing.T) {
 }
 
 func Test_Cov66_COC_ParseInjectUsingJson_Error(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	jr := &corejson.Result{Error: errors.New("fail")}
 	_, err := coc.ParseInjectUsingJson(jr)
 	actual := args.Map{"hasErr": err != nil}
@@ -445,10 +445,10 @@ func Test_Cov66_COC_ParseInjectUsingJson_Error(t *testing.T) {
 }
 
 func Test_Cov66_COC_ParseInjectUsingJsonMust(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	jr := coc.JsonPtr()
-	coc2 := corestr.New.CollectionsOfCollection.Create()
+	coc2 := corestr.New.CollectionsOfCollection.Empty()
 	r := coc2.ParseInjectUsingJsonMust(jr)
 	actual := args.Map{"nonNil": r != nil}
 	expected := args.Map{"nonNil": true}
@@ -456,10 +456,10 @@ func Test_Cov66_COC_ParseInjectUsingJsonMust(t *testing.T) {
 }
 
 func Test_Cov66_COC_JsonParseSelfInject(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	jr := coc.JsonPtr()
-	coc2 := corestr.New.CollectionsOfCollection.Create()
+	coc2 := corestr.New.CollectionsOfCollection.Empty()
 	err := coc2.JsonParseSelfInject(jr)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -471,7 +471,7 @@ func Test_Cov66_COC_JsonParseSelfInject(t *testing.T) {
 // =============================================================================
 
 func Test_Cov66_HC_JsonModel(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"x"}))
 	m := hc.JsonModel()
 	actual := args.Map{"nonNil": m != nil}
@@ -480,14 +480,14 @@ func Test_Cov66_HC_JsonModel(t *testing.T) {
 }
 
 func Test_Cov66_HC_JsonModelAny(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	actual := args.Map{"nonNil": hc.JsonModelAny() != nil}
 	expected := args.Map{"nonNil": true}
 	expected.ShouldBeEqual(t, 0, "HC JsonModelAny", actual)
 }
 
 func Test_Cov66_HC_MarshalJSON(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"x"}))
 	b, err := hc.MarshalJSON()
 	actual := args.Map{"noErr": err == nil, "nonEmpty": len(b) > 0}
@@ -496,10 +496,10 @@ func Test_Cov66_HC_MarshalJSON(t *testing.T) {
 }
 
 func Test_Cov66_HC_UnmarshalJSON(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"x"}))
 	b, _ := hc.MarshalJSON()
-	hc2 := corestr.New.HashsetsCollection.Create()
+	hc2 := corestr.New.HashsetsCollection.Empty()
 	err := hc2.UnmarshalJSON(b)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -507,10 +507,10 @@ func Test_Cov66_HC_UnmarshalJSON(t *testing.T) {
 }
 
 func Test_Cov66_HC_ParseInjectUsingJson(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"x"}))
 	jr := hc.JsonPtr()
-	hc2 := corestr.New.HashsetsCollection.Create()
+	hc2 := corestr.New.HashsetsCollection.Empty()
 	r, err := hc2.ParseInjectUsingJson(jr)
 	actual := args.Map{"noErr": err == nil, "nonNil": r != nil}
 	expected := args.Map{"noErr": true, "nonNil": true}
@@ -518,10 +518,10 @@ func Test_Cov66_HC_ParseInjectUsingJson(t *testing.T) {
 }
 
 func Test_Cov66_HC_ParseInjectUsingJsonMust(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"x"}))
 	jr := hc.JsonPtr()
-	hc2 := corestr.New.HashsetsCollection.Create()
+	hc2 := corestr.New.HashsetsCollection.Empty()
 	r := hc2.ParseInjectUsingJsonMust(jr)
 	actual := args.Map{"nonNil": r != nil}
 	expected := args.Map{"nonNil": true}
@@ -529,10 +529,10 @@ func Test_Cov66_HC_ParseInjectUsingJsonMust(t *testing.T) {
 }
 
 func Test_Cov66_HC_JsonParseSelfInject(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"x"}))
 	jr := hc.JsonPtr()
-	hc2 := corestr.New.HashsetsCollection.Create()
+	hc2 := corestr.New.HashsetsCollection.Empty()
 	err := hc2.JsonParseSelfInject(jr)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -540,7 +540,7 @@ func Test_Cov66_HC_JsonParseSelfInject(t *testing.T) {
 }
 
 func Test_Cov66_HC_UnmarshalJSON_Error(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	err := hc.UnmarshalJSON([]byte("invalid"))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}

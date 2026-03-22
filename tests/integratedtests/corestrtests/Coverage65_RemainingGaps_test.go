@@ -254,7 +254,7 @@ func Test_Cov65_KVC_KeysHashset_Panics(t *testing.T) {
 // =============================================================================
 
 func Test_Cov65_COC_JsonPtr(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Create()
+	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a", "b"}))
 	r := coc.JsonPtr()
 	actual := args.Map{"nonNil": r != nil, "noErr": r.Error == nil}
@@ -267,7 +267,7 @@ func Test_Cov65_COC_JsonPtr(t *testing.T) {
 // =============================================================================
 
 func Test_Cov65_HC_JsonPtr(t *testing.T) {
-	hc := corestr.New.HashsetsCollection.Create()
+	hc := corestr.New.HashsetsCollection.Empty()
 	hs := corestr.New.Hashset.Strings([]string{"x", "y"})
 	hc.Add(hs)
 	r := hc.JsonPtr()
