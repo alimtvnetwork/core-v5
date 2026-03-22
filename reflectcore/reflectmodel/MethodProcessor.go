@@ -129,7 +129,19 @@ func (it *MethodProcessor) InvokeFirstAndError(
 	}
 
 	first := results[0]
-	second := results[1].(error)
+	secondRaw := results[1]
+
+	if secondRaw == nil {
+		return first, nil, processingErr
+	}
+
+	second, isError := secondRaw.(error)
+
+	if !isError {
+		return first,
+			nil,
+			errors.New(it.GetFuncName() + " second return arg is not error")
+	}
 
 	return first, second, processingErr
 }
