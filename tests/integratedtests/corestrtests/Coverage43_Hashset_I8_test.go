@@ -234,7 +234,7 @@ func Test_I8_HS22_AddItemsMap(t *testing.T) {
 
 func Test_I8_HS23_AddSimpleSlice(t *testing.T) {
 	h := corestr.New.Hashset.Cap(5)
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
 	h.AddSimpleSlice(ss)
 	if h.Length() != 2 {
 		t.Fatal("expected 2")

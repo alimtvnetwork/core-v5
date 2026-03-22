@@ -493,8 +493,8 @@ func Test_I24_SafeZeroSet_NilType(t *testing.T) {
 	}()
 
 	actual := args.Map{"panicked": didPanic}
-	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "SafeZeroSet panics -- nil reflect value", actual)
+	expected := args.Map{"panicked": false}
+	expected.ShouldBeEqual(t, 0, "SafeZeroSet returns safely -- nil reflect value", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
