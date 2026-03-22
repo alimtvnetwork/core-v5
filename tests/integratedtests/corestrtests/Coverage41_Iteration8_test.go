@@ -743,7 +743,7 @@ func Test_I8_Hashset_AddVariants(t *testing.T) {
 	h.AddIfMany(true, "f", "g")
 	h.AddIfMany(false, "s1", "s2")
 	h.AddFunc(func() string { return "h" })
-	h.AddFuncErr(func() (string, error) { return "i", nil })
+	h.AddFuncErr(func() (string, error) { return "i", nil }, func(e error) {})
 	h.AddStrings([]string{"j", "k"})
 	h.AddStringsLock([]string{"l"})
 	h.Adds("m", "n")
