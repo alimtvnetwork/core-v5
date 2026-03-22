@@ -580,7 +580,7 @@ func Test_I8_Hashmap_IsEqual(t *testing.T) {
 	h2 := corestr.New.Hashmap.Empty()
 	h2.AddOrUpdate("a", "1")
 	if !h1.IsEqualPtr(h2) { t.Fatal("expected equal") }
-	_ = h1.IsEqualPtrLock(&h2)
+	_ = h1.IsEqualPtrLock(h2)
 }
 
 func Test_I8_Hashmap_Clone(t *testing.T) {
