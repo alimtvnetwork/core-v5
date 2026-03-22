@@ -265,7 +265,7 @@ func Test_Cov51_BytesConverter_ToHashmap_Invalid(t *testing.T) {
 }
 
 func Test_Cov51_BytesConverter_ToHashset_Valid(t *testing.T) {
-	b, _ := json.Marshal([]string{"a", "b"})
+	b, _ := json.Marshal(map[string]bool{"a": true, "b": true})
 	bc := coredynamic.NewBytesConverter(b)
 	h, err := bc.ToHashset()
 	actual := args.Map{"noErr": err == nil, "notNil": h != nil}
@@ -316,7 +316,7 @@ func Test_Cov51_BytesConverter_ToSimpleSlice_Invalid(t *testing.T) {
 }
 
 func Test_Cov51_BytesConverter_ToKeyValCollection_Valid(t *testing.T) {
-	b, _ := json.Marshal([]map[string]any{{"Key": "a", "Value": 1}})
+	b, _ := json.Marshal(map[string]any{"Items": []map[string]any{{"Key": "a", "Value": 1}}})
 	bc := coredynamic.NewBytesConverter(b)
 	c, err := bc.ToKeyValCollection()
 	actual := args.Map{"noErr": err == nil, "notNil": c != nil}
