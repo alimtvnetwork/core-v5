@@ -2,6 +2,7 @@ package corestrtests
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 	"testing"
 
@@ -246,8 +247,7 @@ func Test_Cov37_AddPointer_Nil(t *testing.T) {
 
 func Test_Cov37_AddError_NonNil(t *testing.T) {
 	s := corestr.New.SimpleSlice.Empty()
-	s.AddError(strings.NewReader("").(*strings.Reader)) // need a real error
-	// use a proper error
+	s.AddError(errors.New("test error"))
 }
 
 func Test_Cov37_AddError_Nil(t *testing.T) {
@@ -1183,7 +1183,7 @@ func Test_Cov37_Json(t *testing.T) {
 	s := corestr.New.SimpleSlice.Lines("a")
 	result := s.Json()
 	if result.HasError() {
-		t.Errorf("unexpected error: %v", result.Error())
+		t.Errorf("unexpected error: %v", result.Error)
 	}
 }
 
