@@ -348,7 +348,7 @@ func Test_Cov52_CharCollectionMap_AddCollectionItems_Nil(t *testing.T) {
 func Test_Cov52_CharCollectionMap_AddHashmapsValues(t *testing.T) {
 	ccm := corestr.New.CharCollectionMap.Cap(5)
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k", "abc")
+	hm.AddOrUpdate("k", "abc")
 	ccm.AddHashmapsValues(hm)
 	tc := coretestcases.CaseV1{Name: "CCM AddHashmapsValues", Expected: true, Actual: ccm.Has("abc"), Args: args.Map{}}
 	tc.ShouldBeEqual(t)

@@ -362,8 +362,8 @@ func Test_C49_ValidValue_Dispose_Nil(t *testing.T) {
 func Test_C49_ValidValue_Json(t *testing.T) {
 	vv := corestr.NewValidValue("x")
 	j := vv.Json()
-	if j.Err != nil {
-		t.Fatal(j.Err)
+	if j.Error != nil {
+		t.Fatal(j.Error)
 	}
 }
 

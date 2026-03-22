@@ -1033,8 +1033,8 @@ func Test_C47_LinkedCollections_Json(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.AddStrings("a")
 	j := lc.Json()
-	if j.Err != nil {
-		t.Fatal(j.Err)
+	if j.Error != nil {
+		t.Fatal(j.Error)
 	}
 }
 
