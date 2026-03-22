@@ -780,7 +780,6 @@ func Test_C34_HC_Methods(t *testing.T) {
 	_ = hc.StringsList()
 	_ = hc.HasAll("a")
 	_ = hc.ListDirectPtr()
-	_ = hc.SortedListAsc()
 	_ = hc.Json()
 	_ = hc.JsonPtr()
 	_ = hc.JsonModel()
@@ -791,9 +790,6 @@ func Test_C34_HC_Methods(t *testing.T) {
 	_ = hc.AsJsonMarshaller()
 	_ = hc.AsJsonParseSelfInjector()
 	_ = hc.String()
-	hc.Clear()
-	hc2 := corestr.New.HashsetsCollection.Empty()
-	hc2.Dispose()
 }
 
 func Test_C34_HC_AddNonEmpty(t *testing.T) {
@@ -831,7 +827,7 @@ func Test_C34_NHCC_Empty(t *testing.T)  { _ = corestr.New.HashsetsCollection.Emp
 func Test_C34_NHCC_Cap(t *testing.T)    { _ = corestr.New.HashsetsCollection.Cap(5) }
 func Test_C34_NHCC_LenCap(t *testing.T) { _ = corestr.New.HashsetsCollection.LenCap(0, 5) }
 func Test_C34_NHCC_UsingHashsets(t *testing.T) {
-	_ = corestr.New.HashsetsCollection.UsingHashsets(corestr.New.Hashset.StringsSpreadItems("a"))
+	_ = corestr.New.HashsetsCollection.UsingHashsets(*corestr.New.Hashset.StringsSpreadItems("a"))
 }
 func Test_C34_NHCC_UsingHashsetsPointers(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
@@ -868,7 +864,7 @@ func Test_C34_CCM_Basic(t *testing.T) {
 	_ = ccm.Length()
 	_ = ccm.IsEmpty()
 	_ = ccm.HasItems()
-	_ = ccm.Has('a')
+	_ = ccm.Has("apple")
 	_ = ccm.GetMap()
 	_ = ccm.List()
 	_ = ccm.SortedListAsc()
@@ -882,12 +878,12 @@ func Test_C34_CCM_Basic(t *testing.T) {
 }
 
 func Test_C34_CHM_Basic(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(5)
+	chm := corestr.New.CharHashsetMap.Cap(5, 5)
 	chm.AddStrings("apple", "banana")
 	_ = chm.Length()
 	_ = chm.IsEmpty()
 	_ = chm.HasItems()
-	_ = chm.Has('a')
+	_ = chm.Has("apple")
 	_ = chm.GetMap()
 	_ = chm.List()
 	_ = chm.SortedListAsc()
@@ -904,15 +900,15 @@ func Test_C34_NCCMC_CapSelfCap(t *testing.T) {
 }
 
 func Test_C34_NCCMC_Items(t *testing.T) {
-	_ = corestr.New.CharCollectionMap.Items(map[byte]*corestr.Collection{})
+	_ = corestr.New.CharCollectionMap.Items([]string{"apple", "banana"})
 }
 
 func Test_C34_NCCMC_ItemsPtrWithCap(t *testing.T) {
-	_ = corestr.New.CharCollectionMap.ItemsPtrWithCap(5, map[byte]*corestr.Collection{})
+	_ = corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 3, []string{"apple"})
 }
 
 func Test_C34_NCHMC_CapItems(t *testing.T) {
-	_ = corestr.New.CharHashsetMap.CapItems(5, map[byte]*corestr.Hashset{})
+	_ = corestr.New.CharHashsetMap.CapItems(5, 5, "apple", "banana")
 }
 
 func Test_C34_NCHMC_Strings(t *testing.T) {
@@ -942,7 +938,7 @@ func Test_C34_CharCollectionDataModel(t *testing.T) {
 }
 
 func Test_C34_CharHashsetDataModel(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(5)
+	chm := corestr.New.CharHashsetMap.Cap(5, 5)
 	chm.AddStrings("apple")
 	dm := corestr.NewCharHashsetMapDataModelUsing(chm)
 	_ = corestr.NewCharHashsetMapUsingDataModel(dm)

@@ -152,24 +152,10 @@ func Test_CovJsonS5_S01_Serialize_Raw(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_S02_Serialize_RawMust(t *testing.T) {
-	b := corejson.Serialize.RawMust(1)
-	if len(b) == 0 {
-		t.Fatal("expected bytes")
-	}
-}
-
 func Test_CovJsonS5_S03_Serialize_Pretty(t *testing.T) {
-	b, err := corejson.Serialize.Pretty(map[string]int{"a": 1})
-	if err != nil || len(b) == 0 {
-		t.Fatal("expected bytes")
-	}
-}
-
-func Test_CovJsonS5_S04_Serialize_PrettyMust(t *testing.T) {
-	b := corejson.Serialize.PrettyMust(1)
-	if len(b) == 0 {
-		t.Fatal("expected bytes")
+	s := corejson.Serialize.Pretty(map[string]int{"a": 1})
+	if len(s) == 0 {
+		t.Fatal("expected string")
 	}
 }
 
@@ -222,10 +208,10 @@ func Test_CovJsonS5_CA02_CastAny_FromToOption(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_CA03_CastAny_FromToResult(t *testing.T) {
-	r := corejson.New(map[string]int{"a": 1})
+func Test_CovJsonS5_CA03_CastAny_OrDeserializeTo(t *testing.T) {
+	src := map[string]int{"a": 1}
 	var dst map[string]int
-	err := corejson.CastAny.FromToResult(&r, &dst)
+	err := corejson.CastAny.OrDeserializeTo(src, &dst)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
@@ -276,10 +262,10 @@ func Test_CovJsonS5_BC03_BytesCollection_GetMethods(t *testing.T) {
 func Test_CovJsonS5_BC04_BytesCollection_Strings(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(2)
 	bc.Add([]byte("a"))
-	_ = bc.GetStrings()
-	_ = bc.GetStringsPtr()
+	_ = bc.Strings()
+	_ = bc.StringsPtr()
 	empty := corejson.NewBytesCollection.UsingCap(0)
-	_ = empty.GetStrings()
+	_ = empty.Strings()
 }
 
 func Test_CovJsonS5_BC05_BytesCollection_Json(t *testing.T) {
@@ -364,10 +350,10 @@ func Test_CovJsonS5_BC11_BytesCollection_Take_Limit_Skip(t *testing.T) {
 	_ = empty.Skip(0)
 }
 
-func Test_CovJsonS5_BC12_BytesCollection_NonPtr_Ptr(t *testing.T) {
+func Test_CovJsonS5_BC12_BytesCollection_AddPtr(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(1)
-	_ = bc.NonPtr()
-	_ = bc.Ptr()
+	bc.AddPtr([]byte("a"))
+	_ = bc.StringsPtr()
 }
 
 // --- funcs ---
@@ -421,17 +407,18 @@ func Test_CovJsonS5_K03_KeyWithJsoner(t *testing.T) {
 
 // --- newResultCreator ---
 
-func Test_CovJsonS5_NRC01_UsingError(t *testing.T) {
-	r := corejson.NewResult.UsingError(errors.New("fail"))
+func Test_CovJsonS5_NRC01_UsingErrorStringPtr(t *testing.T) {
+	s := `"hello"`
+	r := corejson.NewResult.UsingErrorStringPtr(errors.New("fail"), &s, "test")
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}
 }
 
-func Test_CovJsonS5_NRC02_UsingErrorPtr(t *testing.T) {
-	r := corejson.NewResult.UsingErrorPtr(errors.New("fail"))
-	if r == nil || r.Error == nil {
-		t.Fatal("expected error")
+func Test_CovJsonS5_NRC02_UsingBytesPtr(t *testing.T) {
+	r := corejson.NewResult.UsingBytesPtr([]byte(`"hello"`))
+	if r == nil {
+		t.Fatal("expected result")
 	}
 }
 
