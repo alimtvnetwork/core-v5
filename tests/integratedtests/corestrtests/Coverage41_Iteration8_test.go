@@ -259,7 +259,7 @@ func Test_I8_Collection_CsvJoin(t *testing.T) {
 	_ = c.Csv()
 	_ = c.CsvOptions(true)
 	_ = c.CsvLines()
-	_ = c.CsvLinesOptions(true, ", ")
+	_ = c.CsvLinesOptions(true)
 	_ = c.Join(", ")
 	_ = c.JoinLine()
 	_ = c.Joins(", ")
