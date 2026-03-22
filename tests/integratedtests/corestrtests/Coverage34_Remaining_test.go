@@ -878,7 +878,7 @@ func Test_C34_CCM_Basic(t *testing.T) {
 }
 
 func Test_C34_CHM_Basic(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(5)
+	chm := corestr.New.CharHashsetMap.Cap(5, 5)
 	chm.AddStrings("apple", "banana")
 	_ = chm.Length()
 	_ = chm.IsEmpty()
