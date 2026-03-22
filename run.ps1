@@ -1600,7 +1600,7 @@ function Show-Help {
     Write-Host ""
     Write-Host "  Mode Options (for TC/TCP/PC):" -ForegroundColor Yellow
     Write-Host "    --sync      Run precompile + tests sequentially (default: parallel)"
-    Write-Host "    --no-open   Skip auto-opening HTML coverage report"
+    Write-Host "    --open      Open HTML coverage report in browser after TC/TCP"
     Write-Host ""
     Write-Host "  Examples:" -ForegroundColor Gray
     Write-Host "    ./run.ps1 T"
