@@ -1,6 +1,7 @@
 package coretestcasestests
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests"
