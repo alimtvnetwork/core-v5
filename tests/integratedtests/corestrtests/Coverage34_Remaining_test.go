@@ -622,7 +622,7 @@ func Test_C34_NCLLN_Empty(t *testing.T) {
 func Test_C34_NCLCN_Methods(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(5)
 	if !nc.IsEmpty() { t.Fatal("expected empty") }
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	nc.Adds(lc.Head())
 	_ = nc.Length()
 	_ = nc.HasItems()
