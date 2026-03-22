@@ -96,19 +96,19 @@ func Test_CovJsonS5_R08_Result_IsAnyNull_Nil(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R09_Result_HandleErr(t *testing.T) {
+func Test_CovJsonS5_R09_Result_HandleError(t *testing.T) {
 	r := corejson.New(1)
-	r.HandleErr() // should not panic
+	r.HandleError() // should not panic
 }
 
-func Test_CovJsonS5_R10_Result_AsJsonStringBinder(t *testing.T) {
+func Test_CovJsonS5_R10_Result_AsJsonContractsBinder(t *testing.T) {
 	r := corejson.New(1)
-	_ = r.AsJsonStringBinder()
+	_ = r.AsJsonContractsBinder()
 }
 
-func Test_CovJsonS5_R11_Result_AsSimpleJsonBinder(t *testing.T) {
+func Test_CovJsonS5_R11_Result_AsJsoner(t *testing.T) {
 	r := corejson.New(1)
-	_ = r.AsSimpleJsonBinder()
+	_ = r.AsJsoner()
 }
 
 func Test_CovJsonS5_R12_Result_MeaningfulError_ValidResult(t *testing.T) {
