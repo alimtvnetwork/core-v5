@@ -1249,8 +1249,9 @@ function Invoke-PackageTestCoverage {
             & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 
-        $openHtml = $true
-        if ($ExtraArgs -and $ExtraArgs[-1] -eq "--no-open") { $openHtml = $false }
+        # HTML auto-open disabled — use --open flag to open manually
+        $openHtml = $false
+        if ($ExtraArgs -and $ExtraArgs[-1] -eq "--open") { $openHtml = $true }
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
