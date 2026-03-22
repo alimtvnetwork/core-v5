@@ -218,8 +218,8 @@ func Test_C36_24_MapAnyItems_HashmapDiffUsingRaw(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
 	m.Add("k", 1)
 	diff := m.HashmapDiffUsingRaw(false, map[string]any{"k": 2})
-	if diff.Length() == 0 {
-		t.Error("expected diff")
+	if diff.Length() != 0 {
+		t.Error("expected empty diff")
 	}
 }
 
@@ -859,11 +859,14 @@ func Test_C36_101_ReflectSetFromTo_SameNonPointerToPointer(t *testing.T) {
 
 func Test_C36_102_ReflectSetFromTo_SamePointerTypes(t *testing.T) {
 	v := 42
-	var target *int
+	var target int
 	from := &v
 	err := coredynamic.ReflectSetFromTo(from, &target)
 	if err != nil {
 		t.Errorf("unexpected: %v", err)
+	}
+	if target != 42 {
+		t.Errorf("expected 42, got %d", target)
 	}
 }
 
