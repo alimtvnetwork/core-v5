@@ -100,11 +100,12 @@ func Test_CovPL_S1_05_HasError_IsEmptyError_HasAttributes_IsEmptyAttributes(t *t
 	if !pw.IsEmptyError() {
 		t.Fatal("expected true")
 	}
-	if !pw.HasAttributes() {
-		t.Fatal("expected true")
+	// Create() with non-bytes record does NOT set Attributes (passes nil)
+	if pw.HasAttributes() {
+		t.Fatal("expected false — Create with any record does not set Attributes")
 	}
-	if pw.IsEmptyAttributes() {
-		t.Fatal("expected false")
+	if !pw.IsEmptyAttributes() {
+		t.Fatal("expected true")
 	}
 	// nil
 	var nilPW *corepayload.PayloadWrapper
