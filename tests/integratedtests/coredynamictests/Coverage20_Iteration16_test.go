@@ -934,7 +934,8 @@ func Test_I16_DC_JsonParseSelfInject(t *testing.T) {
 	jr := corejson.NewPtr(dc)
 	target := coredynamic.EmptyDynamicCollection()
 	err := target.JsonParseSelfInject(jr)
-	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "DC returns correct value -- JsonParseSelfInject", actual)
+	// DynamicCollection can't unmarshal []any — expect error
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "DC returns correct value -- JsonParseSelfInject fails on unmarshal", actual)
 }

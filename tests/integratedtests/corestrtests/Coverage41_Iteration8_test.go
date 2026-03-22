@@ -865,17 +865,17 @@ func Test_I8_Hashset_AsyncOps(t *testing.T) {
 
 func Test_I8_Hashset_AddsUsingFilter(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddsUsingFilter(func(s string) bool { return s != "" }, "a", "", "b")
-	h.AddsAnyUsingFilter(func(a any) bool { return a != nil }, "c", nil)
-	h.AddsAnyUsingFilterLock(func(a any) bool { return true }, "d")
+	h.AddsUsingFilter(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, str != "", false }), "a", "", "b")
+	h.AddsAnyUsingFilter(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, str != "", false }), "c", nil)
+	h.AddsAnyUsingFilterLock(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }), "d")
 }
 
 func Test_I8_Hashset_DistinctDiff(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b", "c")
 	b := corestr.New.Hashset.StringsSpreadItems("a")
 	_ = a.DistinctDiffHashset(b)
-	_ = a.DistinctDiffLines([]string{"a"})
-	_ = a.DistinctDiffLinesRaw([]string{"a"})
+	_ = a.DistinctDiffLines("a")
+	_ = a.DistinctDiffLinesRaw("a")
 }
 
 func Test_I8_Hashset_String(t *testing.T) {
@@ -916,12 +916,12 @@ func Test_I8_SimpleSlice_BasicOps(t *testing.T) {
 	s.AddsIf(false, "skip1", "skip2")
 	s.AddError(nil)
 	s.InsertAt(0, "first")
-	s.AddStruct(struct{ Name string }{"test"})
-	s.AddPointer(&struct{ Val int }{42})
+	s.AddStruct(false, struct{ Name string }{"test"})
+	s.AddPointer(false, &struct{ Val int }{42})
 }
 
 func Test_I8_SimpleSlice_FirstLast(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b", "c")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b", "c")
 	if s.First() != "a" { t.Fatal("first") }
 	if s.Last() != "c" { t.Fatal("last") }
 	if s.FirstOrDefault() != "a" { t.Fatal("first or default") }
@@ -937,7 +937,7 @@ func Test_I8_SimpleSlice_FirstLast(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_SkipTakeLimit(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b", "c", "d")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b", "c", "d")
 	_ = s.Skip(1)
 	_ = s.Take(2)
 	_ = s.Limit(3)
@@ -947,7 +947,7 @@ func Test_I8_SimpleSlice_SkipTakeLimit(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_Properties(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 	if s.Length() != 2 { t.Fatal("length") }
 	if s.Count() != 2 { t.Fatal("count") }
 	if s.IsEmpty() { t.Fatal("not empty") }
