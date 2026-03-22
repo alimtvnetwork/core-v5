@@ -937,7 +937,7 @@ func Test_I8_SimpleSlice_FirstLast(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_SkipTakeLimit(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b", "c", "d")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b", "c", "d")
 	_ = s.Skip(1)
 	_ = s.Take(2)
 	_ = s.Limit(3)
