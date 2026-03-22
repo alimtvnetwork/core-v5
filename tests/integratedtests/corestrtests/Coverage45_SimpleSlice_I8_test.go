@@ -13,7 +13,7 @@ import (
 // =============================================================================
 
 func Test_I8_SS01_Add(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	ss.Add("b")
 	if ss.Length() != 2 {
 		t.Fatal("expected 2")
@@ -122,7 +122,7 @@ func Test_I8_SS11_AddAsTitleValueIf(t *testing.T) {
 }
 
 func Test_I8_SS12_InsertAt(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "c")
+	ss := corestr.New.SimpleSlice.Lines("a", "c")
 	ss.InsertAt(1, "b")
 	if ss.Length() != 3 {
 		t.Fatal("expected 3")
@@ -186,7 +186,7 @@ func Test_I8_SS16_AddError(t *testing.T) {
 }
 
 func Test_I8_SS17_AsDefaultError(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("err1")
+	ss := corestr.New.SimpleSlice.Lines("err1")
 	err := ss.AsDefaultError()
 	if err == nil {
 		t.Fatal("expected error")
@@ -206,21 +206,21 @@ func Test_I8_SS18_AsError_Empty(t *testing.T) {
 // =============================================================================
 
 func Test_I8_SS19_First(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	if ss.First() != "a" {
 		t.Fatal("expected 'a'")
 	}
 }
 
 func Test_I8_SS20_Last(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	if ss.Last() != "b" {
 		t.Fatal("expected 'b'")
 	}
 }
 
 func Test_I8_SS21_FirstOrDefault(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	if ss.FirstOrDefault() != "a" {
 		t.Fatal("expected 'a'")
 	}
@@ -231,7 +231,7 @@ func Test_I8_SS21_FirstOrDefault(t *testing.T) {
 }
 
 func Test_I8_SS22_LastOrDefault(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	if ss.LastOrDefault() != "a" {
 		t.Fatal("expected 'a'")
 	}
@@ -242,31 +242,31 @@ func Test_I8_SS22_LastOrDefault(t *testing.T) {
 }
 
 func Test_I8_SS23_FirstDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	if ss.FirstDynamic() != "a" {
 		t.Fatal("expected 'a'")
 	}
 }
 
 func Test_I8_SS24_LastDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	if ss.LastDynamic() != "a" {
 		t.Fatal("expected 'a'")
 	}
 }
 
 func Test_I8_SS25_FirstOrDefaultDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	_ = ss.FirstOrDefaultDynamic()
 }
 
 func Test_I8_SS26_LastOrDefaultDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	_ = ss.LastOrDefaultDynamic()
 }
 
 func Test_I8_SS27_Skip(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b", "c")
+	ss := corestr.New.SimpleSlice.Lines("a", "b", "c")
 	result := ss.Skip(1)
 	if len(result) != 2 {
 		t.Fatal("expected 2")
@@ -279,13 +279,13 @@ func Test_I8_SS27_Skip(t *testing.T) {
 }
 
 func Test_I8_SS28_SkipDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	_ = ss.SkipDynamic(1)
 	_ = ss.SkipDynamic(10)
 }
 
 func Test_I8_SS29_Take(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b", "c")
+	ss := corestr.New.SimpleSlice.Lines("a", "b", "c")
 	result := ss.Take(2)
 	if len(result) != 2 {
 		t.Fatal("expected 2")
@@ -298,13 +298,13 @@ func Test_I8_SS29_Take(t *testing.T) {
 }
 
 func Test_I8_SS30_TakeDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	_ = ss.TakeDynamic(1)
 	_ = ss.TakeDynamic(10)
 }
 
 func Test_I8_SS31_Limit(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	result := ss.Limit(1)
 	if len(result) != 1 {
 		t.Fatal("expected 1")
@@ -312,19 +312,19 @@ func Test_I8_SS31_Limit(t *testing.T) {
 }
 
 func Test_I8_SS32_LimitDynamic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	_ = ss.LimitDynamic(1)
 }
 
 func Test_I8_SS33_Count(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	if ss.Count() != 2 {
 		t.Fatal("expected 2")
 	}
 }
 
 func Test_I8_SS34_CountFunc(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "bb", "ccc")
+	ss := corestr.New.SimpleSlice.Lines("a", "bb", "ccc")
 	c := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
 	if c != 2 {
 		t.Fatal("expected 2")
@@ -332,7 +332,7 @@ func Test_I8_SS34_CountFunc(t *testing.T) {
 }
 
 func Test_I8_SS35_IsContains(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	if !ss.IsContains("a") {
 		t.Fatal("expected true")
 	}
@@ -346,7 +346,7 @@ func Test_I8_SS35_IsContains(t *testing.T) {
 // =============================================================================
 
 func Test_I8_SS36_Json(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	j := ss.Json()
 	if j.JsonString() == "" {
 		t.Fatal("expected non-empty")
@@ -354,7 +354,7 @@ func Test_I8_SS36_Json(t *testing.T) {
 }
 
 func Test_I8_SS37_ParseInjectUsingJson(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	jr := ss.JsonPtr()
 	ss2 := corestr.New.SimpleSlice.Cap(1)
 	_, err := ss2.ParseInjectUsingJson(jr)
@@ -373,28 +373,28 @@ func Test_I8_SS38_ParseInjectUsingJson_Error(t *testing.T) {
 }
 
 func Test_I8_SS39_String(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	if ss.String() == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
 func Test_I8_SS40_Join(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	if ss.Join(",") != "a,b" {
 		t.Fatal("expected 'a,b'")
 	}
 }
 
 func Test_I8_SS41_List(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	if len(ss.List()) != 1 {
 		t.Fatal("expected 1")
 	}
 }
 
 func Test_I8_SS42_RemoveIndexes(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b", "c")
+	ss := corestr.New.SimpleSlice.Lines("a", "b", "c")
 	result, err := ss.RemoveIndexes(1)
 	if err != nil {
 		t.Fatal("unexpected error")
@@ -405,7 +405,7 @@ func Test_I8_SS42_RemoveIndexes(t *testing.T) {
 }
 
 func Test_I8_SS43_MarshalJSON(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	data, err := ss.MarshalJSON()
 	if err != nil || len(data) == 0 {
 		t.Fatal("expected marshal")
@@ -424,7 +424,7 @@ func Test_I8_SS44_UnmarshalJSON(t *testing.T) {
 }
 
 func Test_I8_SS45_NonEmptyValues(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "", "b")
+	ss := corestr.New.SimpleSlice.Lines("a", "", "b")
 	result := ss.NonEmptyValues()
 	if len(result) != 2 {
 		t.Fatal("expected 2")
@@ -432,7 +432,7 @@ func Test_I8_SS45_NonEmptyValues(t *testing.T) {
 }
 
 func Test_I8_SS46_Serialize(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a")
+	ss := corestr.New.SimpleSlice.Lines("a")
 	bytes, err := ss.Serialize()
 	if err != nil || len(bytes) == 0 {
 		t.Fatal("expected serialization")
