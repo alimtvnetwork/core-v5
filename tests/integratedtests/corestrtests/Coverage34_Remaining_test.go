@@ -1,6 +1,7 @@
 package corestrtests
 
 import (
+	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
@@ -238,19 +239,19 @@ func Test_C34_KVC_Adds(t *testing.T) {
 	kvc.Adds(corestr.KeyValuePair{Key: "k", Value: "v"})
 }
 
-func Test_C34_KVC_AddMap(t *testing.T) {
+func Test_C34_KVC_AddMap2(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.AddMap(map[string]string{"k": "v"})
 }
 
-func Test_C34_KVC_Hashmap(t *testing.T) {
+func Test_C34_KVC_Hashmap2(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
 	_ = kvc.Hashmap()
 	_ = corestr.New.KeyValues.Empty().Hashmap()
 }
 
-func Test_C34_KVC_Hashmap(t *testing.T) {
+func Test_C34_KVC_Hashmap3(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
 	_ = kvc.Hashmap()
@@ -622,7 +623,7 @@ func Test_C34_NCLLN_Empty(t *testing.T) {
 func Test_C34_NCLCN_Methods(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(5)
 	if !nc.IsEmpty() { t.Fatal("expected empty") }
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
+	lc := corestr.New.LinkedCollection.Strings("a")
 	nc.Adds(lc.Head())
 	_ = nc.Length()
 	_ = nc.HasItems()
@@ -674,8 +675,10 @@ func Test_C34_COC_AddsStringsOfStrings(t *testing.T) {
 
 func Test_C34_COC_AddAsyncFuncItems(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Empty()
-	coc.AddAsyncFuncItems(func() *corestr.Collection { return corestr.New.Collection.Strings([]string{"a"}) })
-	coc.AddAsyncFuncItems()
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	coc.AddAsyncFuncItems(wg, false, func() []string { return []string{"a"} })
+	wg.Wait()
 }
 
 func Test_C34_COC_Adds(t *testing.T) {
@@ -686,7 +689,7 @@ func Test_C34_COC_Adds(t *testing.T) {
 
 func Test_C34_COC_AddCollections(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Empty()
-	coc.AddCollections(corestr.New.Collection.Strings([]string{"a"}))
+	coc.AddCollections(*corestr.New.Collection.Strings([]string{"a"}))
 	coc.AddCollections()
 }
 
@@ -750,17 +753,17 @@ func Test_C34_NCOCC_Cap(t *testing.T)      { _ = corestr.New.CollectionsOfCollec
 func Test_C34_NCOCC_LenCap(t *testing.T)   { _ = corestr.New.CollectionsOfCollection.LenCap(0, 5) }
 func Test_C34_NCOCC_Strings(t *testing.T)  { _ = corestr.New.CollectionsOfCollection.Strings([]string{"a"}) }
 func Test_C34_NCOCC_SpreadStrings(t *testing.T) {
-	_ = corestr.New.CollectionsOfCollection.SpreadStrings("a")
-	_ = corestr.New.CollectionsOfCollection.SpreadStrings()
+	_ = corestr.New.CollectionsOfCollection.SpreadStrings(false, "a")
+	_ = corestr.New.CollectionsOfCollection.SpreadStrings(false)
 }
 func Test_C34_NCOCC_CloneStrings(t *testing.T) {
 	_ = corestr.New.CollectionsOfCollection.CloneStrings([]string{"a"})
 }
-func Test_C34_NCOCC_UsingCollections(t *testing.T) {
-	_ = corestr.New.CollectionsOfCollection.UsingCollections(corestr.New.Collection.Strings([]string{"a"}))
+func Test_C34_NCOCC_StringsOfStrings(t *testing.T) {
+	_ = corestr.New.CollectionsOfCollection.StringsOfStrings(false, []string{"a"})
 }
-func Test_C34_NCOCC_UsingStringsOfStrings(t *testing.T) {
-	_ = corestr.New.CollectionsOfCollection.UsingStringsOfStrings(false, []string{"a"})
+func Test_C34_NCOCC_StringsOption(t *testing.T) {
+	_ = corestr.New.CollectionsOfCollection.StringsOption(false, 5, []string{"a"})
 }
 
 // ── HashsetsCollection ──

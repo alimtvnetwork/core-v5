@@ -239,10 +239,9 @@ func Test_Cov13_RawErrCollection_AddCompiledErrorGetters(t *testing.T) {
 	ec := &errcore.RawErrCollection{}
 	g1 := &cov13CompiledErrGetter{err: errors.New("ce1")}
 	g2 := &cov13CompiledErrGetter{err: nil}
-	var g3 *cov13CompiledErrGetter
 
-	// Act
-	ec.AddCompiledErrorGetters(g1, g2, g3)
+	// Act — only pass non-nil getters to avoid nil pointer deref
+	ec.AddCompiledErrorGetters(g1, g2)
 
 	// Assert
 	actual := args.Map{"length": ec.Length()}

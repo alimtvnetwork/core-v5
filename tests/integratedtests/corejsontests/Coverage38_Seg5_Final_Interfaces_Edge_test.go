@@ -28,17 +28,17 @@ func Test_CovJsonS5_R02_NewPtr_NilInput(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R03_Result_ToSafeBytes_ToSafeBytesSwallowErr(t *testing.T) {
+func Test_CovJsonS5_R03_Result_SafeBytes_Raw(t *testing.T) {
 	r := corejson.New(1)
-	_, _ = r.ToSafeBytes()
-	_ = r.ToSafeBytesSwallowErr()
+	_, _ = r.Raw()
+	_ = r.SafeBytes()
 	// with error
 	re := corejson.Result{Error: errors.New("fail")}
-	_, err := re.ToSafeBytes()
+	_, err := re.Raw()
 	if err == nil {
 		t.Fatal("expected error")
 	}
-	_ = re.ToSafeBytesSwallowErr()
+	_ = re.SafeBytes()
 }
 
 func Test_CovJsonS5_R04_Result_PrettyJsonString(t *testing.T) {
@@ -54,21 +54,21 @@ func Test_CovJsonS5_R04_Result_PrettyJsonString(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R05_Result_JsonStringMust(t *testing.T) {
+func Test_CovJsonS5_R05_Result_RawStringMust(t *testing.T) {
 	r := corejson.New(1)
-	s := r.JsonStringMust()
+	s := r.RawStringMust()
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
-func Test_CovJsonS5_R06_Result_IsValid_IsInvalid(t *testing.T) {
+func Test_CovJsonS5_R06_Result_HasSafeItems_HasIssuesOrEmpty(t *testing.T) {
 	r := corejson.New(1)
-	if !r.IsValid() {
-		t.Fatal("expected valid")
+	if !r.HasSafeItems() {
+		t.Fatal("expected has safe items")
 	}
-	if r.IsInvalid() {
-		t.Fatal("expected not invalid")
+	if r.HasIssuesOrEmpty() {
+		t.Fatal("expected no issues")
 	}
 }
 
@@ -96,19 +96,19 @@ func Test_CovJsonS5_R08_Result_IsAnyNull_Nil(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R09_Result_HandleErr(t *testing.T) {
+func Test_CovJsonS5_R09_Result_HandleError(t *testing.T) {
 	r := corejson.New(1)
-	r.HandleErr() // should not panic
+	r.HandleError() // should not panic
 }
 
-func Test_CovJsonS5_R10_Result_AsJsonStringBinder(t *testing.T) {
+func Test_CovJsonS5_R10_Result_AsJsonContractsBinder(t *testing.T) {
 	r := corejson.New(1)
-	_ = r.AsJsonStringBinder()
+	_ = r.AsJsonContractsBinder()
 }
 
-func Test_CovJsonS5_R11_Result_AsSimpleJsonBinder(t *testing.T) {
+func Test_CovJsonS5_R11_Result_AsJsoner(t *testing.T) {
 	r := corejson.New(1)
-	_ = r.AsSimpleJsonBinder()
+	_ = r.AsJsoner()
 }
 
 func Test_CovJsonS5_R12_Result_MeaningfulError_ValidResult(t *testing.T) {

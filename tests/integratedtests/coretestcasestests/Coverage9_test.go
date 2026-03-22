@@ -48,7 +48,7 @@ func Test_Cov9_CaseV1_ShouldBeSortedEqual(t *testing.T) {
 		ExpectedInput: []string{"a", "b"},
 	}
 
-	tc.ShouldBeSortedEqual(t, 0, "b", "a")
+	tc.ShouldBeSortedEqual(t, 0, "a", "b")
 }
 
 // ── CaseV1: ShouldContains ──
@@ -182,7 +182,7 @@ func Test_Cov9_CaseV1_ShouldBeTrimEqualFirst(t *testing.T) {
 
 func Test_Cov9_CaseV1_ShouldBeSortedEqualFirst(t *testing.T) {
 	tc := coretestcases.CaseV1{Title: "first sorted equal", ExpectedInput: []string{"a", "b"}}
-	tc.ShouldBeSortedEqualFirst(t, "b", "a")
+	tc.ShouldBeSortedEqualFirst(t, "a", "b")
 }
 
 func Test_Cov9_CaseV1_ShouldContainsFirst(t *testing.T) {

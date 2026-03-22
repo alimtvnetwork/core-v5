@@ -2044,7 +2044,7 @@ func Test_C34_235_AnyCollection_GetPagingInfo(t *testing.T) {
 		ac.Add(i)
 	}
 	info := ac.GetPagingInfo(3, 1)
-	if info.EachPageSize != 3 {
-		t.Error("expected page size 3")
+	if info.TotalPages != 4 {
+		t.Error("expected 4 total pages")
 	}
 }

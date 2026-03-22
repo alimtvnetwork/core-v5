@@ -11,7 +11,7 @@ import (
 
 func Test_Cov11_TraceCollection_Default(t *testing.T) {
 	// Arrange & Act — use exported StackTrace to get a TraceCollection
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(0, 5)
 
 	// Assert
 	actual := args.Map{"hasItems": tc.Length() > 0}

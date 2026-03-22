@@ -95,7 +95,7 @@ func Test_CovPL_S3_05_BasicError_PayloadDeserializeToPayloadBinder(t *testing.T)
 	// PayloadDeserializeToPayloadBinder requires payloads to be PW json
 	pw2, _ := corepayload.New.PayloadWrapper.Create("inner", "1", "t", "c", map[string]int{"b": 2})
 	b2, _ := pw2.Serialize()
-	pw3, _ := corepayload.New.PayloadWrapper.CreateUsingBytes("outer", "2", "t", "c", b2)
+	pw3 := corepayload.New.PayloadWrapper.All("outer", "2", "t", "c", "", false, nil, b2)
 	_, _ = pw3.PayloadDeserializeToPayloadBinder()
 }
 
@@ -173,7 +173,7 @@ func Test_CovPL_S3_13_IdString_IdInteger_IdentifierInteger_IdentifierUnsignedInt
 		t.Fatal("expected 5")
 	}
 	// empty id
-	pw2, _ := corepayload.New.PayloadWrapper.CreateUsingBytes("n", "", "t", "c", []byte("x"))
+	pw2 := corepayload.New.PayloadWrapper.All("n", "", "t", "c", "", false, nil, []byte("x"))
 	if pw2.IdentifierInteger() >= 0 {
 		t.Fatal("expected invalid")
 	}
@@ -258,7 +258,7 @@ func Test_CovPL_S3_19_DeserializePayloads_Nested(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.UsingCap(1)
 	pc.Add(*newPWForSeg3())
 	b, _ := corejson.Serialize.Raw(pc)
-	pw2, _ := corepayload.New.PayloadWrapper.CreateUsingBytes("outer", "1", "t", "c", b)
+	pw2 := corepayload.New.PayloadWrapper.All("outer", "1", "t", "c", "", false, nil, b)
 	_, _ = pw2.DeserializePayloadsToPayloadsCollection()
 	_, _ = pw.DeserializePayloadsToPayloadWrapper()
 }
