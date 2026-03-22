@@ -407,8 +407,9 @@ func Test_CovJsonS5_K03_KeyWithJsoner(t *testing.T) {
 
 // --- newResultCreator ---
 
-func Test_CovJsonS5_NRC01_UsingError(t *testing.T) {
-	r := corejson.NewResult.UsingError(errors.New("fail"))
+func Test_CovJsonS5_NRC01_UsingErrorStringPtr(t *testing.T) {
+	s := `"hello"`
+	r := corejson.NewResult.UsingErrorStringPtr(errors.New("fail"), &s, "test")
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}

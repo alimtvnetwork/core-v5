@@ -908,7 +908,7 @@ func Test_C34_NCCMC_ItemsPtrWithCap(t *testing.T) {
 }
 
 func Test_C34_NCHMC_CapItems(t *testing.T) {
-	_ = corestr.New.CharHashsetMap.CapItems(5, map[byte]*corestr.Hashset{})
+	_ = corestr.New.CharHashsetMap.CapItems(5, 5, "apple", "banana")
 }
 
 func Test_C34_NCHMC_Strings(t *testing.T) {
