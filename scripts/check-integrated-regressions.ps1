@@ -91,7 +91,7 @@ function Scan-FileForRegressions {
             $resultVarNames.Add($Matches[1]) | Out-Null
         }
 
-        if ($line -match '\b([A-Za-z_]\w*)\s*:=\s*.+\.Json\(\)\s*$') {
+        if ($line -match '\b([A-Za-z_]\w*)\s*:=\s*.+\.Json(?:Ptr)?\(\)\s*$') {
             $resultVarNames.Add($Matches[1]) | Out-Null
         }
     }
@@ -123,9 +123,15 @@ function Scan-FileForRegressions {
 
         if (-not $isCaseV1Start) { continue }
 
-        $braceDepth = Get-BraceDelta $line
-        $j = $i
+        if ($line -match '\b(Name|Input|Expected|Actual)\s*:') {
+            $legacyFieldInline = $Matches[1]
+            Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "legacy-casev1-field" "Legacy coretestcases.CaseV1 field '$legacyFieldInline' found (use Title/ArrangeInput/ActualInput/ExpectedInput)" $line
+        }
 
+        $braceDepth = Get-BraceDelta $line
+        if ($braceDepth -le 0) { continue }
+
+        $j = $i + 1
         while ($j -lt $lines.Count -and $braceDepth -gt 0) {
             $currentLine = $lines[$j]
 
@@ -134,9 +140,7 @@ function Scan-FileForRegressions {
                 Add-Issue $issues $issueKeys $packageName $relFile ($j + 1) "legacy-casev1-field" "Legacy coretestcases.CaseV1 field '$legacyField' found (use Title/ArrangeInput/ActualInput/ExpectedInput)" $currentLine
             }
 
-            if ($j -ne $i) {
-                $braceDepth += Get-BraceDelta $currentLine
-            }
+            $braceDepth += Get-BraceDelta $currentLine
 
             $j++
         }
