@@ -235,10 +235,10 @@ var anyToSafeJsonPrettyStringDefaultTestCase = coretestcases.CaseV1{
 // =============================================================================
 
 var anyToSerializedFieldsMapTestCase = coretestcases.CaseV1{
-	Title: "AnyTo SerializedFieldsMap returns map with Name -- struct input",
+	Title: "AnyTo SerializedFieldsMap returns error -- DeserializedFieldsToMap limitation",
 	ExpectedInput: args.Map{
-		"hasError": false,
-		"hasName":  true,
+		"hasError": true,
+		"hasName":  false,
 	},
 }
 

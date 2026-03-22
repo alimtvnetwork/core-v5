@@ -301,7 +301,8 @@ func Test_Cov46_PtrColl_Adds_Nil(t *testing.T) {
 	// Arrange
 	c := corejson.NewResultsPtrCollection.Empty()
 
-	// Act
+	// Act — Adds(nil) with variadic creates []*Result{nil}, which is not nil slice
+	// The nil element gets appended, so length is 1
 	c.Adds(nil)
 	actual := args.Map{
 		"length": c.Length(),

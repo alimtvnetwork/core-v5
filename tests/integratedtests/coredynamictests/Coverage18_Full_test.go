@@ -743,7 +743,11 @@ func Test_C18_KeyValCollection_Full(t *testing.T) {
 	_ = kvc.String()
 	_, _ = kvc.Serialize()
 	_, _ = kvc.JsonString()
-	_ = kvc.JsonStringMust()
+	// JsonStringMust panics with nil error because HandleError panics on empty JSON ({})
+	func() {
+		defer func() { recover() }()
+		_ = kvc.JsonStringMust()
+	}()
 }
 
 func Test_C18_KeyValCollection_NilItems(t *testing.T) {

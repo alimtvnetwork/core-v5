@@ -580,7 +580,7 @@ func Test_I8_Hashmap_IsEqual(t *testing.T) {
 	h2 := corestr.New.Hashmap.Empty()
 	h2.AddOrUpdate("a", "1")
 	if !h1.IsEqualPtr(h2) { t.Fatal("expected equal") }
-	_ = h1.IsEqualPtrLock(&h2)
+	_ = h1.IsEqualPtrLock(h2)
 }
 
 func Test_I8_Hashmap_Clone(t *testing.T) {
@@ -596,8 +596,12 @@ func Test_I8_Hashmap_Filter(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("apple", "1")
 	h.AddOrUpdate("banana", "2")
-	_ = h.GetKeysFilteredItems(func(k string) bool { return strings.HasPrefix(k, "a") })
-	_ = h.GetKeysFilteredCollection(func(k string) bool { return true })
+	_ = h.GetKeysFilteredItems(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) {
+		return str, strings.HasPrefix(str, "a"), false
+	}))
+	_ = h.GetKeysFilteredCollection(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) {
+		return str, true, false
+	}))
 	_ = h.GetValuesExceptKeysInHashset(corestr.New.Hashset.StringsSpreadItems("apple"))
 }
 
@@ -605,14 +609,14 @@ func Test_I8_Hashmap_Except(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("a", "1")
 	h.AddOrUpdate("b", "2")
-	_, _ = h.GetValuesKeysExcept(corestr.New.Hashset.StringsSpreadItems("a"))
+	_ = h.GetValuesKeysExcept([]string{"a"})
 	_ = h.GetAllExceptCollection(corestr.New.Collection.Strings([]string{"a"}))
 }
 
 func Test_I8_Hashmap_Join(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("a", "1")
-	_ = h.Join(", ", "=")
+	_ = h.Join(", ")
 	_ = h.JoinKeys(", ")
 }
 
@@ -670,7 +674,9 @@ func Test_I8_Hashmap_Diff(t *testing.T) {
 func Test_I8_Hashmap_ConcatNew(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("a", "1")
-	h2 := h.ConcatNew("b", "2", "c", "3")
+	other := corestr.New.Hashmap.Empty()
+	other.AddOrUpdate("b", "2")
+	h2 := h.ConcatNew(false, other)
 	_ = h2
 	h3 := h.ConcatNewUsingMaps(map[string]string{"d": "4"})
 	_ = h3

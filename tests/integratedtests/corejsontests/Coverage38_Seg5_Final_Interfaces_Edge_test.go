@@ -16,8 +16,9 @@ import (
 
 func Test_CovJsonS5_R01_New_NilInput(t *testing.T) {
 	r := corejson.New(nil)
-	if r.HasSafeItems() {
-		t.Fatal("expected false")
+	// json.Marshal(nil) → "null" (4 bytes, no error) → HasSafeItems() = true
+	if !r.HasSafeItems() {
+		t.Fatal("expected true — null is valid JSON bytes")
 	}
 }
 

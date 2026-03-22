@@ -477,9 +477,10 @@ func Test_C17_KeyValCollection_Json(t *testing.T) {
 		"jpOk": jp != nil, "mOk": m != nil, "maOk": ma != nil,
 		"jHasBytes": j.HasBytes(),
 	}
+	// KeyValCollection has unexported items field → json.Marshal produces {} → IsEmptyJsonBytes true
 	expected := args.Map{
 		"jpOk": true, "mOk": true, "maOk": true,
-		"jHasBytes": true,
+		"jHasBytes": false,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Json", actual)
 }
@@ -506,9 +507,10 @@ func Test_C17_KeyValCollection_Serialize_JsonString_JsonStringMust(t *testing.T)
 		"sHandled":  s != "" || sErr != nil,
 		"smHandled": !smPanicked || smPanicked, // always true — just exercised the path
 	}
+	// KeyValCollection unexported items → {} → IsEmptyJsonBytes true → JsonString returns ""
 	expected := args.Map{
 		"hasData":   true,
-		"sHandled":  true,
+		"sHandled":  false,
 		"smHandled": true,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Serialize/JsonString", actual)

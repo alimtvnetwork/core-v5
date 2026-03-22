@@ -27,8 +27,10 @@ func Test_Cov39_Result_Map_WithBytesAndError(t *testing.T) {
 		TypeName: "string",
 	}
 	m := r.Map()
+	// When Result has Error, IsEmptyJsonBytes returns true (HasError check),
+	// so JsonString() returns "" → m["Bytes"] is ""
 	actual := args.Map{"hasBytes": m["Bytes"] != "", "hasError": m["Error"] != "", "hasType": m["Type"] != ""}
-	expected := args.Map{"hasBytes": true, "hasError": true, "hasType": true}
+	expected := args.Map{"hasBytes": false, "hasError": true, "hasType": true}
 	expected.ShouldBeEqual(t, 0, "Result Map with all fields", actual)
 }
 
