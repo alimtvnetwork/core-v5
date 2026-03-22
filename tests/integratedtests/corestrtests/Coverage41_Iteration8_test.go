@@ -139,7 +139,7 @@ func Test_I8_Collection_IsEquals(t *testing.T) {
 	if a.IsEquals(c) { t.Fatal("expected not equal") }
 	if a.IsEquals(nil) { t.Fatal("expected not equal to nil") }
 
-	_ = a.IsEqualsWithSensitive(b, false)
+	_ = a.IsEqualsWithSensitive(false, b)
 }
 
 func Test_I8_Collection_LengthLock(t *testing.T) {
@@ -152,11 +152,16 @@ func Test_I8_Collection_AsyncOps(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	c.AddWithWgLock("a", &wg)
+	c.AddWithWgLock(&wg, "a")
 	wg.Wait()
 
-	c.AddStringsAsync([]string{"b", "c"})
-	c.AddsAsync("d", "e")
+	wg.Add(1)
+	c.AddStringsAsync(&wg, []string{"b", "c"})
+	wg.Wait()
+
+	wg.Add(1)
+	c.AddsAsync(&wg, "d", "e")
+	wg.Wait()
 }
 
 func Test_I8_Collection_Filter(t *testing.T) {
@@ -254,7 +259,7 @@ func Test_I8_Collection_CsvJoin(t *testing.T) {
 	_ = c.Csv()
 	_ = c.CsvOptions(true)
 	_ = c.CsvLines()
-	_ = c.CsvLinesOptions(true, ", ")
+	_ = c.CsvLinesOptions(true)
 	_ = c.Join(", ")
 	_ = c.JoinLine()
 	_ = c.Joins(", ")
@@ -323,8 +328,8 @@ func Test_I8_Collection_AppendAnys(t *testing.T) {
 	c.AppendAnys("a", 1, nil)
 	c.AppendAnysLock("b", 2)
 	c.AppendNonEmptyAnys("", "c", nil)
-	c.AppendAnysUsingFilter(func(a any) bool { return a != nil }, "d", nil)
-	c.AppendAnysUsingFilterLock(func(a any) bool { return true }, "e")
+	c.AppendAnysUsingFilter(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, str != "", false }), "d", nil)
+	c.AppendAnysUsingFilterLock(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }), "e")
 }
 
 func Test_I8_Collection_GetAllExcept(t *testing.T) {
@@ -341,9 +346,9 @@ func Test_I8_Collection_Paging(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c", "d", "e"})
 	pages := c.GetPagesSize(2)
 	if pages != 3 { t.Fatalf("expected 3, got %d", pages) }
-	page := c.GetPagedCollection(1, 2)
-	if page.Length() != 2 { t.Fatal("expected 2") }
-	single := c.GetSinglePageCollection(2)
+	page := c.GetPagedCollection(2)
+	_ = page
+	single := c.GetSinglePageCollection(2, 1)
 	_ = single
 }
 

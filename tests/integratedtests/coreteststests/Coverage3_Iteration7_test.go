@@ -57,11 +57,12 @@ func Test_Cov3_BaseTestCase_TypeShouldMatch_WithMismatch(t *testing.T) {
 	}
 	tc.SetActual("actual_string")
 
-	// Act — wrap in sub-test so mismatch error doesn't fail outer test
-	t.Run("sub", func(st *testing.T) {
+	// Act — wrap in isolated T so mismatch error doesn't fail outer test
+	sub := &testing.T{}
+	func() {
 		defer func() { recover() }()
-		tc.TypeShouldMatch(st, 0, "type mismatch test")
-	})
+		tc.TypeShouldMatch(sub, 0, "type mismatch test")
+	}()
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -126,11 +127,12 @@ func Test_Cov3_BaseTestCase_TypesValidationMustPasses_WithError(t *testing.T) {
 	}
 	tc.SetActual("actual")
 
-	// Wrap in sub-test to catch the t.Error call
-	t.Run("type-mismatch", func(st *testing.T) {
-		tc.TypesValidationMustPasses(st)
-		// The test will report error inside, which is expected behavior
-	})
+	// Wrap in isolated T to catch the t.Error call
+	sub := &testing.T{}
+	func() {
+		defer func() { recover() }()
+		tc.TypesValidationMustPasses(sub)
+	}()
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

@@ -416,7 +416,8 @@ func Test_Cov50_LeftRight_TypeStatus_Nil(t *testing.T) {
 func Test_Cov50_LeftRight_TypeStatus_SameType(t *testing.T) {
 	lr := &coredynamic.LeftRight{Left: "a", Right: "b"}
 	ts := lr.TypeStatus()
-	actual := args.Map{"valid": ts.IsValid, "equal": ts.IsEqual()}
+	sameTs := lr.TypeStatus()
+	actual := args.Map{"valid": ts.IsValid, "equal": ts.IsEqual(sameTs)}
 	expected := args.Map{"valid": true, "equal": true}
 	expected.ShouldBeEqual(t, 0, "LeftRight TypeStatus same type", actual)
 }
