@@ -899,7 +899,9 @@ func Test_CovPL_S2_61_TPC_Deserialization(t *testing.T) {
 	col := corepayload.NewTypedPayloadCollection[D](1)
 	col.Add(tw)
 	pc := col.ToPayloadsCollection()
-	b, _ := corejson.Serialize.Raw(pc)
+	// TypedPayloadCollectionDeserialize calls DeserializeToMany which expects
+	// a JSON array [{},...], not {"Items":[...]} — serialize Items directly
+	b, _ := corejson.Serialize.Raw(pc.Items)
 	col2, err := corepayload.TypedPayloadCollectionDeserialize[D](b)
 	if err != nil || col2.Length() != 1 {
 		t.Fatal("expected 1")
