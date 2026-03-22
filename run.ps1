@@ -27,7 +27,7 @@
 
     Mode options (for TC/TCP):
         --sync        Run precompile + tests sequentially (default: parallel)
-        --no-open     Skip auto-opening HTML coverage report
+        --open        Open HTML coverage report in browser (default: don't open)
 
 .EXAMPLE
     ./run.ps1 T
@@ -1126,9 +1126,9 @@ function copyForAI(){
             & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 
-        # Auto-open HTML report in browser
-        $openHtml = $true
-        if ($ExtraArgs -and $ExtraArgs[0] -eq "--no-open") { $openHtml = $false }
+        # HTML auto-open disabled — use --open flag to open manually
+        $openHtml = $false
+        if ($ExtraArgs -and $ExtraArgs[0] -eq "--open") { $openHtml = $true }
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report in browser..." -ForegroundColor Yellow
@@ -1249,8 +1249,9 @@ function Invoke-PackageTestCoverage {
             & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 
-        $openHtml = $true
-        if ($ExtraArgs -and $ExtraArgs[-1] -eq "--no-open") { $openHtml = $false }
+        # HTML auto-open disabled — use --open flag to open manually
+        $openHtml = $false
+        if ($ExtraArgs -and $ExtraArgs[-1] -eq "--open") { $openHtml = $true }
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
@@ -1599,7 +1600,7 @@ function Show-Help {
     Write-Host ""
     Write-Host "  Mode Options (for TC/TCP/PC):" -ForegroundColor Yellow
     Write-Host "    --sync      Run precompile + tests sequentially (default: parallel)"
-    Write-Host "    --no-open   Skip auto-opening HTML coverage report"
+    Write-Host "    --open      Open HTML coverage report in browser after TC/TCP"
     Write-Host ""
     Write-Host "  Examples:" -ForegroundColor Gray
     Write-Host "    ./run.ps1 T"
