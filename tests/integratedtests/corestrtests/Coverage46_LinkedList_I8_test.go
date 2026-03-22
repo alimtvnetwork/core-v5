@@ -1127,8 +1127,8 @@ func Test_C46_LinkedList_JsonModelAny(t *testing.T) {
 func Test_C46_LinkedList_Json(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
 	j := ll.Json()
-	if j.Err != nil {
-		t.Fatal(j.Err)
+	if j.Error != nil {
+		t.Fatal(j.Error)
 	}
 }
 
@@ -1154,7 +1154,7 @@ func Test_C46_LinkedList_ParseInjectUsingJson(t *testing.T) {
 }
 
 func Test_C46_LinkedList_ParseInjectUsingJson_Error(t *testing.T) {
-	badResult := corejson.Result{Err: json.Unmarshal([]byte("bad"), nil)}
+	badResult := corejson.Result{Error: json.Unmarshal([]byte("bad"), nil)}
 	ll := corestr.New.LinkedList.Create()
 	_, err := ll.ParseInjectUsingJson(&badResult)
 	if err == nil {
