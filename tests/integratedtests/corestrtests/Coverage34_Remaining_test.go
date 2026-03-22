@@ -864,7 +864,7 @@ func Test_C34_CCM_Basic(t *testing.T) {
 	_ = ccm.Length()
 	_ = ccm.IsEmpty()
 	_ = ccm.HasItems()
-	_ = ccm.Has('a')
+	_ = ccm.Has("apple")
 	_ = ccm.GetMap()
 	_ = ccm.List()
 	_ = ccm.SortedListAsc()
