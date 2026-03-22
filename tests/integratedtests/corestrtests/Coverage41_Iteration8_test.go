@@ -859,7 +859,7 @@ func Test_I8_Hashset_AsyncOps(t *testing.T) {
 	wg4 := sync.WaitGroup{}
 	wg4.Add(1)
 	strs := []string{"z"}
-	h.AddStringsPtrWgLock(&strs, &wg4)
+	h.AddStringsPtrWgLock(strs, &wg4)
 	wg4.Wait()
 }
 
