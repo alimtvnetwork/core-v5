@@ -616,7 +616,7 @@ func Test_I8_Hashmap_Except(t *testing.T) {
 func Test_I8_Hashmap_Join(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("a", "1")
-	_ = h.Join(", ", "=")
+	_ = h.Join(", ")
 	_ = h.JoinKeys(", ")
 }
 
