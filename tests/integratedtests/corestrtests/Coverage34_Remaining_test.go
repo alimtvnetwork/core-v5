@@ -674,8 +674,10 @@ func Test_C34_COC_AddsStringsOfStrings(t *testing.T) {
 
 func Test_C34_COC_AddAsyncFuncItems(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Empty()
-	coc.AddAsyncFuncItems(func() *corestr.Collection { return corestr.New.Collection.Strings([]string{"a"}) })
-	coc.AddAsyncFuncItems()
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	coc.AddAsyncFuncItems(wg, false, func() []string { return []string{"a"} })
+	wg.Wait()
 }
 
 func Test_C34_COC_Adds(t *testing.T) {
