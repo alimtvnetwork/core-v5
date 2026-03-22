@@ -752,17 +752,17 @@ func Test_C34_NCOCC_Cap(t *testing.T)      { _ = corestr.New.CollectionsOfCollec
 func Test_C34_NCOCC_LenCap(t *testing.T)   { _ = corestr.New.CollectionsOfCollection.LenCap(0, 5) }
 func Test_C34_NCOCC_Strings(t *testing.T)  { _ = corestr.New.CollectionsOfCollection.Strings([]string{"a"}) }
 func Test_C34_NCOCC_SpreadStrings(t *testing.T) {
-	_ = corestr.New.CollectionsOfCollection.SpreadStrings("a")
-	_ = corestr.New.CollectionsOfCollection.SpreadStrings()
+	_ = corestr.New.CollectionsOfCollection.SpreadStrings(false, "a")
+	_ = corestr.New.CollectionsOfCollection.SpreadStrings(false)
 }
 func Test_C34_NCOCC_CloneStrings(t *testing.T) {
 	_ = corestr.New.CollectionsOfCollection.CloneStrings([]string{"a"})
 }
-func Test_C34_NCOCC_UsingCollections(t *testing.T) {
-	_ = corestr.New.CollectionsOfCollection.UsingCollections(corestr.New.Collection.Strings([]string{"a"}))
+func Test_C34_NCOCC_StringsOfStrings(t *testing.T) {
+	_ = corestr.New.CollectionsOfCollection.StringsOfStrings(false, []string{"a"})
 }
-func Test_C34_NCOCC_UsingStringsOfStrings(t *testing.T) {
-	_ = corestr.New.CollectionsOfCollection.UsingStringsOfStrings(false, []string{"a"})
+func Test_C34_NCOCC_StringsOption(t *testing.T) {
+	_ = corestr.New.CollectionsOfCollection.StringsOption(false, 5, []string{"a"})
 }
 
 // ── HashsetsCollection ──
