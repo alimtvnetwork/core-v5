@@ -350,10 +350,10 @@ func Test_CovJsonS5_BC11_BytesCollection_Take_Limit_Skip(t *testing.T) {
 	_ = empty.Skip(0)
 }
 
-func Test_CovJsonS5_BC12_BytesCollection_NonPtr_Ptr(t *testing.T) {
+func Test_CovJsonS5_BC12_BytesCollection_AddPtr(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(1)
-	_ = bc.NonPtr()
-	_ = bc.Ptr()
+	bc.AddPtr([]byte("a"))
+	_ = bc.StringsPtr()
 }
 
 // --- funcs ---
