@@ -346,7 +346,7 @@ func Test_I8_Collection_Paging(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c", "d", "e"})
 	pages := c.GetPagesSize(2)
 	if pages != 3 { t.Fatalf("expected 3, got %d", pages) }
-	page := c.GetPagedCollection(1, 2)
+	page := c.GetPagedCollection(2)
 	if page.Length() != 2 { t.Fatal("expected 2") }
 	single := c.GetSinglePageCollection(2)
 	_ = single
