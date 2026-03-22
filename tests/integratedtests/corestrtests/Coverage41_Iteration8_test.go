@@ -152,11 +152,16 @@ func Test_I8_Collection_AsyncOps(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	c.AddWithWgLock("a", &wg)
+	c.AddWithWgLock(&wg, "a")
 	wg.Wait()
 
-	c.AddStringsAsync([]string{"b", "c"})
-	c.AddsAsync("d", "e")
+	wg.Add(1)
+	c.AddStringsAsync(&wg, []string{"b", "c"})
+	wg.Wait()
+
+	wg.Add(1)
+	c.AddsAsync(&wg, "d", "e")
+	wg.Wait()
 }
 
 func Test_I8_Collection_Filter(t *testing.T) {
