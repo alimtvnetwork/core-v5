@@ -75,12 +75,11 @@ func Test_Cov2_SimpleTestCase_ShouldBeEqual(t *testing.T) {
 func Test_Cov2_SimpleTestCase_ShouldHaveNoError(t *testing.T) {
 	// Arrange
 	tc := coretests.SimpleTestCase{
-		Title:         "no error test",
-		ExpectedInput: nil,
+		Title: "no error test",
 	}
 
-	// Act & Assert — ShouldHaveNoError expects 0 comparison values
-	tc.ShouldHaveNoError(0, t)
+	// Act & Assert
+	tc.ShouldHaveNoError(0, t, nil)
 }
 
 func Test_Cov2_SimpleTestCase_ShouldContains(t *testing.T) {
