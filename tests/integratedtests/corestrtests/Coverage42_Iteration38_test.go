@@ -1,11 +1,11 @@
 package corestrtests
 
 import (
+	"fmt"
 	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corestr"
-	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
@@ -13,73 +13,68 @@ import (
 
 func Test_Cov42_Collection_AddHashmapsKeysValues_Valid(t *testing.T) {
 	col := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	col.AddHashmapsKeysValues(hm)
 	tc := coretestcases.CaseV1{
-		Name:     "AddHashmapsKeysValues adds both",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddHashmapsKeysValues adds both",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddHashmapsKeysValues_Nil(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddHashmapsKeysValues(nil)
 	tc := coretestcases.CaseV1{
-		Name:     "AddHashmapsKeysValues nil",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddHashmapsKeysValues nil",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AddHashmapsKeysValuesUsingFilter ──────
 
 func Test_Cov42_Collection_AddHashmapsKeysValuesUsingFilter_Accept(t *testing.T) {
 	col := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Value, true, false
 	}
 	col.AddHashmapsKeysValuesUsingFilter(filter, hm)
 	tc := coretestcases.CaseV1{
-		Name:     "AddHashmapsKeysValuesUsingFilter accept",
-		Expected: true,
-		Actual:   col.Has("v1"),
-		Args:     args.Map{},
+		Title:         "AddHashmapsKeysValuesUsingFilter accept",
+		ExpectedInput: true,
+		ActualInput:   col.Has("v1"),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 	col := corestr.New.Collection.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Value, false, true
 	}
 	col.AddHashmapsKeysValuesUsingFilter(filter, hm)
 	tc := coretestcases.CaseV1{
-		Name:     "AddHashmapsKeysValuesUsingFilter break",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddHashmapsKeysValuesUsingFilter break",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddHashmapsKeysValuesUsingFilter_Nil(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddHashmapsKeysValuesUsingFilter(nil, nil)
 	tc := coretestcases.CaseV1{
-		Name:     "AddHashmapsKeysValuesUsingFilter nil",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddHashmapsKeysValuesUsingFilter nil",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AddPointerCollectionsLock ──────
@@ -89,12 +84,11 @@ func Test_Cov42_Collection_AddPointerCollectionsLock(t *testing.T) {
 	other := corestr.New.Collection.Strings([]string{"a", "b"})
 	col.AddPointerCollectionsLock(other)
 	tc := coretestcases.CaseV1{
-		Name:     "AddPointerCollectionsLock",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddPointerCollectionsLock",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AppendCollectionPtr ──────
@@ -104,12 +98,11 @@ func Test_Cov42_Collection_AppendCollectionPtr(t *testing.T) {
 	other := corestr.New.Collection.Strings([]string{"y", "z"})
 	col.AppendCollectionPtr(other)
 	tc := coretestcases.CaseV1{
-		Name:     "AppendCollectionPtr",
-		Expected: 3,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendCollectionPtr",
+		ExpectedInput: 3,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: Single ──────
@@ -117,12 +110,11 @@ func Test_Cov42_Collection_AppendCollectionPtr(t *testing.T) {
 func Test_Cov42_Collection_Single_OneItem(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"only"})
 	tc := coretestcases.CaseV1{
-		Name:     "Single with one item",
-		Expected: "only",
-		Actual:   col.Single(),
-		Args:     args.Map{},
+		Title:         "Single with one item",
+		ExpectedInput: "only",
+		ActualInput:   col.Single(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: SortedListDsc ──────
@@ -131,12 +123,11 @@ func Test_Cov42_Collection_SortedListDsc(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"apple", "cherry", "banana"})
 	sorted := col.SortedListDsc()
 	tc := coretestcases.CaseV1{
-		Name:     "SortedListDsc first item",
-		Expected: "cherry",
-		Actual:   sorted[0],
-		Args:     args.Map{},
+		Title:         "SortedListDsc first item",
+		ExpectedInput: "cherry",
+		ActualInput:   sorted[0],
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: HasUsingSensitivity ──────
@@ -144,23 +135,21 @@ func Test_Cov42_Collection_SortedListDsc(t *testing.T) {
 func Test_Cov42_Collection_HasUsingSensitivity_CaseSensitive(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"Hello"})
 	tc := coretestcases.CaseV1{
-		Name:     "HasUsingSensitivity case sensitive miss",
-		Expected: false,
-		Actual:   col.HasUsingSensitivity("hello", true),
-		Args:     args.Map{},
+		Title:         "HasUsingSensitivity case sensitive miss",
+		ExpectedInput: false,
+		ActualInput:   col.HasUsingSensitivity("hello", true),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_HasUsingSensitivity_CaseInsensitive(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"Hello"})
 	tc := coretestcases.CaseV1{
-		Name:     "HasUsingSensitivity case insensitive match",
-		Expected: true,
-		Actual:   col.HasUsingSensitivity("hello", false),
-		Args:     args.Map{},
+		Title:         "HasUsingSensitivity case insensitive match",
+		ExpectedInput: true,
+		ActualInput:   col.HasUsingSensitivity("hello", false),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AddStringsAsync ──────
@@ -170,12 +159,11 @@ func Test_Cov42_Collection_AddStringsAsync_Empty(t *testing.T) {
 	wg := &sync.WaitGroup{}
 	col.AddStringsAsync(wg, []string{})
 	tc := coretestcases.CaseV1{
-		Name:     "AddStringsAsync empty",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddStringsAsync empty",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AddNonEmptyStrings / AddNonEmptyStringsSlice ──────
@@ -184,48 +172,44 @@ func Test_Cov42_Collection_AddNonEmptyStrings_Valid(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddNonEmptyStrings("a", "b")
 	tc := coretestcases.CaseV1{
-		Name:     "AddNonEmptyStrings valid",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddNonEmptyStrings valid",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddNonEmptyStrings_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddNonEmptyStrings()
 	tc := coretestcases.CaseV1{
-		Name:     "AddNonEmptyStrings no args",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddNonEmptyStrings no args",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddNonEmptyStringsSlice_Valid(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddNonEmptyStringsSlice([]string{"x", "y"})
 	tc := coretestcases.CaseV1{
-		Name:     "AddNonEmptyStringsSlice valid",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddNonEmptyStringsSlice valid",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddNonEmptyStringsSlice_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddNonEmptyStringsSlice([]string{})
 	tc := coretestcases.CaseV1{
-		Name:     "AddNonEmptyStringsSlice empty",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddNonEmptyStringsSlice empty",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AddFuncResult ──────
@@ -234,24 +218,22 @@ func Test_Cov42_Collection_AddFuncResult_Valid(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddFuncResult(func() string { return "hello" })
 	tc := coretestcases.CaseV1{
-		Name:     "AddFuncResult valid",
-		Expected: "hello",
-		Actual:   col.First(),
-		Args:     args.Map{},
+		Title:         "AddFuncResult valid",
+		ExpectedInput: "hello",
+		ActualInput:   col.First(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AddFuncResult_Nil(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AddFuncResult(nil)
 	tc := coretestcases.CaseV1{
-		Name:     "AddFuncResult nil",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddFuncResult nil",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AddStringsByFuncChecking ──────
@@ -263,12 +245,11 @@ func Test_Cov42_Collection_AddStringsByFuncChecking_Filter(t *testing.T) {
 		func(line string) bool { return len(line) > 3 },
 	)
 	tc := coretestcases.CaseV1{
-		Name:     "AddStringsByFuncChecking filters",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AddStringsByFuncChecking filters",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: ExpandSlicePlusAdd ──────
@@ -282,12 +263,11 @@ func Test_Cov42_Collection_ExpandSlicePlusAdd(t *testing.T) {
 		},
 	)
 	tc := coretestcases.CaseV1{
-		Name:     "ExpandSlicePlusAdd",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "ExpandSlicePlusAdd",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: MergeSlicesOfSlice ──────
@@ -296,12 +276,11 @@ func Test_Cov42_Collection_MergeSlicesOfSlice(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.MergeSlicesOfSlice([]string{"a", "b"}, []string{"c"})
 	tc := coretestcases.CaseV1{
-		Name:     "MergeSlicesOfSlice",
-		Expected: 3,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "MergeSlicesOfSlice",
+		ExpectedInput: 3,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: CharCollectionMap ──────
@@ -310,12 +289,11 @@ func Test_Cov42_Collection_CharCollectionMap(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"apple", "banana", "avocado"})
 	ccm := col.CharCollectionMap()
 	tc := coretestcases.CaseV1{
-		Name:     "CharCollectionMap groups by first char",
-		Expected: 2,
-		Actual:   ccm.Length(),
-		Args:     args.Map{},
+		Title:         "CharCollectionMap groups by first char",
+		ExpectedInput: 2,
+		ActualInput:   ccm.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: CsvLines / CsvLinesOptions / Csv / CsvOptions ──────
@@ -324,70 +302,64 @@ func Test_Cov42_Collection_CsvLines(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	lines := col.CsvLines()
 	tc := coretestcases.CaseV1{
-		Name:     "CsvLines",
-		Expected: 2,
-		Actual:   len(lines),
-		Args:     args.Map{},
+		Title:         "CsvLines",
+		ExpectedInput: 2,
+		ActualInput:   len(lines),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_CsvLinesOptions(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lines := col.CsvLinesOptions(true)
 	tc := coretestcases.CaseV1{
-		Name:     "CsvLinesOptions",
-		Expected: 1,
-		Actual:   len(lines),
-		Args:     args.Map{},
+		Title:         "CsvLinesOptions",
+		ExpectedInput: 1,
+		ActualInput:   len(lines),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_Csv_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	tc := coretestcases.CaseV1{
-		Name:     "Csv empty",
-		Expected: "",
-		Actual:   col.Csv(),
-		Args:     args.Map{},
+		Title:         "Csv empty",
+		ExpectedInput: "",
+		ActualInput:   col.Csv(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_Csv_NonEmpty(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	csv := col.Csv()
 	tc := coretestcases.CaseV1{
-		Name:     "Csv non-empty",
-		Expected: true,
-		Actual:   len(csv) > 0,
-		Args:     args.Map{},
+		Title:         "Csv non-empty",
+		ExpectedInput: true,
+		ActualInput:   len(csv) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_CsvOptions_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	tc := coretestcases.CaseV1{
-		Name:     "CsvOptions empty",
-		Expected: "",
-		Actual:   col.CsvOptions(true),
-		Args:     args.Map{},
+		Title:         "CsvOptions empty",
+		ExpectedInput: "",
+		ActualInput:   col.CsvOptions(true),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_CsvOptions_NonEmpty(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"x"})
 	csv := col.CsvOptions(false)
 	tc := coretestcases.CaseV1{
-		Name:     "CsvOptions non-empty",
-		Expected: true,
-		Actual:   len(csv) > 0,
-		Args:     args.Map{},
+		Title:         "CsvOptions non-empty",
+		ExpectedInput: true,
+		ActualInput:   len(csv) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: IsContainsPtr ──────
@@ -396,35 +368,32 @@ func Test_Cov42_Collection_IsContainsPtr_Found(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"hello"})
 	s := "hello"
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsPtr found",
-		Expected: true,
-		Actual:   col.IsContainsPtr(&s),
-		Args:     args.Map{},
+		Title:         "IsContainsPtr found",
+		ExpectedInput: true,
+		ActualInput:   col.IsContainsPtr(&s),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsPtr_Nil(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"hello"})
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsPtr nil",
-		Expected: false,
-		Actual:   col.IsContainsPtr(nil),
-		Args:     args.Map{},
+		Title:         "IsContainsPtr nil",
+		ExpectedInput: false,
+		ActualInput:   col.IsContainsPtr(nil),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsPtr_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	s := "hello"
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsPtr empty collection",
-		Expected: false,
-		Actual:   col.IsContainsPtr(&s),
-		Args:     args.Map{},
+		Title:         "IsContainsPtr empty collection",
+		ExpectedInput: false,
+		ActualInput:   col.IsContainsPtr(&s),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: GetHashsetPlusHasAll ──────
@@ -433,24 +402,22 @@ func Test_Cov42_Collection_GetHashsetPlusHasAll_True(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	hs, hasAll := col.GetHashsetPlusHasAll([]string{"a", "b"})
 	tc := coretestcases.CaseV1{
-		Name:     "GetHashsetPlusHasAll true",
-		Expected: true,
-		Actual:   hasAll && hs != nil,
-		Args:     args.Map{},
+		Title:         "GetHashsetPlusHasAll true",
+		ExpectedInput: true,
+		ActualInput:   hasAll && hs != nil,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_GetHashsetPlusHasAll_False(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	_, hasAll := col.GetHashsetPlusHasAll([]string{"a", "c"})
 	tc := coretestcases.CaseV1{
-		Name:     "GetHashsetPlusHasAll false",
-		Expected: false,
-		Actual:   hasAll,
-		Args:     args.Map{},
+		Title:         "GetHashsetPlusHasAll false",
+		ExpectedInput: false,
+		ActualInput:   hasAll,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: IsContainsAllSlice ──────
@@ -458,45 +425,41 @@ func Test_Cov42_Collection_GetHashsetPlusHasAll_False(t *testing.T) {
 func Test_Cov42_Collection_IsContainsAllSlice_True(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAllSlice true",
-		Expected: true,
-		Actual:   col.IsContainsAllSlice([]string{"a", "b"}),
-		Args:     args.Map{},
+		Title:         "IsContainsAllSlice true",
+		ExpectedInput: true,
+		ActualInput:   col.IsContainsAllSlice([]string{"a", "b"}),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsAllSlice_False(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAllSlice false",
-		Expected: false,
-		Actual:   col.IsContainsAllSlice([]string{"a", "c"}),
-		Args:     args.Map{},
+		Title:         "IsContainsAllSlice false",
+		ExpectedInput: false,
+		ActualInput:   col.IsContainsAllSlice([]string{"a", "c"}),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsAllSlice_Empty(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAllSlice empty items",
-		Expected: true,
-		Actual:   col.IsContainsAllSlice([]string{}),
-		Args:     args.Map{},
+		Title:         "IsContainsAllSlice empty items",
+		ExpectedInput: true,
+		ActualInput:   col.IsContainsAllSlice([]string{}),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsAllSlice_EmptyCollection(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAllSlice empty collection",
-		Expected: false,
-		Actual:   col.IsContainsAllSlice([]string{"a"}),
-		Args:     args.Map{},
+		Title:         "IsContainsAllSlice empty collection",
+		ExpectedInput: false,
+		ActualInput:   col.IsContainsAllSlice([]string{"a"}),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: IsContainsAll / IsContainsAllLock ──────
@@ -504,34 +467,31 @@ func Test_Cov42_Collection_IsContainsAllSlice_EmptyCollection(t *testing.T) {
 func Test_Cov42_Collection_IsContainsAll_True(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAll true",
-		Expected: true,
-		Actual:   col.IsContainsAll("a", "b"),
-		Args:     args.Map{},
+		Title:         "IsContainsAll true",
+		ExpectedInput: true,
+		ActualInput:   col.IsContainsAll("a", "b"),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsAllLock_True(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAllLock true",
-		Expected: true,
-		Actual:   col.IsContainsAllLock("a", "b"),
-		Args:     args.Map{},
+		Title:         "IsContainsAllLock true",
+		ExpectedInput: true,
+		ActualInput:   col.IsContainsAllLock("a", "b"),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_IsContainsAllLock_Nil(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	tc := coretestcases.CaseV1{
-		Name:     "IsContainsAllLock nil",
-		Expected: false,
-		Actual:   col.IsContainsAllLock("x"),
-		Args:     args.Map{},
+		Title:         "IsContainsAllLock nil",
+		ExpectedInput: false,
+		ActualInput:   col.IsContainsAllLock("x"),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: New (instance method) ──────
@@ -540,24 +500,22 @@ func Test_Cov42_Collection_New_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	newCol := col.New()
 	tc := coretestcases.CaseV1{
-		Name:     "Collection.New empty",
-		Expected: 0,
-		Actual:   newCol.Length(),
-		Args:     args.Map{},
+		Title:         "Collection.New empty",
+		ExpectedInput: 0,
+		ActualInput:   newCol.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_New_WithArgs(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	newCol := col.New("a", "b")
 	tc := coretestcases.CaseV1{
-		Name:     "Collection.New with args",
-		Expected: 2,
-		Actual:   newCol.Length(),
-		Args:     args.Map{},
+		Title:         "Collection.New with args",
+		ExpectedInput: 2,
+		ActualInput:   newCol.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── newCollectionCreator: CloneStrings / LineUsingSep / LineDefault / StringsPlusCap / CapStrings / LenCap ──────
@@ -567,100 +525,91 @@ func Test_Cov42_newCollectionCreator_CloneStrings(t *testing.T) {
 	col := corestr.New.Collection.CloneStrings(items)
 	items[0] = "changed"
 	tc := coretestcases.CaseV1{
-		Name:     "CloneStrings is independent",
-		Expected: "a",
-		Actual:   col.First(),
-		Args:     args.Map{},
+		Title:         "CloneStrings is independent",
+		ExpectedInput: "a",
+		ActualInput:   col.First(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_LineUsingSep(t *testing.T) {
 	col := corestr.New.Collection.LineUsingSep(",", "a,b,c")
 	tc := coretestcases.CaseV1{
-		Name:     "LineUsingSep",
-		Expected: 3,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "LineUsingSep",
+		ExpectedInput: 3,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_LineDefault(t *testing.T) {
 	col := corestr.New.Collection.LineDefault("a\nb")
 	tc := coretestcases.CaseV1{
-		Name:     "LineDefault",
-		Expected: true,
-		Actual:   col.Length() >= 1,
-		Args:     args.Map{},
+		Title:         "LineDefault",
+		ExpectedInput: true,
+		ActualInput:   col.Length() >= 1,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_StringsPlusCap_ZeroCap(t *testing.T) {
 	col := corestr.New.Collection.StringsPlusCap(0, []string{"a"})
 	tc := coretestcases.CaseV1{
-		Name:     "StringsPlusCap zero cap",
-		Expected: 1,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "StringsPlusCap zero cap",
+		ExpectedInput: 1,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_StringsPlusCap_WithCap(t *testing.T) {
 	col := corestr.New.Collection.StringsPlusCap(10, []string{"a", "b"})
 	tc := coretestcases.CaseV1{
-		Name:     "StringsPlusCap with cap",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "StringsPlusCap with cap",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_CapStrings_ZeroCap(t *testing.T) {
 	col := corestr.New.Collection.CapStrings(0, []string{"x"})
 	tc := coretestcases.CaseV1{
-		Name:     "CapStrings zero cap",
-		Expected: 1,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "CapStrings zero cap",
+		ExpectedInput: 1,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_CapStrings_WithCap(t *testing.T) {
 	col := corestr.New.Collection.CapStrings(5, []string{"x"})
 	tc := coretestcases.CaseV1{
-		Name:     "CapStrings with cap",
-		Expected: 1,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "CapStrings with cap",
+		ExpectedInput: 1,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_LenCap(t *testing.T) {
 	col := corestr.New.Collection.LenCap(3, 10)
 	tc := coretestcases.CaseV1{
-		Name:     "LenCap creates with length",
-		Expected: 3,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "LenCap creates with length",
+		ExpectedInput: 3,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_Create(t *testing.T) {
 	col := corestr.New.Collection.Create([]string{"a"})
 	tc := coretestcases.CaseV1{
-		Name:     "Create wraps slice",
-		Expected: "a",
-		Actual:   col.First(),
-		Args:     args.Map{},
+		Title:         "Create wraps slice",
+		ExpectedInput: "a",
+		ActualInput:   col.First(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_StringsOptions_Clone(t *testing.T) {
@@ -668,23 +617,21 @@ func Test_Cov42_newCollectionCreator_StringsOptions_Clone(t *testing.T) {
 	col := corestr.New.Collection.StringsOptions(true, items)
 	items[0] = "changed"
 	tc := coretestcases.CaseV1{
-		Name:     "StringsOptions clone",
-		Expected: "x",
-		Actual:   col.First(),
-		Args:     args.Map{},
+		Title:         "StringsOptions clone",
+		ExpectedInput: "x",
+		ActualInput:   col.First(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_newCollectionCreator_StringsOptions_NoClone_Empty(t *testing.T) {
 	col := corestr.New.Collection.StringsOptions(false, []string{})
 	tc := coretestcases.CaseV1{
-		Name:     "StringsOptions no clone empty",
-		Expected: true,
-		Actual:   col.IsEmpty(),
-		Args:     args.Map{},
+		Title:         "StringsOptions no clone empty",
+		ExpectedInput: true,
+		ActualInput:   col.IsEmpty(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AppendAnys with nil items ──────
@@ -693,12 +640,11 @@ func Test_Cov42_Collection_AppendAnys_WithNilItem(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AppendAnys("hello", nil, "world")
 	tc := coretestcases.CaseV1{
-		Name:     "AppendAnys skips nil",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendAnys skips nil",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AppendAnysUsingFilter ──────
@@ -710,12 +656,11 @@ func Test_Cov42_Collection_AppendAnysUsingFilter_Accept(t *testing.T) {
 	}
 	col.AppendAnysUsingFilter(filter, "a", "b")
 	tc := coretestcases.CaseV1{
-		Name:     "AppendAnysUsingFilter accept",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendAnysUsingFilter accept",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
@@ -725,12 +670,11 @@ func Test_Cov42_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 	}
 	col.AppendAnysUsingFilter(filter, "a", "b")
 	tc := coretestcases.CaseV1{
-		Name:     "AppendAnysUsingFilter break after first",
-		Expected: 1,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendAnysUsingFilter break after first",
+		ExpectedInput: 1,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AppendAnysUsingFilter_Skip(t *testing.T) {
@@ -740,12 +684,11 @@ func Test_Cov42_Collection_AppendAnysUsingFilter_Skip(t *testing.T) {
 	}
 	col.AppendAnysUsingFilter(filter, "a")
 	tc := coretestcases.CaseV1{
-		Name:     "AppendAnysUsingFilter skip",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendAnysUsingFilter skip",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AppendAnysUsingFilterLock ──────
@@ -757,24 +700,22 @@ func Test_Cov42_Collection_AppendAnysUsingFilterLock_Accept(t *testing.T) {
 	}
 	col.AppendAnysUsingFilterLock(filter, "x")
 	tc := coretestcases.CaseV1{
-		Name:     "AppendAnysUsingFilterLock accept",
-		Expected: 1,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendAnysUsingFilterLock accept",
+		ExpectedInput: 1,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AppendAnysUsingFilterLock_Nil(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AppendAnysUsingFilterLock(nil, nil)
 	tc := coretestcases.CaseV1{
-		Name:     "AppendAnysUsingFilterLock nil args",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendAnysUsingFilterLock nil args",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: AppendNonEmptyAnys ──────
@@ -783,24 +724,22 @@ func Test_Cov42_Collection_AppendNonEmptyAnys_Valid(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AppendNonEmptyAnys("hello", nil, "world")
 	tc := coretestcases.CaseV1{
-		Name:     "AppendNonEmptyAnys skips nil",
-		Expected: 2,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendNonEmptyAnys skips nil",
+		ExpectedInput: 2,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_AppendNonEmptyAnys_Nil(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	col.AppendNonEmptyAnys(nil)
 	tc := coretestcases.CaseV1{
-		Name:     "AppendNonEmptyAnys nil args",
-		Expected: 0,
-		Actual:   col.Length(),
-		Args:     args.Map{},
+		Title:         "AppendNonEmptyAnys nil args",
+		ExpectedInput: 0,
+		ActualInput:   col.Length(),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: GetAllExceptCollection / GetAllExcept ──────
@@ -810,48 +749,44 @@ func Test_Cov42_Collection_GetAllExceptCollection_WithExclude(t *testing.T) {
 	exclude := corestr.New.Collection.Strings([]string{"b"})
 	result := col.GetAllExceptCollection(exclude)
 	tc := coretestcases.CaseV1{
-		Name:     "GetAllExceptCollection excludes",
-		Expected: 2,
-		Actual:   len(result),
-		Args:     args.Map{},
+		Title:         "GetAllExceptCollection excludes",
+		ExpectedInput: 2,
+		ActualInput:   len(result),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_GetAllExceptCollection_NilExclude(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	result := col.GetAllExceptCollection(nil)
 	tc := coretestcases.CaseV1{
-		Name:     "GetAllExceptCollection nil returns copy",
-		Expected: 2,
-		Actual:   len(result),
-		Args:     args.Map{},
+		Title:         "GetAllExceptCollection nil returns copy",
+		ExpectedInput: 2,
+		ActualInput:   len(result),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_GetAllExcept_Valid(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	result := col.GetAllExcept([]string{"c"})
 	tc := coretestcases.CaseV1{
-		Name:     "GetAllExcept excludes",
-		Expected: 2,
-		Actual:   len(result),
-		Args:     args.Map{},
+		Title:         "GetAllExcept excludes",
+		ExpectedInput: 2,
+		ActualInput:   len(result),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_GetAllExcept_Nil(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	result := col.GetAllExcept(nil)
 	tc := coretestcases.CaseV1{
-		Name:     "GetAllExcept nil returns copy",
-		Expected: 1,
-		Actual:   len(result),
-		Args:     args.Map{},
+		Title:         "GetAllExcept nil returns copy",
+		ExpectedInput: 1,
+		ActualInput:   len(result),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: SummaryString / SummaryStringWithHeader ──────
@@ -860,36 +795,33 @@ func Test_Cov42_Collection_SummaryString(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	s := col.SummaryString(1)
 	tc := coretestcases.CaseV1{
-		Name:     "SummaryString",
-		Expected: true,
-		Actual:   len(s) > 0,
-		Args:     args.Map{},
+		Title:         "SummaryString",
+		ExpectedInput: true,
+		ActualInput:   len(s) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_SummaryStringWithHeader_NonEmpty(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"x"})
 	s := col.SummaryStringWithHeader("header")
 	tc := coretestcases.CaseV1{
-		Name:     "SummaryStringWithHeader non-empty",
-		Expected: true,
-		Actual:   len(s) > 0,
-		Args:     args.Map{},
+		Title:         "SummaryStringWithHeader non-empty",
+		ExpectedInput: true,
+		ActualInput:   len(s) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_SummaryStringWithHeader_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	s := col.SummaryStringWithHeader("header")
 	tc := coretestcases.CaseV1{
-		Name:     "SummaryStringWithHeader empty",
-		Expected: true,
-		Actual:   len(s) > 0,
-		Args:     args.Map{},
+		Title:         "SummaryStringWithHeader empty",
+		ExpectedInput: true,
+		ActualInput:   len(s) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: Joins with extra items ──────
@@ -898,24 +830,22 @@ func Test_Cov42_Collection_Joins_WithExtra(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	result := col.Joins(",", "c")
 	tc := coretestcases.CaseV1{
-		Name:     "Joins with extra items",
-		Expected: true,
-		Actual:   len(result) > 0,
-		Args:     args.Map{},
+		Title:         "Joins with extra items",
+		ExpectedInput: true,
+		ActualInput:   len(result) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_Joins_NoExtra(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	result := col.Joins(",")
 	tc := coretestcases.CaseV1{
-		Name:     "Joins no extra",
-		Expected: "a,b",
-		Actual:   result,
-		Args:     args.Map{},
+		Title:         "Joins no extra",
+		ExpectedInput: "a,b",
+		ActualInput:   result,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: Serialize / Deserialize ──────
@@ -924,12 +854,11 @@ func Test_Cov42_Collection_Serialize(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	bytes, err := col.Serialize()
 	tc := coretestcases.CaseV1{
-		Name:     "Serialize success",
-		Expected: true,
-		Actual:   err == nil && len(bytes) > 0,
-		Args:     args.Map{},
+		Title:         "Serialize success",
+		ExpectedInput: true,
+		ActualInput:   err == nil && len(bytes) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_Deserialize(t *testing.T) {
@@ -937,12 +866,11 @@ func Test_Cov42_Collection_Deserialize(t *testing.T) {
 	var target []string
 	err := col.Deserialize(&target)
 	tc := coretestcases.CaseV1{
-		Name:     "Deserialize success",
-		Expected: true,
-		Actual:   err == nil && len(target) == 1,
-		Args:     args.Map{},
+		Title:         "Deserialize success",
+		ExpectedInput: true,
+		ActualInput:   err == nil && len(target) == 1,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: NonEmptyList / NonEmptyListPtr ──────
@@ -951,24 +879,22 @@ func Test_Cov42_Collection_NonEmptyList(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "", "b"})
 	list := col.NonEmptyList()
 	tc := coretestcases.CaseV1{
-		Name:     "NonEmptyList filters empty",
-		Expected: 2,
-		Actual:   len(list),
-		Args:     args.Map{},
+		Title:         "NonEmptyList filters empty",
+		ExpectedInput: 2,
+		ActualInput:   len(list),
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_NonEmptyListPtr(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "", "b"})
 	listPtr := col.NonEmptyListPtr()
 	tc := coretestcases.CaseV1{
-		Name:     "NonEmptyListPtr non-nil",
-		Expected: true,
-		Actual:   listPtr != nil,
-		Args:     args.Map{},
+		Title:         "NonEmptyListPtr non-nil",
+		ExpectedInput: true,
+		ActualInput:   listPtr != nil,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 // ─── Collection: StringLock ──────
@@ -977,22 +903,20 @@ func Test_Cov42_Collection_StringLock_NonEmpty(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	s := col.StringLock()
 	tc := coretestcases.CaseV1{
-		Name:     "StringLock non-empty",
-		Expected: true,
-		Actual:   len(s) > 0,
-		Args:     args.Map{},
+		Title:         "StringLock non-empty",
+		ExpectedInput: true,
+		ActualInput:   len(s) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
 
 func Test_Cov42_Collection_StringLock_Empty(t *testing.T) {
 	col := corestr.New.Collection.Empty()
 	s := col.StringLock()
 	tc := coretestcases.CaseV1{
-		Name:     "StringLock empty",
-		Expected: true,
-		Actual:   len(s) > 0,
-		Args:     args.Map{},
+		Title:         "StringLock empty",
+		ExpectedInput: true,
+		ActualInput:   len(s) > 0,
 	}
-	tc.ShouldBeEqual(t)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 }
