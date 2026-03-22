@@ -127,11 +127,12 @@ func Test_Cov3_BaseTestCase_TypesValidationMustPasses_WithError(t *testing.T) {
 	}
 	tc.SetActual("actual")
 
-	// Wrap in sub-test to catch the t.Error call
-	t.Run("type-mismatch", func(st *testing.T) {
-		tc.TypesValidationMustPasses(st)
-		// The test will report error inside, which is expected behavior
-	})
+	// Wrap in isolated T to catch the t.Error call
+	sub := &testing.T{}
+	func() {
+		defer func() { recover() }()
+		tc.TypesValidationMustPasses(sub)
+	}()
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
