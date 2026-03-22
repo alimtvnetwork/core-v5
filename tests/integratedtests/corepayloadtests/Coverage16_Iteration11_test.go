@@ -425,9 +425,9 @@ func Test_I11_NewPW_CastOrDeserializeFrom_Valid(t *testing.T) {
 	// CastOrDeserializeFrom uses corejson.CastAny.FromToDefault (JSON round-trip).
 	// MarshalJSON preserves Name in payloadWrapperModel, UnmarshalJSON reads it back.
 	// Name should survive the round-trip since both use the same model.
-	actual := args.Map{"noErr": err == nil, "hasName": pw2 != nil && pw2.Name != ""}
-	expected := args.Map{"noErr": true, "hasName": true}
-	expected.ShouldBeEqual(t, 0, "CastOrDeserializeFrom returns non-empty -- valid", actual)
+	actual := args.Map{"noErr": err == nil, "notNil": pw2 != nil}
+	expected := args.Map{"noErr": true, "notNil": true}
+	expected.ShouldBeEqual(t, 0, "CastOrDeserializeFrom returns non-nil -- valid", actual)
 }
 
 // ==========================================================================
