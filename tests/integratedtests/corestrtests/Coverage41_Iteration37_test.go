@@ -865,7 +865,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break(t
 
 func Test_Cov41_CharCollectionMap_AddCharHashsetMap(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	chm := corestr.New.CharHashsetMap.Empty()
+	chm := corestr.New.CharHashsetMap.Cap(10, 5)
 	chm.Add("hello")
 	m.AddCharHashsetMap(chm)
 	tc := caseV1Compat{
