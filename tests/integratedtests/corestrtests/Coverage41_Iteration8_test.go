@@ -93,10 +93,10 @@ func Test_I8_Collection_InsertAt(t *testing.T) {
 
 func Test_I8_Collection_RemoveItemsIndexes(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c", "d"})
-	c.RemoveItemsIndexes(0, 2)
+	c.RemoveItemsIndexes(false, 0, 2)
 	c2 := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	indexes := []int{0}
-	c2.RemoveItemsIndexesPtr(&indexes)
+	c2.RemoveItemsIndexesPtr(false, indexes)
 }
 
 func Test_I8_Collection_FirstLastSingleTakeSkip(t *testing.T) {
