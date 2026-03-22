@@ -759,7 +759,7 @@ func Test_I8_Hashset_AddCollections(t *testing.T) {
 	h.AddCollection(c)
 	h.AddCollections(c)
 	h.AddItemsMap(map[string]bool{"c": true, "d": false})
-	ss := corestr.New.SimpleSlice.Items("e", "f")
+	ss := corestr.New.SimpleSlice.SpreadStrings("e", "f")
 	h.AddSimpleSlice(ss)
 	h2 := corestr.New.Hashset.StringsSpreadItems("g")
 	h.AddHashsetItems(h2)
