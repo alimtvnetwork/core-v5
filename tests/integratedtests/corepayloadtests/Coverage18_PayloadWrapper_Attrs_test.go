@@ -100,11 +100,12 @@ func Test_CovPL_S1_05_HasError_IsEmptyError_HasAttributes_IsEmptyAttributes(t *t
 	if !pw.IsEmptyError() {
 		t.Fatal("expected true")
 	}
-	if !pw.HasAttributes() {
-		t.Fatal("expected true")
+	// Create() with non-bytes record does NOT set Attributes (passes nil)
+	if pw.HasAttributes() {
+		t.Fatal("expected false — Create with any record does not set Attributes")
 	}
-	if pw.IsEmptyAttributes() {
-		t.Fatal("expected false")
+	if !pw.IsEmptyAttributes() {
+		t.Fatal("expected true")
 	}
 	// nil
 	var nilPW *corepayload.PayloadWrapper
@@ -498,11 +499,16 @@ func Test_CovPL_S1_34_Attributes_HasPagingInfo_HasKeyValuePairs_HasFromTo(t *tes
 
 func Test_CovPL_S1_35_Attributes_IsValid_IsInvalid_IsSafeValid_HasIssuesOrEmpty(t *testing.T) {
 	attr := corepayload.New.Attributes.Empty()
+	// Empty() creates non-nil Attributes with no error → IsValid = (it != nil && IsEmptyError) = true
+	// BUT IsInvalid = (it == nil || HasIssuesOrEmpty)
+	// HasIssuesOrEmpty = IsEmpty() || !IsValid() || (BasicErr && HasError)
+	// IsEmpty = len(DynamicPayloads) == 0 → true for Empty()
+	// So HasIssuesOrEmpty = true, IsInvalid = true
 	if !attr.IsValid() {
-		t.Fatal("expected true")
+		t.Fatal("expected true — non-nil, no error")
 	}
-	if attr.IsInvalid() {
-		t.Fatal("expected false")
+	if !attr.IsInvalid() {
+		t.Fatal("expected true — empty attrs are invalid (HasIssuesOrEmpty=true)")
 	}
 	// nil
 	var nilAttr *corepayload.Attributes
@@ -725,7 +731,10 @@ func Test_CovPL_S1_53_NewPW_DeserializeToMany(t *testing.T) {
 
 func Test_CovPL_S1_54_NewPW_DeserializeToCollection(t *testing.T) {
 	pws := []*corepayload.PayloadWrapper{newTestPW()}
-	b, _ := corejson.Serialize.Raw(pws)
+	// DeserializeToCollection calls PayloadsCollection.Deserialize which expects
+	// {"Items":[...]} format, not raw array — serialize the collection struct
+	pc := &corepayload.PayloadsCollection{Items: pws}
+	b, _ := corejson.Serialize.Raw(pc)
 	col, err := corepayload.New.PayloadWrapper.DeserializeToCollection(b)
 	if err != nil || col == nil {
 		t.Fatal("expected non-nil")

@@ -50,6 +50,10 @@ func (it rvUtils) ReflectValueToAnyValue(rv reflect.Value) any {
 
 	switch k {
 	case reflect.Ptr, reflect.Interface:
+		if rv.IsNil() {
+			return nil
+		}
+
 		return rv.Elem().Interface()
 	default:
 		return rv.Interface()

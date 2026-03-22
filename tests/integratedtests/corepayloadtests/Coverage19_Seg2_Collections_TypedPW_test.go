@@ -899,7 +899,9 @@ func Test_CovPL_S2_61_TPC_Deserialization(t *testing.T) {
 	col := corepayload.NewTypedPayloadCollection[D](1)
 	col.Add(tw)
 	pc := col.ToPayloadsCollection()
-	b, _ := corejson.Serialize.Raw(pc)
+	// TypedPayloadCollectionDeserialize calls DeserializeToMany which expects
+	// a JSON array [{},...], not {"Items":[...]} — serialize Items directly
+	b, _ := corejson.Serialize.Raw(pc.Items)
 	col2, err := corepayload.TypedPayloadCollectionDeserialize[D](b)
 	if err != nil || col2.Length() != 1 {
 		t.Fatal("expected 1")
@@ -941,7 +943,9 @@ func Test_CovPL_S2_65_TypedPW_Creators(t *testing.T) {
 	if err2 != nil {
 		t.Fatal("expected no error")
 	}
-	_, err3 := corepayload.TypedPayloadWrapperRecords[D]("n", "1", "t", "c", D{A: 1})
+	// TypedPayloadWrapperRecords calls SafeTypeNameOfSliceOrSingle(false, data)
+	// which calls SliceFirstItemTypeName → rt.Elem() — data MUST be a slice
+	_, err3 := corepayload.TypedPayloadWrapperRecords[[]D]("n", "1", "t", "c", []D{{A: 1}})
 	if err3 != nil {
 		t.Fatal("expected no error")
 	}
