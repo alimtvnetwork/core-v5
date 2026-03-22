@@ -295,8 +295,7 @@ func Test_I14_ValidateMethodArgs_EmptyArgs(t *testing.T) {
 
 func Test_I14_InvokeFirstAndError_MultiReturn(t *testing.T) {
 	mp := newMethodProcessor("MultiReturn")
-	// InvokeFirstAndError always takes results[1].(error), but MultiReturn returns
-	// (int, string, error) — results[1] is string, not error → panics
+	// InvokeFirstAndError should return processing error when 2nd return is non-error.
 	didPanic := false
 	func() {
 		defer func() {
@@ -307,7 +306,7 @@ func Test_I14_InvokeFirstAndError_MultiReturn(t *testing.T) {
 		mp.InvokeFirstAndError(sampleStruct{})
 	}()
 	actual := args.Map{"didPanic": didPanic}
-	expected := args.Map{"didPanic": true}
+	expected := args.Map{"didPanic": false}
 	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError panics -- MultiReturn string not error", actual)
 }
 

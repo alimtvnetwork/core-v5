@@ -2,14 +2,22 @@ package coredynamic
 
 import (
 	"reflect"
-
-	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 func SafeZeroSet(rv reflect.Value) {
-	if reflectinternal.Is.Null(rv) {
+	if !rv.IsValid() {
 		return
 	}
 
-	rv.Elem().Set(reflect.Zero(rv.Elem().Type()))
+	if rv.Kind() != reflect.Ptr || rv.IsNil() {
+		return
+	}
+
+	elem := rv.Elem()
+
+	if !elem.IsValid() || !elem.CanSet() {
+		return
+	}
+
+	elem.Set(reflect.Zero(elem.Type()))
 }

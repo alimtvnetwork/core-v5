@@ -281,9 +281,9 @@ func Test_I16_KVC_JsonString(t *testing.T) {
 	c := coredynamic.EmptyKeyValCollection()
 	c.Add(coredynamic.KeyVal{Key: "k", Value: "v"})
 	s, err := c.JsonString()
-	// KVC has unexported items → json.Marshal produces {} → IsEmptyJsonBytes → empty string
+	// KVC serializes JsonModel with exported Items.
 	actual := args.Map{"noErr": err == nil, "notEmpty": s != ""}
-	expected := args.Map{"noErr": true, "notEmpty": false}
+	expected := args.Map{"noErr": true, "notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "KVC returns correct value -- JsonString", actual)
 }
 

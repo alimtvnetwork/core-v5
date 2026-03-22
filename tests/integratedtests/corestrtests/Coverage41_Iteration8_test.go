@@ -1344,7 +1344,7 @@ func Test_I8_ValidValues(t *testing.T) {
 			{Value: "b", IsValid: false},
 		},
 	}
-	_ = len(vv)
+	_ = vv.Length()
 }
 
 // ==========================================================================

@@ -1114,10 +1114,10 @@ func Test_Cov8_Deserialize_MapAnyToPointer_Empty(t *testing.T) {
 }
 
 func Test_Cov8_Deserialize_AnyToFieldsMap(t *testing.T) {
-	// AnyToFieldsMap delegates to DeserializedFieldsToMap which has the nil-map bug
+	// AnyToFieldsMap should deserialize valid map input.
 	m, err := corejson.Deserialize.AnyToFieldsMap(map[string]int{"a": 1})
 	actual := args.Map{"isNil": m == nil, "hasErr": err != nil}
-	expected := args.Map{"isNil": true, "hasErr": true}
+	expected := args.Map{"isNil": false, "hasErr": false}
 	expected.ShouldBeEqual(t, 0, "Deserialize.AnyToFieldsMap returns correct value -- with args", actual)
 }
 
@@ -1339,10 +1339,10 @@ func Test_Cov8_AnyTo_SerializedSafeString(t *testing.T) {
 }
 
 func Test_Cov8_AnyTo_SerializedFieldsMap(t *testing.T) {
-	// Same nil-map bug in DeserializedFieldsToMap
+	// SerializedFieldsMap should deserialize valid map input.
 	m, err := corejson.AnyTo.SerializedFieldsMap(map[string]int{"a": 1})
 	actual := args.Map{"isNil": m == nil, "hasErr": err != nil}
-	expected := args.Map{"isNil": true, "hasErr": true}
+	expected := args.Map{"isNil": false, "hasErr": false}
 	expected.ShouldBeEqual(t, 0, "AnyTo.SerializedFieldsMap returns correct value -- with args", actual)
 }
 

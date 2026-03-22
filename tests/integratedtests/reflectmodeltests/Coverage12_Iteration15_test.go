@@ -175,13 +175,20 @@ func Test_I15_InvokeFirstAndError_NilErrorInterface(t *testing.T) {
 
 func Test_I15_InvokeFirstAndError_NonErrorSecondReturn_Panics(t *testing.T) {
 	mp := getI15MP("ReturnBoolInt")
-	defer func() {
-		r := recover()
-		actual := args.Map{"panicked": r != nil}
-		expected := args.Map{"panicked": true}
-		expected.ShouldBeEqual(t, 0, "InvokeFirstAndError panics -- non-error second return", actual)
+	panicked := false
+	_, _, processingErr := func() (any, error, error) {
+		defer func() {
+			if recover() != nil {
+				panicked = true
+			}
+		}()
+
+		return mp.InvokeFirstAndError(helperI15{}, 5)
 	}()
-	mp.InvokeFirstAndError(helperI15{}, 5)
+
+	actual := args.Map{"panicked": panicked, "hasProcessingErr": processingErr != nil}
+	expected := args.Map{"panicked": false, "hasProcessingErr": true}
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError panics -- non-error second return", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
