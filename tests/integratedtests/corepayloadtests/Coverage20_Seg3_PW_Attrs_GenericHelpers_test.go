@@ -258,7 +258,7 @@ func Test_CovPL_S3_19_DeserializePayloads_Nested(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.UsingCap(1)
 	pc.Add(*newPWForSeg3())
 	b, _ := corejson.Serialize.Raw(pc)
-	pw2, _ := corepayload.New.PayloadWrapper.CreateUsingBytes("outer", "1", "t", "c", b)
+	pw2 := corepayload.New.PayloadWrapper.All("outer", "1", "t", "c", "", false, nil, b)
 	_, _ = pw2.DeserializePayloadsToPayloadsCollection()
 	_, _ = pw.DeserializePayloadsToPayloadWrapper()
 }
