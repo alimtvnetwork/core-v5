@@ -106,6 +106,24 @@ function Scan-FileForRegressions {
     }
 
     # Rule 3: Legacy CaseV1 fields inside coretestcases.CaseV1 literals
+    # Rule 4: Invalid Hashmap hm.Add() usage (should be hm.AddOrUpdate)
+    # Detect variables assigned from corestr.New.Hashmap.* then called with .Add(
+    $hashmapVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.Hashmap\.') {
+            $hashmapVarNames.Add($Matches[1]) | Out-Null
+        }
+    }
+
+    foreach ($hmVar in $hashmapVarNames) {
+        $escapedHm = [regex]::Escape($hmVar)
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            if ($lines[$i] -match "\b$escapedHm\.Add\(") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "hashmap-invalid-add" "Use .AddOrUpdate() or .Set() instead of .Add() on corestr.Hashmap" $lines[$i]
+            }
+        }
+    }
+
     $aliases = Get-CoreTestCasesAliases $raw
     if ($aliases.Count -eq 0) { return }
 
