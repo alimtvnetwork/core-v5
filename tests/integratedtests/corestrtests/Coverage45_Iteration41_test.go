@@ -631,7 +631,7 @@ func Test_Cov45_KeyAnyValuePair_String(t *testing.T) {
 func Test_Cov45_KeyAnyValuePair_Json(t *testing.T) {
 	kv := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	j := kv.Json()
-	tc := caseV1Compat{Name: "Json", Expected: true, Actual: j.HasSafeNonEmpty()
+	tc := caseV1Compat{Name: "Json", Expected: true, Actual: j.HasAnyItem()
 	tc.ShouldBeEqual(t)
 }
 
