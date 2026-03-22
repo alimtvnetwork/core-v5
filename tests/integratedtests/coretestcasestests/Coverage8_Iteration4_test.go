@@ -45,12 +45,19 @@ func Test_Cov8_GenericGherkins_ShouldBeEqualMap_NotMap(t *testing.T) {
 	}
 	actual := args.Map{"key": "val"}
 
-	// Act — use fake T so Fatalf doesn't propagate to parent test
-	fakeT := &testing.T{}
-	func() {
-		defer func() { recover() }()
+	// Act — Fatalf calls runtime.Goexit which recover() can't stop.
+	// Must run in a separate goroutine to isolate.
+	done := make(chan bool, 1)
+	go func() {
+		defer func() {
+			recover()
+			done <- true
+		}()
+		fakeT := &testing.T{}
 		tc.ShouldBeEqualMap(fakeT, 0, actual)
+		done <- true
 	}()
+	<-done
 
 	fmt.Println("GenericGherkins.ShouldBeEqualMap not-ok branch covered")
 }
