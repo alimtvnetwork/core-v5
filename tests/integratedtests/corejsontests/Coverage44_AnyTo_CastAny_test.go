@@ -513,12 +513,13 @@ func Test_Cov44_CastAny_FromToOption_String(t *testing.T) {
 func Test_Cov44_CastAny_FromToOption_Result(t *testing.T) {
 	tc := castAnyFromToResultTestCase
 
-	// Arrange
+	// Arrange — Result implements Jsoner, so Jsoner case matches first → double-serializes
+	// Use r.Bytes directly to bypass Jsoner match and test the bytes path
 	r := corejson.New("hello")
 	var dst string
 
 	// Act
-	err := corejson.CastAny.FromToOption(false, r, &dst)
+	err := corejson.CastAny.FromToOption(false, r.Bytes, &dst)
 	actual := args.Map{
 		"hasError": err != nil,
 		"result":   dst,
