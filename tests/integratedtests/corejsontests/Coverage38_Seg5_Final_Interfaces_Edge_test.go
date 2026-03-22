@@ -54,9 +54,9 @@ func Test_CovJsonS5_R04_Result_PrettyJsonString(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_R05_Result_JsonStringMust(t *testing.T) {
+func Test_CovJsonS5_R05_Result_RawStringMust(t *testing.T) {
 	r := corejson.New(1)
-	s := r.JsonStringMust()
+	s := r.RawStringMust()
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
