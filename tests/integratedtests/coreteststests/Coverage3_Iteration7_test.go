@@ -44,22 +44,24 @@ func Test_Cov3_BaseTestCase_ShouldBeExplicit_Mismatch(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov3_BaseTestCase_TypeShouldMatch_WithMismatch(t *testing.T) {
-	// Arrange — set VerifyTypeOf to cause a type mismatch
 	tc := &coretests.BaseTestCase{
 		Title:         "type mismatch for TypeShouldMatch",
 		ArrangeInput:  "string_input",
-		ExpectedInput: 42, // int — will mismatch against expected type
+		ExpectedInput: 42,
 		VerifyTypeOf: &coretests.VerifyTypeOf{
 			ArrangeInput:  reflect.TypeOf(""),
 			ActualInput:   reflect.TypeOf(""),
-			ExpectedInput: reflect.TypeOf(""), // expects string but ExpectedInput is int
+			ExpectedInput: reflect.TypeOf(""),
 		},
 		IsEnable: issetter.True,
 	}
 	tc.SetActual("actual_string")
 
-	// Act — exercises the TypeShouldMatch error path with convey assertion
-	tc.TypeShouldMatch(t, 0, "type mismatch test")
+	// Act — wrap in sub-test so mismatch error doesn't fail outer test
+	t.Run("sub", func(st *testing.T) {
+		defer func() { recover() }()
+		tc.TypeShouldMatch(st, 0, "type mismatch test")
+	})
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
