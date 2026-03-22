@@ -27,7 +27,7 @@
 
     Mode options (for TC/TCP):
         --sync        Run precompile + tests sequentially (default: parallel)
-        --no-open     Skip auto-opening HTML coverage report
+        --open        Open HTML coverage report in browser (default: don't open)
 
 .EXAMPLE
     ./run.ps1 T
