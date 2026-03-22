@@ -5,26 +5,8 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corestr"
-	"github.com/alimtvnetwork/core/coretests/args"
-	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/issetter"
 )
-
-type caseV1Compat struct {
-	Name     string
-	Expected any
-	Actual   any
-	Args     args.Map
-}
-
-func (it caseV1Compat) ShouldBeEqual(t *testing.T) {
-	tc := caseV1Compat{
-		Title:         it.Name,
-		ExpectedInput: it.Expected,
-		ActualInput:   it.Actual,
-	}
-	tc.ShouldBeEqual(t, 0)
-}
 
 // ═══════════════════════════════════════════════════════════════
 // SimpleStringOnce — Split methods
