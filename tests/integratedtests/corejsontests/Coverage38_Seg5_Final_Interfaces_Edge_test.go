@@ -208,10 +208,10 @@ func Test_CovJsonS5_CA02_CastAny_FromToOption(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_CA03_CastAny_FromToResult(t *testing.T) {
-	r := corejson.New(map[string]int{"a": 1})
+func Test_CovJsonS5_CA03_CastAny_OrDeserializeTo(t *testing.T) {
+	src := map[string]int{"a": 1}
 	var dst map[string]int
-	err := corejson.CastAny.FromToResult(&r, &dst)
+	err := corejson.CastAny.OrDeserializeTo(src, &dst)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
