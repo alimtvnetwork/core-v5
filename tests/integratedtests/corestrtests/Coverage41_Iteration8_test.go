@@ -139,7 +139,7 @@ func Test_I8_Collection_IsEquals(t *testing.T) {
 	if a.IsEquals(c) { t.Fatal("expected not equal") }
 	if a.IsEquals(nil) { t.Fatal("expected not equal to nil") }
 
-	_ = a.IsEqualsWithSensitive(b, false)
+	_ = a.IsEqualsWithSensitive(false, b)
 }
 
 func Test_I8_Collection_LengthLock(t *testing.T) {
