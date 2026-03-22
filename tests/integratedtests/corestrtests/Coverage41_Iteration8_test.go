@@ -328,8 +328,8 @@ func Test_I8_Collection_AppendAnys(t *testing.T) {
 	c.AppendAnys("a", 1, nil)
 	c.AppendAnysLock("b", 2)
 	c.AppendNonEmptyAnys("", "c", nil)
-	c.AppendAnysUsingFilter(func(a any) bool { return a != nil }, "d", nil)
-	c.AppendAnysUsingFilterLock(func(a any) bool { return true }, "e")
+	c.AppendAnysUsingFilter(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, str != "", false }), "d", nil)
+	c.AppendAnysUsingFilterLock(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }), "e")
 }
 
 func Test_I8_Collection_GetAllExcept(t *testing.T) {
