@@ -779,7 +779,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsValues_Nil(t *testing.T) {
 
 func Test_Cov41_CharCollectionMap_AddHashmapsValues_Valid(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "val1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "val1"})
 	m.AddHashmapsValues(hm)
 	tc := caseV1Compat{
 		Name:     "AddHashmapsValues valid",
@@ -804,7 +804,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysValuesBoth_Nil(t *testing.T) {
 
 func Test_Cov41_CharCollectionMap_AddHashmapsKeysValuesBoth_Valid(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("key", "val")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "key", Value: "val"})
 	m.AddHashmapsKeysValuesBoth(hm)
 	tc := caseV1Compat{
 		Name:     "AddHashmapsKeysValuesBoth adds both key and value",
@@ -831,7 +831,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Nil(t *
 
 func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Accept(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Value, true, false
 	}
@@ -847,7 +847,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Accept(
 
 func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Value, false, true
 	}
@@ -865,7 +865,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break(t
 
 func Test_Cov41_CharCollectionMap_AddCharHashsetMap(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	chm := corestr.New.CharHashsetMap.Empty()
+	chm := corestr.New.CharHashsetMap.Cap(10, 5)
 	chm.Add("hello")
 	m.AddCharHashsetMap(chm)
 	tc := caseV1Compat{
@@ -1343,7 +1343,7 @@ func Test_Cov41_CharCollectionMap_Json(t *testing.T) {
 	tc := caseV1Compat{
 		Name:     "Json returns result",
 		Expected: true,
-		Actual:   j.HasData(),
+		Actual:   j.Error == nil,
 		Args:     args.Map{},
 	}
 	tc.ShouldBeEqual(t)

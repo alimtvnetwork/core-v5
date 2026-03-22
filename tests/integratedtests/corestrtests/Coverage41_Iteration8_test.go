@@ -51,7 +51,7 @@ func Test_I8_Collection_AddVariants(t *testing.T) {
 	c.AddIfMany(true, "e", "f")
 	c.AddIfMany(false, "skip1", "skip2")
 	c.AddFunc(func() string { return "g" })
-	c.AddFuncErr(func() (string, error) { return "h", nil })
+	c.AddFuncErr(func() (string, error) { return "h", nil }, func(errInput error) {})
 	c.AddError(nil)
 
 	if c.Length() < 7 { t.Fatal("expected at least 7 items") }
@@ -93,10 +93,10 @@ func Test_I8_Collection_InsertAt(t *testing.T) {
 
 func Test_I8_Collection_RemoveItemsIndexes(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c", "d"})
-	c.RemoveItemsIndexes(0, 2)
+	c.RemoveItemsIndexes(false, 0, 2)
 	c2 := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	indexes := []int{0}
-	c2.RemoveItemsIndexesPtr(&indexes)
+	c2.RemoveItemsIndexesPtr(false, indexes)
 }
 
 func Test_I8_Collection_FirstLastSingleTakeSkip(t *testing.T) {
@@ -128,7 +128,7 @@ func Test_I8_Collection_Reverse(t *testing.T) {
 func Test_I8_Collection_IndexAt(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	if c.IndexAt(0) != "a" { t.Fatal("index 0") }
-	if c.SafeIndexAtUsingLength(0, 3) != "a" { t.Fatal("safe index 0") }
+	if c.SafeIndexAtUsingLength("", 3, 0) != "a" { t.Fatal("safe index 0") }
 }
 
 func Test_I8_Collection_IsEquals(t *testing.T) {
