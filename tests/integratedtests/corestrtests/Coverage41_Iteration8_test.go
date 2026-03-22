@@ -373,8 +373,8 @@ func Test_I8_Collection_AddStringsByFuncChecking(t *testing.T) {
 
 func Test_I8_Collection_ExpandSlicePlusAdd(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	c.ExpandSlicePlusAdd([]string{"a", "b"}, func(s string) string {
-		return strings.ToUpper(s)
+	c.ExpandSlicePlusAdd([]string{"a", "b"}, func(s string) []string {
+		return []string{strings.ToUpper(s)}
 	})
 }
 
