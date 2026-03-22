@@ -1597,7 +1597,7 @@ func Test_C36_193_TypedSimpleResult_ClonePtr_Nil(t *testing.T) {
 func Test_C36_194_TypedSimpleResult_Clone_Nil(t *testing.T) {
 	var r *coredynamic.TypedSimpleResult[int]
 	c := r.Clone()
-	if c.IsValid {
+	if c.IsValid() {
 		t.Error("expected not valid")
 	}
 }

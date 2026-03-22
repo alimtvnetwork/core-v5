@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/coredynamic"
-	"github.com/alimtvnetwork/core/coredata/corejson"
 	"github.com/alimtvnetwork/core/coretests/args"
 )
 

@@ -1878,7 +1878,7 @@ func Test_C33_204_DynamicCollection_GetPagingInfo(t *testing.T) {
 		dc.Add(coredynamic.NewDynamicValid(i))
 	}
 	info := dc.GetPagingInfo(3, 1)
-	if info.EachPageSize != 3 {
-		t.Errorf("expected page size 3")
+	if info.TotalPages != 4 {
+		t.Errorf("expected 4 total pages")
 	}
 }
