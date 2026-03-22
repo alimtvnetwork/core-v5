@@ -330,11 +330,16 @@ func Test_Cov66_NCLLN_IsChainingApplied_False(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "NCLLN not chained", actual)
 }
 
-func Test_Cov66_NCLLN_FirstLast(t *testing.T) {
+func Test_Cov66_NCLLN_FirstLast_WithItems(t *testing.T) {
 	ll := corestr.New.LinkedList.Create()
 	ll.Add("x")
 	ll.Add("y")
-	nodes := ll.GetAllLinkedNodes()
+	head := ll.Head()
+	nodes := corestr.NewNonChainedLinkedListNodes(2)
+	nodes.Adds(head)
+	if next := head.Next(); next != nil {
+		nodes.Adds(next)
+	}
 	actual := args.Map{
 		"firstNonNil": nodes.First() != nil,
 		"lastNonNil":  nodes.Last() != nil,
