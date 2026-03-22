@@ -1438,10 +1438,10 @@ func Test_C35_173_BytesConverter_ToHashmap_Bad(t *testing.T) {
 }
 
 func Test_C35_174_BytesConverter_ToHashset(t *testing.T) {
-	bc := coredynamic.NewBytesConverter([]byte(`["a","b"]`))
+	bc := coredynamic.NewBytesConverter([]byte(`{"a":true,"b":true}`))
 	hs, err := bc.ToHashset()
-	if err != nil || hs == nil {
-		t.Error("expected hashset")
+	if err != nil || hs == nil || hs.Length() != 2 {
+		t.Error("expected hashset with 2 items")
 	}
 }
 

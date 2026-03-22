@@ -690,7 +690,7 @@ func Test_Cov42_BytesConverter_ToHashmap_Invalid(t *testing.T) {
 }
 
 func Test_Cov42_BytesConverter_ToHashset_Valid(t *testing.T) {
-	data := []string{"a", "b"}
+	data := map[string]bool{"a": true, "b": true}
 	b, _ := json.Marshal(data)
 	bc := coredynamic.NewBytesConverter(b)
 	hs, err := bc.ToHashset()
@@ -748,7 +748,7 @@ func Test_Cov42_BytesConverter_ToMapAnyItems_Invalid(t *testing.T) {
 }
 
 func Test_Cov42_BytesConverter_ToMapAnyItems_Valid(t *testing.T) {
-	b, _ := json.Marshal(map[string]any{"a": 1})
+	b, _ := json.Marshal(map[string]any{"Items": map[string]any{"a": 1}})
 	bc := coredynamic.NewBytesConverter(b)
 	m, err := bc.ToMapAnyItems()
 	actual := args.Map{"noErr": err == nil, "len": m.Length()}

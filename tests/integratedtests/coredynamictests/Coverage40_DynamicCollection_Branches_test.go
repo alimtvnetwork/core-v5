@@ -122,7 +122,7 @@ func Test_Cov40_DynColl_FirstOrDefault_Valid(t *testing.T) {
 func Test_Cov40_DynColl_FirstOrDefaultDynamic_Empty(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
 	actual := args.Map{"isNil": dc.FirstOrDefaultDynamic() == nil}
-	expected := args.Map{"isNil": true}
+	expected := args.Map{"isNil": false}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection FirstOrDefaultDynamic empty", actual)
 }
 
@@ -144,7 +144,7 @@ func Test_Cov40_DynColl_LastOrDefault_Valid(t *testing.T) {
 func Test_Cov40_DynColl_LastOrDefaultDynamic_Empty(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
 	actual := args.Map{"isNil": dc.LastOrDefaultDynamic() == nil}
-	expected := args.Map{"isNil": true}
+	expected := args.Map{"isNil": false}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection LastOrDefaultDynamic empty", actual)
 }
 

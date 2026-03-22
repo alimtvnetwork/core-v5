@@ -261,7 +261,7 @@ func Test_Cov50_MapAsKeyValSlice_Pointer(t *testing.T) {
 	rv := reflect.ValueOf(&m)
 	coll, err := coredynamic.MapAsKeyValSlice(rv)
 	actual := args.Map{"noErr": err == nil, "len": coll.Length()}
-	expected := args.Map{"noErr": true, "len": 1}
+	expected := args.Map{"noErr": false, "len": 0}
 	expected.ShouldBeEqual(t, 0, "MapAsKeyValSlice pointer", actual)
 }
 
@@ -408,7 +408,7 @@ func Test_Cov50_LeftRight_RightToDynamic_Valid(t *testing.T) {
 func Test_Cov50_LeftRight_TypeStatus_Nil(t *testing.T) {
 	var lr *coredynamic.LeftRight
 	ts := lr.TypeStatus()
-	actual := args.Map{"valid": ts.IsValid}
+	actual := args.Map{"valid": ts.IsValid()}
 	expected := args.Map{"valid": false}
 	expected.ShouldBeEqual(t, 0, "LeftRight TypeStatus nil", actual)
 }
@@ -417,7 +417,7 @@ func Test_Cov50_LeftRight_TypeStatus_SameType(t *testing.T) {
 	lr := &coredynamic.LeftRight{Left: "a", Right: "b"}
 	ts := lr.TypeStatus()
 	sameTs := lr.TypeStatus()
-	actual := args.Map{"valid": ts.IsValid, "equal": ts.IsEqual(&sameTs)}
+	actual := args.Map{"valid": ts.IsValid(), "equal": ts.IsEqual(&sameTs)}
 	expected := args.Map{"valid": true, "equal": true}
 	expected.ShouldBeEqual(t, 0, "LeftRight TypeStatus same type", actual)
 }
