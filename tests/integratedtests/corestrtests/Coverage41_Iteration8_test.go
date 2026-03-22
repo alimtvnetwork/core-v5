@@ -964,9 +964,9 @@ func Test_I8_SimpleSlice_Contains(t *testing.T) {
 	if s.IsContains("z") { t.Fatal("no z") }
 	_ = s.IndexOf("b")
 	_ = s.IndexOf("z")
-	_ = s.CountFunc(func(s string) bool { return true })
-	_ = s.IsContainsFunc(func(s string) bool { return s == "a" })
-	_ = s.IndexOfFunc(func(s string) bool { return s == "b" })
+	_ = s.CountFunc(func(index int, item string) bool { return index >= 0 && item != "" })
+	_ = s.IsContainsFunc("a", func(item, searching string) bool { return item == searching })
+	_ = s.IndexOfFunc("b", func(item, searching string) bool { return item == searching })
 }
 
 func Test_I8_SimpleSlice_Wrap(t *testing.T) {
@@ -1036,7 +1036,7 @@ func Test_I8_LinkedList_AddVariants(t *testing.T) {
 	ll.AddIf(true, "d")
 	ll.AddIf(false, "skip")
 	ll.AddFunc(func() string { return "e" })
-	ll.AddFuncErr(func() (string, error) { return "f", nil })
+	ll.AddFuncErr(func() (string, error) { return "f", nil }, func(errInput error) {})
 	ll.Push("g")
 	ll.PushFront("h")
 	ll.PushBack("i")
@@ -1062,7 +1062,7 @@ func Test_I8_LinkedList_InsertAt(t *testing.T) {
 func Test_I8_LinkedList_Loop(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c"})
 	count := 0
-	ll.Loop(func(index int, node *corestr.LinkedListNode) (isBreak bool) {
+	ll.Loop(func(arg *corestr.LinkedListProcessorParameter) (isBreak bool) {
 		count++
 		return false
 	})
@@ -1071,10 +1071,14 @@ func Test_I8_LinkedList_Loop(t *testing.T) {
 
 func Test_I8_LinkedList_Filter(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"aa", "b", "cc"})
-	filtered := ll.Filter(func(index int, node *corestr.LinkedListNode) (isKeep bool) {
-		return len(node.Value) > 1
+	filtered := ll.Filter(func(arg *corestr.LinkedListFilterParameter) *corestr.LinkedListFilterResult {
+		return &corestr.LinkedListFilterResult{
+			Value:   arg.Node,
+			IsKeep:  len(arg.Node.Element) > 1,
+			IsBreak: false,
+		}
 	})
-	if filtered.Length() != 2 { t.Fatal("expected 2") }
+	if len(filtered) != 2 { t.Fatal("expected 2") }
 }
 
 func Test_I8_LinkedList_RemoveByIndex(t *testing.T) {
@@ -1085,20 +1089,20 @@ func Test_I8_LinkedList_RemoveByIndex(t *testing.T) {
 
 func Test_I8_LinkedList_RemoveByValue(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c"})
-	ll.RemoveNodeByElementValue("b")
+	ll.RemoveNodeByElementValue("b", true, false)
 	if ll.Length() != 2 { t.Fatal("expected 2") }
 }
 
 func Test_I8_LinkedList_RemoveByIndexes(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c", "d"})
-	ll.RemoveNodeByIndexes(0, 2)
+	ll.RemoveNodeByIndexes(false, 0, 2)
 	if ll.Length() != 2 { t.Fatal("expected 2") }
 }
 
 func Test_I8_LinkedList_GetCompareSummary(t *testing.T) {
 	a := corestr.New.LinkedList.Strings([]string{"a", "b"})
 	b := corestr.New.LinkedList.Strings([]string{"a", "c"})
-	_ = a.GetCompareSummary(b)
+	_ = a.GetCompareSummary(b, "left", "right")
 }
 
 // ==========================================================================
@@ -1112,22 +1116,22 @@ func Test_I8_ValidValue(t *testing.T) {
 }
 
 func Test_I8_LeftRight(t *testing.T) {
-	lr := corestr.LeftRight{Left: "a", Right: "b"}
+	lr := corestr.NewLeftRight("a", "b")
 	_ = lr.Left
 	_ = lr.Right
 }
 
 func Test_I8_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "a", Middle: "b", Right: "c"}
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
 	_ = lmr.Left
 	_ = lmr.Middle
 	_ = lmr.Right
 }
 
 func Test_I8_ValueStatus(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "x", IsFound: true}
-	_ = vs.Value
-	_ = vs.IsFound
+	vs := corestr.ValueStatus{ValueValid: corestr.NewValidValue("x"), Index: 0}
+	_ = vs.ValueValid
+	_ = vs.Index
 }
 
 func Test_I8_KeyValuePair(t *testing.T) {
@@ -1202,10 +1206,10 @@ func Test_I8_CloneSliceIf(t *testing.T) {
 }
 
 func Test_I8_AnyToString(t *testing.T) {
-	_ = corestr.AnyToString(nil)
-	_ = corestr.AnyToString("hello")
-	_ = corestr.AnyToString(42)
-	_ = corestr.AnyToString([]string{"a"})
+	_ = corestr.AnyToString(false, nil)
+	_ = corestr.AnyToString(false, "hello")
+	_ = corestr.AnyToString(false, 42)
+	_ = corestr.AnyToString(false, []string{"a"})
 }
 
 func Test_I8_AllIndividualStringsOfStringsLength(t *testing.T) {
