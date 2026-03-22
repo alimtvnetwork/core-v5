@@ -173,7 +173,7 @@ func Test_CovPL_S3_13_IdString_IdInteger_IdentifierInteger_IdentifierUnsignedInt
 		t.Fatal("expected 5")
 	}
 	// empty id
-	pw2, _ := corepayload.New.PayloadWrapper.CreateUsingBytes("n", "", "t", "c", []byte("x"))
+	pw2 := corepayload.New.PayloadWrapper.All("n", "", "t", "c", "", false, nil, []byte("x"))
 	if pw2.IdentifierInteger() >= 0 {
 		t.Fatal("expected invalid")
 	}
