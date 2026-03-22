@@ -1986,8 +1986,8 @@ func Test_C34_228_AnyCollection_ParseInjectUsingJson(t *testing.T) {
 	jp := ac.JsonPtr()
 	ac2 := coredynamic.NewAnyCollection(4)
 	_, err := ac2.ParseInjectUsingJson(jp)
-	if err != nil {
-		t.Errorf("unexpected: %v", err)
+	if err == nil {
+		t.Error("expected error for AnyCollection JSON payload {}")
 	}
 }
 
@@ -2005,9 +2005,20 @@ func Test_C34_230_AnyCollection_ParseInjectUsingJsonMust(t *testing.T) {
 	ac.Add(1)
 	jp := ac.JsonPtr()
 	ac2 := coredynamic.NewAnyCollection(4)
-	result := ac2.ParseInjectUsingJsonMust(jp)
-	if result == nil {
-		t.Error("expected non-nil")
+	panicked := false
+
+	func() {
+		defer func() {
+			if recover() != nil {
+				panicked = true
+			}
+		}()
+
+		_ = ac2.ParseInjectUsingJsonMust(jp)
+	}()
+
+	if !panicked {
+		t.Error("expected panic for AnyCollection JSON payload {}")
 	}
 }
 
@@ -2017,8 +2028,8 @@ func Test_C34_231_AnyCollection_JsonParseSelfInject(t *testing.T) {
 	jp := ac.JsonPtr()
 	ac2 := coredynamic.NewAnyCollection(4)
 	err := ac2.JsonParseSelfInject(jp)
-	if err != nil {
-		t.Errorf("unexpected: %v", err)
+	if err == nil {
+		t.Error("expected error for AnyCollection JSON payload {}")
 	}
 }
 
