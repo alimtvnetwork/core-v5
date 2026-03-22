@@ -192,7 +192,7 @@ func Test_Cov40_KVP_FormatString(t *testing.T) {
 
 func Test_Cov40_KVP_Json(t *testing.T) {
 	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
-	if kv.Json().HasError() {
+	if kv.Json().Error != nil {
 		t.Error("unexpected error")
 	}
 	if kv.JsonPtr() == nil {
@@ -614,7 +614,7 @@ func Test_Cov40_KVC_UnmarshalJSON_Empty(t *testing.T) {
 func Test_Cov40_KVC_Json_JsonPtr(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
-	if kvc.Json().HasError() || kvc.JsonPtr() == nil {
+	if kvc.Json().Error != nil || kvc.JsonPtr() == nil {
 		t.Error("unexpected")
 	}
 }
@@ -979,7 +979,7 @@ func Test_Cov40_HC_UnmarshalJSON(t *testing.T) {
 func Test_Cov40_HC_Json_JsonPtr(t *testing.T) {
 	hc := corestr.New.HashsetsCollection.Empty()
 	hc.Add(corestr.New.Hashset.Strings([]string{"a"}))
-	if hc.Json().HasError() || hc.JsonPtr() == nil {
+	if hc.Json().Error != nil || hc.JsonPtr() == nil {
 		t.Error("unexpected")
 	}
 }
@@ -1270,7 +1270,7 @@ func Test_Cov40_COC_UnmarshalJSON(t *testing.T) {
 func Test_Cov40_COC_Json_JsonPtr(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Empty()
 	coc.Add(corestr.New.Collection.Strings([]string{"a"}))
-	if coc.Json().HasError() || coc.JsonPtr() == nil {
+	if coc.Json().Error != nil || coc.JsonPtr() == nil {
 		t.Error("unexpected")
 	}
 }
@@ -2050,7 +2050,7 @@ func Test_Cov40_CHM_UnmarshalJSON(t *testing.T) {
 func Test_Cov40_CHM_Json_JsonPtr(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
 	chm.Add("apple")
-	if chm.Json().HasError() || chm.JsonPtr() == nil {
+	if chm.Json().Error != nil || chm.JsonPtr() == nil {
 		t.Error("unexpected")
 	}
 }

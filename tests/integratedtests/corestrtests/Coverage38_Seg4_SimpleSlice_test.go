@@ -874,10 +874,10 @@ func Test_Seg4_SS_ToCollection(t *testing.T) {
 func Test_Seg4_SS_PtrNonPtr(t *testing.T) {
 	s := corestr.SimpleSlice{"a"}
 	actual := args.Map{
-		"nonPtrLen": s.NonPtr().Length(),
+		"nonPtrLen": len(s.NonPtr()),
 		"ptrLen":    s.Ptr().Length(),
 		"toPtrLen":  s.ToPtr().Length(),
-		"toNonLen":  s.ToNonPtr().Length(),
+		"toNonLen":  len(s.ToNonPtr()),
 	}
 	expected := args.Map{
 		"nonPtrLen": 1,
