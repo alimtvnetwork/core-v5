@@ -804,7 +804,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysValuesBoth_Nil(t *testing.T) {
 
 func Test_Cov41_CharCollectionMap_AddHashmapsKeysValuesBoth_Valid(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
-	hm := corestr.New.Hashmap.KeyValue("key", "val")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "key", Value: "val"})
 	m.AddHashmapsKeysValuesBoth(hm)
 	tc := caseV1Compat{
 		Name:     "AddHashmapsKeysValuesBoth adds both key and value",
