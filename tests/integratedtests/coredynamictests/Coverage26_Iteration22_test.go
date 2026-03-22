@@ -559,7 +559,7 @@ func Test_I22_ReflectSetFromTo_BothNil(t *testing.T) {
 func Test_I22_ReflectSetFromTo_SameType(t *testing.T) {
 	from := "hello"
 	var to string
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"noErr": err == nil, "val": to}
 	expected := args.Map{"noErr": true, "val": "hello"}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- same type", actual)
@@ -569,7 +569,7 @@ func Test_I22_ReflectSetFromTo_SamePointerType(t *testing.T) {
 	from := new(string)
 	*from = "hello"
 	to := new(string)
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"noErr": err == nil, "val": *to}
 	expected := args.Map{"noErr": true, "val": "hello"}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- same ptr type", actual)
@@ -592,7 +592,7 @@ func Test_I22_ReflectSetFromTo_ToNil(t *testing.T) {
 func Test_I22_ReflectSetFromTo_FromNilPtr(t *testing.T) {
 	var from *string
 	var to string
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns nil -- from nil ptr", actual)
@@ -604,7 +604,7 @@ func Test_I22_ReflectSetFromTo_BytesToStruct(t *testing.T) {
 	}
 	from := []byte(`{"name":"test"}`)
 	var to Simple
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"noErr": err == nil, "name": to.Name}
 	expected := args.Map{"noErr": true, "name": "test"}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- bytes to struct", actual)
@@ -616,7 +616,7 @@ func Test_I22_ReflectSetFromTo_StructToBytes(t *testing.T) {
 	}
 	from := Simple{Name: "test"}
 	var to []byte
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"noErr": err == nil, "hasBytes": len(to) > 0}
 	expected := args.Map{"noErr": true, "hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- struct to bytes", actual)
@@ -625,7 +625,7 @@ func Test_I22_ReflectSetFromTo_StructToBytes(t *testing.T) {
 func Test_I22_ReflectSetFromTo_TypeMismatch(t *testing.T) {
 	from := "hello"
 	var to int
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- type mismatch", actual)
@@ -634,7 +634,7 @@ func Test_I22_ReflectSetFromTo_TypeMismatch(t *testing.T) {
 func Test_I22_ReflectSetFromTo_IntValue(t *testing.T) {
 	from := 42
 	var to int
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"noErr": err == nil, "val": to}
 	expected := args.Map{"noErr": true, "val": 42}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- int value", actual)
@@ -644,7 +644,7 @@ func Test_I22_ReflectSetFromTo_ReflectType(t *testing.T) {
 	_ = reflect.TypeOf("")
 	from := true
 	var to bool
-	err := coredynamic.ReflectSetFromTo(from, &to)
+	err := coredynamic.ReflectSetFromTo(from, to)
 	actual := args.Map{"noErr": err == nil, "val": to}
 	expected := args.Map{"noErr": true, "val": true}
 	expected.ShouldBeEqual(t, 0, "ReflectSetFromTo returns correct value -- bool", actual)

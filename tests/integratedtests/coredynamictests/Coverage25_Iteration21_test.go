@@ -119,8 +119,8 @@ func Test_I21_AnyCollection_Items(t *testing.T) {
 func Test_I21_AnyCollection_Items_Nil(t *testing.T) {
 	var ac *coredynamic.AnyCollection
 	items := ac.Items()
-	actual := args.Map{"nil": items == nil}
-	expected := args.Map{"nil": true}
+	actual := args.Map{"nil": items == nil, "len": len(items)}
+	expected := args.Map{"nil": false, "len": 0}
 	expected.ShouldBeEqual(t, 0, "AnyCollection returns nil -- Items nil", actual)
 }
 

@@ -594,7 +594,8 @@ func Test_I18_Dynamic_JsonPtr(t *testing.T) {
 }
 
 func Test_I18_Dynamic_ParseInjectUsingJson(t *testing.T) {
-	d := coredynamic.NewDynamic("initial", true)
+	seed := "initial"
+	d := coredynamic.NewDynamic(&seed, true)
 	jr := corejson.NewPtr("updated")
 	result, err := d.ParseInjectUsingJson(jr)
 	actual := args.Map{"noErr": err == nil, "notNil": result != nil}
