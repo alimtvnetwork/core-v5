@@ -128,7 +128,7 @@ func Test_I8_Collection_Reverse(t *testing.T) {
 func Test_I8_Collection_IndexAt(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	if c.IndexAt(0) != "a" { t.Fatal("index 0") }
-	if c.SafeIndexAtUsingLength(0, 3) != "a" { t.Fatal("safe index 0") }
+	if c.SafeIndexAtUsingLength("", 3, 0) != "a" { t.Fatal("safe index 0") }
 }
 
 func Test_I8_Collection_IsEquals(t *testing.T) {

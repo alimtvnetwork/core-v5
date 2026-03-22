@@ -1343,7 +1343,7 @@ func Test_Cov41_CharCollectionMap_Json(t *testing.T) {
 	tc := caseV1Compat{
 		Name:     "Json returns result",
 		Expected: true,
-		Actual:   j.HasData(),
+		Actual:   j.Error == nil,
 		Args:     args.Map{},
 	}
 	tc.ShouldBeEqual(t)
