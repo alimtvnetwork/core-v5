@@ -699,8 +699,9 @@ func Test_I8_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	var wg sync.WaitGroup
 	wg.Add(1)
-	items := map[string]string{"a": "1"}
-	h.AddOrUpdateStringsPtrWgLock(&items, &wg)
+	keys := []string{"a"}
+	values := []string{"1"}
+	h.AddOrUpdateStringsPtrWgLock(&wg, keys, values)
 	wg.Wait()
 }
 
@@ -742,7 +743,7 @@ func Test_I8_Hashset_AddVariants(t *testing.T) {
 	h.AddIfMany(true, "f", "g")
 	h.AddIfMany(false, "s1", "s2")
 	h.AddFunc(func() string { return "h" })
-	h.AddFuncErr(func() (string, error) { return "i", nil })
+	h.AddFuncErr(func() (string, error) { return "i", nil }, func(e error) {})
 	h.AddStrings([]string{"j", "k"})
 	h.AddStringsLock([]string{"l"})
 	h.Adds("m", "n")
@@ -758,7 +759,7 @@ func Test_I8_Hashset_AddCollections(t *testing.T) {
 	h.AddCollection(c)
 	h.AddCollections(c)
 	h.AddItemsMap(map[string]bool{"c": true, "d": false})
-	ss := corestr.New.SimpleSlice.Items("e", "f")
+	ss := corestr.New.SimpleSlice.SpreadStrings("e", "f")
 	h.AddSimpleSlice(ss)
 	h2 := corestr.New.Hashset.StringsSpreadItems("g")
 	h.AddHashsetItems(h2)
@@ -799,8 +800,8 @@ func Test_I8_Hashset_Filter(t *testing.T) {
 	f := h.Filter(func(s string) bool { return len(s) > 1 })
 	if f.Length() != 2 { t.Fatal("expected 2") }
 
-	_ = h.GetFilteredItems(func(s string) bool { return true })
-	_ = h.GetFilteredCollection(func(s string) bool { return true })
+	_ = h.GetFilteredItems(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }))
+	_ = h.GetFilteredCollection(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }))
 }
 
 func Test_I8_Hashset_Except(t *testing.T) {
@@ -813,10 +814,10 @@ func Test_I8_Hashset_Except(t *testing.T) {
 
 func Test_I8_Hashset_Concat(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	c1 := h.ConcatNewStrings("b", "c")
+	c1 := h.ConcatNewStrings(false, []string{"b"}, []string{"c"})
 	_ = c1
 	h2 := corestr.New.Hashset.StringsSpreadItems("d")
-	c2 := h.ConcatNewHashsets(h2)
+	c2 := h.ConcatNewHashsets(false, h2)
 	_ = c2
 }
 
@@ -852,13 +853,13 @@ func Test_I8_Hashset_AsyncOps(t *testing.T) {
 	wg3 := sync.WaitGroup{}
 	wg3.Add(1)
 	items := map[string]bool{"y": true}
-	h.AddItemsMapWgLock(items, &wg3)
+	h.AddItemsMapWgLock(&items, &wg3)
 	wg3.Wait()
 
 	wg4 := sync.WaitGroup{}
 	wg4.Add(1)
 	strs := []string{"z"}
-	h.AddStringsPtrWgLock(&strs, &wg4)
+	h.AddStringsPtrWgLock(strs, &wg4)
 	wg4.Wait()
 }
 

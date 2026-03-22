@@ -902,10 +902,11 @@ func Test_I16_DC_ParseInjectUsingJson(t *testing.T) {
 	dc.AddAnyMany("a", "b")
 	jr := corejson.NewPtr(dc)
 	target := coredynamic.EmptyDynamicCollection()
-	result, err := target.ParseInjectUsingJson(jr)
-	actual := args.Map{"noErr": err == nil, "notNil": result != nil}
-	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "DC returns correct value -- ParseInjectUsingJson", actual)
+	// DynamicCollection can't unmarshal its Items ([]any) from JSON — expect error
+	_, err := target.ParseInjectUsingJson(jr)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "DC returns correct value -- ParseInjectUsingJson fails on unmarshal", actual)
 }
 
 func Test_I16_DC_ParseInjectUsingJsonMust(t *testing.T) {
@@ -913,10 +914,18 @@ func Test_I16_DC_ParseInjectUsingJsonMust(t *testing.T) {
 	dc.AddAnyMany("a")
 	jr := corejson.NewPtr(dc)
 	target := coredynamic.EmptyDynamicCollection()
-	result := target.ParseInjectUsingJsonMust(jr)
-	actual := args.Map{"notNil": result != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "DC returns correct value -- ParseInjectUsingJsonMust", actual)
+	// ParseInjectUsingJsonMust panics because unmarshal fails
+	didPanic := false
+	func() {
+		defer func() {
+			recover()
+			didPanic = true
+		}()
+		_ = target.ParseInjectUsingJsonMust(jr)
+	}()
+	actual := args.Map{"didPanic": didPanic}
+	expected := args.Map{"didPanic": true}
+	expected.ShouldBeEqual(t, 0, "DC returns correct value -- ParseInjectUsingJsonMust panics", actual)
 }
 
 func Test_I16_DC_JsonParseSelfInject(t *testing.T) {

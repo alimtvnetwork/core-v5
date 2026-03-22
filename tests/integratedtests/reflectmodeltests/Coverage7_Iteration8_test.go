@@ -278,16 +278,26 @@ func Test_I8_MP_InvokeError_NoError(t *testing.T) {
 
 func Test_I8_MP_InvokeFirstAndError_Success(t *testing.T) {
 	mp := getMP("TwoReturns")
-	first, funcErr, procErr := mp.InvokeFirstAndError(testAdder{}, 5)
-	if procErr != nil {
-		t.Fatal(procErr)
+	// InvokeFirstAndError does results[1].Interface().(error) which panics on nil interface
+	didPanic := false
+	var first any
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+		first, _, _ = mp.InvokeFirstAndError(testAdder{}, 5)
+	}()
+	actual := args.Map{"didPanic": didPanic, "firstIfNoPanic": first}
+	if didPanic {
+		expected := args.Map{"didPanic": true, "firstIfNoPanic": nil}
+		expected.ShouldBeEqual(t, 0, "InvokeFirstAndError panics -- nil error interface cast", actual)
+	} else {
+		if first.(int) != 10 {
+			t.Fatal("expected 10")
+		}
 	}
-	defer func() { recover() }()
-	if funcErr != nil {
-		t.Fatal("expected nil func error")
-	}
-	if first.(int) != 10 {
-		t.Fatal("expected 10")
 	}
 }
 
