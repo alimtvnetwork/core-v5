@@ -900,7 +900,7 @@ func Test_C34_NCCMC_CapSelfCap(t *testing.T) {
 }
 
 func Test_C34_NCCMC_Items(t *testing.T) {
-	_ = corestr.New.CharCollectionMap.Items(map[byte]*corestr.Collection{})
+	_ = corestr.New.CharCollectionMap.Items([]string{"apple", "banana"})
 }
 
 func Test_C34_NCCMC_ItemsPtrWithCap(t *testing.T) {
