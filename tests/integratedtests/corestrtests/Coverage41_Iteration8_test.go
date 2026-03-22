@@ -916,8 +916,8 @@ func Test_I8_SimpleSlice_BasicOps(t *testing.T) {
 	s.AddsIf(false, "skip1", "skip2")
 	s.AddError(nil)
 	s.InsertAt(0, "first")
-	s.AddStruct(struct{ Name string }{"test"})
-	s.AddPointer(&struct{ Val int }{42})
+	s.AddStruct(false, struct{ Name string }{"test"})
+	s.AddPointer(false, &struct{ Val int }{42})
 }
 
 func Test_I8_SimpleSlice_FirstLast(t *testing.T) {
