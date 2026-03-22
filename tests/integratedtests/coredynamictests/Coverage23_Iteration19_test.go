@@ -112,7 +112,7 @@ func Test_I19_MapAnyItems_GetFieldsMap_Found(t *testing.T) {
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": inner})
 	fm, err, found := m.GetFieldsMap("k")
 	actual := args.Map{"found": found, "noErr": err == nil, "notNil": fm != nil}
-	expected := args.Map{"found": true, "noErr": false, "notNil": false}
+	expected := args.Map{"found": true, "noErr": true, "notNil": true}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems returns correct value -- GetFieldsMap", actual)
 }
 
@@ -129,7 +129,7 @@ func Test_I19_MapAnyItems_GetSafeFieldsMap(t *testing.T) {
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": inner})
 	fm, found := m.GetSafeFieldsMap("k")
 	actual := args.Map{"found": found, "notNil": fm != nil}
-	expected := args.Map{"found": true, "notNil": false}
+	expected := args.Map{"found": true, "notNil": true}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems returns correct value -- GetSafeFieldsMap", actual)
 }
 

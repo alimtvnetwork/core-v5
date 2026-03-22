@@ -51,10 +51,9 @@ func Test_Cov34_AnyTo_String(t *testing.T) {
 func Test_Cov34_Result_FieldsNames(t *testing.T) {
 	r := corejson.NewResult.UsingBytes([]byte(`{"name":"test","age":30}`))
 	names, err := (&r).FieldsNames()
-	// DeserializedFieldsToMap passes value (not pointer) to Deserialize — production limitation
-	// So fieldsMap stays nil, returns empty + error
+	// DeserializedFieldsToMap initializes map and passes pointer to Deserialize.
 	actual := args.Map{"noErr": err == nil, "hasNames": len(names) > 0}
-	expected := args.Map{"noErr": false, "hasNames": false}
+	expected := args.Map{"noErr": true, "hasNames": true}
 	expected.ShouldBeEqual(t, 0, "FieldsNames returns empty -- DeserializedFieldsToMap limitation", actual)
 }
 

@@ -546,14 +546,13 @@ func Test_Cov6_Result_DeserializedFieldsToMap(t *testing.T) {
 	r := corejson.NewPtr(map[string]any{"name": "test", "age": 30})
 	fm, err := r.DeserializedFieldsToMap()
 	sfm := r.SafeDeserializedFieldsToMap()
-	// DeserializedFieldsToMap has a known bug: passes nil map (not &map) to Deserialize
-	// so it always returns error + nil map for non-empty results
+	// DeserializedFieldsToMap initializes map and deserializes into pointer.
 	actual := args.Map{
 		"fmNil":    fm == nil,
 		"hasErr":   err != nil,
 		"sfmNil":   sfm == nil,
 	}
-	expected := args.Map{"fmNil": true, "hasErr": true, "sfmNil": true}
+	expected := args.Map{"fmNil": false, "hasErr": false, "sfmNil": false}
 	expected.ShouldBeEqual(t, 0, "Result returns correct value -- DeserializedFieldsToMap", actual)
 }
 
@@ -561,13 +560,13 @@ func Test_Cov6_Result_FieldsNames(t *testing.T) {
 	r := corejson.NewPtr(map[string]any{"name": "test"})
 	names, err := r.FieldsNames()
 	safeNames := r.SafeFieldsNames()
-	// FieldsNames delegates to DeserializedFieldsToMap which has the nil-map bug
+	// FieldsNames should parse successfully for valid JSON object payload.
 	actual := args.Map{
 		"namesNotNil": names != nil,
 		"hasErr":      err != nil,
 		"safeNotNil":  safeNames != nil,
 	}
-	expected := args.Map{"namesNotNil": true, "hasErr": true, "safeNotNil": true}
+	expected := args.Map{"namesNotNil": true, "hasErr": false, "safeNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Result returns correct value -- FieldsNames", actual)
 }
 
