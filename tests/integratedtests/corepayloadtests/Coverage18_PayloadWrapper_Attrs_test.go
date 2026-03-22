@@ -731,7 +731,10 @@ func Test_CovPL_S1_53_NewPW_DeserializeToMany(t *testing.T) {
 
 func Test_CovPL_S1_54_NewPW_DeserializeToCollection(t *testing.T) {
 	pws := []*corepayload.PayloadWrapper{newTestPW()}
-	b, _ := corejson.Serialize.Raw(pws)
+	// DeserializeToCollection calls PayloadsCollection.Deserialize which expects
+	// {"Items":[...]} format, not raw array — serialize the collection struct
+	pc := &corepayload.PayloadsCollection{Items: pws}
+	b, _ := corejson.Serialize.Raw(pc)
 	col, err := corepayload.New.PayloadWrapper.DeserializeToCollection(b)
 	if err != nil || col == nil {
 		t.Fatal("expected non-nil")

@@ -943,7 +943,9 @@ func Test_CovPL_S2_65_TypedPW_Creators(t *testing.T) {
 	if err2 != nil {
 		t.Fatal("expected no error")
 	}
-	_, err3 := corepayload.TypedPayloadWrapperRecords[D]("n", "1", "t", "c", D{A: 1})
+	// TypedPayloadWrapperRecords calls SafeTypeNameOfSliceOrSingle(false, data)
+	// which calls SliceFirstItemTypeName → rt.Elem() — data MUST be a slice
+	_, err3 := corepayload.TypedPayloadWrapperRecords[D]("n", "1", "t", "c", []D{{A: 1}})
 	if err3 != nil {
 		t.Fatal("expected no error")
 	}
