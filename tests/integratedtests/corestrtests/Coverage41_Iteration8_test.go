@@ -921,7 +921,7 @@ func Test_I8_SimpleSlice_BasicOps(t *testing.T) {
 }
 
 func Test_I8_SimpleSlice_FirstLast(t *testing.T) {
-	s := corestr.New.SimpleSlice.Items("a", "b", "c")
+	s := corestr.New.SimpleSlice.SpreadStrings("a", "b", "c")
 	if s.First() != "a" { t.Fatal("first") }
 	if s.Last() != "c" { t.Fatal("last") }
 	if s.FirstOrDefault() != "a" { t.Fatal("first or default") }
