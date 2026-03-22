@@ -216,7 +216,7 @@ func Test_Cov47_Collection_AddCollections(t *testing.T) {
 func Test_Cov47_Collection_AddHashmapsValues(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	c.AddHashmapsValues(hm)
 	tc := caseV1Compat{Name: "AddHashmapsValues", Expected: 1, Actual: c.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -232,7 +232,7 @@ func Test_Cov47_Collection_AddHashmapsValues_Nil(t *testing.T) {
 func Test_Cov47_Collection_AddHashmapsKeys(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	c.AddHashmapsKeys(hm)
 	tc := caseV1Compat{Name: "AddHashmapsKeys", Expected: 1, Actual: c.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -248,7 +248,7 @@ func Test_Cov47_Collection_AddHashmapsKeys_Nil(t *testing.T) {
 func Test_Cov47_Collection_AddHashmapsKeysValues(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	c.AddHashmapsKeysValues(hm)
 	tc := caseV1Compat{Name: "AddHashmapsKeysValues", Expected: 2, Actual: c.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -264,7 +264,7 @@ func Test_Cov47_Collection_AddHashmapsKeysValues_Nil(t *testing.T) {
 func Test_Cov47_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	c.AddHashmapsKeysValuesUsingFilter(func(kv corestr.KeyValuePair) (string, bool, bool) {
 		return kv.Key + "=" + kv.Value, true, false
 	}, hm)
@@ -275,8 +275,8 @@ func Test_Cov47_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 func Test_Cov47_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k1", "v1")
-	hm.Add("k2", "v2")
+	hm.AddOrUpdate("k1", "v1")
+	hm.AddOrUpdate("k2", "v2")
 	c.AddHashmapsKeysValuesUsingFilter(func(kv corestr.KeyValuePair) (string, bool, bool) {
 		return kv.Key, true, true // break after first
 	}, hm)
@@ -311,7 +311,7 @@ func Test_Cov47_CharHashsetMap_AddStrings_Empty(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_GetHashset_Found(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	hs := chm.GetHashset("hello", false)
 	tc := caseV1Compat{Name: "CHM GetHashset found", Expected: true, Actual: hs != nil, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -333,7 +333,7 @@ func Test_Cov47_CharHashsetMap_GetHashset_NotFound_Create(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_GetHashsetLock(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	hs := chm.GetHashsetLock(false, "hello")
 	tc := caseV1Compat{Name: "CHM GetHashsetLock", Expected: true, Actual: hs != nil, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -364,7 +364,7 @@ func Test_Cov47_CharHashsetMap_AddSameCharsCollection_New(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_AddSameCharsCollection_Existing(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("abc")
+	chm.AddOrUpdate("abc")
 	col := corestr.New.Collection.Strings([]string{"axy"})
 	hs := chm.AddSameCharsCollection("a", col)
 	tc := caseV1Compat{Name: "CHM AddSameCharsCollection existing", Expected: true, Actual: hs.Has("axy"), Args: args.Map{}}
@@ -380,7 +380,7 @@ func Test_Cov47_CharHashsetMap_AddSameCharsCollection_NilCollection(t *testing.T
 
 func Test_Cov47_CharHashsetMap_AddSameCharsCollection_ExistingNilCollection(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("abc")
+	chm.AddOrUpdate("abc")
 	hs := chm.AddSameCharsCollection("a", nil)
 	tc := caseV1Compat{Name: "CHM AddSameCharsCollection existing nil col", Expected: true, Actual: hs != nil, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -396,7 +396,7 @@ func Test_Cov47_CharHashsetMap_AddSameCharsHashset_New(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_AddSameCharsHashset_Existing(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("abc")
+	chm.AddOrUpdate("abc")
 	hs := corestr.New.Hashset.StringsSpreadItems("axy")
 	result := chm.AddSameCharsHashset("a", hs)
 	tc := caseV1Compat{Name: "CHM AddSameCharsHashset existing", Expected: true, Actual: result.Has("axy"), Args: args.Map{}}
@@ -457,7 +457,7 @@ func Test_Cov47_CharHashsetMap_AddStringsLock_Empty(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_LengthLock(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	tc := caseV1Compat{Name: "CHM LengthLock", Expected: 1, Actual: chm.LengthLock(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
@@ -479,15 +479,15 @@ func Test_Cov47_CharHashsetMap_IsEqualsLock(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_AllLengthsSumLock(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
-	chm.Add("abc")
+	chm.AddOrUpdate("hello")
+	chm.AddOrUpdate("abc")
 	tc := caseV1Compat{Name: "CHM AllLengthsSumLock", Expected: 2, Actual: chm.AllLengthsSumLock(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov47_CharHashsetMap_LengthOfLock(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	tc := caseV1Compat{Name: "CHM LengthOfLock", Expected: 1, Actual: chm.LengthOfLock('h'), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
@@ -500,7 +500,7 @@ func Test_Cov47_CharHashsetMap_LengthOfLock_Empty(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_HasWithHashsetLock(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	found, hs := chm.HasWithHashsetLock("hello")
 	tc := caseV1Compat{Name: "CHM HasWithHashsetLock", Expected: true, Actual: found, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -517,7 +517,7 @@ func Test_Cov47_CharHashsetMap_HasWithHashsetLock_Empty(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_GetCopyMapLock(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	m := chm.GetCopyMapLock()
 	tc := caseV1Compat{Name: "CHM GetCopyMapLock", Expected: true, Actual: len(m) > 0, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -546,7 +546,7 @@ func Test_Cov47_CharHashsetMap_GetCharsGroups_Empty(t *testing.T) {
 
 func Test_Cov47_CharHashsetMap_HashsetByChar(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(10, 5)
-	chm.Add("hello")
+	chm.AddOrUpdate("hello")
 	hs := chm.HashsetByChar('h')
 	tc := caseV1Compat{Name: "CHM HashsetByChar", Expected: true, Actual: hs != nil && hs.Has("hello"), Args: args.Map{}}
 	tc.ShouldBeEqual(t)

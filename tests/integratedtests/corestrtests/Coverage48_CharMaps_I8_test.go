@@ -590,8 +590,8 @@ func Test_C48_CharCollectionMap_UnmarshalJSON(t *testing.T) {
 func Test_C48_CharCollectionMap_Json(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Items([]string{"apple"})
 	j := m.Json()
-	if j.Err != nil {
-		t.Fatal(j.Err)
+	if j.Error != nil {
+		t.Fatal(j.Error)
 	}
 }
 
@@ -1267,8 +1267,8 @@ func Test_C48_CharHashsetMap_UnmarshalJSON(t *testing.T) {
 func Test_C48_CharHashsetMap_Json(t *testing.T) {
 	m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 	j := m.Json()
-	if j.Err != nil {
-		t.Fatal(j.Err)
+	if j.Error != nil {
+		t.Fatal(j.Error)
 	}
 }
 

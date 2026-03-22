@@ -474,7 +474,7 @@ func Test_Cov50_KeyValueCollection_AddHashset_Nil(t *testing.T) {
 func Test_Cov50_KeyValueCollection_AddsHashmap(t *testing.T) {
 	kvc := &corestr.KeyValueCollection{}
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k", "v")
+	hm.AddOrUpdate("k", "v")
 	kvc.AddsHashmap(hm)
 	tc := coretestcases.CaseV1{Name: "KVC AddsHashmap", Expected: 1, Actual: kvc.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -628,7 +628,7 @@ func Test_Cov50_KeyValueCollection_Find_Empty(t *testing.T) {
 func Test_Cov50_KeyValueCollection_AddsHashmaps(t *testing.T) {
 	kvc := &corestr.KeyValueCollection{}
 	hm := corestr.New.Hashmap.Cap(2)
-	hm.Add("k", "v")
+	hm.AddOrUpdate("k", "v")
 	kvc.AddsHashmaps(hm)
 	tc := coretestcases.CaseV1{Name: "KVC AddsHashmaps", Expected: 1, Actual: kvc.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)

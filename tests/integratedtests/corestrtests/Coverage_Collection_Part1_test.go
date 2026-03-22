@@ -425,7 +425,7 @@ func Test_CovP1_37_AddPointerCollectionsLock(t *testing.T) {
 func Test_CovP1_38_AddHashmapsValues(t *testing.T) {
 	col := corestr.New.Collection.Cap(10)
 	hm := corestr.New.Hashmap.Cap(5)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	col.AddHashmapsValues(hm)
 	if col.Length() != 1 {
 		t.Fatal("expected 1")
@@ -439,7 +439,7 @@ func Test_CovP1_38_AddHashmapsValues(t *testing.T) {
 func Test_CovP1_39_AddHashmapsKeys(t *testing.T) {
 	col := corestr.New.Collection.Cap(10)
 	hm := corestr.New.Hashmap.Cap(5)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	col.AddHashmapsKeys(hm)
 	if col.Length() != 1 {
 		t.Fatal("expected 1")
@@ -452,7 +452,7 @@ func Test_CovP1_39_AddHashmapsKeys(t *testing.T) {
 func Test_CovP1_40_AddHashmapsKeysValues(t *testing.T) {
 	col := corestr.New.Collection.Cap(10)
 	hm := corestr.New.Hashmap.Cap(5)
-	hm.Add("k1", "v1")
+	hm.AddOrUpdate("k1", "v1")
 	col.AddHashmapsKeysValues(hm)
 	if col.Length() != 2 {
 		t.Fatalf("expected 2, got %d", col.Length())
@@ -466,8 +466,8 @@ func Test_CovP1_40_AddHashmapsKeysValues(t *testing.T) {
 func Test_CovP1_41_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 	col := corestr.New.Collection.Cap(10)
 	hm := corestr.New.Hashmap.Cap(5)
-	hm.Add("k1", "v1")
-	hm.Add("k2", "v2")
+	hm.AddOrUpdate("k1", "v1")
+	hm.AddOrUpdate("k2", "v2")
 	col.AddHashmapsKeysValuesUsingFilter(
 		func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Key + "=" + pair.Value, true, false
