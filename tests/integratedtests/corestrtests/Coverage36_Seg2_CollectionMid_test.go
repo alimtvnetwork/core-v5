@@ -637,7 +637,8 @@ func Test_Seg2_Collection_AddHashmapsKeysValues_Nil(t *testing.T) {
 func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("keep", "v1").Add("skip", "v2")
+	h.AddOrUpdate("keep", "v1")
+	h.AddOrUpdate("skip", "v2")
 	filter := func(kvp corestr.KeyValuePair) (string, bool, bool) {
 		return kvp.Key + "=" + kvp.Value, kvp.Key == "keep", false
 	}
