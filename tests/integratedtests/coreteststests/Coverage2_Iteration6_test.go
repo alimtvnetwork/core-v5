@@ -79,8 +79,8 @@ func Test_Cov2_SimpleTestCase_ShouldHaveNoError(t *testing.T) {
 		ExpectedInput: nil,
 	}
 
-	// Act & Assert
-	tc.ShouldHaveNoError(0, t, nil)
+	// Act & Assert — ShouldHaveNoError expects 0 comparison values
+	tc.ShouldHaveNoError(0, t)
 }
 
 func Test_Cov2_SimpleTestCase_ShouldContains(t *testing.T) {

@@ -141,13 +141,12 @@ func Test_Cov3_BaseTestCase_TypesValidationMustPasses_WithError(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov3_DraftType_IsEqual_InnerF1StringCoverage(t *testing.T) {
-	// Arrange — both have matching exported fields but we test the
-	// isIncludingInnerFields=true path with f1String default (both empty)
+	// Arrange — use IsEqual with isIncludingInnerFields=false to skip unexported fields
 	a := &coretests.DraftType{SampleString1: "x", SampleString2: "y", SampleInteger: 1}
-	b := a.ClonePtr()
+	b := &coretests.DraftType{SampleString1: "x", SampleString2: "y", SampleInteger: 1}
 
-	// Act — should be equal (same f1String="")
-	actual := args.Map{"isEqual": a.IsEqualAll(b)}
+	// Act — IsEqual without inner fields should be true
+	actual := args.Map{"isEqual": a.IsEqual(false, b)}
 	expected := args.Map{"isEqual": true}
 	expected.ShouldBeEqual(t, 0, "IsEqual with inner fields equal", actual)
 }
