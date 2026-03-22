@@ -596,8 +596,12 @@ func Test_I8_Hashmap_Filter(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("apple", "1")
 	h.AddOrUpdate("banana", "2")
-	_ = h.GetKeysFilteredItems(func(k string) bool { return strings.HasPrefix(k, "a") })
-	_ = h.GetKeysFilteredCollection(func(k string) bool { return true })
+	_ = h.GetKeysFilteredItems(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) {
+		return str, strings.HasPrefix(str, "a"), false
+	}))
+	_ = h.GetKeysFilteredCollection(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) {
+		return str, true, false
+	}))
 	_ = h.GetValuesExceptKeysInHashset(corestr.New.Hashset.StringsSpreadItems("apple"))
 }
 
@@ -605,7 +609,7 @@ func Test_I8_Hashmap_Except(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("a", "1")
 	h.AddOrUpdate("b", "2")
-	_, _ = h.GetValuesKeysExcept(corestr.New.Hashset.StringsSpreadItems("a"))
+	_ = h.GetValuesKeysExcept([]string{"a"})
 	_ = h.GetAllExceptCollection(corestr.New.Collection.Strings([]string{"a"}))
 }
 
