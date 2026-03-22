@@ -1185,7 +1185,7 @@ func Test_I8_NewCreators(t *testing.T) {
 
 	_ = corestr.New.KeyValues.Empty()
 
-	_ = corestr.New.SimpleStringOnce.Value("test")
+	_ = corestr.New.SimpleStringOnce.Init("test")
 }
 
 func Test_I8_CloneSlice(t *testing.T) {
@@ -1199,10 +1199,10 @@ func Test_I8_CloneSlice(t *testing.T) {
 
 func Test_I8_CloneSliceIf(t *testing.T) {
 	orig := []string{"a", "b"}
-	c := corestr.CloneSliceIf(true, orig)
+	c := corestr.CloneSliceIf(true, orig...)
 	if len(c) != 2 { t.Fatal("expected 2") }
-	c2 := corestr.CloneSliceIf(false, orig)
-	if c2 != nil { t.Fatal("expected nil when not cloning") }
+	c2 := corestr.CloneSliceIf(false, orig...)
+	if len(c2) != 2 { t.Fatal("expected passthrough len 2 when not cloning") }
 }
 
 func Test_I8_AnyToString(t *testing.T) {
@@ -1230,7 +1230,7 @@ func Test_I8_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
 // ==========================================================================
 
 func Test_I8_SimpleStringOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	if sso.Value() != "hello" { t.Fatal("expected hello") }
 	if !sso.IsDefined() { t.Fatal("expected defined") }
 	if sso.IsEmpty() { t.Fatal("expected not empty") }
@@ -1241,7 +1241,7 @@ func Test_I8_SimpleStringOnce(t *testing.T) {
 // ==========================================================================
 
 func Test_I8_CharCollectionMap_Ops(t *testing.T) {
-	m := corestr.New.CharCollectionMap.Create([]string{"apple", "avocado", "banana"})
+	m := corestr.New.CharCollectionMap.Items([]string{"apple", "avocado", "banana"})
 	if m.IsEmpty() { t.Fatal("not empty") }
 	if !m.HasItems() { t.Fatal("has items") }
 	_ = m.Length()
@@ -1266,11 +1266,11 @@ func Test_I8_CharCollectionMap_Ops(t *testing.T) {
 	_ = m.HasWithCollection(coll)
 	_ = m.HasWithCollectionLock(coll)
 
-	_ = m.GetCollection('a')
-	_ = m.GetCollectionLock('a')
-	_ = m.GetChar('a')
+	_ = m.GetCollection("a", false)
+	_ = m.GetCollectionLock("a", false)
+	_ = m.GetChar("a")
 
-	m2 := corestr.New.CharCollectionMap.Create([]string{"apple", "avocado", "banana"})
+	m2 := corestr.New.CharCollectionMap.Items([]string{"apple", "avocado", "banana"})
 	_ = m.IsEquals(m2)
 	_ = m.IsEqualsLock(m2)
 	_ = m.IsEqualsCaseSensitive(m2, true)
@@ -1281,8 +1281,8 @@ func Test_I8_CharCollectionMap_Add(t *testing.T) {
 	m := corestr.New.CharCollectionMap.Empty()
 	m.Add("test")
 	m.AddLock("test2")
-	m.AddStrings([]string{"abc", "def"})
-	m.AddSameStartingCharItems('a', "alpha", "auto")
+	m.AddStrings("abc", "def")
+	m.AddSameStartingCharItems('a', []string{"alpha", "auto"}, false)
 
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("key", "val")
@@ -1291,7 +1291,7 @@ func Test_I8_CharCollectionMap_Add(t *testing.T) {
 
 	c := corestr.New.Collection.Strings([]string{"cat"})
 	m.AddCollectionItems(c)
-	m.AddSameCharsCollection('c', c)
+	m.AddSameCharsCollection("c", c)
 }
 
 // ==========================================================================
@@ -1299,7 +1299,7 @@ func Test_I8_CharCollectionMap_Add(t *testing.T) {
 // ==========================================================================
 
 func Test_I8_CharHashsetMap_Ops(t *testing.T) {
-	m := corestr.New.CharHashsetMap.Create([]string{"apple", "avocado", "banana"})
+	m := corestr.New.CharHashsetMap.CapItems(10, 5, "apple", "avocado", "banana")
 	if m.IsEmpty() { t.Fatal("not empty") }
 	_ = m.Length()
 	_ = m.LengthLock()
@@ -1311,8 +1311,8 @@ func Test_I8_CharHashsetMap_Ops(t *testing.T) {
 	_ = m.GetMap()
 	_ = m.GetCopyMapLock()
 	_ = m.Has("apple")
-	_ = m.GetHashset('a')
-	_ = m.GetHashsetLock('a')
+	_ = m.GetHashset("a", false)
+	_ = m.GetHashsetLock(false, "a")
 }
 
 // ==========================================================================
