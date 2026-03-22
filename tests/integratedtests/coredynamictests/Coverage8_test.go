@@ -146,8 +146,7 @@ func Test_Cov8_KeyValCollection_Json(t *testing.T) {
 	jsonPtr := c.JsonPtr()
 	model := c.JsonModel()
 	modelAny := c.JsonModelAny()
-	// KeyValCollection has only unexported 'items' → Json() produces "{}"
-	// IsEmptyJsonBytes considers "{}" empty → HasBytes()=false → JsonString()=""
+	// Json() uses JsonModel() and now serializes with exported Items payload.
 	actual := args.Map{
 		"jsonOk":     jsonResult.JsonString() != "",
 		"ptrNotNil":  jsonPtr != nil,
@@ -155,7 +154,7 @@ func Test_Cov8_KeyValCollection_Json(t *testing.T) {
 		"modelAnyNN": modelAny != nil,
 	}
 	expected := args.Map{
-		"jsonOk": false, "ptrNotNil": true,
+		"jsonOk": true, "ptrNotNil": true,
 		"modelNN": true, "modelAnyNN": true,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- Json", actual)
@@ -165,13 +164,12 @@ func Test_Cov8_KeyValCollection_JsonString(t *testing.T) {
 	c := coredynamic.NewKeyValCollection(5)
 	c.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 	js, err := c.JsonString()
-	// JsonStringMust() panics because HandleError() triggers HasIssuesOrEmpty()
-	// which is true for "{}" (unexported fields only). Skip Must variant.
+	// JsonString now returns a non-empty value from JsonModel().
 	actual := args.Map{
 		"jsEmpty": js == "",
 		"errNil":  err == nil,
 	}
-	expected := args.Map{"jsEmpty": true, "errNil": true}
+	expected := args.Map{"jsEmpty": false, "errNil": true}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection returns correct value -- JsonString", actual)
 }
 
