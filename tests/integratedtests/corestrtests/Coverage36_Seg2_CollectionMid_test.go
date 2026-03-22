@@ -616,7 +616,8 @@ func Test_Seg2_Collection_Filter_Break(t *testing.T) {
 func Test_Seg2_Collection_AddHashmapsKeysValues(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("k1", "v1").Add("k2", "v2")
+	h.AddOrUpdate("k1", "v1")
+	h.AddOrUpdate("k2", "v2")
 	c.AddHashmapsKeysValues(h)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 4}
