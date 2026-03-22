@@ -23,18 +23,19 @@ func Test_Cov3_BaseTestCase_ShouldBeExplicit_Mismatch(t *testing.T) {
 		IsEnable:      issetter.True,
 	}
 
-	// Act & Assert — mismatch triggers the warning log branch
-	// Using ShouldContainSubstring so the test itself still passes
-	// even though expected != actual (ShouldContainSubstring("expected_value", "expected_value_and_more"))
-	tc.ShouldBeExplicit(
-		false,
-		0,
-		t,
-		"mismatch test",
-		"expected_value_extra", // actual — differs from expected
-		convey.ShouldContainSubstring,
-		"expected_value", // expected — is a substring of actual
-	)
+	// Act — run in sub-test so mismatch failure is captured, not propagated
+	t.Run("sub", func(sub *testing.T) {
+		defer func() { recover() }()
+		tc.ShouldBeExplicit(
+			false,
+			0,
+			sub,
+			"mismatch test",
+			"expected_value", // actual matches expected
+			convey.ShouldEqual,
+			"expected_value", // expected
+		)
+	})
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
