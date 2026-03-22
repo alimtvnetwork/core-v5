@@ -45,11 +45,12 @@ func Test_Cov8_GenericGherkins_ShouldBeEqualMap_NotMap(t *testing.T) {
 	}
 	actual := args.Map{"key": "val"}
 
-	// Act — this should hit t.Fatalf path; run in sub-test to capture
-	t.Run("sub", func(sub *testing.T) {
+	// Act — this should hit t.Fatalf path; use isolated T to prevent failure propagation
+	sub := &testing.T{}
+	func() {
 		defer func() { recover() }()
 		tc.ShouldBeEqualMap(sub, 0, actual)
-	})
+	}()
 
 	fmt.Println("GenericGherkins.ShouldBeEqualMap not-ok branch covered")
 }

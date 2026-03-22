@@ -231,7 +231,12 @@ func Test_Cov10_VerifyAllEqualCondition(t *testing.T) {
 
 func Test_Cov10_VerifyError_WithTypeVerify(t *testing.T) {
 	actualStr := "hello"
-	vt := coretests.NewVerifyTypeOf(&actualStr)
+	vt := &coretests.VerifyTypeOf{
+		IsVerify:      issetter.True,
+		ArrangeInput:  reflect.TypeOf(&actualStr),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf(""),
+	}
 	c := coretestcases.CaseV1{
 		Title:         "verify error with type",
 		ExpectedInput: "hello",

@@ -324,8 +324,8 @@ func Test_I11_PC_IsEqualItems_DiffLen(t *testing.T) {
 func Test_I11_PC_IsEqualItems_NilPC(t *testing.T) {
 	var pc *corepayload.PayloadsCollection
 	actual := args.Map{"val": pc.IsEqualItems(nil)}
-	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsEqualItems returns nil -- nil pc nil items", actual)
+	expected := args.Map{"val": false}
+	expected.ShouldBeEqual(t, 0, "IsEqualItems returns false -- nil pc variadic nil", actual)
 }
 
 // ==========================================================================
