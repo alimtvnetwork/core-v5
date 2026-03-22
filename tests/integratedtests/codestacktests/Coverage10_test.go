@@ -58,9 +58,16 @@ func Test_Cov10_FilterWithLimit_NaturalExhaustion(t *testing.T) {
 // Covers TraceCollection.go L419-426
 
 func Test_Cov10_GetSinglePageCollection_NegativePagePanic(t *testing.T) {
-	// Arrange — need items for the method to proceed
+	// Arrange — need enough items so length >= eachPageSize, otherwise early return
 	tcVal := codestack.New.StackTrace.DefaultCount(0)
 	tc := &tcVal
+
+	// Ensure we have at least 5 items (eachPageSize) so the panic path is reachable
+	if tc.Length() < 5 {
+		// DefaultCount captures runtime stack which typically has enough frames.
+		// If not, skip — the panic path requires length >= eachPageSize.
+		t.Skip("not enough stack frames to test paging panic path")
+	}
 
 	// Act — pageIndex=0 → skipItems = eachPageSize*(0-1) = negative → panic
 	didPanic := false

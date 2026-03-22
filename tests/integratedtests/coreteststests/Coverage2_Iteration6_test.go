@@ -79,11 +79,11 @@ func Test_Cov2_SimpleTestCase_ShouldHaveNoError(t *testing.T) {
 		ExpectedInput: nil,
 	}
 
-	// Act & Assert — wrap to catch goconvey assertion issue
-	func() {
+	// Act & Assert — use t.Run sub-test to isolate goconvey FailNow/Goexit
+	t.Run("isolated", func(sub *testing.T) {
 		defer func() { recover() }()
-		tc.ShouldHaveNoError(0, t, nil)
-	}()
+		tc.ShouldHaveNoError(0, sub, nil)
+	})
 }
 
 func Test_Cov2_SimpleTestCase_ShouldContains(t *testing.T) {
@@ -93,11 +93,11 @@ func Test_Cov2_SimpleTestCase_ShouldContains(t *testing.T) {
 		ExpectedInput: "world",
 	}
 
-	// Act & Assert — wrap to catch goconvey assertion issue
-	func() {
+	// Act & Assert — use t.Run sub-test to isolate goconvey FailNow/Goexit
+	t.Run("isolated", func(sub *testing.T) {
 		defer func() { recover() }()
-		tc.ShouldContains(0, t, []string{"hello", "world"})
-	}()
+		tc.ShouldContains(0, sub, []string{"hello", "world"})
+	})
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
