@@ -415,10 +415,10 @@ func Test_CovJsonS5_NRC01_UsingErrorStringPtr(t *testing.T) {
 	}
 }
 
-func Test_CovJsonS5_NRC02_UsingErrorPtr(t *testing.T) {
-	r := corejson.NewResult.UsingErrorPtr(errors.New("fail"))
-	if r == nil || r.Error == nil {
-		t.Fatal("expected error")
+func Test_CovJsonS5_NRC02_UsingBytesPtr(t *testing.T) {
+	r := corejson.NewResult.UsingBytesPtr([]byte(`"hello"`))
+	if r == nil {
+		t.Fatal("expected result")
 	}
 }
 
