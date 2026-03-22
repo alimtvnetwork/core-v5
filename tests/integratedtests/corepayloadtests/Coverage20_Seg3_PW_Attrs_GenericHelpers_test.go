@@ -95,7 +95,7 @@ func Test_CovPL_S3_05_BasicError_PayloadDeserializeToPayloadBinder(t *testing.T)
 	// PayloadDeserializeToPayloadBinder requires payloads to be PW json
 	pw2, _ := corepayload.New.PayloadWrapper.Create("inner", "1", "t", "c", map[string]int{"b": 2})
 	b2, _ := pw2.Serialize()
-	pw3, _ := corepayload.New.PayloadWrapper.CreateUsingBytes("outer", "2", "t", "c", b2)
+	pw3 := corepayload.New.PayloadWrapper.All("outer", "2", "t", "c", "", false, nil, b2)
 	_, _ = pw3.PayloadDeserializeToPayloadBinder()
 }
 
