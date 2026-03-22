@@ -423,11 +423,11 @@ func Test_I8_SS44_UnmarshalJSON(t *testing.T) {
 	}
 }
 
-func Test_I8_SS45_NonEmptyValues(t *testing.T) {
+func Test_I8_SS45_SafeStrings(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a", "", "b")
-	result := ss.NonEmptyValues()
-	if len(result) != 2 {
-		t.Fatal("expected 2")
+	result := ss.SafeStrings()
+	if len(result) != 3 {
+		t.Fatal("expected 3")
 	}
 }
 
