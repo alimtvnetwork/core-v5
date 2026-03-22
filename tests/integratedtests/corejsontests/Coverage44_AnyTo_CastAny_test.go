@@ -460,7 +460,8 @@ func Test_Cov44_AnyTo_SerializedFieldsMap(t *testing.T) {
 	// Arrange
 	type S struct{ Name string }
 
-	// Act
+	// Act — SerializedFieldsMap → DeserializedFieldsToMap passes value not pointer to Deserialize
+	// Known production limitation — always returns error
 	m, err := corejson.AnyTo.SerializedFieldsMap(S{Name: "test"})
 	actual := args.Map{
 		"hasError": err != nil,
