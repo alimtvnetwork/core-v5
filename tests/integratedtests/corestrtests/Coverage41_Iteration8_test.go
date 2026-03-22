@@ -800,8 +800,8 @@ func Test_I8_Hashset_Filter(t *testing.T) {
 	f := h.Filter(func(s string) bool { return len(s) > 1 })
 	if f.Length() != 2 { t.Fatal("expected 2") }
 
-	_ = h.GetFilteredItems(func(s string) bool { return true })
-	_ = h.GetFilteredCollection(func(s string) bool { return true })
+	_ = h.GetFilteredItems(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }))
+	_ = h.GetFilteredCollection(corestr.IsStringFilter(func(str string, index int) (string, bool, bool) { return str, true, false }))
 }
 
 func Test_I8_Hashset_Except(t *testing.T) {
