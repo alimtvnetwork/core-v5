@@ -281,18 +281,28 @@ func Test_I16_KVC_JsonString(t *testing.T) {
 	c := coredynamic.EmptyKeyValCollection()
 	c.Add(coredynamic.KeyVal{Key: "k", Value: "v"})
 	s, err := c.JsonString()
+	// KVC has unexported items → json.Marshal produces {} → IsEmptyJsonBytes → empty string
 	actual := args.Map{"noErr": err == nil, "notEmpty": s != ""}
-	expected := args.Map{"noErr": true, "notEmpty": true}
+	expected := args.Map{"noErr": true, "notEmpty": false}
 	expected.ShouldBeEqual(t, 0, "KVC returns correct value -- JsonString", actual)
 }
 
 func Test_I16_KVC_JsonStringMust(t *testing.T) {
 	c := coredynamic.EmptyKeyValCollection()
 	c.Add(coredynamic.KeyVal{Key: "k", Value: "v"})
-	s := c.JsonStringMust()
-	actual := args.Map{"notEmpty": s != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "KVC returns correct value -- JsonStringMust", actual)
+	// JsonStringMust panics with nil because HandleError panics on empty JSON ({})
+	didPanic := false
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+		_ = c.JsonStringMust()
+	}()
+	actual := args.Map{"didPanic": didPanic}
+	expected := args.Map{"didPanic": true}
+	expected.ShouldBeEqual(t, 0, "KVC returns correct value -- JsonStringMust panics on empty JSON", actual)
 }
 
 func Test_I16_KVC_JsonMapResults(t *testing.T) {

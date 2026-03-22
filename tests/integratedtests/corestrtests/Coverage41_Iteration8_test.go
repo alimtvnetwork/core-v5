@@ -678,15 +678,21 @@ func Test_I8_Hashmap_ConcatNew(t *testing.T) {
 	other.AddOrUpdate("b", "2")
 	h2 := h.ConcatNew(false, other)
 	_ = h2
-	h3 := h.ConcatNewUsingMaps(map[string]string{"d": "4"})
+	h3 := h.ConcatNewUsingMaps(false, map[string]string{"d": "4"})
 	_ = h3
 }
 
 func Test_I8_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	h.AddsOrUpdatesUsingFilter(func(k, v string) bool { return k != "skip" }, "a", "1", "skip", "2")
-	h.AddsOrUpdatesAnyUsingFilter(func(k string, v any) bool { return true }, "b", 2)
-	h.AddsOrUpdatesAnyUsingFilterLock(func(k string, v any) bool { return true }, "c", 3)
+	h.AddsOrUpdatesUsingFilter(corestr.IsKeyValueFilter(func(pair corestr.KeyValuePair) (string, bool, bool) {
+		return pair.Key, pair.Key != "skip", false
+	}), corestr.KeyValuePair{Key: "a", Value: "1"}, corestr.KeyValuePair{Key: "skip", Value: "2"})
+	h.AddsOrUpdatesAnyUsingFilter(corestr.IsKeyAnyValueFilter(func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
+		return pair.Key, true, false
+	}), corestr.KeyAnyValuePair{Key: "b"})
+	h.AddsOrUpdatesAnyUsingFilterLock(corestr.IsKeyAnyValueFilter(func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
+		return pair.Key, true, false
+	}), corestr.KeyAnyValuePair{Key: "c"})
 }
 
 func Test_I8_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
