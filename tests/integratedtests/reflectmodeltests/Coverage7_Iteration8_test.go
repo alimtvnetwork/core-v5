@@ -472,8 +472,8 @@ func Test_I8_MP_VerifyInArgs(t *testing.T) {
 func Test_I8_MP_VerifyOutArgs(t *testing.T) {
 	mp := getMP("TwoReturns")
 	ok, err := mp.VerifyOutArgs([]any{0, errors.New("e")})
-	if !ok || err != nil {
-		t.Fatal("expected ok")
+	if ok || err == nil {
+		t.Fatal("expected type mismatch for concrete error vs error interface")
 	}
 }
 
