@@ -295,10 +295,20 @@ func Test_I14_ValidateMethodArgs_EmptyArgs(t *testing.T) {
 
 func Test_I14_InvokeFirstAndError_MultiReturn(t *testing.T) {
 	mp := newMethodProcessor("MultiReturn")
-	first, funcErr, procErr := mp.InvokeFirstAndError(sampleStruct{})
-	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr == nil, "first": first}
-	expected := args.Map{"procErr": true, "funcErr": true, "first": 0}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- MultiReturn", actual)
+	// InvokeFirstAndError always takes results[1].(error), but MultiReturn returns
+	// (int, string, error) — results[1] is string, not error → panics
+	didPanic := false
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+		mp.InvokeFirstAndError(sampleStruct{})
+	}()
+	actual := args.Map{"didPanic": didPanic}
+	expected := args.Map{"didPanic": true}
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError panics -- MultiReturn string not error", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

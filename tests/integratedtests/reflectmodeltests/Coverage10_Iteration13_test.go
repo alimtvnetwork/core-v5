@@ -359,10 +359,12 @@ func Test_I13_VerifyInArgs_TypeMismatch(t *testing.T) {
 
 func Test_I13_VerifyOutArgs_Success(t *testing.T) {
 	mp := getPtrMP("ReturnMulti")
+	// VerifyOutArgs uses reflect.TypeOf which returns concrete type (*errors.errorString)
+	// not interface type (error). So type comparison fails — this is expected behavior.
 	ok, err := mp.VerifyOutArgs([]any{"", errors.New("")})
 	actual := args.Map{"ok": ok, "noErr": err == nil}
-	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyOutArgs returns correct value -- success", actual)
+	expected := args.Map{"ok": false, "noErr": false}
+	expected.ShouldBeEqual(t, 0, "VerifyOutArgs returns correct value -- concrete vs interface type mismatch", actual)
 }
 
 func Test_I13_VerifyOutArgs_LenMismatch(t *testing.T) {

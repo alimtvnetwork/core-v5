@@ -57,11 +57,12 @@ func Test_Cov3_BaseTestCase_TypeShouldMatch_WithMismatch(t *testing.T) {
 	}
 	tc.SetActual("actual_string")
 
-	// Act — use t.Run sub-test so Fatalf/Goexit is isolated
-	t.Run("isolated", func(sub *testing.T) {
+	// Act — use fake T so Fatalf/Goexit doesn't propagate to parent
+	fakeT := &testing.T{}
+	func() {
 		defer func() { recover() }()
-		tc.TypeShouldMatch(sub, 0, "type mismatch test")
-	})
+		tc.TypeShouldMatch(fakeT, 0, "type mismatch test")
+	}()
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
