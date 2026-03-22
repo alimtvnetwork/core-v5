@@ -1126,9 +1126,9 @@ function copyForAI(){
             & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 
-        # Auto-open HTML report in browser
-        $openHtml = $true
-        if ($ExtraArgs -and $ExtraArgs[0] -eq "--no-open") { $openHtml = $false }
+        # HTML auto-open disabled — use --open flag to open manually
+        $openHtml = $false
+        if ($ExtraArgs -and $ExtraArgs[0] -eq "--open") { $openHtml = $true }
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report in browser..." -ForegroundColor Yellow
