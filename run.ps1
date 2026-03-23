@@ -158,10 +158,43 @@ function Extract-BuildErrorLines([string[]]$lines) {
     return $errors.ToArray()
 }
 
+function Extract-ExecutionFailureLines([string[]]$lines) {
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '\.go:\d+(?::\d+)?:' -or
+            $trimmed -match '^#\s+\S+' -or
+            $trimmed -match '\[build failed\]' -or
+            $trimmed -match '(?i)\bbuild failed\b' -or
+            $trimmed -match '^(?i)panic:' -or
+            $trimmed -match '^(?i)fatal error:' -or
+            $trimmed -match '^--- FAIL:\s+' -or
+            $trimmed -match '^\s*FAIL\s+\S+' -or
+            $trimmed -match '^\s*exit status \d+\s*$') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
 function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageName, [string[]]$Lines) {
     if (-not $BuildErrorMap -or -not $PackageName) { return }
 
     $buildLines = Extract-BuildErrorLines $Lines
+    if (-not $buildLines -or $buildLines.Count -eq 0) {
+        $buildLines = Extract-ExecutionFailureLines $Lines
+    }
     if (-not $buildLines -or $buildLines.Count -eq 0) { return }
 
     if (-not $BuildErrorMap.ContainsKey($PackageName)) {
@@ -519,6 +552,13 @@ function Invoke-TestCoverage {
     $coverProfile = Join-Path $coverDir "coverage.out"
     $coverHtml    = Join-Path $coverDir "coverage.html"
     $coverSummary = Join-Path $coverDir "coverage-summary.txt"
+    $repoBuildErrorsFile = Join-Path $coverDir "repo-build-errors.txt"
+    $repoBuildErrorsJsonFile = Join-Path $coverDir "repo-build-errors.json"
+
+    $repoBuildErrorsScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-RepoBuildErrors.ps1"
+    if (Test-Path $repoBuildErrorsScript) {
+        & $repoBuildErrorsScript -OutputTxt $repoBuildErrorsFile -OutputJson $repoBuildErrorsJsonFile
+    }
 
     # Build coverpkg list: all source packages EXCLUDING tests/
     $allPkgs = go list ./... 2>&1 | ForEach-Object { $_.ToString() }
@@ -682,6 +722,9 @@ function Invoke-TestCoverage {
             if ($blockedErrors.ContainsKey($bp)) {
                 $rawErrLines = $blockedErrors[$bp] -split "`n"
                 $filteredErrLines = Extract-BuildErrorLines $rawErrLines
+                if ($filteredErrLines.Count -eq 0) {
+                    $filteredErrLines = Extract-ExecutionFailureLines $rawErrLines
+                }
                 if ($filteredErrLines.Count -gt 0) {
                     $blockedContent += ($filteredErrLines -join "`n")
                 } else {
@@ -703,6 +746,9 @@ function Invoke-TestCoverage {
             $errLines = @()
             if ($errText) {
                 $errLines = Extract-BuildErrorLines ($errText -split "`n")
+                if ($errLines.Count -eq 0) {
+                    $errLines = Extract-ExecutionFailureLines ($errText -split "`n")
+                }
             }
             $blockedJsonItems.Add(@{
                 package    = $bp
@@ -1319,6 +1365,12 @@ function copyForAI(){
         Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
         Write-Host "  │  $buildErrorsFile" -ForegroundColor Gray
         Write-Host "  │  $buildErrorsJsonFile" -ForegroundColor Gray
+        if (Test-Path $repoBuildErrorsFile) {
+            Write-Host "  │  $repoBuildErrorsFile" -ForegroundColor Gray
+        }
+        if (Test-Path $repoBuildErrorsJsonFile) {
+            Write-Host "  │  $repoBuildErrorsJsonFile" -ForegroundColor Gray
+        }
         if ($blockedPkgs.Count -gt 0) {
             $bFile = Join-Path $coverDir "blocked-packages.txt"
             $bJsonFile = Join-Path $coverDir "blocked-packages.json"
