@@ -853,6 +853,7 @@ function Invoke-TestCoverage {
             if ($pkgExit -ne 0) {
                 $overallExit = $pkgExit
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $output
             }
 
             if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
