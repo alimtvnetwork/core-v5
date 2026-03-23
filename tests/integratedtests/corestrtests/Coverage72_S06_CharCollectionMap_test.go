@@ -841,11 +841,11 @@ func Test_CovS06_CharCollMap_AddCharHashsetMap_Verification(t *testing.T) {
 
 		// Act
 		if useEmptyHashset {
-			hsm := corestr.New.CharHashsetMap.Empty()
+			hsm := corestr.Empty.CharHashsetMap()
 			m.AddCharHashsetMap(hsm)
 		} else {
 			hsItems := input["hashsetItems"].([]string)
-			hsm := corestr.New.CharHashsetMap.Items(hsItems)
+			hsm := corestr.New.CharHashsetMap.Strings(10, hsItems)
 			m.AddCharHashsetMap(hsm)
 		}
 		actual := args.Map{"allLengthsSum": m.AllLengthsSum()}
