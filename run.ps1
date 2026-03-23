@@ -91,6 +91,48 @@ function Filter-TestWarnings([string[]]$lines) {
     }
 }
 
+function Merge-UniqueOutputLines([string[]]$primary, [string[]]$secondary) {
+    $merged = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($line in @($primary + $secondary)) {
+        if ($null -eq $line) { continue }
+        $normalized = $line.ToString().TrimEnd("`r")
+        if (-not $normalized) { continue }
+        if ($seen.Add($normalized)) {
+            $merged.Add($normalized) | Out-Null
+        }
+    }
+
+    return $merged.ToArray()
+}
+
+function Filter-BlockedCompileLines([string[]]$lines) {
+    $filtered = [System.Collections.Generic.List[string]]::new()
+
+    foreach ($raw in $lines) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+
+        if (-not $trimmed) { continue }
+
+        # Strip "warning: no packages being tested..." noise
+        if ($trimmed -match '^\s*warning:\s*no packages being tested depend on matches for pattern') { continue }
+
+        # Strip bare package headers like "# github.com/org/repo [...]" without file:line
+        if ($trimmed -match '^#\s+\S+' -and $trimmed -notmatch '\.go:\d+') { continue }
+
+        # Strip bare package path lines (github/gitlab) without file:line
+        if ($trimmed -match '^(github\.com|gitlab\.com)/\S+(\s+\[[^\]]+\])?$' -and $trimmed -notmatch '\.go:\d+') { continue }
+
+        $filtered.Add($line) | Out-Null
+    }
+
+    return $filtered.ToArray()
+}
+
 function Write-TestLogs([string[]]$rawOutput) {
     Ensure-TestLogDir
 
@@ -472,15 +514,21 @@ function Invoke-TestCoverage {
 
             $prevPref = $ErrorActionPreference
             $ErrorActionPreference = "Continue"
-            $compileOut = & go test -c -o $compileOutFile "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $compileOut = & go test -c -gcflags=all=-e -o $compileOutFile "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
             $compileExit = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
             if ($compileExit -eq 0) {
                 $testPkgs.Add($testPkg)
             } else {
+                $prevPref = $ErrorActionPreference
+                $ErrorActionPreference = "Continue"
+                $diagOut = & go test -count=1 -run '^$' -gcflags=all=-e "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+                $ErrorActionPreference = $prevPref
+                $combinedOut = Merge-UniqueOutputLines $compileOut $diagOut
+
                 $blockedPkgs.Add($shortName)
-                $blockedErrors[$shortName] = ($compileOut -join "`n")
+                $blockedErrors[$shortName] = ($combinedOut -join "`n")
             }
         }
     } else {
@@ -495,9 +543,29 @@ function Invoke-TestCoverage {
             $safePkgName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
             $outFile = Join-Path $tempDir "compile-$safePkgName.test"
             $ErrorActionPreference = "Continue"
-            $rawOut = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1
+            $rawOut = & go test -c -gcflags=all=-e -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1
             $ec = $LASTEXITCODE
             $out = @($rawOut | ForEach-Object { $_.ToString() })
+
+            if ($ec -ne 0) {
+                $diagRaw = & go test -count=1 -run '^$' -gcflags=all=-e "$pkg" 2>&1
+                $diagOut = @($diagRaw | ForEach-Object { $_.ToString() })
+
+                $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+                $merged = [System.Collections.Generic.List[string]]::new()
+
+                foreach ($line in @($out + $diagOut)) {
+                    if ($null -eq $line) { continue }
+                    $normalized = $line.ToString().TrimEnd("`r")
+                    if (-not $normalized) { continue }
+                    if ($seen.Add($normalized)) {
+                        $merged.Add($normalized) | Out-Null
+                    }
+                }
+
+                $out = $merged.ToArray()
+            }
+
             [pscustomobject]@{
                 Pkg      = $pkg
                 ExitCode = $ec
@@ -568,19 +636,8 @@ function Invoke-TestCoverage {
         foreach ($bp in $sortedBlocked) {
             $blockedContent += "## $bp"
             if ($blockedErrors.ContainsKey($bp)) {
-                # Filter out noisy warning lines and bare package-header lines;
-                # keep only lines with actual file:line compile errors
                 $rawErrLines = $blockedErrors[$bp] -split "`n"
-                $filteredErrLines = @($rawErrLines | Where-Object {
-                    $line = $_.Trim()
-                    if (-not $line) { return $false }
-                    # Strip "warning: no packages being tested..." noise
-                    if ($line -match '^\s*warning:\s*no packages being tested') { return $false }
-                    # Strip bare package-header lines like "# github.com/org/repo [...]"
-                    # that have no file:line info (no .go: pattern)
-                    if ($line -match '^#\s+\S+' -and $line -notmatch '\.go:\d+') { return $false }
-                    return $true
-                })
+                $filteredErrLines = Filter-BlockedCompileLines $rawErrLines
                 if ($filteredErrLines.Count -gt 0) {
                     $blockedContent += ($filteredErrLines -join "`n")
                 } else {
@@ -601,15 +658,7 @@ function Invoke-TestCoverage {
             if ($blockedErrors.ContainsKey($bp)) { $errText = $blockedErrors[$bp] }
             $errLines = @()
             if ($errText) {
-                $errLines = @($errText -split "`n" | Where-Object {
-                    $line = $_.Trim()
-                    if (-not $line) { return $false }
-                    # Strip "warning: no packages being tested..." noise
-                    if ($line -match '^\s*warning:\s*no packages being tested') { return $false }
-                    # Strip bare package-header lines (no .go:linenum)
-                    if ($line -match '^#\s+\S+' -and $line -notmatch '\.go:\d+') { return $false }
-                    return $true
-                })
+                $errLines = Filter-BlockedCompileLines ($errText -split "`n")
             }
             $blockedJsonItems.Add(@{
                 package    = $bp
@@ -1463,13 +1512,19 @@ function Invoke-PreCommitCheck {
 
             $prevPref = $ErrorActionPreference
             $ErrorActionPreference = "Continue"
-            $compOut = & go test -c -o $outFile "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $compOut = & go test -c -gcflags=all=-e -o $outFile "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
             $ec = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
             if ($ec -eq 0) {
                 $passedCount++
             } else {
+                $prevPref = $ErrorActionPreference
+                $ErrorActionPreference = "Continue"
+                $diagOut = & go test -count=1 -run '^$' -gcflags=all=-e "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+                $ErrorActionPreference = $prevPref
+                $compOut = Merge-UniqueOutputLines $compOut $diagOut
+
                 $parsedErrors = ParseCompileErrors $compOut
                 $failures.Add(@{
                     package    = $shortName
@@ -1486,9 +1541,29 @@ function Invoke-PreCommitCheck {
             $safeName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
             $outFile = Join-Path $tempDir "check-$safeName.test"
             $ErrorActionPreference = "Continue"
-            $rawOut = & go test -c -o $outFile "$pkg" 2>&1
+            $rawOut = & go test -c -gcflags=all=-e -o $outFile "$pkg" 2>&1
             $ec = $LASTEXITCODE
             $out = @($rawOut | ForEach-Object { $_.ToString() })
+
+            if ($ec -ne 0) {
+                $diagRaw = & go test -count=1 -run '^$' -gcflags=all=-e "$pkg" 2>&1
+                $diagOut = @($diagRaw | ForEach-Object { $_.ToString() })
+
+                $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+                $merged = [System.Collections.Generic.List[string]]::new()
+
+                foreach ($line in @($out + $diagOut)) {
+                    if ($null -eq $line) { continue }
+                    $normalized = $line.ToString().TrimEnd("`r")
+                    if (-not $normalized) { continue }
+                    if ($seen.Add($normalized)) {
+                        $merged.Add($normalized) | Out-Null
+                    }
+                }
+
+                $out = $merged.ToArray()
+            }
+
             [pscustomobject]@{ Pkg = $pkg; ExitCode = $ec; Output = $out }
         }
 
@@ -1560,7 +1635,7 @@ function Invoke-PreCommitCheck {
 function ParseCompileErrors([string[]]$output) {
     $errors = [System.Collections.Generic.List[object]]::new()
     foreach ($line in $output) {
-        if ($line -match '^(.+?\.go):(\d+):\d+:\s*(.+)$') {
+        if ($line -match '^(.+?\.go):(\d+)(?::\d+)?:\s*(.+)$') {
             $file = Split-Path $Matches[1] -Leaf
             $lineNum = [int]$Matches[2]
             $msg = $Matches[3].Trim()
