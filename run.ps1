@@ -568,7 +568,24 @@ function Invoke-TestCoverage {
         foreach ($bp in $sortedBlocked) {
             $blockedContent += "## $bp"
             if ($blockedErrors.ContainsKey($bp)) {
-                $blockedContent += $blockedErrors[$bp]
+                # Filter out noisy warning lines and bare package-header lines;
+                # keep only lines with actual file:line compile errors
+                $rawErrLines = $blockedErrors[$bp] -split "`n"
+                $filteredErrLines = @($rawErrLines | Where-Object {
+                    $line = $_.Trim()
+                    if (-not $line) { return $false }
+                    # Strip "warning: no packages being tested..." noise
+                    if ($line -match '^\s*warning:\s*no packages being tested') { return $false }
+                    # Strip bare package-header lines like "# github.com/org/repo [...]"
+                    # that have no file:line info (no .go: pattern)
+                    if ($line -match '^#\s+\S+' -and $line -notmatch '\.go:\d+') { return $false }
+                    return $true
+                })
+                if ($filteredErrLines.Count -gt 0) {
+                    $blockedContent += ($filteredErrLines -join "`n")
+                } else {
+                    $blockedContent += "(no actionable compile errors captured)"
+                }
             }
             $blockedContent += ""
         }
@@ -583,7 +600,17 @@ function Invoke-TestCoverage {
             $errText = ""
             if ($blockedErrors.ContainsKey($bp)) { $errText = $blockedErrors[$bp] }
             $errLines = @()
-            if ($errText) { $errLines = @($errText -split "`n" | Where-Object { $_ }) }
+            if ($errText) {
+                $errLines = @($errText -split "`n" | Where-Object {
+                    $line = $_.Trim()
+                    if (-not $line) { return $false }
+                    # Strip "warning: no packages being tested..." noise
+                    if ($line -match '^\s*warning:\s*no packages being tested') { return $false }
+                    # Strip bare package-header lines (no .go:linenum)
+                    if ($line -match '^#\s+\S+' -and $line -notmatch '\.go:\d+') { return $false }
+                    return $true
+                })
+            }
             $blockedJsonItems.Add(@{
                 package    = $bp
                 errorCount = $errLines.Count
