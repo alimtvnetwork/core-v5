@@ -806,11 +806,12 @@ function Invoke-TestCoverage {
             })
         }
         $blockedJsonObj = @{
-            timestamp      = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
-            blockedCount   = $blockedPkgs.Count
-            compiledCount  = $testPkgs.Count
-            totalCount     = $allTestPkgs.Count
-            blockedPackages = $blockedJsonItems.ToArray()
+            timestamp        = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            blockedCount     = $blockedPkgs.Count
+            compiledCount    = $testPkgs.Count
+            totalCount       = $allTestPkgs.Count
+            blockedPackages  = $blockedJsonItems.ToArray()
+            missingProfiles  = @()
         }
         $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
