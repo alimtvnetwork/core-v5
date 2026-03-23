@@ -22,13 +22,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyStrValFloat(t *testing.T) {
 	h.AddOrUpdateKeyStrValFloat("pi", 3.14)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyStrValFloat",
-			args.Map{"HasKey": true, "IsEmpty": false},
-		),
+		Title:         "AddOrUpdateKeyStrValFloat",
+		ExpectedInput: args.Map{"HasKey": true, "IsEmpty": false},,
 	}
 	actual := args.Map{"HasKey": h.Has("pi"), "IsEmpty": h.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyStrValFloat64(t *testing.T) {
@@ -38,13 +36,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyStrValFloat64(t *testing.T) {
 	h.AddOrUpdateKeyStrValFloat64("e", 2.71828)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyStrValFloat64",
-			args.Map{"HasKey": true},
-		),
+		Title:         "AddOrUpdateKeyStrValFloat64",
+		ExpectedInput: args.Map{"HasKey": true},,
 	}
 	actual := args.Map{"HasKey": h.Has("e")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyStrValAny(t *testing.T) {
@@ -54,13 +50,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyStrValAny(t *testing.T) {
 	h.AddOrUpdateKeyStrValAny("val", 42)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyStrValAny",
-			args.Map{"HasKey": true},
-		),
+		Title:         "AddOrUpdateKeyStrValAny",
+		ExpectedInput: args.Map{"HasKey": true},,
 	}
 	actual := args.Map{"HasKey": h.Has("val")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
@@ -71,13 +65,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 	h.AddOrUpdateKeyValueAny(pair)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyValueAny",
-			args.Map{"Has": true, "Length": 1},
-		),
+		Title:         "AddOrUpdateKeyValueAny",
+		ExpectedInput: args.Map{"Has": true, "Length": 1},,
 	}
 	actual := args.Map{"Has": h.Has("k"), "Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyVal(t *testing.T) {
@@ -88,13 +80,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyVal(t *testing.T) {
 	isNew := h.AddOrUpdateKeyVal(kv)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyVal new",
-			args.Map{"IsNew": true},
-		),
+		Title:         "AddOrUpdateKeyVal new",
+		ExpectedInput: args.Map{"IsNew": true},,
 	}
 	actual := args.Map{"IsNew": isNew}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyVal_Existing(t *testing.T) {
@@ -106,13 +96,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyVal_Existing(t *testing.T) {
 	isNew := h.AddOrUpdateKeyVal(kv)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyVal existing",
-			args.Map{"IsNew": false},
-		),
+		Title:         "AddOrUpdateKeyVal existing",
+		ExpectedInput: args.Map{"IsNew": false},,
 	}
 	actual := args.Map{"IsNew": isNew}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyValues(t *testing.T) {
@@ -125,13 +113,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyValues(t *testing.T) {
 	)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyValues",
-			args.Map{"Length": 2},
-		),
+		Title:         "AddOrUpdateKeyValues",
+		ExpectedInput: args.Map{"Length": 2},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyValues_Empty(t *testing.T) {
@@ -141,13 +127,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyValues_Empty(t *testing.T) {
 	h.AddOrUpdateKeyValues()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyValues empty",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateKeyValues empty",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyAnyValues(t *testing.T) {
@@ -159,13 +143,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyAnyValues(t *testing.T) {
 	)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyAnyValues",
-			args.Map{"Has": true},
-		),
+		Title:         "AddOrUpdateKeyAnyValues",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("x")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateKeyAnyValues_Empty(t *testing.T) {
@@ -175,13 +157,11 @@ func Test_Cov55_Hashmap_AddOrUpdateKeyAnyValues_Empty(t *testing.T) {
 	h.AddOrUpdateKeyAnyValues()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateKeyAnyValues empty",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateKeyAnyValues empty",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateLock(t *testing.T) {
@@ -191,13 +171,11 @@ func Test_Cov55_Hashmap_AddOrUpdateLock(t *testing.T) {
 	h.AddOrUpdateLock("k", "v")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateLock",
-			args.Map{"Has": true},
-		),
+		Title:         "AddOrUpdateLock",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("k")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateWithWgLock(t *testing.T) {
@@ -210,13 +188,11 @@ func Test_Cov55_Hashmap_AddOrUpdateWithWgLock(t *testing.T) {
 	wg.Wait()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateWithWgLock",
-			args.Map{"Has": true},
-		),
+		Title:         "AddOrUpdateWithWgLock",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("wg")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
@@ -231,13 +207,11 @@ func Test_Cov55_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 	wg.Wait()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateStringsPtrWgLock",
-			args.Map{"Length": 2},
-		),
+		Title:         "AddOrUpdateStringsPtrWgLock",
+		ExpectedInput: args.Map{"Length": 2},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
@@ -250,13 +224,11 @@ func Test_Cov55_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
 	wg.Wait()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateStringsPtrWgLock empty",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateStringsPtrWgLock empty",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateHashmap(t *testing.T) {
@@ -268,13 +240,11 @@ func Test_Cov55_Hashmap_AddOrUpdateHashmap(t *testing.T) {
 	h.AddOrUpdateHashmap(other)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateHashmap",
-			args.Map{"Has": true},
-		),
+		Title:         "AddOrUpdateHashmap",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("x")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
@@ -284,13 +254,11 @@ func Test_Cov55_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
 	h.AddOrUpdateHashmap(nil)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateHashmap nil",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateHashmap nil",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateMap(t *testing.T) {
@@ -300,13 +268,11 @@ func Test_Cov55_Hashmap_AddOrUpdateMap(t *testing.T) {
 	h.AddOrUpdateMap(map[string]string{"k": "v"})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateMap",
-			args.Map{"Has": true},
-		),
+		Title:         "AddOrUpdateMap",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("k")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateMap_Empty(t *testing.T) {
@@ -316,13 +282,11 @@ func Test_Cov55_Hashmap_AddOrUpdateMap_Empty(t *testing.T) {
 	h.AddOrUpdateMap(map[string]string{})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateMap empty",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateMap empty",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateCollection(t *testing.T) {
@@ -334,13 +298,11 @@ func Test_Cov55_Hashmap_AddOrUpdateCollection(t *testing.T) {
 	h.AddOrUpdateCollection(keys, vals)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateCollection",
-			args.Map{"Length": 2},
-		),
+		Title:         "AddOrUpdateCollection",
+		ExpectedInput: args.Map{"Length": 2},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateCollection_NilKeys(t *testing.T) {
@@ -351,13 +313,11 @@ func Test_Cov55_Hashmap_AddOrUpdateCollection_NilKeys(t *testing.T) {
 	h.AddOrUpdateCollection(nil, vals)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateCollection nil keys",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateCollection nil keys",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddOrUpdateCollection_Mismatch(t *testing.T) {
@@ -369,13 +329,11 @@ func Test_Cov55_Hashmap_AddOrUpdateCollection_Mismatch(t *testing.T) {
 	h.AddOrUpdateCollection(keys, vals)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddOrUpdateCollection mismatch",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddOrUpdateCollection mismatch",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddsOrUpdates(t *testing.T) {
@@ -388,13 +346,11 @@ func Test_Cov55_Hashmap_AddsOrUpdates(t *testing.T) {
 	)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddsOrUpdates",
-			args.Map{"Length": 2},
-		),
+		Title:         "AddsOrUpdates",
+		ExpectedInput: args.Map{"Length": 2},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddsOrUpdates_Nil(t *testing.T) {
@@ -404,13 +360,11 @@ func Test_Cov55_Hashmap_AddsOrUpdates_Nil(t *testing.T) {
 	h.AddsOrUpdates()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddsOrUpdates nil",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddsOrUpdates nil",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
@@ -423,13 +377,11 @@ func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 	h.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "k", Value: 1})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddsOrUpdatesAnyUsingFilter",
-			args.Map{"Has": true},
-		),
+		Title:         "AddsOrUpdatesAnyUsingFilter",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("k")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
@@ -442,13 +394,11 @@ func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 	h.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "k", Value: 1})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddsOrUpdatesAnyUsingFilter break",
-			args.Map{"Length": 0},
-		),
+		Title:         "AddsOrUpdatesAnyUsingFilter break",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": h.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
@@ -461,13 +411,11 @@ func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 	h.AddsOrUpdatesAnyUsingFilterLock(filter, corestr.KeyAnyValuePair{Key: "k", Value: 1})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddsOrUpdatesAnyUsingFilterLock",
-			args.Map{"Has": true},
-		),
+		Title:         "AddsOrUpdatesAnyUsingFilterLock",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("k")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
@@ -480,13 +428,11 @@ func Test_Cov55_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 	h.AddsOrUpdatesUsingFilter(filter, corestr.KeyValuePair{Key: "k", Value: "v"})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"AddsOrUpdatesUsingFilter",
-			args.Map{"Has": true},
-		),
+		Title:         "AddsOrUpdatesUsingFilter",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": h.Has("k")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ConcatNew_WithArgs(t *testing.T) {
@@ -499,13 +445,11 @@ func Test_Cov55_Hashmap_ConcatNew_WithArgs(t *testing.T) {
 	result := h.ConcatNew(false, other)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ConcatNew with args",
-			args.Map{"HasA": true, "HasB": true},
-		),
+		Title:         "ConcatNew with args",
+		ExpectedInput: args.Map{"HasA": true, "HasB": true},,
 	}
 	actual := args.Map{"HasA": result.Has("a"), "HasB": result.Has("b")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ConcatNew_NoArgs(t *testing.T) {
@@ -516,13 +460,11 @@ func Test_Cov55_Hashmap_ConcatNew_NoArgs(t *testing.T) {
 	result := h.ConcatNew(true)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ConcatNew no args",
-			args.Map{"Has": true},
-		),
+		Title:         "ConcatNew no args",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": result.Has("a")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ConcatNewUsingMaps(t *testing.T) {
@@ -533,13 +475,11 @@ func Test_Cov55_Hashmap_ConcatNewUsingMaps(t *testing.T) {
 	result := h.ConcatNewUsingMaps(false, map[string]string{"b": "2"})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ConcatNewUsingMaps",
-			args.Map{"HasB": true},
-		),
+		Title:         "ConcatNewUsingMaps",
+		ExpectedInput: args.Map{"HasB": true},,
 	}
 	actual := args.Map{"HasB": result.Has("b")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ConcatNewUsingMaps_NoArgs(t *testing.T) {
@@ -550,13 +490,11 @@ func Test_Cov55_Hashmap_ConcatNewUsingMaps_NoArgs(t *testing.T) {
 	result := h.ConcatNewUsingMaps(true)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ConcatNewUsingMaps no args",
-			args.Map{"Has": true},
-		),
+		Title:         "ConcatNewUsingMaps no args",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": result.Has("a")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_HasAny(t *testing.T) {
@@ -568,13 +506,11 @@ func Test_Cov55_Hashmap_HasAny(t *testing.T) {
 	notFound := h.HasAny("c", "d")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"HasAny",
-			args.Map{"Found": true, "NotFound": false},
-		),
+		Title:         "HasAny",
+		ExpectedInput: args.Map{"Found": true, "NotFound": false},,
 	}
 	actual := args.Map{"Found": found, "NotFound": notFound}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_HasWithLock(t *testing.T) {
@@ -585,13 +521,11 @@ func Test_Cov55_Hashmap_HasWithLock(t *testing.T) {
 	result := h.HasWithLock("k")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"HasWithLock",
-			args.Map{"Has": true},
-		),
+		Title:         "HasWithLock",
+		ExpectedInput: args.Map{"Has": true},,
 	}
 	actual := args.Map{"Has": result}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_HasAllCollectionItems(t *testing.T) {
@@ -605,13 +539,11 @@ func Test_Cov55_Hashmap_HasAllCollectionItems(t *testing.T) {
 	resultNil := h.HasAllCollectionItems(nil)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"HasAllCollectionItems",
-			args.Map{"HasAll": true, "Nil": false},
-		),
+		Title:         "HasAllCollectionItems",
+		ExpectedInput: args.Map{"HasAll": true, "Nil": false},,
 	}
 	actual := args.Map{"HasAll": result, "Nil": resultNil}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ContainsLock(t *testing.T) {
@@ -622,13 +554,11 @@ func Test_Cov55_Hashmap_ContainsLock(t *testing.T) {
 	result := h.ContainsLock("k")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ContainsLock",
-			args.Map{"Contains": true},
-		),
+		Title:         "ContainsLock",
+		ExpectedInput: args.Map{"Contains": true},,
 	}
 	actual := args.Map{"Contains": result}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_IsKeyMissing(t *testing.T) {
@@ -640,13 +570,11 @@ func Test_Cov55_Hashmap_IsKeyMissing(t *testing.T) {
 	notMissing := h.IsKeyMissing("k")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"IsKeyMissing",
-			args.Map{"Missing": true, "NotMissing": false},
-		),
+		Title:         "IsKeyMissing",
+		ExpectedInput: args.Map{"Missing": true, "NotMissing": false},,
 	}
 	actual := args.Map{"Missing": missing, "NotMissing": notMissing}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_IsKeyMissingLock(t *testing.T) {
@@ -657,13 +585,11 @@ func Test_Cov55_Hashmap_IsKeyMissingLock(t *testing.T) {
 	result := h.IsKeyMissingLock("other")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"IsKeyMissingLock",
-			args.Map{"Missing": true},
-		),
+		Title:         "IsKeyMissingLock",
+		ExpectedInput: args.Map{"Missing": true},,
 	}
 	actual := args.Map{"Missing": result}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_Diff(t *testing.T) {
@@ -688,13 +614,11 @@ func Test_Cov55_Hashmap_KeysValuesCollection(t *testing.T) {
 	keys, values := h.KeysValuesCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeysValuesCollection",
-			args.Map{"KeysLen": 1, "ValsLen": 1},
-		),
+		Title:         "KeysValuesCollection",
+		ExpectedInput: args.Map{"KeysLen": 1, "ValsLen": 1},,
 	}
 	actual := args.Map{"KeysLen": keys.Length(), "ValsLen": values.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_KeysValuesList(t *testing.T) {
@@ -705,13 +629,11 @@ func Test_Cov55_Hashmap_KeysValuesList(t *testing.T) {
 	keys, values := h.KeysValuesList()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeysValuesList",
-			args.Map{"KeysLen": 1, "ValsLen": 1},
-		),
+		Title:         "KeysValuesList",
+		ExpectedInput: args.Map{"KeysLen": 1, "ValsLen": 1},,
 	}
 	actual := args.Map{"KeysLen": len(keys), "ValsLen": len(values)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_KeysValuePairs(t *testing.T) {
@@ -722,13 +644,11 @@ func Test_Cov55_Hashmap_KeysValuePairs(t *testing.T) {
 	pairs := h.KeysValuePairs()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeysValuePairs",
-			args.Map{"Length": 1},
-		),
+		Title:         "KeysValuePairs",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(pairs)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_KeysValuePairsCollection(t *testing.T) {
@@ -739,13 +659,11 @@ func Test_Cov55_Hashmap_KeysValuePairsCollection(t *testing.T) {
 	col := h.KeysValuePairsCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeysValuePairsCollection",
-			args.Map{"Length": 1},
-		),
+		Title:         "KeysValuePairsCollection",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": col.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_KeysValuesListLock(t *testing.T) {
@@ -756,13 +674,11 @@ func Test_Cov55_Hashmap_KeysValuesListLock(t *testing.T) {
 	keys, values := h.KeysValuesListLock()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeysValuesListLock",
-			args.Map{"KeysLen": 1, "ValsLen": 1},
-		),
+		Title:         "KeysValuesListLock",
+		ExpectedInput: args.Map{"KeysLen": 1, "ValsLen": 1},,
 	}
 	actual := args.Map{"KeysLen": len(keys), "ValsLen": len(values)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_KeysLock(t *testing.T) {
@@ -773,13 +689,11 @@ func Test_Cov55_Hashmap_KeysLock(t *testing.T) {
 	keys := h.KeysLock()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeysLock",
-			args.Map{"Length": 1},
-		),
+		Title:         "KeysLock",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(keys)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ItemsCopyLock(t *testing.T) {
@@ -790,13 +704,11 @@ func Test_Cov55_Hashmap_ItemsCopyLock(t *testing.T) {
 	items := h.ItemsCopyLock()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ItemsCopyLock",
-			args.Map{"Length": 1},
-		),
+		Title:         "ItemsCopyLock",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(*items)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ValuesCollection(t *testing.T) {
@@ -807,13 +719,11 @@ func Test_Cov55_Hashmap_ValuesCollection(t *testing.T) {
 	col := h.ValuesCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ValuesCollection",
-			args.Map{"Length": 1},
-		),
+		Title:         "ValuesCollection",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": col.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ValuesHashset(t *testing.T) {
@@ -824,13 +734,11 @@ func Test_Cov55_Hashmap_ValuesHashset(t *testing.T) {
 	hs := h.ValuesHashset()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ValuesHashset",
-			args.Map{"Length": 1},
-		),
+		Title:         "ValuesHashset",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": hs.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ValuesCollectionLock(t *testing.T) {
@@ -841,13 +749,11 @@ func Test_Cov55_Hashmap_ValuesCollectionLock(t *testing.T) {
 	col := h.ValuesCollectionLock()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ValuesCollectionLock",
-			args.Map{"Length": 1},
-		),
+		Title:         "ValuesCollectionLock",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": col.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ValuesHashsetLock(t *testing.T) {
@@ -858,13 +764,11 @@ func Test_Cov55_Hashmap_ValuesHashsetLock(t *testing.T) {
 	hs := h.ValuesHashsetLock()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ValuesHashsetLock",
-			args.Map{"Length": 1},
-		),
+		Title:         "ValuesHashsetLock",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": hs.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ValuesToLower(t *testing.T) {
@@ -875,13 +779,11 @@ func Test_Cov55_Hashmap_ValuesToLower(t *testing.T) {
 	result := h.ValuesToLower()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ValuesToLower (deprecated alias)",
-			args.Map{"HasLower": true},
-		),
+		Title:         "ValuesToLower (deprecated alias)",
+		ExpectedInput: args.Map{"HasLower": true},,
 	}
 	actual := args.Map{"HasLower": result.Has("key")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_StringLock(t *testing.T) {
@@ -919,13 +821,11 @@ func Test_Cov55_Hashmap_GetKeysFilteredItems(t *testing.T) {
 	result := h.GetKeysFilteredItems(filter)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetKeysFilteredItems",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetKeysFilteredItems",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
@@ -938,13 +838,11 @@ func Test_Cov55_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
 	result := h.GetKeysFilteredItems(filter)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetKeysFilteredItems empty",
-			args.Map{"Length": 0},
-		),
+		Title:         "GetKeysFilteredItems empty",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
@@ -974,13 +872,11 @@ func Test_Cov55_Hashmap_GetKeysFilteredCollection(t *testing.T) {
 	result := h.GetKeysFilteredCollection(filter)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetKeysFilteredCollection",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetKeysFilteredCollection",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": result.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
@@ -993,13 +889,11 @@ func Test_Cov55_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
 	result := h.GetKeysFilteredCollection(filter)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetKeysFilteredCollection empty",
-			args.Map{"IsEmpty": true},
-		),
+		Title:         "GetKeysFilteredCollection empty",
+		ExpectedInput: args.Map{"IsEmpty": true},,
 	}
 	actual := args.Map{"IsEmpty": result.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
@@ -1037,13 +931,11 @@ func Test_Cov55_Hashmap_GetValue(t *testing.T) {
 	val, found := h.GetValue("k")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetValue",
-			args.Map{"Val": "v", "Found": true},
-		),
+		Title:         "GetValue",
+		ExpectedInput: args.Map{"Val": "v", "Found": true},,
 	}
 	actual := args.Map{"Val": val, "Found": found}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ToError(t *testing.T) {
@@ -1078,13 +970,11 @@ func Test_Cov55_Hashmap_KeyValStringLines(t *testing.T) {
 	lines := h.KeyValStringLines()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"KeyValStringLines",
-			args.Map{"Length": 1},
-		),
+		Title:         "KeyValStringLines",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(lines)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
@@ -1095,13 +985,11 @@ func Test_Cov55_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
 	result := h.ToStringsUsingCompiler(compiler)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"ToStringsUsingCompiler empty",
-			args.Map{"Length": 0},
-		),
+		Title:         "ToStringsUsingCompiler empty",
+		ExpectedInput: args.Map{"Length": 0},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
@@ -1114,13 +1002,11 @@ func Test_Cov55_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
 	result := h.GetValuesExceptKeysInHashset(exclude)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetValuesExceptKeysInHashset",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetValuesExceptKeysInHashset",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetValuesExceptKeysInHashset_Nil(t *testing.T) {
@@ -1131,13 +1017,11 @@ func Test_Cov55_Hashmap_GetValuesExceptKeysInHashset_Nil(t *testing.T) {
 	result := h.GetValuesExceptKeysInHashset(nil)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetValuesExceptKeysInHashset nil",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetValuesExceptKeysInHashset nil",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetValuesKeysExcept(t *testing.T) {
@@ -1149,13 +1033,11 @@ func Test_Cov55_Hashmap_GetValuesKeysExcept(t *testing.T) {
 	result := h.GetValuesKeysExcept([]string{"a"})
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetValuesKeysExcept",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetValuesKeysExcept",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
@@ -1166,13 +1048,11 @@ func Test_Cov55_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
 	result := h.GetValuesKeysExcept(nil)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetValuesKeysExcept nil",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetValuesKeysExcept nil",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetAllExceptCollection(t *testing.T) {
@@ -1185,13 +1065,11 @@ func Test_Cov55_Hashmap_GetAllExceptCollection(t *testing.T) {
 	result := h.GetAllExceptCollection(col)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetAllExceptCollection",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetAllExceptCollection",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
@@ -1202,13 +1080,11 @@ func Test_Cov55_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
 	result := h.GetAllExceptCollection(nil)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"GetAllExceptCollection nil",
-			args.Map{"Length": 1},
-		),
+		Title:         "GetAllExceptCollection nil",
+		ExpectedInput: args.Map{"Length": 1},,
 	}
 	actual := args.Map{"Length": len(result)}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ClonePtr_Nil(t *testing.T) {
@@ -1232,13 +1108,11 @@ func Test_Cov55_Hashmap_IsEqual(t *testing.T) {
 	result := h.IsEqual(*other)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"IsEqual",
-			args.Map{"IsEqual": true},
-		),
+		Title:         "IsEqual",
+		ExpectedInput: args.Map{"IsEqual": true},,
 	}
 	actual := args.Map{"IsEqual": result}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_IsEqualPtrLock(t *testing.T) {
@@ -1249,13 +1123,11 @@ func Test_Cov55_Hashmap_IsEqualPtrLock(t *testing.T) {
 	result := h.IsEqualPtrLock(h)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"IsEqualPtrLock same ptr",
-			args.Map{"IsEqual": true},
-		),
+		Title:         "IsEqualPtrLock same ptr",
+		ExpectedInput: args.Map{"IsEqual": true},,
 	}
 	actual := args.Map{"IsEqual": result}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_Remove(t *testing.T) {
@@ -1266,13 +1138,11 @@ func Test_Cov55_Hashmap_Remove(t *testing.T) {
 	h.Remove("a")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"Remove",
-			args.Map{"IsEmpty": true},
-		),
+		Title:         "Remove",
+		ExpectedInput: args.Map{"IsEmpty": true},,
 	}
 	actual := args.Map{"IsEmpty": h.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_RemoveWithLock(t *testing.T) {
@@ -1283,13 +1153,11 @@ func Test_Cov55_Hashmap_RemoveWithLock(t *testing.T) {
 	h.RemoveWithLock("a")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields(
-			"RemoveWithLock",
-			args.Map{"IsEmpty": true},
-		),
+		Title:         "RemoveWithLock",
+		ExpectedInput: args.Map{"IsEmpty": true},,
 	}
 	actual := args.Map{"IsEmpty": h.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 // =============================================================================
@@ -1301,10 +1169,11 @@ func Test_Cov55_EmptyCreator_LinkedList(t *testing.T) {
 	ll := corestr.Empty.LinkedList()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.LinkedList", args.Map{"IsEmpty": true}),
+		Title:         "Empty.LinkedList",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": ll.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_SimpleSlice(t *testing.T) {
@@ -1312,10 +1181,11 @@ func Test_Cov55_EmptyCreator_SimpleSlice(t *testing.T) {
 	ss := corestr.Empty.SimpleSlice()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.SimpleSlice", args.Map{"IsEmpty": true}),
+		Title:         "Empty.SimpleSlice",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": ss.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_KeyAnyValuePair(t *testing.T) {
@@ -1343,10 +1213,11 @@ func Test_Cov55_EmptyCreator_KeyValueCollection(t *testing.T) {
 	c := corestr.Empty.KeyValueCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.KeyValueCollection", args.Map{"IsEmpty": true}),
+		Title:         "Empty.KeyValueCollection",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": c.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_LinkedCollections(t *testing.T) {
@@ -1354,10 +1225,11 @@ func Test_Cov55_EmptyCreator_LinkedCollections(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.LinkedCollections", args.Map{"IsEmpty": true}),
+		Title:         "Empty.LinkedCollections",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": lc.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_LeftRight(t *testing.T) {
@@ -1365,10 +1237,11 @@ func Test_Cov55_EmptyCreator_LeftRight(t *testing.T) {
 	lr := corestr.Empty.LeftRight()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.LeftRight", args.Map{"IsEmpty": true}),
+		Title:         "Empty.LeftRight",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": lr.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_Hashset(t *testing.T) {
@@ -1376,10 +1249,11 @@ func Test_Cov55_EmptyCreator_Hashset(t *testing.T) {
 	hs := corestr.Empty.Hashset()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.Hashset", args.Map{"IsEmpty": true}),
+		Title:         "Empty.Hashset",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": hs.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_HashsetsCollection(t *testing.T) {
@@ -1387,10 +1261,11 @@ func Test_Cov55_EmptyCreator_HashsetsCollection(t *testing.T) {
 	hc := corestr.Empty.HashsetsCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.HashsetsCollection", args.Map{"IsEmpty": true}),
+		Title:         "Empty.HashsetsCollection",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": hc.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_Hashmap(t *testing.T) {
@@ -1398,10 +1273,11 @@ func Test_Cov55_EmptyCreator_Hashmap(t *testing.T) {
 	hm := corestr.Empty.Hashmap()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.Hashmap", args.Map{"IsEmpty": true}),
+		Title:         "Empty.Hashmap",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": hm.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_CharCollectionMap(t *testing.T) {
@@ -1409,10 +1285,11 @@ func Test_Cov55_EmptyCreator_CharCollectionMap(t *testing.T) {
 	ccm := corestr.Empty.CharCollectionMap()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.CharCollectionMap", args.Map{"IsEmpty": true}),
+		Title:         "Empty.CharCollectionMap",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": ccm.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_KeyValuesCollection(t *testing.T) {
@@ -1429,10 +1306,11 @@ func Test_Cov55_EmptyCreator_CollectionsOfCollection(t *testing.T) {
 	coc := corestr.Empty.CollectionsOfCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.CollectionsOfCollection", args.Map{"IsEmpty": true}),
+		Title:         "Empty.CollectionsOfCollection",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": coc.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_CharHashsetMap(t *testing.T) {
@@ -1440,10 +1318,11 @@ func Test_Cov55_EmptyCreator_CharHashsetMap(t *testing.T) {
 	chm := corestr.Empty.CharHashsetMap()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.CharHashsetMap", args.Map{"IsEmpty": true}),
+		Title:         "Empty.CharHashsetMap",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": chm.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_SimpleStringOnce(t *testing.T) {
@@ -1451,10 +1330,11 @@ func Test_Cov55_EmptyCreator_SimpleStringOnce(t *testing.T) {
 	sso := corestr.Empty.SimpleStringOnce()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Empty.SimpleStringOnce", args.Map{"IsInit": false}),
+		Title:         "Empty.SimpleStringOnce",
+		ExpectedInput: args.Map{"IsInit": false},
 	}
 	actual := args.Map{"IsInit": sso.IsInitialized()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_EmptyCreator_SimpleStringOncePtr(t *testing.T) {
@@ -1476,7 +1356,8 @@ func Test_Cov55_StringUtils_WrapDouble(t *testing.T) {
 	result := corestr.StringUtils.WrapDouble("hello")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapDouble", "\"hello\""),
+		Title:         "WrapDouble",
+		ExpectedInput: "\"hello\"",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1486,7 +1367,8 @@ func Test_Cov55_StringUtils_WrapSingle(t *testing.T) {
 	result := corestr.StringUtils.WrapSingle("hello")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapSingle", "'hello'"),
+		Title:         "WrapSingle",
+		ExpectedInput: "'hello'",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1496,7 +1378,8 @@ func Test_Cov55_StringUtils_WrapTilda(t *testing.T) {
 	result := corestr.StringUtils.WrapTilda("hello")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapTilda", "`hello`"),
+		Title:         "WrapTilda",
+		ExpectedInput: "`hello`",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1506,7 +1389,8 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_Empty(t *testing.T) {
 	result := corestr.StringUtils.WrapDoubleIfMissing("")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapDoubleIfMissing empty", "\"\""),
+		Title:         "WrapDoubleIfMissing empty",
+		ExpectedInput: "\"\"",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1516,7 +1400,8 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_AlreadyWrapped(t *testing.T) {
 	result := corestr.StringUtils.WrapDoubleIfMissing("\"hello\"")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapDoubleIfMissing already", "\"hello\""),
+		Title:         "WrapDoubleIfMissing already",
+		ExpectedInput: "\"hello\"",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1526,7 +1411,8 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_NotWrapped(t *testing.T) {
 	result := corestr.StringUtils.WrapDoubleIfMissing("hello")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapDoubleIfMissing not wrapped", "\"hello\""),
+		Title:         "WrapDoubleIfMissing not wrapped",
+		ExpectedInput: "\"hello\"",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1536,7 +1422,8 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_Empty(t *testing.T) {
 	result := corestr.StringUtils.WrapSingleIfMissing("")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapSingleIfMissing empty", "''"),
+		Title:         "WrapSingleIfMissing empty",
+		ExpectedInput: "''",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1546,7 +1433,8 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_AlreadyWrapped(t *testing.T) {
 	result := corestr.StringUtils.WrapSingleIfMissing("'hello'")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapSingleIfMissing already", "'hello'"),
+		Title:         "WrapSingleIfMissing already",
+		ExpectedInput: "'hello'",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1556,7 +1444,8 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
 	result := corestr.StringUtils.WrapSingleIfMissing("hello")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapSingleIfMissing not wrapped", "'hello'"),
+		Title:         "WrapSingleIfMissing not wrapped",
+		ExpectedInput: "'hello'",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1566,7 +1455,8 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_DoubleEmpty(t *testing.T) {
 	result := corestr.StringUtils.WrapDoubleIfMissing("\"\"")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapDoubleIfMissing double-empty", "\"\""),
+		Title:         "WrapDoubleIfMissing double-empty",
+		ExpectedInput: "\"\"",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1576,7 +1466,8 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_SingleEmpty(t *testing.T) {
 	result := corestr.StringUtils.WrapSingleIfMissing("''")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("WrapSingleIfMissing single-empty", "''"),
+		Title:         "WrapSingleIfMissing single-empty",
+		ExpectedInput: "''",
 	}
 	tc.ShouldBeEqual(0, t, result)
 }
@@ -1605,10 +1496,11 @@ func Test_Cov55_Hashmap_Collection(t *testing.T) {
 	col := h.Collection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Hashmap.Collection", args.Map{"Length": 1}),
+		Title:         "Hashmap.Collection",
+		ExpectedInput: args.Map{"Length": 1},
 	}
 	actual := args.Map{"Length": col.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_SetTrim(t *testing.T) {
@@ -1618,10 +1510,11 @@ func Test_Cov55_Hashmap_SetTrim(t *testing.T) {
 	isNew := h.SetTrim("  key  ", "  val  ")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("SetTrim", args.Map{"IsNew": true, "Has": true}),
+		Title:         "SetTrim",
+		ExpectedInput: args.Map{"IsNew": true, "Has": true},
 	}
 	actual := args.Map{"IsNew": isNew, "Has": h.Has("key")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_SetBySplitter(t *testing.T) {
@@ -1631,10 +1524,11 @@ func Test_Cov55_Hashmap_SetBySplitter(t *testing.T) {
 	isNew := h.SetBySplitter("=", "key=value")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("SetBySplitter", args.Map{"IsNew": true, "Has": true}),
+		Title:         "SetBySplitter",
+		ExpectedInput: args.Map{"IsNew": true, "Has": true},
 	}
 	actual := args.Map{"IsNew": isNew, "Has": h.Has("key")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_SetBySplitter_NoSplit(t *testing.T) {
@@ -1644,10 +1538,11 @@ func Test_Cov55_Hashmap_SetBySplitter_NoSplit(t *testing.T) {
 	isNew := h.SetBySplitter("=", "nosplit")
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("SetBySplitter no split", args.Map{"IsNew": true, "Has": true}),
+		Title:         "SetBySplitter no split",
+		ExpectedInput: args.Map{"IsNew": true, "Has": true},
 	}
 	actual := args.Map{"IsNew": isNew, "Has": h.Has("nosplit")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_KeysCollection(t *testing.T) {
@@ -1658,10 +1553,11 @@ func Test_Cov55_Hashmap_KeysCollection(t *testing.T) {
 	col := h.KeysCollection()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("KeysCollection", args.Map{"Length": 1}),
+		Title:         "KeysCollection",
+		ExpectedInput: args.Map{"Length": 1},
 	}
 	actual := args.Map{"Length": col.Length()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
@@ -1674,10 +1570,11 @@ func Test_Cov55_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
 	result := target.ParseInjectUsingJsonMust(jsonResult)
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("ParseInjectUsingJsonMust", args.Map{"Has": true}),
+		Title:         "ParseInjectUsingJsonMust",
+		ExpectedInput: args.Map{"Has": true},
 	}
 	actual := args.Map{"Has": result.Has("k")}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
 func Test_Cov55_Hashmap_Clone_Empty(t *testing.T) {
@@ -1687,8 +1584,9 @@ func Test_Cov55_Hashmap_Clone_Empty(t *testing.T) {
 	cloned := h.Clone()
 	// Assert
 	tc := coretestcases.CaseV1{
-		BaseTestCase: coretestcases.BaseFields("Clone empty", args.Map{"IsEmpty": true}),
+		Title:         "Clone empty",
+		ExpectedInput: args.Map{"IsEmpty": true},
 	}
 	actual := args.Map{"IsEmpty": cloned.IsEmpty()}
-	tc.ShouldBeEqualMap(0, t, actual)
+	tc.ShouldBeEqualMap(t, 0, actual)
 }
