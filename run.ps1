@@ -1463,7 +1463,7 @@ function copyForAI(){
                 $pkgLines = @($runtimeFailuresByPackage[$pkgName])
                 $rtLines.Add("## $pkgName")
                 if ($pkgLines.Count -gt 0) {
-                    $rtLines.AddRange($pkgLines)
+                    $rtLines.AddRange([string[]]$pkgLines)
                 }
                 else {
                     $rtLines.Add("(no failure details captured)")
