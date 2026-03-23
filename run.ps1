@@ -1405,6 +1405,78 @@ function copyForAI(){
         }
         $buildErrorJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
 
+        # ── Runtime Failures report (panic/os.Exit/crashes) ──
+        $runtimeFailuresFile = Join-Path $coverDir "runtime-failures.txt"
+        $runtimeFailuresJsonFile = Join-Path $coverDir "runtime-failures.json"
+        $runtimeFailurePkgs = @($runtimeFailuresByPackage.Keys | Sort-Object)
+
+        # Include missing coverage profiles as runtime crashes
+        if ($missingProfiles.Count -gt 0) {
+            foreach ($mp in $missingProfiles) {
+                if (-not $runtimeFailuresByPackage.ContainsKey($mp)) {
+                    $runtimeFailuresByPackage[$mp] = [System.Collections.Generic.List[string]]::new()
+                }
+                $crashMsg = "coverage profile missing — test binary likely crashed (panic/os.Exit)"
+                if (-not $runtimeFailuresByPackage[$mp].Contains($crashMsg)) {
+                    $runtimeFailuresByPackage[$mp].Add($crashMsg) | Out-Null
+                }
+            }
+            $runtimeFailurePkgs = @($runtimeFailuresByPackage.Keys | Sort-Object)
+        }
+
+        $rtLines = [System.Collections.Generic.List[string]]::new()
+        $rtLines.Add("# Runtime Failures — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $rtLines.Add("# Panics, os.Exit, test binary crashes, fatal errors")
+        $rtLines.Add("# Count: $($runtimeFailurePkgs.Count) package(s)")
+        $rtLines.Add("")
+
+        $rtJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($runtimeFailurePkgs.Count -eq 0) {
+            $rtLines.Add("No runtime failures captured.")
+        }
+        else {
+            foreach ($pkgName in $runtimeFailurePkgs) {
+                $pkgLines = @($runtimeFailuresByPackage[$pkgName])
+                $rtLines.Add("## $pkgName")
+                if ($pkgLines.Count -gt 0) {
+                    $rtLines.AddRange($pkgLines)
+                }
+                else {
+                    $rtLines.Add("(no failure details captured)")
+                }
+                $rtLines.Add("")
+
+                $rtJsonItems.Add(@{
+                    package      = $pkgName
+                    failureCount = $pkgLines.Count
+                    failures     = $pkgLines
+                }) | Out-Null
+            }
+        }
+
+        Set-Content -Path $runtimeFailuresFile -Value ($rtLines -join "`n") -Encoding UTF8
+        $rtJsonObj = @{
+            timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            packageCount = $runtimeFailurePkgs.Count
+            packages     = $rtJsonItems.ToArray()
+        }
+        $rtJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $runtimeFailuresJsonFile -Encoding UTF8
+
+        # ── Runtime Failures console warning ──
+        if ($runtimeFailurePkgs.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Magenta
+            Write-Host "  │ RUNTIME FAILURES ($($runtimeFailurePkgs.Count) package(s))" -ForegroundColor Magenta
+            Write-Host "  │" -ForegroundColor Magenta
+            foreach ($rp in $runtimeFailurePkgs) {
+                Write-Host "  │   ⚠ $rp" -ForegroundColor Yellow
+            }
+            Write-Host "  │" -ForegroundColor Magenta
+            Write-Host "  │ See data/coverage/runtime-failures.txt for details." -ForegroundColor Yellow
+            Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Magenta
+        }
+
         Write-Host ""
         Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Gray
         Write-Host "  │ WRITTEN FILES" -ForegroundColor Gray
@@ -1416,6 +1488,8 @@ function copyForAI(){
         Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
         Write-Host "  │  $buildErrorsFile" -ForegroundColor Gray
         Write-Host "  │  $buildErrorsJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $runtimeFailuresFile" -ForegroundColor Gray
+        Write-Host "  │  $runtimeFailuresJsonFile" -ForegroundColor Gray
         if (Test-Path $repoBuildErrorsFile) {
             Write-Host "  │  $repoBuildErrorsFile" -ForegroundColor Gray
         }
