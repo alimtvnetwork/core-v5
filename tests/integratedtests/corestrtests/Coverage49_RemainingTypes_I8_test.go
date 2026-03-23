@@ -1231,18 +1231,18 @@ func Test_C49_SimpleStringOnce_Reset(t *testing.T) {
 }
 
 func Test_C49_SimpleStringOnce_Boolean(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.StringValue("true")
+	sso := corestr.New.SimpleStringOnce.Init("true")
 	if !sso.Boolean(false) {
 		t.Fatal("expected true")
 	}
-	sso2 := corestr.New.SimpleStringOnce.StringValue("yes")
+	sso2 := corestr.New.SimpleStringOnce.Init("yes")
 	if !sso2.Boolean(false) {
 		t.Fatal("expected true for yes")
 	}
 }
 
 func Test_C49_SimpleStringOnce_Int(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.StringValue("42")
+	sso := corestr.New.SimpleStringOnce.Init("42")
 	if sso.Int() != 42 {
 		t.Fatal("expected 42")
 	}
@@ -1256,7 +1256,7 @@ func Test_C49_SimpleStringOnce_IsEmpty(t *testing.T) {
 }
 
 func Test_C49_SimpleStringOnce_ConcatNew(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.StringValue("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	result := sso.ConcatNew(" world")
 	if result.Value() != "hello world" {
 		t.Fatal("expected hello world")
@@ -1264,7 +1264,7 @@ func Test_C49_SimpleStringOnce_ConcatNew(t *testing.T) {
 }
 
 func Test_C49_SimpleStringOnce_ConcatNewUsingStrings(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.StringValue("a")
+	sso := corestr.New.SimpleStringOnce.Init("a")
 	result := sso.ConcatNewUsingStrings(",", "b", "c")
 	if result.Value() != "a,b,c" {
 		t.Fatalf("expected a,b,c got %s", result.Value())
@@ -1272,7 +1272,7 @@ func Test_C49_SimpleStringOnce_ConcatNewUsingStrings(t *testing.T) {
 }
 
 func Test_C49_SimpleStringOnce_WithinRange(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.StringValue("50")
+	sso := corestr.New.SimpleStringOnce.Init("50")
 	val, inRange := sso.WithinRange(true, 0, 100)
 	if !inRange || val != 50 {
 		t.Fatal("expected in range")
@@ -1281,7 +1281,7 @@ func Test_C49_SimpleStringOnce_WithinRange(t *testing.T) {
 	if inRange2 || val2 != 60 {
 		t.Fatal("expected boundary min")
 	}
-	sso3 := corestr.New.SimpleStringOnce.StringValue("200")
+	sso3 := corestr.New.SimpleStringOnce.Init("200")
 	val3, inRange3 := sso3.WithinRange(true, 0, 100)
 	if inRange3 || val3 != 100 {
 		t.Fatal("expected boundary max")
@@ -1289,7 +1289,7 @@ func Test_C49_SimpleStringOnce_WithinRange(t *testing.T) {
 }
 
 func Test_C49_SimpleStringOnce_WithinRange_NoBoundary(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.StringValue("200")
+	sso := corestr.New.SimpleStringOnce.Init("200")
 	val, inRange := sso.WithinRange(false, 0, 100)
 	if inRange {
 		t.Fatal("expected out of range")
