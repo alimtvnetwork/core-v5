@@ -298,7 +298,7 @@ func Test_CovLL1_21_AddCollection(t *testing.T) {
 	if ll.Length() != 0 {
 		t.Fatal("expected 0")
 	}
-	col := corestr.New.Collection.Strings("a", "b")
+	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	ll.AddCollection(col)
 	if ll.Length() != 2 {
 		t.Fatal("expected 2")
@@ -356,7 +356,7 @@ func Test_CovLL1_24_AddStringsPtrToNode(t *testing.T) {
 func Test_CovLL1_25_AddCollectionToNode(t *testing.T) {
 	ll := corestr.Empty.LinkedList()
 	ll.Add("a")
-	col := corestr.New.Collection.Strings("b", "c")
+	col := corestr.New.Collection.Strings([]string{"b", "c"})
 	ll.AddCollectionToNode(true, ll.Head(), col)
 	if ll.Length() < 3 {
 		t.Fatal("expected at least 3")
