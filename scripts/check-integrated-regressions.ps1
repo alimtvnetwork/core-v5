@@ -162,6 +162,33 @@ function Scan-FileForRegressions {
         }
     }
 
+    # Rule 6: Deprecated .Items() on Collection and SimpleSlice (renamed to .Strings())
+    # Detect Collection variables
+    $collectionVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.Collection\.') {
+            $collectionVarNames.Add($Matches[1]) | Out-Null
+        }
+    }
+
+    foreach ($cVar in $collectionVarNames) {
+        $escapedC = [regex]::Escape($cVar)
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            if ($lines[$i] -match "\b$escapedC\.Items\(\)") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "collection-items-renamed" "Use .Strings() instead of .Items() on corestr.Collection" $lines[$i]
+            }
+        }
+    }
+
+    foreach ($ssVar2 in $simpleSliceVarNames) {
+        $escapedSs2 = [regex]::Escape($ssVar2)
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            if ($lines[$i] -match "\b$escapedSs2\.Items\(\)") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-items-renamed" "Use .Strings() instead of .Items() on corestr.SimpleSlice" $lines[$i]
+            }
+        }
+    }
+
     $aliases = Get-CoreTestCasesAliases $raw
     if ($aliases.Count -eq 0) { return }
 
