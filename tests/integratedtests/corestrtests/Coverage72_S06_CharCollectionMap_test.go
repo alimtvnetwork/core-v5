@@ -196,7 +196,7 @@ func Test_CovS06_CloneSliceIf_Verification(t *testing.T) {
 // ============================================================
 
 func Test_CovS06_Utils_Wrap_Verification(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 
 	for caseIndex, tc := range covS06UtilsWrapTestCases {
 		// Arrange
