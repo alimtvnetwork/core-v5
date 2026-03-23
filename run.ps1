@@ -1405,7 +1405,7 @@ function copyForAI(){
                 $pkgLines = @($buildErrorsByPackage[$pkgName])
                 $buildErrorLines.Add("## $pkgName")
                 if ($pkgLines.Count -gt 0) {
-                    $buildErrorLines.AddRange($pkgLines)
+                    $buildErrorLines.AddRange([string[]]$pkgLines)
                 }
                 else {
                     $buildErrorLines.Add("(no actionable compile errors captured)")
@@ -1463,7 +1463,7 @@ function copyForAI(){
                 $pkgLines = @($runtimeFailuresByPackage[$pkgName])
                 $rtLines.Add("## $pkgName")
                 if ($pkgLines.Count -gt 0) {
-                    $rtLines.AddRange($pkgLines)
+                    $rtLines.AddRange([string[]]$pkgLines)
                 }
                 else {
                     $rtLines.Add("(no failure details captured)")
