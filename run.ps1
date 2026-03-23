@@ -885,6 +885,7 @@ function Invoke-TestCoverage {
             if ($result.ExitCode -ne 0) {
                 $overallExit = $result.ExitCode
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $result.Output
             }
             if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
         }
