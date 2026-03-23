@@ -133,6 +133,48 @@ function Filter-BlockedCompileLines([string[]]$lines) {
     return $filtered.ToArray()
 }
 
+function Extract-BuildErrorLines([string[]]$lines) {
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '\.go:\d+(?::\d+)?:' -or
+            $trimmed -match '^#\s+\S+' -or
+            $trimmed -match '\[build failed\]' -or
+            $trimmed -match '(?i)\bbuild failed\b') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
+function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageName, [string[]]$Lines) {
+    if (-not $BuildErrorMap -or -not $PackageName) { return }
+
+    $buildLines = Extract-BuildErrorLines $Lines
+    if (-not $buildLines -or $buildLines.Count -eq 0) { return }
+
+    if (-not $BuildErrorMap.ContainsKey($PackageName)) {
+        $BuildErrorMap[$PackageName] = [System.Collections.Generic.List[string]]::new()
+    }
+
+    foreach ($line in $buildLines) {
+        if (-not $BuildErrorMap[$PackageName].Contains($line)) {
+            $BuildErrorMap[$PackageName].Add($line) | Out-Null
+        }
+    }
+}
+
 function Write-TestLogs([string[]]$rawOutput) {
     Ensure-TestLogDir
 
@@ -286,7 +328,7 @@ function Write-TestLogs([string[]]$rawOutput) {
 
     if (-not $hasAnyRun) {
         $compileErrors = $filteredOutput | Where-Object {
-            $_ -match "\.go:\d+:" -or $_ -match "^#\s+" -or $_ -match "FAIL\s+"
+            $_ -match "\.go:\d+:" -or $_ -match "^#\s+" -or $_ -match "\[build failed\]"
         }
 
         if ($compileErrors) {
@@ -295,6 +337,8 @@ function Write-TestLogs([string[]]$rawOutput) {
             $failCount = $failCount + 1
         }
     }
+
+    $failingContent[1] = "# Count: $failCount"
 
     Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
 
@@ -359,16 +403,24 @@ function Invoke-BuildCheck([string]$buildPath) {
         $rawFile     = Join-Path $TestLogDir "raw-output.txt"
         $timestamp   = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
+        $buildErrors = Extract-BuildErrorLines $output
+        $errorCount = if ($buildErrors.Count -gt 0) { $buildErrors.Count } else { 1 }
+
         $failingContent = @(
             "# Failing Tests — $timestamp",
-            "# Count: 0",
+            "# Count: $errorCount",
             "",
             "# Build Failed — tests were NOT run",
             "",
             "# ── Build Errors ──",
             ""
         )
-        $failingContent += $output
+        if ($buildErrors.Count -gt 0) {
+            $failingContent += $buildErrors
+        }
+        else {
+            $failingContent += $output
+        }
 
         Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
         Set-Content -Path $rawFile -Value ($output -join "`n") -Encoding UTF8
@@ -480,7 +532,7 @@ function Invoke-TestCoverage {
         Sort-Object
 
     # ── Pre-coverage compile check ──────────────────────────────────
-    # Compile each test package individually (go test -c) to detect
+    # Build-check each test package individually (go test -run '^$') to detect
     # build failures BEFORE running coverage. Packages that fail to
     # compile are excluded from the coverage run so they don't produce
     # misleading 0% profiles or cascade failures.
@@ -500,21 +552,17 @@ function Invoke-TestCoverage {
     $blockedPkgs = [System.Collections.Generic.List[string]]::new()
     $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
     $testPkgs = [System.Collections.Generic.List[string]]::new()
-    $compileTemp = Join-Path $coverDir "compile-check"
-    if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
-    New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
+    $buildErrorsByPackage = @{}
 
     if ($isSyncMode) {
         # ── Sequential compile check ──
         foreach ($testPkg in $allTestPkgs) {
             $shortName = $testPkg -replace '.*integratedtests/?', ''
             if (-not $shortName) { $shortName = "(root)" }
-            $safePkgName = $testPkg -replace '[^a-zA-Z0-9\.-]', '_'
-            $compileOutFile = Join-Path $compileTemp "compile-$safePkgName.test"
 
             $prevPref = $ErrorActionPreference
             $ErrorActionPreference = "Continue"
-            $compileOut = & go test -c -gcflags=all=-e -o $compileOutFile "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $compileOut = & go test -count=1 -run '^$' -gcflags=all=-e "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
             $compileExit = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
@@ -529,6 +577,7 @@ function Invoke-TestCoverage {
 
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($combinedOut -join "`n")
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $combinedOut
             }
         }
     } else {
@@ -539,11 +588,8 @@ function Invoke-TestCoverage {
         $compileResults = $allTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
             $pkg = $_
             $covPkgs = $using:covPkgList
-            $tempDir = $using:compileTemp
-            $safePkgName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
-            $outFile = Join-Path $tempDir "compile-$safePkgName.test"
             $ErrorActionPreference = "Continue"
-            $rawOut = & go test -c -gcflags=all=-e -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1
+            $rawOut = & go test -count=1 -run '^$' -gcflags=all=-e "-coverpkg=$covPkgs" "$pkg" 2>&1
             $ec = $LASTEXITCODE
             $out = @($rawOut | ForEach-Object { $_.ToString() })
 
@@ -582,12 +628,10 @@ function Invoke-TestCoverage {
             } else {
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($result.Output -join "`n")
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
             }
         }
     }
-
-    # Clean up compile artifacts
-    if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
 
     # Print blocked summary
     if ($blockedPkgs.Count -gt 0) {
@@ -637,7 +681,7 @@ function Invoke-TestCoverage {
             $blockedContent += "## $bp"
             if ($blockedErrors.ContainsKey($bp)) {
                 $rawErrLines = $blockedErrors[$bp] -split "`n"
-                $filteredErrLines = Filter-BlockedCompileLines $rawErrLines
+                $filteredErrLines = Extract-BuildErrorLines $rawErrLines
                 if ($filteredErrLines.Count -gt 0) {
                     $blockedContent += ($filteredErrLines -join "`n")
                 } else {
@@ -658,7 +702,7 @@ function Invoke-TestCoverage {
             if ($blockedErrors.ContainsKey($bp)) { $errText = $blockedErrors[$bp] }
             $errLines = @()
             if ($errText) {
-                $errLines = Filter-BlockedCompileLines ($errText -split "`n")
+                $errLines = Extract-BuildErrorLines ($errText -split "`n")
             }
             $blockedJsonItems.Add(@{
                 package    = $bp
@@ -711,7 +755,10 @@ function Invoke-TestCoverage {
             $pkgExit = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
-            if ($pkgExit -ne 0) { $overallExit = $pkgExit }
+            if ($pkgExit -ne 0) {
+                $overallExit = $pkgExit
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $output
+            }
 
             if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
         }
@@ -736,7 +783,13 @@ function Invoke-TestCoverage {
         }
 
         foreach ($result in ($coverResults | Sort-Object Pkg)) {
-            if ($result.ExitCode -ne 0) { $overallExit = $result.ExitCode }
+            $shortName = $result.Pkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+
+            if ($result.ExitCode -ne 0) {
+                $overallExit = $result.ExitCode
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+            }
             if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
         }
         $pkgIndex = $testPkgs.Count
@@ -1213,6 +1266,48 @@ function copyForAI(){
         }
 
         # ── Written Files Summary (console) ──
+        $buildErrorsFile = Join-Path $coverDir "build-errors.txt"
+        $buildErrorsJsonFile = Join-Path $coverDir "build-errors.json"
+        $buildErrorPkgs = @($buildErrorsByPackage.Keys | Sort-Object)
+
+        $buildErrorLines = [System.Collections.Generic.List[string]]::new()
+        $buildErrorLines.Add("# Build Errors — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $buildErrorLines.Add("# Count: $($buildErrorPkgs.Count)")
+        $buildErrorLines.Add("")
+
+        $buildErrorJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($buildErrorPkgs.Count -eq 0) {
+            $buildErrorLines.Add("No build errors captured.")
+        }
+        else {
+            foreach ($pkgName in $buildErrorPkgs) {
+                $pkgLines = @($buildErrorsByPackage[$pkgName])
+                $buildErrorLines.Add("## $pkgName")
+                if ($pkgLines.Count -gt 0) {
+                    $buildErrorLines.AddRange($pkgLines)
+                }
+                else {
+                    $buildErrorLines.Add("(no actionable compile errors captured)")
+                }
+                $buildErrorLines.Add("")
+
+                $buildErrorJsonItems.Add(@{
+                    package    = $pkgName
+                    errorCount = $pkgLines.Count
+                    errors     = $pkgLines
+                }) | Out-Null
+            }
+        }
+
+        Set-Content -Path $buildErrorsFile -Value ($buildErrorLines -join "`n") -Encoding UTF8
+        $buildErrorJsonObj = @{
+            timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            packageCount = $buildErrorPkgs.Count
+            packages     = $buildErrorJsonItems.ToArray()
+        }
+        $buildErrorJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
+
         Write-Host ""
         Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Gray
         Write-Host "  │ WRITTEN FILES" -ForegroundColor Gray
@@ -1222,6 +1317,8 @@ function copyForAI(){
         Write-Host "  │  $coverJsonFile" -ForegroundColor Gray
         Write-Host "  │  $perPkgTxtFile" -ForegroundColor Gray
         Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $buildErrorsFile" -ForegroundColor Gray
+        Write-Host "  │  $buildErrorsJsonFile" -ForegroundColor Gray
         if ($blockedPkgs.Count -gt 0) {
             $bFile = Join-Path $coverDir "blocked-packages.txt"
             $bJsonFile = Join-Path $coverDir "blocked-packages.json"
