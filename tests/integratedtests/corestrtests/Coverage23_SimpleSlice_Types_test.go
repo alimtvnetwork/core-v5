@@ -29,7 +29,7 @@ func Test_Cov23_SimpleSlice_AddMethods(t *testing.T) {
 	ss.Adds("c", "d")
 	ss.Append("e")
 	ss.AppendFmt("%s-%d", "f", 1)
-	ss.AppendFmt("", nil) // skip
+	ss.AppendFmt("literal-no-fmt") // no format directives, single arg
 	ss.AppendFmtIf(false, "%s", "skip")
 	ss.AppendFmtIf(true, "%s", "g")
 	ss.AddAsTitleValue("title", "value")
