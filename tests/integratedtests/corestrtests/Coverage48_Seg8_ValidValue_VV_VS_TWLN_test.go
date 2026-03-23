@@ -634,7 +634,7 @@ func Test_Seg8_VVS_AddHashsetMap_Nil(t *testing.T) {
 
 func Test_Seg8_VVS_AddHashset(t *testing.T) {
 	vvs := corestr.NewValidValues(2)
-	hs := corestr.New.Hashset.Create()
+	hs := corestr.New.Hashset.Empty()
 	hs.Add("a")
 	vvs.AddHashset(hs)
 	actual := args.Map{"len": vvs.Length()}
