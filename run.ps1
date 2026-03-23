@@ -188,13 +188,42 @@ function Extract-ExecutionFailureLines([string[]]$lines) {
     return $errors.ToArray()
 }
 
+function Extract-RuntimeFailureLines([string[]]$lines) {
+    # Captures ONLY runtime failures: panics, fatal errors, test crashes, os.Exit.
+    # Does NOT include compile errors (.go:line: syntax) or [build failed].
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '^(?i)panic:' -or
+            $trimmed -match '^(?i)fatal error:' -or
+            $trimmed -match '^(?i)goroutine \d+' -or
+            $trimmed -match '^--- FAIL:\s+' -or
+            $trimmed -match '^\s*FAIL\s+\S+' -or
+            $trimmed -match '^\s*exit status \d+\s*$' -or
+            $trimmed -match '(?i)signal:\s+' -or
+            $trimmed -match '(?i)runtime error:') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
 function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageName, [string[]]$Lines) {
     if (-not $BuildErrorMap -or -not $PackageName) { return }
 
+    # Only add compile-time errors (not runtime failures)
     $buildLines = Extract-BuildErrorLines $Lines
-    if (-not $buildLines -or $buildLines.Count -eq 0) {
-        $buildLines = Extract-ExecutionFailureLines $Lines
-    }
     if (-not $buildLines -or $buildLines.Count -eq 0) { return }
 
     if (-not $BuildErrorMap.ContainsKey($PackageName)) {
@@ -204,6 +233,23 @@ function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageNa
     foreach ($line in $buildLines) {
         if (-not $BuildErrorMap[$PackageName].Contains($line)) {
             $BuildErrorMap[$PackageName].Add($line) | Out-Null
+        }
+    }
+}
+
+function Add-RuntimeFailuresForPackage([hashtable]$FailureMap, [string]$PackageName, [string[]]$Lines) {
+    if (-not $FailureMap -or -not $PackageName) { return }
+
+    $runtimeLines = Extract-RuntimeFailureLines $Lines
+    if (-not $runtimeLines -or $runtimeLines.Count -eq 0) { return }
+
+    if (-not $FailureMap.ContainsKey($PackageName)) {
+        $FailureMap[$PackageName] = [System.Collections.Generic.List[string]]::new()
+    }
+
+    foreach ($line in $runtimeLines) {
+        if (-not $FailureMap[$PackageName].Contains($line)) {
+            $FailureMap[$PackageName].Add($line) | Out-Null
         }
     }
 }
