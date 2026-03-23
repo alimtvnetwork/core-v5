@@ -584,7 +584,7 @@ func Test_CovVVs_12_IsEmpty(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_CovLCN_01_IsEmpty_HasElement_HasNext(t *testing.T) {
-	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings(false, "a")}
+	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings([]string{false, "a"})}
 	if node.IsEmpty() {
 		t.Fatal("expected not empty")
 	}
@@ -597,7 +597,7 @@ func Test_CovLCN_01_IsEmpty_HasElement_HasNext(t *testing.T) {
 }
 
 func Test_CovLCN_02_EndOfChain(t *testing.T) {
-	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings(false, "a")}
+	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings([]string{false, "a"})}
 	end, length := node.EndOfChain()
 	if end != node || length != 1 {
 		t.Fatal("expected self, length 1")
@@ -605,7 +605,7 @@ func Test_CovLCN_02_EndOfChain(t *testing.T) {
 }
 
 func Test_CovLCN_03_Clone(t *testing.T) {
-	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings(false, "a")}
+	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings([]string{false, "a"})}
 	c := node.Clone()
 	if c.HasNext() {
 		t.Fatal("expected no next")
@@ -613,7 +613,7 @@ func Test_CovLCN_03_Clone(t *testing.T) {
 }
 
 func Test_CovLCN_04_IsEqual_IsChainEqual(t *testing.T) {
-	col := corestr.New.Collection.Strings(false, "a")
+	col := corestr.New.Collection.Strings([]string{false, "a"})
 	n1 := &corestr.LinkedCollectionNode{Element: col}
 	n2 := &corestr.LinkedCollectionNode{Element: col}
 	if !n1.IsEqual(n2) {
@@ -640,7 +640,7 @@ func Test_CovLCN_04_IsEqual_IsChainEqual(t *testing.T) {
 }
 
 func Test_CovLCN_05_IsEqualValue(t *testing.T) {
-	col := corestr.New.Collection.Strings(false, "a")
+	col := corestr.New.Collection.Strings([]string{false, "a"})
 	n := &corestr.LinkedCollectionNode{Element: col}
 	if !n.IsEqualValue(col) {
 		t.Fatal("expected equal")
@@ -651,7 +651,7 @@ func Test_CovLCN_05_IsEqualValue(t *testing.T) {
 }
 
 func Test_CovLCN_06_String_List_ListPtr_Join_StringList(t *testing.T) {
-	col := corestr.New.Collection.Strings(false, "a", "b")
+	col := corestr.New.Collection.Strings([]string{false, "a", "b"})
 	n := &corestr.LinkedCollectionNode{Element: col}
 	_ = n.String()
 	list := n.List()
@@ -667,7 +667,7 @@ func Test_CovLCN_06_String_List_ListPtr_Join_StringList(t *testing.T) {
 }
 
 func Test_CovLCN_07_CreateLinkedList(t *testing.T) {
-	col := corestr.New.Collection.Strings(false, "a")
+	col := corestr.New.Collection.Strings([]string{false, "a"})
 	n := &corestr.LinkedCollectionNode{Element: col}
 	ll := n.CreateLinkedList()
 	if ll.Length() != 1 {
@@ -695,8 +695,8 @@ func Test_CovNCLCN_01_Basic(t *testing.T) {
 
 func Test_CovNCLCN_02_Adds_First_Last(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(5)
-	col1 := corestr.New.Collection.Strings(false, "a")
-	col2 := corestr.New.Collection.Strings(false, "b")
+	col1 := corestr.New.Collection.Strings([]string{false, "a"})
+	col2 := corestr.New.Collection.Strings([]string{false, "b"})
 	n1 := &corestr.LinkedCollectionNode{Element: col1}
 	n2 := &corestr.LinkedCollectionNode{Element: col2}
 	nc.Adds(n1, n2)
@@ -723,7 +723,7 @@ func Test_CovNCLCN_03_FirstOrDefault_LastOrDefault(t *testing.T) {
 	if nc.LastOrDefault() != nil {
 		t.Fatal("expected nil")
 	}
-	n := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings(false, "a")}
+	n := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings([]string{false, "a"})}
 	nc.Adds(n)
 	if nc.FirstOrDefault() != n {
 		t.Fatal("expected n")
@@ -737,8 +737,8 @@ func Test_CovNCLCN_04_ApplyChaining(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(5)
 	// empty apply
 	nc.ApplyChaining()
-	col1 := corestr.New.Collection.Strings(false, "a")
-	col2 := corestr.New.Collection.Strings(false, "b")
+	col1 := corestr.New.Collection.Strings([]string{false, "a"})
+	col2 := corestr.New.Collection.Strings([]string{false, "b"})
 	n1 := &corestr.LinkedCollectionNode{Element: col1}
 	n2 := &corestr.LinkedCollectionNode{Element: col2}
 	nc.Adds(n1, n2)
@@ -760,8 +760,8 @@ func Test_CovNCLCN_05_ToChainedNodes(t *testing.T) {
 	if cn == nil {
 		t.Fatal("expected non-nil")
 	}
-	col1 := corestr.New.Collection.Strings(false, "a")
-	col2 := corestr.New.Collection.Strings(false, "b")
+	col1 := corestr.New.Collection.Strings([]string{false, "a"})
+	col2 := corestr.New.Collection.Strings([]string{false, "b"})
 	n1 := &corestr.LinkedCollectionNode{Element: col1}
 	n2 := &corestr.LinkedCollectionNode{Element: col2}
 	nc.Adds(n1, n2)

@@ -205,7 +205,7 @@ func Test_CovLLCCreator_02_Strings(t *testing.T) {
 }
 
 func Test_CovLLCCreator_03_UsingCollections(t *testing.T) {
-	col := corestr.New.Collection.Strings(false, "a")
+	col := corestr.New.Collection.Strings([]string{false, "a"})
 	lc := corestr.New.LinkedCollections.UsingCollections(col)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
