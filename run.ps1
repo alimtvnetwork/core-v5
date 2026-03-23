@@ -717,6 +717,7 @@ function Invoke-TestCoverage {
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($result.Output -join "`n")
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $result.Output
             }
         }
     }
