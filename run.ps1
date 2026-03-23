@@ -188,13 +188,42 @@ function Extract-ExecutionFailureLines([string[]]$lines) {
     return $errors.ToArray()
 }
 
+function Extract-RuntimeFailureLines([string[]]$lines) {
+    # Captures ONLY runtime failures: panics, fatal errors, test crashes, os.Exit.
+    # Does NOT include compile errors (.go:line: syntax) or [build failed].
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '^(?i)panic:' -or
+            $trimmed -match '^(?i)fatal error:' -or
+            $trimmed -match '^(?i)goroutine \d+' -or
+            $trimmed -match '^--- FAIL:\s+' -or
+            $trimmed -match '^\s*FAIL\s+\S+' -or
+            $trimmed -match '^\s*exit status \d+\s*$' -or
+            $trimmed -match '(?i)signal:\s+' -or
+            $trimmed -match '(?i)runtime error:') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
 function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageName, [string[]]$Lines) {
     if (-not $BuildErrorMap -or -not $PackageName) { return }
 
+    # Only add compile-time errors (not runtime failures)
     $buildLines = Extract-BuildErrorLines $Lines
-    if (-not $buildLines -or $buildLines.Count -eq 0) {
-        $buildLines = Extract-ExecutionFailureLines $Lines
-    }
     if (-not $buildLines -or $buildLines.Count -eq 0) { return }
 
     if (-not $BuildErrorMap.ContainsKey($PackageName)) {
@@ -204,6 +233,23 @@ function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageNa
     foreach ($line in $buildLines) {
         if (-not $BuildErrorMap[$PackageName].Contains($line)) {
             $BuildErrorMap[$PackageName].Add($line) | Out-Null
+        }
+    }
+}
+
+function Add-RuntimeFailuresForPackage([hashtable]$FailureMap, [string]$PackageName, [string[]]$Lines) {
+    if (-not $FailureMap -or -not $PackageName) { return }
+
+    $runtimeLines = Extract-RuntimeFailureLines $Lines
+    if (-not $runtimeLines -or $runtimeLines.Count -eq 0) { return }
+
+    if (-not $FailureMap.ContainsKey($PackageName)) {
+        $FailureMap[$PackageName] = [System.Collections.Generic.List[string]]::new()
+    }
+
+    foreach ($line in $runtimeLines) {
+        if (-not $FailureMap[$PackageName].Contains($line)) {
+            $FailureMap[$PackageName].Add($line) | Out-Null
         }
     }
 }
@@ -593,6 +639,7 @@ function Invoke-TestCoverage {
     $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
     $testPkgs = [System.Collections.Generic.List[string]]::new()
     $buildErrorsByPackage = @{}
+    $runtimeFailuresByPackage = @{}
 
     if ($isSyncMode) {
         # ── Sequential compile check ──
@@ -618,6 +665,7 @@ function Invoke-TestCoverage {
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($combinedOut -join "`n")
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $combinedOut
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $combinedOut
             }
         }
     } else {
@@ -669,6 +717,7 @@ function Invoke-TestCoverage {
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($result.Output -join "`n")
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $result.Output
             }
         }
     }
@@ -804,6 +853,7 @@ function Invoke-TestCoverage {
             if ($pkgExit -ne 0) {
                 $overallExit = $pkgExit
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $output
             }
 
             if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
@@ -835,6 +885,7 @@ function Invoke-TestCoverage {
             if ($result.ExitCode -ne 0) {
                 $overallExit = $result.ExitCode
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $result.Output
             }
             if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
         }
@@ -1354,6 +1405,78 @@ function copyForAI(){
         }
         $buildErrorJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
 
+        # ── Runtime Failures report (panic/os.Exit/crashes) ──
+        $runtimeFailuresFile = Join-Path $coverDir "runtime-failures.txt"
+        $runtimeFailuresJsonFile = Join-Path $coverDir "runtime-failures.json"
+        $runtimeFailurePkgs = @($runtimeFailuresByPackage.Keys | Sort-Object)
+
+        # Include missing coverage profiles as runtime crashes
+        if ($missingProfiles.Count -gt 0) {
+            foreach ($mp in $missingProfiles) {
+                if (-not $runtimeFailuresByPackage.ContainsKey($mp)) {
+                    $runtimeFailuresByPackage[$mp] = [System.Collections.Generic.List[string]]::new()
+                }
+                $crashMsg = "coverage profile missing — test binary likely crashed (panic/os.Exit)"
+                if (-not $runtimeFailuresByPackage[$mp].Contains($crashMsg)) {
+                    $runtimeFailuresByPackage[$mp].Add($crashMsg) | Out-Null
+                }
+            }
+            $runtimeFailurePkgs = @($runtimeFailuresByPackage.Keys | Sort-Object)
+        }
+
+        $rtLines = [System.Collections.Generic.List[string]]::new()
+        $rtLines.Add("# Runtime Failures — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $rtLines.Add("# Panics, os.Exit, test binary crashes, fatal errors")
+        $rtLines.Add("# Count: $($runtimeFailurePkgs.Count) package(s)")
+        $rtLines.Add("")
+
+        $rtJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($runtimeFailurePkgs.Count -eq 0) {
+            $rtLines.Add("No runtime failures captured.")
+        }
+        else {
+            foreach ($pkgName in $runtimeFailurePkgs) {
+                $pkgLines = @($runtimeFailuresByPackage[$pkgName])
+                $rtLines.Add("## $pkgName")
+                if ($pkgLines.Count -gt 0) {
+                    $rtLines.AddRange($pkgLines)
+                }
+                else {
+                    $rtLines.Add("(no failure details captured)")
+                }
+                $rtLines.Add("")
+
+                $rtJsonItems.Add(@{
+                    package      = $pkgName
+                    failureCount = $pkgLines.Count
+                    failures     = $pkgLines
+                }) | Out-Null
+            }
+        }
+
+        Set-Content -Path $runtimeFailuresFile -Value ($rtLines -join "`n") -Encoding UTF8
+        $rtJsonObj = @{
+            timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            packageCount = $runtimeFailurePkgs.Count
+            packages     = $rtJsonItems.ToArray()
+        }
+        $rtJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $runtimeFailuresJsonFile -Encoding UTF8
+
+        # ── Runtime Failures console warning ──
+        if ($runtimeFailurePkgs.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Magenta
+            Write-Host "  │ RUNTIME FAILURES ($($runtimeFailurePkgs.Count) package(s))" -ForegroundColor Magenta
+            Write-Host "  │" -ForegroundColor Magenta
+            foreach ($rp in $runtimeFailurePkgs) {
+                Write-Host "  │   ⚠ $rp" -ForegroundColor Yellow
+            }
+            Write-Host "  │" -ForegroundColor Magenta
+            Write-Host "  │ See data/coverage/runtime-failures.txt for details." -ForegroundColor Yellow
+            Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Magenta
+        }
+
         Write-Host ""
         Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Gray
         Write-Host "  │ WRITTEN FILES" -ForegroundColor Gray
@@ -1365,6 +1488,8 @@ function copyForAI(){
         Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
         Write-Host "  │  $buildErrorsFile" -ForegroundColor Gray
         Write-Host "  │  $buildErrorsJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $runtimeFailuresFile" -ForegroundColor Gray
+        Write-Host "  │  $runtimeFailuresJsonFile" -ForegroundColor Gray
         if (Test-Path $repoBuildErrorsFile) {
             Write-Host "  │  $repoBuildErrorsFile" -ForegroundColor Gray
         }
