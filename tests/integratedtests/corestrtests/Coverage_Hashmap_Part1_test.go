@@ -216,8 +216,8 @@ func Test_CovHM1_19_AddOrUpdateKeyValues(t *testing.T) {
 
 func Test_CovHM1_20_AddOrUpdateCollection(t *testing.T) {
 	hm := corestr.Empty.Hashmap()
-	keys := corestr.New.Collection.Items("a", "b")
-	vals := corestr.New.Collection.Items("1", "2")
+	keys := corestr.New.Collection.Strings("a", "b")
+	vals := corestr.New.Collection.Strings("1", "2")
 	hm.AddOrUpdateCollection(keys, vals)
 	if hm.Length() != 2 {
 		t.Fatal("expected 2")
@@ -226,8 +226,8 @@ func Test_CovHM1_20_AddOrUpdateCollection(t *testing.T) {
 	hm.AddOrUpdateCollection(nil, nil)
 	// length mismatch
 	hm.AddOrUpdateCollection(
-		corestr.New.Collection.Items("a"),
-		corestr.New.Collection.Items("1", "2"),
+		corestr.New.Collection.Strings("a"),
+		corestr.New.Collection.Strings("1", "2"),
 	)
 }
 
@@ -392,7 +392,7 @@ func Test_CovHM1_30_HasAnyItem_HasAny(t *testing.T) {
 func Test_CovHM1_31_HasAllCollectionItems(t *testing.T) {
 	hm := corestr.Empty.Hashmap()
 	hm.AddOrUpdate("a", "1")
-	if !hm.HasAllCollectionItems(corestr.New.Collection.Items("a")) {
+	if !hm.HasAllCollectionItems(corestr.New.Collection.Strings("a")) {
 		t.Fatal("expected true")
 	}
 	if hm.HasAllCollectionItems(nil) {

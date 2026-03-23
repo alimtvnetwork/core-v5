@@ -183,39 +183,39 @@ func Test_CovLLCreator_05_PointerStringsPtr(t *testing.T) {
 // --- newLinkedListCollectionsCreator ---
 
 func Test_CovLLCCreator_01_Create_Empty(t *testing.T) {
-	lc := corestr.New.LinkedCollections.Create()
+	lc := corestr.New.LinkedCollection.Create()
 	if lc.Length() != 0 {
 		t.Fatal("expected 0")
 	}
-	lc2 := corestr.New.LinkedCollections.Empty()
+	lc2 := corestr.New.LinkedCollection.Empty()
 	if lc2.Length() != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
 func Test_CovLLCCreator_02_Strings(t *testing.T) {
-	lc := corestr.New.LinkedCollections.Strings("a", "b")
+	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	if lc.Length() != 2 {
 		t.Fatal("expected 2")
 	}
-	lc2 := corestr.New.LinkedCollections.Strings()
+	lc2 := corestr.New.LinkedCollection.Strings()
 	if lc2.Length() != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
 func Test_CovLLCCreator_03_UsingCollections(t *testing.T) {
-	col := corestr.New.Collection.Strings([]string{false, "a"})
-	lc := corestr.New.LinkedCollections.UsingCollections(col)
+	col := corestr.New.Collection.Strings([]string{"false", "a"})
+	lc := corestr.New.LinkedCollection.UsingCollections(col)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
-	lc2 := corestr.New.LinkedCollections.UsingCollections(nil)
+	lc2 := corestr.New.LinkedCollection.UsingCollections(nil)
 	_ = lc2
 }
 
 func Test_CovLLCCreator_04_PointerStringsPtr(t *testing.T) {
-	lc := corestr.New.LinkedCollections.PointerStringsPtr(nil)
+	lc := corestr.New.LinkedCollection.PointerStringsPtr(nil)
 	if lc.Length() != 0 {
 		t.Fatal("expected 0")
 	}

@@ -261,7 +261,7 @@ func Test_CovHM2_18_GetValuesKeysExcept(t *testing.T) {
 func Test_CovHM2_19_GetAllExceptCollection(t *testing.T) {
 	hm := corestr.Empty.Hashmap()
 	hm.AddOrUpdate("a", "1")
-	r := hm.GetAllExceptCollection(corestr.New.Collection.Items("a"))
+	r := hm.GetAllExceptCollection(corestr.New.Collection.Strings("a"))
 	if len(r) != 0 {
 		t.Fatal("expected 0")
 	}
