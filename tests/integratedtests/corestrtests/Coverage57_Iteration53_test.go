@@ -2034,7 +2034,7 @@ func Test_Cov57_NonChainedLinkedListNodes(t *testing.T) {
 
 func Test_Cov57_NonChainedLinkedListNodes_Adds(t *testing.T) {
 	nodes := corestr.NewNonChainedLinkedListNodes(2)
-	ll := corestr.New.LinkedList.Strings("a", "b")
+	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 	nodes.Adds(ll.Head())
 	tc := coretestcases.CaseV1{
 		Title:         "NCLLN Adds",
@@ -2045,7 +2045,7 @@ func Test_Cov57_NonChainedLinkedListNodes_Adds(t *testing.T) {
 
 func Test_Cov57_NonChainedLinkedListNodes_FirstLast(t *testing.T) {
 	nodes := corestr.NewNonChainedLinkedListNodes(2)
-	ll := corestr.New.LinkedList.Strings("a", "b")
+	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 	nodes.Adds(ll.Head(), ll.Head().Next())
 	convey.Convey("NCLLN FirstLast", t, func() {
 		convey.So(nodes.First(), convey.ShouldNotBeNil)
@@ -2065,7 +2065,7 @@ func Test_Cov57_NonChainedLinkedListNodes_FirstOrDefault_Empty(t *testing.T) {
 
 func Test_Cov57_NonChainedLinkedListNodes_ApplyChaining(t *testing.T) {
 	nodes := corestr.NewNonChainedLinkedListNodes(2)
-	ll := corestr.New.LinkedList.Strings("a", "b")
+	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 	nodes.Adds(ll.Head(), ll.Head().Next())
 	nodes.ApplyChaining()
 	tc := coretestcases.CaseV1{

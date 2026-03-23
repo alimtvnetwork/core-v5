@@ -13,7 +13,7 @@ import (
 
 func Test_CovLC1_01_Tail_Head(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	c1 := corestr.New.Collection.Items("a")
+	c1 := corestr.New.Collection.Strings("a")
 	lc.Add(c1)
 	if lc.Tail() == nil {
 		t.Fatal("expected non-nil tail")
@@ -25,7 +25,7 @@ func Test_CovLC1_01_Tail_Head(t *testing.T) {
 
 func Test_CovLC1_02_First_Single_Last(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	c1 := corestr.New.Collection.Items("a")
+	c1 := corestr.New.Collection.Strings("a")
 	lc.Add(c1)
 	if lc.First().Length() != 1 {
 		t.Fatal("expected 1")
@@ -46,7 +46,7 @@ func Test_CovLC1_03_LastOrDefault_FirstOrDefault(t *testing.T) {
 	if lc.FirstOrDefault().Length() != 0 {
 		t.Fatal("expected empty")
 	}
-	c1 := corestr.New.Collection.Items("a")
+	c1 := corestr.New.Collection.Strings("a")
 	lc.Add(c1)
 	if lc.LastOrDefault().Length() != 1 {
 		t.Fatal("expected 1")
@@ -61,7 +61,7 @@ func Test_CovLC1_04_Length(t *testing.T) {
 	if lc.Length() != 0 {
 		t.Fatal("expected 0")
 	}
-	lc.Add(corestr.New.Collection.Items("a"))
+	lc.Add(corestr.New.Collection.Strings("a"))
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
@@ -69,8 +69,8 @@ func Test_CovLC1_04_Length(t *testing.T) {
 
 func Test_CovLC1_05_AllIndividualItemsLength(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a", "b"))
-	lc.Add(corestr.New.Collection.Items("c"))
+	lc.Add(corestr.New.Collection.Strings("a", "b"))
+	lc.Add(corestr.New.Collection.Strings("c"))
 	if lc.AllIndividualItemsLength() != 3 {
 		t.Fatal("expected 3")
 	}
@@ -78,7 +78,7 @@ func Test_CovLC1_05_AllIndividualItemsLength(t *testing.T) {
 
 func Test_CovLC1_06_LengthLock(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
+	lc.Add(corestr.New.Collection.Strings("a"))
 	if lc.LengthLock() != 1 {
 		t.Fatal("expected 1")
 	}
@@ -86,9 +86,9 @@ func Test_CovLC1_06_LengthLock(t *testing.T) {
 
 func Test_CovLC1_07_IsEqualsPtr(t *testing.T) {
 	a := corestr.Empty.LinkedCollections()
-	a.Add(corestr.New.Collection.Items("x", "y"))
+	a.Add(corestr.New.Collection.Strings("x", "y"))
 	b := corestr.Empty.LinkedCollections()
-	b.Add(corestr.New.Collection.Items("x", "y"))
+	b.Add(corestr.New.Collection.Strings("x", "y"))
 
 	// same ptr
 	if !a.IsEqualsPtr(a) {
@@ -110,8 +110,8 @@ func Test_CovLC1_07_IsEqualsPtr(t *testing.T) {
 	}
 	// diff length
 	c := corestr.Empty.LinkedCollections()
-	c.Add(corestr.New.Collection.Items("x"))
-	c.Add(corestr.New.Collection.Items("y"))
+	c.Add(corestr.New.Collection.Strings("x"))
+	c.Add(corestr.New.Collection.Strings("y"))
 	// same content different structure
 	if a.IsEqualsPtr(b) != true {
 		t.Fatal("expected equal")
@@ -129,7 +129,7 @@ func Test_CovLC1_08_IsEmptyLock_IsEmpty_HasItems(t *testing.T) {
 	if lc.HasItems() {
 		t.Fatal("expected no items")
 	}
-	lc.Add(corestr.New.Collection.Items("a"))
+	lc.Add(corestr.New.Collection.Strings("a"))
 	if lc.IsEmpty() {
 		t.Fatal("expected not empty")
 	}
@@ -140,15 +140,15 @@ func Test_CovLC1_08_IsEmptyLock_IsEmpty_HasItems(t *testing.T) {
 
 func Test_CovLC1_09_InsertAt(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("c"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("c"))
 	// insert at front
-	lc.InsertAt(0, corestr.New.Collection.Items("front"))
+	lc.InsertAt(0, corestr.New.Collection.Strings("front"))
 	if lc.Length() != 3 {
 		t.Fatal("expected 3")
 	}
 	// insert in middle
-	lc.InsertAt(1, corestr.New.Collection.Items("mid"))
+	lc.InsertAt(1, corestr.New.Collection.Strings("mid"))
 	if lc.Length() != 4 {
 		t.Fatal("expected 4")
 	}
@@ -158,7 +158,7 @@ func Test_CovLC1_10_AddAsync(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
-	lc.AddAsync(corestr.New.Collection.Items("a"), wg)
+	lc.AddAsync(corestr.New.Collection.Strings("a"), wg)
 	wg.Wait()
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
@@ -171,7 +171,7 @@ func Test_CovLC1_11_AddsAsyncOnComplete(t *testing.T) {
 	lc.AddsAsyncOnComplete(
 		func(lc *corestr.LinkedCollections) { done <- true },
 		true,
-		corestr.New.Collection.Items("a"),
+		corestr.New.Collection.Strings("a"),
 	)
 	<-done
 	if lc.Length() != 1 {
@@ -185,7 +185,7 @@ func Test_CovLC1_12_AddsUsingProcessorAsyncOnComplete(t *testing.T) {
 	lc.AddsUsingProcessorAsyncOnComplete(
 		func(lc *corestr.LinkedCollections) { done <- true },
 		func(a any, i int) *corestr.Collection {
-			return corestr.New.Collection.Items(a.(string))
+			return corestr.New.Collection.Strings(a.(string))
 		},
 		true,
 		"hello", nil,
@@ -213,7 +213,7 @@ func Test_CovLC1_13_AddsUsingProcessorAsync(t *testing.T) {
 	lc.AddsUsingProcessorAsync(
 		wg,
 		func(a any, i int) *corestr.Collection {
-			return corestr.New.Collection.Items(a.(string))
+			return corestr.New.Collection.Strings(a.(string))
 		},
 		true,
 		"x",
@@ -236,7 +236,7 @@ func Test_CovLC1_13_AddsUsingProcessorAsync(t *testing.T) {
 
 func Test_CovLC1_14_AddLock(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.AddLock(corestr.New.Collection.Items("a"))
+	lc.AddLock(corestr.New.Collection.Strings("a"))
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
@@ -245,9 +245,9 @@ func Test_CovLC1_14_AddLock(t *testing.T) {
 func Test_CovLC1_15_Add(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
 	// first add sets head
-	lc.Add(corestr.New.Collection.Items("a"))
+	lc.Add(corestr.New.Collection.Strings("a"))
 	// second add sets tail
-	lc.Add(corestr.New.Collection.Items("b"))
+	lc.Add(corestr.New.Collection.Strings("b"))
 	if lc.Length() != 2 {
 		t.Fatal("expected 2")
 	}
@@ -274,13 +274,13 @@ func Test_CovLC1_17_AddStrings(t *testing.T) {
 
 func Test_CovLC1_18_AddBackNode_AppendNode(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Items("a")}
+	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings("a")}
 	lc.AddBackNode(node)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
 	// append to non-empty
-	node2 := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Items("b")}
+	node2 := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings("b")}
 	lc.AppendNode(node2)
 	if lc.Length() != 2 {
 		t.Fatal("expected 2")
@@ -289,14 +289,14 @@ func Test_CovLC1_18_AddBackNode_AppendNode(t *testing.T) {
 
 func Test_CovLC1_19_AppendChainOfNodes(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	node1 := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Items("a")}
+	node1 := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings("a")}
 	// empty list
 	lc.AppendChainOfNodes(node1)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
 	// non-empty
-	node2 := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Items("b")}
+	node2 := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings("b")}
 	lc.AppendChainOfNodes(node2)
 	if lc.Length() != 2 {
 		t.Fatal("expected 2")
@@ -307,7 +307,7 @@ func Test_CovLC1_20_AppendChainOfNodesAsync(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
-	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Items("a")}
+	node := &corestr.LinkedCollectionNode{Element: corestr.New.Collection.Strings("a")}
 	lc.AppendChainOfNodesAsync(node, wg)
 	wg.Wait()
 	if lc.Length() != 1 {
@@ -317,10 +317,10 @@ func Test_CovLC1_20_AppendChainOfNodesAsync(t *testing.T) {
 
 func Test_CovLC1_21_PushBackLock_PushBack_Push_PushFront(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.PushBackLock(corestr.New.Collection.Items("a"))
-	lc.PushBack(corestr.New.Collection.Items("b"))
-	lc.Push(corestr.New.Collection.Items("c"))
-	lc.PushFront(corestr.New.Collection.Items("front"))
+	lc.PushBackLock(corestr.New.Collection.Strings("a"))
+	lc.PushBack(corestr.New.Collection.Strings("b"))
+	lc.Push(corestr.New.Collection.Strings("c"))
+	lc.PushFront(corestr.New.Collection.Strings("front"))
 	if lc.Length() != 4 {
 		t.Fatal("expected 4")
 	}
@@ -329,12 +329,12 @@ func Test_CovLC1_21_PushBackLock_PushBack_Push_PushFront(t *testing.T) {
 func Test_CovLC1_22_AddFrontLock_AddFront(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
 	// empty — falls through to Add
-	lc.AddFront(corestr.New.Collection.Items("a"))
+	lc.AddFront(corestr.New.Collection.Strings("a"))
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
 	// non-empty
-	lc.AddFrontLock(corestr.New.Collection.Items("front"))
+	lc.AddFrontLock(corestr.New.Collection.Strings("front"))
 	if lc.Length() != 2 {
 		t.Fatal("expected 2")
 	}
@@ -342,10 +342,10 @@ func Test_CovLC1_22_AddFrontLock_AddFront(t *testing.T) {
 
 func Test_CovLC1_23_AddAnother(t *testing.T) {
 	a := corestr.Empty.LinkedCollections()
-	a.Add(corestr.New.Collection.Items("a"))
+	a.Add(corestr.New.Collection.Strings("a"))
 	b := corestr.Empty.LinkedCollections()
-	b.Add(corestr.New.Collection.Items("b"))
-	b.Add(corestr.New.Collection.Items("c"))
+	b.Add(corestr.New.Collection.Strings("b"))
+	b.Add(corestr.New.Collection.Strings("c"))
 	a.AddAnother(b)
 	if a.Length() != 3 {
 		t.Fatal("expected 3")
@@ -358,9 +358,9 @@ func Test_CovLC1_23_AddAnother(t *testing.T) {
 
 func Test_CovLC1_24_GetNextNodes(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
-	lc.Add(corestr.New.Collection.Items("c"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
+	lc.Add(corestr.New.Collection.Strings("c"))
 	nodes := lc.GetNextNodes(2)
 	if len(nodes) != 2 {
 		t.Fatalf("expected 2, got %d", len(nodes))
@@ -369,8 +369,8 @@ func Test_CovLC1_24_GetNextNodes(t *testing.T) {
 
 func Test_CovLC1_25_GetAllLinkedNodes(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
 	nodes := lc.GetAllLinkedNodes()
 	if len(nodes) != 2 {
 		t.Fatal("expected 2")
@@ -379,8 +379,8 @@ func Test_CovLC1_25_GetAllLinkedNodes(t *testing.T) {
 
 func Test_CovLC1_26_Loop(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
 	count := 0
 	lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 		count++
@@ -396,8 +396,8 @@ func Test_CovLC1_26_Loop(t *testing.T) {
 	})
 	// break
 	lc2 := corestr.Empty.LinkedCollections()
-	lc2.Add(corestr.New.Collection.Items("a"))
-	lc2.Add(corestr.New.Collection.Items("b"))
+	lc2.Add(corestr.New.Collection.Strings("a"))
+	lc2.Add(corestr.New.Collection.Strings("b"))
 	breakCount := 0
 	lc2.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 		breakCount++
@@ -410,8 +410,8 @@ func Test_CovLC1_26_Loop(t *testing.T) {
 
 func Test_CovLC1_27_Filter(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
 	result := lc.Filter(func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 		return &corestr.LinkedCollectionFilterResult{
 			Value:   arg.Node,
@@ -441,8 +441,8 @@ func Test_CovLC1_27_Filter(t *testing.T) {
 
 func Test_CovLC1_28_FilterAsCollection(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a", "b"))
-	lc.Add(corestr.New.Collection.Items("c"))
+	lc.Add(corestr.New.Collection.Strings("a", "b"))
+	lc.Add(corestr.New.Collection.Strings("c"))
 	col := lc.FilterAsCollection(func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 		return &corestr.LinkedCollectionFilterResult{Value: arg.Node, IsKeep: true}
 	}, 0)
@@ -460,8 +460,8 @@ func Test_CovLC1_28_FilterAsCollection(t *testing.T) {
 
 func Test_CovLC1_29_FilterAsCollections(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
 	cols := lc.FilterAsCollections(func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 		return &corestr.LinkedCollectionFilterResult{Value: arg.Node, IsKeep: true}
 	})
@@ -472,9 +472,9 @@ func Test_CovLC1_29_FilterAsCollections(t *testing.T) {
 
 func Test_CovLC1_30_RemoveNodeByIndex(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
-	lc.Add(corestr.New.Collection.Items("c"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
+	lc.Add(corestr.New.Collection.Strings("c"))
 	// remove first
 	lc.RemoveNodeByIndex(0)
 	if lc.Length() != 2 {
@@ -487,9 +487,9 @@ func Test_CovLC1_30_RemoveNodeByIndex(t *testing.T) {
 	}
 	// remove middle (rebuild)
 	lc2 := corestr.Empty.LinkedCollections()
-	lc2.Add(corestr.New.Collection.Items("a"))
-	lc2.Add(corestr.New.Collection.Items("b"))
-	lc2.Add(corestr.New.Collection.Items("c"))
+	lc2.Add(corestr.New.Collection.Strings("a"))
+	lc2.Add(corestr.New.Collection.Strings("b"))
+	lc2.Add(corestr.New.Collection.Strings("c"))
 	lc2.RemoveNodeByIndex(1)
 	if lc2.Length() != 2 {
 		t.Fatal("expected 2")
@@ -498,9 +498,9 @@ func Test_CovLC1_30_RemoveNodeByIndex(t *testing.T) {
 
 func Test_CovLC1_31_RemoveNodeByIndexes(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.Add(corestr.New.Collection.Items("a"))
-	lc.Add(corestr.New.Collection.Items("b"))
-	lc.Add(corestr.New.Collection.Items("c"))
+	lc.Add(corestr.New.Collection.Strings("a"))
+	lc.Add(corestr.New.Collection.Strings("b"))
+	lc.Add(corestr.New.Collection.Strings("c"))
 	lc.RemoveNodeByIndexes(true, 0, 2)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
@@ -511,8 +511,8 @@ func Test_CovLC1_31_RemoveNodeByIndexes(t *testing.T) {
 
 func Test_CovLC1_32_RemoveNode(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	c1 := corestr.New.Collection.Items("a")
-	c2 := corestr.New.Collection.Items("b")
+	c1 := corestr.New.Collection.Strings("a")
+	c2 := corestr.New.Collection.Strings("b")
 	lc.Add(c1)
 	lc.Add(c2)
 	head := lc.Head()
@@ -522,8 +522,8 @@ func Test_CovLC1_32_RemoveNode(t *testing.T) {
 	}
 	// remove non-first
 	lc2 := corestr.Empty.LinkedCollections()
-	lc2.Add(corestr.New.Collection.Items("a"))
-	lc2.Add(corestr.New.Collection.Items("b"))
+	lc2.Add(corestr.New.Collection.Strings("a"))
+	lc2.Add(corestr.New.Collection.Strings("b"))
 	tail := lc2.Tail()
 	lc2.RemoveNode(tail)
 	if lc2.Length() != 1 {
@@ -533,7 +533,7 @@ func Test_CovLC1_32_RemoveNode(t *testing.T) {
 
 func Test_CovLC1_33_AppendCollections(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	lc.AppendCollections(true, corestr.New.Collection.Items("a"), nil)
+	lc.AppendCollections(true, corestr.New.Collection.Strings("a"), nil)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
@@ -543,7 +543,7 @@ func Test_CovLC1_33_AppendCollections(t *testing.T) {
 
 func Test_CovLC1_34_AppendCollectionsPointersLock(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	cols := []*corestr.Collection{corestr.New.Collection.Items("a"), nil}
+	cols := []*corestr.Collection{corestr.New.Collection.Strings("a"), nil}
 	lc.AppendCollectionsPointersLock(true, &cols)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")
@@ -553,7 +553,7 @@ func Test_CovLC1_34_AppendCollectionsPointersLock(t *testing.T) {
 
 func Test_CovLC1_35_AppendCollectionsPointers(t *testing.T) {
 	lc := corestr.Empty.LinkedCollections()
-	cols := []*corestr.Collection{corestr.New.Collection.Items("a"), nil}
+	cols := []*corestr.Collection{corestr.New.Collection.Strings("a"), nil}
 	lc.AppendCollectionsPointers(true, &cols)
 	if lc.Length() != 1 {
 		t.Fatal("expected 1")

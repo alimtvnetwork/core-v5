@@ -339,7 +339,7 @@ func Test_CovLL2_21_Node_AddStringsPtrToNode(t *testing.T) {
 func Test_CovLL2_22_Node_AddCollectionToNode(t *testing.T) {
 	ll := corestr.Empty.LinkedList()
 	ll.Add("a")
-	col := corestr.New.Collection.Items("b", "c")
+	col := corestr.New.Collection.Strings("b", "c")
 	ll.Head().AddCollectionToNode(ll, true, col)
 	if ll.Length() < 3 {
 		t.Fatal("expected at least 3")

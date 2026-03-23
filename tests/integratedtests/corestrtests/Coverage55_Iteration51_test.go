@@ -1240,7 +1240,7 @@ func Test_Cov55_EmptyCreator_LeftRight(t *testing.T) {
 		Title:         "Empty.LeftRight",
 		ExpectedInput: args.Map{"IsEmpty": true},
 	}
-	actual := args.Map{"IsEmpty": lr.IsEmpty()}
+	actual := args.Map{"IsEmpty": lr.IsLeftEmpty() && lr.IsRightEmpty()}
 	tc.ShouldBeEqualMap(t, 0, actual)
 }
 
@@ -1359,7 +1359,7 @@ func Test_Cov55_StringUtils_WrapDouble(t *testing.T) {
 		Title:         "WrapDouble",
 		ExpectedInput: "\"hello\"",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapSingle(t *testing.T) {
@@ -1370,7 +1370,7 @@ func Test_Cov55_StringUtils_WrapSingle(t *testing.T) {
 		Title:         "WrapSingle",
 		ExpectedInput: "'hello'",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapTilda(t *testing.T) {
@@ -1381,7 +1381,7 @@ func Test_Cov55_StringUtils_WrapTilda(t *testing.T) {
 		Title:         "WrapTilda",
 		ExpectedInput: "`hello`",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapDoubleIfMissing_Empty(t *testing.T) {
@@ -1392,7 +1392,7 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_Empty(t *testing.T) {
 		Title:         "WrapDoubleIfMissing empty",
 		ExpectedInput: "\"\"",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapDoubleIfMissing_AlreadyWrapped(t *testing.T) {
@@ -1403,7 +1403,7 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_AlreadyWrapped(t *testing.T) {
 		Title:         "WrapDoubleIfMissing already",
 		ExpectedInput: "\"hello\"",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapDoubleIfMissing_NotWrapped(t *testing.T) {
@@ -1414,7 +1414,7 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_NotWrapped(t *testing.T) {
 		Title:         "WrapDoubleIfMissing not wrapped",
 		ExpectedInput: "\"hello\"",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapSingleIfMissing_Empty(t *testing.T) {
@@ -1425,7 +1425,7 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_Empty(t *testing.T) {
 		Title:         "WrapSingleIfMissing empty",
 		ExpectedInput: "''",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapSingleIfMissing_AlreadyWrapped(t *testing.T) {
@@ -1436,7 +1436,7 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_AlreadyWrapped(t *testing.T) {
 		Title:         "WrapSingleIfMissing already",
 		ExpectedInput: "'hello'",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
@@ -1447,7 +1447,7 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
 		Title:         "WrapSingleIfMissing not wrapped",
 		ExpectedInput: "'hello'",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapDoubleIfMissing_DoubleEmpty(t *testing.T) {
@@ -1458,7 +1458,7 @@ func Test_Cov55_StringUtils_WrapDoubleIfMissing_DoubleEmpty(t *testing.T) {
 		Title:         "WrapDoubleIfMissing double-empty",
 		ExpectedInput: "\"\"",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 func Test_Cov55_StringUtils_WrapSingleIfMissing_SingleEmpty(t *testing.T) {
@@ -1469,7 +1469,7 @@ func Test_Cov55_StringUtils_WrapSingleIfMissing_SingleEmpty(t *testing.T) {
 		Title:         "WrapSingleIfMissing single-empty",
 		ExpectedInput: "''",
 	}
-	tc.ShouldBeEqual(0, t, result)
+	tc.ShouldBeEqual(t, 0, result)
 }
 
 // =============================================================================

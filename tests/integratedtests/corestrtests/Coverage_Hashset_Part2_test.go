@@ -171,7 +171,7 @@ func Test_CovHS2_09_GetAllExceptSpread(t *testing.T) {
 func Test_CovHS2_10_GetAllExceptCollection(t *testing.T) {
 	hs := corestr.New.Hashset.Empty()
 	hs.Adds("a", "b")
-	r := hs.GetAllExceptCollection(corestr.New.Collection.Items("a"))
+	r := hs.GetAllExceptCollection(corestr.New.Collection.Strings("a"))
 	if len(r) != 1 {
 		t.Fatal("expected 1")
 	}

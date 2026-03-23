@@ -336,7 +336,7 @@ func Test_CovHS1_25_AddStrings_Adds(t *testing.T) {
 
 func Test_CovHS1_26_AddSimpleSlice(t *testing.T) {
 	hs := corestr.New.Hashset.Empty()
-	ss := corestr.New.SimpleSlice.Items("a", "b")
+	ss := corestr.New.SimpleSlice.Strings("a", "b")
 	hs.AddSimpleSlice(ss)
 	if hs.Length() != 2 {
 		t.Fatal("expected 2")
@@ -356,14 +356,14 @@ func Test_CovHS1_27_AddStringsLock(t *testing.T) {
 
 func Test_CovHS1_28_AddCollection_AddCollections(t *testing.T) {
 	hs := corestr.New.Hashset.Empty()
-	hs.AddCollection(corestr.New.Collection.Items("a"))
+	hs.AddCollection(corestr.New.Collection.Strings("a"))
 	if hs.Length() != 1 {
 		t.Fatal("expected 1")
 	}
 	hs.AddCollection(nil)
 	hs.AddCollection(corestr.Empty.Collection())
 
-	hs.AddCollections(corestr.New.Collection.Items("b"), nil)
+	hs.AddCollections(corestr.New.Collection.Strings("b"), nil)
 	if !hs.Has("b") {
 		t.Fatal("expected b")
 	}
@@ -505,7 +505,7 @@ func Test_CovHS1_36_HasAllStrings_HasAll(t *testing.T) {
 func Test_CovHS1_37_HasAllCollectionItems(t *testing.T) {
 	hs := corestr.New.Hashset.Empty()
 	hs.Adds("a", "b")
-	if !hs.HasAllCollectionItems(corestr.New.Collection.Items("a", "b")) {
+	if !hs.HasAllCollectionItems(corestr.New.Collection.Strings("a", "b")) {
 		t.Fatal("expected true")
 	}
 	if hs.HasAllCollectionItems(nil) {
