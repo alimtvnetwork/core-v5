@@ -109,9 +109,14 @@ function Scan-FileForRegressions {
     # Rule 4: Invalid Hashmap hm.Add() usage (should be hm.AddOrUpdate)
     # Detect variables assigned from corestr.New.Hashmap.* then called with .Add(
     $hashmapVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    # Rule 5: SimpleSlice signature-drift checks
+    $simpleSliceVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
     for ($i = 0; $i -lt $lines.Count; $i++) {
         if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.Hashmap\.') {
             $hashmapVarNames.Add($Matches[1]) | Out-Null
+        }
+        if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.SimpleSlice\.') {
+            $simpleSliceVarNames.Add($Matches[1]) | Out-Null
         }
     }
 
@@ -120,6 +125,39 @@ function Scan-FileForRegressions {
         for ($i = 0; $i -lt $lines.Count; $i++) {
             if ($lines[$i] -match "\b$escapedHm\.Add\(") {
                 Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "hashmap-invalid-add" "Use .AddOrUpdate() or .Set() instead of .Add() on corestr.Hashmap" $lines[$i]
+            }
+        }
+    }
+
+    # Rule 5a: Legacy SimpleSlice constructor calls on corestr.New.SimpleSlice
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        $line = $lines[$i]
+        # Strings() used variadically with string literals instead of a slice
+        if ($line -match 'corestr\.New\.SimpleSlice\.Strings\(\s*"') {
+            Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-strings-variadic" "corestr.New.SimpleSlice.Strings() takes []string, not variadic strings — use Lines() for variadic" $line
+        }
+        # Deprecated/renamed methods called on the creator
+        if ($line -match 'corestr\.New\.SimpleSlice\.NonEmptyValues\b') {
+            Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-renamed" "NonEmptyValues is renamed to SafeStrings on SimpleSlice" $line
+        }
+    }
+
+    # Rule 5b: Renamed SimpleSlice instance methods
+    foreach ($ssVar in $simpleSliceVarNames) {
+        $escapedSs = [regex]::Escape($ssVar)
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            $line = $lines[$i]
+            if ($line -match "\b$escapedSs\.SortedAsc\(") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-renamed" "Use .Sort() instead of .SortedAsc() on corestr.SimpleSlice" $line
+            }
+            if ($line -match "\b$escapedSs\.Has\(") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-renamed" "Use .IsContains() instead of .Has() on corestr.SimpleSlice" $line
+            }
+            if ($line -match "\b$escapedSs\.IndexAt\(") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-renamed" "Use .IndexOf() instead of .IndexAt() on corestr.SimpleSlice" $line
+            }
+            if ($line -match "\b$escapedSs\.NonEmptyValues\(") {
+                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "simpleslice-renamed" "Use .SafeStrings() instead of .NonEmptyValues() on corestr.SimpleSlice" $line
             }
         }
     }
