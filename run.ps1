@@ -639,6 +639,7 @@ function Invoke-TestCoverage {
     $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
     $testPkgs = [System.Collections.Generic.List[string]]::new()
     $buildErrorsByPackage = @{}
+    $runtimeFailuresByPackage = @{}
 
     if ($isSyncMode) {
         # ── Sequential compile check ──
