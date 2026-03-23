@@ -344,191 +344,191 @@ func Test_Cov54_CollOfColl_AsJsonContractsBinder(t *testing.T) {
 // ═══════════════════════════════════════════════════════════════
 
 func Test_Cov54_SSO_GetSetOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	tc := caseV1Compat{Name: "SSO Value", Expected: "hello", Actual: sso.Value(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_IsInitialized(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	tc := caseV1Compat{Name: "SSO IsInitialized", Expected: true, Actual: sso.IsInitialized(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_IsDefined(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	tc := caseV1Compat{Name: "SSO IsDefined", Expected: true, Actual: sso.IsDefined(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_IsUninitialized(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	tc := caseV1Compat{Name: "SSO IsUninitialized", Expected: true, Actual: sso.IsUninitialized(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Invalidate(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	sso.Invalidate()
 	tc := caseV1Compat{Name: "SSO Invalidate", Expected: true, Actual: sso.IsUninitialized(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Reset(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	sso.Reset()
 	tc := caseV1Compat{Name: "SSO Reset", Expected: true, Actual: sso.IsUninitialized(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_IsInvalid(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	tc := caseV1Compat{Name: "SSO IsInvalid", Expected: true, Actual: sso.IsInvalid(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_ValueBytes(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("ab")
+	sso := corestr.New.SimpleStringOnce.Init("ab")
 	tc := caseV1Compat{Name: "SSO ValueBytes", Expected: 2, Actual: len(sso.ValueBytes()), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_SetOnUninitialized(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	err := sso.SetOnUninitialized("x")
 	tc := caseV1Compat{Name: "SSO SetOnUninitialized", Expected: true, Actual: err == nil && sso.Value() == "x", Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_SetOnUninitialized_AlreadyInit(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	err := sso.SetOnUninitialized("y")
 	tc := caseV1Compat{Name: "SSO SetOnUninitialized already", Expected: true, Actual: err != nil, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_GetOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	val := sso.GetOnce()
 	tc := caseV1Compat{Name: "SSO GetOnce", Expected: "", Actual: val, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_GetOnceFunc(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	val := sso.GetOnceFunc(func() string { return "computed" })
 	tc := caseV1Compat{Name: "SSO GetOnceFunc", Expected: "computed", Actual: val, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_SetOnceIfUninitialized(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	isSet := sso.SetOnceIfUninitialized("x")
 	tc := caseV1Compat{Name: "SSO SetOnceIfUninitialized", Expected: true, Actual: isSet, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_IsEmpty(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	tc := caseV1Compat{Name: "SSO IsEmpty", Expected: true, Actual: sso.IsEmpty(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Is(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	tc := caseV1Compat{Name: "SSO Is", Expected: true, Actual: sso.Is("x"), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_IsContains(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello world")
+	sso := corestr.New.SimpleStringOnce.Init("hello world")
 	tc := caseV1Compat{Name: "SSO IsContains", Expected: true, Actual: sso.IsContains("world"), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Int(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("42")
+	sso := corestr.New.SimpleStringOnce.Init("42")
 	tc := caseV1Compat{Name: "SSO Int", Expected: 42, Actual: sso.Int(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Byte(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("65")
+	sso := corestr.New.SimpleStringOnce.Init("65")
 	tc := caseV1Compat{Name: "SSO Byte", Expected: byte(65), Actual: sso.Byte(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Boolean(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("yes")
+	sso := corestr.New.SimpleStringOnce.Init("yes")
 	tc := caseV1Compat{Name: "SSO Boolean", Expected: true, Actual: sso.Boolean(false), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_BooleanDefault(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("true")
+	sso := corestr.New.SimpleStringOnce.Init("true")
 	tc := caseV1Compat{Name: "SSO BooleanDefault", Expected: true, Actual: sso.BooleanDefault(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_ConcatNew(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	result := sso.ConcatNew(" world")
 	tc := caseV1Compat{Name: "SSO ConcatNew", Expected: "hello world", Actual: result.Value(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_HasSafeNonEmpty(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	tc := caseV1Compat{Name: "SSO HasSafeNonEmpty", Expected: true, Actual: sso.HasSafeNonEmpty(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_SafeValue(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("x")
+	sso := corestr.New.SimpleStringOnce.Init("x")
 	tc := caseV1Compat{Name: "SSO SafeValue", Expected: "x", Actual: sso.SafeValue(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_SafeValue_Uninit(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Default()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	tc := caseV1Compat{Name: "SSO SafeValue uninit", Expected: "", Actual: sso.SafeValue(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_ValueInt(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("10")
+	sso := corestr.New.SimpleStringOnce.Init("10")
 	tc := caseV1Compat{Name: "SSO ValueInt", Expected: 10, Actual: sso.ValueInt(0), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_ValueFloat64(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("3.14")
+	sso := corestr.New.SimpleStringOnce.Init("3.14")
 	tc := caseV1Compat{Name: "SSO ValueFloat64", Expected: 3.14, Actual: sso.ValueFloat64(0), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_WithinRange_InRange(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("5")
+	sso := corestr.New.SimpleStringOnce.Init("5")
 	val, inRange := sso.WithinRange(true, 0, 10)
 	tc := caseV1Compat{Name: "SSO WithinRange in", Expected: true, Actual: inRange && val == 5, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_WithinRange_OutOfRange(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("20")
+	sso := corestr.New.SimpleStringOnce.Init("20")
 	val, inRange := sso.WithinRange(true, 0, 10)
 	tc := caseV1Compat{Name: "SSO WithinRange out", Expected: true, Actual: !inRange && val == 10, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Int16(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("100")
+	sso := corestr.New.SimpleStringOnce.Init("100")
 	tc := caseV1Compat{Name: "SSO Int16", Expected: int16(100), Actual: sso.Int16(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 
 func Test_Cov54_SSO_Int32(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("100")
+	sso := corestr.New.SimpleStringOnce.Init("100")
 	tc := caseV1Compat{Name: "SSO Int32", Expected: int32(100), Actual: sso.Int32(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
