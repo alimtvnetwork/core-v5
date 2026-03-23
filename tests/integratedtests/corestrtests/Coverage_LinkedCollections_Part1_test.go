@@ -185,7 +185,7 @@ func Test_CovLC1_12_AddsUsingProcessorAsyncOnComplete(t *testing.T) {
 	lc.AddsUsingProcessorAsyncOnComplete(
 		func(lc *corestr.LinkedCollections) { done <- true },
 		func(a any, i int) *corestr.Collection {
-			return corestr.New.Collection.Strings(a.(string))
+			return corestr.New.Collection.Strings([]string{a.(string)})
 		},
 		true,
 		"hello", nil,
@@ -213,7 +213,7 @@ func Test_CovLC1_13_AddsUsingProcessorAsync(t *testing.T) {
 	lc.AddsUsingProcessorAsync(
 		wg,
 		func(a any, i int) *corestr.Collection {
-			return corestr.New.Collection.Strings(a.(string))
+			return corestr.New.Collection.Strings([]string{a.(string)})
 		},
 		true,
 		"x",
