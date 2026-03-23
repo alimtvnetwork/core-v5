@@ -265,7 +265,7 @@ func Test_CovCoC_01_IsEmpty_HasItems_Length(t *testing.T) {
 
 func Test_CovCoC_02_Add_Adds_AddCollections(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings(false, "a", "b")
+	col := corestr.New.Collection.Strings([]string{false, "a", "b"})
 	coc.Add(col)
 	if coc.Length() != 1 {
 		t.Fatal("expected 1")
@@ -275,7 +275,7 @@ func Test_CovCoC_02_Add_Adds_AddCollections(t *testing.T) {
 	if coc.Length() != 1 {
 		t.Fatal("expected 1")
 	}
-	col2 := *corestr.New.Collection.Strings(false, "c")
+	col2 := *corestr.New.Collection.Strings([]string{false, "c"})
 	coc.Adds(col2)
 	if coc.Length() != 2 {
 		t.Fatal("expected 2")

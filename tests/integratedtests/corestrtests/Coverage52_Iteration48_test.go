@@ -331,7 +331,7 @@ func Test_Cov52_CharCollectionMap_AddSameStartingCharItems_Empty(t *testing.T) {
 
 func Test_Cov52_CharCollectionMap_AddCollectionItems(t *testing.T) {
 	ccm := corestr.New.CharCollectionMap.CapSelfCap(5, 5)
-	col := corestr.New.Collection.Strings("abc", "bcd")
+	col := corestr.New.Collection.Strings([]string{"abc", "bcd"})
 	ccm.AddCollectionItems(col)
 	tc := caseV1Compat{Name: "CCM AddCollectionItems", Expected: 2, Actual: ccm.AllLengthsSum(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -528,7 +528,7 @@ func Test_Cov52_CharCollectionMap_AsJsonParseSelfInjector(t *testing.T) {
 
 func Test_Cov52_CharCollectionMap_AddSameCharsCollection(t *testing.T) {
 	ccm := corestr.New.CharCollectionMap.CapSelfCap(5, 5)
-	col := corestr.New.Collection.Strings("abc", "axy")
+	col := corestr.New.Collection.Strings([]string{"abc", "axy"})
 	result := ccm.AddSameCharsCollection("abc", col)
 	tc := caseV1Compat{Name: "CCM AddSameCharsCollection", Expected: true, Actual: result != nil, Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -543,7 +543,7 @@ func Test_Cov52_CharCollectionMap_AddSameCharsCollection_NilCol(t *testing.T) {
 
 func Test_Cov52_CharCollectionMap_AddSameCharsCollectionLock(t *testing.T) {
 	ccm := corestr.New.CharCollectionMap.CapSelfCap(5, 5)
-	col := corestr.New.Collection.Strings("abc")
+	col := corestr.New.Collection.Strings([]string{"abc"})
 	result := ccm.AddSameCharsCollectionLock("abc", col)
 	tc := caseV1Compat{Name: "CCM AddSameCharsCollectionLock", Expected: true, Actual: result != nil, Args: args.Map{}}
 	tc.ShouldBeEqual(t)

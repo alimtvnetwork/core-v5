@@ -272,7 +272,7 @@ func Test_Cov54_CollOfColl_IsEmpty(t *testing.T) {
 
 func Test_Cov54_CollOfColl_HasItems(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings("a", "b")
+	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	coc.Adds(*col)
 	tc := caseV1Compat{Name: "CoC HasItems", Expected: true, Actual: coc.HasItems(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -280,7 +280,7 @@ func Test_Cov54_CollOfColl_HasItems(t *testing.T) {
 
 func Test_Cov54_CollOfColl_Length(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings("a")
+	col := corestr.New.Collection.Strings([]string{"a"})
 	coc.Adds(*col)
 	tc := caseV1Compat{Name: "CoC Length", Expected: 1, Actual: coc.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -288,7 +288,7 @@ func Test_Cov54_CollOfColl_Length(t *testing.T) {
 
 func Test_Cov54_CollOfColl_AllIndividualItemsLength(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings("a", "b")
+	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	coc.Adds(*col)
 	tc := caseV1Compat{Name: "CoC AllIndivLen", Expected: 2, Actual: coc.AllIndividualItemsLength(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -296,7 +296,7 @@ func Test_Cov54_CollOfColl_AllIndividualItemsLength(t *testing.T) {
 
 func Test_Cov54_CollOfColl_Items(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings("a")
+	col := corestr.New.Collection.Strings([]string{"a"})
 	coc.Adds(*col)
 	tc := caseV1Compat{Name: "CoC Items", Expected: 1, Actual: len(coc.Items()), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -304,7 +304,7 @@ func Test_Cov54_CollOfColl_Items(t *testing.T) {
 
 func Test_Cov54_CollOfColl_List(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings("a", "b")
+	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	coc.Adds(*col)
 	tc := caseV1Compat{Name: "CoC List", Expected: 2, Actual: len(coc.List(0)), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -312,7 +312,7 @@ func Test_Cov54_CollOfColl_List(t *testing.T) {
 
 func Test_Cov54_CollOfColl_ToCollection(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	col := corestr.New.Collection.Strings("a")
+	col := corestr.New.Collection.Strings([]string{"a"})
 	coc.Adds(*col)
 	result := coc.ToCollection()
 	tc := caseV1Compat{Name: "CoC ToCollection", Expected: 1, Actual: result.Length(), Args: args.Map{}}
