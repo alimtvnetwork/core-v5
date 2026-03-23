@@ -806,11 +806,12 @@ function Invoke-TestCoverage {
             })
         }
         $blockedJsonObj = @{
-            timestamp      = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
-            blockedCount   = $blockedPkgs.Count
-            compiledCount  = $testPkgs.Count
-            totalCount     = $allTestPkgs.Count
-            blockedPackages = $blockedJsonItems.ToArray()
+            timestamp        = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            blockedCount     = $blockedPkgs.Count
+            compiledCount    = $testPkgs.Count
+            totalCount       = $allTestPkgs.Count
+            blockedPackages  = $blockedJsonItems.ToArray()
+            missingProfiles  = @()
         }
         $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
@@ -927,6 +928,28 @@ function Invoke-TestCoverage {
         Write-Host "  │ Fix: ensure tests use recover() for expected panics" -ForegroundColor Magenta
         Write-Host "  │ and never call os.Exit() in test code." -ForegroundColor Magenta
         Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Magenta
+    }
+
+    # ── Backfill missing-profiles into blocked-packages JSON ──
+    $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
+    if (Test-Path $blockedJsonFile) {
+        $existingJson = Get-Content $blockedJsonFile -Raw | ConvertFrom-Json
+        $mpArray = @($missingProfiles | ForEach-Object { $_ })
+        $existingJson | Add-Member -NotePropertyName "missingProfileCount" -NotePropertyValue $missingProfiles.Count -Force
+        $existingJson | Add-Member -NotePropertyName "missingProfiles" -NotePropertyValue $mpArray -Force
+        $existingJson | ConvertTo-Json -Depth 4 | Set-Content -Path $blockedJsonFile -Encoding UTF8
+    } elseif ($missingProfiles.Count -gt 0) {
+        # No blocked packages but we have missing profiles — create the file
+        $mpOnly = @{
+            timestamp           = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            blockedCount        = 0
+            compiledCount       = $testPkgs.Count
+            totalCount          = $allTestPkgs.Count
+            blockedPackages     = @()
+            missingProfileCount = $missingProfiles.Count
+            missingProfiles     = @($missingProfiles | ForEach-Object { $_ })
+        }
+        $mpOnly | ConvertTo-Json -Depth 4 | Set-Content -Path $blockedJsonFile -Encoding UTF8
     }
 
     # Write test logs to files (no raw dump to console)
