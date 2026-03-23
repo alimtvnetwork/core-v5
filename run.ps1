@@ -742,6 +742,43 @@ function Invoke-TestCoverage {
         $pkgIndex = $testPkgs.Count
     }
 
+    # ── Safety Guard: detect missing coverage profiles (binary crash) ──
+    # When a test binary panics/crashes, Go never writes the coverage profile.
+    # This silently drops that package's coverage, producing misleadingly low %.
+    $missingProfiles = [System.Collections.Generic.List[string]]::new()
+    foreach ($testPkg in $testPkgs) {
+        # Determine which profile path was used
+        if ($isSyncMode) {
+            $idx = [array]::IndexOf($testPkgs, $testPkg) + 1
+            $expectedProfile = Join-Path $partialDir "cover-$idx.out"
+        } else {
+            $safeName = $testPkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $expectedProfile = Join-Path $partialDir "cover-$safeName.out"
+        }
+        if (-not (Test-Path $expectedProfile)) {
+            $shortPkg = $testPkg -replace '.*integratedtests/?', ''
+            if (-not $shortPkg) { $shortPkg = $testPkg }
+            $missingProfiles.Add($shortPkg)
+        }
+    }
+    if ($missingProfiles.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Magenta
+        Write-Host "  │ ⚠ MISSING COVERAGE PROFILES ($($missingProfiles.Count) package(s))" -ForegroundColor Magenta
+        Write-Host "  │" -ForegroundColor Magenta
+        Write-Host "  │ These test binaries likely crashed (panic/os.Exit)" -ForegroundColor Magenta
+        Write-Host "  │ before Go could write their coverage profile." -ForegroundColor Magenta
+        Write-Host "  │ Their coverage is NOT included in the report." -ForegroundColor Magenta
+        Write-Host "  │" -ForegroundColor Magenta
+        foreach ($mp in $missingProfiles) {
+            Write-Host "  │   ⚠ $mp" -ForegroundColor Yellow
+        }
+        Write-Host "  │" -ForegroundColor Magenta
+        Write-Host "  │ Fix: ensure tests use recover() for expected panics" -ForegroundColor Magenta
+        Write-Host "  │ and never call os.Exit() in test code." -ForegroundColor Magenta
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Magenta
+    }
+
     # Write test logs to files (no raw dump to console)
     Write-TestLogs $allOutput.ToArray()
 
