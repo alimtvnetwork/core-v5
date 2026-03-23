@@ -319,7 +319,7 @@ func Test_Cov51_LinkedList_AddItemsMap(t *testing.T) {
 
 func Test_Cov51_LinkedList_AddCollection(t *testing.T) {
 	ll := corestr.Empty.LinkedList()
-	col := corestr.New.Collection.Strings("a", "b")
+	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	ll.AddCollection(col)
 	tc := caseV1Compat{Name: "LL AddCollection", Expected: 2, Actual: ll.Length(), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
@@ -669,7 +669,7 @@ func Test_Cov51_LinkedList_AsJsonMarshaller(t *testing.T) {
 // ═══════════════════════════════════════════════════════════════
 
 func Test_Cov51_CharCollectionDataModel_NewUsing(t *testing.T) {
-	ccm := corestr.New.CharCollectionMap.Cap(5)
+	ccm := corestr.New.CharCollectionMap.CapSelfCap(5, 5)
 	ccm.Add("hello")
 	dm := corestr.NewCharCollectionMapDataModelUsing(ccm)
 	tc := caseV1Compat{Name: "CharCollDM NewUsing", Expected: true, Actual: dm != nil, Args: args.Map{}}
@@ -677,7 +677,7 @@ func Test_Cov51_CharCollectionDataModel_NewUsing(t *testing.T) {
 }
 
 func Test_Cov51_CharCollectionDataModel_NewUsingDataModel(t *testing.T) {
-	ccm := corestr.New.CharCollectionMap.Cap(5)
+	ccm := corestr.New.CharCollectionMap.CapSelfCap(5, 5)
 	ccm.Add("hello")
 	dm := corestr.NewCharCollectionMapDataModelUsing(ccm)
 	restored := corestr.NewCharCollectionMapUsingDataModel(dm)
