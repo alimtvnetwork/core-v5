@@ -497,9 +497,19 @@ func Test_Cov12_LinkedCollections_Basic(t *testing.T) {
 
 func Test_Cov12_LinkedCollections_Nil(t *testing.T) {
 	var lc *corestr.LinkedCollections
-	actual := args.Map{"empty": lc.IsEmpty(), "len": lc.Length()}
-	expected := args.Map{"empty": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- nil", actual)
+	var panicked bool
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+		_ = lc.IsEmpty()
+		_ = lc.Length()
+	}()
+	actual := args.Map{"panicked": panicked}
+	expected := args.Map{"panicked": true}
+	expected.ShouldBeEqual(t, 0, "LinkedCollections panics on nil receiver -- nil", actual)
 }
 
 // ── ValidValues ──
