@@ -315,7 +315,7 @@ func Test_CovCHM_17_HashsetByStringFirstChar_Lock(t *testing.T) {
 func Test_CovCHM_18_AddCollectionItems(t *testing.T) {
 	chm := corestr.Empty.CharHashsetMap()
 	chm.AddCollectionItems(nil)
-	col := corestr.New.Collection.Strings("apple", "banana")
+	col := corestr.New.Collection.Strings([]string{"apple", "banana"})
 	chm.AddCollectionItems(col)
 	if chm.AllLengthsSum() != 2 {
 		t.Fatal("expected 2")
@@ -345,13 +345,13 @@ func Test_CovCHM_20_AddHashsetItems(t *testing.T) {
 
 func Test_CovCHM_21_AddSameCharsCollection(t *testing.T) {
 	chm := corestr.Empty.CharHashsetMap()
-	col := corestr.New.Collection.Strings("apple", "ant")
+	col := corestr.New.Collection.Strings([]string{"apple", "ant"})
 	r := chm.AddSameCharsCollection("a", col)
 	if r == nil {
 		t.Fatal("expected hashset")
 	}
 	// existing, add more
-	col2 := corestr.New.Collection.Strings("axe")
+	col2 := corestr.New.Collection.Strings([]string{"axe"})
 	r2 := chm.AddSameCharsCollection("a", col2)
 	if r2 == nil {
 		t.Fatal("expected hashset")
@@ -367,7 +367,7 @@ func Test_CovCHM_21_AddSameCharsCollection(t *testing.T) {
 		t.Fatal("expected new")
 	}
 	// new, with items
-	col3 := corestr.New.Collection.Strings("banana")
+	col3 := corestr.New.Collection.Strings([]string{"banana"})
 	r5 := chm.AddSameCharsCollection("b", col3)
 	if r5 == nil {
 		t.Fatal("expected hashset")
@@ -407,13 +407,13 @@ func Test_CovCHM_22_AddSameCharsHashset(t *testing.T) {
 
 func Test_CovCHM_23_AddSameCharsCollectionLock(t *testing.T) {
 	chm := corestr.Empty.CharHashsetMap()
-	col := corestr.New.Collection.Strings("apple")
+	col := corestr.New.Collection.Strings([]string{"apple"})
 	r := chm.AddSameCharsCollectionLock("a", col)
 	if r == nil {
 		t.Fatal("expected hashset")
 	}
 	// existing, add
-	col2 := corestr.New.Collection.Strings("ant")
+	col2 := corestr.New.Collection.Strings([]string{"ant"})
 	r2 := chm.AddSameCharsCollectionLock("a", col2)
 	if r2 == nil {
 		t.Fatal("expected hashset")
@@ -429,7 +429,7 @@ func Test_CovCHM_23_AddSameCharsCollectionLock(t *testing.T) {
 		t.Fatal("expected new")
 	}
 	// new, with items
-	col3 := corestr.New.Collection.Strings("banana")
+	col3 := corestr.New.Collection.Strings([]string{"banana"})
 	r5 := chm.AddSameCharsCollectionLock("b", col3)
 	if r5 == nil {
 		t.Fatal("expected hashset")

@@ -357,7 +357,7 @@ func Test_CovCCM_20_List_ListLock_SortedListAsc(t *testing.T) {
 func Test_CovCCM_21_AddCollectionItems(t *testing.T) {
 	ccm := corestr.Empty.CharCollectionMap()
 	ccm.AddCollectionItems(nil)
-	col := corestr.New.Collection.Strings("apple", "banana")
+	col := corestr.New.Collection.Strings([]string{"apple", "banana"})
 	ccm.AddCollectionItems(col)
 	if ccm.Length() != 2 {
 		t.Fatal("expected 2")
@@ -420,13 +420,13 @@ func Test_CovCCM_25_AddCharHashsetMap(t *testing.T) {
 
 func Test_CovCCM_26_AddSameCharsCollection(t *testing.T) {
 	ccm := corestr.Empty.CharCollectionMap()
-	col := corestr.New.Collection.Strings("apple", "ant")
+	col := corestr.New.Collection.Strings([]string{"apple", "ant"})
 	r := ccm.AddSameCharsCollection("a", col)
 	if r == nil {
 		t.Fatal("expected collection")
 	}
 	// add more to existing
-	col2 := corestr.New.Collection.Strings("axe")
+	col2 := corestr.New.Collection.Strings([]string{"axe"})
 	r2 := ccm.AddSameCharsCollection("a", col2)
 	if r2 == nil {
 		t.Fatal("expected collection")
@@ -445,13 +445,13 @@ func Test_CovCCM_26_AddSameCharsCollection(t *testing.T) {
 
 func Test_CovCCM_27_AddSameCharsCollectionLock(t *testing.T) {
 	ccm := corestr.Empty.CharCollectionMap()
-	col := corestr.New.Collection.Strings("apple")
+	col := corestr.New.Collection.Strings([]string{"apple"})
 	r := ccm.AddSameCharsCollectionLock("a", col)
 	if r == nil {
 		t.Fatal("expected collection")
 	}
 	// existing, add more
-	col2 := corestr.New.Collection.Strings("ant")
+	col2 := corestr.New.Collection.Strings([]string{"ant"})
 	r2 := ccm.AddSameCharsCollectionLock("a", col2)
 	if r2 == nil {
 		t.Fatal("expected collection")
@@ -467,7 +467,7 @@ func Test_CovCCM_27_AddSameCharsCollectionLock(t *testing.T) {
 		t.Fatal("expected new")
 	}
 	// new char, with items
-	col3 := corestr.New.Collection.Strings("banana")
+	col3 := corestr.New.Collection.Strings([]string{"banana"})
 	r5 := ccm.AddSameCharsCollectionLock("b", col3)
 	if r5 == nil {
 		t.Fatal("expected collection")
