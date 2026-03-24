@@ -53,7 +53,7 @@ func LeftRightTrimmedUsingSlice(slice []string) *LeftRight {
 	if length == 1 {
 		return &LeftRight{
 			Pair: coregeneric.Pair[string, string]{
-				Left:    slice[constants.Zero],
+				Left:    strings.TrimSpace(slice[constants.Zero]),
 				Right:   constants.EmptyString,
 				IsValid: length == ExpectingLengthForLeftRight,
 			},
