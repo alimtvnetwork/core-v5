@@ -873,13 +873,18 @@ func (it *LinkedList) SafePointerIndexAtUsingDefaultLock(
 }
 
 func (it *LinkedList) GetNextNodes(count int) []*LinkedListNode {
+	if count <= 0 || it.IsEmpty() {
+		return []*LinkedListNode{}
+	}
+
 	counter := 0
 
 	return it.Filter(
 		func(
 			arg *LinkedListFilterParameter,
 		) *LinkedListFilterResult {
-			isBreak := counter >= count-1
+			counter++
+			isBreak := counter >= count
 			return &LinkedListFilterResult{
 				Value:   arg.Node,
 				IsKeep:  true,
@@ -1092,11 +1097,11 @@ func (it *LinkedList) Clear() *LinkedList {
 }
 
 func (it LinkedList) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it LinkedList) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *LinkedList) ParseInjectUsingJson(
