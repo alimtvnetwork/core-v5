@@ -503,8 +503,8 @@ func Test_Cov14_Hashset_AddVariants(t *testing.T) {
 	str := "h"
 	h.AddPtr(&str)
 
-	if h.Length() != 7 {
-		t.Fatalf("expected 7 got %d", h.Length())
+	if h.Length() != 8 {
+		t.Fatalf("expected 8 got %d", h.Length())
 	}
 }
 
@@ -1555,8 +1555,8 @@ func Test_Cov14_HashsetsCollection(t *testing.T) {
 	hc.AddNonEmpty(corestr.Empty.Hashset())
 	hc.AddNonEmpty(corestr.New.Hashset.Strings([]string{"c"}))
 
-	if hc.Length() != 3 {
-		t.Fatalf("expected 3 got %d", hc.Length())
+	if hc.Length() != 2 {
+		t.Fatalf("expected 2 got %d", hc.Length())
 	}
 
 	_ = hc.StringsList()

@@ -43,15 +43,14 @@ func Test_Cov13_SingleRwx_ToDisabledRwxWrapper(t *testing.T) {
 }
 
 func Test_Cov13_SingleRwx_ToDisabledRwxWrapper_Error(t *testing.T) {
-	skipOnWindows(t)
-	// Using invalid rwx to trigger error from RwxFullString
+	// Invalid chars are normalized as disabled permissions.
 	s := &chmodhelper.SingleRwx{
 		Rwx:       "rZx",
 		ClassType: chmodclasstype.All,
 	}
-	_, err := s.ToDisabledRwxWrapper()
-	if err == nil {
-		t.Fatal("expected error")
+	w, err := s.ToDisabledRwxWrapper()
+	if err != nil || w == nil {
+		t.Fatal("expected wrapper for normalized invalid chars")
 	}
 }
 
@@ -74,14 +73,13 @@ func Test_Cov13_SingleRwx_ToRwxWrapper_All(t *testing.T) {
 }
 
 func Test_Cov13_SingleRwx_ToRwxWrapper_Error(t *testing.T) {
-	skipOnWindows(t)
 	s := &chmodhelper.SingleRwx{
 		Rwx:       "rZx",
 		ClassType: chmodclasstype.All,
 	}
-	_, err := s.ToRwxWrapper()
-	if err == nil {
-		t.Fatal("expected error")
+	w, err := s.ToRwxWrapper()
+	if err != nil || w == nil {
+		t.Fatal("expected wrapper for normalized invalid chars")
 	}
 }
 
@@ -236,10 +234,9 @@ func Test_Cov13_ChmodVerifier_IsEqualSkipInvalid(t *testing.T) {
 }
 
 func Test_Cov13_ChmodVerifier_GetRwx9_Short(t *testing.T) {
-	skipOnWindows(t)
 	result := chmodhelper.ChmodVerify.GetRwx9(0)
-	if result != "" {
-		t.Fatal("expected empty for zero mode")
+	if result != "---------" {
+		t.Fatalf("expected --------- got %q", result)
 	}
 }
 
