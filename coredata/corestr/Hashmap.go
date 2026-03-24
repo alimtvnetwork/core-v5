@@ -1128,11 +1128,11 @@ func (it *Hashmap) UnmarshalJSON(data []byte) error {
 }
 
 func (it Hashmap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it Hashmap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 // ParseInjectUsingJson It will not update the self but creates a new one.

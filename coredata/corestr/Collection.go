@@ -75,7 +75,7 @@ func (it *Collection) Count() int {
 }
 
 func (it *Collection) Capacity() int {
-	if it.items == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
