@@ -151,8 +151,23 @@ func Test_Cov13_Create_InvalidLength(t *testing.T) {
 }
 
 // ── newRwxWrapperCreator.UsingChmod ──
-// Note: UsingChmod calls itself recursively. This will stack overflow.
-// We skip testing it directly. It's a known issue.
+
+func Test_Cov13_UsingChmod_Valid(t *testing.T) {
+	w := chmodhelper.New.RwxWrapper.UsingChmod(0755)
+	if w == nil || w.IsEmpty() {
+		t.Fatal("expected non-empty wrapper")
+	}
+}
+
+func Test_Cov13_UsingChmod_Zero(t *testing.T) {
+	w := chmodhelper.New.RwxWrapper.UsingChmod(0)
+	if w == nil {
+		t.Fatal("expected non-nil wrapper")
+	}
+	if !w.IsEmpty() {
+		t.Fatal("expected empty wrapper for zero mode")
+	}
+}
 
 // ── newRwxWrapperCreator.UsingVariantPtr ──
 // Variant is a string type, so we use valid string values
