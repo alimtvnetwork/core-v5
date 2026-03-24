@@ -9,6 +9,8 @@ func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) e
 	var removeErr error
 
 	if isRemoveAllDirBeforeCreate && IsPathExists(dir) {
+		// Ensure directory is writable before removal to avoid permission denied errors
+		_ = os.Chmod(dir, 0777)
 		removeErr = os.RemoveAll(dir)
 	}
 
