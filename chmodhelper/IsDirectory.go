@@ -5,7 +5,7 @@ import "os"
 func IsDirectory(location string) bool {
 	fileInfo, err := os.Stat(location)
 
-	if os.IsNotExist(err) {
+	if err != nil {
 		return false
 	}
 
