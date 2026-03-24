@@ -18,7 +18,7 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 			},
 		},
 		Locations:            SimpleLocations,
-		ExpectedErrorMessage: "Path missing or having other access issues! Ref(s) { \"[/temp/core/test-cases-3s /temp/core/test-cases-3x]\" }",
+		ExpectedErrorMessage: "Path missing or having other access issues! Ref(s) { \"[/tmp/core/test-cases-3s /tmp/core/test-cases-3x]\" }",
 	},
 	{
 		Header: "rwx - expectation failed",
@@ -35,9 +35,9 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 			},
 		},
 		Locations: SimpleLocations,
-		ExpectedErrorMessage: "Path:/temp/core/test-cases-2 - " +
+		ExpectedErrorMessage: "Path:/tmp/core/test-cases-2 - " +
 			"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual\n" +
-			"Path:/temp/core/test-cases-3 - " +
+			"Path:/tmp/core/test-cases-3 - " +
 			"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual",
 	},
 	{
@@ -58,10 +58,10 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 		ExpectedErrorMessage: "Not Supported: Feature or method is not supported yet. " +
 			"IsRecursive is not supported for Verify chmod. Ref(s) { " +
 			"\"[" +
-			"/temp/core/test-cases-2 " +
-			"/temp/core/test-cases-3s " +
-			"/temp/core/test-cases-3x " +
-			"/temp/core/test-cases-3]\" }",
+			"/tmp/core/test-cases-2 " +
+			"/tmp/core/test-cases-3s " +
+			"/tmp/core/test-cases-3x " +
+			"/tmp/core/test-cases-3]\" }",
 	},
 	{
 		Header: "Missing paths + Expectation failed",
@@ -79,11 +79,11 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 		},
 		Locations: SimpleLocations,
 		ExpectedErrorMessage: "Path missing or having other access issues! Ref(s) { " +
-			"\"[/temp/core/test-cases-3s /temp/core/test-cases-3x]\" " +
+			"\"[/tmp/core/test-cases-3s /tmp/core/test-cases-3x]\" " +
 			"}\n" +
-			"Path:/temp/core/test-cases-2 - " +
+			"Path:/tmp/core/test-cases-2 - " +
 			"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual\n" +
-			"Path:/temp/core/test-cases-3 - " +
+			"Path:/tmp/core/test-cases-3 - " +
 			"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual",
 	},
 	{
@@ -101,6 +101,6 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 			},
 		},
 		Locations:            SimpleLocations,
-		ExpectedErrorMessage: "\"[/temp/core/test-cases-3s /temp/core/test-cases-3x]\" Path Ref(s) access having issues! missing or other { }",
+		ExpectedErrorMessage: "\"[/tmp/core/test-cases-3s /tmp/core/test-cases-3x]\" Path Ref(s) access having issues! missing or other { }",
 	},
 }

@@ -7,7 +7,7 @@ import (
 var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
-			Dir: "/temp/core/test-cases",
+			Dir: "/tmp/core/test-cases",
 			Files: []string{
 				"file-1.txt",
 				"file-2.txt",
@@ -18,7 +18,7 @@ var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{
 	},
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
-			Dir: "/temp/core/test-cases-2",
+			Dir: "/tmp/core/test-cases-2",
 			Files: []string{
 				"file-1.txt",
 				"file-2.txt",
