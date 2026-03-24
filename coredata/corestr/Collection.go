@@ -857,7 +857,8 @@ func (it *Collection) GetPagedCollection(
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
 	pagesPossibleCeiling := int(math.Ceil(pagesPossibleFloat))
-	collectionOfCollection := New.CollectionsOfCollection.Cap(
+	collectionOfCollection := New.CollectionsOfCollection.LenCap(
+		pagesPossibleCeiling,
 		pagesPossibleCeiling,
 	)
 
