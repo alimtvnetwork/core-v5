@@ -26,7 +26,7 @@ var verifyRwxChmodUsingRwxInstructionsTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Path missing or having other access issues! Ref(s) { " +
-				"\"[/temp/core/test-cases-3s /temp/core/test-cases-3x]\" }",
+				"\"[/tmp/core/test-cases-3s /tmp/core/test-cases-3x]\" }",
 		},
 	},
 	{
@@ -47,9 +47,9 @@ var verifyRwxChmodUsingRwxInstructionsTestCases = []coretestcases.CaseV1{
 			Locations: chmodhelpertestwrappers.SimpleLocations,
 		},
 		ExpectedInput: []string{
-			"Path:/temp/core/test-cases-2 - " +
+			"Path:/tmp/core/test-cases-2 - " +
 				"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual",
-			"Path:/temp/core/test-cases-3 - " +
+			"Path:/tmp/core/test-cases-3 - " +
 				"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual",
 		},
 	},
@@ -74,10 +74,10 @@ var verifyRwxChmodUsingRwxInstructionsTestCases = []coretestcases.CaseV1{
 			"Not Supported: Feature or method is not supported yet. " +
 				"IsRecursive is not supported for Verify chmod. Ref(s) { " +
 				"\"[" +
-				"/temp/core/test-cases-2 " +
-				"/temp/core/test-cases-3s " +
-				"/temp/core/test-cases-3x " +
-				"/temp/core/test-cases-3]\" }",
+				"/tmp/core/test-cases-2 " +
+				"/tmp/core/test-cases-3s " +
+				"/tmp/core/test-cases-3x " +
+				"/tmp/core/test-cases-3]\" }",
 		},
 	},
 	{
@@ -99,11 +99,11 @@ var verifyRwxChmodUsingRwxInstructionsTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Path missing or having other access issues! Ref(s) { " +
-				"\"[/temp/core/test-cases-3s /temp/core/test-cases-3x]\" " +
+				"\"[/tmp/core/test-cases-3s /tmp/core/test-cases-3x]\" " +
 				"}",
-			"Path:/temp/core/test-cases-2 - " +
+			"Path:/tmp/core/test-cases-2 - " +
 				"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual",
-			"Path:/temp/core/test-cases-3 - " +
+			"Path:/tmp/core/test-cases-3 - " +
 				"Expect [\"rwxr-x---\"] != [\"rwxr-xr--\"] Actual",
 		},
 	},
@@ -126,7 +126,7 @@ var verifyRwxChmodUsingRwxInstructionsTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Path missing or having other access issues! Ref(s) { " +
-				"\"[/temp/core/test-cases-3s /temp/core/test-cases-3x]\" }",
+				"\"[/tmp/core/test-cases-3s /tmp/core/test-cases-3x]\" }",
 		},
 	},
 }
