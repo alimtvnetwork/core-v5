@@ -520,7 +520,13 @@ function Open-FailingTestsIfAny {
         if ($content -and $content -notmatch '# Count: 0') {
             Write-Host ""
             Write-Host "  Opening failing tests log..." -ForegroundColor Yellow
-            Start-Process $failingFile
+            if ($IsMacOS) {
+                & open $failingFile
+            } elseif ($IsLinux) {
+                & xdg-open $failingFile
+            } else {
+                Start-Process $failingFile
+            }
         }
     }
 }
@@ -1542,7 +1548,7 @@ function copyForAI(){
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report in browser..." -ForegroundColor Yellow
-            Start-Process $coverHtml
+            if ($IsMacOS) { & open $coverHtml } elseif ($IsLinux) { & xdg-open $coverHtml } else { Start-Process $coverHtml }
         }
     }
     Open-FailingTestsIfAny
@@ -1665,7 +1671,7 @@ function Invoke-PackageTestCoverage {
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
-            Start-Process $coverHtml
+            if ($IsMacOS) { & open $coverHtml } elseif ($IsLinux) { & xdg-open $coverHtml } else { Start-Process $coverHtml }
         }
     }
     Open-FailingTestsIfAny
