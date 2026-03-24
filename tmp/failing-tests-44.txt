@@ -1,0 +1,508 @@
+# Failing Tests — 2026-03-24 20:32:27
+# Count: 25
+
+# ── Summary ──
+  - Test_C27_99_LeftRight_LeftRightTrimmedUsingSlice_Single
+  - Test_C27_KeyValueCollection_Deserialize
+  - Test_C27_KeyValueCollection_JsonParseSelfInject
+  - Test_C27_KeyValueCollection_ParseInjectUsingJson
+  - Test_C28_100_KeyValueCollection_JsonParseSelfInject
+  - Test_C28_106_KeyValueCollection_Deserialize
+  - Test_C28_149_SimpleStringOnce_Int16_OutOfRange
+  - Test_C28_97_KeyValueCollection_ParseInjectUsingJson
+  - Test_C29_44_SimpleSlice_SkipDynamic
+  - Test_Cov13_ChmodApplier_RwxPartial_Error
+  - Test_Cov13_CreateDirFilesWithRwxPermission_FileModeErr
+  - Test_Cov13_CreateDirFilesWithRwxPermissions_Error
+  - Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic
+  - Test_Cov4_ChmodVerifier_IsEqual_ValidPath
+  - Test_Cov4_ChmodVerifier_IsEqualRwxFull
+  - Test_Cov4_ChmodVerifier_Path
+  - Test_Cov4_ChmodVerifier_PathIf_True
+  - Test_Cov4_ChmodVerifier_PathsUsingFileMode
+  - Test_Cov4_ChmodVerifier_PathsUsingFileModeContinueOnError
+  - Test_Cov4_ChmodVerifier_PathsUsingFileModeImmediateReturn
+  - Test_Cov4_FwChmodVerifier_IsEqualFile
+  - Test_Cov5_RwxWrapper_VerifyPaths
+  - Test_Cov8_NotDirError_ExistsButNotDir
+  - Test_LinuxApplyRecursiveOnPath_Unix
+
+# ── Details ──
+
+FAIL: Test_Cov13_ChmodApplier_RwxPartial_Error
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m--- FAIL: Test_Cov13_ChmodApplier_RwxPartial_Error (0.00s)
+      Coverage13_Remaining_test.go:392: expected error for nil condition
+  --- FAIL: Test_Cov13_CreateDirFilesWithRwxPermission_FileModeErr (0.00s)
+      Coverage13_Remaining_test.go:696: expected error
+  --- FAIL: Test_Cov13_CreateDirFilesWithRwxPermissions_Error (0.00s)
+      Coverage13_Remaining_test.go:809: expected error
+  --- FAIL: Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic (0.00s)
+      Coverage13_Remaining_test.go:819: expected panic
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m
+  === Diff (Case 0: ChmodVerify.IsEqual returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.IsEqual returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `isExpected : true`
+              expected : `isExpected : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 441:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_IsEqual_ValidPath
+        Case        : 0
+        Title       : ChmodVerify.IsEqual returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.IsEqual returns correct value -- with args
+    ============================>
+    	"isExpected": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.IsEqual returns correct value -- with args
+    ============================>
+    	"isExpected": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_IsEqual_ValidPath (0.00s)
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m
+  === Diff (Case 0: ChmodVerify.PathIf returns non-empty -- true) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.PathIf returns non-empty -- true) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `noErr : true`
+              expected : `noErr : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 492:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_PathIf_True
+        Case        : 0
+        Title       : ChmodVerify.PathIf returns non-empty -- true
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.PathIf returns non-empty -- true
+    ============================>
+    	"noErr": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.PathIf returns non-empty -- true
+    ============================>
+    	"noErr": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_PathIf_True (0.00s)
+  
+  === Diff (Case 0: ChmodVerify.Path returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.Path returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `noErr : true`
+              expected : `noErr : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 503:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_Path
+        Case        : 0
+        Title       : ChmodVerify.Path returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.Path returns correct value -- with args
+    ============================>
+    	"noErr": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.Path returns correct value -- with args
+    ============================>
+    	"noErr": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_Path (0.00s)
+  
+  === Diff (Case 0: ChmodVerify.IsEqualRwxFull returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.IsEqualRwxFull returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `equal : true`
+              expected : `equal : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 514:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_IsEqualRwxFull
+        Case        : 0
+        Title       : ChmodVerify.IsEqualRwxFull returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.IsEqualRwxFull returns correct value -- with args
+    ============================>
+    	"equal": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.IsEqualRwxFull returns correct value -- with args
+    ============================>
+    	"equal": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_IsEqualRwxFull (0.00s)
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m
+  === Diff (Case 0: ChmodVerify.PathsUsingFileModeImmediateReturn returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.PathsUsingFileModeImmediateReturn returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `noErr : true`
+              expected : `noErr : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 578:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_PathsUsingFileModeImmediateReturn
+        Case        : 0
+        Title       : ChmodVerify.PathsUsingFileModeImmediateReturn returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.PathsUsingFileModeImmediateReturn returns correct value -- with args
+    ============================>
+    	"noErr": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.PathsUsingFileModeImmediateReturn returns correct value -- with args
+    ============================>
+    	"noErr": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_PathsUsingFileModeImmediateReturn (0.00s)
+  
+  === Diff (Case 0: ChmodVerify.PathsUsingFileModeContinueOnError returns error -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.PathsUsingFileModeContinueOnError returns error -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `noErr : true`
+              expected : `noErr : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 589:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_PathsUsingFileModeContinueOnError
+        Case        : 0
+        Title       : ChmodVerify.PathsUsingFileModeContinueOnError returns error -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.PathsUsingFileModeContinueOnError returns error -- with args
+    ============================>
+    	"noErr": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.PathsUsingFileModeContinueOnError returns error -- with args
+    ============================>
+    	"noErr": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_PathsUsingFileModeContinueOnError (0.00s)
+  
+  === Diff (Case 0: ChmodVerify.PathsUsingFileMode returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: ChmodVerify.PathsUsingFileMode returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `noErr : true`
+              expected : `noErr : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 600:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_ChmodVerifier_PathsUsingFileMode
+        Case        : 0
+        Title       : ChmodVerify.PathsUsingFileMode returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        ChmodVerify.PathsUsingFileMode returns correct value -- with args
+    ============================>
+    	"noErr": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        ChmodVerify.PathsUsingFileMode returns correct value -- with args
+    ============================>
+    	"noErr": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_ChmodVerifier_PathsUsingFileMode (0.00s)
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m
+  === Diff (Case 0: fwChmodVerifier.IsEqualFile returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: fwChmodVerifier.IsEqualFile returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `isEqual : true`
+              expected : `isEqual : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage4_test.go 
+    Line 1306:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov4_FwChmodVerifier_IsEqualFile
+        Case        : 0
+        Title       : fwChmodVerifier.IsEqualFile returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        fwChmodVerifier.IsEqualFile returns correct value -- with args
+    ============================>
+    	"isEqual": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        fwChmodVerifier.IsEqualFile returns correct value -- with args
+    ============================>
+    	"isEqual": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov4_FwChmodVerifier_IsEqualFile (0.00s)
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m
+  === Diff (Case 0: VerifyPaths returns correct value -- with args) ===
+  
+  === Line-by-Line Diff (Case 0: VerifyPaths returns correct value -- with args) ===
+      Actual lines: 1, Expected lines: 1
+    Line   0 [MISMATCH]:
+                actual : `noErr : true`
+              expected : `noErr : false`
+  === Total: 1 lines, 1 mismatches ===
+  [33mx[0m[31m[0m[33m
+  Failures:
+  
+    * /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/Coverage5_test.go 
+    Line 335:
+    Expected: nil
+    Actual:   '
+        Test Method : Test_Cov5_RwxWrapper_VerifyPaths
+        Case        : 0
+        Title       : VerifyPaths returns correct value -- with args
+    
+    ============================>
+    0) Actual Received (1 entries):
+        VerifyPaths returns correct value -- with args
+    ============================>
+    	"noErr": true,
+    ============================>
+    
+    ============================>
+    0) Expected Input (1 entries):
+        VerifyPaths returns correct value -- with args
+    ============================>
+    	"noErr": false,
+    ============================>'
+  
+  [0m--- FAIL: Test_Cov5_RwxWrapper_VerifyPaths (0.00s)
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m--- FAIL: Test_Cov8_NotDirError_ExistsButNotDir (0.00s)
+      Coverage8_ErrorsAndPaths_test.go:42: expected error for file path used as dir
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m--- FAIL: Test_LinuxApplyRecursiveOnPath_Unix (0.00s)
+  panic: PathMeaningfulError - 
+  	Path create failed. CreateDirWithFiles Ref(s) { "mkdir /temp: read-only file system, location: [/temp/core/test-cases]" }
+  	 Stack-Trace: 
+  	  - /Users/ab_mahin/Downloads/core-v5/chmodhelper/CreateDirWithFiles.go:33
+  	  - /Users/ab_mahin/Downloads/core-v5/chmodhelper/CreateDirFilesWithRwxPermission.go:14
+  	  - /Users/ab_mahin/Downloads/core-v5/chmodhelper/CreateDefaultPaths.go:12
+  	  - /Users/ab_mahin/Downloads/core-v5/chmodhelper/CreateDefaultPathsMust.go:7 [recovered, repanicked]
+  
+  goroutine 1332 [running]:
+  testing.tRunner.func1.2({0x10521e4e0, 0x140003f6550})
+  	/usr/local/go/src/testing/testing.go:1872 +0x190
+  testing.tRunner.func1()
+  	/usr/local/go/src/testing/testing.go:1875 +0x31c
+  panic({0x10521e4e0?, 0x140003f6550?})
+  	/usr/local/go/src/runtime/panic.go:783 +0x120
+  github.com/alimtvnetwork/core/chmodhelper.CreateDirFilesWithRwxPermissionsMust(...)
+  	/Users/ab_mahin/Downloads/core-v5/chmodhelper/CreateDefaultPathsMust.go:12
+  github.com/alimtvnetwork/core/tests/integratedtests/chmodhelpertests.Test_LinuxApplyRecursiveOnPath_Unix(0x1400039c540)
+  	/Users/ab_mahin/Downloads/core-v5/tests/integratedtests/chmodhelpertests/LinuxApplyRecursiveOnPath_test.go:18 +0x23c
+  testing.tRunner(0x1400039c540, 0x105268400)
+  	/usr/local/go/src/testing/testing.go:1934 +0xc8
+  created by testing.(*T).Run in goroutine 1
+  	/usr/local/go/src/testing/testing.go:1997 +0x364
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0mtest
+  
+  Difference Between Map:
+  
+  {{
+  
+  "b":"2"
+  
+  }}
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0mtest
+  
+  Difference Between Map:
+  
+  {{
+  
+  "b":"2"
+  
+  }}
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0mtitle
+  
+  Difference Between Map:
+  
+  {{
+  
+  "a":"1"
+  
+  }}
+  [32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0m[32m.[0m[31m[0m[33m[0mtitle
+  
+  Difference Between Map:
+  
+  {{
+  
+  "b":"2"
+  
+  }}
+  2026/03/24 20:32:18 INFO linked list content="Test: a"
+  Test: a
+  # Summary of `*corestr.CharCollectionMap`, Length ("1") - Sequence `1`
+  	1 . `a` has `1` items.
+  ## Items of `a`
+   - apple
+  # Summary of `*corestr.CharCollectionMap`, Length ("1") - Sequence `0`
+  	2 . `a` has `1` items.
+  ## Items of `a`
+   - apple
+  2026/03/24 20:32:18 INFO char hashset map content="# Summary of `*corestr.CharHashsetMap`, Length (\"1\") - Sequence `0`\n\t1 . `a` has `1` items.\n## Items of `a`\n - apple"
+  2026/03/24 20:32:18 INFO char hashset map (locked) content="# Summary of `*corestr.CharHashsetMap`, Length (\"1\") - Sequence `0`\n\t1 . `a` has `1` items.\n## Items of `a`\n - apple"
+  --- FAIL: Test_C27_99_LeftRight_LeftRightTrimmedUsingSlice_Single (0.00s)
+      Coverage27_Iteration32_test.go:846: expected a
+  --- FAIL: Test_C27_KeyValueCollection_ParseInjectUsingJson (0.00s)
+      Coverage27_RemainingTypes_Full_test.go:355: error: Unmarshal - 
+          Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { err = , src = corestr.KeyValueCollection, dst = *corestr.KeyValueCollection, payload = {"KeyValuePairs":[{"Key":"k","Value":"v"}]} }
+           Stack-Trace: 
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:494
+            - /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage27_RemainingTypes_Full_test.go:353
+  --- FAIL: Test_C27_KeyValueCollection_JsonParseSelfInject (0.00s)
+      Coverage27_RemainingTypes_Full_test.go:366: error: Unmarshal - 
+          Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { err = , src = corestr.KeyValueCollection, dst = *corestr.KeyValueCollection, payload = {"KeyValuePairs":[{"Key":"k","Value":"v"}]} }
+           Stack-Trace: 
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:494
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:514
+            - /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage27_RemainingTypes_Full_test.go:364
+  --- FAIL: Test_C27_KeyValueCollection_Deserialize (0.00s)
+      Coverage27_RemainingTypes_Full_test.go:404: error: Unmarshal - 
+          Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { err = , src = corestr.KeyValueCollection, dst = *corestr.KeyValueCollection, payload = {"KeyValuePairs":[{"Key":"k","Value":"v"}]} }
+           Stack-Trace: 
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corejson/Result.go:535
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:550
+            - /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage27_RemainingTypes_Full_test.go:402
+  --- FAIL: Test_C28_97_KeyValueCollection_ParseInjectUsingJson (0.00s)
+      Coverage28_Iteration33_test.go:832: unexpected: Unmarshal - 
+          Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { payload = {"KeyValuePairs":[{"Key":"a","Value":"1"}]}, err = , src = corestr.KeyValueCollection, dst = *corestr.KeyValueCollection }
+           Stack-Trace: 
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:494
+            - /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage28_Iteration33_test.go:830
+  --- FAIL: Test_C28_100_KeyValueCollection_JsonParseSelfInject (0.00s)
+      Coverage28_Iteration33_test.go:857: unexpected: Unmarshal - 
+          Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { err = , src = corestr.KeyValueCollection, dst = *corestr.KeyValueCollection, payload = {"KeyValuePairs":[{"Key":"a","Value":"1"}]} }
+           Stack-Trace: 
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:494
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:514
+            - /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage28_Iteration33_test.go:855
+  --- FAIL: Test_C28_106_KeyValueCollection_Deserialize (0.00s)
+      Coverage28_Iteration33_test.go:899: unexpected: Unmarshal - 
+          Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { payload = {"KeyValuePairs":[{"Key":"a","Value":"1"}]}, err = , src = corestr.KeyValueCollection, dst = *corestr.KeyValueCollection }
+           Stack-Trace: 
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corejson/Result.go:535
+            - /Users/ab_mahin/Downloads/core-v5/coredata/corestr/KeyValueCollection.go:550
+            - /Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage28_Iteration33_test.go:897
+  --- FAIL: Test_C28_149_SimpleStringOnce_Int16_OutOfRange (0.00s)
+      Coverage28_Iteration33_test.go:1237: expected 0
+  --- FAIL: Test_C29_44_SimpleSlice_SkipDynamic (0.00s)
+  panic: interface conversion: interface {} is corestr.SimpleSlice, not []string [recovered, repanicked]
+  
+  goroutine 2104 [running]:
+  testing.tRunner.func1.2({0x104ce4280, 0x1400009e660})
+  	/usr/local/go/src/testing/testing.go:1872 +0x190
+  testing.tRunner.func1()
+  	/usr/local/go/src/testing/testing.go:1875 +0x31c
+  panic({0x104ce4280?, 0x1400009e660?})
+  	/usr/local/go/src/runtime/panic.go:783 +0x120
+  github.com/alimtvnetwork/core/tests/integratedtests/corestrtests.Test_C29_44_SimpleSlice_SkipDynamic(0x140001b7340?)
+  	/Users/ab_mahin/Downloads/core-v5/tests/integratedtests/corestrtests/Coverage29_Iteration34_test.go:349 +0x1e4
+  testing.tRunner(0x140001b7340, 0x104d2fbc8)
+  	/usr/local/go/src/testing/testing.go:1934 +0xc8
+  created by testing.(*T).Run in goroutine 1
+  	/usr/local/go/src/testing/testing.go:1997 +0x364
+
+
+# Compilation Errors:
+
+    Coverage13_Remaining_test.go:392: expected error for nil condition
+    Coverage13_Remaining_test.go:696: expected error
+    Coverage13_Remaining_test.go:809: expected error
+    Coverage13_Remaining_test.go:819: expected panic
+    Coverage8_ErrorsAndPaths_test.go:42: expected error for file path used as dir
+# Summary of `*corestr.CharCollectionMap`, Length ("1") - Sequence `1`
+# Summary of `*corestr.CharCollectionMap`, Length ("1") - Sequence `0`
+    Coverage27_Iteration32_test.go:846: expected a
+    Coverage27_RemainingTypes_Full_test.go:355: error: Unmarshal - 
+    Coverage27_RemainingTypes_Full_test.go:366: error: Unmarshal - 
+    Coverage27_RemainingTypes_Full_test.go:404: error: Unmarshal - 
+    Coverage28_Iteration33_test.go:832: unexpected: Unmarshal - 
+    Coverage28_Iteration33_test.go:857: unexpected: Unmarshal - 
+    Coverage28_Iteration33_test.go:899: unexpected: Unmarshal - 
+    Coverage28_Iteration33_test.go:1237: expected 0
