@@ -144,8 +144,8 @@ const (
 	MaxUnit8Rune                     rune    = 255
 	MaxUnit8AsInt16                  int16   = 255
 	MaxUnit8AsInt                    int     = 255
-	MaxInt16                                 = math.MaxUint16
-	MaxInt16AsInt                    int     = math.MaxUint16
+	MaxInt16                                 = math.MaxInt16
+	MaxInt16AsInt                    int     = math.MaxInt16
 	MaxUnit8AsFloat32                float32 = 255
 	ParenthesisStartRune             rune    = '('
 	ParenthesisEndRune               rune    = ')'
