@@ -1827,6 +1827,10 @@ func (it *Collection) AddNonEmptyStringsSlice(
 	items := it.items
 
 	for _, addingItem := range slice {
+		if addingItem == "" {
+			continue
+		}
+
 		items = append(items, addingItem)
 	}
 
@@ -2104,11 +2108,11 @@ func (it *Collection) UnmarshalJSON(data []byte) error {
 }
 
 func (it Collection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it Collection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 //goland:noinspection GoLinterLocal
