@@ -1671,7 +1671,7 @@ function Invoke-PackageTestCoverage {
         if ($openHtml -and (Test-Path $coverHtml)) {
             Write-Host ""
             Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
-            Start-Process $coverHtml
+            if ($IsMacOS) { & open $coverHtml } elseif ($IsLinux) { & xdg-open $coverHtml } else { Start-Process $coverHtml }
         }
     }
     Open-FailingTestsIfAny
