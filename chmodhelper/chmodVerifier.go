@@ -408,8 +408,9 @@ func (it chmodVerifier) PathsUsingRwxFull(
 	for _, location := range locations {
 		err := it.RwxFull(location, expectedHyphenedRwx)
 
-		//goland:noinspection ALL
-		slice.AddIf(err != nil, err.Error())
+		if err != nil {
+			slice.Add(err.Error())
+		}
 	}
 
 	return errcore.SliceErrorDefault(slice.List())
