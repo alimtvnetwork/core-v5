@@ -520,7 +520,13 @@ function Open-FailingTestsIfAny {
         if ($content -and $content -notmatch '# Count: 0') {
             Write-Host ""
             Write-Host "  Opening failing tests log..." -ForegroundColor Yellow
-            Start-Process $failingFile
+            if ($IsMacOS) {
+                & open $failingFile
+            } elseif ($IsLinux) {
+                & xdg-open $failingFile
+            } else {
+                Start-Process $failingFile
+            }
         }
     }
 }
