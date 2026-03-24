@@ -481,11 +481,11 @@ func (it *KeyValueCollection) UnmarshalJSON(data []byte) error {
 }
 
 func (it KeyValueCollection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it KeyValueCollection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *KeyValueCollection) ParseInjectUsingJson(

@@ -387,7 +387,11 @@ func Test_Cov13_ChmodApplier_RwxPartial_Empty(t *testing.T) {
 
 func Test_Cov13_ChmodApplier_RwxPartial_Error(t *testing.T) {
 	skipOnWindows(t)
-	err := chmodhelper.ChmodApply.RwxPartial("-rwxr-xr-x", nil)
+	tmpFile := filepath.Join(os.TempDir(), "cov13_rwxpartial_err.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	defer os.Remove(tmpFile)
+
+	err := chmodhelper.ChmodApply.RwxPartial("-rwxr-xr-x", nil, tmpFile)
 	if err == nil {
 		t.Fatal("expected error for nil condition")
 	}
@@ -686,7 +690,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermission_FileModeErr(t *testing.T) {
 			Dir: "/tmp/cov13_perm",
 		},
 		ApplyRwx: chmodins.RwxOwnerGroupOther{
-			Owner: "rZx",
+			Owner: "rw",
 			Group: "r-x",
 			Other: "r-x",
 		},
@@ -801,7 +805,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermissions_Error(t *testing.T) {
 	perms := []chmodhelper.DirFilesWithRwxPermission{
 		{
 			DirWithFiles: chmodhelper.DirWithFiles{Dir: "/tmp/cov13_perms"},
-			ApplyRwx:     chmodins.RwxOwnerGroupOther{Owner: "rZx", Group: "r-x", Other: "r-x"},
+			ApplyRwx:     chmodins.RwxOwnerGroupOther{Owner: "rw", Group: "r-x", Other: "r-x"},
 		},
 	}
 	err := chmodhelper.CreateDirFilesWithRwxPermissions(false, perms)
@@ -822,7 +826,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
 	perms := []chmodhelper.DirFilesWithRwxPermission{
 		{
 			DirWithFiles: chmodhelper.DirWithFiles{Dir: "/tmp/cov13_must"},
-			ApplyRwx:     chmodins.RwxOwnerGroupOther{Owner: "rZx", Group: "r-x", Other: "r-x"},
+			ApplyRwx:     chmodins.RwxOwnerGroupOther{Owner: "rw", Group: "r-x", Other: "r-x"},
 		},
 	}
 	chmodhelper.CreateDirFilesWithRwxPermissionsMust(false, perms)
