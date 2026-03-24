@@ -549,8 +549,8 @@ func Test_Cov21_Collection_New(t *testing.T) {
 func Test_Cov21_Collection_AddNonEmptyStrings(t *testing.T) {
 	c := corestr.New.Collection.Empty()
 	c.AddNonEmptyStrings("a", "", "b")
-	if c.Length() != 3 { // AddNonEmptyStrings adds all - it's the slice version
-		t.Fatalf("expected 3, got %d", c.Length())
+	if c.Length() != 2 { // AddNonEmptyStrings filters empty strings
+		t.Fatalf("expected 2, got %d", c.Length())
 	}
 }
 
