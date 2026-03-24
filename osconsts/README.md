@@ -1,32 +1,53 @@
-# osconsts — OS-Specific Constants
+# Os Infos
 
-Package `osconsts` provides runtime-detected OS constants and architecture information for cross-platform code.
+## Links
 
-## Variables
+- https://stackoverflow.com/a/50117892
+- https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63
 
-| Variable | Type | Description |
-|----------|------|-------------|
-| `IsX32Architecture` | `bool` | True if running on 32-bit architecture |
-| `IsX64Architecture` | `bool` | True if running on 64-bit architecture |
-| `CurrentSystemArchitecture` | `string` | `runtime.GOARCH` value |
-| `X32Architectures` | `[]string` | Known 32-bit architecture names |
-| `X32ArchitecturesMap` | `map[string]bool` | O(1) lookup for 32-bit architectures |
+## Os possibilities
 
-### OS-Specific Constants
+`go tool dist list`
 
-Platform-specific values (line separators, paths, shell commands) are provided via `internal/osconstsinternal` and exposed through package-level variables.
-
-## Usage
-
-```go
-import "github.com/alimtvnetwork/core/osconsts"
-
-if osconsts.IsX64Architecture {
-    // use 64-bit optimized path
-}
+```
+android/386
+android/amd64
+android/arm
+android/arm64
+darwin/386
+darwin/amd64
+darwin/arm
+darwin/arm64
+dragonfly/amd64
+freebsd/386
+freebsd/amd64
+freebsd/arm
+linux/386
+linux/amd64
+linux/arm
+linux/arm64
+linux/mips
+linux/mips64
+linux/mips64le
+linux/mipsle
+linux/ppc64
+linux/ppc64le
+linux/s390x
+nacl/386
+nacl/amd64p32
+nacl/arm
+netbsd/386
+netbsd/amd64
+netbsd/arm
+openbsd/386
+openbsd/amd64
+openbsd/arm
+plan9/386
+plan9/amd64
+plan9/arm
+solaris/amd64
+windows/386
+windows/amd64
 ```
 
-## Related Docs
-
-- [ostype README](/ostype/README.md)
-- [Coding Guidelines](/spec/01-app/17-coding-guidelines.md)
+`go tool dist list | column -c 75 | column -t`
