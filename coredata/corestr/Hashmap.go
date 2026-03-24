@@ -511,7 +511,7 @@ func (it *Hashmap) HasAllStrings(keys ...string) bool {
 func (it *Hashmap) DiffRaw(
 	rightMap map[string]string,
 ) map[string]string {
-	mapDiffer := mapdiffinternal.HashmapDiff(rightMap)
+	mapDiffer := mapdiffinternal.HashmapDiff(it.items)
 
 	return mapDiffer.DiffRaw(rightMap)
 }
