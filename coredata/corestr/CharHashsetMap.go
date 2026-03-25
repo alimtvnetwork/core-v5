@@ -650,6 +650,9 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 		return it
 	}
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	values, has := it.items[char]
 
 	if has {
