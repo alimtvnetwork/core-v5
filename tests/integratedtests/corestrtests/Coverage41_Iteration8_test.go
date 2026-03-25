@@ -155,7 +155,6 @@ func Test_I8_Collection_AsyncOps(t *testing.T) {
 	c.AddWithWgLock(&wg, "a")
 	wg.Wait()
 
-	wg.Add(1)
 	c.AddStringsAsync(&wg, []string{"b", "c"})
 	wg.Wait()
 

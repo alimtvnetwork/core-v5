@@ -3,14 +3,15 @@ package pathinternal
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) error {
 	var removeErr error
 
 	if isRemoveAllDirBeforeCreate && IsPathExists(dir) {
-		// Ensure directory is writable before removal to avoid permission denied errors
-		_ = os.Chmod(dir, 0777)
+		// Recursively chmod to 0777 before removal to handle nested restrictive permissions
+		chmodRecursive(dir)
 		removeErr = os.RemoveAll(dir)
 	}
 
@@ -80,4 +81,18 @@ func pathMeaningfulError(
 		err.Error(),
 		location,
 	)
+}
+
+// chmodRecursive walks the directory tree and sets 0777 on all entries
+// so that os.RemoveAll can succeed even on restrictively-permissioned trees.
+func chmodRecursive(dir string) {
+	_ = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			// If we can't stat, try to chmod the path anyway
+			_ = os.Chmod(path, 0777)
+			return nil
+		}
+		_ = os.Chmod(path, 0777)
+		return nil
+	})
 }

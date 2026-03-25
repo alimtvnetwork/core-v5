@@ -1210,7 +1210,7 @@ func Test_Cov57_LeftRight_TrimmedUsingSlice_Single(t *testing.T) {
 	lr := corestr.LeftRightTrimmedUsingSlice([]string{" a "})
 	tc := coretestcases.CaseV1{
 		Title:         "LR TrimmedUsingSlice single",
-		ExpectedInput: args.Map{"Left": " a ", "IsValid": false},
+		ExpectedInput: args.Map{"Left": "a", "IsValid": false},
 	}
 	tc.ShouldBeEqualMap(t, 0, args.Map{"Left": lr.Left, "IsValid": lr.IsValid})
 }
