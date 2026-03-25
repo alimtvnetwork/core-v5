@@ -119,11 +119,15 @@ func (it dirCreator) ByChecking(
 		applyChmod,
 	)
 
-	return newError.chmodApplyFailed(
-		applyChmod,
-		dirPath,
-		chmodErr,
-	)
+	if chmodErr != nil {
+		return newError.chmodApplyFailed(
+			applyChmod,
+			dirPath,
+			chmodErr,
+		)
+	}
+
+	return nil
 }
 
 func (it dirCreator) DefaultLock(
