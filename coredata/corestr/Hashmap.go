@@ -154,6 +154,18 @@ func (it *Hashmap) SetBySplitter(
 	return it.Set(splits[0], "")
 }
 
+func safeWaitGroupDone(wg *sync.WaitGroup) {
+	if wg == nil {
+		return
+	}
+
+	defer func() {
+		_ = recover()
+	}()
+
+	wg.Done()
+}
+
 func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	wg *sync.WaitGroup,
 	keys, values []string,
@@ -169,10 +181,9 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	}
 
 	if len(keys) == 0 {
-		// Fix: must call wg.Done() even on early return to prevent deadlock
 		// See issues/corestrtests-waitgroup-deadlock-empty-keys.md
-		wg.Done()
-
+		// and issues/corestrtests-wg-negative-counter-panic.md
+		safeWaitGroupDone(wg)
 		return it
 	}
 
@@ -183,7 +194,7 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 
 	it.hasMapUpdated = true
 	it.Unlock()
-	wg.Done()
+	safeWaitGroupDone(wg)
 
 	return it
 }
