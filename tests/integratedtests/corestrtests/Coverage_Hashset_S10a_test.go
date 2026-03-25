@@ -1,7 +1,7 @@
 package corestrtests
 
 import (
-	"strings"
+	"fmt"
 	"sync"
 	"testing"
 
@@ -424,27 +424,19 @@ func Test_S10_30_Hashset_AddFuncErr_WithError(t *testing.T) {
 
 	// Act
 	hs.AddFuncErr(
-		func() (string, error) { return "", strings.NewReader("err").(*strings.Reader).WriteTo(nil) },
+		func() (string, error) { return "", fmt.Errorf("simulated error") },
 		func(err error) { called = true },
 	)
 
-	// Assert — use simpler error
-	hs2 := corestr.New.Hashset.Cap(5)
-	hs2.AddFuncErr(
-		func() (string, error) { return "", &testErr{} },
-		func(err error) { called = true },
-	)
+	// Assert
 	if !called {
 		t.Fatal("expected error handler called")
 	}
-	if hs2.Has("") {
+	if hs.Has("") {
 		// it may have "" but the err path was exercised
 	}
 }
 
-type testErr struct{}
-
-func (e *testErr) Error() string { return "test error" }
 
 func Test_S10_31_Hashset_AddStringsPtrWgLock(t *testing.T) {
 	// Arrange
