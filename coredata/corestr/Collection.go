@@ -2053,8 +2053,7 @@ func (it *Collection) Joins(
 	}
 
 	newItems := make([]string, 0, it.Length()+len(items))
-	copy(newItems, it.items)
-
+	newItems = append(newItems, it.items...)
 	newItems = append(newItems, items...)
 
 	return strings.Join(newItems, separator)
