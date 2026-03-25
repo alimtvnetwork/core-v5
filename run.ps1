@@ -1386,8 +1386,33 @@ function copyForAI(){
         }
 
         # ── Written Files Summary (console) ──
+        # Consolidate ALL build errors: blocked-package compile errors + coverage-run errors
         $buildErrorsFile = Join-Path $coverDir "build-errors.txt"
         $buildErrorsJsonFile = Join-Path $coverDir "build-errors.json"
+
+        # Merge blocked-package compile errors into buildErrorsByPackage
+        if ($blockedPkgs.Count -gt 0) {
+            foreach ($bp in ($blockedPkgs | Sort-Object)) {
+                if ($blockedErrors.ContainsKey($bp)) {
+                    $rawErrLines = $blockedErrors[$bp] -split "`n"
+                    $filteredErrLines = Extract-BuildErrorLines $rawErrLines
+                    if ($filteredErrLines.Count -eq 0) {
+                        $filteredErrLines = Extract-ExecutionFailureLines $rawErrLines
+                    }
+                    if ($filteredErrLines.Count -gt 0) {
+                        if (-not $buildErrorsByPackage.ContainsKey($bp)) {
+                            $buildErrorsByPackage[$bp] = [System.Collections.Generic.List[string]]::new()
+                        }
+                        foreach ($errLine in $filteredErrLines) {
+                            if (-not $buildErrorsByPackage[$bp].Contains($errLine)) {
+                                $buildErrorsByPackage[$bp].Add($errLine) | Out-Null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $buildErrorPkgs = @($buildErrorsByPackage.Keys | Sort-Object)
 
         $buildErrorLines = [System.Collections.Generic.List[string]]::new()
@@ -1403,7 +1428,9 @@ function copyForAI(){
         else {
             foreach ($pkgName in $buildErrorPkgs) {
                 $pkgLines = @($buildErrorsByPackage[$pkgName])
-                $buildErrorLines.Add("## $pkgName")
+                $isBlocked = $blockedPkgs.Contains($pkgName)
+                $sectionLabel = if ($isBlocked) { "## $pkgName [BLOCKED — compile failure]" } else { "## $pkgName [coverage-run error]" }
+                $buildErrorLines.Add($sectionLabel)
                 if ($pkgLines.Count -gt 0) {
                     $buildErrorLines.AddRange([string[]]$pkgLines)
                 }
@@ -1416,6 +1443,7 @@ function copyForAI(){
                     package    = $pkgName
                     errorCount = $pkgLines.Count
                     errors     = $pkgLines
+                    source     = if ($isBlocked) { "compile-check" } else { "coverage-run" }
                 }) | Out-Null
             }
         }
@@ -1424,6 +1452,7 @@ function copyForAI(){
         $buildErrorJsonObj = @{
             timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
             packageCount = $buildErrorPkgs.Count
+            blockedCount = $blockedPkgs.Count
             packages     = $buildErrorJsonItems.ToArray()
         }
         $buildErrorJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
@@ -2075,11 +2104,13 @@ function Show-Help {
 }
 
 # -- Dispatch --
+$firstExtraArg = if ($ExtraArgs -and $ExtraArgs.Count -gt 0) { $ExtraArgs[0] } else { $null }
+
 switch ($Command.ToLower()) {
     { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
-    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $ExtraArgs[0] }
+    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $firstExtraArg }
     { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
-    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $ExtraArgs[0] }
+    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $firstExtraArg }
     { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
     { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
     { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
@@ -2089,7 +2120,7 @@ switch ($Command.ToLower()) {
     { $_ -in "f", "-f", "fmt" }               { Invoke-Format }
     { $_ -in "l", "-l", "lint", "v", "-v", "vet" } { Invoke-Vet }
     { $_ -in "ty", "-ty", "tidy" }            { Invoke-Tidy }
-    { $_ -in "pc", "-pc", "pre-commit" }      { Invoke-PreCommitCheck $ExtraArgs[0] }
+    { $_ -in "pc", "-pc", "pre-commit" }      { Invoke-PreCommitCheck $firstExtraArg }
     { $_ -in "c", "-c", "clean" }             { Invoke-Clean }
     { $_ -in "h", "-h", "help", "" }          { Show-Help }
     default {
