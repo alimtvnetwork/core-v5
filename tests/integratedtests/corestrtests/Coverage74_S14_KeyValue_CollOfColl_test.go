@@ -1201,8 +1201,8 @@ func Test_C74_KeyValueCollection_AddsHashmap_Nil(t *testing.T) {
 func Test_C74_KeyValueCollection_AddsHashmaps(t *testing.T) {
 	// Arrange
 	kvc := corestr.New.KeyValues.Empty()
-	hm1 := corestr.New.Hashmap.StringsMap(map[string]string{"a": "1"})
-	hm2 := corestr.New.Hashmap.StringsMap(map[string]string{"b": "2"})
+	hm1 := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
+	hm2 := corestr.New.Hashmap.UsingMap(map[string]string{"b": "2"})
 
 	// Act
 	kvc.AddsHashmaps(hm1, hm2)

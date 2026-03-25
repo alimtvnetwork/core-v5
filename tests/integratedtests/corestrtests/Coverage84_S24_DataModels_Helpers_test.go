@@ -160,7 +160,7 @@ func Test_CovS24_09_NewCharHashsetMapUsingDataModel(t *testing.T) {
 
 func Test_CovS24_10_NewCharHashsetMapDataModelUsing(t *testing.T) {
 	// Arrange
-	chm := corestr.New.CharHashsetMap.Default()
+	chm := corestr.New.CharHashsetMap.Cap(0, 0)
 	chm.AddString("beta")
 
 	// Act
