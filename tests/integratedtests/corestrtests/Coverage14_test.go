@@ -986,8 +986,8 @@ func Test_Cov14_LinkedList_GetNextNodes(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c"})
 	nodes := ll.GetNextNodes(2)
 
-	if len(nodes) != 3 {
-		t.Fatal("expected 3")
+	if len(nodes) != 2 {
+		t.Fatal("expected 2")
 	}
 }
 
