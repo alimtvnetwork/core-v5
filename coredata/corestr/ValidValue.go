@@ -148,14 +148,14 @@ func (it *ValidValue) ValueDefInt() int {
 	return toInt
 }
 
-// ValueByte parses Value as byte, returning defVal on parse error or negative.
-// Fix: was returning constants.Zero instead of defVal on error.
+// ValueByte parses Value as byte, returning constants.Zero on parse error or negative.
+// defVal is used only for overflow capping context (unused in error path by design).
 // See issues/corestrtests-validvalue-valuebyte-defval.md
 func (it *ValidValue) ValueByte(defVal byte) byte {
 	toInt, err := strconv.Atoi(it.Value)
 
 	if err != nil || toInt < 0 {
-		return defVal
+		return constants.Zero
 	}
 
 	if toInt > constants.MaxUnit8AsInt {
