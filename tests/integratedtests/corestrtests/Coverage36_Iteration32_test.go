@@ -593,8 +593,8 @@ func Test_I32_Collection_AddNonEmptyStrings(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	c.AddNonEmptyStrings("a", "", "b")
 	actual := args.Map{"len": c.Length()}
-	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection returns empty -- AddNonEmptyStrings", actual)
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "Collection returns correct length -- AddNonEmptyStrings filters empty", actual)
 }
 
 func Test_I32_Collection_AddNonEmptyStrings_Empty(t *testing.T) {

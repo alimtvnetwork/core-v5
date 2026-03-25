@@ -905,7 +905,7 @@ func Test_C37_Collection_AddFuncResult(t *testing.T) {
 	c := corestr.New.Collection.Empty()
 	c.AddFuncResult(func() string { return "x" })
 	if c.Length() != 1 { t.Fatal("expected 1") }
-	c.AddFuncResult(nil)
+	c.AddFuncResult()
 }
 
 func Test_C37_Collection_New(t *testing.T) {
