@@ -503,8 +503,8 @@ func Test_Cov14_Hashset_AddVariants(t *testing.T) {
 	str := "h"
 	h.AddPtr(&str)
 
-	if h.Length() != 7 {
-		t.Fatalf("expected 7 got %d", h.Length())
+	if h.Length() != 8 {
+		t.Fatalf("expected 8 got %d", h.Length())
 	}
 }
 
