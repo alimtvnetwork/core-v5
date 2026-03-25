@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestHashmap_Basic(t *testing.T) {
+func TestHashmap_Basic_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	if !h.IsEmpty() || h.HasItems() || h.HasAnyItem() { t.Fatal("expected empty") }
 	if h.Length() != 0 { t.Fatal("expected 0") }
@@ -14,7 +14,7 @@ func TestHashmap_Basic(t *testing.T) {
 	if nilH.SafeItems() != nil { t.Fatal("expected nil") }
 }
 
-func TestHashmap_AddAndGet(t *testing.T) {
+func TestHashmap_AddAndGet_C06(t *testing.T) {
 	h := New.Hashmap.Cap(5)
 	isNew := h.AddOrUpdate("k1", "v1")
 	if !isNew { t.Fatal("expected new") }
@@ -26,7 +26,7 @@ func TestHashmap_AddAndGet(t *testing.T) {
 	if !found2 || v2 != "v2" { t.Fatal("unexpected") }
 }
 
-func TestHashmap_Set(t *testing.T) {
+func TestHashmap_Set_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	h.Set("a", "1")
 	h.SetTrim(" b ", " 2 ")
@@ -36,7 +36,7 @@ func TestHashmap_Set(t *testing.T) {
 	if h.Length() != 4 { t.Fatal("expected 4") }
 }
 
-func TestHashmap_Has(t *testing.T) {
+func TestHashmap_Has_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 	if !h.Has("a") || !h.Contains("a") { t.Fatal("expected has") }
 	if h.IsKeyMissing("a") { t.Fatal("unexpected") }
@@ -47,7 +47,7 @@ func TestHashmap_Has(t *testing.T) {
 	if h.HasAny("x", "z") { t.Fatal("unexpected") }
 }
 
-func TestHashmap_HasLock(t *testing.T) {
+func TestHashmap_HasLock_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	if !h.HasLock("a") { t.Fatal("expected") }
 	if !h.HasWithLock("a") { t.Fatal("expected") }
@@ -56,7 +56,7 @@ func TestHashmap_HasLock(t *testing.T) {
 	if !h.IsEmptyLock() == true { /* not empty */ }
 }
 
-func TestHashmap_AddVariants(t *testing.T) {
+func TestHashmap_AddVariants_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	h.AddOrUpdateKeyStrValInt("n", 42)
 	h.AddOrUpdateKeyStrValFloat("f", 3.14)
@@ -68,7 +68,7 @@ func TestHashmap_AddVariants(t *testing.T) {
 	if h.Length() != 7 { t.Fatal("expected 7, got", h.Length()) }
 }
 
-func TestHashmap_AddOrUpdateHashmap(t *testing.T) {
+func TestHashmap_AddOrUpdateHashmap_C06(t *testing.T) {
 	h1 := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	h2 := New.Hashmap.UsingMap(map[string]string{"b": "2"})
 	h1.AddOrUpdateHashmap(h2)
@@ -79,7 +79,7 @@ func TestHashmap_AddOrUpdateHashmap(t *testing.T) {
 	if h1.Length() != 3 { t.Fatal("expected 3") }
 }
 
-func TestHashmap_AddsOrUpdates(t *testing.T) {
+func TestHashmap_AddsOrUpdates_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	h.AddsOrUpdates(KeyValuePair{Key: "a", Value: "1"})
 	h.AddsOrUpdates()
@@ -90,7 +90,7 @@ func TestHashmap_AddsOrUpdates(t *testing.T) {
 	if h.Length() != 3 { t.Fatal("expected 3") }
 }
 
-func TestHashmap_AddOrUpdateCollection(t *testing.T) {
+func TestHashmap_AddOrUpdateCollection_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	keys := New.Collection.Strings([]string{"k1", "k2"})
 	vals := New.Collection.Strings([]string{"v1", "v2"})
@@ -101,7 +101,7 @@ func TestHashmap_AddOrUpdateCollection(t *testing.T) {
 	h.AddOrUpdateCollection(New.Collection.Strings([]string{"a"}), New.Collection.Strings([]string{"b", "c"}))
 }
 
-func TestHashmap_WgLock(t *testing.T) {
+func TestHashmap_WgLock_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
@@ -109,7 +109,7 @@ func TestHashmap_WgLock(t *testing.T) {
 	if h.Length() != 1 { t.Fatal("expected 1") }
 }
 
-func TestHashmap_Filter(t *testing.T) {
+func TestHashmap_Filter_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"abc": "1", "def": "2"})
 	filter := func(s string, i int) (string, bool, bool) { return s, s == "abc", false }
 	items := h.GetKeysFilteredItems(filter)
@@ -121,7 +121,7 @@ func TestHashmap_Filter(t *testing.T) {
 	if len(empty.GetKeysFilteredItems(filter)) != 0 { t.Fatal("expected 0") }
 }
 
-func TestHashmap_FilterWithBreak(t *testing.T) {
+func TestHashmap_FilterWithBreak_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 	filter := func(s string, i int) (string, bool, bool) { return s, true, true }
 	items := h.GetKeysFilteredItems(filter)
@@ -130,7 +130,7 @@ func TestHashmap_FilterWithBreak(t *testing.T) {
 	if col.Length() != 1 { t.Fatal("expected 1") }
 }
 
-func TestHashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
+func TestHashmap_AddsOrUpdatesUsingFilter_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	f := func(p KeyValuePair) (string, bool, bool) { return p.Value, true, false }
 	h.AddsOrUpdatesUsingFilter(f, KeyValuePair{Key: "a", Value: "1"})
@@ -142,17 +142,17 @@ func TestHashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 	h.AddsOrUpdatesAnyUsingFilterLock(af)
 }
 
-func TestHashmap_Keys(t *testing.T) {
+func TestHashmap_Keys_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 	if len(h.AllKeys()) != 2 || len(h.Keys()) != 2 { t.Fatal("expected 2") }
 	if h.KeysCollection().Length() != 2 { t.Fatal("expected 2") }
 	_ = h.KeysLock()
 	_ = h.ValuesListCopyLock()
-	_ = h.KeysValuesListLock()
+	_, _ = h.KeysValuesListLock()
 	_ = h.ItemsCopyLock()
 }
 
-func TestHashmap_Values(t *testing.T) {
+func TestHashmap_Values_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	if len(h.ValuesList()) != 1 { t.Fatal("expected 1") }
 	_ = h.ValuesCollection()
@@ -166,7 +166,7 @@ func TestHashmap_Values(t *testing.T) {
 	if len(k2) != 1 || len(v2) != 1 { t.Fatal("expected 1") }
 }
 
-func TestHashmap_KeyValuePairs(t *testing.T) {
+func TestHashmap_KeyValuePairs_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	pairs := h.KeysValuePairs()
 	if len(pairs) != 1 { t.Fatal("expected 1") }
@@ -174,7 +174,7 @@ func TestHashmap_KeyValuePairs(t *testing.T) {
 	if pairsCol.Length() != 1 { t.Fatal("expected 1") }
 }
 
-func TestHashmap_Remove(t *testing.T) {
+func TestHashmap_Remove_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 	h.Remove("a")
 	if h.Length() != 1 { t.Fatal("expected 1") }
@@ -182,14 +182,14 @@ func TestHashmap_Remove(t *testing.T) {
 	if h.Length() != 0 { t.Fatal("expected 0") }
 }
 
-func TestHashmap_Diff(t *testing.T) {
+func TestHashmap_Diff_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	_ = h.DiffRaw(map[string]string{"a": "2"})
 	h2 := New.Hashmap.UsingMap(map[string]string{"a": "2"})
 	_ = h.Diff(h2)
 }
 
-func TestHashmap_IsEqual(t *testing.T) {
+func TestHashmap_IsEqual_C06(t *testing.T) {
 	h1 := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	h2 := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	if !h1.IsEqualPtr(h2) { t.Fatal("expected equal") }
@@ -198,7 +198,7 @@ func TestHashmap_IsEqual(t *testing.T) {
 	if h1.IsEqualPtr(h3) { t.Fatal("expected not equal") }
 }
 
-func TestHashmap_ConcatNew(t *testing.T) {
+func TestHashmap_ConcatNew_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	h2 := New.Hashmap.UsingMap(map[string]string{"b": "2"})
 	concat := h.ConcatNew(false, h2)
@@ -211,7 +211,7 @@ func TestHashmap_ConcatNew(t *testing.T) {
 	_ = concat4
 }
 
-func TestHashmap_StringAndJson(t *testing.T) {
+func TestHashmap_StringAndJson_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	if h.String() == "" { t.Fatal("expected non-empty") }
 	if h.StringLock() == "" { t.Fatal("expected non-empty") }
@@ -227,14 +227,14 @@ func TestHashmap_StringAndJson(t *testing.T) {
 	_ = h.AsJsonMarshaller()
 }
 
-func TestHashmap_KeysToLower(t *testing.T) {
+func TestHashmap_KeysToLower_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"ABC": "1"})
 	lower := h.KeysToLower()
 	if !lower.Has("abc") { t.Fatal("expected lowercase") }
 	_ = h.ValuesToLower() // deprecated alias
 }
 
-func TestHashmap_GetExcept(t *testing.T) {
+func TestHashmap_GetExcept_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 	hs := New.Hashset.StringsSpreadItems("a")
 	r := h.GetValuesExceptKeysInHashset(hs)
@@ -248,21 +248,21 @@ func TestHashmap_GetExcept(t *testing.T) {
 	_ = h.GetAllExceptCollection(nil)
 }
 
-func TestHashmap_HasAllCollectionItems(t *testing.T) {
+func TestHashmap_HasAllCollectionItems_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 	c := New.Collection.Strings([]string{"a", "b"})
 	if !h.HasAllCollectionItems(c) { t.Fatal("expected true") }
 	if h.HasAllCollectionItems(nil) { t.Fatal("expected false") }
 }
 
-func TestHashmap_ToError(t *testing.T) {
+func TestHashmap_ToError_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	_ = h.ToError(",")
 	_ = h.ToDefaultError()
 	_ = h.KeyValStringLines()
 }
 
-func TestHashmap_ClearDispose(t *testing.T) {
+func TestHashmap_ClearDispose_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	h.Clear()
 	if h.Length() != 0 { t.Fatal("expected 0") }
@@ -270,7 +270,7 @@ func TestHashmap_ClearDispose(t *testing.T) {
 	h2.Dispose()
 }
 
-func TestHashmap_Clone(t *testing.T) {
+func TestHashmap_Clone_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	c := h.Clone()
 	if c.Length() != 1 { t.Fatal("expected 1") }
@@ -280,7 +280,7 @@ func TestHashmap_Clone(t *testing.T) {
 	if nilH.ClonePtr() != nil { t.Fatal("expected nil") }
 }
 
-func TestHashmap_ToStringsUsingCompiler(t *testing.T) {
+func TestHashmap_ToStringsUsingCompiler_C06(t *testing.T) {
 	h := New.Hashmap.UsingMap(map[string]string{"a": "1"})
 	s := h.ToStringsUsingCompiler(func(k, v string) string { return k + "=" + v })
 	if len(s) != 1 { t.Fatal("expected 1") }
@@ -289,13 +289,13 @@ func TestHashmap_ToStringsUsingCompiler(t *testing.T) {
 	if len(s2) != 0 { t.Fatal("expected 0") }
 }
 
-func TestHashmap_EmptyString(t *testing.T) {
+func TestHashmap_EmptyString_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	if h.String() == "" { t.Fatal("expected non-empty (NoElements)") }
 	if h.StringLock() == "" { t.Fatal("expected non-empty") }
 }
 
-func TestHashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
+func TestHashmap_AddOrUpdateStringsPtrWgLock_C06(t *testing.T) {
 	h := New.Hashmap.Empty()
 	wg := &sync.WaitGroup{}
 	wg.Add(1)

@@ -8,63 +8,63 @@ import (
 
 // ── Creators ──────────────────────────────────────────────
 
-func Test_LinkedList_NewCreate(t *testing.T) {
+func Test_LinkedList_NewCreate_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	if ll == nil || ll.HasItems() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_LinkedList_NewEmpty(t *testing.T) {
+func Test_LinkedList_NewEmpty_C18(t *testing.T) {
 	ll := New.LinkedList.Empty()
 	if ll.Length() != 0 {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_LinkedList_NewStrings(t *testing.T) {
+func Test_LinkedList_NewStrings_C18(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	if ll.Length() != 3 {
 		t.Fatal("expected 3")
 	}
 }
 
-func Test_LinkedList_NewStrings_Empty(t *testing.T) {
+func Test_LinkedList_NewStrings_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{})
 	if ll.HasItems() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_LinkedList_NewSpreadStrings(t *testing.T) {
+func Test_LinkedList_NewSpreadStrings_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("x", "y")
 	if ll.Length() != 2 {
 		t.Fatal("expected 2")
 	}
 }
 
-func Test_LinkedList_NewSpreadStrings_Empty(t *testing.T) {
+func Test_LinkedList_NewSpreadStrings_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings()
 	if ll.HasItems() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_LinkedList_NewUsingMap(t *testing.T) {
+func Test_LinkedList_NewUsingMap_C18(t *testing.T) {
 	ll := New.LinkedList.UsingMap(map[string]bool{"a": true, "b": false, "c": true})
 	if ll.Length() != 2 {
 		t.Fatalf("expected 2, got %d", ll.Length())
 	}
 }
 
-func Test_LinkedList_NewUsingMap_Nil(t *testing.T) {
+func Test_LinkedList_NewUsingMap_Nil_C18(t *testing.T) {
 	ll := New.LinkedList.UsingMap(nil)
 	if ll.HasItems() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_LinkedList_NewPointerStringsPtr(t *testing.T) {
+func Test_LinkedList_NewPointerStringsPtr_C18(t *testing.T) {
 	s1, s2 := "a", "b"
 	items := []*string{&s1, &s2, nil}
 	ll := New.LinkedList.PointerStringsPtr(&items)
@@ -73,14 +73,14 @@ func Test_LinkedList_NewPointerStringsPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_NewPointerStringsPtr_Nil(t *testing.T) {
+func Test_LinkedList_NewPointerStringsPtr_Nil_C18(t *testing.T) {
 	ll := New.LinkedList.PointerStringsPtr(nil)
 	if ll.HasItems() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_LinkedList_EmptyLinkedList(t *testing.T) {
+func Test_LinkedList_EmptyLinkedList_C18(t *testing.T) {
 	ll := Empty.LinkedList()
 	if ll.HasItems() {
 		t.Fatal("expected empty")
@@ -89,7 +89,7 @@ func Test_LinkedList_EmptyLinkedList(t *testing.T) {
 
 // ── Head / Tail / Length ──────────────────────────────────
 
-func Test_LinkedList_HeadTail(t *testing.T) {
+func Test_LinkedList_HeadTail_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	if ll.Head().Element != "a" {
 		t.Fatal("expected head a")
@@ -99,7 +99,7 @@ func Test_LinkedList_HeadTail(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_LengthLock(t *testing.T) {
+func Test_LinkedList_LengthLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	if ll.LengthLock() != 2 {
 		t.Fatal("expected 2")
@@ -108,7 +108,7 @@ func Test_LinkedList_LengthLock(t *testing.T) {
 
 // ── IsEmpty / HasItems / IsEmptyLock ──────────────────────
 
-func Test_LinkedList_IsEmpty(t *testing.T) {
+func Test_LinkedList_IsEmpty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	if !ll.IsEmpty() || ll.HasItems() {
 		t.Fatal("expected empty")
@@ -119,7 +119,7 @@ func Test_LinkedList_IsEmpty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IsEmptyLock(t *testing.T) {
+func Test_LinkedList_IsEmptyLock_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	if !ll.IsEmptyLock() {
 		t.Fatal("expected empty")
@@ -128,7 +128,7 @@ func Test_LinkedList_IsEmptyLock(t *testing.T) {
 
 // ── Add variants ──────────────────────────────────────────
 
-func Test_LinkedList_Add(t *testing.T) {
+func Test_LinkedList_Add_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Add("first")
 	ll.Add("second")
@@ -137,7 +137,7 @@ func Test_LinkedList_Add(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddLock(t *testing.T) {
+func Test_LinkedList_AddLock_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddLock("a")
 	if ll.Length() != 1 {
@@ -145,7 +145,7 @@ func Test_LinkedList_AddLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddNonEmpty(t *testing.T) {
+func Test_LinkedList_AddNonEmpty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddNonEmpty("")
 	ll.AddNonEmpty("x")
@@ -154,7 +154,7 @@ func Test_LinkedList_AddNonEmpty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddNonEmptyWhitespace(t *testing.T) {
+func Test_LinkedList_AddNonEmptyWhitespace_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddNonEmptyWhitespace("  ")
 	ll.AddNonEmptyWhitespace("x")
@@ -163,7 +163,7 @@ func Test_LinkedList_AddNonEmptyWhitespace(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddIf(t *testing.T) {
+func Test_LinkedList_AddIf_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddIf(false, "no")
 	ll.AddIf(true, "yes")
@@ -172,7 +172,7 @@ func Test_LinkedList_AddIf(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddsIf(t *testing.T) {
+func Test_LinkedList_AddsIf_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddsIf(false, "a", "b")
 	ll.AddsIf(true, "c", "d")
@@ -181,7 +181,7 @@ func Test_LinkedList_AddsIf(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddFunc(t *testing.T) {
+func Test_LinkedList_AddFunc_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddFunc(func() string { return "computed" })
 	if ll.Head().Element != "computed" {
@@ -189,7 +189,7 @@ func Test_LinkedList_AddFunc(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddFuncErr_Success(t *testing.T) {
+func Test_LinkedList_AddFuncErr_Success_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddFuncErr(
 		func() (string, error) { return "ok", nil },
@@ -200,7 +200,7 @@ func Test_LinkedList_AddFuncErr_Success(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddFuncErr_Error(t *testing.T) {
+func Test_LinkedList_AddFuncErr_Error_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	called := false
 	ll.AddFuncErr(
@@ -215,7 +215,7 @@ func Test_LinkedList_AddFuncErr_Error(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Push(t *testing.T) {
+func Test_LinkedList_Push_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Push("a")
 	ll.PushBack("b")
@@ -224,7 +224,7 @@ func Test_LinkedList_Push(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Adds(t *testing.T) {
+func Test_LinkedList_Adds_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Adds("a", "b", "c")
 	if ll.Length() != 3 {
@@ -232,7 +232,7 @@ func Test_LinkedList_Adds(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Adds_Empty(t *testing.T) {
+func Test_LinkedList_Adds_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Adds()
 	if ll.HasItems() {
@@ -240,7 +240,7 @@ func Test_LinkedList_Adds_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddStrings(t *testing.T) {
+func Test_LinkedList_AddStrings_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddStrings([]string{"a", "b"})
 	if ll.Length() != 2 {
@@ -248,7 +248,7 @@ func Test_LinkedList_AddStrings(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddsLock(t *testing.T) {
+func Test_LinkedList_AddsLock_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddsLock("a", "b")
 	if ll.Length() != 2 {
@@ -256,7 +256,7 @@ func Test_LinkedList_AddsLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddItemsMap(t *testing.T) {
+func Test_LinkedList_AddItemsMap_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddItemsMap(map[string]bool{"a": true, "b": false})
 	if ll.Length() != 1 {
@@ -264,7 +264,7 @@ func Test_LinkedList_AddItemsMap(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddItemsMap_Empty(t *testing.T) {
+func Test_LinkedList_AddItemsMap_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddItemsMap(map[string]bool{})
 	if ll.HasItems() {
@@ -274,7 +274,7 @@ func Test_LinkedList_AddItemsMap_Empty(t *testing.T) {
 
 // ── AddFront / PushFront ──────────────────────────────────
 
-func Test_LinkedList_AddFront(t *testing.T) {
+func Test_LinkedList_AddFront_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("b", "c")
 	ll.AddFront("a")
 	if ll.Head().Element != "a" {
@@ -285,7 +285,7 @@ func Test_LinkedList_AddFront(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddFront_Empty(t *testing.T) {
+func Test_LinkedList_AddFront_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddFront("only")
 	if ll.Length() != 1 || ll.Head().Element != "only" {
@@ -293,7 +293,7 @@ func Test_LinkedList_AddFront_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_PushFront(t *testing.T) {
+func Test_LinkedList_PushFront_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("b")
 	ll.PushFront("a")
 	if ll.Head().Element != "a" {
@@ -303,7 +303,7 @@ func Test_LinkedList_PushFront(t *testing.T) {
 
 // ── AppendNode / AppendChainOfNodes / AddBackNode ─────────
 
-func Test_LinkedList_AppendNode(t *testing.T) {
+func Test_LinkedList_AppendNode_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	node := &LinkedListNode{Element: "x"}
 	ll.AppendNode(node)
@@ -316,7 +316,7 @@ func Test_LinkedList_AppendNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddBackNode(t *testing.T) {
+func Test_LinkedList_AddBackNode_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddBackNode(&LinkedListNode{Element: "a"})
 	if ll.Length() != 1 {
@@ -324,7 +324,7 @@ func Test_LinkedList_AddBackNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AppendChainOfNodes(t *testing.T) {
+func Test_LinkedList_AppendChainOfNodes_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	chain := &LinkedListNode{Element: "b", next: &LinkedListNode{Element: "c"}}
 	ll.AppendChainOfNodes(chain)
@@ -333,7 +333,7 @@ func Test_LinkedList_AppendChainOfNodes(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AppendChainOfNodes_Empty(t *testing.T) {
+func Test_LinkedList_AppendChainOfNodes_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	chain := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	ll.AppendChainOfNodes(chain)
@@ -344,7 +344,7 @@ func Test_LinkedList_AppendChainOfNodes_Empty(t *testing.T) {
 
 // ── InsertAt ──────────────────────────────────────────────
 
-func Test_LinkedList_InsertAt_Front(t *testing.T) {
+func Test_LinkedList_InsertAt_Front_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("b", "c")
 	ll.InsertAt(0, "a")
 	if ll.Head().Element != "a" {
@@ -352,7 +352,7 @@ func Test_LinkedList_InsertAt_Front(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_InsertAt_Middle(t *testing.T) {
+func Test_LinkedList_InsertAt_Middle_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "c")
 	ll.InsertAt(1, "b")
 	list := ll.List()
@@ -363,7 +363,7 @@ func Test_LinkedList_InsertAt_Middle(t *testing.T) {
 
 // ── AddAfterNode ──────────────────────────────────────────
 
-func Test_LinkedList_AddAfterNode(t *testing.T) {
+func Test_LinkedList_AddAfterNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "c")
 	node := ll.Head()
 	ll.AddAfterNode(node, "b")
@@ -375,7 +375,7 @@ func Test_LinkedList_AddAfterNode(t *testing.T) {
 
 // ── AttachWithNode ────────────────────────────────────────
 
-func Test_LinkedList_AttachWithNode_NilCurrent(t *testing.T) {
+func Test_LinkedList_AttachWithNode_NilCurrent_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	err := ll.AttachWithNode(nil, &LinkedListNode{Element: "x"})
 	if err == nil {
@@ -383,7 +383,7 @@ func Test_LinkedList_AttachWithNode_NilCurrent(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AttachWithNode_NonNilNext(t *testing.T) {
+func Test_LinkedList_AttachWithNode_NonNilNext_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	node := ll.Head() // has next
 	err := ll.AttachWithNode(node, &LinkedListNode{Element: "x"})
@@ -392,7 +392,7 @@ func Test_LinkedList_AttachWithNode_NonNilNext(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AttachWithNode_Success(t *testing.T) {
+func Test_LinkedList_AttachWithNode_Success_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.Tail()
 	err := ll.AttachWithNode(node, &LinkedListNode{Element: "b"})
@@ -406,7 +406,7 @@ func Test_LinkedList_AttachWithNode_Success(t *testing.T) {
 
 // ── AddCollectionToNode ───────────────────────────────────
 
-func Test_LinkedList_AddCollectionToNode(t *testing.T) {
+func Test_LinkedList_AddCollectionToNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	col := New.Collection.Strings([]string{"b", "c"})
 	ll.AddCollectionToNode(true, ll.Head(), col)
@@ -417,7 +417,7 @@ func Test_LinkedList_AddCollectionToNode(t *testing.T) {
 
 // ── AddPointerStringsPtr ──────────────────────────────────
 
-func Test_LinkedList_AddPointerStringsPtr(t *testing.T) {
+func Test_LinkedList_AddPointerStringsPtr_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	s1 := "a"
 	ll.AddPointerStringsPtr([]*string{&s1, nil})
@@ -428,7 +428,7 @@ func Test_LinkedList_AddPointerStringsPtr(t *testing.T) {
 
 // ── AddCollection ─────────────────────────────────────────
 
-func Test_LinkedList_AddCollection(t *testing.T) {
+func Test_LinkedList_AddCollection_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	col := New.Collection.Strings([]string{"a", "b"})
 	ll.AddCollection(col)
@@ -437,7 +437,7 @@ func Test_LinkedList_AddCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddCollection_Nil(t *testing.T) {
+func Test_LinkedList_AddCollection_Nil_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.AddCollection(nil)
 	if ll.HasItems() {
@@ -447,7 +447,7 @@ func Test_LinkedList_AddCollection_Nil(t *testing.T) {
 
 // ── Loop ──────────────────────────────────────────────────
 
-func Test_LinkedList_Loop(t *testing.T) {
+func Test_LinkedList_Loop_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	count := 0
 	ll.Loop(func(arg *LinkedListProcessorParameter) bool {
@@ -459,7 +459,7 @@ func Test_LinkedList_Loop(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Loop_Break(t *testing.T) {
+func Test_LinkedList_Loop_Break_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	count := 0
 	ll.Loop(func(arg *LinkedListProcessorParameter) bool {
@@ -471,7 +471,7 @@ func Test_LinkedList_Loop_Break(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Loop_Empty(t *testing.T) {
+func Test_LinkedList_Loop_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Loop(func(arg *LinkedListProcessorParameter) bool {
 		t.Fatal("should not be called")
@@ -479,7 +479,7 @@ func Test_LinkedList_Loop_Empty(t *testing.T) {
 	})
 }
 
-func Test_LinkedList_Loop_BreakOnSecond(t *testing.T) {
+func Test_LinkedList_Loop_BreakOnSecond_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	count := 0
 	ll.Loop(func(arg *LinkedListProcessorParameter) bool {
@@ -493,7 +493,7 @@ func Test_LinkedList_Loop_BreakOnSecond(t *testing.T) {
 
 // ── Filter ────────────────────────────────────────────────
 
-func Test_LinkedList_Filter(t *testing.T) {
+func Test_LinkedList_Filter_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	nodes := ll.Filter(func(arg *LinkedListFilterParameter) *LinkedListFilterResult {
 		return &LinkedListFilterResult{Value: arg.Node, IsKeep: arg.Node.Element != "b", IsBreak: false}
@@ -503,7 +503,7 @@ func Test_LinkedList_Filter(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Filter_Empty(t *testing.T) {
+func Test_LinkedList_Filter_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	nodes := ll.Filter(func(arg *LinkedListFilterParameter) *LinkedListFilterResult {
 		return &LinkedListFilterResult{Value: arg.Node, IsKeep: true}
@@ -513,7 +513,7 @@ func Test_LinkedList_Filter_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Filter_BreakFirst(t *testing.T) {
+func Test_LinkedList_Filter_BreakFirst_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	nodes := ll.Filter(func(arg *LinkedListFilterParameter) *LinkedListFilterResult {
 		return &LinkedListFilterResult{Value: arg.Node, IsKeep: true, IsBreak: true}
@@ -523,7 +523,7 @@ func Test_LinkedList_Filter_BreakFirst(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Filter_BreakSecond(t *testing.T) {
+func Test_LinkedList_Filter_BreakSecond_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	nodes := ll.Filter(func(arg *LinkedListFilterParameter) *LinkedListFilterResult {
 		return &LinkedListFilterResult{Value: arg.Node, IsKeep: true, IsBreak: arg.Index == 1}
@@ -535,7 +535,7 @@ func Test_LinkedList_Filter_BreakSecond(t *testing.T) {
 
 // ── RemoveNodeByElementValue ──────────────────────────────
 
-func Test_LinkedList_RemoveNodeByElementValue_First(t *testing.T) {
+func Test_LinkedList_RemoveNodeByElementValue_First_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	ll.RemoveNodeByElementValue("a", true, true)
 	if ll.Length() != 2 || ll.Head().Element != "b" {
@@ -543,7 +543,7 @@ func Test_LinkedList_RemoveNodeByElementValue_First(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNodeByElementValue_Middle(t *testing.T) {
+func Test_LinkedList_RemoveNodeByElementValue_Middle_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	ll.RemoveNodeByElementValue("b", true, true)
 	if ll.Length() != 2 {
@@ -551,7 +551,7 @@ func Test_LinkedList_RemoveNodeByElementValue_Middle(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNodeByElementValue_CaseInsensitive(t *testing.T) {
+func Test_LinkedList_RemoveNodeByElementValue_CaseInsensitive_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("ABC", "def")
 	ll.RemoveNodeByElementValue("abc", false, true)
 	if ll.Length() != 1 {
@@ -561,7 +561,7 @@ func Test_LinkedList_RemoveNodeByElementValue_CaseInsensitive(t *testing.T) {
 
 // ── RemoveNodeByIndex ─────────────────────────────────────
 
-func Test_LinkedList_RemoveNodeByIndex_First(t *testing.T) {
+func Test_LinkedList_RemoveNodeByIndex_First_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	ll.RemoveNodeByIndex(0)
 	if ll.Head().Element != "b" {
@@ -569,7 +569,7 @@ func Test_LinkedList_RemoveNodeByIndex_First(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNodeByIndex_Last(t *testing.T) {
+func Test_LinkedList_RemoveNodeByIndex_Last_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	ll.RemoveNodeByIndex(2)
 	if ll.Length() != 2 {
@@ -577,7 +577,7 @@ func Test_LinkedList_RemoveNodeByIndex_Last(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNodeByIndex_Middle(t *testing.T) {
+func Test_LinkedList_RemoveNodeByIndex_Middle_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	ll.RemoveNodeByIndex(1)
 	list := ll.List()
@@ -588,7 +588,7 @@ func Test_LinkedList_RemoveNodeByIndex_Middle(t *testing.T) {
 
 // ── RemoveNodeByIndexes ───────────────────────────────────
 
-func Test_LinkedList_RemoveNodeByIndexes(t *testing.T) {
+func Test_LinkedList_RemoveNodeByIndexes_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c", "d")
 	ll.RemoveNodeByIndexes(true, 0, 2)
 	if ll.Length() != 2 {
@@ -596,7 +596,7 @@ func Test_LinkedList_RemoveNodeByIndexes(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNodeByIndexes_Empty(t *testing.T) {
+func Test_LinkedList_RemoveNodeByIndexes_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	ll.RemoveNodeByIndexes(true)
 	if ll.Length() != 1 {
@@ -606,7 +606,7 @@ func Test_LinkedList_RemoveNodeByIndexes_Empty(t *testing.T) {
 
 // ── RemoveNode ────────────────────────────────────────────
 
-func Test_LinkedList_RemoveNode(t *testing.T) {
+func Test_LinkedList_RemoveNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	node := ll.Head().Next() // "b"
 	ll.RemoveNode(node)
@@ -615,7 +615,7 @@ func Test_LinkedList_RemoveNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNode_First(t *testing.T) {
+func Test_LinkedList_RemoveNode_First_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	ll.RemoveNode(ll.Head())
 	if ll.Head().Element != "b" {
@@ -623,7 +623,7 @@ func Test_LinkedList_RemoveNode_First(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_RemoveNode_Nil(t *testing.T) {
+func Test_LinkedList_RemoveNode_Nil_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	ll.RemoveNode(nil)
 	if ll.Length() != 1 {
@@ -633,7 +633,7 @@ func Test_LinkedList_RemoveNode_Nil(t *testing.T) {
 
 // ── IndexAt / SafeIndexAt ─────────────────────────────────
 
-func Test_LinkedList_IndexAt(t *testing.T) {
+func Test_LinkedList_IndexAt_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	if ll.IndexAt(0).Element != "a" {
 		t.Fatal("expected a")
@@ -643,7 +643,7 @@ func Test_LinkedList_IndexAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IndexAt_Negative(t *testing.T) {
+func Test_LinkedList_IndexAt_Negative_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.IndexAt(-1)
 	if node != nil {
@@ -651,7 +651,7 @@ func Test_LinkedList_IndexAt_Negative(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafeIndexAt(t *testing.T) {
+func Test_LinkedList_SafeIndexAt_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	node := ll.SafeIndexAt(1)
 	if node == nil || node.Element != "b" {
@@ -659,7 +659,7 @@ func Test_LinkedList_SafeIndexAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafeIndexAt_OutOfRange(t *testing.T) {
+func Test_LinkedList_SafeIndexAt_OutOfRange_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.SafeIndexAt(5)
 	if node != nil {
@@ -667,7 +667,7 @@ func Test_LinkedList_SafeIndexAt_OutOfRange(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafeIndexAt_Negative(t *testing.T) {
+func Test_LinkedList_SafeIndexAt_Negative_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.SafeIndexAt(-1)
 	if node != nil {
@@ -675,7 +675,7 @@ func Test_LinkedList_SafeIndexAt_Negative(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafeIndexAtLock(t *testing.T) {
+func Test_LinkedList_SafeIndexAtLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	node := ll.SafeIndexAtLock(0)
 	if node == nil || node.Element != "a" {
@@ -683,7 +683,7 @@ func Test_LinkedList_SafeIndexAtLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafePointerIndexAt(t *testing.T) {
+func Test_LinkedList_SafePointerIndexAt_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	ptr := ll.SafePointerIndexAt(0)
 	if ptr == nil || *ptr != "a" {
@@ -695,7 +695,7 @@ func Test_LinkedList_SafePointerIndexAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafePointerIndexAtUsingDefault(t *testing.T) {
+func Test_LinkedList_SafePointerIndexAtUsingDefault_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	v := ll.SafePointerIndexAtUsingDefault(0, "def")
 	if v != "a" {
@@ -707,7 +707,7 @@ func Test_LinkedList_SafePointerIndexAtUsingDefault(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_SafePointerIndexAtUsingDefaultLock(t *testing.T) {
+func Test_LinkedList_SafePointerIndexAtUsingDefaultLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	v := ll.SafePointerIndexAtUsingDefaultLock(0, "def")
 	if v != "a" {
@@ -717,7 +717,7 @@ func Test_LinkedList_SafePointerIndexAtUsingDefaultLock(t *testing.T) {
 
 // ── GetNextNodes / GetAllLinkedNodes ───────────────────────
 
-func Test_LinkedList_GetNextNodes(t *testing.T) {
+func Test_LinkedList_GetNextNodes_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c", "d")
 	nodes := ll.GetNextNodes(2)
 	if len(nodes) != 2 {
@@ -725,7 +725,7 @@ func Test_LinkedList_GetNextNodes(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_GetAllLinkedNodes(t *testing.T) {
+func Test_LinkedList_GetAllLinkedNodes_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	nodes := ll.GetAllLinkedNodes()
 	if len(nodes) != 2 {
@@ -735,7 +735,7 @@ func Test_LinkedList_GetAllLinkedNodes(t *testing.T) {
 
 // ── ToCollection / List ───────────────────────────────────
 
-func Test_LinkedList_ToCollection(t *testing.T) {
+func Test_LinkedList_ToCollection_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	col := ll.ToCollection(5)
 	if col.Length() != 2 {
@@ -743,7 +743,7 @@ func Test_LinkedList_ToCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_ToCollection_Empty(t *testing.T) {
+func Test_LinkedList_ToCollection_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	col := ll.ToCollection(0)
 	if col.HasItems() {
@@ -751,7 +751,7 @@ func Test_LinkedList_ToCollection_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_List(t *testing.T) {
+func Test_LinkedList_List_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	list := ll.List()
 	if len(list) != 2 || list[0] != "a" {
@@ -759,7 +759,7 @@ func Test_LinkedList_List(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_List_Empty(t *testing.T) {
+func Test_LinkedList_List_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	list := ll.List()
 	if len(list) != 0 {
@@ -767,7 +767,7 @@ func Test_LinkedList_List_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_ListPtr(t *testing.T) {
+func Test_LinkedList_ListPtr_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	list := ll.ListPtr()
 	if len(list) != 1 {
@@ -775,7 +775,7 @@ func Test_LinkedList_ListPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_ListLock(t *testing.T) {
+func Test_LinkedList_ListLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	list := ll.ListLock()
 	if len(list) != 1 {
@@ -783,7 +783,7 @@ func Test_LinkedList_ListLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_ListPtrLock(t *testing.T) {
+func Test_LinkedList_ListPtrLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	list := ll.ListPtrLock()
 	if len(list) != 1 {
@@ -793,7 +793,7 @@ func Test_LinkedList_ListPtrLock(t *testing.T) {
 
 // ── String / StringLock / Join ─────────────────────────────
 
-func Test_LinkedList_String(t *testing.T) {
+func Test_LinkedList_String_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	s := ll.String()
 	if s == "" {
@@ -801,7 +801,7 @@ func Test_LinkedList_String(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_String_Empty(t *testing.T) {
+func Test_LinkedList_String_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	s := ll.String()
 	if s == "" {
@@ -809,7 +809,7 @@ func Test_LinkedList_String_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_StringLock(t *testing.T) {
+func Test_LinkedList_StringLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	s := ll.StringLock()
 	if s == "" {
@@ -817,7 +817,7 @@ func Test_LinkedList_StringLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_StringLock_Empty(t *testing.T) {
+func Test_LinkedList_StringLock_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	s := ll.StringLock()
 	if s == "" {
@@ -825,21 +825,21 @@ func Test_LinkedList_StringLock_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Join(t *testing.T) {
+func Test_LinkedList_Join_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	if ll.Join(",") != "a,b" {
 		t.Fatal("expected a,b")
 	}
 }
 
-func Test_LinkedList_JoinLock(t *testing.T) {
+func Test_LinkedList_JoinLock_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	if ll.JoinLock(",") != "a,b" {
 		t.Fatal("expected a,b")
 	}
 }
 
-func Test_LinkedList_Joins(t *testing.T) {
+func Test_LinkedList_Joins_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	result := ll.Joins(",", "b", "c")
 	if result != "a,b,c" {
@@ -847,7 +847,7 @@ func Test_LinkedList_Joins(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Joins_NilItems(t *testing.T) {
+func Test_LinkedList_Joins_NilItems_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	result := ll.Joins(",", "a")
 	if result != "a" {
@@ -857,7 +857,7 @@ func Test_LinkedList_Joins_NilItems(t *testing.T) {
 
 // ── GetCompareSummary ─────────────────────────────────────
 
-func Test_LinkedList_GetCompareSummary(t *testing.T) {
+func Test_LinkedList_GetCompareSummary_C18(t *testing.T) {
 	ll1 := New.LinkedList.SpreadStrings("a", "b")
 	ll2 := New.LinkedList.SpreadStrings("a", "b")
 	summary := ll1.GetCompareSummary(ll2, "left", "right")
@@ -868,7 +868,7 @@ func Test_LinkedList_GetCompareSummary(t *testing.T) {
 
 // ── IsEquals ──────────────────────────────────────────────
 
-func Test_LinkedList_IsEquals(t *testing.T) {
+func Test_LinkedList_IsEquals_C18(t *testing.T) {
 	ll1 := New.LinkedList.SpreadStrings("a", "b")
 	ll2 := New.LinkedList.SpreadStrings("a", "b")
 	if !ll1.IsEquals(ll2) {
@@ -876,7 +876,7 @@ func Test_LinkedList_IsEquals(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IsEquals_DiffLength(t *testing.T) {
+func Test_LinkedList_IsEquals_DiffLength_C18(t *testing.T) {
 	ll1 := New.LinkedList.SpreadStrings("a", "b")
 	ll2 := New.LinkedList.SpreadStrings("a")
 	if ll1.IsEquals(ll2) {
@@ -884,7 +884,7 @@ func Test_LinkedList_IsEquals_DiffLength(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IsEquals_BothNil(t *testing.T) {
+func Test_LinkedList_IsEquals_BothNil_C18(t *testing.T) {
 	var ll1 *LinkedList
 	var ll2 *LinkedList
 	// Can't call method on nil, but test via IsEqualsWithSensitive coverage
@@ -894,14 +894,14 @@ func Test_LinkedList_IsEquals_BothNil(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IsEquals_SameRef(t *testing.T) {
+func Test_LinkedList_IsEquals_SameRef_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	if !ll.IsEqualsWithSensitive(ll, true) {
 		t.Fatal("expected same ref equal")
 	}
 }
 
-func Test_LinkedList_IsEquals_BothEmpty(t *testing.T) {
+func Test_LinkedList_IsEquals_BothEmpty_C18(t *testing.T) {
 	ll1 := New.LinkedList.Create()
 	ll2 := New.LinkedList.Create()
 	if !ll1.IsEquals(ll2) {
@@ -909,7 +909,7 @@ func Test_LinkedList_IsEquals_BothEmpty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IsEquals_OneEmpty(t *testing.T) {
+func Test_LinkedList_IsEquals_OneEmpty_C18(t *testing.T) {
 	ll1 := New.LinkedList.SpreadStrings("a")
 	ll2 := New.LinkedList.Create()
 	if ll1.IsEquals(ll2) {
@@ -919,7 +919,7 @@ func Test_LinkedList_IsEquals_OneEmpty(t *testing.T) {
 
 // ── AddStringsToNode / AddStringsPtrToNode ────────────────
 
-func Test_LinkedList_AddStringsToNode(t *testing.T) {
+func Test_LinkedList_AddStringsToNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "d")
 	node := ll.Head()
 	ll.AddStringsToNode(false, node, []string{"b", "c"})
@@ -928,7 +928,7 @@ func Test_LinkedList_AddStringsToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddStringsToNode_Single(t *testing.T) {
+func Test_LinkedList_AddStringsToNode_Single_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "c")
 	node := ll.Head()
 	ll.AddStringsToNode(false, node, []string{"b"})
@@ -938,7 +938,7 @@ func Test_LinkedList_AddStringsToNode_Single(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddStringsToNode_Empty(t *testing.T) {
+func Test_LinkedList_AddStringsToNode_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	ll.AddStringsToNode(false, ll.Head(), []string{})
 	if ll.Length() != 1 {
@@ -946,7 +946,7 @@ func Test_LinkedList_AddStringsToNode_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddStringsToNode_NilNodeSkip(t *testing.T) {
+func Test_LinkedList_AddStringsToNode_NilNodeSkip_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	ll.AddStringsToNode(true, nil, []string{"b"})
 	if ll.Length() != 1 {
@@ -954,7 +954,7 @@ func Test_LinkedList_AddStringsToNode_NilNodeSkip(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddStringsPtrToNode(t *testing.T) {
+func Test_LinkedList_AddStringsPtrToNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	items := []string{"b"}
 	ll.AddStringsPtrToNode(true, ll.Head(), &items)
@@ -963,7 +963,7 @@ func Test_LinkedList_AddStringsPtrToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddStringsPtrToNode_Nil(t *testing.T) {
+func Test_LinkedList_AddStringsPtrToNode_Nil_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	ll.AddStringsPtrToNode(true, ll.Head(), nil)
 	if ll.Length() != 1 {
@@ -973,7 +973,7 @@ func Test_LinkedList_AddStringsPtrToNode_Nil(t *testing.T) {
 
 // ── JSON ──────────────────────────────────────────────────
 
-func Test_LinkedList_JsonModel(t *testing.T) {
+func Test_LinkedList_JsonModel_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	model := ll.JsonModel()
 	if len(model) != 2 {
@@ -981,14 +981,14 @@ func Test_LinkedList_JsonModel(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_JsonModelAny(t *testing.T) {
+func Test_LinkedList_JsonModelAny_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	if ll.JsonModelAny() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_LinkedList_MarshalUnmarshalJSON(t *testing.T) {
+func Test_LinkedList_MarshalUnmarshalJSON_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b", "c")
 	data, err := json.Marshal(ll)
 	if err != nil {
@@ -1004,7 +1004,7 @@ func Test_LinkedList_MarshalUnmarshalJSON(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Json(t *testing.T) {
+func Test_LinkedList_Json_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	r := ll.Json()
 	if r.HasError() {
@@ -1012,7 +1012,7 @@ func Test_LinkedList_Json(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_JsonPtr(t *testing.T) {
+func Test_LinkedList_JsonPtr_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	r := ll.JsonPtr()
 	if r == nil || r.HasError() {
@@ -1020,7 +1020,7 @@ func Test_LinkedList_JsonPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_ParseInjectUsingJson(t *testing.T) {
+func Test_LinkedList_ParseInjectUsingJson_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	jr := ll.JsonPtr()
 	ll2 := New.LinkedList.Create()
@@ -1033,7 +1033,7 @@ func Test_LinkedList_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_LinkedList_ParseInjectUsingJsonMust_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	jr := ll.JsonPtr()
 	ll2 := New.LinkedList.Create()
@@ -1043,7 +1043,7 @@ func Test_LinkedList_ParseInjectUsingJsonMust(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_JsonParseSelfInject(t *testing.T) {
+func Test_LinkedList_JsonParseSelfInject_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	jr := ll.JsonPtr()
 	ll2 := New.LinkedList.Create()
@@ -1053,7 +1053,7 @@ func Test_LinkedList_JsonParseSelfInject(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AsJsonMarshaller(t *testing.T) {
+func Test_LinkedList_AsJsonMarshaller_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	if ll.AsJsonMarshaller() == nil {
 		t.Fatal("expected non-nil")
@@ -1062,7 +1062,7 @@ func Test_LinkedList_AsJsonMarshaller(t *testing.T) {
 
 // ── RemoveAll / Clear ─────────────────────────────────────
 
-func Test_LinkedList_RemoveAll(t *testing.T) {
+func Test_LinkedList_RemoveAll_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a", "b")
 	ll.RemoveAll()
 	if ll.HasItems() {
@@ -1070,7 +1070,7 @@ func Test_LinkedList_RemoveAll(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Clear(t *testing.T) {
+func Test_LinkedList_Clear_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	ll.Clear()
 	if ll.HasItems() {
@@ -1078,14 +1078,14 @@ func Test_LinkedList_Clear(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Clear_Empty(t *testing.T) {
+func Test_LinkedList_Clear_Empty_C18(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Clear()
 }
 
 // ── LinkedListNode ────────────────────────────────────────
 
-func Test_LinkedListNode_HasNext(t *testing.T) {
+func Test_LinkedListNode_HasNext_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	if !node.HasNext() {
 		t.Fatal("expected has next")
@@ -1095,7 +1095,7 @@ func Test_LinkedListNode_HasNext(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_EndOfChain(t *testing.T) {
+func Test_LinkedListNode_EndOfChain_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b", next: &LinkedListNode{Element: "c"}}}
 	end, length := node.EndOfChain()
 	if end.Element != "c" || length != 3 {
@@ -1103,7 +1103,7 @@ func Test_LinkedListNode_EndOfChain(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_Clone(t *testing.T) {
+func Test_LinkedListNode_Clone_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	cloned := node.Clone()
 	if cloned.Element != "a" || cloned.HasNext() {
@@ -1111,7 +1111,7 @@ func Test_LinkedListNode_Clone(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_List(t *testing.T) {
+func Test_LinkedListNode_List_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	list := node.List()
 	if len(list) != 2 {
@@ -1119,7 +1119,7 @@ func Test_LinkedListNode_List(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_ListPtr(t *testing.T) {
+func Test_LinkedListNode_ListPtr_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a"}
 	list := node.ListPtr()
 	if len(list) != 1 {
@@ -1127,21 +1127,21 @@ func Test_LinkedListNode_ListPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_Join(t *testing.T) {
+func Test_LinkedListNode_Join_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	if node.Join(",") != "a,b" {
 		t.Fatal("expected a,b")
 	}
 }
 
-func Test_LinkedListNode_String(t *testing.T) {
+func Test_LinkedListNode_String_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "hello"}
 	if node.String() != "hello" {
 		t.Fatal("expected hello")
 	}
 }
 
-func Test_LinkedListNode_StringList(t *testing.T) {
+func Test_LinkedListNode_StringList_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a"}
 	s := node.StringList("Header: ")
 	if s == "" {
@@ -1149,7 +1149,7 @@ func Test_LinkedListNode_StringList(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_IsEqual(t *testing.T) {
+func Test_LinkedListNode_IsEqual_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	n2 := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	if !n1.IsEqual(n2) {
@@ -1157,28 +1157,28 @@ func Test_LinkedListNode_IsEqual(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_IsEqual_BothNil(t *testing.T) {
+func Test_LinkedListNode_IsEqual_BothNil_C18(t *testing.T) {
 	var n1 *LinkedListNode
 	if !n1.IsEqual(nil) {
 		t.Fatal("expected equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqual_OneNil(t *testing.T) {
+func Test_LinkedListNode_IsEqual_OneNil_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a"}
 	if n1.IsEqual(nil) {
 		t.Fatal("expected not equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqual_SameRef(t *testing.T) {
+func Test_LinkedListNode_IsEqual_SameRef_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a"}
 	if !n1.IsEqual(n1) {
 		t.Fatal("expected equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqual_DiffElement(t *testing.T) {
+func Test_LinkedListNode_IsEqual_DiffElement_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a"}
 	n2 := &LinkedListNode{Element: "b"}
 	if n1.IsEqual(n2) {
@@ -1186,7 +1186,7 @@ func Test_LinkedListNode_IsEqual_DiffElement(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_IsChainEqual(t *testing.T) {
+func Test_LinkedListNode_IsChainEqual_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	n2 := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	if !n1.IsChainEqual(n2, true) {
@@ -1194,7 +1194,7 @@ func Test_LinkedListNode_IsChainEqual(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_IsChainEqual_CaseInsensitive(t *testing.T) {
+func Test_LinkedListNode_IsChainEqual_CaseInsensitive_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "A"}
 	n2 := &LinkedListNode{Element: "a"}
 	if !n1.IsChainEqual(n2, false) {
@@ -1202,21 +1202,21 @@ func Test_LinkedListNode_IsChainEqual_CaseInsensitive(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_IsChainEqual_BothNil(t *testing.T) {
+func Test_LinkedListNode_IsChainEqual_BothNil_C18(t *testing.T) {
 	var n1 *LinkedListNode
 	if !n1.IsChainEqual(nil, true) {
 		t.Fatal("expected equal")
 	}
 }
 
-func Test_LinkedListNode_IsChainEqual_OneNil(t *testing.T) {
+func Test_LinkedListNode_IsChainEqual_OneNil_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a"}
 	if n1.IsChainEqual(nil, true) {
 		t.Fatal("expected not equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqualSensitive(t *testing.T) {
+func Test_LinkedListNode_IsEqualSensitive_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "A"}
 	n2 := &LinkedListNode{Element: "a"}
 	if !n1.IsEqualSensitive(n2, false) {
@@ -1227,28 +1227,28 @@ func Test_LinkedListNode_IsEqualSensitive(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_IsEqualSensitive_BothNil(t *testing.T) {
+func Test_LinkedListNode_IsEqualSensitive_BothNil_C18(t *testing.T) {
 	var n1 *LinkedListNode
 	if !n1.IsEqualSensitive(nil, true) {
 		t.Fatal("expected equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqualSensitive_OneNil(t *testing.T) {
+func Test_LinkedListNode_IsEqualSensitive_OneNil_C18(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a"}
 	if n1.IsEqualSensitive(nil, true) {
 		t.Fatal("expected not equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqualValue(t *testing.T) {
+func Test_LinkedListNode_IsEqualValue_C18(t *testing.T) {
 	n := &LinkedListNode{Element: "hello"}
 	if !n.IsEqualValue("hello") {
 		t.Fatal("expected equal")
 	}
 }
 
-func Test_LinkedListNode_IsEqualValueSensitive(t *testing.T) {
+func Test_LinkedListNode_IsEqualValueSensitive_C18(t *testing.T) {
 	n := &LinkedListNode{Element: "Hello"}
 	if !n.IsEqualValueSensitive("hello", false) {
 		t.Fatal("expected equal")
@@ -1258,7 +1258,7 @@ func Test_LinkedListNode_IsEqualValueSensitive(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_CreateLinkedList(t *testing.T) {
+func Test_LinkedListNode_CreateLinkedList_C18(t *testing.T) {
 	n := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	ll := n.CreateLinkedList()
 	if ll.Length() != 2 {
@@ -1266,7 +1266,7 @@ func Test_LinkedListNode_CreateLinkedList(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_AddNext(t *testing.T) {
+func Test_LinkedListNode_AddNext_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.Head()
 	newNode := node.AddNext(ll, "b")
@@ -1278,7 +1278,7 @@ func Test_LinkedListNode_AddNext(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_AddNextNode(t *testing.T) {
+func Test_LinkedListNode_AddNextNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.Head()
 	newNode := &LinkedListNode{Element: "b"}
@@ -1288,7 +1288,7 @@ func Test_LinkedListNode_AddNextNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_AddStringsToNode(t *testing.T) {
+func Test_LinkedListNode_AddStringsToNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.Head()
 	node.AddStringsToNode(ll, true, []string{"b", "c"})
@@ -1297,7 +1297,7 @@ func Test_LinkedListNode_AddStringsToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_AddStringsPtrToNode(t *testing.T) {
+func Test_LinkedListNode_AddStringsPtrToNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.Head()
 	items := []string{"b"}
@@ -1307,7 +1307,7 @@ func Test_LinkedListNode_AddStringsPtrToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_AddStringsPtrToNode_Nil(t *testing.T) {
+func Test_LinkedListNode_AddStringsPtrToNode_Nil_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	node := ll.Head()
 	result := node.AddStringsPtrToNode(ll, true, nil)
@@ -1316,7 +1316,7 @@ func Test_LinkedListNode_AddStringsPtrToNode_Nil(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_AddCollectionToNode(t *testing.T) {
+func Test_LinkedListNode_AddCollectionToNode_C18(t *testing.T) {
 	ll := New.LinkedList.SpreadStrings("a")
 	col := New.Collection.Strings([]string{"b", "c"})
 	ll.Head().AddCollectionToNode(ll, true, col)
@@ -1325,7 +1325,7 @@ func Test_LinkedListNode_AddCollectionToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_LoopEndOfChain(t *testing.T) {
+func Test_LinkedListNode_LoopEndOfChain_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b", next: &LinkedListNode{Element: "c"}}}
 	count := 0
 	end, length := node.LoopEndOfChain(func(arg *LinkedListProcessorParameter) bool {
@@ -1337,7 +1337,7 @@ func Test_LinkedListNode_LoopEndOfChain(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_LoopEndOfChain_Break(t *testing.T) {
+func Test_LinkedListNode_LoopEndOfChain_Break_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	end, length := node.LoopEndOfChain(func(arg *LinkedListProcessorParameter) bool {
 		return true
@@ -1347,7 +1347,7 @@ func Test_LinkedListNode_LoopEndOfChain_Break(t *testing.T) {
 	}
 }
 
-func Test_LinkedListNode_LoopEndOfChain_BreakSecond(t *testing.T) {
+func Test_LinkedListNode_LoopEndOfChain_BreakSecond_C18(t *testing.T) {
 	node := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b", next: &LinkedListNode{Element: "c"}}}
 	end, length := node.LoopEndOfChain(func(arg *LinkedListProcessorParameter) bool {
 		return arg.Index == 1
@@ -1359,7 +1359,7 @@ func Test_LinkedListNode_LoopEndOfChain_BreakSecond(t *testing.T) {
 
 // ── NonChainedLinkedListNodes ─────────────────────────────
 
-func Test_NonChainedLinkedListNodes_Basic(t *testing.T) {
+func Test_NonChainedLinkedListNodes_Basic_C18(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(5)
 	if !nc.IsEmpty() {
 		t.Fatal("expected empty")
@@ -1379,7 +1379,7 @@ func Test_NonChainedLinkedListNodes_Basic(t *testing.T) {
 	}
 }
 
-func Test_NonChainedLinkedListNodes_ApplyChaining(t *testing.T) {
+func Test_NonChainedLinkedListNodes_ApplyChaining_C18(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(5)
 	nc.Adds(&LinkedListNode{Element: "a"}, &LinkedListNode{Element: "b"}, &LinkedListNode{Element: "c"})
 	nc.ApplyChaining()
@@ -1391,7 +1391,7 @@ func Test_NonChainedLinkedListNodes_ApplyChaining(t *testing.T) {
 	}
 }
 
-func Test_NonChainedLinkedListNodes_ToChainedNodes(t *testing.T) {
+func Test_NonChainedLinkedListNodes_ToChainedNodes_C18(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(3)
 	nc.Adds(&LinkedListNode{Element: "x"}, &LinkedListNode{Element: "y"})
 	chained := nc.ToChainedNodes()
@@ -1400,21 +1400,21 @@ func Test_NonChainedLinkedListNodes_ToChainedNodes(t *testing.T) {
 	}
 }
 
-func Test_NonChainedLinkedListNodes_FirstOrDefault_Empty(t *testing.T) {
+func Test_NonChainedLinkedListNodes_FirstOrDefault_Empty_C18(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(0)
 	if nc.FirstOrDefault() != nil {
 		t.Fatal("expected nil")
 	}
 }
 
-func Test_NonChainedLinkedListNodes_LastOrDefault_Empty(t *testing.T) {
+func Test_NonChainedLinkedListNodes_LastOrDefault_Empty_C18(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(0)
 	if nc.LastOrDefault() != nil {
 		t.Fatal("expected nil")
 	}
 }
 
-func Test_NonChainedLinkedListNodes_Adds_Nil(t *testing.T) {
+func Test_NonChainedLinkedListNodes_Adds_Nil_C18(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(0)
 	nc.Adds(nil)
 	if nc.HasItems() {

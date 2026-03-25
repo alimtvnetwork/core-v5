@@ -6,7 +6,7 @@ import (
 
 // ── SimpleStringOnce ──
 
-func TestSimpleStringOnce_Core(t *testing.T) {
+func TestSimpleStringOnce_Core_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("hello")
 	if s.Value() != "hello" || !s.IsInitialized() || !s.IsDefined() { t.Fatal("unexpected") }
 	if s.IsUninitialized() || s.IsInvalid() { t.Fatal("unexpected") }
@@ -22,7 +22,7 @@ func TestSimpleStringOnce_Core(t *testing.T) {
 	if !s.IsEqualNonSensitive("HELLO") { t.Fatal("unexpected") }
 }
 
-func TestSimpleStringOnce_Set(t *testing.T) {
+func TestSimpleStringOnce_Set_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Uninitialized("")
 	err := s.SetOnUninitialized("val")
 	if err != nil { t.Fatal(err) }
@@ -30,7 +30,7 @@ func TestSimpleStringOnce_Set(t *testing.T) {
 	if err2 == nil { t.Fatal("expected error") }
 }
 
-func TestSimpleStringOnce_GetSetOnce(t *testing.T) {
+func TestSimpleStringOnce_GetSetOnce_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Uninitialized("")
 	v := s.GetSetOnce("first")
 	if v != "first" { t.Fatal("unexpected") }
@@ -38,13 +38,13 @@ func TestSimpleStringOnce_GetSetOnce(t *testing.T) {
 	if v2 != "first" { t.Fatal("expected first") }
 }
 
-func TestSimpleStringOnce_GetOnce(t *testing.T) {
+func TestSimpleStringOnce_GetOnce_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Uninitialized("")
 	v := s.GetOnce()
 	if v != "" { t.Fatal("expected empty") }
 }
 
-func TestSimpleStringOnce_GetOnceFunc(t *testing.T) {
+func TestSimpleStringOnce_GetOnceFunc_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Uninitialized("")
 	v := s.GetOnceFunc(func() string { return "computed" })
 	if v != "computed" { t.Fatal("unexpected") }
@@ -52,7 +52,7 @@ func TestSimpleStringOnce_GetOnceFunc(t *testing.T) {
 	if v2 != "computed" { t.Fatal("expected cached") }
 }
 
-func TestSimpleStringOnce_SetOnceIfUninitialized(t *testing.T) {
+func TestSimpleStringOnce_SetOnceIfUninitialized_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Uninitialized("")
 	ok := s.SetOnceIfUninitialized("val")
 	if !ok { t.Fatal("expected set") }
@@ -60,7 +60,7 @@ func TestSimpleStringOnce_SetOnceIfUninitialized(t *testing.T) {
 	if ok2 { t.Fatal("expected not set") }
 }
 
-func TestSimpleStringOnce_Invalidate(t *testing.T) {
+func TestSimpleStringOnce_Invalidate_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("hello")
 	s.Invalidate()
 	if s.IsInitialized() { t.Fatal("expected uninit") }
@@ -69,7 +69,7 @@ func TestSimpleStringOnce_Invalidate(t *testing.T) {
 	if s2.IsInitialized() { t.Fatal("expected uninit") }
 }
 
-func TestSimpleStringOnce_Conversions(t *testing.T) {
+func TestSimpleStringOnce_Conversions_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("42")
 	if s.Int() != 42 { t.Fatal("expected 42") }
 	if s.ValueInt(0) != 42 || s.ValueDefInt() != 42 { t.Fatal("unexpected") }
@@ -91,7 +91,7 @@ func TestSimpleStringOnce_Conversions(t *testing.T) {
 	_ = s5.IsSetter(true)
 }
 
-func TestSimpleStringOnce_WithinRange(t *testing.T) {
+func TestSimpleStringOnce_WithinRange_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("50")
 	v, ok := s.WithinRange(true, 0, 100)
 	if !ok || v != 50 { t.Fatal("unexpected") }
@@ -101,7 +101,7 @@ func TestSimpleStringOnce_WithinRange(t *testing.T) {
 	_, _ = s.Uint32()
 }
 
-func TestSimpleStringOnce_ConcatNew(t *testing.T) {
+func TestSimpleStringOnce_ConcatNew_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("hello")
 	c := s.ConcatNew(" world")
 	if c.Value() != "hello world" { t.Fatal("unexpected") }
@@ -109,7 +109,7 @@ func TestSimpleStringOnce_ConcatNew(t *testing.T) {
 	_ = c2
 }
 
-func TestSimpleStringOnce_Split(t *testing.T) {
+func TestSimpleStringOnce_Split_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("a,b,c")
 	_ = s.Split(",")
 	_ = s.SplitNonEmpty(",")
@@ -122,7 +122,7 @@ func TestSimpleStringOnce_Split(t *testing.T) {
 	_ = r2
 }
 
-func TestSimpleStringOnce_Various(t *testing.T) {
+func TestSimpleStringOnce_Various_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("hello")
 	_ = s.LinesSimpleSlice()
 	_ = s.SimpleSlice(",")
@@ -144,7 +144,7 @@ func TestSimpleStringOnce_Various(t *testing.T) {
 	if nilS.ClonePtr() != nil { t.Fatal("expected nil") }
 }
 
-func TestSimpleStringOnce_Json(t *testing.T) {
+func TestSimpleStringOnce_Json_C09(t *testing.T) {
 	s := New.SimpleStringOnce.Init("hello")
 	_ = s.JsonModel()
 	_ = s.JsonModelAny()
@@ -158,7 +158,7 @@ func TestSimpleStringOnce_Json(t *testing.T) {
 
 // ── KeyValueCollection ──
 
-func TestKeyValueCollection_Core(t *testing.T) {
+func TestKeyValueCollection_Core_C09(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	if !kv.IsEmpty() || kv.HasAnyItem() { t.Fatal("expected empty") }
 	kv.Add("k1", "v1").Add("k2", "v2")
@@ -184,7 +184,7 @@ func TestKeyValueCollection_Core(t *testing.T) {
 	if !found || v != "v1" { t.Fatal("unexpected") }
 }
 
-func TestKeyValueCollection_AddVariants(t *testing.T) {
+func TestKeyValueCollection_AddVariants_C09(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	kv.AddIf(false, "skip", "val")
 	kv.AddIf(true, "k", "v")
@@ -204,7 +204,7 @@ func TestKeyValueCollection_AddVariants(t *testing.T) {
 	kv.AddStringBySplitTrim("=", " m = n ")
 }
 
-func TestKeyValueCollection_Find(t *testing.T) {
+func TestKeyValueCollection_Find_C09(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	kv.Add("a", "1").Add("b", "2")
 	r := kv.Find(func(i int, curr KeyValuePair) (KeyValuePair, bool, bool) {
@@ -213,7 +213,7 @@ func TestKeyValueCollection_Find(t *testing.T) {
 	if len(r) != 1 { t.Fatal("expected 1") }
 }
 
-func TestKeyValueCollection_Safe(t *testing.T) {
+func TestKeyValueCollection_Safe_C09(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	kv.Add("a", "1")
 	if kv.SafeValueAt(0) != "1" || kv.SafeValueAt(99) != "" { t.Fatal("unexpected") }
@@ -223,7 +223,7 @@ func TestKeyValueCollection_Safe(t *testing.T) {
 	_ = kv.Map()
 }
 
-func TestKeyValueCollection_Json(t *testing.T) {
+func TestKeyValueCollection_Json_C09(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	kv.Add("a", "1")
 	_ = kv.JsonModel()
@@ -236,7 +236,7 @@ func TestKeyValueCollection_Json(t *testing.T) {
 	_ = kv.AsJsonParseSelfInjector()
 }
 
-func TestKeyValueCollection_ClearDispose(t *testing.T) {
+func TestKeyValueCollection_ClearDispose_C09(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	kv.Add("a", "1")
 	kv.Clear()
@@ -248,7 +248,7 @@ func TestKeyValueCollection_ClearDispose(t *testing.T) {
 
 // ── NonChainedLinkedListNodes ──
 
-func TestNonChainedLinkedListNodes(t *testing.T) {
+func TestNonChainedLinkedListNodes_C09(t *testing.T) {
 	nc := NewNonChainedLinkedListNodes(5)
 	if !nc.IsEmpty() || nc.HasItems() { t.Fatal("expected empty") }
 	n1 := &LinkedListNode{Element: "a"}
@@ -267,7 +267,7 @@ func TestNonChainedLinkedListNodes(t *testing.T) {
 
 // ── NonChainedLinkedCollectionNodes ──
 
-func TestNonChainedLinkedCollectionNodes(t *testing.T) {
+func TestNonChainedLinkedCollectionNodes_C09(t *testing.T) {
 	nc := NewNonChainedLinkedCollectionNodes(5)
 	if !nc.IsEmpty() || nc.HasItems() { t.Fatal("expected empty") }
 	c1 := New.Collection.Strings([]string{"a"})
@@ -288,7 +288,7 @@ func TestNonChainedLinkedCollectionNodes(t *testing.T) {
 
 // ── CollectionsOfCollection remaining ──
 
-func TestCollectionsOfCollection_Methods(t *testing.T) {
+func TestCollectionsOfCollection_Methods_C09(t *testing.T) {
 	coc := New.CollectionsOfCollection.Empty()
 	coc.Add(New.Collection.Strings([]string{"a", "b"}))
 	coc.Add(New.Collection.Strings([]string{"c"}))
@@ -310,7 +310,7 @@ func TestCollectionsOfCollection_Methods(t *testing.T) {
 
 // ── HashsetsCollection remaining ──
 
-func TestHashsetsCollection_Methods(t *testing.T) {
+func TestHashsetsCollection_Methods_C09(t *testing.T) {
 	hc := New.HashsetsCollection.Empty()
 	h1 := New.Hashset.StringsSpreadItems("a")
 	h2 := New.Hashset.StringsSpreadItems("b")
@@ -339,7 +339,7 @@ func TestHashsetsCollection_Methods(t *testing.T) {
 	_ = hc.AsJsonMarshaller()
 }
 
-func TestHashsetsCollection_HasAll(t *testing.T) {
+func TestHashsetsCollection_HasAll_C09(t *testing.T) {
 	hc := New.HashsetsCollection.Empty()
 	h := New.Hashset.StringsSpreadItems("a", "b")
 	hc.Add(h)
@@ -349,7 +349,7 @@ func TestHashsetsCollection_HasAll(t *testing.T) {
 	if empty.HasAll("a") { t.Fatal("expected false") }
 }
 
-func TestHashsetsCollection_ConcatNew(t *testing.T) {
+func TestHashsetsCollection_ConcatNew_C09(t *testing.T) {
 	hc := New.HashsetsCollection.Empty()
 	hc.Add(New.Hashset.StringsSpreadItems("a"))
 	hc2 := New.HashsetsCollection.Empty()
@@ -364,7 +364,7 @@ func TestHashsetsCollection_ConcatNew(t *testing.T) {
 
 // ── CharCollectionMap remaining ──
 
-func TestCharCollectionMap_Methods(t *testing.T) {
+func TestCharCollectionMap_Methods_C09(t *testing.T) {
 	ccm := New.CharCollectionMap.Items([]string{"abc", "adef", "bcd"})
 	if ccm.IsEmpty() { t.Fatal("expected non-empty") }
 	if ccm.Length() == 0 { t.Fatal("expected > 0") }
@@ -405,7 +405,7 @@ func TestCharCollectionMap_Methods(t *testing.T) {
 	_ = ccm.IsEqualsCaseSensitiveLock(false, ccm)
 }
 
-func TestCharCollectionMap_Add(t *testing.T) {
+func TestCharCollectionMap_Add_C09(t *testing.T) {
 	ccm := New.CharCollectionMap.Empty()
 	ccm.Add("hello")
 	ccm.AddLock("world")
@@ -415,7 +415,7 @@ func TestCharCollectionMap_Add(t *testing.T) {
 	ccm.AddCollectionItems(nil)
 }
 
-func TestCharCollectionMap_ClearDispose(t *testing.T) {
+func TestCharCollectionMap_ClearDispose_C09(t *testing.T) {
 	ccm := New.CharCollectionMap.Items([]string{"a"})
 	ccm.Clear()
 	ccm.Dispose()
@@ -425,7 +425,7 @@ func TestCharCollectionMap_ClearDispose(t *testing.T) {
 
 // ── CharHashsetMap remaining ──
 
-func TestCharHashsetMap_Methods(t *testing.T) {
+func TestCharHashsetMap_Methods_C09(t *testing.T) {
 	chm := New.CharHashsetMap.CapItems(20, 20, "abc", "adef", "bcd")
 	if chm.IsEmpty() { t.Fatal("expected non-empty") }
 	_ = chm.Length()
@@ -463,7 +463,7 @@ func TestCharHashsetMap_Methods(t *testing.T) {
 	_ = chm.IsEqualsLock(chm)
 }
 
-func TestCharHashsetMap_Add(t *testing.T) {
+func TestCharHashsetMap_Add_C09(t *testing.T) {
 	chm := New.CharHashsetMap.Cap(20, 20)
 	chm.Add("hello")
 	chm.AddLock("world")
@@ -478,7 +478,7 @@ func TestCharHashsetMap_Add(t *testing.T) {
 	chm.AddCharCollectionMapItems(nil)
 }
 
-func TestCharHashsetMap_ClearDispose(t *testing.T) {
+func TestCharHashsetMap_ClearDispose_C09(t *testing.T) {
 	chm := New.CharHashsetMap.CapItems(20, 20, "a")
 	chm.Clear()
 	chm.RemoveAll()
@@ -486,7 +486,7 @@ func TestCharHashsetMap_ClearDispose(t *testing.T) {
 
 // ── LinkedCollections remaining ──
 
-func TestLinkedCollections_Basic(t *testing.T) {
+func TestLinkedCollections_Basic_C09(t *testing.T) {
 	lc := New.LinkedCollection.Create()
 	if !lc.IsEmpty() || lc.HasItems() { t.Fatal("expected empty") }
 	c := New.Collection.Strings([]string{"a"})
@@ -508,7 +508,7 @@ func TestLinkedCollections_Basic(t *testing.T) {
 	_ = lc.SimpleSlice()
 }
 
-func TestLinkedCollections_AddVariants(t *testing.T) {
+func TestLinkedCollections_AddVariants_C09(t *testing.T) {
 	lc := New.LinkedCollection.Create()
 	lc.AddStrings("a", "b")
 	lc.AddStrings()
@@ -525,7 +525,7 @@ func TestLinkedCollections_AddVariants(t *testing.T) {
 	lc.AddFrontLock(New.Collection.Strings([]string{"k"}))
 }
 
-func TestLinkedCollections_Loop(t *testing.T) {
+func TestLinkedCollections_Loop_C09(t *testing.T) {
 	lc := New.LinkedCollection.Strings("a", "b")
 	count := 0
 	lc.Loop(func(arg *LinkedCollectionProcessorParameter) bool {
@@ -535,7 +535,7 @@ func TestLinkedCollections_Loop(t *testing.T) {
 	if count == 0 { t.Fatal("expected > 0") }
 }
 
-func TestLinkedCollections_IsEquals(t *testing.T) {
+func TestLinkedCollections_IsEquals_C09(t *testing.T) {
 	lc1 := New.LinkedCollection.Strings("a")
 	lc2 := New.LinkedCollection.Strings("a")
 	if !lc1.IsEqualsPtr(lc2) { t.Fatal("expected equal") }
@@ -543,7 +543,7 @@ func TestLinkedCollections_IsEquals(t *testing.T) {
 
 // ── Collection remaining methods ──
 
-func TestCollection_RemainingMethods(t *testing.T) {
+func TestCollection_RemainingMethods_C09(t *testing.T) {
 	c := New.Collection.Strings([]string{"a", "b", "c"})
 	_ = c.First()
 	_ = c.Last()
@@ -563,7 +563,7 @@ func TestCollection_RemainingMethods(t *testing.T) {
 	_ = c.UniqueBoolMapLock()
 }
 
-func TestCollection_Filter(t *testing.T) {
+func TestCollection_Filter_C09(t *testing.T) {
 	c := New.Collection.Strings([]string{"a", "bb", "ccc"})
 	f := func(s string, i int) (string, bool, bool) { return s, len(s) > 1, false }
 	r := c.Filter(f)
@@ -573,7 +573,7 @@ func TestCollection_Filter(t *testing.T) {
 	_ = c.FilteredCollectionLock(f)
 }
 
-func TestCollection_AppendAnys(t *testing.T) {
+func TestCollection_AppendAnys_C09(t *testing.T) {
 	c := New.Collection.Empty()
 	c.AppendAnys("a", 42, nil)
 	c.AppendAnys()
@@ -587,7 +587,7 @@ func TestCollection_AppendAnys(t *testing.T) {
 
 // ── SimpleSlice remaining ──
 
-func TestSimpleSlice_Remaining(t *testing.T) {
+func TestSimpleSlice_Remaining_C09(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b", "c")
 	_ = s.Join(",")
 	_ = s.JoinLine()
@@ -628,7 +628,7 @@ func TestSimpleSlice_Remaining(t *testing.T) {
 	_ = s.AsJsonMarshaller()
 }
 
-func TestSimpleSlice_IsEqual(t *testing.T) {
+func TestSimpleSlice_IsEqual_C09(t *testing.T) {
 	s1 := New.SimpleSlice.Lines("a", "b")
 	s2 := New.SimpleSlice.Lines("a", "b")
 	if !s1.IsEqual(s2) { t.Fatal("expected equal") }
@@ -641,14 +641,14 @@ func TestSimpleSlice_IsEqual(t *testing.T) {
 	if !s1.IsUnorderedEqualRaw(true, "b", "a") { t.Fatal("expected equal") }
 }
 
-func TestSimpleSlice_DistinctDiff(t *testing.T) {
+func TestSimpleSlice_DistinctDiff_C09(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b")
 	_ = s.DistinctDiffRaw("b", "c")
 	_ = s.DistinctDiff(New.SimpleSlice.Lines("b", "c"))
-	_ = s.AddedRemovedLinesDiff("b", "c")
+	_, _ = s.AddedRemovedLinesDiff("b", "c")
 }
 
-func TestSimpleSlice_RemoveIndexes(t *testing.T) {
+func TestSimpleSlice_RemoveIndexes_C09(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b", "c")
 	newS, err := s.RemoveIndexes(1)
 	if err != nil || newS.Length() != 2 { t.Fatal("unexpected") }
@@ -657,7 +657,7 @@ func TestSimpleSlice_RemoveIndexes(t *testing.T) {
 	if err2 == nil { t.Fatal("expected error") }
 }
 
-func TestSimpleSlice_Clone(t *testing.T) {
+func TestSimpleSlice_Clone_C09(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b")
 	_ = s.Clone(true)
 	_ = s.ClonePtr(true)
@@ -667,7 +667,7 @@ func TestSimpleSlice_Clone(t *testing.T) {
 	if nilS.ClonePtr(true) != nil { t.Fatal("expected nil") }
 }
 
-func TestSimpleSlice_ClearDispose(t *testing.T) {
+func TestSimpleSlice_ClearDispose_C09(t *testing.T) {
 	s := New.SimpleSlice.Lines("a")
 	s.Clear()
 	s.Dispose()

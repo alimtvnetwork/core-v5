@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestHashset_Basic(t *testing.T) {
+func TestHashset_Basic_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	if !h.IsEmpty() || h.HasItems() || h.HasAnyItem() { t.Fatal("expected empty") }
 	if h.Length() != 0 { t.Fatal("expected 0") }
@@ -13,7 +13,7 @@ func TestHashset_Basic(t *testing.T) {
 	if nilH.Length() != 0 { t.Fatal("expected 0") }
 }
 
-func TestHashset_Add(t *testing.T) {
+func TestHashset_Add_C07(t *testing.T) {
 	h := New.Hashset.Cap(5)
 	h.Add("a").Add("b")
 	if h.Length() != 2 { t.Fatal("expected 2") }
@@ -31,7 +31,7 @@ func TestHashset_Add(t *testing.T) {
 	h.AddFuncErr(func() (string, error) { return "j", nil }, func(e error) {})
 }
 
-func TestHashset_AddBool(t *testing.T) {
+func TestHashset_AddBool_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	existed := h.AddBool("a")
 	if existed { t.Fatal("expected new") }
@@ -39,7 +39,7 @@ func TestHashset_AddBool(t *testing.T) {
 	if !existed2 { t.Fatal("expected existed") }
 }
 
-func TestHashset_AddPtr(t *testing.T) {
+func TestHashset_AddPtr_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	s := "hello"
 	h.AddPtr(&s)
@@ -47,7 +47,7 @@ func TestHashset_AddPtr(t *testing.T) {
 	if h.Length() != 1 { t.Fatal("expected 1 (deduplicated)") }
 }
 
-func TestHashset_Adds(t *testing.T) {
+func TestHashset_Adds_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	h.Adds("a", "b")
 	h.Adds()
@@ -63,7 +63,7 @@ func TestHashset_Adds(t *testing.T) {
 	h.AddSimpleSlice(ss)
 }
 
-func TestHashset_Has(t *testing.T) {
+func TestHashset_Has_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a", "b", "c")
 	if !h.Has("a") || !h.Contains("a") { t.Fatal("expected") }
 	if !h.HasLock("a") || !h.HasWithLock("a") { t.Fatal("expected") }
@@ -76,14 +76,14 @@ func TestHashset_Has(t *testing.T) {
 	if h.HasAllCollectionItems(nil) { t.Fatal("expected false") }
 }
 
-func TestHashset_IsEquals(t *testing.T) {
+func TestHashset_IsEquals_C07(t *testing.T) {
 	h1 := New.Hashset.StringsSpreadItems("a", "b")
 	h2 := New.Hashset.StringsSpreadItems("a", "b")
 	if !h1.IsEquals(h2) || !h1.IsEqual(h2) { t.Fatal("expected equal") }
 	if !h1.IsEqualsLock(h2) { t.Fatal("expected equal") }
 }
 
-func TestHashset_Remove(t *testing.T) {
+func TestHashset_Remove_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a", "b")
 	h.Remove("a")
 	h.SafeRemove("b")
@@ -91,7 +91,7 @@ func TestHashset_Remove(t *testing.T) {
 	h.RemoveWithLock("z")
 }
 
-func TestHashset_List(t *testing.T) {
+func TestHashset_List_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a")
 	_ = h.List()
 	_ = h.ListPtr()
@@ -109,7 +109,7 @@ func TestHashset_List(t *testing.T) {
 	_ = h.MapStringAnyDiff()
 }
 
-func TestHashset_Filter(t *testing.T) {
+func TestHashset_Filter_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("abc", "def")
 	f := func(s string) bool { return s == "abc" }
 	r := h.Filter(f)
@@ -121,7 +121,7 @@ func TestHashset_Filter(t *testing.T) {
 	if col.Length() != 1 { t.Fatal("expected 1") }
 }
 
-func TestHashset_GetAllExcept(t *testing.T) {
+func TestHashset_GetAllExcept_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a", "b", "c")
 	r := h.GetAllExceptHashset(New.Hashset.StringsSpreadItems("a"))
 	if len(r) != 2 { t.Fatal("expected 2") }
@@ -137,7 +137,7 @@ func TestHashset_GetAllExcept(t *testing.T) {
 	_ = h.GetAllExceptCollection(nil)
 }
 
-func TestHashset_Resize(t *testing.T) {
+func TestHashset_Resize_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a")
 	h.Resize(100)
 	h.ResizeLock(200)
@@ -147,7 +147,7 @@ func TestHashset_Resize(t *testing.T) {
 	h.AddCapacitiesLock()
 }
 
-func TestHashset_ConcatNew(t *testing.T) {
+func TestHashset_ConcatNew_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a")
 	h2 := New.Hashset.StringsSpreadItems("b")
 	r := h.ConcatNewHashsets(false, h2)
@@ -160,7 +160,7 @@ func TestHashset_ConcatNew(t *testing.T) {
 	_ = r4
 }
 
-func TestHashset_StringAndJson(t *testing.T) {
+func TestHashset_StringAndJson_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a")
 	if h.String() == "" { t.Fatal("expected non-empty") }
 	if h.StringLock() == "" { t.Fatal("expected non-empty") }
@@ -177,13 +177,13 @@ func TestHashset_StringAndJson(t *testing.T) {
 	_ = h.AsJsonMarshaller()
 }
 
-func TestHashset_ToLowerSet(t *testing.T) {
+func TestHashset_ToLowerSet_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("ABC")
 	lower := h.ToLowerSet()
 	if !lower.Has("abc") { t.Fatal("expected lowercase") }
 }
 
-func TestHashset_ClearDispose(t *testing.T) {
+func TestHashset_ClearDispose_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a")
 	h.Clear()
 	h.Dispose()
@@ -191,7 +191,7 @@ func TestHashset_ClearDispose(t *testing.T) {
 	nilH.Dispose()
 }
 
-func TestHashset_DistinctDiff(t *testing.T) {
+func TestHashset_DistinctDiff_C07(t *testing.T) {
 	h := New.Hashset.StringsSpreadItems("a", "b")
 	r := h.DistinctDiffLinesRaw("b", "c")
 	if len(r) != 2 { t.Fatal("expected 2 (a and c)") }
@@ -208,7 +208,7 @@ func TestHashset_DistinctDiff(t *testing.T) {
 	_ = empty.DistinctDiffLines("a")
 }
 
-func TestHashset_WgLock(t *testing.T) {
+func TestHashset_WgLock_C07(t *testing.T) {
 	h := New.Hashset.Cap(10)
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
@@ -218,7 +218,7 @@ func TestHashset_WgLock(t *testing.T) {
 	h.AddStringsPtrWgLock([]string{"b", "c"}, wg2)
 }
 
-func TestHashset_AddItemsMap(t *testing.T) {
+func TestHashset_AddItemsMap_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	h.AddItemsMap(map[string]bool{"a": true, "b": false})
 	if h.Length() != 1 { t.Fatal("expected 1") }
@@ -230,7 +230,7 @@ func TestHashset_AddItemsMap(t *testing.T) {
 	h.AddItemsMapWgLock(nil, nil)
 }
 
-func TestHashset_AddHashset(t *testing.T) {
+func TestHashset_AddHashset_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	h2 := New.Hashset.StringsSpreadItems("a", "b")
 	h.AddHashsetItems(h2)
@@ -242,7 +242,7 @@ func TestHashset_AddHashset(t *testing.T) {
 	h.AddHashsetWgLock(nil, nil)
 }
 
-func TestHashset_AddsUsingFilter(t *testing.T) {
+func TestHashset_AddsUsingFilter_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	f := func(s string, i int) (string, bool, bool) { return s, true, false }
 	h.AddsUsingFilter(f, "a", "b")
@@ -253,7 +253,7 @@ func TestHashset_AddsUsingFilter(t *testing.T) {
 	h.AddsAnyUsingFilterLock(f)
 }
 
-func TestHashset_EmptyString(t *testing.T) {
+func TestHashset_EmptyString_C07(t *testing.T) {
 	h := New.Hashset.Empty()
 	if h.String() == "" { t.Fatal("expected non-empty") }
 	if h.StringLock() == "" { t.Fatal("expected non-empty") }

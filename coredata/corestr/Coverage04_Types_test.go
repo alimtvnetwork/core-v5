@@ -6,7 +6,7 @@ import (
 
 // ── ValidValue ──
 
-func TestValidValue_NewFactories(t *testing.T) {
+func TestValidValue_NewFactories_C04(t *testing.T) {
 	v1 := NewValidValue("hello")
 	if v1.Value != "hello" || !v1.IsValid {
 		t.Fatal("unexpected")
@@ -31,7 +31,7 @@ func TestValidValue_NewFactories(t *testing.T) {
 	_ = v6
 }
 
-func TestValidValue_Methods(t *testing.T) {
+func TestValidValue_Methods_C04(t *testing.T) {
 	v := NewValidValue("hello")
 	if v.IsEmpty() || !v.HasValidNonEmpty() || !v.HasSafeNonEmpty() {
 		t.Fatal("unexpected")
@@ -65,7 +65,7 @@ func TestValidValue_Methods(t *testing.T) {
 	}
 }
 
-func TestValidValue_ValueConversions(t *testing.T) {
+func TestValidValue_ValueConversions_C04(t *testing.T) {
 	v := &ValidValue{Value: "42", IsValid: true}
 	if v.ValueBool() {
 		// "42" is not a valid bool
@@ -109,7 +109,7 @@ func TestValidValue_ValueConversions(t *testing.T) {
 	_ = neg.ValueByte(0)
 }
 
-func TestValidValue_BytesOnce(t *testing.T) {
+func TestValidValue_BytesOnce_C04(t *testing.T) {
 	v := NewValidValue("hello")
 	b1 := v.ValueBytesOnce()
 	b2 := v.ValueBytesOnce() // cached
@@ -119,7 +119,7 @@ func TestValidValue_BytesOnce(t *testing.T) {
 	_ = v.ValueBytesOncePtr()
 }
 
-func TestValidValue_Regex(t *testing.T) {
+func TestValidValue_Regex_C04(t *testing.T) {
 	v := NewValidValue("hello123")
 	if v.IsRegexMatches(nil) {
 		t.Fatal("expected false for nil regexp")
@@ -136,7 +136,7 @@ func TestValidValue_Regex(t *testing.T) {
 	}
 }
 
-func TestValidValue_Split(t *testing.T) {
+func TestValidValue_Split_C04(t *testing.T) {
 	v := NewValidValue("a,b,c")
 	if len(v.Split(",")) != 3 {
 		t.Fatal("expected 3")
@@ -145,7 +145,7 @@ func TestValidValue_Split(t *testing.T) {
 	_ = v.SplitTrimNonWhitespace(",")
 }
 
-func TestValidValue_Clone(t *testing.T) {
+func TestValidValue_Clone_C04(t *testing.T) {
 	v := NewValidValue("hello")
 	c := v.Clone()
 	if c.Value != "hello" {
@@ -157,7 +157,7 @@ func TestValidValue_Clone(t *testing.T) {
 	}
 }
 
-func TestValidValue_String(t *testing.T) {
+func TestValidValue_String_C04(t *testing.T) {
 	v := NewValidValue("hello")
 	if v.String() != "hello" {
 		t.Fatal("unexpected")
@@ -171,7 +171,7 @@ func TestValidValue_String(t *testing.T) {
 	}
 }
 
-func TestValidValue_ClearDispose(t *testing.T) {
+func TestValidValue_ClearDispose_C04(t *testing.T) {
 	v := NewValidValue("hello")
 	v.Clear()
 	if v.Value != "" {
@@ -184,7 +184,7 @@ func TestValidValue_ClearDispose(t *testing.T) {
 	nilV.Dispose()
 }
 
-func TestValidValue_Json(t *testing.T) {
+func TestValidValue_Json_C04(t *testing.T) {
 	v := ValidValue{Value: "hello", IsValid: true}
 	_ = v.Json()
 	_ = v.JsonPtr()
@@ -193,7 +193,7 @@ func TestValidValue_Json(t *testing.T) {
 
 // ── ValidValues ──
 
-func TestValidValues_Basic(t *testing.T) {
+func TestValidValues_Basic_C04(t *testing.T) {
 	vv := EmptyValidValues()
 	if !vv.IsEmpty() || vv.HasAnyItem() || vv.Length() != 0 {
 		t.Fatal("expected empty")
@@ -204,14 +204,14 @@ func TestValidValues_Basic(t *testing.T) {
 	}
 }
 
-func TestValidValues_NilReceiver(t *testing.T) {
+func TestValidValues_NilReceiver_C04(t *testing.T) {
 	var vv *ValidValues
 	if vv.Length() != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func TestValidValues_NewFactories(t *testing.T) {
+func TestValidValues_NewFactories_C04(t *testing.T) {
 	vv := NewValidValuesUsingValues(ValidValue{Value: "a"})
 	if vv.Length() != 1 {
 		t.Fatal("expected 1")
@@ -226,7 +226,7 @@ func TestValidValues_NewFactories(t *testing.T) {
 	}
 }
 
-func TestValidValues_SafeValues(t *testing.T) {
+func TestValidValues_SafeValues_C04(t *testing.T) {
 	vv := EmptyValidValues()
 	vv.Add("a").Add("b")
 	if vv.SafeValueAt(0) != "a" || vv.SafeValueAt(99) != "" {
@@ -245,7 +245,7 @@ func TestValidValues_SafeValues(t *testing.T) {
 	}
 }
 
-func TestValidValues_Strings(t *testing.T) {
+func TestValidValues_Strings_C04(t *testing.T) {
 	vv := EmptyValidValues()
 	vv.Add("a")
 	if len(vv.Strings()) != 1 {
@@ -261,7 +261,7 @@ func TestValidValues_Strings(t *testing.T) {
 
 // ── ValueStatus ──
 
-func TestValueStatus(t *testing.T) {
+func TestValueStatus_C04(t *testing.T) {
 	vs := InvalidValueStatusNoMessage()
 	if vs.ValueValid.IsValid {
 		t.Fatal("expected invalid")
@@ -275,7 +275,7 @@ func TestValueStatus(t *testing.T) {
 
 // ── TextWithLineNumber ──
 
-func TestTextWithLineNumber(t *testing.T) {
+func TestTextWithLineNumber_C04(t *testing.T) {
 	tw := &TextWithLineNumber{LineNumber: 1, Text: "hello"}
 	if !tw.HasLineNumber() || tw.IsInvalidLineNumber() {
 		t.Fatal("unexpected")
@@ -298,7 +298,7 @@ func TestTextWithLineNumber(t *testing.T) {
 
 // ── KeyValuePair ──
 
-func TestKeyValuePair(t *testing.T) {
+func TestKeyValuePair_C04(t *testing.T) {
 	kv := KeyValuePair{Key: "k", Value: "v"}
 	if kv.KeyName() != "k" || kv.VariableName() != "k" {
 		t.Fatal("unexpected")
@@ -357,7 +357,7 @@ func TestKeyValuePair(t *testing.T) {
 
 // ── LeftRight ──
 
-func TestLeftRight_Factories(t *testing.T) {
+func TestLeftRight_Factories_C04(t *testing.T) {
 	lr := NewLeftRight("a", "b")
 	if lr.Left != "a" || lr.Right != "b" || !lr.IsValid {
 		t.Fatal("unexpected")
@@ -372,7 +372,7 @@ func TestLeftRight_Factories(t *testing.T) {
 	}
 }
 
-func TestLeftRight_Methods(t *testing.T) {
+func TestLeftRight_Methods_C04(t *testing.T) {
 	lr := NewLeftRight("hello", "world")
 	if string(lr.LeftBytes()) != "hello" || string(lr.RightBytes()) != "world" {
 		t.Fatal("unexpected")
@@ -417,7 +417,7 @@ func TestLeftRight_Methods(t *testing.T) {
 	nilLr.Dispose()
 }
 
-func TestLeftRight_FromSlice(t *testing.T) {
+func TestLeftRight_FromSlice_C04(t *testing.T) {
 	lr := LeftRightUsingSlice([]string{"a", "b"})
 	if lr.Left != "a" || lr.Right != "b" {
 		t.Fatal("unexpected")
@@ -444,7 +444,7 @@ func TestLeftRight_FromSlice(t *testing.T) {
 	}
 }
 
-func TestLeftRight_FromSplit(t *testing.T) {
+func TestLeftRight_FromSplit_C04(t *testing.T) {
 	lr := LeftRightFromSplit("key=val", "=")
 	if lr.Left != "key" || lr.Right != "val" {
 		t.Fatal("unexpected")
@@ -463,7 +463,7 @@ func TestLeftRight_FromSplit(t *testing.T) {
 
 // ── LeftMiddleRight ──
 
-func TestLeftMiddleRight(t *testing.T) {
+func TestLeftMiddleRight_C04(t *testing.T) {
 	lmr := NewLeftMiddleRight("a", "b", "c")
 	if lmr.Left != "a" || lmr.Middle != "b" || lmr.Right != "c" {
 		t.Fatal("unexpected")
@@ -511,7 +511,7 @@ func TestLeftMiddleRight(t *testing.T) {
 	_ = inv2
 }
 
-func TestLeftMiddleRight_FromSplit(t *testing.T) {
+func TestLeftMiddleRight_FromSplit_C04(t *testing.T) {
 	lmr := LeftMiddleRightFromSplit("a.b.c", ".")
 	if lmr.Left != "a" || lmr.Middle != "b" || lmr.Right != "c" {
 		t.Fatal("unexpected")
@@ -528,7 +528,7 @@ func TestLeftMiddleRight_FromSplit(t *testing.T) {
 
 // ── KeyAnyValuePair ──
 
-func TestKeyAnyValuePair(t *testing.T) {
+func TestKeyAnyValuePair_C04(t *testing.T) {
 	kv := &KeyAnyValuePair{Key: "k", Value: 42}
 	if kv.KeyName() != "k" || kv.VariableName() != "k" {
 		t.Fatal("unexpected")
@@ -571,7 +571,7 @@ func TestKeyAnyValuePair(t *testing.T) {
 
 // ── HashmapDiff ──
 
-func TestHashmapDiff(t *testing.T) {
+func TestHashmapDiff_C04(t *testing.T) {
 	hd := HashmapDiff(map[string]string{"a": "1"})
 	if hd.IsEmpty() || !hd.HasAnyItem() {
 		t.Fatal("unexpected")

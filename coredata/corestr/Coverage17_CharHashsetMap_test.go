@@ -8,35 +8,35 @@ import (
 
 // ── Creators ──────────────────────────────────────────────
 
-func Test_CharHashsetMap_NewCap(t *testing.T) {
+func Test_CharHashsetMap_NewCap_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(20, 10)
 	if hsm == nil || hsm.HasItems() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_CharHashsetMap_NewCapItems(t *testing.T) {
+func Test_CharHashsetMap_NewCapItems_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(20, 10, "abc", "axy", "xyz")
 	if hsm.Length() != 2 {
 		t.Fatalf("expected 2, got %d", hsm.Length())
 	}
 }
 
-func Test_CharHashsetMap_NewStrings(t *testing.T) {
+func Test_CharHashsetMap_NewStrings_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Strings(10, []string{"abc", "xyz"})
 	if hsm.Length() != 2 {
 		t.Fatal("expected 2")
 	}
 }
 
-func Test_CharHashsetMap_NewStrings_Nil(t *testing.T) {
+func Test_CharHashsetMap_NewStrings_Nil_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Strings(10, nil)
 	if hsm == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_Empty(t *testing.T) {
+func Test_CharHashsetMap_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if hsm == nil {
 		t.Fatal("expected non-nil")
@@ -48,7 +48,7 @@ func Test_CharHashsetMap_Empty(t *testing.T) {
 
 // ── GetChar / GetCharOf ───────────────────────────────────
 
-func Test_CharHashsetMap_GetChar(t *testing.T) {
+func Test_CharHashsetMap_GetChar_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	if hsm.GetChar("hello") != 'h' {
 		t.Fatal("expected h")
@@ -58,7 +58,7 @@ func Test_CharHashsetMap_GetChar(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_GetCharOf(t *testing.T) {
+func Test_CharHashsetMap_GetCharOf_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	if hsm.GetCharOf("abc") != 'a' {
 		t.Fatal("expected a")
@@ -70,7 +70,7 @@ func Test_CharHashsetMap_GetCharOf(t *testing.T) {
 
 // ── GetCharsGroups ────────────────────────────────────────
 
-func Test_CharHashsetMap_GetCharsGroups(t *testing.T) {
+func Test_CharHashsetMap_GetCharsGroups_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	result := hsm.GetCharsGroups("abc", "axy", "xyz")
 	if result.Length() != 2 {
@@ -78,7 +78,7 @@ func Test_CharHashsetMap_GetCharsGroups(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_GetCharsGroups_Empty(t *testing.T) {
+func Test_CharHashsetMap_GetCharsGroups_Empty_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	result := hsm.GetCharsGroups()
 	if result != hsm {
@@ -88,7 +88,7 @@ func Test_CharHashsetMap_GetCharsGroups_Empty(t *testing.T) {
 
 // ── Add / AddStrings ──────────────────────────────────────
 
-func Test_CharHashsetMap_Add(t *testing.T) {
+func Test_CharHashsetMap_Add_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.Add("alpha")
 	hsm.Add("avocado")
@@ -102,7 +102,7 @@ func Test_CharHashsetMap_Add(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddStrings(t *testing.T) {
+func Test_CharHashsetMap_AddStrings_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddStrings("x1", "x2", "y1")
 	if hsm.LengthOf('x') != 2 {
@@ -110,7 +110,7 @@ func Test_CharHashsetMap_AddStrings(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddStrings_Empty(t *testing.T) {
+func Test_CharHashsetMap_AddStrings_Empty_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddStrings()
 	if hsm.HasItems() {
@@ -118,7 +118,7 @@ func Test_CharHashsetMap_AddStrings_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddLock(t *testing.T) {
+func Test_CharHashsetMap_AddLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddLock("hello")
 	hsm.AddLock("help")
@@ -127,7 +127,7 @@ func Test_CharHashsetMap_AddLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddStringsLock(t *testing.T) {
+func Test_CharHashsetMap_AddStringsLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddStringsLock("abc", "axy")
 	if hsm.Length() != 1 {
@@ -135,7 +135,7 @@ func Test_CharHashsetMap_AddStringsLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddStringsLock_Empty(t *testing.T) {
+func Test_CharHashsetMap_AddStringsLock_Empty_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddStringsLock()
 	if hsm.HasItems() {
@@ -145,7 +145,7 @@ func Test_CharHashsetMap_AddStringsLock_Empty(t *testing.T) {
 
 // ── AddSameStartingCharItems ──────────────────────────────
 
-func Test_CharHashsetMap_AddSameStartingCharItems(t *testing.T) {
+func Test_CharHashsetMap_AddSameStartingCharItems_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddSameStartingCharItems('a', []string{"abc", "axy"})
 	if hsm.LengthOfHashsetFromFirstChar("a") != 2 {
@@ -157,7 +157,7 @@ func Test_CharHashsetMap_AddSameStartingCharItems(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameStartingCharItems_Empty(t *testing.T) {
+func Test_CharHashsetMap_AddSameStartingCharItems_Empty_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddSameStartingCharItems('a', []string{})
 	if hsm.HasItems() {
@@ -167,7 +167,7 @@ func Test_CharHashsetMap_AddSameStartingCharItems_Empty(t *testing.T) {
 
 // ── AddCollectionItems ────────────────────────────────────
 
-func Test_CharHashsetMap_AddCollectionItems(t *testing.T) {
+func Test_CharHashsetMap_AddCollectionItems_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	col := New.Collection.Strings([]string{"abc", "xyz"})
 	hsm.AddCollectionItems(col)
@@ -176,7 +176,7 @@ func Test_CharHashsetMap_AddCollectionItems(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddCollectionItems_Nil(t *testing.T) {
+func Test_CharHashsetMap_AddCollectionItems_Nil_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddCollectionItems(nil)
 	if hsm.HasItems() {
@@ -186,7 +186,7 @@ func Test_CharHashsetMap_AddCollectionItems_Nil(t *testing.T) {
 
 // ── AddCharCollectionMapItems ─────────────────────────────
 
-func Test_CharHashsetMap_AddCharCollectionMapItems(t *testing.T) {
+func Test_CharHashsetMap_AddCharCollectionMapItems_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	cm := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	hsm.AddCharCollectionMapItems(cm)
@@ -195,7 +195,7 @@ func Test_CharHashsetMap_AddCharCollectionMapItems(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddCharCollectionMapItems_Nil(t *testing.T) {
+func Test_CharHashsetMap_AddCharCollectionMapItems_Nil_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddCharCollectionMapItems(nil)
 	if hsm.HasItems() {
@@ -205,7 +205,7 @@ func Test_CharHashsetMap_AddCharCollectionMapItems_Nil(t *testing.T) {
 
 // ── AddCollectionItemsAsyncLock ───────────────────────────
 
-func Test_CharHashsetMap_AddCollectionItemsAsyncLock(t *testing.T) {
+func Test_CharHashsetMap_AddCollectionItemsAsyncLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	col := New.Collection.Strings([]string{"abc", "xyz"})
 	done := make(chan bool)
@@ -219,7 +219,7 @@ func Test_CharHashsetMap_AddCollectionItemsAsyncLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddCollectionItemsAsyncLock_Nil(t *testing.T) {
+func Test_CharHashsetMap_AddCollectionItemsAsyncLock_Nil_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddCollectionItemsAsyncLock(nil, nil)
 	// should return immediately
@@ -227,7 +227,7 @@ func Test_CharHashsetMap_AddCollectionItemsAsyncLock_Nil(t *testing.T) {
 
 // ── Has / HasWithHashset ──────────────────────────────────
 
-func Test_CharHashsetMap_Has(t *testing.T) {
+func Test_CharHashsetMap_Has_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "foo", "far", "bar")
 	if !hsm.Has("foo") {
 		t.Fatal("expected has foo")
@@ -240,14 +240,14 @@ func Test_CharHashsetMap_Has(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_Has_Empty(t *testing.T) {
+func Test_CharHashsetMap_Has_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if hsm.Has("x") {
 		t.Fatal("expected false")
 	}
 }
 
-func Test_CharHashsetMap_HasWithHashset(t *testing.T) {
+func Test_CharHashsetMap_HasWithHashset_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "foo", "far")
 	has, hs := hsm.HasWithHashset("foo")
 	if !has || hs.IsEmpty() {
@@ -259,7 +259,7 @@ func Test_CharHashsetMap_HasWithHashset(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HasWithHashset_Empty(t *testing.T) {
+func Test_CharHashsetMap_HasWithHashset_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	has, hs := hsm.HasWithHashset("x")
 	if has || hs == nil {
@@ -267,7 +267,7 @@ func Test_CharHashsetMap_HasWithHashset_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HasWithHashsetLock(t *testing.T) {
+func Test_CharHashsetMap_HasWithHashsetLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "foo")
 	has, hs := hsm.HasWithHashsetLock("foo")
 	if !has || hs == nil {
@@ -279,7 +279,7 @@ func Test_CharHashsetMap_HasWithHashsetLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HasWithHashsetLock_Empty(t *testing.T) {
+func Test_CharHashsetMap_HasWithHashsetLock_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	has, _ := hsm.HasWithHashsetLock("x")
 	if has {
@@ -289,7 +289,7 @@ func Test_CharHashsetMap_HasWithHashsetLock_Empty(t *testing.T) {
 
 // ── LengthOf / LengthOfLock ──────────────────────────────
 
-func Test_CharHashsetMap_LengthOf(t *testing.T) {
+func Test_CharHashsetMap_LengthOf_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "axy")
 	if hsm.LengthOf('a') != 2 {
 		t.Fatal("expected 2")
@@ -299,14 +299,14 @@ func Test_CharHashsetMap_LengthOf(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_LengthOf_Empty(t *testing.T) {
+func Test_CharHashsetMap_LengthOf_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if hsm.LengthOf('a') != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func Test_CharHashsetMap_LengthOfLock(t *testing.T) {
+func Test_CharHashsetMap_LengthOfLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.LengthOfLock('a') != 1 {
 		t.Fatal("expected 1")
@@ -316,7 +316,7 @@ func Test_CharHashsetMap_LengthOfLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_LengthOfLock_Empty(t *testing.T) {
+func Test_CharHashsetMap_LengthOfLock_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if hsm.LengthOfLock('a') != 0 {
 		t.Fatal("expected 0")
@@ -325,28 +325,28 @@ func Test_CharHashsetMap_LengthOfLock_Empty(t *testing.T) {
 
 // ── AllLengthsSum / AllLengthsSumLock ─────────────────────
 
-func Test_CharHashsetMap_AllLengthsSum(t *testing.T) {
+func Test_CharHashsetMap_AllLengthsSum_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "a1", "a2", "b1")
 	if hsm.AllLengthsSum() != 3 {
 		t.Fatal("expected 3")
 	}
 }
 
-func Test_CharHashsetMap_AllLengthsSum_Empty(t *testing.T) {
+func Test_CharHashsetMap_AllLengthsSum_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if hsm.AllLengthsSum() != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func Test_CharHashsetMap_AllLengthsSumLock(t *testing.T) {
+func Test_CharHashsetMap_AllLengthsSumLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "a1", "b1")
 	if hsm.AllLengthsSumLock() != 2 {
 		t.Fatal("expected 2")
 	}
 }
 
-func Test_CharHashsetMap_AllLengthsSumLock_Empty(t *testing.T) {
+func Test_CharHashsetMap_AllLengthsSumLock_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if hsm.AllLengthsSumLock() != 0 {
 		t.Fatal("expected 0")
@@ -355,7 +355,7 @@ func Test_CharHashsetMap_AllLengthsSumLock_Empty(t *testing.T) {
 
 // ── IsEmpty / HasItems / IsEmptyLock ──────────────────────
 
-func Test_CharHashsetMap_IsEmpty(t *testing.T) {
+func Test_CharHashsetMap_IsEmpty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if !hsm.IsEmpty() || hsm.HasItems() {
 		t.Fatal("expected empty")
@@ -366,7 +366,7 @@ func Test_CharHashsetMap_IsEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEmptyLock(t *testing.T) {
+func Test_CharHashsetMap_IsEmptyLock_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	if !hsm.IsEmptyLock() {
 		t.Fatal("expected empty")
@@ -375,7 +375,7 @@ func Test_CharHashsetMap_IsEmptyLock(t *testing.T) {
 
 // ── IsEquals / IsEqualsLock ───────────────────────────────
 
-func Test_CharHashsetMap_IsEquals(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_C17(t *testing.T) {
 	hsm1 := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	hsm2 := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	if !hsm1.IsEquals(hsm2) {
@@ -383,21 +383,21 @@ func Test_CharHashsetMap_IsEquals(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_Nil(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_Nil_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.IsEquals(nil) {
 		t.Fatal("expected not equal")
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_SameRef(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_SameRef_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if !hsm.IsEquals(hsm) {
 		t.Fatal("expected same ref equal")
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_BothEmpty(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_BothEmpty_C17(t *testing.T) {
 	hsm1 := Empty.CharHashsetMap()
 	hsm2 := Empty.CharHashsetMap()
 	if !hsm1.IsEquals(hsm2) {
@@ -405,7 +405,7 @@ func Test_CharHashsetMap_IsEquals_BothEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_OneEmpty(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_OneEmpty_C17(t *testing.T) {
 	hsm1 := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm2 := Empty.CharHashsetMap()
 	if hsm1.IsEquals(hsm2) {
@@ -413,7 +413,7 @@ func Test_CharHashsetMap_IsEquals_OneEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_DiffLength(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_DiffLength_C17(t *testing.T) {
 	hsm1 := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	hsm2 := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm1.IsEquals(hsm2) {
@@ -421,7 +421,7 @@ func Test_CharHashsetMap_IsEquals_DiffLength(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_DiffContent(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_DiffContent_C17(t *testing.T) {
 	hsm1 := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm2 := New.CharHashsetMap.CapItems(10, 5, "axy")
 	if hsm1.IsEquals(hsm2) {
@@ -429,7 +429,7 @@ func Test_CharHashsetMap_IsEquals_DiffContent(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEquals_MissingKey(t *testing.T) {
+func Test_CharHashsetMap_IsEquals_MissingKey_C17(t *testing.T) {
 	hsm1 := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm2 := New.CharHashsetMap.CapItems(10, 5, "xyz")
 	if hsm1.IsEquals(hsm2) {
@@ -437,7 +437,7 @@ func Test_CharHashsetMap_IsEquals_MissingKey(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_IsEqualsLock(t *testing.T) {
+func Test_CharHashsetMap_IsEqualsLock_C17(t *testing.T) {
 	hsm1 := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm2 := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if !hsm1.IsEqualsLock(hsm2) {
@@ -447,7 +447,7 @@ func Test_CharHashsetMap_IsEqualsLock(t *testing.T) {
 
 // ── GetHashset / GetHashsetLock ───────────────────────────
 
-func Test_CharHashsetMap_GetHashset(t *testing.T) {
+func Test_CharHashsetMap_GetHashset_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.GetHashset("a", false)
 	if hs == nil {
@@ -465,7 +465,7 @@ func Test_CharHashsetMap_GetHashset(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_GetHashsetLock(t *testing.T) {
+func Test_CharHashsetMap_GetHashsetLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.GetHashsetLock(false, "a")
 	if hs == nil {
@@ -473,7 +473,7 @@ func Test_CharHashsetMap_GetHashsetLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_GetHashsetByChar(t *testing.T) {
+func Test_CharHashsetMap_GetHashsetByChar_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.GetHashsetByChar('a')
 	if hs == nil {
@@ -481,7 +481,7 @@ func Test_CharHashsetMap_GetHashsetByChar(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetByChar(t *testing.T) {
+func Test_CharHashsetMap_HashsetByChar_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.HashsetByChar('a')
 	if hs == nil {
@@ -489,7 +489,7 @@ func Test_CharHashsetMap_HashsetByChar(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetByCharLock(t *testing.T) {
+func Test_CharHashsetMap_HashsetByCharLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.HashsetByCharLock('a')
 	if hs == nil {
@@ -501,7 +501,7 @@ func Test_CharHashsetMap_HashsetByCharLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetByStringFirstChar(t *testing.T) {
+func Test_CharHashsetMap_HashsetByStringFirstChar_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.HashsetByStringFirstChar("abc")
 	if hs == nil {
@@ -509,7 +509,7 @@ func Test_CharHashsetMap_HashsetByStringFirstChar(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetByStringFirstCharLock(t *testing.T) {
+func Test_CharHashsetMap_HashsetByStringFirstCharLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := hsm.HashsetByStringFirstCharLock("abc")
 	if hs == nil {
@@ -519,7 +519,7 @@ func Test_CharHashsetMap_HashsetByStringFirstCharLock(t *testing.T) {
 
 // ── AddSameCharsCollection ────────────────────────────────
 
-func Test_CharHashsetMap_AddSameCharsCollection(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollection_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	col := New.Collection.Strings([]string{"abc", "axy"})
 	result := hsm.AddSameCharsCollection("a", col)
@@ -534,7 +534,7 @@ func Test_CharHashsetMap_AddSameCharsCollection(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsCollection_NilCol(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollection_NilCol_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	result := hsm.AddSameCharsCollection("a", nil)
 	if result == nil {
@@ -542,7 +542,7 @@ func Test_CharHashsetMap_AddSameCharsCollection_NilCol(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsCollection_ExistingNilAdd(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollection_ExistingNilAdd_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	result := hsm.AddSameCharsCollection("a", nil)
 	if result == nil {
@@ -552,7 +552,7 @@ func Test_CharHashsetMap_AddSameCharsCollection_ExistingNilAdd(t *testing.T) {
 
 // ── AddSameCharsHashset ───────────────────────────────────
 
-func Test_CharHashsetMap_AddSameCharsHashset(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsHashset_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hs := New.Hashset.Strings([]string{"abc", "axy"})
 	result := hsm.AddSameCharsHashset("a", hs)
@@ -561,7 +561,7 @@ func Test_CharHashsetMap_AddSameCharsHashset(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsHashset_NilHashset(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsHashset_NilHashset_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	result := hsm.AddSameCharsHashset("a", nil)
 	if result == nil {
@@ -569,7 +569,7 @@ func Test_CharHashsetMap_AddSameCharsHashset_NilHashset(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsHashset_ExistingNilAdd(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsHashset_ExistingNilAdd_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	result := hsm.AddSameCharsHashset("a", nil)
 	if result == nil {
@@ -577,7 +577,7 @@ func Test_CharHashsetMap_AddSameCharsHashset_ExistingNilAdd(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsHashset_AddToExisting(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsHashset_AddToExisting_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := New.Hashset.Strings([]string{"axy"})
 	result := hsm.AddSameCharsHashset("a", hs)
@@ -588,7 +588,7 @@ func Test_CharHashsetMap_AddSameCharsHashset_AddToExisting(t *testing.T) {
 
 // ── AddSameCharsCollectionLock ────────────────────────────
 
-func Test_CharHashsetMap_AddSameCharsCollectionLock(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollectionLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	col := New.Collection.Strings([]string{"abc"})
 	result := hsm.AddSameCharsCollectionLock("a", col)
@@ -597,7 +597,7 @@ func Test_CharHashsetMap_AddSameCharsCollectionLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsCollectionLock_NilCol(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollectionLock_NilCol_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	result := hsm.AddSameCharsCollectionLock("a", nil)
 	if result == nil {
@@ -605,7 +605,7 @@ func Test_CharHashsetMap_AddSameCharsCollectionLock_NilCol(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsCollectionLock_ExistingNilAdd(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollectionLock_ExistingNilAdd_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	result := hsm.AddSameCharsCollectionLock("a", nil)
 	if result == nil {
@@ -613,7 +613,7 @@ func Test_CharHashsetMap_AddSameCharsCollectionLock_ExistingNilAdd(t *testing.T)
 	}
 }
 
-func Test_CharHashsetMap_AddSameCharsCollectionLock_AddToExisting(t *testing.T) {
+func Test_CharHashsetMap_AddSameCharsCollectionLock_AddToExisting_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	col := New.Collection.Strings([]string{"axy"})
 	result := hsm.AddSameCharsCollectionLock("a", col)
@@ -624,7 +624,7 @@ func Test_CharHashsetMap_AddSameCharsCollectionLock_AddToExisting(t *testing.T) 
 
 // ── AddHashsetLock ────────────────────────────────────────
 
-func Test_CharHashsetMap_AddHashsetLock(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hs := New.Hashset.Strings([]string{"abc"})
 	result := hsm.AddHashsetLock("a", hs)
@@ -633,7 +633,7 @@ func Test_CharHashsetMap_AddHashsetLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddHashsetLock_NilHashset(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetLock_NilHashset_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	result := hsm.AddHashsetLock("a", nil)
 	if result == nil {
@@ -641,7 +641,7 @@ func Test_CharHashsetMap_AddHashsetLock_NilHashset(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddHashsetLock_ExistingNilAdd(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetLock_ExistingNilAdd_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	result := hsm.AddHashsetLock("a", nil)
 	if result == nil {
@@ -649,7 +649,7 @@ func Test_CharHashsetMap_AddHashsetLock_ExistingNilAdd(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddHashsetLock_AddToExisting(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetLock_AddToExisting_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hs := New.Hashset.Strings([]string{"axy"})
 	result := hsm.AddHashsetLock("a", hs)
@@ -660,7 +660,7 @@ func Test_CharHashsetMap_AddHashsetLock_AddToExisting(t *testing.T) {
 
 // ── AddHashsetItems ───────────────────────────────────────
 
-func Test_CharHashsetMap_AddHashsetItems(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetItems_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hs := New.Hashset.Strings([]string{"abc", "xyz"})
 	hsm.AddHashsetItems(hs)
@@ -669,7 +669,7 @@ func Test_CharHashsetMap_AddHashsetItems(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AddHashsetItems_Empty(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetItems_Empty_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hs := New.Hashset.Empty()
 	hsm.AddHashsetItems(hs)
@@ -680,14 +680,14 @@ func Test_CharHashsetMap_AddHashsetItems_Empty(t *testing.T) {
 
 // ── AddHashsetItemsAsyncLock ──────────────────────────────
 
-func Test_CharHashsetMap_AddHashsetItemsAsyncLock_Nil(t *testing.T) {
+func Test_CharHashsetMap_AddHashsetItemsAsyncLock_Nil_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.Cap(10, 5)
 	hsm.AddHashsetItemsAsyncLock(nil, nil)
 }
 
 // ── HashsetsCollection ────────────────────────────────────
 
-func Test_CharHashsetMap_HashsetsCollection(t *testing.T) {
+func Test_CharHashsetMap_HashsetsCollection_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	hsc := hsm.HashsetsCollection()
 	if hsc == nil {
@@ -695,7 +695,7 @@ func Test_CharHashsetMap_HashsetsCollection(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetsCollection_Empty(t *testing.T) {
+func Test_CharHashsetMap_HashsetsCollection_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	hsc := hsm.HashsetsCollection()
 	if hsc == nil {
@@ -703,7 +703,7 @@ func Test_CharHashsetMap_HashsetsCollection_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetsCollectionByChars(t *testing.T) {
+func Test_CharHashsetMap_HashsetsCollectionByChars_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	hsc := hsm.HashsetsCollectionByChars('a', 'x')
 	if hsc == nil {
@@ -711,7 +711,7 @@ func Test_CharHashsetMap_HashsetsCollectionByChars(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetsCollectionByChars_Empty(t *testing.T) {
+func Test_CharHashsetMap_HashsetsCollectionByChars_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	hsc := hsm.HashsetsCollectionByChars('a')
 	if hsc == nil {
@@ -719,7 +719,7 @@ func Test_CharHashsetMap_HashsetsCollectionByChars_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetsCollectionByStringsFirstChar(t *testing.T) {
+func Test_CharHashsetMap_HashsetsCollectionByStringsFirstChar_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	hsc := hsm.HashsetsCollectionByStringsFirstChar("abc", "xyz")
 	if hsc == nil {
@@ -727,7 +727,7 @@ func Test_CharHashsetMap_HashsetsCollectionByStringsFirstChar(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_HashsetsCollectionByStringsFirstChar_Empty(t *testing.T) {
+func Test_CharHashsetMap_HashsetsCollectionByStringsFirstChar_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	hsc := hsm.HashsetsCollectionByStringsFirstChar("abc")
 	if hsc == nil {
@@ -737,7 +737,7 @@ func Test_CharHashsetMap_HashsetsCollectionByStringsFirstChar_Empty(t *testing.T
 
 // ── List / SortedListAsc / SortedListDsc ──────────────────
 
-func Test_CharHashsetMap_List(t *testing.T) {
+func Test_CharHashsetMap_List_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	list := hsm.List()
 	if len(list) != 2 {
@@ -745,7 +745,7 @@ func Test_CharHashsetMap_List(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_SortedListAsc(t *testing.T) {
+func Test_CharHashsetMap_SortedListAsc_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "cherry", "apple", "banana")
 	sorted := hsm.SortedListAsc()
 	if len(sorted) != 3 {
@@ -756,7 +756,7 @@ func Test_CharHashsetMap_SortedListAsc(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_SortedListDsc(t *testing.T) {
+func Test_CharHashsetMap_SortedListDsc_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "cherry", "apple", "banana")
 	sorted := hsm.SortedListDsc()
 	if len(sorted) != 3 {
@@ -769,14 +769,14 @@ func Test_CharHashsetMap_SortedListDsc(t *testing.T) {
 
 // ── GetMap / GetCopyMapLock ───────────────────────────────
 
-func Test_CharHashsetMap_GetMap(t *testing.T) {
+func Test_CharHashsetMap_GetMap_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.GetMap() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_GetCopyMapLock(t *testing.T) {
+func Test_CharHashsetMap_GetCopyMapLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	m := hsm.GetCopyMapLock()
 	if len(m) != 1 {
@@ -784,7 +784,7 @@ func Test_CharHashsetMap_GetCopyMapLock(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_GetCopyMapLock_Empty(t *testing.T) {
+func Test_CharHashsetMap_GetCopyMapLock_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	m := hsm.GetCopyMapLock()
 	if len(m) != 0 {
@@ -794,28 +794,28 @@ func Test_CharHashsetMap_GetCopyMapLock_Empty(t *testing.T) {
 
 // ── String / SummaryString ────────────────────────────────
 
-func Test_CharHashsetMap_String(t *testing.T) {
+func Test_CharHashsetMap_String_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.String() == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
-func Test_CharHashsetMap_SummaryString(t *testing.T) {
+func Test_CharHashsetMap_SummaryString_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.SummaryString() == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
-func Test_CharHashsetMap_StringLock(t *testing.T) {
+func Test_CharHashsetMap_StringLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.StringLock() == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
-func Test_CharHashsetMap_SummaryStringLock(t *testing.T) {
+func Test_CharHashsetMap_SummaryStringLock_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.SummaryStringLock() == "" {
 		t.Fatal("expected non-empty")
@@ -824,33 +824,33 @@ func Test_CharHashsetMap_SummaryStringLock(t *testing.T) {
 
 // ── Print ─────────────────────────────────────────────────
 
-func Test_CharHashsetMap_Print_Skip(t *testing.T) {
+func Test_CharHashsetMap_Print_Skip_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm.Print(false)
 }
 
-func Test_CharHashsetMap_PrintLock_Skip(t *testing.T) {
+func Test_CharHashsetMap_PrintLock_Skip_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm.PrintLock(false)
 }
 
 // ── JSON ──────────────────────────────────────────────────
 
-func Test_CharHashsetMap_JsonModel(t *testing.T) {
+func Test_CharHashsetMap_JsonModel_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.JsonModel() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_JsonModelAny(t *testing.T) {
+func Test_CharHashsetMap_JsonModelAny_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.JsonModelAny() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_MarshalUnmarshalJSON(t *testing.T) {
+func Test_CharHashsetMap_MarshalUnmarshalJSON_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	data, err := json.Marshal(hsm)
 	if err != nil {
@@ -863,7 +863,7 @@ func Test_CharHashsetMap_MarshalUnmarshalJSON(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_Json(t *testing.T) {
+func Test_CharHashsetMap_Json_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	result := hsm.Json()
 	if result.HasError() {
@@ -871,7 +871,7 @@ func Test_CharHashsetMap_Json(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_JsonPtr(t *testing.T) {
+func Test_CharHashsetMap_JsonPtr_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	result := hsm.JsonPtr()
 	if result == nil || result.HasError() {
@@ -879,7 +879,7 @@ func Test_CharHashsetMap_JsonPtr(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_ParseInjectUsingJson(t *testing.T) {
+func Test_CharHashsetMap_ParseInjectUsingJson_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	jr := hsm.JsonPtr()
 	hsm2 := New.CharHashsetMap.Cap(10, 5)
@@ -889,7 +889,7 @@ func Test_CharHashsetMap_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_CharHashsetMap_ParseInjectUsingJsonMust_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	jr := hsm.JsonPtr()
 	hsm2 := New.CharHashsetMap.Cap(10, 5)
@@ -899,7 +899,7 @@ func Test_CharHashsetMap_ParseInjectUsingJsonMust(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_JsonParseSelfInject(t *testing.T) {
+func Test_CharHashsetMap_JsonParseSelfInject_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	jr := hsm.JsonPtr()
 	hsm2 := New.CharHashsetMap.Cap(10, 5)
@@ -909,28 +909,28 @@ func Test_CharHashsetMap_JsonParseSelfInject(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_AsJsonContractsBinder(t *testing.T) {
+func Test_CharHashsetMap_AsJsonContractsBinder_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.AsJsonContractsBinder() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_AsJsoner(t *testing.T) {
+func Test_CharHashsetMap_AsJsoner_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.AsJsoner() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_AsJsonMarshaller(t *testing.T) {
+func Test_CharHashsetMap_AsJsonMarshaller_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.AsJsonMarshaller() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharHashsetMap_AsJsonParseSelfInjector(t *testing.T) {
+func Test_CharHashsetMap_AsJsonParseSelfInjector_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	if hsm.AsJsonParseSelfInjector() == nil {
 		t.Fatal("expected non-nil")
@@ -939,7 +939,7 @@ func Test_CharHashsetMap_AsJsonParseSelfInjector(t *testing.T) {
 
 // ── RemoveAll / Clear ─────────────────────────────────────
 
-func Test_CharHashsetMap_RemoveAll(t *testing.T) {
+func Test_CharHashsetMap_RemoveAll_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "xyz")
 	hsm.RemoveAll()
 	if hsm.HasItems() {
@@ -947,7 +947,7 @@ func Test_CharHashsetMap_RemoveAll(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_Clear(t *testing.T) {
+func Test_CharHashsetMap_Clear_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	hsm.Clear()
 	if hsm.HasItems() {
@@ -955,14 +955,14 @@ func Test_CharHashsetMap_Clear(t *testing.T) {
 	}
 }
 
-func Test_CharHashsetMap_Clear_Empty(t *testing.T) {
+func Test_CharHashsetMap_Clear_Empty_C17(t *testing.T) {
 	hsm := Empty.CharHashsetMap()
 	hsm.Clear()
 }
 
 // ── DataModel ─────────────────────────────────────────────
 
-func Test_CharHashsetDataModel(t *testing.T) {
+func Test_CharHashsetDataModel_C17(t *testing.T) {
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc")
 	model := NewCharHashsetMapDataModelUsing(hsm)
 	hsm2 := NewCharHashsetMapUsingDataModel(model)
