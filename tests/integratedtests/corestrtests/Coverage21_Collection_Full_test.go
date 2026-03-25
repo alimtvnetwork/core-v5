@@ -1,10 +1,12 @@
 package corestrtests
 
 import (
+	"encoding/json"
 	"fmt"
 	"sync"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coredata/corejson"
 	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
