@@ -20,7 +20,8 @@ Because Go runs all tests in a package as a single binary, **one compile error b
 `newHashsetCreator.Strings` takes a **single `[]string` slice**, not variadic strings.
 
 **Wrong:** `corestr.New.Hashset.Strings("a", "b", "c")`
-**Right:** `corestr.New.Hashset.Strings([]string{"a", "b", "c"})`
+**Right (slice):** `corestr.New.Hashset.Strings([]string{"a", "b", "c"})`
+**Right (variadic):** `corestr.New.Hashset.StringsSpreadItems("a", "b", "c")`
 
 This is the **dominant error** — roughly 40 of the 76 errors.
 
