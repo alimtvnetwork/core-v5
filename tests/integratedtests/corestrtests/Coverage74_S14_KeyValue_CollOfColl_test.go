@@ -1711,7 +1711,7 @@ func Test_C74_CollOfColl_Json_Serialize(t *testing.T) {
 
 	// Assert
 	if jsonResult.HasError() {
-		t.Errorf("json error: %v", jsonResult.Error())
+		t.Errorf("json error: %v", jsonResult.Error)
 	}
 }
 
