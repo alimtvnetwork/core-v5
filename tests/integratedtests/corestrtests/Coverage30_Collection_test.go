@@ -574,7 +574,7 @@ func Test_C30_Collection_NonEmptyItemsOrNonWhitespace(t *testing.T) {
 
 func Test_C30_Collection_Items(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	_ = c.Strings()
+	_ = c.Items()
 	_ = c.ListPtr()
 }
 

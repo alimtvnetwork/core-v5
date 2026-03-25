@@ -108,16 +108,27 @@ function Scan-FileForRegressions {
     # Rule 3: Legacy CaseV1 fields inside coretestcases.CaseV1 literals
     # Rule 4: Invalid Hashmap hm.Add() usage (should be hm.AddOrUpdate)
     # Detect variables assigned from corestr.New.Hashmap.* then called with .Add(
+    # IMPORTANT: Also detect Hashset vars to EXCLUDE them — Hashset.Add() is valid.
     $hashmapVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    $hashsetVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
     # Rule 5: SimpleSlice signature-drift checks
     $simpleSliceVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
     for ($i = 0; $i -lt $lines.Count; $i++) {
         if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.Hashmap\.') {
             $hashmapVarNames.Add($Matches[1]) | Out-Null
         }
+        if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.Hashset\.') {
+            $hashsetVarNames.Add($Matches[1]) | Out-Null
+        }
         if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.SimpleSlice\.') {
             $simpleSliceVarNames.Add($Matches[1]) | Out-Null
         }
+    }
+
+    # Remove Hashset var names from Hashmap set to avoid false positives
+    # (same var name like 'h' used for both types in different functions)
+    foreach ($hsVar in $hashsetVarNames) {
+        $hashmapVarNames.Remove($hsVar) | Out-Null
     }
 
     foreach ($hmVar in $hashmapVarNames) {
@@ -162,24 +173,9 @@ function Scan-FileForRegressions {
         }
     }
 
-    # Rule 6: Deprecated .Items() on Collection and SimpleSlice (renamed to .Strings())
-    # Detect Collection variables
-    $collectionVarNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
-    for ($i = 0; $i -lt $lines.Count; $i++) {
-        if ($lines[$i] -match '\b([A-Za-z_]\w*)\s*:?=\s*corestr\.New\.Collection\.') {
-            $collectionVarNames.Add($Matches[1]) | Out-Null
-        }
-    }
-
-    foreach ($cVar in $collectionVarNames) {
-        $escapedC = [regex]::Escape($cVar)
-        for ($i = 0; $i -lt $lines.Count; $i++) {
-            if ($lines[$i] -match "\b$escapedC\.Items\(\)") {
-                Add-Issue $issues $issueKeys $packageName $relFile ($i + 1) "collection-items-renamed" "Use .Strings() instead of .Items() on corestr.Collection" $lines[$i]
-            }
-        }
-    }
-
+    # Rule 6: Deprecated .Items() on SimpleSlice only (renamed to .Strings())
+    # NOTE: Collection.Items() is VALID — Collection does NOT have .Strings().
+    # Only SimpleSlice.Items() is deprecated.
     foreach ($ssVar2 in $simpleSliceVarNames) {
         $escapedSs2 = [regex]::Escape($ssVar2)
         for ($i = 0; $i -lt $lines.Count; $i++) {

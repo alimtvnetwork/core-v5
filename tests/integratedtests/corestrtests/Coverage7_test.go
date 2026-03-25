@@ -204,7 +204,7 @@ func Test_Cov7_Hashset_List(t *testing.T) {
 
 func Test_Cov7_Hashset_Add(t *testing.T) {
 	h := corestr.New.Hashset.Cap(5)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	h.Adds("b", "c")
 	actual := args.Map{"len": h.Length()}
 	expected := args.Map{"len": 3}
