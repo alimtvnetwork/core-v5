@@ -55,7 +55,7 @@ function Get-CoreTestCasesAliases([string]$rawFileContent) {
         }
     }
 
-    return $aliases.ToArray()
+    return @($aliases)
 }
 
 function Scan-FileForRegressions {
