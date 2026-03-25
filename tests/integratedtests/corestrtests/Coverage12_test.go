@@ -333,14 +333,14 @@ func Test_Cov12_HashsetsCollection_Nil(t *testing.T) {
 // ── CollectionsOfCollection ──
 
 func Test_Cov12_CollectionsOfCollection_Basic(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Cap(5)
+	coc := corestr.New.CollectionsOfCollection.LenCap(0, 5)
 	actual := args.Map{"isEmpty": coc.IsEmpty(), "len": coc.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns correct value -- basic", actual)
 }
 
 func Test_Cov12_CollectionsOfCollection_Add(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Cap(5)
+	coc := corestr.New.CollectionsOfCollection.LenCap(0, 5)
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	coc.Add(c)
 	actual := args.Map{"len": coc.Length()}

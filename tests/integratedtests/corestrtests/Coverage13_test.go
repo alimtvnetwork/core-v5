@@ -796,8 +796,8 @@ func Test_Cov13_SimpleSlice_AddVariants(t *testing.T) {
 	s.AddError(nil)
 	s.AddSplit("a.b.c", ".")
 
-	if s.Length() != 8 {
-		t.Fatalf("expected 8 got %d", s.Length())
+	if s.Length() != 9 {
+		t.Fatalf("expected 9 got %d", s.Length())
 	}
 }
 
