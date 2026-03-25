@@ -1174,7 +1174,7 @@ func Test_C74_KeyValueCollection_AddHashset_Nil(t *testing.T) {
 func Test_C74_KeyValueCollection_AddsHashmap(t *testing.T) {
 	// Arrange
 	kvc := corestr.New.KeyValues.Empty()
-	hm := corestr.New.Hashmap.StringsMap(map[string]string{"a": "1"})
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
 
 	// Act
 	kvc.AddsHashmap(hm)
