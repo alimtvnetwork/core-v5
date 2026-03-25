@@ -1,6 +1,8 @@
 package corestr
 
 import (
+	"fmt"
+	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
@@ -837,7 +839,7 @@ func TestHashmap_ConcatNew_C10(t *testing.T) {
 	hm1.AddOrUpdate("a", "1")
 	hm2 := New.Hashmap.Cap(5)
 	hm2.AddOrUpdate("b", "2")
-	result := hm1.ConcatNew(hm2)
+	result := hm1.ConcatNew(false, hm2)
 	if result.Length() != 2 { t.Fatal("expected 2") }
 }
 
@@ -845,26 +847,30 @@ func TestHashmap_ConcatNewUsingMaps_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
 	hm.AddOrUpdate("a", "1")
 	m := map[string]string{"b": "2"}
-	result := hm.ConcatNewUsingMaps(m)
+	result := hm.ConcatNewUsingMaps(false, m)
 	if result.Length() != 2 { t.Fatal("expected 2") }
 }
 
 func TestHashmap_AddsOrUpdatesUsingFilter_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	hm.AddsOrUpdatesUsingFilter(func(k, v string) bool { return k != "skip" }, "a", "1", "skip", "2", "b", "3")
+	hm.AddsOrUpdatesUsingFilter(func(pair KeyValuePair) (string, bool, bool) {
+		return pair.Value, pair.Key != "skip", false
+	}, KeyValuePair{Key: "a", Value: "1"}, KeyValuePair{Key: "skip", Value: "2"}, KeyValuePair{Key: "b", Value: "3"})
 	if hm.Length() != 2 { t.Fatal("expected 2") }
 }
 
 func TestHashmap_AddsOrUpdatesAnyUsingFilter_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	items := map[string]any{"a": "1", "b": 2}
-	hm.AddsOrUpdatesAnyUsingFilter(items, func(k string, v any) bool { return k == "a" })
+	hm.AddsOrUpdatesAnyUsingFilter(func(pair KeyAnyValuePair) (string, bool, bool) {
+		return fmt.Sprintf("%v", pair.Value), pair.Key == "a", false
+	}, KeyAnyValuePair{Key: "a", Value: "1"}, KeyAnyValuePair{Key: "b", Value: 2})
 }
 
 func TestHashmap_AddsOrUpdatesAnyUsingFilterLock_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	items := map[string]any{"a": "1"}
-	hm.AddsOrUpdatesAnyUsingFilterLock(items, func(k string, v any) bool { return true })
+	hm.AddsOrUpdatesAnyUsingFilterLock(func(pair KeyAnyValuePair) (string, bool, bool) {
+		return fmt.Sprintf("%v", pair.Value), true, false
+	}, KeyAnyValuePair{Key: "a", Value: "1"})
 }
 
 func TestHashmap_AddOrUpdateKeyStrValInt_C10(t *testing.T) {
@@ -890,28 +896,35 @@ func TestHashmap_AddOrUpdateKeyStrValAny_C10(t *testing.T) {
 
 func TestHashmap_AddOrUpdateKeyValueAny_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	hm.AddOrUpdateKeyValueAny("a", 42)
+	hm.AddOrUpdateKeyValueAny(KeyAnyValuePair{Key: "a", Value: 42})
 }
 
 func TestHashmap_AddOrUpdateKeyVal_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	hm.AddOrUpdateKeyVal("a", "1")
+	hm.AddOrUpdateKeyVal(KeyValuePair{Key: "a", Value: "1"})
 }
 
 func TestHashmap_AddOrUpdateWithWgLock_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	hm.AddOrUpdateWithWgLock("a", "1")
+	var wg sync.WaitGroup
+	wg.Add(1)
+	hm.AddOrUpdateWithWgLock("a", "1", &wg)
+	wg.Wait()
 }
 
 func TestHashmap_AddOrUpdateStringsPtrWgLock_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	items := []string{"a", "1", "b", "2"}
-	hm.AddOrUpdateStringsPtrWgLock(&items)
+	var wg sync.WaitGroup
+	wg.Add(1)
+	keys := []string{"a", "b"}
+	values := []string{"1", "2"}
+	hm.AddOrUpdateStringsPtrWgLock(&wg, keys, values)
+	wg.Wait()
 }
 
 func TestHashmap_AddOrUpdateKeyAnyValues_C10(t *testing.T) {
 	hm := New.Hashmap.Cap(5)
-	hm.AddOrUpdateKeyAnyValues(map[string]any{"a": 1, "b": "hello"})
+	hm.AddOrUpdateKeyAnyValues(KeyAnyValuePair{Key: "a", Value: 1}, KeyAnyValuePair{Key: "b", Value: "hello"})
 }
 
 // ── Hashset extended coverage ──
@@ -956,7 +969,7 @@ func TestHashset_List_C10(t *testing.T) {
 
 func TestHashset_ListSortedAsc_C10(t *testing.T) {
 	hs := New.Hashset.Strings([]string{"c", "a", "b"})
-	sorted := hs.ListSortedAsc()
+	sorted := hs.ListPtrSortedAsc()
 	if sorted[0] != "a" { t.Fatal("expected a first") }
 }
 
@@ -968,8 +981,8 @@ func TestHashset_Collection_C10(t *testing.T) {
 
 func TestHashset_Clone_C10(t *testing.T) {
 	hs := New.Hashset.Strings([]string{"a", "b"})
-	cloned := hs.Clone()
-	if cloned.Length() != 2 { t.Fatal("expected 2") }
+	copied := hs.ListCopyLock()
+	if len(copied) != 2 { t.Fatal("expected 2") }
 }
 
 func TestHashset_String_C10(t *testing.T) {
@@ -1002,8 +1015,10 @@ func TestHashset_JsonInterfaces_C10(t *testing.T) {
 	_ = hs.AsJsonContractsBinder()
 	_ = hs.AsJsonParseSelfInjector()
 	_ = hs.AsJsonMarshaller()
-	_ = hs.Serialize()
-	_ = hs.Deserialize()
+	_, err := hs.Serialize()
+	if err != nil { t.Fatal(err) }
+	var hs2 Hashset
+	if err := hs2.Deserialize(hs.JsonPtr()); err != nil { t.Fatal(err) }
 }
 
 // ── newCreator paths ──
@@ -1019,7 +1034,7 @@ func TestNewCreator_CollectionCloneStrings_C10(t *testing.T) {
 }
 
 func TestNewCreator_CollectionCreate_C10(t *testing.T) {
-	c := New.Collection.Create(5)
+	c := New.Collection.Create([]string{"a", "b"})
 	if c == nil { t.Fatal("expected non-nil") }
 }
 
@@ -1029,7 +1044,7 @@ func TestNewCreator_CollectionStringsPlusCap_C10(t *testing.T) {
 }
 
 func TestNewCreator_CollectionCapStrings_C10(t *testing.T) {
-	c := New.Collection.CapStrings(10, "a", "b")
+	c := New.Collection.CapStrings(10, []string{"a", "b"})
 	if c.Length() != 2 { t.Fatal("expected 2") }
 }
 
@@ -1069,7 +1084,7 @@ func TestNewCreator_HashsetEmpty_C10(t *testing.T) {
 }
 
 func TestNewCreator_HashsetStringsOption_C10(t *testing.T) {
-	hs := New.Hashset.StringsOption(true, []string{"a"})
+	hs := New.Hashset.StringsOption(0, true, "a")
 	if hs.Length() != 1 { t.Fatal("expected 1") }
 }
 

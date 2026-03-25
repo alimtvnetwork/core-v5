@@ -9,7 +9,7 @@ type newCollectionsOfCollectionCreator struct{}
 func (it *newCollectionsOfCollectionCreator) Cap(
 	capacity int,
 ) *CollectionsOfCollection {
-	collection := make([]*Collection, constants.Zero, capacity)
+	collection := make([]*Collection, capacity, capacity)
 
 	return &CollectionsOfCollection{
 		items: collection,

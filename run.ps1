@@ -520,7 +520,7 @@ function Open-FailingTestsIfAny {
         if ($content -and $content -notmatch '# Count: 0') {
             Write-Host ""
             Write-Host "  Opening failing tests log..." -ForegroundColor Yellow
-            Start-Process $failingFile
+            Invoke-Item $failingFile
         }
     }
 }
