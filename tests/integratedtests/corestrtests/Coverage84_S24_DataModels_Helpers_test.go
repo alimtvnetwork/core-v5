@@ -25,7 +25,7 @@ func Test_CovS24_01_NewHashmapUsingDataModel(t *testing.T) {
 
 func Test_CovS24_02_NewHashmapsDataModelUsing(t *testing.T) {
 	// Arrange
-	hm := corestr.New.Hashmap.StringsOfPairs("a", "1", "b", "2")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 
 	// Act
 	model := corestr.NewHashmapsDataModelUsing(hm)
