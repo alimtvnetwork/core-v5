@@ -9,8 +9,8 @@ func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) e
 	var removeErr error
 
 	if isRemoveAllDirBeforeCreate && IsPathExists(dir) {
-		// Ensure directory is writable before removal to avoid permission denied errors
-		_ = os.Chmod(dir, 0777)
+		// Recursively chmod to 0777 before removal to handle nested restrictive permissions
+		chmodRecursive(dir)
 		removeErr = os.RemoveAll(dir)
 	}
 

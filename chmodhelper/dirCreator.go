@@ -48,22 +48,36 @@ func (it dirCreator) IfMissing(
 		return nil
 	}
 
+	// Use permissive mode for MkdirAll to allow nested dir creation,
+	// then apply the requested chmod afterward.
 	err := os.MkdirAll(
 		dirPath,
-		applyChmod,
+		dirDefaultChmod,
 	)
 
-	if err == nil {
-		return nil
+	if err != nil {
+		// has err
+		return newError.pathErrorWithDirValidate(
+			"dir creation failed",
+			applyChmod,
+			dirPath,
+			err,
+		)
 	}
 
-	// has err
-	return newError.pathErrorWithDirValidate(
-		"dir creation failed",
-		applyChmod,
-		dirPath,
-		err,
-	)
+	// Apply the requested chmod if it differs from the default
+	if applyChmod != dirDefaultChmod {
+		chmodErr := os.Chmod(dirPath, applyChmod)
+		if chmodErr != nil {
+			return newError.chmodApplyFailed(
+				applyChmod,
+				dirPath,
+				chmodErr,
+			)
+		}
+	}
+
+	return nil
 }
 
 // ByChecking

@@ -655,7 +655,7 @@ func Test_Seg1_LeftRight_TrimmedUsingSliceEmpty(t *testing.T) {
 func Test_Seg1_LeftRight_TrimmedUsingSliceSingle(t *testing.T) {
 	lr := corestr.LeftRightTrimmedUsingSlice([]string{" only "})
 	actual := args.Map{"left": lr.Left, "valid": lr.IsValid}
-	expected := args.Map{"left": " only ", "valid": false}
+	expected := args.Map{"left": "only", "valid": false}
 	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice -- single item not trimmed", actual)
 }
 
