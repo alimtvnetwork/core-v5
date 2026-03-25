@@ -978,7 +978,7 @@ func Test_Cov11_LeftMiddleRight_ClearDispose(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov11_CollectionsOfCollection_Basic(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Cap(5)
+	coc := corestr.New.CollectionsOfCollection.LenCap(0, 5)
 	c1 := corestr.New.Collection.Strings([]string{"a", "b"})
 	c2 := corestr.New.Collection.Strings([]string{"c"})
 	coc.Add(c1)
