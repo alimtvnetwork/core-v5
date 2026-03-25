@@ -126,7 +126,7 @@ func Test_CovS24_07_NewCharCollectionMapUsingDataModel(t *testing.T) {
 func Test_CovS24_08_NewCharCollectionMapDataModelUsing(t *testing.T) {
 	// Arrange
 	ccm := corestr.New.CharCollectionMap.Empty()
-	ccm.AddString("alpha")
+	ccm.Add("alpha")
 
 	// Act
 	model := corestr.NewCharCollectionMapDataModelUsing(ccm)
@@ -161,7 +161,7 @@ func Test_CovS24_09_NewCharHashsetMapUsingDataModel(t *testing.T) {
 func Test_CovS24_10_NewCharHashsetMapDataModelUsing(t *testing.T) {
 	// Arrange
 	chm := corestr.New.CharHashsetMap.Cap(0, 0)
-	chm.AddString("beta")
+	chm.Add("beta")
 
 	// Act
 	model := corestr.NewCharHashsetMapDataModelUsing(chm)
