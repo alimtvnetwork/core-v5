@@ -1079,7 +1079,9 @@ func Test_C24_LinkedList_ParseInjectUsingJsonMust(t *testing.T) {
 
 func Test_C24_LinkedList_JsonParseSelfInject(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	jsonResult := ll.Json()
+	// Use json.Marshal with pointer to bypass value receiver issue on Json()
+	b, _ := json.Marshal(ll)
+	jsonResult := corejson.Result{Bytes: b}
 	ll2 := corestr.New.LinkedList.Create()
 	err := ll2.JsonParseSelfInject(&jsonResult)
 	if err != nil {
