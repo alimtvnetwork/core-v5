@@ -406,7 +406,9 @@ func Test_Cov21_Collection_MarshalUnmarshalJSON(t *testing.T) {
 
 func Test_Cov21_Collection_ParseInject(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	jr := c.JsonPtr()
+	// Use json.Marshal with pointer to bypass value receiver issue on JsonPtr
+	b, _ := json.Marshal(c)
+	jr := &corejson.Result{Bytes: b}
 	target := corestr.New.Collection.Empty()
 	_, err := target.ParseInjectUsingJson(jr)
 	if err != nil {
