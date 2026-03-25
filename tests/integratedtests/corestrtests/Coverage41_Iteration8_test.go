@@ -1213,8 +1213,10 @@ func Test_I8_AnyToString(t *testing.T) {
 
 func Test_I8_AllIndividualStringsOfStringsLength(t *testing.T) {
 	strs := [][]string{{"a", "bb"}, {"ccc"}}
+	// Fix: function counts items (3), not character lengths (6).
+	// See issues/corestrtests-allindividualslength-wrong-expectation.md
 	result := corestr.AllIndividualStringsOfStringsLength(&strs)
-	if result != 6 { t.Fatalf("expected 6, got %d", result) }
+	if result != 3 { t.Fatalf("expected 3, got %d", result) }
 }
 
 func Test_I8_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
