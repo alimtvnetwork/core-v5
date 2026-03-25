@@ -38,10 +38,11 @@ This is the **dominant error** — roughly 40 of the 76 errors.
 
 | Wrong Call | Correct Alternative |
 |---|---|
-| `corestr.New.Hashmap.StringsMap(...)` | Use `corestr.New.Hashmap.Create()` + `AddOrUpdate` |
-| `corestr.New.Hashmap.StringsOfPairs(...)` | Use existing factory (check `newHashmapCreator`) |
-| `corestr.New.CharCollectionMap.Default(...)` | Use existing factory (check `newCharCollectionMapCreator`) |
-| `corestr.New.CharHashsetMap.Default(...)` | Use existing factory (check `newCharHashsetMapCreator`) |
+| `corestr.New.Hashmap.StringsMap(m)` | `corestr.New.Hashmap.UsingMap(m)` |
+| `corestr.New.Hashmap.StringsOfPairs("a","1","b","2")` | `corestr.New.Hashmap.KeyValuesStrings(keys, vals)` or build manually |
+| `corestr.New.CharCollectionMap.Default()` | `corestr.New.CharCollectionMap.Empty()` |
+| `corestr.New.CharHashsetMap.Default()` | `corestr.New.CharHashsetMap.Cap(0, 0)` |
+| `corestr.New.SimpleSlice.Strings("a", "b")` (variadic) | `corestr.New.SimpleSlice.Strings([]string{"a", "b"})` (takes `[]string`) |
 
 ### 4. Pointer Method on Value Receiver: `corejson.Result.HasError` (3 errors)
 **Files:** `Coverage_LinkedCollections_S13_*.go`, `Coverage_LinkedList_S12_*.go`, `Coverage_SimpleSlice_S11b_*.go`
