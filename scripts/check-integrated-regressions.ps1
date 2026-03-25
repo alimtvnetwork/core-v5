@@ -69,7 +69,7 @@ function Scan-FileForRegressions {
 
     $raw = Get-Content -Path $file.FullName -Raw
     $lines = Get-Content -Path $file.FullName
-    $relFile = $file.FullName.Replace($repoRoot, '').TrimStart('\\', '/') -replace '\\', '/'
+    $relFile = $file.FullName.Replace($repoRoot, '').TrimStart([char]'\', [char]'/') -replace '\\', '/'
 
     # Rule 1: Invalid Result initializer field (corejson.Result{Err: ...})
     for ($i = 0; $i -lt $lines.Count; $i++) {
