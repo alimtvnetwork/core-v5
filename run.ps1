@@ -2081,11 +2081,14 @@ function Show-Help {
 }
 
 # -- Dispatch --
+# Fix reference: issues/runps1-precommit-null-array-crash.md
+$firstExtraArg = if ($ExtraArgs -and $ExtraArgs.Count -gt 0) { $ExtraArgs[0] } else { $null }
+
 switch ($Command.ToLower()) {
     { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
-    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $ExtraArgs[0] }
+    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $firstExtraArg }
     { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
-    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $ExtraArgs[0] }
+    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $firstExtraArg }
     { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
     { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
     { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
@@ -2095,7 +2098,7 @@ switch ($Command.ToLower()) {
     { $_ -in "f", "-f", "fmt" }               { Invoke-Format }
     { $_ -in "l", "-l", "lint", "v", "-v", "vet" } { Invoke-Vet }
     { $_ -in "ty", "-ty", "tidy" }            { Invoke-Tidy }
-    { $_ -in "pc", "-pc", "pre-commit" }      { Invoke-PreCommitCheck $ExtraArgs[0] }
+    { $_ -in "pc", "-pc", "pre-commit" }      { Invoke-PreCommitCheck $firstExtraArg }
     { $_ -in "c", "-c", "clean" }             { Invoke-Clean }
     { $_ -in "h", "-h", "help", "" }          { Show-Help }
     default {
