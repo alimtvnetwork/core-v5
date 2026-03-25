@@ -82,3 +82,17 @@ func pathMeaningfulError(
 		location,
 	)
 }
+
+// chmodRecursive walks the directory tree and sets 0777 on all entries
+// so that os.RemoveAll can succeed even on restrictively-permissioned trees.
+func chmodRecursive(dir string) {
+	_ = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			// If we can't stat, try to chmod the path anyway
+			_ = os.Chmod(path, 0777)
+			return nil
+		}
+		_ = os.Chmod(path, 0777)
+		return nil
+	})
+}
