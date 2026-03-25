@@ -617,6 +617,9 @@ func (it *CharHashsetMap) Add(
 ) *CharHashsetMap {
 	char := it.GetChar(str)
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	hashset, has := it.items[char]
 
 	if has {
