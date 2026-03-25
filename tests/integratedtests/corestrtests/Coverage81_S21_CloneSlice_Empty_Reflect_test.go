@@ -204,7 +204,7 @@ func Test_S21_028_Empty_SimpleStringOnce(t *testing.T) {
 	sso := corestr.Empty.SimpleStringOnce()
 
 	// Assert
-	if sso.IsInitialize() {
+	if sso.IsInitialized() {
 		t.Error("Empty.SimpleStringOnce returns uninitialized")
 	}
 }
