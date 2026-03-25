@@ -24,7 +24,7 @@ func Test_CovS23_01_HashsetsCollection_IsEmpty_Empty(t *testing.T) {
 
 func Test_CovS23_02_HashsetsCollection_HasItems_NonEmpty(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	hc := corestr.New.HashsetsCollection.UsingHashsets(*hs)
 
 	// Act
@@ -51,8 +51,8 @@ func Test_CovS23_03_HashsetsCollection_HasItems_Empty(t *testing.T) {
 
 func Test_CovS23_04_HashsetsCollection_Length(t *testing.T) {
 	// Arrange
-	hs1 := corestr.New.Hashset.Strings("a")
-	hs2 := corestr.New.Hashset.Strings("b")
+	hs1 := corestr.New.Hashset.Strings([]string{"a"})
+	hs2 := corestr.New.Hashset.Strings([]string{"b"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs1, hs2)
 
 	// Act
@@ -79,7 +79,7 @@ func Test_CovS23_05_HashsetsCollection_Length_Nil(t *testing.T) {
 
 func Test_CovS23_06_HashsetsCollection_LastIndex(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("x")
+	hs := corestr.New.Hashset.Strings([]string{"x"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -111,7 +111,7 @@ func Test_CovS23_07_HashsetsCollection_LastIndex_Empty(t *testing.T) {
 func Test_CovS23_08_HashsetsCollection_Add(t *testing.T) {
 	// Arrange
 	hc := corestr.New.HashsetsCollection.Empty()
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 
 	// Act
 	hc.Add(hs)
@@ -138,7 +138,7 @@ func Test_CovS23_09_HashsetsCollection_AddNonNil_Nil(t *testing.T) {
 func Test_CovS23_10_HashsetsCollection_AddNonNil_Valid(t *testing.T) {
 	// Arrange
 	hc := corestr.New.HashsetsCollection.Empty()
-	hs := corestr.New.Hashset.Strings("x")
+	hs := corestr.New.Hashset.Strings([]string{"x"})
 
 	// Act
 	hc.AddNonNil(hs)
@@ -166,7 +166,7 @@ func Test_CovS23_11_HashsetsCollection_AddNonEmpty_Empty(t *testing.T) {
 func Test_CovS23_12_HashsetsCollection_AddNonEmpty_Valid(t *testing.T) {
 	// Arrange
 	hc := corestr.New.HashsetsCollection.Empty()
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 
 	// Act
 	hc.AddNonEmpty(hs)
@@ -194,7 +194,7 @@ func Test_CovS23_14_HashsetsCollection_Adds_SkipsEmpty(t *testing.T) {
 	// Arrange
 	hc := corestr.New.HashsetsCollection.Empty()
 	hsEmpty := corestr.Empty.Hashset()
-	hsValid := corestr.New.Hashset.Strings("a")
+	hsValid := corestr.New.Hashset.Strings([]string{"a"})
 
 	// Act
 	hc.Adds(hsEmpty, hsValid)
@@ -221,9 +221,9 @@ func Test_CovS23_15_HashsetsCollection_AddHashsetsCollection_Nil(t *testing.T) {
 func Test_CovS23_16_HashsetsCollection_AddHashsetsCollection_Valid(t *testing.T) {
 	// Arrange
 	hc1 := corestr.New.HashsetsCollection.Empty()
-	hc1.Add(corestr.New.Hashset.Strings("a"))
+	hc1.Add(corestr.New.Hashset.Strings([]string{"a"}))
 	hc2 := corestr.New.HashsetsCollection.Empty()
-	hc2.Add(corestr.New.Hashset.Strings("b"))
+	hc2.Add(corestr.New.Hashset.Strings([]string{"b"}))
 
 	// Act
 	hc1.AddHashsetsCollection(hc2)
@@ -241,7 +241,7 @@ func Test_CovS23_16_HashsetsCollection_AddHashsetsCollection_Valid(t *testing.T)
 func Test_CovS23_17_HashsetsCollection_ConcatNew_NoArgs(t *testing.T) {
 	// Arrange
 	hc := corestr.New.HashsetsCollection.Empty()
-	hc.Add(corestr.New.Hashset.Strings("a"))
+	hc.Add(corestr.New.Hashset.Strings([]string{"a"}))
 
 	// Act
 	result := hc.ConcatNew()
@@ -255,9 +255,9 @@ func Test_CovS23_17_HashsetsCollection_ConcatNew_NoArgs(t *testing.T) {
 func Test_CovS23_18_HashsetsCollection_ConcatNew_WithCollections(t *testing.T) {
 	// Arrange
 	hc1 := corestr.New.HashsetsCollection.Empty()
-	hc1.Add(corestr.New.Hashset.Strings("a"))
+	hc1.Add(corestr.New.Hashset.Strings([]string{"a"}))
 	hc2 := corestr.New.HashsetsCollection.Empty()
-	hc2.Add(corestr.New.Hashset.Strings("b"))
+	hc2.Add(corestr.New.Hashset.Strings([]string{"b"}))
 
 	// Act
 	result := hc1.ConcatNew(hc2)
@@ -274,7 +274,7 @@ func Test_CovS23_18_HashsetsCollection_ConcatNew_WithCollections(t *testing.T) {
 
 func Test_CovS23_19_HashsetsCollection_List(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -288,7 +288,7 @@ func Test_CovS23_19_HashsetsCollection_List(t *testing.T) {
 
 func Test_CovS23_20_HashsetsCollection_ListPtr(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -302,7 +302,7 @@ func Test_CovS23_20_HashsetsCollection_ListPtr(t *testing.T) {
 
 func Test_CovS23_21_HashsetsCollection_ListDirectPtr(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -329,7 +329,7 @@ func Test_CovS23_22_HashsetsCollection_StringsList_Empty(t *testing.T) {
 
 func Test_CovS23_23_HashsetsCollection_StringsList_NonEmpty(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("x", "y")
+	hs := corestr.New.Hashset.Strings([]string{"x", "y"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -347,7 +347,7 @@ func Test_CovS23_23_HashsetsCollection_StringsList_NonEmpty(t *testing.T) {
 
 func Test_CovS23_24_HashsetsCollection_IndexOf_Valid(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -391,7 +391,7 @@ func Test_CovS23_26_HashsetsCollection_HasAll_Empty(t *testing.T) {
 
 func Test_CovS23_27_HashsetsCollection_HasAll_Found(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a", "b", "c")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b", "c"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -405,7 +405,7 @@ func Test_CovS23_27_HashsetsCollection_HasAll_Found(t *testing.T) {
 
 func Test_CovS23_28_HashsetsCollection_HasAll_NotFound(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -438,7 +438,7 @@ func Test_CovS23_29_HashsetsCollection_IsEqual_BothEmpty(t *testing.T) {
 func Test_CovS23_30_HashsetsCollection_IsEqualPtr_SamePtr(t *testing.T) {
 	// Arrange
 	hc := corestr.New.HashsetsCollection.Empty()
-	hc.Add(corestr.New.Hashset.Strings("a"))
+	hc.Add(corestr.New.Hashset.Strings([]string{"a"}))
 
 	// Act
 	result := hc.IsEqualPtr(hc)
@@ -465,7 +465,7 @@ func Test_CovS23_31_HashsetsCollection_IsEqualPtr_Nil(t *testing.T) {
 func Test_CovS23_32_HashsetsCollection_IsEqualPtr_DifferentLength(t *testing.T) {
 	// Arrange
 	hc1 := corestr.New.HashsetsCollection.Empty()
-	hc1.Add(corestr.New.Hashset.Strings("a"))
+	hc1.Add(corestr.New.Hashset.Strings([]string{"a"}))
 	hc2 := corestr.New.HashsetsCollection.Empty()
 
 	// Act
@@ -480,9 +480,9 @@ func Test_CovS23_32_HashsetsCollection_IsEqualPtr_DifferentLength(t *testing.T) 
 func Test_CovS23_33_HashsetsCollection_IsEqualPtr_DifferentContent(t *testing.T) {
 	// Arrange
 	hc1 := corestr.New.HashsetsCollection.Empty()
-	hc1.Add(corestr.New.Hashset.Strings("a"))
+	hc1.Add(corestr.New.Hashset.Strings([]string{"a"}))
 	hc2 := corestr.New.HashsetsCollection.Empty()
-	hc2.Add(corestr.New.Hashset.Strings("b"))
+	hc2.Add(corestr.New.Hashset.Strings([]string{"b"}))
 
 	// Act
 	result := hc1.IsEqualPtr(hc2)
@@ -496,9 +496,9 @@ func Test_CovS23_33_HashsetsCollection_IsEqualPtr_DifferentContent(t *testing.T)
 func Test_CovS23_34_HashsetsCollection_IsEqualPtr_SameContent(t *testing.T) {
 	// Arrange
 	hc1 := corestr.New.HashsetsCollection.Empty()
-	hc1.Add(corestr.New.Hashset.Strings("a", "b"))
+	hc1.Add(corestr.New.Hashset.Strings([]string{"a", "b"}))
 	hc2 := corestr.New.HashsetsCollection.Empty()
-	hc2.Add(corestr.New.Hashset.Strings("a", "b"))
+	hc2.Add(corestr.New.Hashset.Strings([]string{"a", "b"}))
 
 	// Act
 	result := hc1.IsEqualPtr(hc2)
@@ -528,7 +528,7 @@ func Test_CovS23_35_HashsetsCollection_String_Empty(t *testing.T) {
 
 func Test_CovS23_36_HashsetsCollection_String_NonEmpty(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -542,7 +542,7 @@ func Test_CovS23_36_HashsetsCollection_String_NonEmpty(t *testing.T) {
 
 func Test_CovS23_37_HashsetsCollection_Join(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -560,7 +560,7 @@ func Test_CovS23_37_HashsetsCollection_Join(t *testing.T) {
 
 func Test_CovS23_38_HashsetsCollection_Json(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -574,7 +574,7 @@ func Test_CovS23_38_HashsetsCollection_Json(t *testing.T) {
 
 func Test_CovS23_39_HashsetsCollection_JsonPtr(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -588,7 +588,7 @@ func Test_CovS23_39_HashsetsCollection_JsonPtr(t *testing.T) {
 
 func Test_CovS23_40_HashsetsCollection_JsonModel(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -602,7 +602,7 @@ func Test_CovS23_40_HashsetsCollection_JsonModel(t *testing.T) {
 
 func Test_CovS23_41_HashsetsCollection_JsonModelAny(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -616,7 +616,7 @@ func Test_CovS23_41_HashsetsCollection_JsonModelAny(t *testing.T) {
 
 func Test_CovS23_42_HashsetsCollection_MarshalUnmarshalJSON(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -648,7 +648,7 @@ func Test_CovS23_43_HashsetsCollection_UnmarshalJSON_InvalidData(t *testing.T) {
 
 func Test_CovS23_44_HashsetsCollection_Serialize(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -662,7 +662,7 @@ func Test_CovS23_44_HashsetsCollection_Serialize(t *testing.T) {
 
 func Test_CovS23_45_HashsetsCollection_Deserialize(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -677,7 +677,7 @@ func Test_CovS23_45_HashsetsCollection_Deserialize(t *testing.T) {
 
 func Test_CovS23_46_HashsetsCollection_ParseInjectUsingJson_Valid(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 	jsonResult := hc.JsonPtr()
 
@@ -707,7 +707,7 @@ func Test_CovS23_47_HashsetsCollection_ParseInjectUsingJson_Invalid(t *testing.T
 
 func Test_CovS23_48_HashsetsCollection_ParseInjectUsingJsonMust_Valid(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 	jsonResult := hc.JsonPtr()
 
@@ -737,7 +737,7 @@ func Test_CovS23_49_HashsetsCollection_ParseInjectUsingJsonMust_Panics(t *testin
 
 func Test_CovS23_50_HashsetsCollection_JsonParseSelfInject(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 	jsonResult := hc.JsonPtr()
 
@@ -823,7 +823,7 @@ func Test_CovS23_55_Creator_Empty(t *testing.T) {
 
 func Test_CovS23_56_Creator_UsingHashsets(t *testing.T) {
 	// Arrange
-	hs := *corestr.New.Hashset.Strings("a", "b")
+	hs := *corestr.New.Hashset.Strings([]string{"a", "b"})
 
 	// Act
 	hc := corestr.New.HashsetsCollection.UsingHashsets(hs)
@@ -846,7 +846,7 @@ func Test_CovS23_57_Creator_UsingHashsets_Empty(t *testing.T) {
 
 func Test_CovS23_58_Creator_UsingHashsetsPointers(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 
 	// Act
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
