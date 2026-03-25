@@ -437,9 +437,6 @@ func Test_S10_30_Hashset_AddFuncErr_WithError(t *testing.T) {
 	}
 }
 
-type testErrS10a struct{}
-
-func (e *testErrS10a) Error() string { return "test error s10a" }
 
 func Test_S10_31_Hashset_AddStringsPtrWgLock(t *testing.T) {
 	// Arrange
