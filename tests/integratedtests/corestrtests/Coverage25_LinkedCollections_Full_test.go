@@ -947,7 +947,9 @@ func Test_C25_LinkedCollections_UnmarshalJSON(t *testing.T) {
 
 func Test_C25_LinkedCollections_ParseInjectUsingJson(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
-	jsonResult := lc.Json()
+	// Use json.Marshal with pointer to bypass value receiver issue on Json()
+	b, _ := json.Marshal(lc)
+	jsonResult := corejson.Result{Bytes: b}
 	lc2 := corestr.New.LinkedCollection.Create()
 	_, err := lc2.ParseInjectUsingJson(&jsonResult)
 	if err != nil {
@@ -957,7 +959,9 @@ func Test_C25_LinkedCollections_ParseInjectUsingJson(t *testing.T) {
 
 func Test_C25_LinkedCollections_ParseInjectUsingJsonMust(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
-	jsonResult := lc.Json()
+	// Use json.Marshal with pointer to bypass value receiver issue on Json()
+	b, _ := json.Marshal(lc)
+	jsonResult := corejson.Result{Bytes: b}
 	lc2 := corestr.New.LinkedCollection.Create()
 	result := lc2.ParseInjectUsingJsonMust(&jsonResult)
 	if result == nil {
@@ -976,7 +980,9 @@ func Test_C25_LinkedCollections_GetCompareSummary(t *testing.T) {
 
 func Test_C25_LinkedCollections_JsonParseSelfInject(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
-	jsonResult := lc.Json()
+	// Use json.Marshal with pointer to bypass value receiver issue on Json()
+	b, _ := json.Marshal(lc)
+	jsonResult := corejson.Result{Bytes: b}
 	lc2 := corestr.New.LinkedCollection.Create()
 	err := lc2.JsonParseSelfInject(&jsonResult)
 	if err != nil {
