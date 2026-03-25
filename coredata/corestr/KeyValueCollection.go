@@ -465,16 +465,33 @@ func (it *KeyValueCollection) MarshalJSON() ([]byte, error) {
 }
 
 func (it *KeyValueCollection) UnmarshalJSON(data []byte) error {
+	// Try bare array format first: [{"Key":"k","Value":"v"},...]
 	var dataModelItems []KeyValuePair
-	err := corejson.Deserialize.UsingBytes(
-		data,
-		&dataModelItems,
-	)
+	err := json.Unmarshal(data, &dataModelItems)
 
-	if err == nil && len(dataModelItems) > 0 {
-		it.KeyValuePairs = dataModelItems
-	} else if err == nil {
-		it.KeyValuePairs = []KeyValuePair{}
+	if err == nil {
+		if len(dataModelItems) > 0 {
+			it.KeyValuePairs = dataModelItems
+		} else {
+			it.KeyValuePairs = []KeyValuePair{}
+		}
+
+		return nil
+	}
+
+	// Try struct-wrapped format: {"KeyValuePairs":[...]}
+	type kvAlias KeyValueCollection
+	var wrapper kvAlias
+
+	wrapErr := json.Unmarshal(data, &wrapper)
+	if wrapErr == nil {
+		if len(wrapper.KeyValuePairs) > 0 {
+			it.KeyValuePairs = wrapper.KeyValuePairs
+		} else {
+			it.KeyValuePairs = []KeyValuePair{}
+		}
+
+		return nil
 	}
 
 	return err
