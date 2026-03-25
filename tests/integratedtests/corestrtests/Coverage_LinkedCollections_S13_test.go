@@ -667,7 +667,8 @@ func Test_S13_74_LinkedCollections_RemoveAll(t *testing.T) {
 func Test_S13_75_LinkedCollections_Json(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.Add(corestr.New.Collection.Strings([]string{"a"}))
-	if lc.Json().HasError() {
+	jsonResult := lc.Json()
+	if jsonResult.HasError() {
 		t.Fatal("expected no error")
 	}
 }

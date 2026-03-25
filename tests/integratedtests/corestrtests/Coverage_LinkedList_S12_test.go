@@ -748,7 +748,8 @@ func Test_S12_82_LinkedList_RemoveAll(t *testing.T) {
 func Test_S12_83_LinkedList_Json(t *testing.T) {
 	ll := corestr.New.LinkedList.Create()
 	ll.Add("a")
-	if ll.Json().HasError() {
+	jsonResult := ll.Json()
+	if jsonResult.HasError() {
 		t.Fatal("expected no error")
 	}
 }

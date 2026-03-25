@@ -310,7 +310,8 @@ func Test_S11_102_SimpleSlice_UnmarshalJSON_Invalid(t *testing.T) {
 
 func Test_S11_103_SimpleSlice_Json(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Strings([]string{"a"})
-	if ss.Json().HasError() {
+	jsonResult := ss.Json()
+	if jsonResult.HasError() {
 		t.Fatal("expected no error")
 	}
 }
