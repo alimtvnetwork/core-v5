@@ -401,6 +401,8 @@ func (it chmodVerifier) PathsUsingRwxFull(
 				return err
 			}
 		}
+
+		return nil
 	}
 
 	slice := corestr.New.Collection.Cap(constants.Zero)

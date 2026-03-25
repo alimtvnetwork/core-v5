@@ -259,6 +259,11 @@ func (it chmodApplier) RwxPartial(
 	condition *chmodins.Condition,
 	locations ...string,
 ) error {
+	if condition == nil {
+		return errcore.CannotBeNilOrEmptyType.
+			ErrorNoRefs("condition")
+	}
+
 	if len(locations) == 0 {
 		return nil
 	}
