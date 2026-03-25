@@ -612,6 +612,10 @@ func (it *CharHashsetMap) AddLock(
 func (it *CharHashsetMap) Add(
 	str string,
 ) *CharHashsetMap {
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
+
 	char := it.GetChar(str)
 
 	hashset, has := it.items[char]
@@ -636,6 +640,10 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 ) *CharHashsetMap {
 	if len(allItemsWithSameChar) == 0 {
 		return it
+	}
+
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
 	}
 
 	length := len(allItemsWithSameChar)
