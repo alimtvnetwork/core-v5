@@ -1,6 +1,7 @@
 package chmodhelpertests
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 	"testing"
@@ -38,8 +39,17 @@ func assertNonWhiteSortedEqual(
 		actStr = actualErr.Error()
 	}
 
-	expectedLines := testCase.ExpectedInput.([]string)
-	expectedStr := strings.Join(expectedLines, "\n")
+	// Fix: handle both string and []string ExpectedInput types
+	// See issues/chmodhelpertests-type-assertion-panic.md
+	var expectedStr string
+	switch v := testCase.ExpectedInput.(type) {
+	case []string:
+		expectedStr = strings.Join(v, "\n")
+	case string:
+		expectedStr = v
+	default:
+		expectedStr = fmt.Sprintf("%v", testCase.ExpectedInput)
+	}
 
 	actNorm := nonWhiteSortedLines(actStr)
 	expNorm := nonWhiteSortedLines(expectedStr)

@@ -169,6 +169,10 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	}
 
 	if len(keys) == 0 {
+		// Fix: must call wg.Done() even on early return to prevent deadlock
+		// See issues/corestrtests-waitgroup-deadlock-empty-keys.md
+		wg.Done()
+
 		return it
 	}
 
