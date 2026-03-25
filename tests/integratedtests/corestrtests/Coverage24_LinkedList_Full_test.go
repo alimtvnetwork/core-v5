@@ -707,9 +707,8 @@ func Test_C24_LinkedList_Filter_Break(t *testing.T) {
 func Test_C24_LinkedList_GetNextNodes(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c", "d"})
 	nodes := ll.GetNextNodes(2)
-	// GetNextNodes counter is not incremented in source, so all nodes are returned
-	if len(nodes) != 4 {
-		t.Errorf("expected 4 got %d", len(nodes))
+	if len(nodes) != 2 {
+		t.Errorf("expected 2 got %d", len(nodes))
 	}
 }
 
