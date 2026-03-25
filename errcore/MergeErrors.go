@@ -1,26 +1,12 @@
 package errcore
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"errors"
 )
 
+// MergeErrors combines multiple errors into a single error using errors.Join.
+// Unlike the previous string-concatenation approach, this preserves the original
+// error chain, enabling errors.Is and errors.As to work on constituent errors.
 func MergeErrors(errorItems ...error) error {
-	if len(errorItems) == 0 {
-		return nil
-	}
-
-	sliceErr := make(
-		[]string,
-		constants.Zero,
-		len(errorItems))
-
-	for _, err := range errorItems {
-		if err == nil {
-			continue
-		}
-
-		sliceErr = append(sliceErr, err.Error())
-	}
-
-	return SliceToError(sliceErr)
+	return errors.Join(errorItems...)
 }

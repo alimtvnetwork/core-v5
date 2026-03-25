@@ -1,7 +1,7 @@
 package chmodins
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 func ParseRwxInstructionUsingJsonResultMust(

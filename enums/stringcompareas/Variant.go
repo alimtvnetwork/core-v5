@@ -3,9 +3,9 @@ package stringcompareas
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type Variant byte
@@ -28,6 +28,8 @@ const (
 	NotContains   // invert of Anywhere
 	NotAnyChars   // invert of AnyChars
 	NotMatchRegex // invert of Regex
+	Glob          // Glob/wildcard pattern matching using filepath.Match
+	NonGlob       // invert of Glob
 	Invalid
 )
 
@@ -59,7 +61,7 @@ func (it Variant) IntegerEnumRanges() []int {
 	return BasicEnumImpl.IntegerEnumRanges()
 }
 
-func (it Variant) MinMaxAny() (min, max interface{}) {
+func (it Variant) MinMaxAny() (min, max any) {
 	return BasicEnumImpl.MinMaxAny()
 }
 
@@ -79,7 +81,7 @@ func (it Variant) MinInt() int {
 	return BasicEnumImpl.MinInt()
 }
 
-func (it Variant) RangesDynamicMap() map[string]interface{} {
+func (it Variant) RangesDynamicMap() map[string]any {
 	return BasicEnumImpl.RangesDynamicMap()
 }
 
@@ -182,7 +184,8 @@ func (it Variant) UnmarshallEnumToValue(
 ) (byte, error) {
 	return BasicEnumImpl.UnmarshallToValue(
 		isMappedToDefault,
-		jsonUnmarshallingValue)
+		jsonUnmarshallingValue,
+	)
 }
 
 func (it Variant) String() string {
@@ -259,13 +262,22 @@ func (it Variant) IsNotMatchRegex() bool {
 	return it == NotMatchRegex
 }
 
+func (it Variant) IsGlob() bool {
+	return it == Glob
+}
+
+func (it Variant) IsNonGlob() bool {
+	return it == NonGlob
+}
+
 func (it Variant) MarshalJSON() ([]byte, error) {
 	return BasicEnumImpl.ToEnumJsonBytes(it.ValueByte())
 }
 
 func (it *Variant) UnmarshalJSON(data []byte) error {
 	rawScriptType, err := BasicEnumImpl.UnmarshallToValue(
-		isMappedToDefault, data)
+		isMappedToDefault, data,
+	)
 
 	if err == nil {
 		*it = Variant(rawScriptType)
@@ -305,7 +317,7 @@ func (it *Variant) RangesByte() []byte {
 //	EndsWith:      isEndsWithFunc,
 //	Anywhere:      isAnywhereFunc,
 //	AnyChars:      isAnyCharsFunc,
-//	Contains:      isAnywhereFunc,
+//	IsContains:    isAnywhereFunc,
 //	Regex:         isRegexFunc,
 //	NotEqual:      isNotEqualFunc,
 //	NotStartsWith: isNotStartsWithFunc,
@@ -313,6 +325,8 @@ func (it *Variant) RangesByte() []byte {
 //	NotContains:   isNotContainsFunc,
 //	NotAnyChars:   isNotAnyCharsFunc,
 //	NotMatchRegex: isNotMatchRegex,
+//	Glob:          isGlobFunc,
+//	NonGlob:       IsNonGlobFunc,
 func (it Variant) IsLineCompareFunc() IsLineCompareFunc {
 	return rangesMap[it]
 }
@@ -324,7 +338,8 @@ func (it Variant) DynamicCompare(
 	return isDynamicCompareFunc(
 		lineNumber,
 		content,
-		it)
+		it,
+	)
 }
 
 // IsCompareSuccess
@@ -342,7 +357,8 @@ func (it Variant) IsCompareSuccess(
 	return it.IsLineCompareFunc()(
 		content,
 		search,
-		isIgnoreCase)
+		isIgnoreCase,
+	)
 }
 
 func (it Variant) VerifyMessage(
@@ -370,13 +386,15 @@ func (it Variant) VerifyMessage(
 		return errcore.ExpectingNotEqualSimpleNoType(
 			"CompareMethod \""+it.Name()+"\" - {negative} match failed "+isIgnoreCaseString,
 			search,
-			content)
+			content,
+		)
 	}
 
 	return errcore.ExpectingSimpleNoType(
 		"CompareMethod \""+it.Name()+"\" - match failed "+isIgnoreCaseString,
 		search,
-		content)
+		content,
+	)
 }
 
 func (it Variant) VerifyError(
@@ -426,7 +444,8 @@ func (it *Variant) IsCompareSuccessCaseSensitive(content, search string) bool {
 	return it.IsLineCompareFunc()(
 		content,
 		search,
-		false)
+		false,
+	)
 }
 
 // IsCompareSuccessNonCaseSensitive for
@@ -436,7 +455,8 @@ func (it *Variant) IsCompareSuccessNonCaseSensitive(content, search string) bool
 	return it.IsLineCompareFunc()(
 		content,
 		search,
-		true)
+		true,
+	)
 }
 
 func (it Variant) EnumType() enuminf.EnumTyper {

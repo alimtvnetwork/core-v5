@@ -3,16 +3,16 @@ package corepayload
 import (
 	"bytes"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/entityinf"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/coreinterface/payloadinf"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/entityinf"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coreinterface/payloadinf"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type PayloadWrapper struct {
@@ -150,7 +150,7 @@ func (it *PayloadWrapper) PayloadDeserializeToPayloadBinder() (payloadinf.Payloa
 	return it.DeserializePayloadsToPayloadWrapper()
 }
 
-func (it *PayloadWrapper) All() (id, name, entity, category string, dynamicPayloads []byte) {
+func (it PayloadWrapper) All() (id, name, entity, category string, dynamicPayloads []byte) {
 	return it.Identifier, it.Name, it.EntityType, it.CategoryName, it.Payloads
 }
 
@@ -162,23 +162,23 @@ func (it *PayloadWrapper) AllSafe() (id, name, entity, category string, dynamicP
 	return it.All()
 }
 
-func (it *PayloadWrapper) PayloadName() string {
+func (it PayloadWrapper) PayloadName() string {
 	return it.Name
 }
 
-func (it *PayloadWrapper) PayloadCategory() string {
+func (it PayloadWrapper) PayloadCategory() string {
 	return it.CategoryName
 }
 
-func (it *PayloadWrapper) PayloadTaskType() string {
+func (it PayloadWrapper) PayloadTaskType() string {
 	return it.TaskTypeName
 }
 
-func (it *PayloadWrapper) PayloadEntityType() string {
+func (it PayloadWrapper) PayloadEntityType() string {
 	return it.EntityType
 }
 
-func (it *PayloadWrapper) PayloadDynamic() []byte {
+func (it PayloadWrapper) PayloadDynamic() []byte {
 	return it.Payloads
 }
 
@@ -205,7 +205,7 @@ func (it *PayloadWrapper) SetPayloadDynamic(
 // - error to Result
 // - AnyItem
 func (it *PayloadWrapper) SetPayloadDynamicAny(
-	dynamicPayloadAny interface{},
+	dynamicPayloadAny any,
 ) (*PayloadWrapper, error) {
 	if it == nil {
 		it.InitializeAttributesOnNull()
@@ -297,7 +297,7 @@ func (it *PayloadWrapper) HandleError() {
 }
 
 func (it *PayloadWrapper) ReflectSetTo(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return coredynamic.ReflectSetFromTo(
 		it,
@@ -305,12 +305,12 @@ func (it *PayloadWrapper) ReflectSetTo(
 	)
 }
 
-func (it *PayloadWrapper) AnyAttributes() interface{} {
+func (it *PayloadWrapper) AnyAttributes() any {
 	return it.Attributes
 }
 
 func (it *PayloadWrapper) ReflectSetAttributes(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return coredynamic.ReflectSetFromTo(
 		it.Attributes,
@@ -330,8 +330,9 @@ func (it *PayloadWrapper) IsStandardTaskEntityEqual(
 	entity entityinf.StandardTaskEntityDefiner,
 ) bool {
 	another, isSuccess := entity.(*PayloadWrapper)
+	isCastFailed := !isSuccess
 
-	if !isSuccess {
+	if isCastFailed {
 		return false
 	}
 
@@ -339,7 +340,7 @@ func (it *PayloadWrapper) IsStandardTaskEntityEqual(
 }
 
 func (it *PayloadWrapper) ValueReflectSet(
-	setterPtr interface{},
+	setterPtr any,
 ) error {
 	return coredynamic.ReflectSetFromTo(
 		it.Payloads,
@@ -372,7 +373,7 @@ func (it *PayloadWrapper) Username() string {
 	return virtualUser.Name
 }
 
-func (it *PayloadWrapper) Value() interface{} {
+func (it PayloadWrapper) Value() any {
 	return it.Payloads
 }
 
@@ -420,11 +421,15 @@ func (it *PayloadWrapper) IsEqual(right *PayloadWrapper) bool {
 		return false
 	}
 
-	if !bytes.Equal(it.Payloads, right.Payloads) {
+	isPayloadsDifferent := !bytes.Equal(it.Payloads, right.Payloads)
+
+	if isPayloadsDifferent {
 		return false
 	}
 
-	if !it.Attributes.IsEqual(right.Attributes) {
+	isAttrDifferent := !it.Attributes.IsEqual(right.Attributes)
+
+	if isAttrDifferent {
 		return false
 	}
 
@@ -440,7 +445,7 @@ func (it *PayloadWrapper) IsName(name string) bool {
 }
 
 func (it *PayloadWrapper) IsIdentifier(id string) bool {
-	return it != nil && it.Name == id
+	return it != nil && it.Identifier == id
 }
 
 func (it *PayloadWrapper) IsTaskTypeName(taskType string) bool {
@@ -577,7 +582,7 @@ func (it *PayloadWrapper) BytesConverter() *coredynamic.BytesConverter {
 }
 
 func (it *PayloadWrapper) Deserialize(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) error {
 	return corejson.
 		Deserialize.
@@ -588,7 +593,7 @@ func (it *PayloadWrapper) Deserialize(
 }
 
 func (it *PayloadWrapper) DeserializeMust(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) {
 	corejson.
 		Deserialize.
@@ -599,7 +604,7 @@ func (it *PayloadWrapper) DeserializeMust(
 }
 
 func (it *PayloadWrapper) PayloadDeserialize(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) error {
 	return corejson.Deserialize.UsingBytes(
 		it.Payloads,
@@ -608,7 +613,7 @@ func (it *PayloadWrapper) PayloadDeserialize(
 }
 
 func (it *PayloadWrapper) PayloadDeserializeMust(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) {
 	err := corejson.
 		Deserialize.
@@ -652,11 +657,11 @@ func (it *PayloadWrapper) DeserializePayloadsToPayloadWrapperMust() (
 	return rs
 }
 
-func (it *PayloadWrapper) JsonModel() PayloadWrapper {
-	return it.NonPtr()
+func (it PayloadWrapper) JsonModel() PayloadWrapper {
+	return it
 }
 
-func (it *PayloadWrapper) JsonModelAny() interface{} {
+func (it PayloadWrapper) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -707,32 +712,7 @@ func (it *PayloadWrapper) JsonParseSelfInject(
 	return err
 }
 
-func (it *PayloadWrapper) PayloadsString() string {
-	if it.IsEmpty() || len(it.Payloads) == 0 {
-		return ""
-	}
-
-	return string(it.Payloads)
-}
-
-func (it *PayloadWrapper) PayloadsPrettyString() string {
-	if it.IsEmpty() || len(it.Payloads) == 0 {
-		return ""
-	}
-
-	return corejson.BytesToPrettyString(it.Payloads)
-}
-
-func (it *PayloadWrapper) PayloadsJsonResult() *corejson.Result {
-	if it.IsEmpty() || len(it.Payloads) == 0 {
-		return corejson.Empty.ResultPtr()
-	}
-
-	return corejson.NewResult.UsingTypeBytesPtr(
-		attributesTypeName,
-		it.Payloads,
-	)
-}
+// PayloadsString, PayloadsPrettyString, PayloadsJsonResult moved to PayloadWrapperGetters.go and PayloadWrapperJson.go
 
 func (it *PayloadWrapper) Clear() {
 	if it == nil {

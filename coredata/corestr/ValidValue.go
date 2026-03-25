@@ -6,15 +6,15 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type ValidValue struct {
 	Value      string
-	valueBytes *[]byte
+	valueBytes []byte
 	IsValid    bool
 	Message    string
 }
@@ -22,7 +22,7 @@ type ValidValue struct {
 func NewValidValueUsingAny(
 	isIncludeFieldName bool,
 	isValid bool,
-	any interface{},
+	any any,
 ) *ValidValue {
 	toString := AnyToString(
 		isIncludeFieldName,
@@ -40,7 +40,7 @@ func NewValidValueUsingAny(
 //	IsValid to false on nil or Empty string
 func NewValidValueUsingAnyAutoValid(
 	isIncludeFieldName bool,
-	any interface{},
+	any any,
 ) *ValidValue {
 	toString := AnyToString(
 		isIncludeFieldName,
@@ -82,17 +82,16 @@ func InvalidValidValue(message string) *ValidValue {
 }
 
 func (it *ValidValue) ValueBytesOnce() []byte {
-	return *it.ValueBytesOncePtr()
-}
-
-func (it *ValidValue) ValueBytesOncePtr() *[]byte {
 	if it.valueBytes == nil {
-		valueBytes := []byte(it.Value)
-
-		it.valueBytes = &valueBytes
+		it.valueBytes = []byte(it.Value)
 	}
 
 	return it.valueBytes
+}
+
+// Deprecated: Use ValueBytesOnce() instead. Returns []byte directly.
+func (it *ValidValue) ValueBytesOncePtr() []byte {
+	return it.ValueBytesOnce()
 }
 
 func (it *ValidValue) IsEmpty() bool {
@@ -149,6 +148,8 @@ func (it *ValidValue) ValueDefInt() int {
 	return toInt
 }
 
+// ValueByte parses Value as byte, returning constants.Zero on parse error or negative.
+// See issues/corestrtests-validvalue-valuebyte-defval.md
 func (it *ValidValue) ValueByte(defVal byte) byte {
 	toInt, err := strconv.Atoi(it.Value)
 
@@ -403,6 +404,6 @@ func (it *ValidValue) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *ValidValue) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *ValidValue) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

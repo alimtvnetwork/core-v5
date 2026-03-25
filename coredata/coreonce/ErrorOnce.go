@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
 )
 
 type ErrorOnce struct {

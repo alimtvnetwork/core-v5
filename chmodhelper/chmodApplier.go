@@ -3,8 +3,8 @@ package chmodhelper
 import (
 	"os"
 
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type chmodApplier struct{}
@@ -27,7 +27,9 @@ func (it chmodApplier) OnMismatchOption(
 	fileMode os.FileMode,
 	location string,
 ) error {
-	if !isApply {
+	isSkipApply := !isApply
+
+	if isSkipApply {
 		return nil
 	}
 
@@ -87,7 +89,9 @@ func (it chmodApplier) ApplyIf(
 	fileMode os.FileMode,
 	location string,
 ) error {
-	if !isApply {
+	isSkipApply := !isApply
+
+	if isSkipApply {
 		return nil
 	}
 
@@ -255,6 +259,11 @@ func (it chmodApplier) RwxPartial(
 	condition *chmodins.Condition,
 	locations ...string,
 ) error {
+	if condition == nil {
+		return errcore.CannotBeNilOrEmptyType.
+			ErrorNoRefs("condition")
+	}
+
 	if len(locations) == 0 {
 		return nil
 	}

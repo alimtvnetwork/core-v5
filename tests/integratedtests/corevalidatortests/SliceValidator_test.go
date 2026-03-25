@@ -3,12 +3,12 @@ package corevalidatortests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 func Test_SliceValidator(t *testing.T) {
@@ -16,7 +16,7 @@ func Test_SliceValidator(t *testing.T) {
 		// Arrange
 		inputs := testCase.
 			Case.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -59,7 +59,7 @@ func Test_SliceValidator_FirstError(t *testing.T) {
 		// Arrange
 		inputs := testCase.
 			Case.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

@@ -12,19 +12,19 @@ func With(start, source, end string) string {
 // Combines start + source + end with nil safety check.
 func WithPtr(start, source, end *string) *string {
 	var nStart, nEnd, nSource string
-	
+
 	if start != nil {
 		nStart = *start
 	}
 	if end != nil {
 		nEnd = *end
 	}
-	
+
 	if source != nil {
 		nSource = *source
 	}
-	
+
 	final := nStart + nSource + nEnd
-	
+
 	return &final
 }

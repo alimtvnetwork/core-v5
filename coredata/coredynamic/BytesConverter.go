@@ -3,9 +3,9 @@ package coredynamic
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type BytesConverter struct {
@@ -31,7 +31,7 @@ func NewBytesConverterUsingJsonResult(
 }
 
 func (it BytesConverter) Deserialize(
-	deserializePointer interface{},
+	deserializePointer any,
 ) error {
 	return corejson.
 		Deserialize.
@@ -39,7 +39,7 @@ func (it BytesConverter) Deserialize(
 }
 
 func (it BytesConverter) DeserializeMust(
-	deserializePointer interface{},
+	deserializePointer any,
 ) {
 	corejson.
 		Deserialize.

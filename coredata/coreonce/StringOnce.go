@@ -4,14 +4,15 @@ import (
 	"encoding/json"
 	"errors"
 	"strings"
+	"sync"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type StringOnce struct {
 	innerData       string
 	initializerFunc func() string
-	isInitialized   bool
+	once            sync.Once
 }
 
 func NewStringOnce(initializerFunc func() string) StringOnce {
@@ -31,24 +32,19 @@ func (it *StringOnce) MarshalJSON() ([]byte, error) {
 }
 
 func (it *StringOnce) UnmarshalJSON(data []byte) error {
-	it.isInitialized = true
-
+	it.once.Do(func() {})
 	return json.Unmarshal(data, &it.innerData)
 }
 
 func (it *StringOnce) ValuePtr() *string {
 	val := it.Value()
-
 	return &val
 }
 
 func (it *StringOnce) Value() string {
-	if it.isInitialized {
-		return it.innerData
-	}
-
-	it.innerData = it.initializerFunc()
-	it.isInitialized = true
+	it.once.Do(func() {
+		it.innerData = it.initializerFunc()
+	})
 
 	return it.innerData
 }
@@ -107,10 +103,6 @@ func (it *StringOnce) SplitLeftRight(
 
 	if len(items) == 2 {
 		return items[0], items[1]
-	}
-
-	if len(items) > 2 {
-		return items[0], items[len(items)]
 	}
 
 	// len <= 1

@@ -1,6 +1,6 @@
 package chmodhelper
 
-import "gitlab.com/auk-go/core/chmodhelper/chmodins"
+import "github.com/alimtvnetwork/core/chmodhelper/chmodins"
 
 func ParseRwxOwnerGroupOtherToRwxVariableWrapper(
 	rwxOwnerGroupOther *chmodins.RwxOwnerGroupOther,

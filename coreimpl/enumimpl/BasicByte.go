@@ -3,10 +3,10 @@ package enumimpl
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coreimpl/enumimpl/enumtype"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl/enumtype"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type BasicByte struct {
@@ -97,7 +97,7 @@ func (it BasicByte) GetStringValue(
 
 func (it BasicByte) ExpectingEnumValueError(
 	rawString string,
-	expectedEnum interface{},
+	expectedEnum any,
 ) error {
 	expectedEnumName := it.ToName(expectedEnum)
 	expectedValue := it.GetValueByString(expectedEnumName)
@@ -176,7 +176,7 @@ func (it BasicByte) AppendPrependJoinNamer(
 }
 
 func (it BasicByte) ToNumberString(
-	valueInNumberFormat interface{}, // 1, 2, ... any number (byte / int, ...)
+	valueInNumberFormat any, // 1, 2, ... any number (byte / int, ...)
 ) string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,

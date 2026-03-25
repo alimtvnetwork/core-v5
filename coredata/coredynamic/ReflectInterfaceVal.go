@@ -5,8 +5,8 @@ import "reflect"
 // ReflectInterfaceVal
 //
 // Reduce pointer to value (one step only)
-func ReflectInterfaceVal(any interface{}) interface{} {
-	rVal := reflect.ValueOf(any)
+func ReflectInterfaceVal(item any) any {
+	rVal := reflect.ValueOf(item)
 	k := rVal.Kind()
 
 	if k != reflect.Ptr && k != reflect.Interface {

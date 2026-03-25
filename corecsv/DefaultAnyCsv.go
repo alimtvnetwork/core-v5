@@ -1,9 +1,9 @@
 package corecsv
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func DefaultAnyCsv(
-	references ...interface{},
+	references ...any,
 ) string {
 	return AnyItemsToCsvString(
 		constants.CommaSpace,

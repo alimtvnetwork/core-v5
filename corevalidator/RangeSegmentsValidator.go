@@ -3,7 +3,7 @@ package corevalidator
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 type RangeSegmentsValidator struct {
@@ -28,7 +28,7 @@ func (it *RangeSegmentsValidator) SetActual(
 }
 
 func (it *RangeSegmentsValidator) Validators() HeaderSliceValidators {
-	validators := make([]HeaderSliceValidator, it.LengthOfVerifierSegments())
+	validators := make([]HeaderSliceValidator, 0, it.LengthOfVerifierSegments())
 
 	for _, segment := range it.VerifierSegments {
 		expectedSegments := segment.ExpectedLines

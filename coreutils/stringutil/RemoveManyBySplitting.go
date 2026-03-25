@@ -3,7 +3,7 @@ package stringutil
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // RemoveManyBySplitting Remove as per removes then splits by the given separator

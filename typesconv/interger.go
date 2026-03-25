@@ -1,6 +1,6 @@
 package typesconv
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func IntPtr(val int) *int {
 	return &val

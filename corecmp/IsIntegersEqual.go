@@ -9,8 +9,15 @@ func IsIntegersEqual(array, other []int) bool {
 		return false
 	}
 
-	arrayPtr := &array
-	otherPtr := &other
+	if len(array) != len(other) {
+		return false
+	}
 
-	return IsIntegersEqualPtr(arrayPtr, otherPtr)
+	for i := range array {
+		if array[i] != other[i] {
+			return false
+		}
+	}
+
+	return true
 }

@@ -3,19 +3,19 @@ package enumimpl
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type KeyAnyVal struct {
 	Key      string
-	AnyValue interface{}
+	AnyValue any
 }
 
 func (it KeyAnyVal) KeyString() string {
 	return it.Key
 }
 
-func (it KeyAnyVal) AnyVal() interface{} {
+func (it KeyAnyVal) AnyVal() any {
 	return it.AnyValue
 }
 

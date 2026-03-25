@@ -1,8 +1,8 @@
 package ostype
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
 )
 
 type Group byte
@@ -34,7 +34,7 @@ func (it Group) IntegerEnumRanges() []int {
 	return basicEnumImplOsGroup.IntegerEnumRanges()
 }
 
-func (it Group) MinMaxAny() (min, max interface{}) {
+func (it Group) MinMaxAny() (min, max any) {
 	return basicEnumImplOsGroup.MinMaxAny()
 }
 
@@ -54,7 +54,7 @@ func (it Group) MinInt() int {
 	return basicEnumImplOsGroup.MinInt()
 }
 
-func (it Group) RangesDynamicMap() map[string]interface{} {
+func (it Group) RangesDynamicMap() map[string]any {
 	return basicEnumImplOsGroup.RangesDynamicMap()
 }
 

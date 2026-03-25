@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	"gitlab.com/auk-go/core/corecmp"
+	"github.com/alimtvnetwork/core/corecmp"
 )
 
 // DraftType
@@ -35,7 +35,7 @@ func (it DraftType) NonPtr() DraftType {
 	return it
 }
 
-func (it *DraftType) PtrOrNonPtr(isPtr bool) interface{} {
+func (it *DraftType) PtrOrNonPtr(isPtr bool) any {
 	if it == nil {
 		return nil
 	}
@@ -188,10 +188,8 @@ func (it DraftType) JsonBytes() []byte {
 	return rawBytes
 }
 
-func (it DraftType) JsonBytesPtr() *[]byte {
-	jsonBytes := it.JsonBytes()
-
-	return &jsonBytes
+func (it DraftType) JsonBytesPtr() []byte {
+	return it.JsonBytes()
 }
 
 func (it DraftType) Clone() DraftType {

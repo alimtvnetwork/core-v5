@@ -1,6 +1,6 @@
 package coreinterface
 
 type DynamicAdder interface {
-	AddDynamic(addingItem interface{}) (isSuccess bool)
-	AddDynamicMany(addingItem ...interface{}) (isSuccess bool)
+	AddDynamic(addingItem any) (isSuccess bool)
+	AddDynamicMany(addingItem ...any) (isSuccess bool)
 }

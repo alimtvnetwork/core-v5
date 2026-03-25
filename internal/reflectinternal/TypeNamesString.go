@@ -3,14 +3,18 @@ package reflectinternal
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
+// TypeNamesString
+//
+// Multiple type names as csv using TypeNames
 func TypeNamesString(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	return strings.Join(
 		TypeNames(isFullName, anyItems...),
-		constants.CommaSpace)
+		constants.CommaSpace,
+	)
 }

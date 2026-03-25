@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func IntegersRangesOfAnyVal(anyValue interface{}) []int {
+func IntegersRangesOfAnyVal(anyValue any) []int {
 	reflectValues := reflect.ValueOf(anyValue)
 	length := reflectValues.Len()
 	slice := make([]int, length)

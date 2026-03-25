@@ -1,6 +1,6 @@
 package simplewrap
 
-import "gitlab.com/auk-go/core/internal/csvinternal"
+import "github.com/alimtvnetwork/core/internal/csvinternal"
 
 // TitleSquareCsvMeta
 //
@@ -10,8 +10,8 @@ import "gitlab.com/auk-go/core/internal/csvinternal"
 //   - Title : [Value] (csv meta items)
 func TitleSquareCsvMeta(
 	title string,
-	value interface{},
-	metaCsvItems ...interface{},
+	value any,
+	metaCsvItems ...any,
 ) string {
 	csvString := csvinternal.AnyItemsToStringDefault(
 		metaCsvItems...)

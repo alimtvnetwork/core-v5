@@ -3,15 +3,15 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 func GetActualAndExpectProcessedMessage(
 	counter int,
-	actual interface{},
-	expected interface{},
-	actualProcessed interface{},
-	expectedProcessed interface{},
+	actual any,
+	expected any,
+	actualProcessed any,
+	expectedProcessed any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.PrintActualAndExpectedProcessedFormat,

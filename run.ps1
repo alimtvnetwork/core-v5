@@ -1,0 +1,2099 @@
+#!/usr/bin/env pwsh
+<#
+.SYNOPSIS
+    Project runner script with shorthands for common operations.
+
+.DESCRIPTION
+    Usage: ./run.ps1 <command> [options]
+
+    Commands (uppercase shorthands OR hyphen-lowercase):
+        T   | -t   | test          Run all tests (verbose)
+        TP  | -tp  | test-pkg      Run tests for a specific package: ./run.ps1 TP regexnewtests
+        TC  | -tc  | test-cover    Run tests with coverage (parallel by default)
+        TCP | -tcp | test-cover-pkg Run coverage for a specific package: ./run.ps1 TCP regexnewtests
+        TI  | -ti  | test-int      Run integrated tests only
+        TF  | -tf  | test-fail     Show last failing tests log
+        GC  | -gc  | goconvey      Launch GoConvey (browser test runner)
+        R   | -r   | run           Run the main application
+        B   | -b   | build         Build the binary
+        BR  | -br  | build-run     Build then run
+        F   | -f   | fmt           Format all Go files
+        L   | -l   | lint          Run go vet on all packages
+        V   | -v   | vet           Run go vet
+        TY  | -ty  | tidy          Run go mod tidy
+        PC  | -pc  | pre-commit    Check Coverage* files for API mismatches
+        C   | -c   | clean         Clean build artifacts
+        H   | -h   | help          Show this help
+
+    Mode options (for TC/TCP):
+        --sync        Run precompile + tests sequentially (default: parallel)
+        --open        Open HTML coverage report in browser (default: don't open)
+
+.EXAMPLE
+    ./run.ps1 T
+    ./run.ps1 -t
+    ./run.ps1 TP regexnewtests
+    ./run.ps1 -tp regexnewtests
+    ./run.ps1 TC --sync
+    ./run.ps1 -gc
+#>
+
+param(
+    [Parameter(Position = 0)]
+    [string]$Command = "help",
+
+    [Parameter(Position = 1, ValueFromRemainingArguments)]
+    [string[]]$ExtraArgs
+)
+
+# Normalize: if $Command was swallowed by PowerShell as a switch
+# (e.g. -gc parsed away), $Command will be "help" — detect via $PSBoundParameters.
+if (-not $PSBoundParameters.ContainsKey('Command')) {
+    # Check $MyInvocation.Line for the actual argument
+    $rawLine = $MyInvocation.Line
+    $match = [regex]::Match($rawLine, '(?i)run\.ps1\s+(-?\w[\w-]*)\s*(.*)')
+    if ($match.Success) {
+        $Command = $match.Groups[1].Value
+        # Capture remaining args that PowerShell swallowed
+        $trailing = $match.Groups[2].Value.Trim()
+        if ($trailing -and (-not $ExtraArgs -or $ExtraArgs.Count -eq 0)) {
+            $ExtraArgs = @($trailing -split '\s+')
+        }
+    }
+}
+
+$ErrorActionPreference = "Stop"
+
+# -- Colors --
+function Write-Header([string]$msg) {
+    Write-Host "`n=== $msg ===" -ForegroundColor Cyan
+}
+
+function Write-Success([string]$msg) {
+    Write-Host "  ✓ $msg" -ForegroundColor Green
+}
+
+function Write-Fail([string]$msg) {
+    Write-Host "  ✗ $msg" -ForegroundColor Red
+}
+
+# -- Test Log Directory --
+$TestLogDir = Join-Path $PSScriptRoot "data" "test-logs"
+
+function Ensure-TestLogDir {
+    if (-not (Test-Path $TestLogDir)) {
+        New-Item -ItemType Directory -Path $TestLogDir -Force | Out-Null
+    }
+}
+function Filter-TestWarnings([string[]]$lines) {
+    return $lines | Where-Object {
+        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
+    }
+}
+
+function Merge-UniqueOutputLines([string[]]$primary, [string[]]$secondary) {
+    $merged = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($line in @($primary + $secondary)) {
+        if ($null -eq $line) { continue }
+        $normalized = $line.ToString().TrimEnd("`r")
+        if (-not $normalized) { continue }
+        if ($seen.Add($normalized)) {
+            $merged.Add($normalized) | Out-Null
+        }
+    }
+
+    return $merged.ToArray()
+}
+
+function Filter-BlockedCompileLines([string[]]$lines) {
+    $filtered = [System.Collections.Generic.List[string]]::new()
+
+    foreach ($raw in $lines) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+
+        if (-not $trimmed) { continue }
+
+        # Strip "warning: no packages being tested..." noise
+        if ($trimmed -match '^\s*warning:\s*no packages being tested depend on matches for pattern') { continue }
+
+        # Strip bare package headers like "# github.com/org/repo [...]" without file:line
+        if ($trimmed -match '^#\s+\S+' -and $trimmed -notmatch '\.go:\d+') { continue }
+
+        # Strip bare package path lines (github/gitlab) without file:line
+        if ($trimmed -match '^(github\.com|gitlab\.com)/\S+(\s+\[[^\]]+\])?$' -and $trimmed -notmatch '\.go:\d+') { continue }
+
+        $filtered.Add($line) | Out-Null
+    }
+
+    return $filtered.ToArray()
+}
+
+function Extract-BuildErrorLines([string[]]$lines) {
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '\.go:\d+(?::\d+)?:' -or
+            $trimmed -match '^#\s+\S+' -or
+            $trimmed -match '\[build failed\]' -or
+            $trimmed -match '(?i)\bbuild failed\b') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
+function Extract-ExecutionFailureLines([string[]]$lines) {
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '\.go:\d+(?::\d+)?:' -or
+            $trimmed -match '^#\s+\S+' -or
+            $trimmed -match '\[build failed\]' -or
+            $trimmed -match '(?i)\bbuild failed\b' -or
+            $trimmed -match '^(?i)panic:' -or
+            $trimmed -match '^(?i)fatal error:' -or
+            $trimmed -match '^--- FAIL:\s+' -or
+            $trimmed -match '^\s*FAIL\s+\S+' -or
+            $trimmed -match '^\s*exit status \d+\s*$') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
+function Extract-RuntimeFailureLines([string[]]$lines) {
+    # Captures ONLY runtime failures: panics, fatal errors, test crashes, os.Exit.
+    # Does NOT include compile errors (.go:line: syntax) or [build failed].
+    $candidates = Filter-BlockedCompileLines $lines
+    $errors = [System.Collections.Generic.List[string]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }
+
+        $line = $raw.ToString().TrimEnd("`r")
+        $trimmed = $line.Trim()
+        if (-not $trimmed) { continue }
+
+        if ($trimmed -match '^(?i)panic:' -or
+            $trimmed -match '^(?i)fatal error:' -or
+            $trimmed -match '^(?i)goroutine \d+' -or
+            $trimmed -match '^--- FAIL:\s+' -or
+            $trimmed -match '^\s*FAIL\s+\S+' -or
+            $trimmed -match '^\s*exit status \d+\s*$' -or
+            $trimmed -match '(?i)signal:\s+' -or
+            $trimmed -match '(?i)runtime error:') {
+            if ($seen.Add($line)) {
+                $errors.Add($line) | Out-Null
+            }
+        }
+    }
+
+    return $errors.ToArray()
+}
+
+function Add-BuildErrorsForPackage([hashtable]$BuildErrorMap, [string]$PackageName, [string[]]$Lines) {
+    if (-not $BuildErrorMap -or -not $PackageName) { return }
+
+    # Only add compile-time errors (not runtime failures)
+    $buildLines = Extract-BuildErrorLines $Lines
+    if (-not $buildLines -or $buildLines.Count -eq 0) { return }
+
+    if (-not $BuildErrorMap.ContainsKey($PackageName)) {
+        $BuildErrorMap[$PackageName] = [System.Collections.Generic.List[string]]::new()
+    }
+
+    foreach ($line in $buildLines) {
+        if (-not $BuildErrorMap[$PackageName].Contains($line)) {
+            $BuildErrorMap[$PackageName].Add($line) | Out-Null
+        }
+    }
+}
+
+function Add-RuntimeFailuresForPackage([hashtable]$FailureMap, [string]$PackageName, [string[]]$Lines) {
+    if (-not $FailureMap -or -not $PackageName) { return }
+
+    $runtimeLines = Extract-RuntimeFailureLines $Lines
+    if (-not $runtimeLines -or $runtimeLines.Count -eq 0) { return }
+
+    if (-not $FailureMap.ContainsKey($PackageName)) {
+        $FailureMap[$PackageName] = [System.Collections.Generic.List[string]]::new()
+    }
+
+    foreach ($line in $runtimeLines) {
+        if (-not $FailureMap[$PackageName].Contains($line)) {
+            $FailureMap[$PackageName].Add($line) | Out-Null
+        }
+    }
+}
+
+function Write-TestLogs([string[]]$rawOutput) {
+    Ensure-TestLogDir
+
+    $passingFile = Join-Path $TestLogDir "passing-tests.txt"
+    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    $rawFile     = Join-Path $TestLogDir "raw-output.txt"
+
+    # Clear previous log files before writing new results
+    @($passingFile, $failingFile, $rawFile) | ForEach-Object {
+        if (Test-Path $_) { Remove-Item $_ -Force }
+    }
+
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $passing = [System.Collections.Generic.List[string]]::new()
+    $failing = [System.Collections.Generic.List[string]]::new()
+
+    # Remove noisy go-test coverpkg warnings from logs
+    $filteredOutput = Filter-TestWarnings $rawOutput
+
+    # Save filtered output for debugging
+    Set-Content -Path $rawFile -Value ($filteredOutput -join "`n") -Encoding UTF8
+
+    # Two-pass approach:
+    # Pass 1: Identify which tests passed and which failed
+    $failedNames = [System.Collections.Generic.HashSet[string]]::new()
+    $passedNames = [System.Collections.Generic.HashSet[string]]::new()
+
+    foreach ($line in $filteredOutput) {
+
+        if ($line -match "--- FAIL:\s+(.+?)\s+\(") {
+            $failedNames.Add($Matches[1].Trim()) | Out-Null
+        }
+        elseif ($line -match "--- PASS:\s+(.+?)\s+\(") {
+            $passedNames.Add($Matches[1].Trim()) | Out-Null
+        }
+    }
+
+    # Pass 2: Collect diagnostic details for failed tests
+    $currentTest = ""
+    $currentBlock = [System.Collections.Generic.List[string]]::new()
+
+    foreach ($line in $filteredOutput) {
+
+        if ($line -match "=== RUN\s+(.+)$") {
+            # Flush previous block if it was a failed test
+            if ($currentTest -and $failedNames.Contains($currentTest)) {
+                $failing.Add("FAIL: $currentTest")
+
+                foreach ($detail in $currentBlock) {
+                    $failing.Add("  $detail")
+                }
+
+                $failing.Add("")
+            }
+
+            $currentTest = $Matches[1].Trim()
+            $currentBlock.Clear()
+        }
+        elseif ($line -match "--- PASS:\s+(.+?)\s+\(") {
+            # Passing test — flush and reset
+            $currentTest = ""
+            $currentBlock.Clear()
+        }
+        elseif ($line -match "--- FAIL:\s+(.+?)\s+\(") {
+            # Capture the --- FAIL line itself as part of diagnostics
+            if (-not $currentTest) {
+                $currentTest = $Matches[1].Trim()
+            }
+
+            if ($currentTest) {
+                $currentBlock.Add($line)
+            }
+        }
+        else {
+            if ($currentTest) {
+                # Skip noisy non-diagnostic lines (coverage/package summaries/progress markers)
+                $lineForMatch = $line.TrimEnd("`r")
+                if ($lineForMatch -match '^\s*coverage:\s+\d' -or
+                    $lineForMatch -match '^\s*(ok|FAIL)\s+\S+\s+\d+(\.\d+)?s(\s+coverage:.*)?\s*$' -or
+                    $lineForMatch -match '^\s*(ok|FAIL|PASS)\s*$' -or
+                    $lineForMatch -match '^\s*\?\s+\S+\s+\[no test files\]\s*$' -or
+                    $lineForMatch -match '^\s*===\s+(RUN|PAUSE|CONT)\s+' -or
+                    $lineForMatch -match '^\s*\.+\s*(FAIL|ok)\s*$') {
+                    continue
+                }
+                $currentBlock.Add($line)
+            }
+        }
+    }
+
+    # Flush last block
+    if ($currentTest -and $failedNames.Contains($currentTest)) {
+        $failing.Add("FAIL: $currentTest")
+
+        foreach ($detail in $currentBlock) {
+            $failing.Add("  $detail")
+        }
+
+        $failing.Add("")
+    }
+
+    # Collect passing test names
+    foreach ($name in $passedNames) {
+        $passing.Add($name)
+    }
+
+    # Write passing tests
+    $passingContent = @("# Passing Tests — $timestamp", "# Count: $($passing.Count)", "")
+    $passingContent += $passing
+    Set-Content -Path $passingFile -Value ($passingContent -join "`n") -Encoding UTF8
+
+    # Write failing tests
+    $failCount = $failedNames.Count
+    $failingContent = @("# Failing Tests — $timestamp", "# Count: $failCount", "")
+
+    # Summary section: list failed test names first
+    if ($failCount -gt 0) {
+        $failingContent += "# ── Summary ──"
+        $sortedFailed = $failedNames | Sort-Object
+        foreach ($name in $sortedFailed) {
+            $failingContent += "  - $name"
+        }
+        $failingContent += @("", "# ── Details ──", "")
+    }
+    $failingContent += $failing
+
+    # Fallback diagnostics: if no per-test block was captured, include raw reasons
+    if ($failCount -gt 0 -and $failing.Count -eq 0) {
+        $failingContent += @("# Diagnostic Snippets:", "")
+
+        $snippetLines = $filteredOutput | Where-Object {
+            $_ -match "--- FAIL:\s+" -or
+            $_ -match "_test\.go:\d+:" -or
+            $_ -match "^\s*panic:" -or
+            $_ -match "^\s*Expected:" -or
+            $_ -match "^\s*Actual:"
+        }
+
+        if ($snippetLines) {
+            $failingContent += $snippetLines
+        }
+        else {
+            $failingContent += "No detailed failure lines were captured from raw output."
+        }
+
+        $failingContent += ""
+    }
+
+    # Also capture compilation errors (no === RUN lines at all)
+    $hasAnyRun = $filteredOutput | Where-Object { $_ -match "^=== RUN" } | Select-Object -First 1
+
+    if (-not $hasAnyRun) {
+        $compileErrors = $filteredOutput | Where-Object {
+            $_ -match "\.go:\d+:" -or $_ -match "^#\s+" -or $_ -match "\[build failed\]"
+        }
+
+        if ($compileErrors) {
+            $failingContent += @("", "# Compilation Errors:", "")
+            $failingContent += $compileErrors
+            $failCount = $failCount + 1
+        }
+    }
+
+    $failingContent[1] = "# Count: $failCount"
+
+    Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
+
+    $passCount = $passing.Count
+
+    Write-Host ""
+    if ($passCount -gt 0) { Write-Success "$passCount passing test(s) → $passingFile" }
+    if ($failCount -gt 0) { Write-Fail "$failCount failing test(s) → $failingFile" }
+    elseif ($failCount -eq 0) { Write-Success "No failing tests" }
+    Write-Host "  Raw output → $rawFile" -ForegroundColor Gray
+}
+
+function Invoke-GoTestAndLog([string]$testArgs) {
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = & go test -v -count=1 $testArgs 2>&1 | ForEach-Object { $_.ToString() }
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevPref
+
+    # Print to console
+    Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
+
+    # Write logs
+    Write-TestLogs $output
+
+    return $exitCode
+}
+
+# -- Commands --
+
+function Invoke-GitPull {
+    Write-Header "Pulling latest from remote"
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    git pull 2>&1 | ForEach-Object { Write-Host "  $_" -ForegroundColor Gray }
+    if ($LASTEXITCODE -eq 0) { Write-Success "Git pull complete" }
+    else { Write-Fail "git pull failed (continuing anyway)" }
+    $ErrorActionPreference = $prevPref
+}
+
+function Invoke-FetchLatest {
+    Invoke-GitPull
+    Write-Header "Fetching latest dependencies"
+    go mod tidy
+    if ($LASTEXITCODE -eq 0) { Write-Success "Dependencies up to date" }
+    else { Write-Fail "go mod tidy failed" }
+}
+
+function Invoke-BuildCheck([string]$buildPath) {
+    Write-Header "Build check: $buildPath"
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = & go build $buildPath 2>&1 | ForEach-Object { $_.ToString() }
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevPref
+
+    if ($exitCode -ne 0) {
+        Write-Fail "Build failed — skipping tests"
+
+        Ensure-TestLogDir
+        $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+        $rawFile     = Join-Path $TestLogDir "raw-output.txt"
+        $timestamp   = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+        $buildErrors = Extract-BuildErrorLines $output
+        $errorCount = if ($buildErrors.Count -gt 0) { $buildErrors.Count } else { 1 }
+
+        $failingContent = @(
+            "# Failing Tests — $timestamp",
+            "# Count: $errorCount",
+            "",
+            "# Build Failed — tests were NOT run",
+            "",
+            "# ── Build Errors ──",
+            ""
+        )
+        if ($buildErrors.Count -gt 0) {
+            $failingContent += $buildErrors
+        }
+        else {
+            $failingContent += $output
+        }
+
+        Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
+        Set-Content -Path $rawFile -Value ($output -join "`n") -Encoding UTF8
+
+        $output | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
+        Open-FailingTestsIfAny
+        return $false
+    }
+
+    Write-Success "Build OK"
+    return $true
+}
+
+function Open-FailingTestsIfAny {
+    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    if ((Test-Path $failingFile)) {
+        $content = Get-Content $failingFile -Raw
+        if ($content -and $content -notmatch '# Count: 0') {
+            Write-Host ""
+            Write-Host "  Opening failing tests log..." -ForegroundColor Yellow
+            Invoke-Item $failingFile
+        }
+    }
+}
+
+function Invoke-AllTests {
+    Write-Header "Running all tests"
+    Invoke-FetchLatest
+    Push-Location tests
+    try {
+        if (-not (Invoke-BuildCheck "./...")) { return }
+
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $output = & go test -v -count=1 ./... 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+
+        if ($exitCode -eq 0) { Write-Success "All tests passed" }
+        else { Write-Fail "Some tests failed (exit code: $exitCode)" }
+    }
+    finally { Pop-Location }
+    Open-FailingTestsIfAny
+}
+
+function Invoke-PackageTests([string]$pkg) {
+    if (-not $pkg) {
+        Write-Fail "Package name required. Usage: ./run.ps1 TP <package>"
+        Write-Host "  Available packages:" -ForegroundColor Yellow
+        Get-ChildItem -Path tests/integratedtests -Directory | ForEach-Object {
+            Write-Host "    - $($_.Name)" -ForegroundColor Gray
+        }
+        return
+    }
+
+    Write-Header "Running tests for package: $pkg"
+    Invoke-FetchLatest
+    Push-Location tests
+    try {
+        if (-not (Invoke-BuildCheck "./integratedtests/$pkg/...")) { return }
+
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $output = & go test -v -count=1 "./integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+
+        if ($exitCode -eq 0) { Write-Success "Package tests passed" }
+        else { Write-Fail "Package tests failed (exit code: $exitCode)" }
+    }
+    finally { Pop-Location }
+    Open-FailingTestsIfAny
+}
+
+function Invoke-TestCoverage {
+    Write-Header "Running tests with coverage"
+    Invoke-FetchLatest
+
+    # Clean data folder before running tests
+    $dataDir = Join-Path $PSScriptRoot "data"
+    if (Test-Path $dataDir) {
+        Remove-Item -Recurse -Force $dataDir
+        Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
+    }
+
+    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    $partialDir = Join-Path $coverDir "partial"
+    New-Item -ItemType Directory -Path $partialDir -Force | Out-Null
+
+    $coverProfile = Join-Path $coverDir "coverage.out"
+    $coverHtml    = Join-Path $coverDir "coverage.html"
+    $coverSummary = Join-Path $coverDir "coverage-summary.txt"
+    $repoBuildErrorsFile = Join-Path $coverDir "repo-build-errors.txt"
+    $repoBuildErrorsJsonFile = Join-Path $coverDir "repo-build-errors.json"
+
+    $repoBuildErrorsScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-RepoBuildErrors.ps1"
+    if (Test-Path $repoBuildErrorsScript) {
+        & $repoBuildErrorsScript -OutputTxt $repoBuildErrorsFile -OutputJson $repoBuildErrorsJsonFile
+    }
+
+    # Build coverpkg list: all source packages EXCLUDING tests/
+    $allPkgs = go list ./... 2>&1 | ForEach-Object { $_.ToString() }
+    $srcPkgs = $allPkgs | Where-Object { $_ -notmatch '/tests/' }
+    $covPkgList = $srcPkgs -join ","
+
+    # Get all test packages to run individually (deterministic order)
+    $allTestPkgs = go list ./tests/integratedtests/... 2>&1 |
+        ForEach-Object { $_.ToString() } |
+        Where-Object { $_ -and $_ -notmatch '^warning:' } |
+        Sort-Object
+
+    # ── Pre-coverage compile check ──────────────────────────────────
+    # Build-check each test package individually (go test -run '^$') to detect
+    # build failures BEFORE running coverage. Packages that fail to
+    # compile are excluded from the coverage run so they don't produce
+    # misleading 0% profiles or cascade failures.
+
+    # Determine sync vs parallel mode from ExtraArgs (--sync flag)
+    $isSyncMode = $false
+    if ($ExtraArgs) {
+        foreach ($ea in $ExtraArgs) {
+            if ($ea -eq "--sync") { $isSyncMode = $true }
+        }
+    }
+
+    $modeLabel = if ($isSyncMode) { "sync" } else { "parallel" }
+    Write-Host ""
+    Write-Header "Pre-coverage compile check ($($allTestPkgs.Count) packages, $modeLabel mode)"
+
+    $blockedPkgs = [System.Collections.Generic.List[string]]::new()
+    $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
+    $testPkgs = [System.Collections.Generic.List[string]]::new()
+    $buildErrorsByPackage = @{}
+    $runtimeFailuresByPackage = @{}
+
+    if ($isSyncMode) {
+        # ── Sequential compile check ──
+        foreach ($testPkg in $allTestPkgs) {
+            $shortName = $testPkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            $compileOut = & go test -count=1 -run '^$' -gcflags=all=-e "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $compileExit = $LASTEXITCODE
+            $ErrorActionPreference = $prevPref
+
+            if ($compileExit -eq 0) {
+                $testPkgs.Add($testPkg)
+            } else {
+                $prevPref = $ErrorActionPreference
+                $ErrorActionPreference = "Continue"
+                $diagOut = & go test -count=1 -run '^$' -gcflags=all=-e "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+                $ErrorActionPreference = $prevPref
+                $combinedOut = Merge-UniqueOutputLines $compileOut $diagOut
+
+                $blockedPkgs.Add($shortName)
+                $blockedErrors[$shortName] = ($combinedOut -join "`n")
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $combinedOut
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $combinedOut
+            }
+        }
+    } else {
+        # ── Parallel compile check (ForEach-Object -Parallel, runspace-based) ──
+        $throttle = [Math]::Min($allTestPkgs.Count, [Environment]::ProcessorCount * 2)
+        Write-Host "  Launching $($allTestPkgs.Count) compile checks ($throttle parallel)..." -ForegroundColor Gray
+
+        $compileResults = $allTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
+            $pkg = $_
+            $covPkgs = $using:covPkgList
+            $ErrorActionPreference = "Continue"
+            $rawOut = & go test -count=1 -run '^$' -gcflags=all=-e "-coverpkg=$covPkgs" "$pkg" 2>&1
+            $ec = $LASTEXITCODE
+            $out = @($rawOut | ForEach-Object { $_.ToString() })
+
+            if ($ec -ne 0) {
+                $diagRaw = & go test -count=1 -run '^$' -gcflags=all=-e "$pkg" 2>&1
+                $diagOut = @($diagRaw | ForEach-Object { $_.ToString() })
+
+                $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+                $merged = [System.Collections.Generic.List[string]]::new()
+
+                foreach ($line in @($out + $diagOut)) {
+                    if ($null -eq $line) { continue }
+                    $normalized = $line.ToString().TrimEnd("`r")
+                    if (-not $normalized) { continue }
+                    if ($seen.Add($normalized)) {
+                        $merged.Add($normalized) | Out-Null
+                    }
+                }
+
+                $out = $merged.ToArray()
+            }
+
+            [pscustomobject]@{
+                Pkg      = $pkg
+                ExitCode = $ec
+                Output   = $out
+            }
+        }
+
+        foreach ($result in ($compileResults | Sort-Object Pkg)) {
+            $shortName = $result.Pkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+
+            if ($result.ExitCode -eq 0) {
+                $testPkgs.Add($result.Pkg)
+            } else {
+                $blockedPkgs.Add($shortName)
+                $blockedErrors[$shortName] = ($result.Output -join "`n")
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $result.Output
+            }
+        }
+    }
+
+    # Print blocked summary
+    if ($blockedPkgs.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ BLOCKED PACKAGES ($($blockedPkgs.Count) failed to compile)" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($bp in ($blockedPkgs | Sort-Object)) {
+            Write-Host "  │   ✗ $bp" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ These packages will be SKIPPED in coverage." -ForegroundColor Yellow
+        Write-Host "  │ Fix their build errors to include them." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host ""
+
+        # Write blocked details to file for AI/human review
+        $blockedFile = Join-Path $coverDir "blocked-packages.txt"
+        $sortedBlocked = $blockedPkgs | Sort-Object
+        $blockedContent = @(
+            "# Blocked Packages — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",
+            "# Count: $($blockedPkgs.Count)",
+            "",
+            "# ── CLI Summary ──",
+            "# ┌─────────────────────────────────────────────────",
+            "# │ BLOCKED PACKAGES ($($blockedPkgs.Count) failed to compile)"
+        )
+        foreach ($bp in $sortedBlocked) {
+            $blockedContent += "# │   ✗ $bp"
+        }
+        $blockedContent += @(
+            "# │",
+            "# │ These packages will be SKIPPED in coverage.",
+            "# │ Fix their build errors to include them.",
+            "# └─────────────────────────────────────────────────",
+            "",
+            "# ── Package List ──"
+        )
+        foreach ($bp in $sortedBlocked) {
+            $blockedContent += "# - $bp"
+        }
+        $blockedContent += ""
+
+        # (All output goes to $coverDir only — no root writes)
+
+        foreach ($bp in $sortedBlocked) {
+            $blockedContent += "## $bp"
+            if ($blockedErrors.ContainsKey($bp)) {
+                $rawErrLines = $blockedErrors[$bp] -split "`n"
+                $filteredErrLines = Extract-BuildErrorLines $rawErrLines
+                if ($filteredErrLines.Count -eq 0) {
+                    $filteredErrLines = Extract-ExecutionFailureLines $rawErrLines
+                }
+                if ($filteredErrLines.Count -gt 0) {
+                    $blockedContent += ($filteredErrLines -join "`n")
+                } else {
+                    $blockedContent += "(no actionable compile errors captured)"
+                }
+            }
+            $blockedContent += ""
+        }
+        $fileContent = $blockedContent -join "`n"
+        Set-Content -Path $blockedFile -Value $fileContent -Encoding UTF8
+
+        # ── JSON export for blocked packages ──
+        $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
+        
+        $blockedJsonItems = [System.Collections.Generic.List[object]]::new()
+        foreach ($bp in $sortedBlocked) {
+            $errText = ""
+            if ($blockedErrors.ContainsKey($bp)) { $errText = $blockedErrors[$bp] }
+            $errLines = @()
+            if ($errText) {
+                $errLines = Extract-BuildErrorLines ($errText -split "`n")
+                if ($errLines.Count -eq 0) {
+                    $errLines = Extract-ExecutionFailureLines ($errText -split "`n")
+                }
+            }
+            $blockedJsonItems.Add(@{
+                package    = $bp
+                errorCount = $errLines.Count
+                errors     = $errLines
+            })
+        }
+        $blockedJsonObj = @{
+            timestamp        = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            blockedCount     = $blockedPkgs.Count
+            compiledCount    = $testPkgs.Count
+            totalCount       = $allTestPkgs.Count
+            blockedPackages  = $blockedJsonItems.ToArray()
+            missingProfiles  = @()
+        }
+        $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
+        Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
+    } else {
+        Write-Host ""
+        Write-Success "All $($testPkgs.Count) packages compiled successfully"
+    }
+
+    if ($testPkgs.Count -eq 0) {
+        Write-Fail "No packages compiled — aborting coverage run"
+        return
+    }
+
+    # ── Coverage run (only compilable packages) ─────────────────────
+    $allOutput = [System.Collections.Generic.List[string]]::new()
+    $pkgCoverMap = [ordered]@{}
+    $overallExit = 0
+    $pkgIndex = 0
+
+    Write-Host ""
+    Write-Host "  Running $($testPkgs.Count) test packages ($modeLabel)..." -ForegroundColor Yellow
+
+    if ($isSyncMode) {
+        # ── Sequential coverage run ──
+        foreach ($testPkg in $testPkgs) {
+            $pkgIndex++
+            $shortName = $testPkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+            $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
+            if (-not $srcTarget) { $srcTarget = $shortName }
+
+            $partialProfile = Join-Path $partialDir "cover-$pkgIndex.out"
+
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            $output = & go test -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $pkgExit = $LASTEXITCODE
+            $ErrorActionPreference = $prevPref
+
+            if ($pkgExit -ne 0) {
+                $overallExit = $pkgExit
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $output
+            }
+
+            if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
+        }
+    } else {
+        # ── Parallel coverage run (ForEach-Object -Parallel) ──
+        $throttle = [Math]::Min($testPkgs.Count, [Environment]::ProcessorCount * 2)
+
+        $coverResults = $testPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
+            $pkg = $_
+            $covPkgs = $using:covPkgList
+            $pDir = $using:partialDir
+            $safePkgName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $profile = Join-Path $pDir "cover-$safePkgName.out"
+            $ErrorActionPreference = "Continue"
+            $out = & go test -count=1 "-coverprofile=$profile" "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            [pscustomobject]@{
+                Pkg      = $pkg
+                Profile  = $profile
+                ExitCode = $LASTEXITCODE
+                Output   = $out
+            }
+        }
+
+        foreach ($result in ($coverResults | Sort-Object Pkg)) {
+            $shortName = $result.Pkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+
+            if ($result.ExitCode -ne 0) {
+                $overallExit = $result.ExitCode
+                Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $result.Output
+                Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $result.Output
+            }
+            if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
+        }
+        $pkgIndex = $testPkgs.Count
+    }
+
+    # ── Safety Guard: detect missing coverage profiles (binary crash) ──
+    # When a test binary panics/crashes, Go never writes the coverage profile.
+    # This silently drops that package's coverage, producing misleadingly low %.
+    $missingProfiles = [System.Collections.Generic.List[string]]::new()
+    foreach ($testPkg in $testPkgs) {
+        # Determine which profile path was used
+        if ($isSyncMode) {
+            $idx = [array]::IndexOf($testPkgs, $testPkg) + 1
+            $expectedProfile = Join-Path $partialDir "cover-$idx.out"
+        } else {
+            $safeName = $testPkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $expectedProfile = Join-Path $partialDir "cover-$safeName.out"
+        }
+        if (-not (Test-Path $expectedProfile)) {
+            $shortPkg = $testPkg -replace '.*integratedtests/?', ''
+            if (-not $shortPkg) { $shortPkg = $testPkg }
+            $missingProfiles.Add($shortPkg)
+        }
+    }
+    if ($missingProfiles.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Magenta
+        Write-Host "  │ ⚠ MISSING COVERAGE PROFILES ($($missingProfiles.Count) package(s))" -ForegroundColor Magenta
+        Write-Host "  │" -ForegroundColor Magenta
+        Write-Host "  │ These test binaries likely crashed (panic/os.Exit)" -ForegroundColor Magenta
+        Write-Host "  │ before Go could write their coverage profile." -ForegroundColor Magenta
+        Write-Host "  │ Their coverage is NOT included in the report." -ForegroundColor Magenta
+        Write-Host "  │" -ForegroundColor Magenta
+        foreach ($mp in $missingProfiles) {
+            Write-Host "  │   ⚠ $mp" -ForegroundColor Yellow
+        }
+        Write-Host "  │" -ForegroundColor Magenta
+        Write-Host "  │ Fix: ensure tests use recover() for expected panics" -ForegroundColor Magenta
+        Write-Host "  │ and never call os.Exit() in test code." -ForegroundColor Magenta
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Magenta
+    }
+
+    # ── Backfill missing-profiles into blocked-packages JSON ──
+    $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
+    if (Test-Path $blockedJsonFile) {
+        $existingJson = Get-Content $blockedJsonFile -Raw | ConvertFrom-Json
+        $mpArray = @($missingProfiles | ForEach-Object { $_ })
+        $existingJson | Add-Member -NotePropertyName "missingProfileCount" -NotePropertyValue $missingProfiles.Count -Force
+        $existingJson | Add-Member -NotePropertyName "missingProfiles" -NotePropertyValue $mpArray -Force
+        $existingJson | ConvertTo-Json -Depth 4 | Set-Content -Path $blockedJsonFile -Encoding UTF8
+    } elseif ($missingProfiles.Count -gt 0) {
+        # No blocked packages but we have missing profiles — create the file
+        $mpOnly = @{
+            timestamp           = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            blockedCount        = 0
+            compiledCount       = $testPkgs.Count
+            totalCount          = $allTestPkgs.Count
+            blockedPackages     = @()
+            missingProfileCount = $missingProfiles.Count
+            missingProfiles     = @($missingProfiles | ForEach-Object { $_ })
+        }
+        $mpOnly | ConvertTo-Json -Depth 4 | Set-Content -Path $blockedJsonFile -Encoding UTF8
+    }
+
+    # Write test logs to files (no raw dump to console)
+    Write-TestLogs $allOutput.ToArray()
+
+    # ── Failing Test Summary (console) ──
+    $failedTestNames = [System.Collections.Generic.HashSet[string]]::new()
+    foreach ($line in $allOutput) {
+        if ($line -match "--- FAIL:\s+(.+?)\s+\(") {
+            $failedTestNames.Add($Matches[1].Trim()) | Out-Null
+        }
+    }
+    if ($failedTestNames.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ FAILING TESTS ($($failedTestNames.Count) failed)" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($ft in ($failedTestNames | Sort-Object)) {
+            Write-Host "  │   ✗ $ft" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ See data/test-logs/failing-tests.txt for details." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+    }
+
+    # Merge all partial profiles into one, using MAX count per unique line.
+    # -coverpkg instruments ALL source packages in every test run, so each line
+    # appears N times. Without dedup, the last count=0 overwrites covered entries.
+
+    $partialFiles = Get-ChildItem -Path $partialDir -Filter "cover-*.out" | Sort-Object Name
+    $coverMap = [System.Collections.Generic.Dictionary[string, int]]::new()
+
+    foreach ($pf in $partialFiles) {
+        $lines = Get-Content $pf.FullName
+        foreach ($line in $lines) {
+            if (-not $line -or $line -match "^mode:") { continue }
+            # Coverage line format: "pkg/file.go:startLine.startCol,endLine.endCol numStatements count"
+            # Require full format with colon before line numbers to reject malformed lines
+            if ($line -match "^(\S+\.go:\d+\.\d+,\d+\.\d+\s+\d+)\s+(\d+)\s*$") {
+                $key = $Matches[1]
+                $count = [int]$Matches[2]
+                if ($coverMap.ContainsKey($key)) {
+                    if ($count -gt $coverMap[$key]) {
+                        $coverMap[$key] = $count
+                    }
+                } else {
+                    $coverMap[$key] = $count
+                }
+            }
+        }
+    }
+
+    $mergedLines = [System.Collections.Generic.List[string]]::new()
+    $mergedLines.Add("mode: set")
+    foreach ($entry in $coverMap.GetEnumerator()) {
+        $mergedLines.Add("$($entry.Key) $($entry.Value)")
+    }
+
+    Set-Content -Path $coverProfile -Value ($mergedLines -join "`n") -Encoding UTF8
+    # (file write messages deferred to written files summary)
+
+    if (Test-Path $coverProfile) {
+        # Generate func-level summary
+        # Generate func-level summary (no debug output)
+
+        $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
+
+        $uncoveredJsonScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-UncoveredMethodsJson.ps1"
+        if (Test-Path $uncoveredJsonScript) {
+            $uncoveredJsonFile = Join-Path $coverDir "uncovered-method-lines.json"
+            & $uncoveredJsonScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputFile $uncoveredJsonFile -ProjectRoot $PSScriptRoot
+        }
+
+        # Generate HTML report — use explicit argument list to avoid variable interpolation issues
+        $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
+        
+        $htmlErr = & go tool cover $htmlArgs 2>&1
+        $htmlExitCode = $LASTEXITCODE
+
+        if ($htmlExitCode -ne 0 -or -not (Test-Path $coverHtml)) {
+            Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html' (exit: $htmlExitCode)" -ForegroundColor Red
+            if ($htmlErr) { Write-Host "  Error: $htmlErr" -ForegroundColor Red }
+            
+            # Fallback: generate a basic HTML from the func output
+            $fallbackHtml = @"
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
+<style>body{font-family:monospace;padding:20px;background:#1e1e2e;color:#cdd6f4}
+pre{white-space:pre-wrap}</style></head><body>
+<h1>Coverage Report</h1><pre>$($funcOutput -join "`n")</pre></body></html>
+"@
+            Set-Content -Path $coverHtml -Value $fallbackHtml -Encoding UTF8
+            Write-Host "  Generated fallback HTML report" -ForegroundColor Yellow
+        }
+
+        # Build AI-friendly coverage text for the copy button
+        $aiTextLines = [System.Collections.Generic.List[string]]::new()
+        $aiTextLines.Add("# Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $aiTextLines.Add("")
+
+        # Build summary report
+        $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $summaryLines = [System.Collections.Generic.List[string]]::new()
+        $summaryLines.Add("# Coverage Summary — $timestamp")
+        $summaryLines.Add("")
+
+        # Extract total line
+        $totalLine = $funcOutput | Where-Object { $_ -match "^total:" } | Select-Object -Last 1
+        if ($totalLine) {
+            $summaryLines.Add("## Total Coverage")
+            $summaryLines.Add("  $totalLine")
+            $summaryLines.Add("")
+        }
+
+        # Per-SOURCE-package coverage from merged profile
+        $srcPkgCovMap = [ordered]@{}
+        foreach ($line in $funcOutput) {
+            if ($line -match "^(\S+):" -and $line -notmatch "^total:") {
+                $srcPkg = $Matches[1]
+                # Extract short name from full import path
+                $shortSrc = $srcPkg -replace '.*alimtvnetwork/core/?', ''
+                if (-not $shortSrc) { $shortSrc = "(root)" }
+                if (-not $srcPkgCovMap.Contains($shortSrc)) {
+                    $srcPkgCovMap[$shortSrc] = @{ Stmts = 0; Covered = 0 }
+                }
+            }
+        }
+        # Parse coverage.out lines to compute per-source-package %
+        $srcPkgStmts = [ordered]@{}
+        foreach ($covLine2 in $mergedLines) {
+            if ($covLine2 -match "^mode:") { continue }
+            # Format: pkg/file.go:startLine.col,endLine.col numStmts count
+            if ($covLine2 -match "^(\S+?):(\d+)\.(\d+),(\d+)\.(\d+)\s+(\d+)\s+(\d+)") {
+                $filePath2 = $Matches[1]
+                $stmts = [int]$Matches[6]
+                $count = [int]$Matches[7]
+                # Extract package from file path
+                $shortSrc2 = $filePath2 -replace '.*alimtvnetwork/core/?', ''
+                $shortSrc2 = $shortSrc2 -replace '/[^/]+$', ''  # remove filename
+                if (-not $shortSrc2) { $shortSrc2 = "(root)" }
+                if (-not $srcPkgStmts.Contains($shortSrc2)) {
+                    $srcPkgStmts[$shortSrc2] = @{ Stmts = 0; Covered = 0 }
+                }
+                $srcPkgStmts[$shortSrc2].Stmts += $stmts
+                if ($count -gt 0) { $srcPkgStmts[$shortSrc2].Covered += $stmts }
+            }
+        }
+        if ($srcPkgStmts.Count -gt 0) {
+            $summaryLines.Add("## Per-Package Coverage (Source)")
+            $sortedSrcPkgs = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctVal = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctVal }
+            } | Sort-Object Pct -Descending
+            foreach ($entry in $sortedSrcPkgs) {
+                $summaryLines.Add("  $($entry.Pct)%`t$($entry.Name)")
+            }
+            $summaryLines.Add("")
+        }
+
+        # Extract low-coverage functions (< 50%)
+        $lowCovFuncs = [System.Collections.Generic.List[string]]::new()
+        foreach ($line in $funcOutput) {
+            if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
+                $pct = [double]$Matches[1]
+                if ($pct -lt 50.0) {
+                    $lowCovFuncs.Add("  $line")
+                }
+            }
+        }
+
+        if ($lowCovFuncs.Count -gt 0) {
+            $summaryLines.Add("## Low Coverage Functions (< 50%)")
+            $summaryLines.Add("  Count: $($lowCovFuncs.Count)")
+            $summaryLines.Add("")
+            foreach ($f in $lowCovFuncs) { $summaryLines.Add($f) }
+            $summaryLines.Add("")
+        }
+
+        # File paths
+        $summaryLines.Add("## Reports")
+        $summaryLines.Add("  Profile:  $coverProfile")
+        $summaryLines.Add("  HTML:     $coverHtml")
+        $summaryLines.Add("  Summary:  $coverSummary")
+
+        Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
+
+        # ── JSON export for coverage summary ──
+        $coverJsonFile = Join-Path $coverDir "coverage-summary.json"
+        
+
+        # Parse total coverage
+        $totalPct = 0.0
+        if ($totalLine -match "(\d+\.\d+)%") { $totalPct = [double]$Matches[1] }
+
+        # Build per-package array sorted by coverage ascending (lowest first for AI prioritization)
+        $pkgJsonItems = [System.Collections.Generic.List[object]]::new()
+        if ($srcPkgStmts.Count -gt 0) {
+            $sortedForJson = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctJ = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctJ; Stmts = $_.Value.Stmts; Covered = $_.Value.Covered }
+            } | Sort-Object Pct
+            foreach ($e in $sortedForJson) {
+                $pkgJsonItems.Add(@{
+                    package    = $e.Name
+                    coverage   = $e.Pct
+                    statements = $e.Stmts
+                    covered    = $e.Covered
+                    uncovered  = $e.Stmts - $e.Covered
+                })
+            }
+        }
+
+        # Build low-coverage functions array
+        $lowCovJsonItems = [System.Collections.Generic.List[object]]::new()
+        foreach ($line in $funcOutput) {
+            if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
+                $pctF = [double]$Matches[1]
+                if ($pctF -lt 50.0) {
+                    # Parse: pkg/file.go:line: FuncName    pct%
+                    $funcName = ""
+                    $funcFile = ""
+                    if ($line -match "^(\S+):\s+(\S+)\s+(\d+\.\d+)%") {
+                        $funcFile = $Matches[1]
+                        $funcName = $Matches[2]
+                    }
+                    $lowCovJsonItems.Add(@{
+                        file     = $funcFile
+                        function = $funcName
+                        coverage = $pctF
+                    })
+                }
+            }
+        }
+
+        # Check for blocked packages JSON
+        $blockedRef = @()
+        $blockedJsonPath = Join-Path $coverDir "blocked-packages.json"
+        if (Test-Path $blockedJsonPath) {
+            $blockedRef = @((Get-Content $blockedJsonPath -Raw | ConvertFrom-Json).blockedPackages | ForEach-Object { $_.package })
+        }
+
+        $coverJsonObj = @{
+            timestamp           = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            totalCoverage       = $totalPct
+            packageCount        = $pkgJsonItems.Count
+            packages            = $pkgJsonItems.ToArray()
+            lowCoverageFuncCount = $lowCovJsonItems.Count
+            lowCoverageFunctions = $lowCovJsonItems.ToArray()
+            blockedPackages     = $blockedRef
+            reports             = @{
+                profile = $coverProfile
+                html    = $coverHtml
+                summary = $coverSummary
+                json    = $coverJsonFile
+            }
+        }
+        $coverJson = $coverJsonObj | ConvertTo-Json -Depth 4
+        Set-Content -Path $coverJsonFile -Value $coverJson -Encoding UTF8
+        
+
+        # ── Per-Package Coverage report (TXT + JSON) ──
+        $perPkgTxtFile = Join-Path $coverDir "per-package-coverage.txt"
+        $perPkgJsonFile = Join-Path $coverDir "per-package-coverage.json"
+
+        $perPkgTxtLines = [System.Collections.Generic.List[string]]::new()
+        $perPkgTxtLines.Add("# Per-Package Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $perPkgTxtLines.Add("# Total: $totalLine")
+        $perPkgTxtLines.Add("")
+        $perPkgTxtLines.Add(("Package".PadRight(50)) + " " + ("Stmts".PadLeft(8)) + " " + ("Covered".PadLeft(8)) + " " + ("Uncovered".PadLeft(10)) + " " + ("Cov%".PadLeft(8)))
+        $perPkgTxtLines.Add(("─" * 50) + " " + ("─" * 8) + " " + ("─" * 8) + " " + ("─" * 10) + " " + ("─" * 8))
+
+        $perPkgJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($srcPkgStmts.Count -gt 0) {
+            $sortedPerPkg = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctP = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{
+                    Name      = $_.Key
+                    Pct       = $pctP
+                    Stmts     = $_.Value.Stmts
+                    Covered   = $_.Value.Covered
+                    Uncovered = $_.Value.Stmts - $_.Value.Covered
+                }
+            } | Sort-Object Pct
+
+            foreach ($pp in $sortedPerPkg) {
+                $statusMark = if ($pp.Pct -ge 100) { "✓" } elseif ($pp.Pct -ge 80) { "○" } else { "✗" }
+                $rowPackage = ("$statusMark $($pp.Name)").PadRight(50)
+                $rowStmts = $pp.Stmts.ToString().PadLeft(8)
+                $rowCovered = $pp.Covered.ToString().PadLeft(8)
+                $rowUncovered = $pp.Uncovered.ToString().PadLeft(10)
+                $rowPct = (([string]::Format([System.Globalization.CultureInfo]::InvariantCulture, "{0:0.0}", $pp.Pct)) + "%").PadLeft(8)
+                $perPkgTxtLines.Add("$rowPackage $rowStmts $rowCovered $rowUncovered $rowPct")
+
+                $perPkgJsonItems.Add(@{
+                    package    = $pp.Name
+                    coverage   = $pp.Pct
+                    statements = $pp.Stmts
+                    covered    = $pp.Covered
+                    uncovered  = $pp.Uncovered
+                    status     = if ($pp.Pct -ge 100) { "full" } elseif ($pp.Pct -ge 80) { "good" } else { "low" }
+                })
+            }
+
+            # Summary footer
+            $totalStmts = ($sortedPerPkg | Measure-Object -Property Stmts -Sum).Sum
+            $totalCovered = ($sortedPerPkg | Measure-Object -Property Covered -Sum).Sum
+            $totalUncovered = $totalStmts - $totalCovered
+            $fullCount = ($sortedPerPkg | Where-Object { $_.Pct -ge 100 }).Count
+            $lowCount = ($sortedPerPkg | Where-Object { $_.Pct -lt 80 }).Count
+
+            $perPkgTxtLines.Add("")
+            $perPkgTxtLines.Add("# Summary")
+            $perPkgTxtLines.Add("#   Packages:  $($sortedPerPkg.Count)")
+            $perPkgTxtLines.Add("#   100%:      $fullCount")
+            $perPkgTxtLines.Add("#   < 80%:     $lowCount")
+            $perPkgTxtLines.Add("#   Total stmts: $totalStmts  covered: $totalCovered  uncovered: $totalUncovered")
+        }
+
+        $perPkgJsonObj = @{
+            timestamp     = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            totalCoverage = $totalPct
+            packageCount  = $perPkgJsonItems.Count
+            packages      = $perPkgJsonItems.ToArray()
+        }
+
+        Set-Content -Path $perPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
+        $perPkgJson = $perPkgJsonObj | ConvertTo-Json -Depth 4
+        Set-Content -Path $perPkgJsonFile -Value $perPkgJson -Encoding UTF8
+
+        # Build AI-friendly text for copy button
+        $aiTextLines.Add("## Goal: Improve test coverage for the packages listed below.")
+        $aiTextLines.Add("Please write tests for uncovered functions, following the project's AAA pattern.")
+        $aiTextLines.Add("")
+        if ($totalLine) {
+            $aiTextLines.Add("## Total Coverage")
+            $aiTextLines.Add($totalLine)
+            $aiTextLines.Add("")
+        }
+        if ($srcPkgStmts.Count -gt 0) {
+            $aiTextLines.Add("## Per-Source-Package Coverage")
+            $computedSrcPkgs = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctVal3 = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctVal3; Stmts = $_.Value.Stmts; Covered = $_.Value.Covered }
+            } | Sort-Object Pct
+            foreach ($e in $computedSrcPkgs) {
+                $aiTextLines.Add("  $($e.Pct)%  $($e.Name)  ($($e.Covered)/$($e.Stmts) stmts)")
+            }
+            $aiTextLines.Add("")
+        }
+        if ($lowCovFuncs.Count -gt 0) {
+            $aiTextLines.Add("## Uncovered/Low-Coverage Functions (< 50%)")
+            $aiTextLines.Add("Count: $($lowCovFuncs.Count)")
+            $aiTextLines.Add("")
+            foreach ($f in $lowCovFuncs) { $aiTextLines.Add($f.TrimStart()) }
+            $aiTextLines.Add("")
+        }
+        $aiTextLines.Add("## Instructions")
+        $aiTextLines.Add("- Tests go in tests/integratedtests/{pkg}tests/")
+        $aiTextLines.Add("- Use CaseV1 table-driven pattern with AAA comments")
+        $aiTextLines.Add("- Focus on the lowest coverage packages first")
+
+        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace "'", "\\\'" -replace "`n", '\n' -replace "`r", '' -replace '"', '\"'
+
+        # Inject "Copy for AI" button into the Go HTML report
+        if (Test-Path $coverHtml) {
+            $htmlContent = Get-Content -Path $coverHtml -Raw
+
+            $buttonHtml = @'
+<div id="ai-copy-panel" style="position:fixed;top:12px;right:12px;z-index:9999;font-family:system-ui,sans-serif;">
+<button onclick="copyForAI()" style="
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;
+  padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;
+  cursor:pointer;box-shadow:0 4px 12px rgba(99,102,241,0.4);
+  display:flex;align-items:center;gap:6px;transition:all 0.2s;
+" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+  Copy for AI
+</button>
+<span id="ai-copy-status" style="display:none;color:#22c55e;font-size:13px;margin-top:4px;text-align:center;">Copied!</span>
+</div>
+<script>
+var __aiCoverageText =
+'@
+            # Insert the escaped text between the two halves
+            $scriptEnd = @'
+';
+function copyForAI(){
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = __aiCoverageText;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    var s = document.getElementById("ai-copy-status");
+    s.style.display = "block";
+    setTimeout(function(){ s.style.display = "none"; }, 2000);
+  } catch(e) {
+    alert("Copy failed: " + e.message);
+  }
+}
+</script>
+'@
+            $injectedHtml = $buttonHtml + $aiTextEscaped + $scriptEnd
+            $htmlContent = $htmlContent -replace '</body>', ($injectedHtml + "`n</body>")
+            Set-Content -Path $coverHtml -Value $htmlContent -Encoding UTF8
+            Write-Host "  ✓ Injected 'Copy for AI' button into HTML report" -ForegroundColor Green
+        }
+
+        # ── Coverage Summary (console) ──
+        if ($srcPkgStmts.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Cyan
+            Write-Host "  │ COVERAGE SUMMARY" -ForegroundColor Cyan
+            Write-Host "  │" -ForegroundColor Cyan
+            $sortedSrcPkgs2 = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctVal2 = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctVal2 }
+            } | Sort-Object Pct -Descending
+            foreach ($entry2 in $sortedSrcPkgs2) {
+                $color = if ($entry2.Pct -ge 100) { "Green" } elseif ($entry2.Pct -ge 80) { "Yellow" } else { "Red" }
+                Write-Host "  │  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
+            }
+            Write-Host "  │" -ForegroundColor Cyan
+            if ($totalLine) {
+                Write-Host "  │  $totalLine" -ForegroundColor Cyan
+            }
+            if ($lowCovFuncs.Count -gt 0) {
+                Write-Host "  │  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
+            }
+            Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Cyan
+        }
+
+        # ── Written Files Summary (console) ──
+        $buildErrorsFile = Join-Path $coverDir "build-errors.txt"
+        $buildErrorsJsonFile = Join-Path $coverDir "build-errors.json"
+        $buildErrorPkgs = @($buildErrorsByPackage.Keys | Sort-Object)
+
+        $buildErrorLines = [System.Collections.Generic.List[string]]::new()
+        $buildErrorLines.Add("# Build Errors — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $buildErrorLines.Add("# Count: $($buildErrorPkgs.Count)")
+        $buildErrorLines.Add("")
+
+        $buildErrorJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($buildErrorPkgs.Count -eq 0) {
+            $buildErrorLines.Add("No build errors captured.")
+        }
+        else {
+            foreach ($pkgName in $buildErrorPkgs) {
+                $pkgLines = @($buildErrorsByPackage[$pkgName])
+                $buildErrorLines.Add("## $pkgName")
+                if ($pkgLines.Count -gt 0) {
+                    $buildErrorLines.AddRange([string[]]$pkgLines)
+                }
+                else {
+                    $buildErrorLines.Add("(no actionable compile errors captured)")
+                }
+                $buildErrorLines.Add("")
+
+                $buildErrorJsonItems.Add(@{
+                    package    = $pkgName
+                    errorCount = $pkgLines.Count
+                    errors     = $pkgLines
+                }) | Out-Null
+            }
+        }
+
+        Set-Content -Path $buildErrorsFile -Value ($buildErrorLines -join "`n") -Encoding UTF8
+        $buildErrorJsonObj = @{
+            timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            packageCount = $buildErrorPkgs.Count
+            packages     = $buildErrorJsonItems.ToArray()
+        }
+        $buildErrorJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
+
+        # ── Runtime Failures report (panic/os.Exit/crashes) ──
+        $runtimeFailuresFile = Join-Path $coverDir "runtime-failures.txt"
+        $runtimeFailuresJsonFile = Join-Path $coverDir "runtime-failures.json"
+        $runtimeFailurePkgs = @($runtimeFailuresByPackage.Keys | Sort-Object)
+
+        # Include missing coverage profiles as runtime crashes
+        if ($missingProfiles.Count -gt 0) {
+            foreach ($mp in $missingProfiles) {
+                if (-not $runtimeFailuresByPackage.ContainsKey($mp)) {
+                    $runtimeFailuresByPackage[$mp] = [System.Collections.Generic.List[string]]::new()
+                }
+                $crashMsg = "coverage profile missing — test binary likely crashed (panic/os.Exit)"
+                if (-not $runtimeFailuresByPackage[$mp].Contains($crashMsg)) {
+                    $runtimeFailuresByPackage[$mp].Add($crashMsg) | Out-Null
+                }
+            }
+            $runtimeFailurePkgs = @($runtimeFailuresByPackage.Keys | Sort-Object)
+        }
+
+        $rtLines = [System.Collections.Generic.List[string]]::new()
+        $rtLines.Add("# Runtime Failures — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $rtLines.Add("# Panics, os.Exit, test binary crashes, fatal errors")
+        $rtLines.Add("# Count: $($runtimeFailurePkgs.Count) package(s)")
+        $rtLines.Add("")
+
+        $rtJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($runtimeFailurePkgs.Count -eq 0) {
+            $rtLines.Add("No runtime failures captured.")
+        }
+        else {
+            foreach ($pkgName in $runtimeFailurePkgs) {
+                $pkgLines = @($runtimeFailuresByPackage[$pkgName])
+                $rtLines.Add("## $pkgName")
+                if ($pkgLines.Count -gt 0) {
+                    $rtLines.AddRange([string[]]$pkgLines)
+                }
+                else {
+                    $rtLines.Add("(no failure details captured)")
+                }
+                $rtLines.Add("")
+
+                $rtJsonItems.Add(@{
+                    package      = $pkgName
+                    failureCount = $pkgLines.Count
+                    failures     = $pkgLines
+                }) | Out-Null
+            }
+        }
+
+        Set-Content -Path $runtimeFailuresFile -Value ($rtLines -join "`n") -Encoding UTF8
+        $rtJsonObj = @{
+            timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            packageCount = $runtimeFailurePkgs.Count
+            packages     = $rtJsonItems.ToArray()
+        }
+        $rtJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $runtimeFailuresJsonFile -Encoding UTF8
+
+        # ── Runtime Failures console warning ──
+        if ($runtimeFailurePkgs.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Magenta
+            Write-Host "  │ RUNTIME FAILURES ($($runtimeFailurePkgs.Count) package(s))" -ForegroundColor Magenta
+            Write-Host "  │" -ForegroundColor Magenta
+            foreach ($rp in $runtimeFailurePkgs) {
+                Write-Host "  │   ⚠ $rp" -ForegroundColor Yellow
+            }
+            Write-Host "  │" -ForegroundColor Magenta
+            Write-Host "  │ See data/coverage/runtime-failures.txt for details." -ForegroundColor Yellow
+            Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Magenta
+        }
+
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Gray
+        Write-Host "  │ WRITTEN FILES" -ForegroundColor Gray
+        Write-Host "  │  $coverProfile" -ForegroundColor Gray
+        Write-Host "  │  $coverHtml" -ForegroundColor Gray
+        Write-Host "  │  $coverSummary" -ForegroundColor Gray
+        Write-Host "  │  $coverJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $perPkgTxtFile" -ForegroundColor Gray
+        Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $buildErrorsFile" -ForegroundColor Gray
+        Write-Host "  │  $buildErrorsJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $runtimeFailuresFile" -ForegroundColor Gray
+        Write-Host "  │  $runtimeFailuresJsonFile" -ForegroundColor Gray
+        if (Test-Path $repoBuildErrorsFile) {
+            Write-Host "  │  $repoBuildErrorsFile" -ForegroundColor Gray
+        }
+        if (Test-Path $repoBuildErrorsJsonFile) {
+            Write-Host "  │  $repoBuildErrorsJsonFile" -ForegroundColor Gray
+        }
+        if ($blockedPkgs.Count -gt 0) {
+            $bFile = Join-Path $coverDir "blocked-packages.txt"
+            $bJsonFile = Join-Path $coverDir "blocked-packages.json"
+            Write-Host "  │  $bFile" -ForegroundColor Gray
+            Write-Host "  │  $bJsonFile" -ForegroundColor Gray
+        }
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Gray
+
+        # ── Generate AI coverage prompts ──────────────────────────────
+        $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
+        if (Test-Path $promptScript) {
+            Write-Host ""
+            Write-Header "Generating coverage improvement prompts"
+            $promptsDir = Join-Path $PSScriptRoot "data" "prompts"
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
+        }
+
+        # HTML auto-open disabled — use --open flag to open manually
+        $openHtml = $false
+        if ($ExtraArgs -and $ExtraArgs[0] -eq "--open") { $openHtml = $true }
+        if ($openHtml -and (Test-Path $coverHtml)) {
+            Write-Host ""
+            Write-Host "  Opening HTML coverage report in browser..." -ForegroundColor Yellow
+            Start-Process $coverHtml
+        }
+    }
+    Open-FailingTestsIfAny
+}
+
+function Invoke-PackageTestCoverage {
+    param([string]$pkg)
+
+    if (-not $pkg) {
+        Write-Fail "Usage: ./run.ps1 TCP <package-name>"
+        Write-Host "  Example: ./run.ps1 TCP regexnewtests" -ForegroundColor Gray
+        return
+    }
+
+    Write-Header "Running coverage for package: $pkg"
+    Invoke-FetchLatest
+
+    # Clean data folder before running tests
+    $dataDir = Join-Path $PSScriptRoot "data"
+    if (Test-Path $dataDir) {
+        Remove-Item -Recurse -Force $dataDir
+        Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
+    }
+
+    # Build check from tests/ dir
+    Push-Location tests
+    try { if (-not (Invoke-BuildCheck "./integratedtests/$pkg/...")) { return } }
+    finally { Pop-Location }
+
+    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
+
+    $coverProfile = Join-Path $coverDir "coverage-$pkg.out"
+    $coverHtml    = Join-Path $coverDir "coverage-$pkg.html"
+    $coverSummary = Join-Path $coverDir "coverage-$pkg-summary.txt"
+
+    # Build coverpkg list: all source packages EXCLUDING tests/
+    $allPkgs = go list ./... 2>&1 | ForEach-Object { $_.ToString() }
+    $srcPkgs = $allPkgs | Where-Object { $_ -notmatch '/tests/' }
+    $covPkgList = $srcPkgs -join ","
+
+    # Run from project ROOT so -coverpkg can instrument all source packages
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = & go test -v -count=1 "-coverprofile=$coverProfile" "-coverpkg=$covPkgList" "./tests/integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevPref
+
+    Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
+    Write-TestLogs $output
+
+    if (Test-Path $coverProfile) {
+        $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
+        $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
+        & go tool cover $htmlArgs 2>&1 | Out-Null
+
+        $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $summaryLines = [System.Collections.Generic.List[string]]::new()
+        $summaryLines.Add("# Coverage Summary ($pkg) — $timestamp")
+        $summaryLines.Add("")
+
+        $totalLine = $funcOutput | Where-Object { $_ -match "^total:" } | Select-Object -Last 1
+        if ($totalLine) {
+            $summaryLines.Add("## Total Coverage")
+            $summaryLines.Add("  $totalLine")
+            $summaryLines.Add("")
+        }
+
+        $lowCovFuncs = [System.Collections.Generic.List[string]]::new()
+        foreach ($line in $funcOutput) {
+            if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
+                $pct = [double]$Matches[1]
+                if ($pct -lt 50.0) {
+                    $lowCovFuncs.Add("  $line")
+                }
+            }
+        }
+
+        if ($lowCovFuncs.Count -gt 0) {
+            $summaryLines.Add("## Low Coverage Functions (< 50%)")
+            $summaryLines.Add("  Count: $($lowCovFuncs.Count)")
+            $summaryLines.Add("")
+            foreach ($f in $lowCovFuncs) { $summaryLines.Add($f) }
+            $summaryLines.Add("")
+        }
+
+        $summaryLines.Add("## Reports")
+        $summaryLines.Add("  Profile:  $coverProfile")
+        $summaryLines.Add("  HTML:     $coverHtml")
+        $summaryLines.Add("  Summary:  $coverSummary")
+
+        Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
+
+        Write-Host ""
+        if ($totalLine) {
+            Write-Host "  $totalLine" -ForegroundColor Cyan
+        }
+        Write-Host ""
+        Write-Success "Coverage profile:  $coverProfile"
+        Write-Success "HTML report:       $coverHtml"
+        Write-Success "Summary:           $coverSummary"
+
+        if ($lowCovFuncs.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
+        }
+
+        # ── Generate AI coverage prompts (per-package) ──────────────
+        $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
+        if (Test-Path $promptScript) {
+            Write-Host ""
+            Write-Header "Generating coverage improvement prompts"
+            $promptsDir = Join-Path $PSScriptRoot "data" "prompts"
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
+        }
+
+        # HTML auto-open disabled — use --open flag to open manually
+        $openHtml = $false
+        if ($ExtraArgs -and $ExtraArgs[-1] -eq "--open") { $openHtml = $true }
+        if ($openHtml -and (Test-Path $coverHtml)) {
+            Write-Host ""
+            Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
+            Start-Process $coverHtml
+        }
+    }
+    Open-FailingTestsIfAny
+}
+
+function Invoke-IntegratedTests {
+    Write-Header "Running integrated tests only"
+    Invoke-FetchLatest
+    Push-Location tests
+    try {
+        if (-not (Invoke-BuildCheck "./integratedtests/...")) { return }
+
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $output = & go test -v -count=1 ./integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+
+        if ($exitCode -eq 0) { Write-Success "Integrated tests passed" }
+        else { Write-Fail "Integrated tests failed (exit code: $exitCode)" }
+    }
+    finally { Pop-Location }
+    Open-FailingTestsIfAny
+}
+
+function Invoke-RunMain {
+    Write-Header "Running main application"
+    go run ./cmd/main/*.go
+}
+
+function Invoke-Build {
+    Write-Header "Building binary"
+    $buildDir = "build"
+    if (-not (Test-Path $buildDir)) { New-Item -ItemType Directory -Path $buildDir | Out-Null }
+    go build -o "$buildDir/cli" ./cmd/main/
+    if ($LASTEXITCODE -eq 0) { Write-Success "Build complete: $buildDir/cli" }
+    else { Write-Fail "Build failed" }
+}
+
+function Invoke-BuildRun {
+    Invoke-Build
+    if ($LASTEXITCODE -eq 0) {
+        Write-Header "Running built binary"
+        & ./build/cli
+    }
+}
+
+function Invoke-Format {
+    Write-Header "Formatting Go files"
+    gofmt -w -s .
+    Write-Success "Formatting complete"
+}
+
+function Invoke-Vet {
+    Write-Header "Running go vet"
+    go vet ./...
+    if ($LASTEXITCODE -eq 0) { Write-Success "No issues found" }
+    else { Write-Fail "Issues found" }
+}
+
+function Invoke-Tidy {
+    Write-Header "Running go mod tidy"
+    go mod tidy
+    Write-Success "Tidy complete"
+}
+
+function Invoke-GoConvey {
+    Write-Header "Launching GoConvey"
+
+    # Check if goconvey is installed
+    $gcPath = Get-Command goconvey -ErrorAction SilentlyContinue
+    if (-not $gcPath) {
+        Write-Host "  GoConvey not found. Installing..." -ForegroundColor Yellow
+        go install github.com/smartystreets/goconvey@latest
+        if ($LASTEXITCODE -ne 0) {
+            Write-Fail "Failed to install GoConvey"
+            return
+        }
+        Write-Success "GoConvey installed"
+    }
+
+    $port = if ($ExtraArgs -and $ExtraArgs[0]) { $ExtraArgs[0] } else { "8080" }
+    Write-Host "  Starting GoConvey on http://localhost:$port" -ForegroundColor Yellow
+    Write-Host "  Press Ctrl+C to stop" -ForegroundColor Gray
+
+    Push-Location tests
+    try {
+        goconvey -port $port
+    }
+    finally { Pop-Location }
+}
+
+function Invoke-PreCommitCheck {
+    param([string]$singlePkg)
+
+    Write-Header "Pre-commit API mismatch checker"
+
+    $isSyncMode = $false
+    if ($ExtraArgs) {
+        foreach ($ea in $ExtraArgs) {
+            if ($ea -eq "--sync") { $isSyncMode = $true }
+        }
+    }
+
+    # Fast regression guard (legacy CaseV1 fields + invalid corejson.Result.Err usage)
+    $regressionScript = Join-Path $PSScriptRoot "scripts" "check-integrated-regressions.ps1"
+    if (-not (Test-Path $regressionScript)) {
+        Write-Fail "Regression guard script not found: $regressionScript"
+        exit 1
+    }
+
+    Write-Host "  Running regression guard scan..." -ForegroundColor Yellow
+    if ($singlePkg) {
+        & $regressionScript -SinglePackage $singlePkg
+    }
+    else {
+        & $regressionScript
+    }
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Fail "Regression guard failed. Fix reported issues before PC."
+        exit 1
+    }
+
+    # Discover test packages
+    $testBaseDir = Join-Path $PSScriptRoot "tests" "integratedtests"
+    if ($singlePkg) {
+        $targetDirs = @(Join-Path $testBaseDir $singlePkg)
+        if (-not (Test-Path $targetDirs[0])) {
+            Write-Fail "Package not found: $singlePkg"
+            return
+        }
+    } else {
+        $targetDirs = @(Get-ChildItem -Path $testBaseDir -Directory | ForEach-Object { $_.FullName })
+    }
+
+    # Filter to only dirs containing Coverage* files
+    $pkgsWithCoverage = [System.Collections.Generic.List[string]]::new()
+    foreach ($dir in $targetDirs) {
+        $coverFiles = Get-ChildItem -Path $dir -Filter "Coverage*" -File -ErrorAction SilentlyContinue
+        if ($coverFiles -and $coverFiles.Count -gt 0) {
+            $pkgsWithCoverage.Add($dir)
+        }
+    }
+
+    if ($pkgsWithCoverage.Count -eq 0) {
+        Write-Success "No Coverage* files found to check"
+        return
+    }
+
+    $modeLabel = if ($isSyncMode) { "sync" } else { "parallel" }
+    Write-Host "  Checking $($pkgsWithCoverage.Count) packages with Coverage* files ($modeLabel)..." -ForegroundColor Yellow
+    Write-Host ""
+
+    # Convert dirs to Go package paths
+    $goTestPkgs = [System.Collections.Generic.List[string]]::new()
+    foreach ($dir in $pkgsWithCoverage) {
+        $relPath = $dir -replace [regex]::Escape($PSScriptRoot), '' -replace '^[\\/]', '' -replace '\\', '/'
+        $goTestPkgs.Add("github.com/alimtvnetwork/core/$relPath")
+    }
+
+    # Compile check
+    $compileTemp = Join-Path $PSScriptRoot "data" "precommit"
+    if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
+    New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
+
+    $failures = [System.Collections.Generic.List[object]]::new()
+    $passedCount = 0
+
+    if ($isSyncMode) {
+        foreach ($pkg in $goTestPkgs) {
+            $shortName = $pkg -replace '.*integratedtests/?', ''
+            $safeName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $outFile = Join-Path $compileTemp "check-$safeName.test"
+
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            $compOut = & go test -c -gcflags=all=-e -o $outFile "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $ec = $LASTEXITCODE
+            $ErrorActionPreference = $prevPref
+
+            if ($ec -eq 0) {
+                $passedCount++
+            } else {
+                $prevPref = $ErrorActionPreference
+                $ErrorActionPreference = "Continue"
+                $diagOut = & go test -count=1 -run '^$' -gcflags=all=-e "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+                $ErrorActionPreference = $prevPref
+                $compOut = Merge-UniqueOutputLines $compOut $diagOut
+
+                $parsedErrors = ParseCompileErrors $compOut
+                $failures.Add(@{
+                    package    = $shortName
+                    errorCount = $parsedErrors.Count
+                    errors     = $parsedErrors
+                })
+            }
+        }
+    } else {
+        $throttle = [Math]::Min($goTestPkgs.Count, [Environment]::ProcessorCount * 2)
+        $results = $goTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
+            $pkg = $_
+            $tempDir = $using:compileTemp
+            $safeName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $outFile = Join-Path $tempDir "check-$safeName.test"
+            $ErrorActionPreference = "Continue"
+            $rawOut = & go test -c -gcflags=all=-e -o $outFile "$pkg" 2>&1
+            $ec = $LASTEXITCODE
+            $out = @($rawOut | ForEach-Object { $_.ToString() })
+
+            if ($ec -ne 0) {
+                $diagRaw = & go test -count=1 -run '^$' -gcflags=all=-e "$pkg" 2>&1
+                $diagOut = @($diagRaw | ForEach-Object { $_.ToString() })
+
+                $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+                $merged = [System.Collections.Generic.List[string]]::new()
+
+                foreach ($line in @($out + $diagOut)) {
+                    if ($null -eq $line) { continue }
+                    $normalized = $line.ToString().TrimEnd("`r")
+                    if (-not $normalized) { continue }
+                    if ($seen.Add($normalized)) {
+                        $merged.Add($normalized) | Out-Null
+                    }
+                }
+
+                $out = $merged.ToArray()
+            }
+
+            [pscustomobject]@{ Pkg = $pkg; ExitCode = $ec; Output = $out }
+        }
+
+        foreach ($r in ($results | Sort-Object Pkg)) {
+            $shortName = $r.Pkg -replace '.*integratedtests/?', ''
+            if ($r.ExitCode -eq 0) {
+                $passedCount++
+            } else {
+                
+                $parsedErrors = ParseCompileErrors $r.Output
+                $failures.Add(@{
+                    package    = $shortName
+                    errorCount = $parsedErrors.Count
+                    errors     = $parsedErrors
+                })
+            }
+        }
+    }
+
+    # Clean up compile artifacts
+    Get-ChildItem -Path $compileTemp -Filter "*.test" -ErrorAction SilentlyContinue | Remove-Item -Force
+
+    # Summary
+    $allPassed = $failures.Count -eq 0
+    Write-Host ""
+    if ($allPassed) {
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Green
+        Write-Host "  │ ✓ ALL $passedCount PACKAGES PASSED API CHECK" -ForegroundColor Green
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Green
+    } else {
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ ✗ $($failures.Count) PACKAGE(S) HAVE API MISMATCHES" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($f in $failures) {
+            Write-Host "  │   ✗ $($f.package) ($($f.errorCount) error(s))" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ Fix these before committing Coverage* files." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+
+        # Print error details
+        Write-Host ""
+        foreach ($f in $failures) {
+            Write-Host "  ── $($f.package) ──" -ForegroundColor Red
+            foreach ($e in $f.errors) {
+                $cat = $e.category
+                Write-Host "    $($e.file):$($e.line) [$cat] $($e.message)" -ForegroundColor Yellow
+            }
+            Write-Host ""
+        }
+    }
+
+    # Write JSON report
+    $jsonReport = @{
+        timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+        passed       = $allPassed
+        checkedCount = $goTestPkgs.Count
+        passedCount  = $passedCount
+        failedCount  = $failures.Count
+        failures     = $failures.ToArray()
+    }
+    $jsonPath = Join-Path $compileTemp "api-check.json"
+    $jsonReport | ConvertTo-Json -Depth 5 | Set-Content -Path $jsonPath -Encoding UTF8
+    Write-Host "  Report → $jsonPath" -ForegroundColor Gray
+
+    if (-not $allPassed) { exit 1 }
+}
+
+function ParseCompileErrors([string[]]$output) {
+    $errors = [System.Collections.Generic.List[object]]::new()
+    foreach ($line in $output) {
+        if ($line -match '^(.+?\.go):(\d+)(?::\d+)?:\s*(.+)$') {
+            $file = Split-Path $Matches[1] -Leaf
+            $lineNum = [int]$Matches[2]
+            $msg = $Matches[3].Trim()
+
+            # Classify error
+            $category = "other"
+            if ($msg -match 'too many arguments|not enough arguments') { $category = "arg-count" }
+            elseif ($msg -match 'undefined:') { $category = "undefined" }
+            elseif ($msg -match 'cannot use .* as') { $category = "type-mismatch" }
+            elseif ($msg -match 'has no field or method') { $category = "missing-member" }
+            elseif ($msg -match 'cannot call non-function') { $category = "field-vs-method" }
+
+            $errors.Add(@{
+                file     = $file
+                line     = $lineNum
+                message  = $msg
+                category = $category
+                raw      = $line
+            })
+        }
+    }
+    return $errors.ToArray()
+}
+
+function Invoke-Clean {
+    Write-Header "Cleaning build artifacts"
+    if (Test-Path build) { Remove-Item -Recurse -Force build }
+    if (Test-Path tests/coverage.out) { Remove-Item tests/coverage.out }
+    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    if (Test-Path $coverDir) { Remove-Item -Recurse -Force $coverDir; Write-Success "Removed coverage reports" }
+    $precommitDir = Join-Path $PSScriptRoot "data" "precommit"
+    if (Test-Path $precommitDir) { Remove-Item -Recurse -Force $precommitDir; Write-Success "Removed precommit reports" }
+    Write-Success "Clean complete"
+}
+
+function Invoke-ShowFailLog {
+    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    if (-not (Test-Path $failingFile)) {
+        Write-Header "No failing tests log found"
+        Write-Host "  Run tests first: ./run.ps1 T" -ForegroundColor Yellow
+        return
+    }
+
+    Write-Header "Last Failing Tests"
+    $content = Get-Content $failingFile -Raw
+    if ($content -match '# Count: 0') {
+        Write-Success "No failing tests in last run"
+    }
+    else {
+        Write-Host $content
+    }
+    Write-Host ""
+    Write-Host "  Log file: $failingFile" -ForegroundColor Gray
+}
+
+function Show-Help {
+    Write-Host ""
+    Write-Host "  Project Runner — ./run.ps1 <command> [options]" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "  Testing:" -ForegroundColor Yellow
+    Write-Host "    T   | -t   | test          Run all tests (verbose)"
+    Write-Host "    TP  | -tp  | test-pkg      Run tests for a specific package"
+    Write-Host "    TC  | -tc  | test-cover    Run tests with coverage (HTML + summary)"
+    Write-Host "    TCP | -tcp | test-cover-pkg Run coverage for a specific package"
+    Write-Host "    TI  | -ti  | test-int      Run integrated tests only"
+    Write-Host "    TF  | -tf  | test-fail     Show last failing tests log"
+    Write-Host "    GC  | -gc  | goconvey      Launch GoConvey (browser test runner)"
+    Write-Host ""
+    Write-Host "  Build & Run:" -ForegroundColor Yellow
+    Write-Host "    R   | -r   | run           Run the main application"
+    Write-Host "    B   | -b   | build         Build the binary"
+    Write-Host "    BR  | -br  | build-run     Build then run"
+    Write-Host ""
+    Write-Host "  Code Quality:" -ForegroundColor Yellow
+    Write-Host "    F   | -f   | fmt           Format all Go files"
+    Write-Host "    L   | -l   | lint          Run go vet"
+    Write-Host "    V   | -v   | vet           Run go vet"
+    Write-Host "    TY  | -ty  | tidy          Run go mod tidy"
+    Write-Host "    PC  | -pc  | pre-commit    Check Coverage* files for API mismatches"
+    Write-Host ""
+    Write-Host "  Other:" -ForegroundColor Yellow
+    Write-Host "    C   | -c   | clean         Clean build artifacts"
+    Write-Host "    H   | -h   | help          Show this help"
+    Write-Host ""
+    Write-Host "  Mode Options (for TC/TCP/PC):" -ForegroundColor Yellow
+    Write-Host "    --sync      Run precompile + tests sequentially (default: parallel)"
+    Write-Host "    --open      Open HTML coverage report in browser after TC/TCP"
+    Write-Host ""
+    Write-Host "  Examples:" -ForegroundColor Gray
+    Write-Host "    ./run.ps1 T"
+    Write-Host "    ./run.ps1 -t"
+    Write-Host "    ./run.ps1 TP regexnewtests"
+    Write-Host "    ./run.ps1 -tp regexnewtests"
+    Write-Host "    ./run.ps1 TCP regexnewtests  (package coverage)"
+    Write-Host "    ./run.ps1 TC                 (parallel by default)"
+    Write-Host "    ./run.ps1 TC --sync          (sequential mode)"
+    Write-Host "    ./run.ps1 TC --sync --no-open"
+    Write-Host "    ./run.ps1 PC                 (pre-commit check)"
+    Write-Host "    ./run.ps1 PC corejsontests   (check single package)"
+    Write-Host "    ./run.ps1 -gc"
+    Write-Host "    ./run.ps1 -gc 9090          (custom port)"
+    Write-Host ""
+}
+
+# -- Dispatch --
+switch ($Command.ToLower()) {
+    { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
+    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $ExtraArgs[0] }
+    { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
+    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $ExtraArgs[0] }
+    { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
+    { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
+    { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
+    { $_ -in "r", "-r", "run" }               { Invoke-RunMain }
+    { $_ -in "b", "-b", "build" }             { Invoke-Build }
+    { $_ -in "br", "-br", "build-run" }       { Invoke-BuildRun }
+    { $_ -in "f", "-f", "fmt" }               { Invoke-Format }
+    { $_ -in "l", "-l", "lint", "v", "-v", "vet" } { Invoke-Vet }
+    { $_ -in "ty", "-ty", "tidy" }            { Invoke-Tidy }
+    { $_ -in "pc", "-pc", "pre-commit" }      { Invoke-PreCommitCheck $ExtraArgs[0] }
+    { $_ -in "c", "-c", "clean" }             { Invoke-Clean }
+    { $_ -in "h", "-h", "help", "" }          { Show-Help }
+    default {
+        Write-Fail "Unknown command: '$Command'"
+        Show-Help
+    }
+}

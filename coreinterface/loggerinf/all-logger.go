@@ -1,8 +1,8 @@
 package loggerinf
 
 import (
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/coreinterface/serializerinf"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/coreinterface/serializerinf"
 )
 
 type StandardLoggerGetter interface {
@@ -30,18 +30,18 @@ type LogDefinerWriter interface {
 }
 
 type LogTypeWriter interface {
-	LogTypeWrite(logType string, v ...interface{}) error
-	LogTypeWriteMust(logType string, v ...interface{})
+	LogTypeWrite(logType string, v ...any) error
+	LogTypeWriteMust(logType string, v ...any)
 
 	LogTypeWriteStackSkip(
 		stackSkipIndex int,
 		logType string,
-		v ...interface{},
+		v ...any,
 	) error
 
 	LogTypeWriteStackSkipMust(
 		stackSkipIndex int,
 		logType string,
-		v ...interface{},
+		v ...any,
 	)
 }

@@ -1,94 +1,108 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
-type Three struct {
-	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+// Three holds three typed positional arguments plus an optional Expect field.
+//
+// Type parameters T1, T2, T3 represent the types of the First, Second, Third arguments.
+// Use ThreeAny (= Three[any, any, any]) for untyped usage.
+//
+// Example (typed):
+//
+//	arg := args.Three[string, int, bool]{
+//	    First:  "hello",
+//	    Second: 42,
+//	    Third:  true,
+//	}
+type Three[T1, T2, T3 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	Third         T3                       `json:",omitempty"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *Three) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 3).
+func (it *Three[T1, T2, T3]) ArgsCount() int {
 	return 3
 }
 
-func (it *Three) FirstItem() interface{} {
+// FirstItem returns the First argument as any for interface compatibility.
+func (it *Three[T1, T2, T3]) FirstItem() any {
 	return it.First
 }
 
-func (it *Three) SecondItem() interface{} {
+// SecondItem returns the Second argument as any for interface compatibility.
+func (it *Three[T1, T2, T3]) SecondItem() any {
 	return it.Second
 }
 
-func (it *Three) ThirdItem() interface{} {
+// ThirdItem returns the Third argument as any for interface compatibility.
+func (it *Three[T1, T2, T3]) ThirdItem() any {
 	return it.Third
 }
 
-func (it *Three) Expected() interface{} {
+// Expected returns the expected value.
+func (it *Three[T1, T2, T3]) Expected() any {
 	return it.Expect
 }
 
-func (it *Three) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a Two with the first two arguments.
+func (it *Three[T1, T2, T3]) ArgTwo() Two[T1, T2] {
+	return Two[T1, T2]{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *Three) ArgThree() ThreeFunc {
-	return ThreeFunc{
+// ArgThree returns a copy of this Three.
+func (it *Three[T1, T2, T3]) ArgThree() Three[T1, T2, T3] {
+	return Three[T1, T2, T3]{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
 	}
 }
 
-func (it *Three) HasFirst() bool {
+// HasFirst checks whether the First argument is defined.
+func (it *Three[T1, T2, T3]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *Three) HasSecond() bool {
+// HasSecond checks whether the Second argument is defined.
+func (it *Three[T1, T2, T3]) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *Three) HasThird() bool {
+// HasThird checks whether the Third argument is defined.
+func (it *Three[T1, T2, T3]) HasThird() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
-func (it *Three) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *Three[T1, T2, T3]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *Three) ValidArgs() []interface{} {
-	var args []interface{}
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *Three[T1, T2, T3]) ValidArgs() []any {
+	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
 
 	return args
 }
 
-func (it *Three) Args(upTo int) []interface{} {
-	var args []interface{}
+// Args returns positional arguments up to the given count.
+func (it *Three[T1, T2, T3]) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -105,76 +119,54 @@ func (it *Three) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *Three) Slice() []interface{} {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *Three[T1, T2, T3]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Expect)
 
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
+	it.toSlice = args
+	it.isSliceCached = true
 
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
-
-	it.toSlice = &args
-
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *Three) GetByIndex(index int) interface{} {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *Three[T1, T2, T3]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it Three) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
-		"ThreeFunc",
-		strings.Join(args, constants.CommaSpace),
+// String returns a formatted string representation.
+func (it Three[T1, T2, T3]) String() string {
+	return buildToString(
+		"Three",
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *Three) LeftRight() LeftRight {
-	return LeftRight{
+// LeftRight converts to a LeftRight with First as Left, Second as Right.
+func (it *Three[T1, T2, T3]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Right:  it.Second,
 		Expect: it.Expect,
 	}
 }
 
-func (it Three) AsThreeParameter() ThreeParameter {
+// AsThreeParameter returns the Three as a ThreeParameter interface.
+func (it Three[T1, T2, T3]) AsThreeParameter() ThreeParameter {
 	return &it
 }
 
-func (it Three) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the Three as an ArgBaseContractsBinder interface.
+func (it Three[T1, T2, T3]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

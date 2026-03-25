@@ -1,13 +1,14 @@
 package reqtype
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func start(
 	reqs []Request,
-) interface{} {
+) *Request {
 	if len(reqs) == 0 {
 		return nil
 	}
 
-	return (reqs)[constants.Zero]
+	r := reqs[constants.Zero]
+	return &r
 }

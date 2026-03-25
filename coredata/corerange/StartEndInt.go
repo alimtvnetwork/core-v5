@@ -3,8 +3,8 @@ package corerange
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 type StartEndInt struct {
@@ -129,7 +129,7 @@ func (it *StartEndInt) RangesExcept(exceptItems ...int) []int {
 	length := it.RangeLength()
 	start := it.Start
 	slice := make([]int, 0, length)
-	toHashmap := convertinteranl.
+	toHashmap := convertinternal.
 		Integers.
 		ToMapBool(exceptItems...)
 

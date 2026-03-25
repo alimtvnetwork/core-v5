@@ -144,8 +144,8 @@ const (
 	MaxUnit8Rune                     rune    = 255
 	MaxUnit8AsInt16                  int16   = 255
 	MaxUnit8AsInt                    int     = 255
-	MaxInt16                                 = math.MaxUint16
-	MaxInt16AsInt                    int     = math.MaxUint16
+	MaxInt16                                 = math.MaxInt16
+	MaxInt16AsInt                    int     = math.MaxInt16
 	MaxUnit8AsFloat32                float32 = 255
 	ParenthesisStartRune             rune    = '('
 	ParenthesisEndRune               rune    = ')'
@@ -423,7 +423,7 @@ const (
 	KeyValJsonFormat                         = "{key: %s, val: %v}"              // Key, Value any
 	KeyValQuotationWrapJsonFormat            = "\"%v\":\"%v\""                   // Key, Value any
 	KeyStringValAnyWrapJsonFormat            = "\"%v\":%v"                       // Key, Value any
-	EnumNameValueFormat                      = "%s[%d]"                          // name, value any
+	EnumNameValueFormat                      = "%s(%d)"                          // name, value any
 	EnumDoubleQuoteNameValueFormat           = "\"%s\"[%d]"                      // name, value any
 	StringEnumNameValueFormat                = "%s"                              // name, value any
 	LikeQuerySuffix                          = " LIKE ?"
@@ -492,4 +492,5 @@ const (
 	UnknownStringType                        = "Unknown type.String"
 	PayloadsFieldName                        = "Payloads"
 	NewLineBulletWithSpaceIndent             = "\n    - "
+	StackTrace                               = "Stack-Trace"
 )

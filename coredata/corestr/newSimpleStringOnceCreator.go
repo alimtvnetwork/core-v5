@@ -4,7 +4,7 @@ type newSimpleStringOnceCreator struct{}
 
 func (it *newSimpleStringOnceCreator) Any(
 	isIncludeFieldNames bool,
-	value interface{},
+	value any,
 	isInitialize bool,
 ) SimpleStringOnce {
 	toString := AnyToString(

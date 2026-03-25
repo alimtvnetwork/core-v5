@@ -1,6 +1,6 @@
 package corecsv
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func DefaultCsv(
 	references ...string,

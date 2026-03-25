@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type stringJsonConverter struct{}
 
-func (it stringJsonConverter) SafeDefault(anyItem interface{}) string {
+func (it stringJsonConverter) SafeDefault(anyItem any) string {
 	s, _ := it.Default(anyItem)
 
 	return s
@@ -19,7 +19,7 @@ func (it stringJsonConverter) SafeDefault(anyItem interface{}) string {
 //
 // It is not pretty JSON
 func (it stringJsonConverter) Default(
-	anyItem interface{},
+	anyItem any,
 ) (string, error) {
 	b, err := json.Marshal(anyItem)
 
@@ -34,7 +34,7 @@ func (it stringJsonConverter) Default(
 //
 // Default pretty json
 func (it stringJsonConverter) Pretty(
-	anyItem interface{},
+	anyItem any,
 ) (string, error) {
 	b, err := json.Marshal(anyItem)
 

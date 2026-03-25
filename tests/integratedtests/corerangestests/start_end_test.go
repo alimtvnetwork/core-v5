@@ -3,12 +3,12 @@ package corerangestests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/coredata/corerange"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/errcore"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/coredata/corerange"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_StartEndRanges_ValidCases(t *testing.T) {

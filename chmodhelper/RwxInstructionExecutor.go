@@ -4,10 +4,10 @@ import (
 	"errors"
 	"os"
 
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/messages"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/messages"
 )
 
 type RwxInstructionExecutor struct {
@@ -270,7 +270,9 @@ func (it *RwxInstructionExecutor) ApplyOnPathsPtr(locations *[]string) error {
 		rwxInstruction.
 		IsContinueOnError
 
-	if !isContinueOnError {
+	isStopOnError := !isContinueOnError
+
+	if isStopOnError {
 		return it.applyOnPaths(locations)
 	}
 
@@ -300,5 +302,5 @@ func (it *RwxInstructionExecutor) applyOnPathsContinueOnError(locations *[]strin
 		}
 	}
 
-	return errcore.SliceToErrorPtr(&errorSlice)
+	return errcore.SliceToErrorPtr(errorSlice)
 }

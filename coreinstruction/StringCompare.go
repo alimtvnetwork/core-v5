@@ -1,9 +1,9 @@
 package coreinstruction
 
 import (
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/regexnew"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/regexnew"
 )
 
 type StringCompare struct {

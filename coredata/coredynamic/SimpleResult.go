@@ -4,14 +4,14 @@ import (
 	"errors"
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type SimpleResult struct {
 	Dynamic
-	Result  interface{}
+	Result  any
 	Message string
 	err     error
 }
@@ -35,7 +35,7 @@ func InvalidSimpleResult(
 }
 
 func NewSimpleResultValid(
-	result interface{},
+	result any,
 ) *SimpleResult {
 	return &SimpleResult{
 		Result:  result,
@@ -45,7 +45,7 @@ func NewSimpleResultValid(
 }
 
 func NewSimpleResult(
-	result interface{},
+	result any,
 	isValid bool,
 	invalidMessage string,
 ) *SimpleResult {
@@ -60,16 +60,23 @@ func (it *SimpleResult) GetErrorOnTypeMismatch(
 	typeMatch reflect.Type,
 	isIncludeInvalidMessage bool,
 ) error {
+	if it == nil {
+		return nil
+	}
+
 	if it.IsReflectTypeOf(typeMatch) {
 		return nil
 	}
 
-	typeMismatchMessage := errcore.CombineWithMsgType(
+	typeMismatchMessage := errcore.CombineWithMsgTypeNoStack(
 		errcore.TypeMismatchType,
 		"Current type - ["+it.ReflectTypeName()+"], expected type",
-		typeMatch) + constants.NewLineUnix
+		typeMatch,
+	) + constants.NewLineUnix
 
-	if !isIncludeInvalidMessage {
+	isExcludeMessage := !isIncludeInvalidMessage
+
+	if isExcludeMessage {
 		return errors.New(typeMismatchMessage)
 	}
 
@@ -77,6 +84,10 @@ func (it *SimpleResult) GetErrorOnTypeMismatch(
 }
 
 func (it *SimpleResult) InvalidError() error {
+	if it == nil {
+		return nil
+	}
+
 	if it.err != nil {
 		return it.err
 	}
@@ -93,6 +104,10 @@ func (it *SimpleResult) InvalidError() error {
 }
 
 func (it *SimpleResult) Clone() SimpleResult {
+	if it == nil {
+		return SimpleResult{}
+	}
+
 	return SimpleResult{
 		Dynamic: it.Dynamic.Clone(),
 		Result:  it.Result,

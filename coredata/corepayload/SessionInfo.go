@@ -1,8 +1,8 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
 )
 
 type SessionInfo struct {
@@ -14,7 +14,7 @@ type SessionInfo struct {
 // IdentifierInteger
 //
 // Invalid value returns constants.InvalidValue
-func (it *SessionInfo) IdentifierInteger() int {
+func (it SessionInfo) IdentifierInteger() int {
 	if it.Id == "" {
 		return constants.InvalidValue
 	}
@@ -30,7 +30,7 @@ func (it *SessionInfo) IdentifierInteger() int {
 // IdentifierUnsignedInteger
 //
 // Invalid value returns constants.Zero
-func (it *SessionInfo) IdentifierUnsignedInteger() uint {
+func (it SessionInfo) IdentifierUnsignedInteger() uint {
 	idInt := it.IdentifierInteger()
 
 	if idInt < 0 {
@@ -41,7 +41,7 @@ func (it *SessionInfo) IdentifierUnsignedInteger() uint {
 }
 
 func (it *SessionInfo) IsEmpty() bool {
-	return it == nil
+	return it == nil || (it.Id == "" && it.User == nil && it.SessionPath == "")
 }
 
 func (it *SessionInfo) IsValid() bool {

@@ -3,8 +3,8 @@ package conditional
 import (
 	"strconv"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func executeErrorFunctions(functions []func() error) error {
@@ -30,17 +30,17 @@ func executeErrorFunctions(functions []func() error) error {
 
 func executeAnyFunctions(
 	functions []func() (
-		result interface{},
+		result any,
 		isTake,
 		isBreak bool,
 	),
-) []interface{} {
+) []any {
 	if len(functions) == 0 {
 		return nil
 	}
 
 	results := make(
-		[]interface{},
+		[]any,
 		constants.Zero,
 		len(functions))
 	for _, curFunc := range functions {

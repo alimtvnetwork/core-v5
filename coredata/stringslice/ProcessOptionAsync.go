@@ -2,8 +2,8 @@ package stringslice
 
 func ProcessOptionAsync(
 	isSkipOnNil bool,
-	processor func(index int, item interface{}) string,
-	items ...interface{},
+	processor func(index int, item any) string,
+	items ...any,
 ) []string {
 	if len(items) == 0 {
 		return []string{}
@@ -11,7 +11,9 @@ func ProcessOptionAsync(
 
 	list := ProcessAsync(processor, items...)
 
-	if !isSkipOnNil {
+	isReturnAll := !isSkipOnNil
+
+	if isReturnAll {
 		return list
 	}
 

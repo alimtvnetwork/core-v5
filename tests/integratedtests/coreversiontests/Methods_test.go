@@ -3,16 +3,16 @@ package coreversiontests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 func Test_TwoParams_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionTwoParamsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Four)
+			ArrangeInput.([]args.FourAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -30,7 +30,7 @@ func Test_TwoParams_Method_Verification(t *testing.T) {
 			s := input.Second.(int)
 			third := input.Third.(bool)
 			theFunc := input.Fourth.(func(major, x int) bool)
-			funcName := reflectinternal.GetFunc.Name(theFunc)
+			funcName := reflectinternal.GetFunc.NameOnly(theFunc)
 
 			isMatch := theFunc(f, s)
 
@@ -61,7 +61,7 @@ func Test_ThreeParams_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionThreeParamsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Five)
+			ArrangeInput.([]args.FiveAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -80,7 +80,7 @@ func Test_ThreeParams_Method_Verification(t *testing.T) {
 			third := input.Third.(int)
 			fourth := input.Fourth.(bool)
 			theFunc := input.Fifth.(func(major, x, y int) bool)
-			funcName := reflectinternal.GetFunc.Name(theFunc)
+			funcName := reflectinternal.GetFunc.NameOnly(theFunc)
 
 			isMatch := theFunc(f, s, third)
 

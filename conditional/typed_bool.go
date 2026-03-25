@@ -1,0 +1,77 @@
+package conditional
+
+// IfBool is a typed convenience wrapper for If[bool].
+func IfBool(
+	isTrue bool,
+	trueValue, falseValue bool,
+) bool {
+	return If[bool](isTrue, trueValue, falseValue)
+}
+
+// IfFuncBool is a typed convenience wrapper for IfFunc[bool].
+func IfFuncBool(
+	isTrue bool,
+	trueValueFunc, falseValueFunc func() bool,
+) bool {
+	return IfFunc[bool](isTrue, trueValueFunc, falseValueFunc)
+}
+
+// IfTrueFuncBool is a typed convenience wrapper for IfTrueFunc[bool].
+func IfTrueFuncBool(
+	isTrue bool,
+	trueValueFunc func() bool,
+) bool {
+	return IfTrueFunc[bool](isTrue, trueValueFunc)
+}
+
+// IfSliceBool is a typed convenience wrapper for IfSlice[bool].
+func IfSliceBool(
+	isTrue bool,
+	trueValue, falseValue []bool,
+) []bool {
+	return IfSlice[bool](isTrue, trueValue, falseValue)
+}
+
+// IfPtrBool is a typed convenience wrapper for IfPtr[bool].
+func IfPtrBool(
+	isTrue bool,
+	trueValue, falseValue *bool,
+) *bool {
+	return IfPtr[bool](isTrue, trueValue, falseValue)
+}
+
+// NilDefBool is a typed convenience wrapper for NilDef[bool].
+func NilDefBool(
+	valuePointer *bool,
+	defVal bool,
+) bool {
+	return NilDef[bool](valuePointer, defVal)
+}
+
+// NilDefPtrBool is a typed convenience wrapper for NilDefPtr[bool].
+func NilDefPtrBool(
+	valuePointer *bool,
+	defVal bool,
+) *bool {
+	return NilDefPtr[bool](valuePointer, defVal)
+}
+
+// ValueOrZeroBool is a typed convenience wrapper for ValueOrZero[bool].
+func ValueOrZeroBool(valuePointer *bool) bool {
+	return ValueOrZero[bool](valuePointer)
+}
+
+// PtrOrZeroBool is a typed convenience wrapper for PtrOrZero[bool].
+func PtrOrZeroBool(valuePointer *bool) *bool {
+	return PtrOrZero[bool](valuePointer)
+}
+
+// NilValBool is a typed convenience wrapper for NilVal[bool].
+func NilValBool(valuePointer *bool, onNil, onNonNil bool) bool {
+	return NilVal[bool](valuePointer, onNil, onNonNil)
+}
+
+// NilValPtrBool is a typed convenience wrapper for NilValPtr[bool].
+func NilValPtrBool(valuePointer *bool, onNil, onNonNil bool) *bool {
+	return NilValPtr[bool](valuePointer, onNil, onNonNil)
+}

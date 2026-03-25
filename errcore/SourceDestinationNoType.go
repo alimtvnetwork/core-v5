@@ -1,10 +1,10 @@
 package errcore
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func SourceDestinationNoType(
 	srcVal,
-	destinationVal interface{},
+	destinationVal any,
 ) string {
 	return VarTwo(
 		false,

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
 )
 
 func jsonResultUnmarshallingTest01() {

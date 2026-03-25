@@ -5,7 +5,7 @@ import "errors"
 func ErrorWithCompiledTraceRefToError(
 	err error,
 	compiledTraces string,
-	reference interface{},
+	reference any,
 ) error {
 	if err == nil {
 		return nil

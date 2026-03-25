@@ -3,14 +3,14 @@ package anycmptests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 var (
 	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.TwoAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -22,7 +22,7 @@ var (
 					"only Equal if both null or same pointer, " +
 					"NotEqual if one is null and another isn't." +
 					"On both not null it is inconclusive.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -51,6 +51,18 @@ var (
 						First:  arrangeTypeVerification,
 						Second: arrangeTypeVerification,
 					},
+					{
+						First:  (*int)(nil),
+						Second: (*string)(nil),
+					},
+					{
+						First:  (*int)(nil),
+						Second: new(string),
+					},
+					{
+						First:  new(int),
+						Second: new(int),
+					},
 				},
 				ExpectedInput: []string{
 					"0 : Equal (<nil>, <nil>)",
@@ -60,6 +72,9 @@ var (
 					"4 : NotEqual (<nil>, *coretests.DraftType)",
 					"5 : Inconclusive (*coretests.DraftType, *coretests.DraftType)",
 					"6 : Equal (*coretests.VerifyTypeOf, *coretests.VerifyTypeOf)",
+					"7 : Equal (*int, *string)",
+					"8 : NotEqual (*int, *string)",
+					"9 : Inconclusive (*int, *int)",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,

@@ -3,15 +3,16 @@ package stringutil
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type replaceTemplate struct{}
 
 func (it *replaceTemplate) CurlyOne(
 	format string, // {key}-text...
-	firstKey string, firstValue interface{},
+	firstKey string, firstValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -47,8 +48,8 @@ func (it *replaceTemplate) Curly(
 
 func (it *replaceTemplate) CurlyTwo(
 	format string, // {key}-text...
-	firstKey string, firstValue interface{},
-	secondKey string, secondValue interface{},
+	firstKey string, firstValue any,
+	secondKey string, secondValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -72,7 +73,7 @@ func (it *replaceTemplate) CurlyTwo(
 
 func (it *replaceTemplate) DirectOne(
 	format string, // key-text...
-	firstKey string, firstValue interface{},
+	firstKey string, firstValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -90,8 +91,8 @@ func (it *replaceTemplate) DirectOne(
 
 func (it *replaceTemplate) DirectTwoItem(
 	format string, // key-text...
-	firstKey string, firstValue interface{},
-	secondKey string, secondValue interface{},
+	firstKey string, firstValue any,
+	secondKey string, secondValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -115,8 +116,8 @@ func (it *replaceTemplate) DirectTwoItem(
 
 func (it *replaceTemplate) CurlyTwoItem(
 	format string, // {key}-text...
-	firstKey string, firstValue interface{},
-	secondKey string, secondValue interface{},
+	firstKey string, firstValue any,
+	secondKey string, secondValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -156,6 +157,25 @@ func (it *replaceTemplate) DirectKeyUsingMap(
 	)
 }
 
+func (it *replaceTemplate) DirectKeyUsingKeyVal(
+	format string, // key-text...
+	keyValues ...KeyValReplacer,
+) string {
+	if len(keyValues) == 0 || len(format) == 0 {
+		return format
+	}
+
+	for _, pair := range keyValues {
+		format = strings.ReplaceAll(
+			format,
+			pair.Key,
+			pair.Value,
+		)
+	}
+
+	return format
+}
+
 func (it *replaceTemplate) DirectKeyUsingMapTrim(
 	format string, // key-text...
 	mapToReplace map[string]string,
@@ -163,6 +183,63 @@ func (it *replaceTemplate) DirectKeyUsingMapTrim(
 	result := it.DirectKeyUsingMap(format, mapToReplace)
 
 	return strings.TrimSpace(result)
+}
+
+// ReplaceWhiteSpaces
+//
+// Give "  some  nothing    \t" -> "somenothing"
+func (it *replaceTemplate) ReplaceWhiteSpaces(
+	textContainsWhitespaces string,
+) string {
+	trimmedText := strings.TrimSpace(textContainsWhitespaces)
+
+	if len(trimmedText) == 0 {
+		return trimmedText
+	}
+
+	var sb strings.Builder
+	sb.Grow(len(trimmedText))
+
+	for _, r := range trimmedText {
+		if unicode.IsSpace(r) {
+			continue
+		}
+
+		sb.WriteRune(r)
+	}
+
+	return sb.String()
+}
+
+// ReplaceWhiteSpacesToSingle
+//
+// Give "  some  nothing    \t" -> "some nothing"
+func (it *replaceTemplate) ReplaceWhiteSpacesToSingle(
+	textContainsWhitespaces string,
+) string {
+	trimmedText := strings.TrimSpace(textContainsWhitespaces)
+
+	if len(trimmedText) == 0 {
+		return trimmedText
+	}
+
+	var sb strings.Builder
+	sb.Grow(len(trimmedText))
+	hasSpaceAlready := false
+	isSpace := false
+
+	for _, r := range trimmedText {
+		isSpace = unicode.IsSpace(r)
+		if r == '\n' || r == '\f' || r == '\t' || r == '\r' || isSpace && hasSpaceAlready {
+			continue
+		}
+
+		sb.WriteRune(r)
+
+		hasSpaceAlready = isSpace
+	}
+
+	return sb.String()
 }
 
 func (it *replaceTemplate) CurlyKeyUsingMap(

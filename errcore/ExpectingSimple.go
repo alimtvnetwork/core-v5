@@ -7,7 +7,7 @@ import "fmt"
 // returns
 //
 //	"%s - Expect (type:\"%T\")[\"%v\"] != [\"%v\"](type:\"%T\") Actual"
-func ExpectingSimple(title, wasExpecting, actual interface{}) string {
+func ExpectingSimple(title, wasExpecting, actual any) string {
 	return fmt.Sprintf(
 		expectingSimpleMessageFormat,
 		title,

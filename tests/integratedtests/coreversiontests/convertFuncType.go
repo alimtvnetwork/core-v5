@@ -1,7 +1,7 @@
 package coreversiontests
 
-func convertFuncType(i interface{}) (resultFunc isBoolCheckerFunc) {
-	if f, ok := i.(func(x interface{}) bool); ok {
+func convertFuncType(i any) (resultFunc isBoolCheckerFunc) {
+	if f, ok := i.(func(x any) bool); ok {
 		return f
 	}
 

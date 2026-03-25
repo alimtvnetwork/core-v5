@@ -4,10 +4,10 @@ import (
 	"errors"
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 type SimpleRequest struct {
@@ -33,7 +33,7 @@ func InvalidSimpleRequest(
 }
 
 func NewSimpleRequest(
-	request interface{},
+	request any,
 	isValid bool,
 	message string,
 ) *SimpleRequest {
@@ -44,7 +44,7 @@ func NewSimpleRequest(
 }
 
 func NewSimpleRequestValid(
-	request interface{},
+	request any,
 ) *SimpleRequest {
 	return &SimpleRequest{
 		Dynamic: NewDynamic(request, true),
@@ -53,14 +53,26 @@ func NewSimpleRequestValid(
 }
 
 func (receiver *SimpleRequest) Message() string {
+	if receiver == nil {
+		return constants.EmptyString
+	}
+
 	return receiver.message
 }
 
-func (receiver *SimpleRequest) Request() interface{} {
+func (receiver *SimpleRequest) Request() any {
+	if receiver == nil {
+		return nil
+	}
+
 	return receiver.Dynamic.Data()
 }
 
-func (receiver *SimpleRequest) Value() interface{} {
+func (receiver *SimpleRequest) Value() any {
+	if receiver == nil {
+		return nil
+	}
+
 	return receiver.Dynamic.Data()
 }
 
@@ -68,16 +80,23 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 	typeMatch reflect.Type,
 	isIncludeInvalidMessage bool,
 ) error {
+	if receiver == nil {
+		return nil
+	}
+
 	if receiver.IsReflectTypeOf(typeMatch) {
 		return nil
 	}
 
-	typeMismatchMessage := errcore.CombineWithMsgType(
+	typeMismatchMessage := errcore.CombineWithMsgTypeNoStack(
 		errcore.TypeMismatchType,
 		"Current type - ["+receiver.ReflectTypeName()+"], expected type",
-		typeMatch) + constants.NewLineUnix
+		typeMatch,
+	) + constants.NewLineUnix
 
-	if !isIncludeInvalidMessage {
+	isExcludeMessage := !isIncludeInvalidMessage
+
+	if isExcludeMessage {
 		return errors.New(typeMismatchMessage)
 	}
 
@@ -85,19 +104,32 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 }
 
 func (receiver *SimpleRequest) IsReflectKind(checkingKind reflect.Kind) bool {
+	if receiver == nil {
+		return false
+	}
+
 	return receiver.ReflectKind() == checkingKind
 }
 
 func (receiver *SimpleRequest) IsPointer() bool {
+	if receiver == nil {
+		return false
+	}
+
 	if receiver.isPointer.IsUninitialized() {
 		receiver.isPointer = issetter.GetBool(
-			receiver.IsReflectKind(reflect.Ptr))
+			receiver.IsReflectKind(reflect.Ptr),
+		)
 	}
 
 	return receiver.isPointer.IsTrue()
 }
 
 func (receiver *SimpleRequest) InvalidError() error {
+	if receiver == nil {
+		return nil
+	}
+
 	if receiver.err != nil {
 		return receiver.err
 	}

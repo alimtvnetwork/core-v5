@@ -1,7 +1,7 @@
 package stringslice
 
 import (
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 // NonWhitespace

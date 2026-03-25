@@ -3,7 +3,7 @@ package coreinstruction
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type Rename struct {
@@ -24,10 +24,6 @@ func (it *Rename) IsNewEmpty() bool {
 }
 
 func (it Rename) String() string {
-	if it.IsNull() {
-		return "Rename null!"
-	}
-
 	return fmt.Sprintf(
 		constants.RenameFormat,
 		it.Existing,
@@ -61,11 +57,19 @@ func (it Rename) ToName() string {
 	return it.New
 }
 
-func (it *Rename) SetFromName(form string) {
-	it.Existing = form
+func (it *Rename) SetFromName(from string) {
+	if it == nil {
+		return
+	}
+
+	it.Existing = from
 }
 
 func (it *Rename) SetToName(to string) {
+	if it == nil {
+		return
+	}
+
 	it.New = to
 }
 

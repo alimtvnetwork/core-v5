@@ -4,46 +4,58 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type KeyVal struct {
-	Key   interface{}
-	Value interface{}
+	Key   any
+	Value any
 }
 
-func (it *KeyVal) KeyDynamic() Dynamic {
+func (it KeyVal) KeyDynamic() Dynamic {
 	return NewDynamic(it.Key, true)
 }
 
-func (it *KeyVal) ValueDynamic() Dynamic {
+func (it KeyVal) ValueDynamic() Dynamic {
 	return NewDynamic(it.Value, true)
 }
 
 func (it *KeyVal) KeyDynamicPtr() *Dynamic {
+	if it == nil {
+		return nil
+	}
+
 	return NewDynamicPtr(it.Key, true)
 }
 
 func (it *KeyVal) ValueDynamicPtr() *Dynamic {
+	if it == nil {
+		return nil
+	}
+
 	return NewDynamicPtr(it.Value, true)
 }
 
-func (it *KeyVal) IsKeyNull() bool {
+func (it KeyVal) IsKeyNull() bool {
 	return reflectinternal.Is.Null(it.Key)
 }
 
-func (it *KeyVal) IsKeyNullOrEmptyString() bool {
+func (it KeyVal) IsKeyNullOrEmptyString() bool {
 	return reflectinternal.Is.Null(it.Key) || it.Key.(string) == ""
 }
 
-func (it *KeyVal) IsValueNull() bool {
+func (it KeyVal) IsValueNull() bool {
 	return reflectinternal.Is.Null(it.Value)
 }
 
 func (it *KeyVal) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return fmt.Sprintf(
 		constants.KeyValuePariSimpleFormat,
 		it.Key,
@@ -53,11 +65,11 @@ func (it *KeyVal) String() string {
 	)
 }
 
-func (it *KeyVal) ValueReflectValue() reflect.Value {
+func (it KeyVal) ValueReflectValue() reflect.Value {
 	return reflect.ValueOf(it.Value)
 }
 
-func (it *KeyVal) ValueInt() int {
+func (it KeyVal) ValueInt() int {
 	casted, isSuccess := it.Value.(int)
 
 	if isSuccess {
@@ -67,7 +79,7 @@ func (it *KeyVal) ValueInt() int {
 	return constants.InvalidValue
 }
 
-func (it *KeyVal) ValueUInt() uint {
+func (it KeyVal) ValueUInt() uint {
 	casted, isSuccess := it.Value.(uint)
 
 	if isSuccess {
@@ -77,7 +89,7 @@ func (it *KeyVal) ValueUInt() uint {
 	return constants.Zero
 }
 
-func (it *KeyVal) ValueStrings() []string {
+func (it KeyVal) ValueStrings() []string {
 	casted, isSuccess := it.Value.([]string)
 
 	if isSuccess {
@@ -87,7 +99,7 @@ func (it *KeyVal) ValueStrings() []string {
 	return nil
 }
 
-func (it *KeyVal) ValueBool() bool {
+func (it KeyVal) ValueBool() bool {
 	casted, isSuccess := it.Value.(bool)
 
 	if isSuccess {
@@ -97,7 +109,7 @@ func (it *KeyVal) ValueBool() bool {
 	return false
 }
 
-func (it *KeyVal) ValueInt64() int64 {
+func (it KeyVal) ValueInt64() int64 {
 	casted, isSuccess := it.Value.(int64)
 
 	if isSuccess {
@@ -109,7 +121,7 @@ func (it *KeyVal) ValueInt64() int64 {
 
 func (it *KeyVal) CastKeyVal(
 	keyToPointer,
-	valueToPointer interface{},
+	valueToPointer any,
 ) error {
 	if it == nil {
 		return errcore.
@@ -127,7 +139,7 @@ func (it *KeyVal) CastKeyVal(
 }
 
 func (it *KeyVal) ReflectSetKey(
-	keyToPointer interface{},
+	keyToPointer any,
 ) error {
 	if it == nil {
 		return errcore.
@@ -192,7 +204,7 @@ func (it *KeyVal) ValueString() string {
 	)
 }
 
-func (it *KeyVal) KeyReflectSet(toPointer interface{}) error {
+func (it *KeyVal) KeyReflectSet(toPointer any) error {
 	if it == nil {
 		return errcore.
 			CannotBeNilOrEmptyType.
@@ -202,7 +214,7 @@ func (it *KeyVal) KeyReflectSet(toPointer interface{}) error {
 	return ReflectSetFromTo(it.Key, toPointer)
 }
 
-func (it *KeyVal) ValueReflectSet(toPointer interface{}) error {
+func (it *KeyVal) ValueReflectSet(toPointer any) error {
 	if it == nil {
 		return errcore.
 			CannotBeNilOrEmptyType.
@@ -212,7 +224,7 @@ func (it *KeyVal) ValueReflectSet(toPointer interface{}) error {
 	return ReflectSetFromTo(it.Value, toPointer)
 }
 
-func (it *KeyVal) ReflectSetTo(toPointer interface{}) error {
+func (it *KeyVal) ReflectSetTo(toPointer any) error {
 	if it == nil {
 		return errcore.
 			CannotBeNilOrEmptyType.
@@ -222,16 +234,16 @@ func (it *KeyVal) ReflectSetTo(toPointer interface{}) error {
 	return ReflectSetFromTo(it.Value, toPointer)
 }
 
-func (it *KeyVal) ReflectSetToMust(toPointer interface{}) {
+func (it *KeyVal) ReflectSetToMust(toPointer any) {
 	err := it.ReflectSetTo(toPointer)
 	errcore.MustBeEmpty(err)
 }
 
-func (it KeyVal) JsonModel() interface{} {
+func (it KeyVal) JsonModel() any {
 	return it
 }
 
-func (it KeyVal) JsonModelAny() interface{} {
+func (it KeyVal) JsonModelAny() any {
 	return it.JsonModel()
 }
 

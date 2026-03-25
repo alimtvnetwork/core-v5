@@ -1,9 +1,9 @@
 package corerangestests
 
 import (
-	"gitlab.com/auk-go/core/coredata/corerange"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/corevalidator"
+	"github.com/alimtvnetwork/core/coredata/corerange"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/corevalidator"
 )
 
 type testWrapper struct {

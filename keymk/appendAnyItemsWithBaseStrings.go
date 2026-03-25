@@ -3,13 +3,13 @@ package keymk
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func appendAnyItemsWithBaseStrings(
 	isSkipEmpty bool,
 	mainSlice []string,
-	appendingItems []interface{},
+	appendingItems []any,
 ) []string {
 	if len(appendingItems) == 0 {
 		return mainSlice

@@ -3,16 +3,16 @@ package anycmptests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/anycmp"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/anycmp"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 func Test_Cmp_Verification(t *testing.T) {
 	for caseIndex, testCase := range testCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]args.Two)
+		inputs := testCase.ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act

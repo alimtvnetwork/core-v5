@@ -3,15 +3,15 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 func GetSearchTermExpectationSimpleMessage(
 	counter int,
 	expectationErrorMessage string,
 	processingIndex int,
-	contentProcessed interface{},
-	searchTermProcessed interface{},
+	contentProcessed any,
+	searchTermProcessed any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.PrintHeaderForSearchActualAndExpectedProcessedSimpleFormat,

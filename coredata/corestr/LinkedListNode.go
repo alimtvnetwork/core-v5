@@ -1,10 +1,10 @@
 package corestr
 
 import (
-	"fmt"
+	"log/slog"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type LinkedListNode struct {
@@ -102,15 +102,32 @@ func (linkedListNode *LinkedListNode) AddNext(
 	return newNode
 }
 
+// AddStringsToNode adds items after this node.
+func (linkedListNode *LinkedListNode) AddStringsToNode(
+	linkedListForIncrement *LinkedList,
+	isSkipOnNull bool,
+	items []string,
+) *LinkedList {
+	return linkedListForIncrement.AddStringsToNode(
+		isSkipOnNull,
+		linkedListNode,
+		items)
+}
+
+// Deprecated: Use AddStringsToNode instead.
 func (linkedListNode *LinkedListNode) AddStringsPtrToNode(
 	linkedListForIncrement *LinkedList,
 	isSkipOnNull bool,
 	items *[]string,
 ) *LinkedList {
-	return linkedListForIncrement.AddStringsPtrToNode(
+	if items == nil {
+		return linkedListForIncrement
+	}
+
+	return linkedListNode.AddStringsToNode(
+		linkedListForIncrement,
 		isSkipOnNull,
-		linkedListNode,
-		items)
+		*items)
 }
 
 func (linkedListNode *LinkedListNode) AddCollectionToNode(
@@ -118,10 +135,10 @@ func (linkedListNode *LinkedListNode) AddCollectionToNode(
 	isSkipOnNull bool,
 	collection *Collection,
 ) *LinkedList {
-	return linkedListForIncrement.AddStringsPtrToNode(
+	return linkedListForIncrement.AddStringsToNode(
 		isSkipOnNull,
 		linkedListNode,
-		collection.ListPtr())
+		collection.List())
 }
 
 func (linkedListNode *LinkedListNode) AddNextNode(
@@ -270,7 +287,8 @@ func (linkedListNode *LinkedListNode) String() string {
 	return linkedListNode.Element
 }
 
-func (linkedListNode *LinkedListNode) ListPtr() *[]string {
+// List returns all elements from this node onwards as a string slice.
+func (linkedListNode *LinkedListNode) List() []string {
 	list := make([]string, 0, constants.ArbitraryCapacity100)
 
 	node := linkedListNode
@@ -282,24 +300,23 @@ func (linkedListNode *LinkedListNode) ListPtr() *[]string {
 		list = append(list, node.Element)
 	}
 
-	return &list
+	return list
 }
 
-func (linkedListNode *LinkedListNode) Join(separator string) *string {
-	list := linkedListNode.ListPtr()
-	toString := strings.Join(*list, separator)
-
-	return &toString
+// Deprecated: Use List instead.
+func (linkedListNode *LinkedListNode) ListPtr() []string {
+	return linkedListNode.List()
 }
 
-func (linkedListNode *LinkedListNode) StringListPtr(header string) *string {
-	finalString := header +
-		*linkedListNode.Join(commonJoiner)
+func (linkedListNode *LinkedListNode) Join(separator string) string {
+	return strings.Join(linkedListNode.List(), separator)
+}
 
-	return &finalString
+func (linkedListNode *LinkedListNode) StringList(header string) string {
+	return header + linkedListNode.Join(commonJoiner)
 }
 
 func (linkedListNode *LinkedListNode) Print(header string) {
-	finalString := linkedListNode.StringListPtr(header)
-	fmt.Println(finalString)
+	finalString := linkedListNode.StringList(header)
+	slog.Info("linked list", "content", finalString)
 }

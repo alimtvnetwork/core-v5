@@ -2,10 +2,10 @@ package stringslice
 
 func AnyItemsCloneUsingCap(
 	newAdditionalCap int,
-	slice []interface{},
-) []interface{} {
+	slice []any,
+) []any {
 	newSlice := make(
-		[]interface{},
+		[]any,
 		0,
 		newAdditionalCap+len(slice))
 

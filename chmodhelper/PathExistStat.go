@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/namevalue"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/namevalue"
 )
 
 type PathExistStat struct {
@@ -260,31 +260,31 @@ func (it *PathExistStat) String() string {
 	}
 
 	slice := errcore.VarNameValuesStrings(
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "Location",
 			Value: it.Location,
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "Name",
 			Value: it.FileName(),
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "IsExist",
 			Value: it.IsExist,
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "IsFile",
 			Value: it.IsFile(),
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "IsDir",
 			Value: it.IsDir(),
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "Chmod",
 			Value: it.FileMode(),
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "Error",
 			Value: it.Error,
 		})

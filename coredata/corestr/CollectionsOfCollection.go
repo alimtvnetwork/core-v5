@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 type CollectionsOfCollection struct {
@@ -19,15 +19,15 @@ func (it *CollectionsOfCollection) AsJsonContractsBinder() corejson.JsonContract
 }
 
 func (it *CollectionsOfCollection) IsEmpty() bool {
-	return it.items == nil || len(it.items) == 0
+	return it == nil || it.items == nil || len(it.items) == 0
 }
 
 func (it *CollectionsOfCollection) HasItems() bool {
-	return it.items != nil && len(it.items) > 0
+	return it != nil && it.items != nil && len(it.items) > 0
 }
 
 func (it *CollectionsOfCollection) Length() int {
-	if it.items == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
@@ -207,7 +207,7 @@ func (it *CollectionsOfCollection) JsonModel() CollectionsOfCollectionModel {
 	}
 }
 
-func (it *CollectionsOfCollection) JsonModelAny() interface{} {
+func (it *CollectionsOfCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

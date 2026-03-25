@@ -3,8 +3,8 @@ package corerange
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 type MinMaxInt8 struct {
@@ -165,7 +165,7 @@ func (it *MinMaxInt8) RangesExcept(exceptItems ...int8) []int8 {
 	length := it.RangeLength()
 	start := it.Min
 	slice := make([]int8, 0, length)
-	toHashmap := convertinteranl.
+	toHashmap := convertinternal.
 		Integers.
 		Int8ToMapBool(exceptItems...)
 

@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/converters/coreconverted"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/converters/coreconverted"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type stringTo struct{}
@@ -82,9 +82,9 @@ func (it stringTo) IntegersConditional(
 	stringInput,
 	separator string,
 	processor func(in string) (out int, isTake, isBreak bool),
-) *[]int {
+) []int {
 	if stringInput == "" {
-		return &[]int{}
+		return []int{}
 	}
 
 	splits := strings.Split(stringInput, separator)
@@ -102,7 +102,7 @@ func (it stringTo) IntegersConditional(
 		}
 	}
 
-	return &results
+	return results
 }
 
 func (it stringTo) IntegerMust(
@@ -120,9 +120,9 @@ func (it stringTo) IntegerMust(
 func (it stringTo) IntegerDefault(
 	input string,
 ) int {
-	value, err2 := strconv.Atoi(input)
+	value, parseErr := strconv.Atoi(input)
 
-	if err2 != nil {
+	if parseErr != nil {
 		return constants.Zero
 	}
 
@@ -132,12 +132,12 @@ func (it stringTo) IntegerDefault(
 func (it stringTo) Integer(
 	input string,
 ) (value int, err error) {
-	value, err2 := strconv.Atoi(input)
+	value, parseErr := strconv.Atoi(input)
 
-	if err2 != nil {
+	if parseErr != nil {
 		reference := input +
 			constants.NewLineUnix +
-			err2.Error()
+			parseErr.Error()
 
 		return constants.Zero, errcore.ParsingFailedType.Error(
 			errcore.FailedToConvertType.String(),
@@ -149,10 +149,10 @@ func (it stringTo) Integer(
 }
 
 func (it stringTo) Float64Must(input string) float64 {
-	value, err2 := it.Float64(input)
+	value, floatErr := it.Float64(input)
 
-	if err2 != nil {
-		panic(err2)
+	if floatErr != nil {
+		panic(floatErr)
 	}
 
 	return value
@@ -161,34 +161,31 @@ func (it stringTo) Float64Must(input string) float64 {
 func (it stringTo) Float64Default(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
-	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
+	value, parseErr := strconv.ParseFloat(input, bitsize.Of64)
 
-	if err2 != nil {
+	if parseErr != nil {
 		return defaultFloat64, false
 	}
 
 	return value, true
 }
 
+// Float64Conditional
+//
+// Deprecated: Identical to Float64Default. Use Float64Default instead.
 func (it stringTo) Float64Conditional(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
-	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
-
-	if err2 != nil {
-		return defaultFloat64, false
-	}
-
-	return value, true
+	return it.Float64Default(input, defaultFloat64)
 }
 
 func (it stringTo) Float64(input string) (value float64, err error) {
-	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
+	value, parseErr := strconv.ParseFloat(input, bitsize.Of64)
 
-	if err2 != nil {
+	if parseErr != nil {
 		reference := input +
 			constants.NewLineUnix +
-			err2.Error()
+			parseErr.Error()
 
 		return constants.Zero, errcore.
 			ParsingFailedType.Error(
@@ -216,9 +213,9 @@ func (it stringTo) BytesConditional(
 	stringInput,
 	separator string,
 	processor func(in string) (out byte, isTake, isBreak bool),
-) *[]byte {
+) []byte {
 	if stringInput == "" {
-		return &[]byte{}
+		return []byte{}
 	}
 
 	splits := strings.Split(stringInput, separator)
@@ -236,7 +233,7 @@ func (it stringTo) BytesConditional(
 		}
 	}
 
-	return &results
+	return results
 }
 
 func (it stringTo) Byte(input string) (byte, error) {

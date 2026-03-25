@@ -1,0 +1,937 @@
+package corejsontests
+
+import (
+	"errors"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// =============================================================================
+// Result — Map
+// =============================================================================
+
+func Test_Cov39_Result_Map_Nil(t *testing.T) {
+	var r *corejson.Result
+	m := r.Map()
+	actual := args.Map{"len": len(m)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Result Map nil", actual)
+}
+
+func Test_Cov39_Result_Map_WithBytesAndError(t *testing.T) {
+	r := &corejson.Result{
+		Bytes:    []byte(`"hello"`),
+		Error:    errors.New("fail"),
+		TypeName: "string",
+	}
+	m := r.Map()
+	// When Result has Error, IsEmptyJsonBytes returns true (HasError check),
+	// so JsonString() returns "" → m["Bytes"] is ""
+	actual := args.Map{"hasBytes": m["Bytes"] != "", "hasError": m["Error"] != "", "hasType": m["Type"] != ""}
+	expected := args.Map{"hasBytes": false, "hasError": true, "hasType": true}
+	expected.ShouldBeEqual(t, 0, "Result Map with all fields", actual)
+}
+
+func Test_Cov39_Result_Map_Empty(t *testing.T) {
+	r := &corejson.Result{}
+	m := r.Map()
+	actual := args.Map{"len": len(m)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Result Map empty", actual)
+}
+
+// =============================================================================
+// Result — DeserializedFieldsToMap / SafeDeserializedFieldsToMap
+// =============================================================================
+
+func Test_Cov39_Result_DeserializedFieldsToMap_Nil(t *testing.T) {
+	var r *corejson.Result
+	m, err := r.DeserializedFieldsToMap()
+	actual := args.Map{"len": len(m), "noErr": err == nil}
+	expected := args.Map{"len": 0, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "DeserializedFieldsToMap nil", actual)
+}
+
+func Test_Cov39_Result_SafeDeserializedFieldsToMap_Nil(t *testing.T) {
+	var r *corejson.Result
+	m := r.SafeDeserializedFieldsToMap()
+	actual := args.Map{"len": len(m)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SafeDeserializedFieldsToMap nil", actual)
+}
+
+// =============================================================================
+// Result — FieldsNames / SafeFieldsNames
+// =============================================================================
+
+func Test_Cov39_Result_FieldsNames_Nil(t *testing.T) {
+	var r *corejson.Result
+	names, err := r.FieldsNames()
+	actual := args.Map{"len": len(names), "noErr": err == nil}
+	expected := args.Map{"len": 0, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "FieldsNames nil", actual)
+}
+
+func Test_Cov39_Result_SafeFieldsNames_Nil(t *testing.T) {
+	var r *corejson.Result
+	names := r.SafeFieldsNames()
+	actual := args.Map{"len": len(names)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SafeFieldsNames nil", actual)
+}
+
+// =============================================================================
+// Result — BytesTypeName / SafeBytesTypeName
+// =============================================================================
+
+func Test_Cov39_Result_BytesTypeName_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"r": r.BytesTypeName()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "BytesTypeName nil", actual)
+}
+
+func Test_Cov39_Result_BytesTypeName_Set(t *testing.T) {
+	r := &corejson.Result{TypeName: "int"}
+	actual := args.Map{"r": r.BytesTypeName()}
+	expected := args.Map{"r": "int"}
+	expected.ShouldBeEqual(t, 0, "BytesTypeName set", actual)
+}
+
+func Test_Cov39_Result_SafeBytesTypeName_Empty(t *testing.T) {
+	r := &corejson.Result{}
+	actual := args.Map{"r": r.SafeBytesTypeName()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "SafeBytesTypeName empty", actual)
+}
+
+func Test_Cov39_Result_SafeBytesTypeName_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"hasName": r.SafeBytesTypeName() != ""}
+	expected := args.Map{"hasName": true}
+	expected.ShouldBeEqual(t, 0, "SafeBytesTypeName valid", actual)
+}
+
+// =============================================================================
+// Result — JsonStringPtr caching
+// =============================================================================
+
+func Test_Cov39_Result_JsonStringPtr_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"r": *r.JsonStringPtr()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "JsonStringPtr nil", actual)
+}
+
+func Test_Cov39_Result_JsonStringPtr_NoBytes(t *testing.T) {
+	r := &corejson.Result{}
+	s := r.JsonStringPtr()
+	actual := args.Map{"r": *s}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "JsonStringPtr no bytes", actual)
+}
+
+func Test_Cov39_Result_JsonStringPtr_WithBytes(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	s1 := r.JsonStringPtr()
+	s2 := r.JsonStringPtr() // cached
+	actual := args.Map{"same": s1 == s2, "hasContent": len(*s1) > 0}
+	expected := args.Map{"same": true, "hasContent": true}
+	expected.ShouldBeEqual(t, 0, "JsonStringPtr cached", actual)
+}
+
+// =============================================================================
+// Result — PrettyJsonString / PrettyJsonStringOrErrString / PrettyJsonBuffer
+// =============================================================================
+
+func Test_Cov39_Result_PrettyJsonString_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"r": r.PrettyJsonString()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "PrettyJsonString nil", actual)
+}
+
+func Test_Cov39_Result_PrettyJsonString_Valid(t *testing.T) {
+	r := corejson.NewPtr(map[string]int{"a": 1})
+	s := r.PrettyJsonString()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "PrettyJsonString valid", actual)
+}
+
+func Test_Cov39_Result_PrettyJsonStringOrErrString_Nil(t *testing.T) {
+	var r *corejson.Result
+	s := r.PrettyJsonStringOrErrString()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "PrettyJsonStringOrErrString nil", actual)
+}
+
+func Test_Cov39_Result_PrettyJsonStringOrErrString_Error(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	s := r.PrettyJsonStringOrErrString()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "PrettyJsonStringOrErrString error", actual)
+}
+
+func Test_Cov39_Result_PrettyJsonStringOrErrString_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	s := r.PrettyJsonStringOrErrString()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "PrettyJsonStringOrErrString valid", actual)
+}
+
+func Test_Cov39_Result_PrettyJsonBuffer_Empty(t *testing.T) {
+	r := &corejson.Result{}
+	buf, err := r.PrettyJsonBuffer("", "  ")
+	actual := args.Map{"noErr": err == nil, "empty": buf.Len() == 0}
+	expected := args.Map{"noErr": true, "empty": true}
+	expected.ShouldBeEqual(t, 0, "PrettyJsonBuffer empty", actual)
+}
+
+// =============================================================================
+// Result — Length, HasError, ErrorString, IsErrorEqual
+// =============================================================================
+
+func Test_Cov39_Result_Length_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"r": r.Length()}
+	expected := args.Map{"r": 0}
+	expected.ShouldBeEqual(t, 0, "Result Length nil", actual)
+}
+
+func Test_Cov39_Result_ErrorString_NoError(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"r": r.ErrorString()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "ErrorString no error", actual)
+}
+
+func Test_Cov39_Result_ErrorString_HasError(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	actual := args.Map{"hasContent": len(r.ErrorString()) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "ErrorString has error", actual)
+}
+
+func Test_Cov39_Result_IsErrorEqual_BothNil(t *testing.T) {
+	r := &corejson.Result{}
+	actual := args.Map{"r": r.IsErrorEqual(nil)}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsErrorEqual both nil", actual)
+}
+
+func Test_Cov39_Result_IsErrorEqual_OneNil(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("x")}
+	actual := args.Map{"r": r.IsErrorEqual(nil)}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsErrorEqual one nil", actual)
+}
+
+func Test_Cov39_Result_IsErrorEqual_SameMsg(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("x")}
+	actual := args.Map{"r": r.IsErrorEqual(errors.New("x"))}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsErrorEqual same msg", actual)
+}
+
+func Test_Cov39_Result_IsErrorEqual_DiffMsg(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("x")}
+	actual := args.Map{"r": r.IsErrorEqual(errors.New("y"))}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsErrorEqual diff msg", actual)
+}
+
+// =============================================================================
+// Result — String
+// =============================================================================
+
+func Test_Cov39_Result_String_Empty(t *testing.T) {
+	r := corejson.Result{}
+	actual := args.Map{"r": r.String()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "Result String empty", actual)
+}
+
+func Test_Cov39_Result_String_WithError(t *testing.T) {
+	r := corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("fail"), TypeName: "string"}
+	s := r.String()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "Result String with error", actual)
+}
+
+func Test_Cov39_Result_String_NoError(t *testing.T) {
+	r := corejson.New("hello")
+	s := r.String()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "Result String no error", actual)
+}
+
+// =============================================================================
+// Result — SafeNonIssueBytes, SafeBytes, Values, SafeValues, SafeValuesPtr
+// =============================================================================
+
+func Test_Cov39_Result_SafeNonIssueBytes_HasIssues(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("x")}
+	actual := args.Map{"len": len(r.SafeNonIssueBytes())}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SafeNonIssueBytes has issues", actual)
+}
+
+func Test_Cov39_Result_SafeNonIssueBytes_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"hasBytes": len(r.SafeNonIssueBytes()) > 0}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "SafeNonIssueBytes valid", actual)
+}
+
+func Test_Cov39_Result_SafeBytes_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"len": len(r.SafeBytes())}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SafeBytes nil", actual)
+}
+
+func Test_Cov39_Result_SafeValues_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"len": len(r.SafeValues())}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SafeValues nil", actual)
+}
+
+func Test_Cov39_Result_SafeValuesPtr_HasIssues(t *testing.T) {
+	r := &corejson.Result{}
+	actual := args.Map{"len": len(r.SafeValuesPtr())}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SafeValuesPtr has issues", actual)
+}
+
+// =============================================================================
+// Result — Raw, RawMust, RawString, RawStringMust, RawErrString, RawPrettyString
+// =============================================================================
+
+func Test_Cov39_Result_Raw_Nil(t *testing.T) {
+	var r *corejson.Result
+	b, err := r.Raw()
+	actual := args.Map{"len": len(b), "hasErr": err != nil}
+	expected := args.Map{"len": 0, "hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Raw nil", actual)
+}
+
+func Test_Cov39_Result_Raw_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	b, err := r.Raw()
+	actual := args.Map{"hasBytes": len(b) > 0, "noErr": err == nil}
+	expected := args.Map{"hasBytes": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "Raw valid", actual)
+}
+
+func Test_Cov39_Result_RawString_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	s, err := r.RawString()
+	actual := args.Map{"hasContent": len(s) > 0, "noErr": err == nil}
+	expected := args.Map{"hasContent": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "RawString valid", actual)
+}
+
+func Test_Cov39_Result_RawStringMust_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	s := r.RawStringMust()
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "RawStringMust valid", actual)
+}
+
+func Test_Cov39_Result_RawStringMust_Panics(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "RawStringMust panics", actual)
+	}()
+	r := &corejson.Result{Error: errors.New("fail")}
+	r.RawStringMust()
+}
+
+func Test_Cov39_Result_RawErrString(t *testing.T) {
+	r := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("fail")}
+	b, msg := r.RawErrString()
+	actual := args.Map{"hasBytes": len(b) > 0, "hasMsg": len(msg) > 0}
+	expected := args.Map{"hasBytes": true, "hasMsg": true}
+	expected.ShouldBeEqual(t, 0, "RawErrString", actual)
+}
+
+func Test_Cov39_Result_RawPrettyString(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	s, err := r.RawPrettyString()
+	actual := args.Map{"hasContent": len(s) > 0, "noErr": err == nil}
+	expected := args.Map{"hasContent": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "RawPrettyString", actual)
+}
+
+// =============================================================================
+// Result — MeaningfulError / MeaningfulErrorMessage
+// =============================================================================
+
+func Test_Cov39_Result_MeaningfulError_Nil(t *testing.T) {
+	var r *corejson.Result
+	err := r.MeaningfulError()
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError nil", actual)
+}
+
+func Test_Cov39_Result_MeaningfulError_OK(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"noErr": r.MeaningfulError() == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError OK", actual)
+}
+
+func Test_Cov39_Result_MeaningfulError_EmptyBytes(t *testing.T) {
+	r := &corejson.Result{TypeName: "int"}
+	err := r.MeaningfulError()
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError empty bytes", actual)
+}
+
+func Test_Cov39_Result_MeaningfulError_WithBothErrorAndBytes(t *testing.T) {
+	r := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("fail"), TypeName: "string"}
+	err := r.MeaningfulError()
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError with error and bytes", actual)
+}
+
+func Test_Cov39_Result_MeaningfulErrorMessage_NoError(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"r": r.MeaningfulErrorMessage()}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorMessage no error", actual)
+}
+
+// =============================================================================
+// Result — IsEmptyJsonBytes branches
+// =============================================================================
+
+func Test_Cov39_Result_IsEmptyJsonBytes_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"r": r.IsEmptyJsonBytes()}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEmptyJsonBytes nil", actual)
+}
+
+func Test_Cov39_Result_IsEmptyJsonBytes_EmptyJson(t *testing.T) {
+	r := &corejson.Result{Bytes: []byte("{}")}
+	actual := args.Map{"r": r.IsEmptyJsonBytes()}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEmptyJsonBytes {}", actual)
+}
+
+func Test_Cov39_Result_IsEmptyJsonBytes_ZeroLen(t *testing.T) {
+	r := &corejson.Result{Bytes: []byte{}}
+	actual := args.Map{"r": r.IsEmptyJsonBytes()}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEmptyJsonBytes zero len", actual)
+}
+
+func Test_Cov39_Result_IsEmptyJsonBytes_HasContent(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"r": r.IsEmptyJsonBytes()}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsEmptyJsonBytes has content", actual)
+}
+
+// =============================================================================
+// Result — Unmarshal / UnmarshalMust / DeserializeMust / UnmarshalSkipExistingIssues
+// =============================================================================
+
+func Test_Cov39_Result_Unmarshal_Nil(t *testing.T) {
+	var r *corejson.Result
+	var s string
+	err := r.Unmarshal(&s)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Unmarshal nil", actual)
+}
+
+func Test_Cov39_Result_Unmarshal_HasError(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail"), TypeName: "x"}
+	var s string
+	err := r.Unmarshal(&s)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Unmarshal has error", actual)
+}
+
+func Test_Cov39_Result_Unmarshal_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	var s string
+	err := r.Unmarshal(&s)
+	actual := args.Map{"noErr": err == nil, "r": s}
+	expected := args.Map{"noErr": true, "r": "hello"}
+	expected.ShouldBeEqual(t, 0, "Unmarshal valid", actual)
+}
+
+func Test_Cov39_Result_Unmarshal_BadPayload(t *testing.T) {
+	r := &corejson.Result{Bytes: []byte(`bad`), TypeName: "x"}
+	var s string
+	err := r.Unmarshal(&s)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Unmarshal bad payload", actual)
+}
+
+func Test_Cov39_Result_DeserializeMust_Panics(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "DeserializeMust panics", actual)
+	}()
+	r := &corejson.Result{Error: errors.New("fail")}
+	var s string
+	r.DeserializeMust(&s)
+}
+
+func Test_Cov39_Result_UnmarshalSkipExistingIssues_HasIssues(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	var s string
+	err := r.UnmarshalSkipExistingIssues(&s)
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "UnmarshalSkipExistingIssues has issues", actual)
+}
+
+func Test_Cov39_Result_UnmarshalSkipExistingIssues_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	var s string
+	err := r.UnmarshalSkipExistingIssues(&s)
+	actual := args.Map{"noErr": err == nil, "r": s}
+	expected := args.Map{"noErr": true, "r": "hello"}
+	expected.ShouldBeEqual(t, 0, "UnmarshalSkipExistingIssues valid", actual)
+}
+
+func Test_Cov39_Result_UnmarshalSkipExistingIssues_BadPayload(t *testing.T) {
+	r := &corejson.Result{Bytes: []byte(`bad`), TypeName: "x"}
+	var s string
+	err := r.UnmarshalSkipExistingIssues(&s)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "UnmarshalSkipExistingIssues bad payload", actual)
+}
+
+func Test_Cov39_Result_UnmarshalResult(t *testing.T) {
+	r := corejson.NewPtr(corejson.Result{Bytes: []byte(`"x"`), TypeName: "string"})
+	inner, err := r.UnmarshalResult()
+	actual := args.Map{"noErr": err == nil, "notNil": inner != nil}
+	expected := args.Map{"noErr": true, "notNil": true}
+	expected.ShouldBeEqual(t, 0, "UnmarshalResult", actual)
+}
+
+// =============================================================================
+// Result — Serialize / SerializeMust / SerializeSkipExistingIssues
+// =============================================================================
+
+func Test_Cov39_Result_Serialize_Nil(t *testing.T) {
+	var r *corejson.Result
+	_, err := r.Serialize()
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Serialize nil", actual)
+}
+
+func Test_Cov39_Result_Serialize_HasError(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	_, err := r.Serialize()
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Serialize has error", actual)
+}
+
+func Test_Cov39_Result_Serialize_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	b, err := r.Serialize()
+	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
+	expected := args.Map{"noErr": true, "hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "Serialize valid", actual)
+}
+
+func Test_Cov39_Result_SerializeSkipExistingIssues_HasIssues(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	b, err := r.SerializeSkipExistingIssues()
+	actual := args.Map{"nilBytes": b == nil, "noErr": err == nil}
+	expected := args.Map{"nilBytes": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "SerializeSkipExistingIssues has issues", actual)
+}
+
+func Test_Cov39_Result_SerializeSkipExistingIssues_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	b, err := r.SerializeSkipExistingIssues()
+	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
+	expected := args.Map{"noErr": true, "hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "SerializeSkipExistingIssues valid", actual)
+}
+
+// =============================================================================
+// Result — HandleError / MustBeSafe / HandleErrorWithMsg (panic paths)
+// =============================================================================
+
+func Test_Cov39_Result_HandleError_Panics(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "HandleError panics", actual)
+	}()
+	r := &corejson.Result{Error: errors.New("fail")}
+	r.HandleError()
+}
+
+func Test_Cov39_Result_HandleError_Safe(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	r.HandleError() // should not panic
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
+	expected.ShouldBeEqual(t, 0, "HandleError safe", actual)
+}
+
+func Test_Cov39_Result_MustBeSafe_Panics(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "MustBeSafe panics", actual)
+	}()
+	r := &corejson.Result{}
+	r.MustBeSafe()
+}
+
+func Test_Cov39_Result_HandleErrorWithMsg_Panics(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "HandleErrorWithMsg panics", actual)
+	}()
+	r := &corejson.Result{}
+	r.HandleErrorWithMsg("context")
+}
+
+// =============================================================================
+// Result — JsonModel / JsonModelAny / Json / JsonPtr
+// =============================================================================
+
+func Test_Cov39_Result_JsonModel_Nil(t *testing.T) {
+	var r *corejson.Result
+	m := r.JsonModel()
+	actual := args.Map{"hasErr": m.HasError()}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "JsonModel nil", actual)
+}
+
+func Test_Cov39_Result_JsonModel_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	m := r.JsonModel()
+	actual := args.Map{"noErr": !m.HasError()}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "JsonModel valid", actual)
+}
+
+func Test_Cov39_Result_JsonModelAny(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	a := r.JsonModelAny()
+	actual := args.Map{"notNil": a != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "JsonModelAny", actual)
+}
+
+// =============================================================================
+// Result — ParseInjectUsingJson / ParseInjectUsingJsonMust
+// =============================================================================
+
+func Test_Cov39_Result_ParseInjectUsingJson_Valid(t *testing.T) {
+	original := corejson.NewPtr("hello")
+	serialized := corejson.NewPtr(*original)
+	target := corejson.Empty.ResultPtr()
+	_, err := target.ParseInjectUsingJson(serialized)
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "ParseInjectUsingJson valid", actual)
+}
+
+func Test_Cov39_Result_ParseInjectUsingJson_Fail(t *testing.T) {
+	bad := &corejson.Result{Error: errors.New("fail")}
+	target := corejson.Empty.ResultPtr()
+	_, err := target.ParseInjectUsingJson(bad)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "ParseInjectUsingJson fail", actual)
+}
+
+func Test_Cov39_Result_ParseInjectUsingJsonMust_Panics(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "ParseInjectUsingJsonMust panics", actual)
+	}()
+	bad := &corejson.Result{Error: errors.New("fail")}
+	target := corejson.Empty.ResultPtr()
+	target.ParseInjectUsingJsonMust(bad)
+}
+
+// =============================================================================
+// Result — Clone / ClonePtr / CloneIf / CloneError
+// =============================================================================
+
+func Test_Cov39_Result_Clone_Empty(t *testing.T) {
+	r := corejson.Result{}
+	c := r.Clone(true)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Clone empty", actual)
+}
+
+func Test_Cov39_Result_Clone_ShallowCopy(t *testing.T) {
+	r := corejson.New("hello")
+	c := r.Clone(false)
+	actual := args.Map{"hasBytes": c.Length() > 0}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "Clone shallow", actual)
+}
+
+func Test_Cov39_Result_Clone_DeepCopy(t *testing.T) {
+	r := corejson.New("hello")
+	c := r.Clone(true)
+	actual := args.Map{"hasBytes": c.Length() > 0}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "Clone deep", actual)
+}
+
+func Test_Cov39_Result_ClonePtr_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"isNil": r.ClonePtr(true) == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "ClonePtr nil", actual)
+}
+
+func Test_Cov39_Result_CloneIf_True(t *testing.T) {
+	r := corejson.New("hello")
+	c := r.CloneIf(true, true)
+	actual := args.Map{"hasBytes": c.Length() > 0}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "CloneIf true", actual)
+}
+
+func Test_Cov39_Result_CloneIf_False(t *testing.T) {
+	r := corejson.New("hello")
+	c := r.CloneIf(false, true)
+	actual := args.Map{"hasBytes": c.Length() > 0}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "CloneIf false", actual)
+}
+
+func Test_Cov39_Result_CloneError_HasError(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	actual := args.Map{"hasErr": r.CloneError() != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "CloneError has error", actual)
+}
+
+func Test_Cov39_Result_CloneError_NoError(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"noErr": r.CloneError() == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "CloneError no error", actual)
+}
+
+// =============================================================================
+// Result — NonPtr / Ptr / ToPtr / ToNonPtr / IsEqualPtr / IsEqual
+// =============================================================================
+
+func Test_Cov39_Result_NonPtr_Nil(t *testing.T) {
+	var r *corejson.Result
+	nr := r.NonPtr()
+	actual := args.Map{"hasErr": nr.HasError()}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "NonPtr nil", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_BothNil(t *testing.T) {
+	var a, b *corejson.Result
+	actual := args.Map{"r": a.IsEqualPtr(b)}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr both nil", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_OneNil(t *testing.T) {
+	a := corejson.NewPtr("hello")
+	actual := args.Map{"r": a.IsEqualPtr(nil)}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr one nil", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_Same(t *testing.T) {
+	a := corejson.NewPtr("hello")
+	actual := args.Map{"r": a.IsEqualPtr(a)}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr same", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_DiffLen(t *testing.T) {
+	a := corejson.NewPtr("hello")
+	b := corejson.NewPtr("hi")
+	actual := args.Map{"r": a.IsEqualPtr(b)}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr diff len", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_DiffError(t *testing.T) {
+	a := &corejson.Result{Bytes: []byte("x"), Error: errors.New("a")}
+	b := &corejson.Result{Bytes: []byte("x"), Error: errors.New("b")}
+	actual := args.Map{"r": a.IsEqualPtr(b)}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr diff error", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_DiffTypeName(t *testing.T) {
+	a := &corejson.Result{Bytes: []byte("x"), TypeName: "a"}
+	b := &corejson.Result{Bytes: []byte("x"), TypeName: "b"}
+	actual := args.Map{"r": a.IsEqualPtr(b)}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr diff type name", actual)
+}
+
+func Test_Cov39_Result_IsEqualPtr_SameContent(t *testing.T) {
+	a := corejson.NewPtr("hello")
+	b := corejson.NewPtr("hello")
+	actual := args.Map{"r": a.IsEqualPtr(b)}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEqualPtr same content", actual)
+}
+
+func Test_Cov39_Result_IsEqual_Same(t *testing.T) {
+	a := corejson.New("hello")
+	b := corejson.New("hello")
+	actual := args.Map{"r": a.IsEqual(b)}
+	expected := args.Map{"r": true}
+	expected.ShouldBeEqual(t, 0, "IsEqual same", actual)
+}
+
+func Test_Cov39_Result_IsEqual_DiffLen(t *testing.T) {
+	a := corejson.New("hello")
+	b := corejson.New("hi")
+	actual := args.Map{"r": a.IsEqual(b)}
+	expected := args.Map{"r": false}
+	expected.ShouldBeEqual(t, 0, "IsEqual diff len", actual)
+}
+
+// =============================================================================
+// Result — CombineErrorWithRefString / CombineErrorWithRefError
+// =============================================================================
+
+func Test_Cov39_Result_CombineErrorWithRefString_NoError(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"r": r.CombineErrorWithRefString("ref1")}
+	expected := args.Map{"r": ""}
+	expected.ShouldBeEqual(t, 0, "CombineErrorWithRefString no error", actual)
+}
+
+func Test_Cov39_Result_CombineErrorWithRefString_HasError(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	s := r.CombineErrorWithRefString("ref1", "ref2")
+	actual := args.Map{"hasContent": len(s) > 0}
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "CombineErrorWithRefString has error", actual)
+}
+
+func Test_Cov39_Result_CombineErrorWithRefError_NoError(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	actual := args.Map{"noErr": r.CombineErrorWithRefError("ref1") == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "CombineErrorWithRefError no error", actual)
+}
+
+func Test_Cov39_Result_CombineErrorWithRefError_HasError(t *testing.T) {
+	r := &corejson.Result{Error: errors.New("fail")}
+	err := r.CombineErrorWithRefError("ref1")
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "CombineErrorWithRefError has error", actual)
+}
+
+// =============================================================================
+// Result — BytesError / Dispose / AsJsonContractsBinder / AsJsoner / AsJsonParseSelfInjector
+// =============================================================================
+
+func Test_Cov39_Result_BytesError_Nil(t *testing.T) {
+	var r *corejson.Result
+	actual := args.Map{"isNil": r.BytesError() == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "BytesError nil", actual)
+}
+
+func Test_Cov39_Result_BytesError_Valid(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	be := r.BytesError()
+	actual := args.Map{"notNil": be != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "BytesError valid", actual)
+}
+
+func Test_Cov39_Result_Dispose(t *testing.T) {
+	r := corejson.NewPtr("hello")
+	r.Dispose()
+	actual := args.Map{"empty": r.IsEmpty()}
+	expected := args.Map{"empty": true}
+	expected.ShouldBeEqual(t, 0, "Dispose", actual)
+}
+
+func Test_Cov39_Result_Dispose_Nil(t *testing.T) {
+	var r *corejson.Result
+	r.Dispose() // should not panic
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
+	expected.ShouldBeEqual(t, 0, "Dispose nil", actual)
+}
+
+func Test_Cov39_Result_AsJsonContractsBinder(t *testing.T) {
+	r := corejson.New("hello")
+	binder := r.AsJsonContractsBinder()
+	actual := args.Map{"notNil": binder != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "AsJsonContractsBinder", actual)
+}
+
+func Test_Cov39_Result_AsJsoner(t *testing.T) {
+	r := corejson.New("hello")
+	jsoner := r.AsJsoner()
+	actual := args.Map{"notNil": jsoner != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "AsJsoner", actual)
+}
+
+func Test_Cov39_Result_AsJsonParseSelfInjector(t *testing.T) {
+	r := corejson.New("hello")
+	inj := r.AsJsonParseSelfInjector()
+	actual := args.Map{"notNil": inj != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "AsJsonParseSelfInjector", actual)
+}
+
+func Test_Cov39_Result_JsonParseSelfInject(t *testing.T) {
+	r := corejson.New("hello")
+	source := corejson.NewPtr(r)
+	err := r.JsonParseSelfInject(source)
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "JsonParseSelfInject", actual)
+}

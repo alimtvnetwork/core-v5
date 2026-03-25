@@ -2,15 +2,15 @@ package simplewrap
 
 import (
 	"fmt"
-	
-	"gitlab.com/auk-go/core/constants"
+
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // WithParenthesisQuotation
 //
 // (\"%v\")
 func WithParenthesisQuotation(
-	source interface{},
+	source any,
 ) string {
 	return fmt.Sprintf(
 		constants.ParenthesisQuotationWrap,

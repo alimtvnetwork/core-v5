@@ -4,10 +4,10 @@ import (
 	"errors"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type Request byte
@@ -103,7 +103,7 @@ func (it Request) IntegerEnumRanges() []int {
 	return BasicEnumImpl.IntegerEnumRanges()
 }
 
-func (it Request) MinMaxAny() (min, max interface{}) {
+func (it Request) MinMaxAny() (min, max any) {
 	return BasicEnumImpl.MinMaxAny()
 }
 
@@ -123,7 +123,7 @@ func (it Request) MinInt() int {
 	return BasicEnumImpl.MinInt()
 }
 
-func (it Request) RangesDynamicMap() map[string]interface{} {
+func (it Request) RangesDynamicMap() map[string]any {
 	return BasicEnumImpl.RangesDynamicMap()
 }
 
@@ -641,7 +641,7 @@ func (it Request) IsInBetween(
 }
 
 func (it Request) CurrentNotImpl(
-	reference interface{},
+	reference any,
 	messages ...string,
 ) error {
 	compiledMessage := strings.Join(messages, constants.Space)
@@ -658,7 +658,7 @@ func (it Request) CurrentNotImpl(
 
 func (it Request) NotSupportedErr(
 	message string,
-	reference interface{},
+	reference any,
 ) error {
 	return errcore.NotSupportedType.Error(
 		message,

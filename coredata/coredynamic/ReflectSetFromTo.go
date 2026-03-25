@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"reflect"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 // ReflectSetFromTo
@@ -18,7 +18,7 @@ import (
 //   - From, To: (null, null)                          -- do nothing
 //   - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
 //   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
-//   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
+//   - From, To: ([]byte, otherType)                   -- try unmarshal, reflect
 //   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
 //
 // Validations:
@@ -35,20 +35,36 @@ import (
 //   - Method document screenshot    : https://prnt.sc/26dmf5g
 func ReflectSetFromTo(
 	from,
-	toPointer interface{},
+	toPointer any,
 ) error {
-	isLeftNull, isRightNull := isany.NullLeftRight(
-		from,
-		toPointer,
-	)
+	isLeftNull, isRightNull := isany.NullLeftRight(from, toPointer)
 
-	if isLeftNull == isRightNull && isLeftNull {
+	if isLeftNull && isRightNull {
 		return nil
 	}
 
 	leftRfType := reflect.TypeOf(from)
 	rightRfType := reflect.TypeOf(toPointer)
 
+	if err := validateReflectSetInputs(isLeftNull, isRightNull, leftRfType, rightRfType); err != nil {
+		return err
+	}
+
+	leftRv := reflect.ValueOf(from)
+	rightRv := reflect.ValueOf(toPointer)
+
+	if err := validateLeftNotNil(leftRv, leftRfType, rightRfType); err != nil {
+		return err
+	}
+
+	return reflectSetByType(from, toPointer, leftRfType, rightRfType, leftRv, rightRv)
+}
+
+// validateReflectSetInputs checks that the destination is non-nil and a pointer.
+func validateReflectSetInputs(
+	isLeftNull, isRightNull bool,
+	leftRfType, rightRfType reflect.Type,
+) error {
 	if isRightNull {
 		return errcore.
 			InvalidNullPointerType.
@@ -58,9 +74,7 @@ func ReflectSetFromTo(
 			)
 	}
 
-	rightKind := rightRfType.Kind()
-	isRightKindNotPointer := rightKind != reflect.Ptr
-	if isRightKindNotPointer {
+	if rightRfType.Kind() != reflect.Ptr {
 		return errcore.UnexpectedType.
 			MsgCsvRefError(
 				"\"destination or toPointer must be a pointer to set!\""+supportedTypesMessageReference,
@@ -68,9 +82,14 @@ func ReflectSetFromTo(
 			)
 	}
 
-	isSameType := leftRfType == rightRfType
-	leftRv := reflect.ValueOf(from)
-	rightRv := reflect.ValueOf(toPointer) // right is pointer confirmed by previous validation
+	return nil
+}
+
+// validateLeftNotNil checks the source value is not nil.
+func validateLeftNotNil(
+	leftRv reflect.Value,
+	leftRfType, rightRfType reflect.Type,
+) error {
 	isLeftAnyNull := reflectinternal.Is.NullRv(leftRv) ||
 		reflectinternal.Is.Null(leftRfType)
 
@@ -84,30 +103,31 @@ func ReflectSetFromTo(
 			)
 	}
 
-	isLeftBytes := leftRfType == emptyBytesType
-	isLeftPointerBytes := leftRfType == emptyBytesPointerType
-	isLeftBytesOrPointerBytes := isLeftBytes || isLeftPointerBytes
-	isRightBytesPointer := rightRfType == emptyBytesPointerType
-	isAnyBytes := isLeftBytesOrPointerBytes || isRightBytesPointer
+	return nil
+}
 
-	// case : From, To  : (sameTypePointer, sameTypePointer)    -- try reflection
+// reflectSetByType dispatches to the appropriate set strategy based on types.
+func reflectSetByType(
+	from, toPointer any,
+	leftRfType, rightRfType reflect.Type,
+	leftRv, rightRv reflect.Value,
+) error {
+	// case: same pointer types — direct set
 	if leftRfType == rightRfType {
-		// reflect, both same
 		rightRv.Elem().Set(leftRv.Elem())
-
 		return nil
 	}
 
-	// case : From, To  : (sameTypeNonPointer, sameTypePointer) -- try reflection
-	if leftRfType.Kind() != reflect.Ptr && !isLeftNull && leftRfType == rightRfType.Elem() {
+	// case: non-pointer source, pointer destination of same base type
+	if leftRfType.Kind() != reflect.Ptr && leftRfType == rightRfType.Elem() {
 		rightRv.Elem().Set(leftRv)
-
 		return nil
 	}
 
-	isNotSupportedType := !(isSameType || isAnyBytes)
+	isLeftBytes := leftRfType == emptyBytesType
+	isRightBytesPointer := rightRfType == emptyBytesPointerType
 
-	if isNotSupportedType {
+	if !(leftRfType == rightRfType || isLeftBytes || isRightBytesPointer) {
 		return errcore.
 			TypeMismatchType.
 			SrcDestinationErr(
@@ -117,58 +137,44 @@ func ReflectSetFromTo(
 			)
 	}
 
-	// case : From, To  : ([]byte or *[]byte, otherType)  -- try unmarshal, reflect
+	return reflectSetBytes(from, toPointer, isLeftBytes, isRightBytesPointer, leftRfType, rightRfType)
+}
+
+// reflectSetBytes handles byte-based serialization/deserialization.
+func reflectSetBytes(
+	from, toPointer any,
+	isLeftBytes, isRightBytesPointer bool,
+	leftRfType, rightRfType reflect.Type,
+) error {
+	// case: []byte → other type (unmarshal)
 	if isLeftBytes {
 		return corejson.
 			Deserialize.
-			UsingBytes(
-				from.([]byte),
-				toPointer,
-			)
+			UsingBytes(from.([]byte), toPointer)
 	}
 
-	// case : From, To  : (*[]byte, otherType) -- try unmarshal, reflect
-	if isLeftPointerBytes {
-		return corejson.
-			Deserialize.
-			UsingBytesPointer(
-				from.(*[]byte),
-				toPointer,
-			)
-	}
-
-	// case : From, To: (otherType, *[]byte) -- try marshal, reflect
-	var rawBytes []byte
-	var finalErr error
-
+	// case: other type → *[]byte (marshal)
 	if isRightBytesPointer {
-		rawBytes, finalErr = json.Marshal(from)
-	}
+		rawBytes, err := json.Marshal(from)
+		if err != nil {
+			return errcore.
+				MarshallingFailedType.
+				SrcDestinationErr(
+					err.Error(),
+					"FromType", leftRfType,
+					"ToType", rightRfType,
+				)
+		}
 
-	if finalErr != nil {
-		return errcore.
-			MarshallingFailedType.
-			SrcDestinationErr(
-				finalErr.Error(),
-				"FromType", leftRfType,
-				"ToType", rightRfType,
-			)
-	}
-
-	err := json.Unmarshal(
-		rawBytes,
-		toPointer,
-	)
-
-	if err == nil {
+		bytesPtr := toPointer.(*[]byte)
+		*bytesPtr = rawBytes
 		return nil
 	}
 
-	// has error
 	return errcore.
 		UnMarshallingFailedType.
 		SrcDestinationErr(
-			err.Error(),
+			"unexpected state in byte conversion",
 			"FromType", leftRfType,
 			"ToType", rightRfType,
 		)

@@ -1,7 +1,8 @@
 package stringslice
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
-func LastIndexPtr(slice *[]string) int {
-	return len(*slice) - constants.One
+// Deprecated: Use LastIndex instead (on non-pointer slice).
+func LastIndexPtr(slice []string) int {
+	return len(slice) - constants.One
 }

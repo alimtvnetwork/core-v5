@@ -1,5 +1,6 @@
 package stringslice
 
-func EmptyPtr() *[]string {
-	return &[]string{}
+// Deprecated: Use Empty instead.
+func EmptyPtr() []string {
+	return []string{}
 }

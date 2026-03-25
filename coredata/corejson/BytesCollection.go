@@ -5,9 +5,9 @@ import (
 	"math"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // BytesCollection
@@ -173,7 +173,7 @@ func (it *BytesCollection) JsonResultAt(
 
 func (it *BytesCollection) UnmarshalAt(
 	index int,
-	any interface{},
+	any any,
 ) error {
 	rawBytes := it.Items[index]
 
@@ -282,7 +282,7 @@ func (it *BytesCollection) InjectIntoSameIndex(
 
 // UnmarshalIntoSameIndex any nil skip
 func (it *BytesCollection) UnmarshalIntoSameIndex(
-	anys ...interface{},
+	anys ...any,
 ) (
 	errListPtr []error,
 	hasAnyError bool,
@@ -325,11 +325,12 @@ func (it *BytesCollection) GetAtSafe(
 	return nil
 }
 
+// Deprecated: Use GetAtSafe instead.
 func (it *BytesCollection) GetAtSafePtr(
 	index int,
-) *[]byte {
+) []byte {
 	if index > constants.InvalidNotFoundCase && index <= it.Length()-1 {
-		return &it.Items[index]
+		return it.Items[index]
 	}
 
 	return nil
@@ -356,15 +357,15 @@ func (it *BytesCollection) GetAtSafeUsingLength(
 }
 
 func (it *BytesCollection) AddPtr(
-	rawBytes *[]byte,
+	rawBytes []byte,
 ) *BytesCollection {
-	if rawBytes == nil || len(*rawBytes) == 0 {
+	if len(rawBytes) == 0 {
 		return it
 	}
 
 	it.Items = append(
 		it.Items,
-		*rawBytes)
+		rawBytes)
 
 	return it
 }
@@ -400,7 +401,7 @@ func (it *BytesCollection) Adds(
 }
 
 func (it *BytesCollection) AddAnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) error {
 	if len(anyItems) == 0 {
 		return nil
@@ -471,7 +472,7 @@ func (it *BytesCollection) AddsPtr(
 }
 
 func (it *BytesCollection) AddAny(
-	any interface{},
+	any any,
 ) error {
 	result := New(any)
 
@@ -539,10 +540,9 @@ func (it *BytesCollection) Strings() []string {
 	return list
 }
 
-func (it *BytesCollection) StringsPtr() *[]string {
-	list := it.Strings()
-
-	return &list
+// Deprecated: Use Strings instead.
+func (it *BytesCollection) StringsPtr() []string {
+	return it.Strings()
 }
 
 // AddJsoners skip on nil
@@ -573,9 +573,15 @@ func (it *BytesCollection) AddJsoners(
 	return it
 }
 
+// GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *BytesCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -665,7 +671,7 @@ func (it *BytesCollection) JsonModel() [][]byte {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *BytesCollection) JsonModelAny() interface{} {
+func (it *BytesCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -755,7 +761,7 @@ func (it BytesCollection) Clone(isDeepCloneEach bool) BytesCollection {
 	newResults := NewBytesCollection.UsingCap(
 		it.Length())
 
-	if newResults.Length() == 0 {
+	if it.Length() == 0 {
 		return *newResults
 	}
 
@@ -774,7 +780,7 @@ func (it *BytesCollection) ClonePtr(isDeepCloneEach bool) *BytesCollection {
 	newResults := NewBytesCollection.UsingCap(
 		it.Length())
 
-	if newResults.Length() == 0 {
+	if it.Length() == 0 {
 		return newResults
 	}
 

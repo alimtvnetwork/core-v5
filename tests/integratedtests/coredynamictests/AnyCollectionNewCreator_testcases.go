@@ -1,0 +1,227 @@
+package coredynamictests
+
+import (
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+)
+
+// ==========================================
+// New Creator — Any Collection: Empty
+// ==========================================
+
+var newCreatorGenericEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Empty creates zero-length collection",
+		ArrangeInput: args.Map{
+			"when": "given empty any collection",
+		},
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+		},
+	},
+}
+
+// ==========================================
+// New Creator — Any Collection: Cap
+// ==========================================
+
+var newCreatorGenericCapTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Cap creates collection with correct capacity",
+		ArrangeInput: args.Map{
+			"when":     "given capacity 10",
+			"capacity": 10,
+		},
+		ExpectedInput: args.Map{
+			"length":     0,
+			"isEmpty":    true,
+			"hasAnyItem": false,
+		},
+	},
+}
+
+var newCreatorGenericCapZeroTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Cap with zero capacity creates empty collection",
+		ArrangeInput: args.Map{
+			"when":     "given capacity 0",
+			"capacity": 0,
+		},
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+		},
+	},
+}
+
+// ==========================================
+// New Creator — Any Collection: From
+// ==========================================
+
+var newCreatorGenericFromTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.From wraps existing slice",
+		ArrangeInput: args.Map{
+			"when":  "given existing any slice",
+			"items": []any{"alpha", 42, true},
+		},
+		ExpectedInput: args.Map{
+			"length":  3,
+			"isEmpty": false,
+			"first":   "alpha",
+			"last":    "true",
+		},
+	},
+}
+
+var newCreatorGenericFromEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.From with empty slice creates empty collection",
+		ArrangeInput: args.Map{
+			"when":  "given empty any slice",
+			"items": []any{},
+		},
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+		},
+	},
+}
+
+// ==========================================
+// New Creator — Any Collection: Clone
+// ==========================================
+
+var newCreatorGenericCloneTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Clone creates independent copy",
+		ArrangeInput: args.Map{
+			"when":  "given cloned any slice",
+			"items": []any{"x", "y"},
+		},
+		ExpectedInput: args.Map{
+			"length": 2,
+			"first":  "x",
+			"last":   "y",
+		},
+	},
+}
+
+var newCreatorGenericCloneMutationTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Clone mutation does not affect original slice",
+		ArrangeInput: args.Map{
+			"when":  "given cloned collection then mutated",
+			"items": []any{"a", "b", "c"},
+		},
+		ExpectedInput: args.Map{
+			"originalLength": 3,
+			"isIndependent":  true,
+		},
+	},
+}
+
+// ==========================================
+// New Creator — Any Collection: Items
+// ==========================================
+
+var newCreatorGenericItemsTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Items creates from variadic",
+		ArrangeInput: args.Map{
+			"when":  "given variadic any items",
+			"items": []any{"one", 2, 3.0},
+		},
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "one",
+			"last":   "3",
+		},
+	},
+}
+
+var newCreatorGenericItemsSingleTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Items with single item",
+		ArrangeInput: args.Map{
+			"when":  "given single any item",
+			"items": []any{"solo"},
+		},
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  "solo",
+			"last":   "solo",
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Any Collection: From nil
+// ==========================================
+
+var newCreatorGenericFromNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.From with nil slice creates empty collection",
+		ArrangeInput: args.Map{
+			"when": "given nil slice",
+		},
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Any Collection: Cap large
+// ==========================================
+
+var newCreatorGenericCapLargeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Cap with large capacity allocates without error",
+		ArrangeInput: args.Map{
+			"when":     "given capacity 1000000",
+			"capacity": 1000000,
+		},
+		ExpectedInput: args.Map{
+			"length":   0,
+			"isEmpty":  true,
+			"capacity": 1000000,
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Any Collection: Items no args
+// ==========================================
+
+var newCreatorGenericItemsNoArgsTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Items with no arguments creates empty collection",
+		ArrangeInput: args.Map{
+			"when": "given zero variadic args",
+		},
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Any Collection: Clone nil
+// ==========================================
+
+var newCreatorGenericCloneNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Any.Clone with nil slice creates empty collection",
+		ArrangeInput: args.Map{
+			"when": "given nil slice to clone",
+		},
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+		},
+	},
+}

@@ -1,36 +1,29 @@
 package chmodhelpertests
 
 import (
-	"fmt"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
-func Test_PartialRwxVerify(t *testing.T) {
-	for i, testCase := range chmodhelpertestwrappers.PartialRwxVerifyTestCases {
-		Convey(
-			testCase.Header, t, func() {
-				// Arrange
-				rwx, err := chmodhelper.NewRwxVariableWrapper(testCase.PartialRwxInput1)
-				errcore.SimpleHandleErr(err, "rwxVar create failed.")
+func Test_PartialRwxVerify_Verification(t *testing.T) {
+	for caseIndex, testCase := range partialRwxVerifyTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		partialRwx, _ := input.GetAsString("partialRwx")
+		fullRwx, _ := input.GetAsString("fullRwx")
 
-				// Act
-				actual := rwx.IsEqualPartialRwxPartial(testCase.FullRwxVerifyInput2)
+		rwx, err := chmodhelper.NewRwxVariableWrapper(partialRwx)
+		errcore.SimpleHandleErr(err, "rwxVar create failed.")
 
-				// Assert
-				if actual != testCase.IsMatchesExpectation {
-					fmt.Println("Input 1 :", testCase.PartialRwxInput1)
-					fmt.Println("Input 2 :", testCase.FullRwxVerifyInput2)
-					fmt.Println(testCase.Header, " --- Failed. Index :", i)
-				}
+		// Act
+		actual := rwx.IsEqualPartialRwxPartial(fullRwx)
 
-				So(actual, ShouldEqual, testCase.IsMatchesExpectation)
-			},
-		)
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"isEqual": actual,
+		})
 	}
 }

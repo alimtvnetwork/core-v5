@@ -2,11 +2,12 @@ package msgcreator
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 type getAssert struct{}
@@ -16,23 +17,151 @@ type getAssert struct{}
 // Gives generic and consistent
 // test message using msgformats.QuickIndexInputActualExpectedMessageFormat
 func (it getAssert) Quick(
-	when,
-	actual,
-	expected interface{},
+	when any,
+	actual any,
+	expected any,
 	counter int,
 ) string {
 	return fmt.Sprintf(
 		msgformats.QuickIndexInputActualExpectedMessageFormat,
 		counter,
-		convertinteranl.AnyTo.SmartString(when),
-		convertinteranl.AnyTo.SmartString(actual),
-		convertinteranl.AnyTo.SmartString(expected),
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+		convertinternal.AnyTo.SmartString(expected),
+	)
+}
+
+// IsEqualMessage
+//
+// Gives generic and consistent
+// test message using msgformats.IsEqualMessageFormat
+func (it getAssert) IsEqualMessage(
+	when any,
+	actual any,
+	expected any,
+) string {
+	return fmt.Sprintf(
+		msgformats.IsEqualMessageFormat,
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+		convertinternal.AnyTo.SmartString(expected),
+	)
+}
+
+// IsNotEqualMessage
+//
+// Gives generic and consistent
+// test message using msgformats.IsNotEqualMessageFormat
+func (it getAssert) IsNotEqualMessage(
+	when any,
+	actual any,
+	expected any,
+) string {
+	return fmt.Sprintf(
+		msgformats.IsNotEqualMessageFormat,
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+		convertinternal.AnyTo.SmartString(expected),
+	)
+}
+
+// IsTrueMessage
+//
+// Gives generic and consistent
+// test message using msgformats.IsTrueMessageFormat
+func (it getAssert) IsTrueMessage(
+	when any,
+	actual any,
+) string {
+	return fmt.Sprintf(
+		msgformats.IsTrueMessageFormat,
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+	)
+}
+
+// IsFalseMessage
+//
+// Gives generic and consistent
+// test message using msgformats.IsFalseMessageFormat
+func (it getAssert) IsFalseMessage(
+	when any,
+	actual any,
+) string {
+	return fmt.Sprintf(
+		msgformats.IsFalseMessageFormat,
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+	)
+}
+
+// IsNilMessage
+//
+// Gives generic and consistent
+// test message using msgformats.IsNilMessageFormat
+func (it getAssert) IsNilMessage(
+	when any,
+	actual any,
+) string {
+	return fmt.Sprintf(
+		msgformats.IsNilMessageFormat,
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+	)
+}
+
+// IsNotNilMessage
+//
+// Gives generic and consistent
+// test message using msgformats.IsNotNilMessageFormat
+func (it getAssert) IsNotNilMessage(
+	when any,
+	actual any,
+) string {
+	return fmt.Sprintf(
+		msgformats.IsNotNilMessageFormat,
+		convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+	)
+}
+
+// ShouldBeMessage
+//
+// Gives generic and consistent
+// test message using msgformats.ShouldBeMessageFormat
+func (it getAssert) ShouldBeMessage(
+	title string,
+	actual any,
+	expected any,
+) string {
+	return fmt.Sprintf(
+		msgformats.ShouldBeMessageFormat,
+		title,
+		convertinternal.AnyTo.SmartString(actual),
+		convertinternal.AnyTo.SmartString(expected),
+	)
+}
+
+// ShouldNotBeMessage
+//
+// Gives generic and consistent
+// test message using msgformats.ShouldNotBeMessageFormat
+func (it getAssert) ShouldNotBeMessage(
+	title string,
+	actual any,
+	expected any,
+) string {
+	return fmt.Sprintf(
+		msgformats.ShouldNotBeMessageFormat,
+		title,
+		convertinternal.AnyTo.SmartString(actual),
+		convertinternal.AnyTo.SmartString(expected),
 	)
 }
 
 func (it getAssert) SortedMessage(
 	isPrint bool,
-	message,
+	message string,
 	joiner string,
 ) string {
 	whitespaceRemovedSplits := it.SortedArray(
@@ -50,7 +179,7 @@ func (it getAssert) SortedArray(
 	message string,
 ) []string {
 	if isPrint {
-		fmt.Println(message)
+		slog.Debug("sorted array", "message", message)
 	}
 
 	return SplitByEachWordTrimmedNoSpace(
@@ -79,9 +208,9 @@ func (it getAssert) SortedArrayNoPrint(
 // # Steps:
 //  01. string to []string
 //  02. []string to as is.
-//  03. []interface{} to []string
-//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
-//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  03. []any to []string
+//  04. map[string]any (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[any]any (fmt - SmartJson("%s) : SmartJson(%s)") to []string
 //  06. map[string]string (fmt - %s : %s)") to []string
 //  07. map[string]int (fmt - %s : %d)") to []string
 //  08. map[int]string (fmt - %d : %s)") to []string
@@ -89,11 +218,11 @@ func (it getAssert) SortedArrayNoPrint(
 //  10. byte to []string
 //  11. bool to []string
 //
-// See also convertinteranl.AnyTo.Strings
+// See also convertinternal.AnyTo.Strings
 func (it getAssert) ToStrings(
-	any interface{},
+	anyItem any,
 ) []string {
-	return convertinteranl.AnyTo.Strings(any)
+	return convertinternal.AnyTo.Strings(anyItem)
 }
 
 // ToStringsWithSpace
@@ -105,9 +234,9 @@ func (it getAssert) ToStrings(
 // # Steps:
 //  01. string to []string
 //  02. []string to as is.
-//  03. []interface{} to []string
-//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
-//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  03. []any to []string
+//  04. map[string]any (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[any]any (fmt - SmartJson("%s) : SmartJson(%s)") to []string
 //  06. map[string]string (fmt - %s : %s)") to []string
 //  07. map[string]int (fmt - %s : %d)") to []string
 //  08. map[int]string (fmt - %d : %s)") to []string
@@ -115,12 +244,12 @@ func (it getAssert) ToStrings(
 //  10. byte to []string
 //  11. bool to []string
 //
-// See also convertinteranl.AnyTo.Strings
+// See also convertinternal.AnyTo.Strings
 func (it getAssert) ToStringsWithSpace(
 	spacePrefixCount int,
-	any interface{},
+	anyItem any,
 ) []string {
-	lines := convertinteranl.AnyTo.Strings(any)
+	lines := convertinternal.AnyTo.Strings(anyItem)
 
 	return it.StringsToWithSpaceLines(
 		spacePrefixCount,
@@ -129,16 +258,16 @@ func (it getAssert) ToStringsWithSpace(
 }
 
 func (it getAssert) ToStringsWithSpaceDefault(
-	any interface{},
+	anyItem any,
 ) []string {
-	return it.ToStringsWithSpace(2, any)
+	return it.ToStringsWithSpace(2, anyItem)
 }
 
 func (it getAssert) ToStringWithSpace(
 	spacePrefixCount int,
-	any interface{},
+	anyItem any,
 ) string {
-	lines := convertinteranl.AnyTo.Strings(any)
+	lines := convertinternal.AnyTo.Strings(anyItem)
 
 	withSpace := it.StringsToWithSpaceLines(
 		spacePrefixCount,

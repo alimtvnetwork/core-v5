@@ -3,12 +3,12 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func TypeNotEqualErr(
-	left, right interface{},
+	left, right any,
 ) error {
 	leftRt := reflect.TypeOf(left)
 	rightRt := reflect.TypeOf(right)

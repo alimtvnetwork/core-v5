@@ -17,12 +17,12 @@ type EnvironmentFlagTyper interface {
 
 	SessionDetailsDynamic() []byte
 	KeyValues() map[string]string
-	AnyKeyValues() map[string]interface{}
+	AnyKeyValues() map[string]any
 	NameBoolMap() map[string]bool
 
 	FlagValue(name string) string
-	FlagAnyValue(name string) interface{}
-	FlagAnyValueReflectSet(name string, toPointer interface{}) error
+	FlagAnyValue(name string) any
+	FlagAnyValueReflectSet(name string, toPointer any) error
 
 	HasFlag(name string) bool
 	HasAnyFlag(names ...string) bool

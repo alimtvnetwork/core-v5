@@ -1,6 +1,6 @@
 package coreinstruction
 
-import "gitlab.com/auk-go/core/coredata/corejson"
+import "github.com/alimtvnetwork/core/coredata/corejson"
 
 type NameListCollection struct {
 	NameLists []NameList
@@ -31,10 +31,6 @@ func (it *NameListCollection) Length() int {
 }
 
 func (it NameListCollection) String() string {
-	if it.IsNull() {
-		return ""
-	}
-
 	return corejson.
 		Serialize.
 		ToString(it)

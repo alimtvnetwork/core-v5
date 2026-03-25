@@ -5,10 +5,10 @@ type FormatFatalLogger interface {
 	//
 	// logs a message at Fatal level
 	// and process will exit with status set to 1.
-	FatalFmt(format string, args ...interface{})
+	FatalFmt(format string, args ...any)
 	FatalFmtStackSkip(
 		stackSkipIndex int,
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 }

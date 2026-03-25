@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // Test_RwxWrapperManyApplyValue_Unix
@@ -23,13 +22,17 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 		true,
 		createPathInstructions,
 	)
+
 	firstCreationIns := createPathInstructions[0]
 	paths := firstCreationIns.GetPaths()
 	condition := chmodins.DefaultAllTrueCondition()
 	existingAppliedRwxFull := firstCreationIns.ApplyRwx.String()
-	for _, testCase := range chmodhelpertestwrappers.SingleRwxTestCases {
-		rwxWrapper, err := testCase.ToDisabledRwxWrapper()
+
+	for caseIndex, testCase := range rwxWrapperManyApplyTestCases {
+		// Arrange
+		rwxWrapper, err := testCase.SingleRwx.ToDisabledRwxWrapper()
 		errcore.SimpleHandleErr(err, "SingleRwx ToDisabledRwxWrapper failed")
+
 		expectation := rwxWrapper.ToFullRwxValueString()
 
 		header := fmt.Sprintf(
@@ -40,11 +43,33 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 		)
 
 		// Act
-		err2 := rwxWrapper.ApplyLinuxChmodOnMany(condition, paths...)
+		applyErr := rwxWrapper.ApplyLinuxChmodOnMany(condition, paths...)
 		errcore.SimpleHandleErr(
-			err2,
+			applyErr,
 			"rwxWrapper.ApplyLinuxChmodOnMany failed",
 		)
+
+		fileChmodMap := firstCreationIns.GetFilesChmodMap()
+		var actLines []string
+
+		for filePath, chmodValueString := range fileChmodMap.Items() {
+			isEqual := chmodValueString == expectation
+			actLines = append(actLines, fmt.Sprintf(
+				"%s=%v",
+				filePath,
+				isEqual,
+			))
+
+			if !isEqual {
+				errcore.PrintDiffOnMismatch(
+					caseIndex,
+					testCase.Case.Title,
+					[]string{chmodValueString},
+					[]string{expectation},
+					fmt.Sprintf("  File: %s", filePath),
+				)
+			}
+		}
 
 		// Assert
 		assertSingleChmod(

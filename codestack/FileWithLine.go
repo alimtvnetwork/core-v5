@@ -3,8 +3,8 @@ package codestack
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 type FileWithLine struct {
@@ -50,7 +50,7 @@ func (it FileWithLine) JsonModel() FileWithLine {
 	return it
 }
 
-func (it *FileWithLine) JsonModelAny() interface{} {
+func (it *FileWithLine) JsonModelAny() any {
 	return it.JsonModel()
 }
 

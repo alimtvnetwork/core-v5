@@ -2,18 +2,18 @@ package simplewrap
 
 import (
 	"fmt"
-	
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 func CurlyWrap(
-	source interface{},
+	source any,
 ) string {
-	toStr := convertinteranl.
+	toStr := convertinternal.
 		AnyTo.
 		SmartString(source)
-	
+
 	return fmt.Sprintf(
 		constants.CurlyWrapFormat,
 		toStr)

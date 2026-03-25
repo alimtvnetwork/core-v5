@@ -3,16 +3,16 @@ package corecsvtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/corecsv"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/corecsv"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
@@ -40,7 +40,7 @@ func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T
 func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringDoubleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
@@ -69,7 +69,7 @@ func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 func Test_AnyItemsToCsvString_NoQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringNoQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act

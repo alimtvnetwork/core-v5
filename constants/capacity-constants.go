@@ -1,6 +1,6 @@
 package constants
 
-import "gitlab.com/auk-go/core/constants/bitsize"
+import "github.com/alimtvnetwork/core/constants/bitsize"
 
 const (
 	ArbitraryCapacity1     = 1

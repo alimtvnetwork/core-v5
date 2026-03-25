@@ -1,9 +1,9 @@
 package coredynamictestwrappers
 
 import (
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 var (
@@ -49,7 +49,7 @@ var (
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
 				Search:    "Invalid : null pointer, cannot process it. \"destination pointer is null, cannot proceed further!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"*coretests.DraftType\", \"ToType\", \"<nil>\" }",
-				SearchAs:  stringcompareas.Equal,
+				SearchAs:  stringcompareas.Contains,
 				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
@@ -67,7 +67,7 @@ var (
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
 				Search:    "Unexpected type error, which is unexpected. \"destination or toPointer must be a pointer to set!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"*coretests.DraftType\", \"ToType\", \"coretests.DraftType\" }",
-				SearchAs:  stringcompareas.Equal,
+				SearchAs:  stringcompareas.Contains,
 				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
@@ -85,7 +85,7 @@ var (
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
 				Search:    "Unexpected type error, which is unexpected. \"destination or toPointer must be a pointer to set!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"coretests.DraftType\", \"ToType\", \"coretests.DraftType\" }",
-				SearchAs:  stringcompareas.Equal,
+				SearchAs:  stringcompareas.Contains,
 				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},

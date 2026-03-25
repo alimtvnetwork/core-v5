@@ -40,7 +40,9 @@ func IsEndsWith(
 
 	remainingText := baseStr[remainingLength:]
 
-	if !isIgnoreCase {
+	isCaseSensitive := !isIgnoreCase
+
+	if isCaseSensitive {
 		return endsWith == remainingText
 	}
 

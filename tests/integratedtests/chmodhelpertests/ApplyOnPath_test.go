@@ -1,44 +1,39 @@
 package chmodhelpertests
 
 import (
+	"fmt"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 func Test_ApplyOnPath_Unix(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
-	for _, testCase := range chmodhelpertestwrappers.RwxInstructionsApplyTestCases {
+	for caseIndex, testCase := range applyOnPathTestCases {
 		// Arrange
-		caseMessenger := testCase.AsTestCaseMessenger()
-		testHeader := coretests.GetTestHeader(
-			caseMessenger,
-		)
+		wrapper := testCase.ArrangeInput.(chmodhelpertestwrappers.RwxInstructionTestWrapper)
+		
+		// Replace hardcoded paths with temp dirs
+		tempDir := t.TempDir()
+		modifiedPaths := make([]chmodhelper.DirFilesWithRwxPermission, len(wrapper.CreatePaths))
+		for i, path := range wrapper.CreatePaths {
+			modifiedPaths[i] = path
+			modifiedPaths[i].DirWithFiles.Dir = tempDir + "/test-cases-" + fmt.Sprintf("%d", i)
+		}
+		wrapper.CreatePaths = modifiedPaths
+		
 		chmodhelper.CreateDirFilesWithRwxPermissionsMust(
 			true,
-			testCase.CreatePaths,
+			wrapper.CreatePaths,
 		)
 
 		// Act
-		actualErr := applyPathInstructions(&testCase)
-		testCase.SetActual(actualErr)
+		actLine := applyAndCollectResult(&wrapper, applyPathInstructions)
 
 		// Assert
-		Convey(
-			testHeader, t, func() {
-				So(actualErr, ShouldBeNil)
-			},
-		)
-
-		assertTestCaseChmodAsExpected(
-			t,
-			&testCase,
-			testHeader,
-		)
+		testCase.ShouldBeEqual(t, caseIndex, actLine)
 	}
 }

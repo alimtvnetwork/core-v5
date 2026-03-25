@@ -1,6 +1,6 @@
 package coreversion
 
-import "gitlab.com/auk-go/core/corecomparator"
+import "github.com/alimtvnetwork/core/corecomparator"
 
 func hasDeductUsingNilNess(
 	left *Version, right *Version,

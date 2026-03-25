@@ -3,9 +3,9 @@ package corestr
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type newSimpleSliceCreator struct{}
@@ -20,7 +20,7 @@ func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
 	return it.Strings(slice)
 }
 
-func (it *newSimpleSliceCreator) ByLen(i interface{}) *SimpleSlice {
+func (it *newSimpleSliceCreator) ByLen(i any) *SimpleSlice {
 	length := reflectinternal.SliceConverter.Length(i)
 
 	return it.Cap(length)
@@ -76,7 +76,9 @@ func (it *newSimpleSliceCreator) UsingLines(
 		return it.Empty()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return it.Strings(lines)
 	}
 
@@ -128,7 +130,7 @@ func (it *newSimpleSliceCreator) Hashset(
 }
 
 func (it *newSimpleSliceCreator) Map(
-	i interface{},
+	i any,
 ) *SimpleSlice {
 	keys, _ := reflectinternal.
 		MapConverter.
@@ -155,29 +157,33 @@ func (it *newSimpleSliceCreator) Strings(
 	return &slice
 }
 
+// Deprecated: Use Strings instead.
 func (it *newSimpleSliceCreator) StringsPtr(
-	lines *[]string,
+	lines []string,
 ) *SimpleSlice {
-	if lines == nil || len(*lines) == 0 {
+	if len(lines) == 0 {
 		return it.Empty()
 	}
 
-	return it.Strings(*lines)
+	return it.Strings(lines)
 }
 
+// Deprecated: Use Strings or StringsClone instead.
 func (it *newSimpleSliceCreator) StringsOptions(
 	isClone bool,
-	lines *[]string,
+	lines []string,
 ) *SimpleSlice {
-	if lines == nil || len(*lines) == 0 {
+	if len(lines) == 0 {
 		return it.Empty()
 	}
 
-	if !isClone {
-		return it.Strings(*lines)
+	isSkipClone := !isClone
+
+	if isSkipClone {
+		return it.Strings(lines)
 	}
 
-	return it.StringsClone(*lines)
+	return it.StringsClone(lines)
 }
 
 func (it *newSimpleSliceCreator) StringsClone(
@@ -200,7 +206,9 @@ func (it *newSimpleSliceCreator) Direct(
 		return it.Empty()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return it.Strings(lines)
 	}
 

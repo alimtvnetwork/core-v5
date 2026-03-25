@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type stackTraceEnhance struct{}
@@ -32,7 +33,7 @@ func (it stackTraceEnhance) MsgToErrSkip(skip int, msg string) error {
 	return errors.New(it.MsgSkip(1+skip, msg))
 }
 
-func (it stackTraceEnhance) FmtSkip(skip int, format string, v ...interface{}) error {
+func (it stackTraceEnhance) FmtSkip(skip int, format string, v ...any) error {
 	if len(format) == 0 {
 		return nil
 	}
@@ -55,18 +56,43 @@ func (it stackTraceEnhance) MsgSkip(skip int, msg string) string {
 		return ""
 	}
 
-	if strings.Contains(msg, "Stack-Trace") {
+	if strings.Contains(msg, constants.StackTrace) {
 		return msg
 	}
 
+	toTrace := it.trace(skip + 1)
+
+	if len(toTrace) == 0 {
+		return fmt.Sprintf(
+			combineMsgWithErrorFormat,
+			it.methodName(skip+1),
+			msg,
+		)
+	}
+
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n  - %s",
-		reflectinternal.CodeStack.MethodName(1+skip),
+		stackEnhanceFormat,
+		it.methodName(skip+1),
 		msg,
-		reflectinternal.CodeStack.SingleStack(2+skip),
+		constants.StackTrace,
+		toTrace,
 	)
 
 	return fullMessage
+}
+
+func (it stackTraceEnhance) methodName(skip int) string {
+	return reflectinternal.CodeStack.MethodName(1 + skip)
+}
+
+func (it stackTraceEnhance) trace(skip int) string {
+	lines := reflectinternal.CodeStack.StacksStringsFiltered(2+skip, 4)
+
+	if len(lines) == 0 {
+		return ""
+	}
+
+	return strings.Join(lines, "\n  - ")
 }
 
 func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string {
@@ -80,15 +106,26 @@ func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string
 		err,
 	)
 
-	if strings.Contains(compiledMsg, "Stack-Trace") {
+	if strings.Contains(msg, constants.StackTrace) {
 		return compiledMsg
 	}
 
+	toTrace := it.trace(skip + 1)
+
+	if len(toTrace) == 0 {
+		return fmt.Sprintf(
+			combineMsgWithErrorFormat,
+			it.methodName(skip+1),
+			msg,
+		)
+	}
+
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n  - %s",
-		reflectinternal.CodeStack.MethodName(1+skip),
-		compiledMsg,
-		reflectinternal.CodeStack.SingleStack(2+skip),
+		stackEnhanceFormat,
+		it.methodName(skip+1),
+		msg,
+		constants.StackTrace,
+		toTrace,
 	)
 
 	return fullMessage

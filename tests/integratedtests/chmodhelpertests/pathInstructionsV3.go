@@ -1,9 +1,9 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/filemode"
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/filemode"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 var (

@@ -4,8 +4,8 @@ import (
 	"math"
 	"strconv"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
 )
 
 type within struct{}
@@ -80,7 +80,7 @@ func (it *within) StringRangeUint32(
 		input)
 
 	// fix https://t.ly/6aoW,
-	// https://gitlab.com/auk-go/core/-/issues/81
+	// https://github.com/alimtvnetwork/core/-/issues/81
 	// use MaxInt32 instead of uint32Max
 	if finalInt <= math.MaxInt32 {
 		return uint32(finalInt), isInRange
@@ -231,7 +231,9 @@ func (it *within) RangeInteger(
 		return input, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return input, false
 	}
 
@@ -258,7 +260,9 @@ func (it *within) RangeByte(
 		return byte(input), true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return constants.Zero, false
 	}
 
@@ -303,7 +307,9 @@ func (it *within) RangeFloat(
 		return input, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return input, false
 	}
 
@@ -323,7 +329,9 @@ func (it *within) RangeFloat64(
 		return input, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return input, false
 	}
 

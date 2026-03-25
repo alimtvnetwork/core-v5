@@ -13,14 +13,14 @@ type BaseTestCaseWrapper interface {
 	TypesValidationMustPasses(t *testing.T)
 	ArrangeString() string
 	ActualString() string
-	SetActual(actual interface{})
+	SetActual(actual any)
 	FormTitle(caseIndex int) string
 	CustomTitle(caseIndex int, title string) string
 	noPrintAssert(
 		caseIndex int,
 		t *testing.T,
 		assert convey.Assertion,
-		actual interface{},
+		actual any,
 	)
 
 	LinesString(caseIndex int) string

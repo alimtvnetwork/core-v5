@@ -1,6 +1,6 @@
 package defaulterr
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 var (
 	Marshalling = errcore.
@@ -18,7 +18,7 @@ var (
 				"Reference data given as : ")
 
 	MarshallingFailedDueToNilOrEmpty = errcore.
-						UnMarshallingFailedType.
+						MarshallingFailedType.
 						ErrorNoRefs("Cannot marshal to serialize data because of nil or empty object.")
 
 	UnmarshallingFailedDueToNilOrEmpty = errcore.

@@ -1,7 +1,7 @@
 package stringcompareas
 
 import (
-	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
 )
 
 var (
@@ -11,7 +11,7 @@ var (
 		EndsWith:      "EndsWith",
 		Anywhere:      "Anywhere",
 		AnyChars:      "AnyChars",
-		Contains:      "Contains",
+		Contains:      "IsContains",
 		Regex:         "Regex",
 		NotEqual:      "NotEqual",
 		NotStartsWith: "NotStartsWith",
@@ -19,6 +19,8 @@ var (
 		NotContains:   "NotContains",
 		NotAnyChars:   "NotAnyChars",
 		NotMatchRegex: "NotMatchRegex",
+		Glob:          "Glob",
+		NonGlob:       "NonGlob",
 		Invalid:       "Invalid",
 	}
 
@@ -27,7 +29,8 @@ var (
 			BasicByte.
 			Default(
 			Equal,
-			stringRanges[:])
+			stringRanges[:],
+		)
 
 	rangesMap = map[Variant]IsLineCompareFunc{
 		Equal:         isEqualFunc,
@@ -43,6 +46,8 @@ var (
 		NotContains:   isNotContainsFunc,
 		NotAnyChars:   isNotAnyCharsFunc,
 		NotMatchRegex: isNotMatchRegex,
+		Glob:          isGlobFunc,
+		NonGlob:       IsNonGlobFunc,
 	}
 
 	negativeCases = []Variant{
@@ -52,5 +57,6 @@ var (
 		NotContains,
 		NotAnyChars,
 		NotMatchRegex,
+		NonGlob,
 	}
 )

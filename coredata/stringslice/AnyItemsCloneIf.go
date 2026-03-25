@@ -3,13 +3,15 @@ package stringslice
 func AnyItemsCloneIf(
 	isClone bool,
 	additionalCap int,
-	slice []interface{},
-) (newSlice []interface{}) {
-	if slice == nil && !isClone {
-		return []interface{}{}
+	slice []any,
+) (newSlice []any) {
+	isSkipClone := !isClone
+
+	if slice == nil && isSkipClone {
+		return []any{}
 	}
 
-	if !isClone {
+	if isSkipClone {
 		return slice
 	}
 

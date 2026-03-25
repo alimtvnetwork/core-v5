@@ -3,7 +3,7 @@ package coreinstruction
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type FromTo struct {
@@ -24,10 +24,6 @@ func (it *FromTo) IsToEmpty() bool {
 }
 
 func (it FromTo) String() string {
-	if it.IsNull() {
-		return "FromTo null!"
-	}
-
 	return fmt.Sprintf(
 		constants.FromToFormat,
 		it.From,
@@ -42,11 +38,19 @@ func (it FromTo) ToName() string {
 	return it.To
 }
 
-func (it *FromTo) SetFromName(form string) {
-	it.From = form
+func (it *FromTo) SetFromName(from string) {
+	if it == nil {
+		return
+	}
+
+	it.From = from
 }
 
 func (it *FromTo) SetToName(to string) {
+	if it == nil {
+		return
+	}
+
 	it.To = to
 }
 

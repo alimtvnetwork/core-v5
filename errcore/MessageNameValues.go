@@ -3,12 +3,12 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/namevalue"
+	"github.com/alimtvnetwork/core/namevalue"
 )
 
 func MessageNameValues(
 	message string,
-	nameValues ...namevalue.Instance,
+	nameValues ...namevalue.StringAny,
 ) string {
 	if len(nameValues) == 0 {
 		return message

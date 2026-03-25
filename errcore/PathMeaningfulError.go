@@ -1,8 +1,9 @@
 package errcore
 
+import "github.com/alimtvnetwork/core/internal/reflectinternal"
+
 func PathMeaningfulError(
 	rawErrType RawErrorType,
-	funcName string,
 	err error,
 	location string,
 ) error {
@@ -10,10 +11,15 @@ func PathMeaningfulError(
 		return nil
 	}
 
+	funcName := reflectinternal.
+		GetFunc.
+		NameOnlyByStack(1)
+
 	errMsg := err.Error() +
 		", location: [" + location + "]"
 
 	return rawErrType.Error(
 		funcName,
-		errMsg)
+		errMsg,
+	)
 }

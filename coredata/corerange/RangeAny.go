@@ -1,11 +1,11 @@
 package corerange
 
-import "gitlab.com/auk-go/core/internal/strutilinternal"
+import "github.com/alimtvnetwork/core/internal/strutilinternal"
 
 type RangeAny struct {
 	*BaseRange
-	RawInput   interface{}
-	Start, End interface{}
+	RawInput   any
+	Start, End any
 }
 
 func (r *RangeAny) RawInputString() string {

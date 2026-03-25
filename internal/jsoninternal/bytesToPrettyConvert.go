@@ -28,7 +28,7 @@ func (it bytesToPrettyConvert) Prefix(
 	b []byte,
 ) (string, error) {
 	var prettyJSON bytes.Buffer
-	err := json.Indent(&prettyJSON, b, prefix, indent)
+	err := json.Indent(&prettyJSON, b, prefix, Indent)
 
 	return prettyJSON.String(), err
 }

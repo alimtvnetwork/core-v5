@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 type HashsetsCollection struct {
@@ -46,6 +46,7 @@ func (it *HashsetsCollection) StringsList() []string {
 	}
 
 	completeLength := 0
+
 	for _, hashset := range it.items {
 		completeLength += hashset.Length()
 	}
@@ -54,7 +55,7 @@ func (it *HashsetsCollection) StringsList() []string {
 	index := 0
 
 	for _, hashset := range it.items {
-		for _, item := range *hashset.ListPtr() {
+		for _, item := range hashset.List() {
 			stringsList[index] = item
 			index++
 		}
@@ -251,8 +252,9 @@ func (it *HashsetsCollection) IsEqualPtr(another *HashsetsCollection) bool {
 
 	for i, hashset := range it.items {
 		anotherHashset := another.items[i]
+		isDifferent := !hashset.IsEquals(anotherHashset)
 
-		if !hashset.IsEquals(anotherHashset) {
+		if isDifferent {
 			return false
 		}
 	}
@@ -264,7 +266,7 @@ func (it *HashsetsCollection) JsonModel() *HashsetsCollectionDataModel {
 	return NewHashsetsCollectionDataModelUsing(it)
 }
 
-func (it *HashsetsCollection) JsonModelAny() interface{} {
+func (it *HashsetsCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -286,11 +288,11 @@ func (it *HashsetsCollection) UnmarshalJSON(
 }
 
 func (it HashsetsCollection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it HashsetsCollection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *HashsetsCollection) ParseInjectUsingJson(
@@ -375,6 +377,6 @@ func (it *HashsetsCollection) AsJsonMarshaller() corejson.JsonMarshaller {
 	return it
 }
 
-func (it HashsetsCollection) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it HashsetsCollection) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

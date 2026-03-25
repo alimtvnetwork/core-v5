@@ -1,13 +1,13 @@
 package stringslice
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func AppendStringsWithAnyItems(
 	isClone,
 	isSkipOnEmpty bool,
-	mainSlice []interface{},
+	mainSlice []any,
 	appendingItems ...string,
-) []interface{} {
+) []any {
 	slice := AnyItemsCloneIf(
 		isClone,
 		len(appendingItems)+constants.Capacity2,

@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func RefToError(reference interface{}) error {
+func RefToError(reference any) error {
 	if reference == nil {
 		return nil
 	}

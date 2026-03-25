@@ -1,8 +1,8 @@
 package chmodhelper
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type RwxInstructionExecutors struct {
@@ -152,16 +152,17 @@ func (it *RwxInstructionExecutors) ApplyOnPaths(locations []string) error {
 		return nil
 	}
 
-	return it.ApplyOnPathsPtr(&locations)
+	return it.ApplyOnPathsPtr(locations)
 }
 
-func (it *RwxInstructionExecutors) ApplyOnPathsPtr(locations *[]string) error {
+// Deprecated: Use ApplyOnPaths instead.
+func (it *RwxInstructionExecutors) ApplyOnPathsPtr(locations []string) error {
 	if it.IsEmpty() {
 		return nil
 	}
 
 	for _, executor := range *it.items {
-		err := executor.ApplyOnPathsPtr(locations)
+		err := executor.ApplyOnPathsPtr(&locations)
 
 		if err != nil {
 			return err

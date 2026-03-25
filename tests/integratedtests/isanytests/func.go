@@ -1,5 +1,5 @@
 package isanytests
 
 type (
-	isBoolCheckerFunc func(i interface{}) bool
+	isBoolCheckerFunc func(i any) bool
 )

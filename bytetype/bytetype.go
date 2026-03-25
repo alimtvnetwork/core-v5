@@ -4,8 +4,8 @@ import (
 	"math"
 	"strconv"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
 )
 
 type Variant byte
@@ -69,7 +69,7 @@ func (it Variant) IntegerEnumRanges() []int {
 	return BasicEnumImpl.IntegerEnumRanges()
 }
 
-func (it Variant) MinMaxAny() (min, max interface{}) {
+func (it Variant) MinMaxAny() (min, max any) {
 	return BasicEnumImpl.MinMaxAny()
 }
 
@@ -89,7 +89,7 @@ func (it Variant) MinInt() int {
 	return BasicEnumImpl.MinInt()
 }
 
-func (it Variant) RangesDynamicMap() map[string]interface{} {
+func (it Variant) RangesDynamicMap() map[string]any {
 	return BasicEnumImpl.RangesDynamicMap()
 }
 
@@ -192,14 +192,15 @@ func (it Variant) MarshalJSON() ([]byte, error) {
 }
 
 func (it *Variant) UnmarshalJSON(data []byte) error {
-	newEmpty := Variant(0)
+	type variantAlias Variant
+	var raw variantAlias
 	err := corejson.
 		Deserialize.
 		UsingBytes(
-			data, &newEmpty)
+			data, &raw)
 
 	if err == nil {
-		*it = newEmpty
+		*it = Variant(raw)
 	}
 
 	return err
@@ -213,7 +214,7 @@ func (it Variant) JsonString() string {
 	return BasicEnumImpl.JsonString(it)
 }
 
-func (it Variant) StringRangesPtr() *[]string {
+func (it Variant) StringRangesPtr() []string {
 	return BasicEnumImpl.StringRangesPtr()
 }
 

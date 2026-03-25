@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type fileGetter struct{}

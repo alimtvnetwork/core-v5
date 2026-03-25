@@ -3,7 +3,7 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // ZeroSetAny
@@ -14,7 +14,7 @@ import (
 //
 // Warning :
 //   - Must be set as a pointer any.
-func ZeroSetAny(anyItem interface{}) {
+func ZeroSetAny(anyItem any) {
 	if reflectinternal.Is.Null(anyItem) {
 		return
 	}

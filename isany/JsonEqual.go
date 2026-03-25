@@ -10,7 +10,7 @@ import (
 //	first checks if string is passed, if yes then only check string.
 //	Or, else, marshal and check with error equal if both equal then true.
 func JsonEqual(
-	left, right interface{},
+	left, right any,
 ) bool {
 	leftString, isLeftString := left.(string)
 	rightString, isRightString := right.(string)

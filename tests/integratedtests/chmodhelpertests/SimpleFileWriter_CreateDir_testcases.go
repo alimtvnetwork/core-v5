@@ -1,10 +1,10 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 var (

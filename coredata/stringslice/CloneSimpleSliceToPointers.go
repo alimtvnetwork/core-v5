@@ -7,5 +7,6 @@ func CloneSimpleSliceToPointers(slice []string) (slicePtr *[]string) {
 		return &[]string{}
 	}
 
-	return MergeNew(slice)
+	merged := MergeNew(slice)
+	return &merged
 }

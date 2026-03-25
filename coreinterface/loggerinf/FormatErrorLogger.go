@@ -3,17 +3,17 @@ package loggerinf
 type FormatErrorLogger interface {
 	ErrorFmt(
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 	ErrorFmtIf(
 		isLog bool,
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 	ErrorFmtStackSkip(
 		stackSkipIndex int,
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 
 	// ErrorFmtUsingError
@@ -35,20 +35,20 @@ type FormatErrorLogger interface {
 	WarnFmtStackSkip(
 		stackSkipIndex int,
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 	InfoFmtStackSkip(
 		stackSkipIndex int,
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 	WarnStackSkip(
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 
 	InfoStackSkip(
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 }

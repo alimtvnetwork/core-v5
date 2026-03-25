@@ -3,11 +3,11 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func NotAcceptedTypesErr(
-	input interface{},
+	input any,
 	acceptedTypes ...reflect.Type,
 ) error {
 	currentRv := reflect.TypeOf(input)

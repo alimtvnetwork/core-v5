@@ -1,9 +1,9 @@
 package simplewrap
 
-import "gitlab.com/auk-go/core/internal/convertinteranl"
+import "github.com/alimtvnetwork/core/internal/convertinternal"
 
 func toString(
-	source interface{},
+	source any,
 ) string {
-	return convertinteranl.AnyTo.SmartString(source)
+	return convertinternal.AnyTo.SmartString(source)
 }

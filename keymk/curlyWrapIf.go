@@ -3,12 +3,12 @@ package keymk
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func curlyWrapIf(
 	isCurly bool,
-	source interface{},
+	source any,
 ) string {
 	if !isCurly {
 		return fmt.Sprintf(

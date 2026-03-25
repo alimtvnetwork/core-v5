@@ -1,8 +1,8 @@
 package corestr
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
 )
 
 type newHashsetCreator struct{}
@@ -17,8 +17,6 @@ func (it *newHashsetCreator) Cap(length int) *Hashset {
 	return &Hashset{
 		items:         hashset,
 		hasMapUpdated: false,
-		length:        length,
-		isEmptySet:    true,
 	}
 }
 
@@ -150,9 +148,8 @@ func (it *newHashsetCreator) UsingMapOption(
 	}
 
 	return &Hashset{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == constants.Zero,
+		items:         itemsMap,
+		hasMapUpdated: true,
 	}
 }
 

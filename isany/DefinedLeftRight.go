@@ -1,5 +1,5 @@
 package isany
 
-func DefinedLeftRight(leftAnyItem, rightAnyItem interface{}) (isLeftDefined, isRightDefined bool) {
+func DefinedLeftRight(leftAnyItem, rightAnyItem any) (isLeftDefined, isRightDefined bool) {
 	return !Null(leftAnyItem), !Null(rightAnyItem)
 }

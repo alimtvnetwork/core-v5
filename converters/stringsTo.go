@@ -5,13 +5,13 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/converters/coreconverted"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/converters/coreconverted"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 type stringsTo struct{}
@@ -125,9 +125,9 @@ func (it stringsTo) MapStringIntegerUsingFunc(
 //	Skips if empty after trim
 func (it stringsTo) MapStringAnyUsingFunc(
 	isTrimBefore bool,
-	processorFunc func(line string) (key string, val interface{}),
+	processorFunc func(line string) (key string, val any),
 	lines ...string,
-) map[string]interface{} {
+) map[string]any {
 	return strutilinternal.
 		SliceToMapConverter(lines).
 		LineProcessorMapStringAnyOptions(
@@ -214,7 +214,7 @@ func (it stringsTo) IntegersWithDefaults(
 	defaultInt int,
 	lines ...string,
 ) *coreconverted.Integers {
-	results := make([]int, 0, len(lines))
+	results := make([]int, len(lines))
 	var errMessages []string
 
 	for i, v := range lines {
@@ -385,7 +385,7 @@ func (it stringsTo) BytesWithDefaults(
 			continue
 		}
 
-		if vInt > constants.MaxUnit8AsInt {
+		if vInt < 0 || vInt > constants.MaxUnit8AsInt {
 			msg := defaulterr.CannotConvertStringToByte.Error() +
 				constants.CommaRawValueColonSpace +
 				v +
@@ -513,7 +513,11 @@ func (it stringsTo) PtrOfPtrToPtrStrings(pointerStringOfArray *[]*string) *[]str
 	newArray := make([]string, len(*pointerStringOfArray))
 
 	for i, value := range *pointerStringOfArray {
-		newArray[i] = *value
+		if value == nil {
+			newArray[i] = ""
+		} else {
+			newArray[i] = *value
+		}
 	}
 
 	return &newArray
@@ -528,6 +532,9 @@ func (it stringsTo) PtrOfPtrToMapStringBool(inputArray *[]*string) map[string]bo
 	hashset := make(map[string]bool, length)
 
 	for _, s := range *inputArray {
+		if s == nil {
+			continue
+		}
 		sC := *s
 		hashset[sC] = true
 	}
@@ -539,15 +546,12 @@ func (it stringsTo) CloneIf(
 	isClone bool,
 	items ...string,
 ) []string {
-	if len(items) == 0 || isClone {
+	if len(items) == 0 || !isClone {
 		return items
 	}
 
 	newArray := make([]string, len(items))
-
-	for i, value := range items {
-		newArray[i] = value
-	}
+	copy(newArray, items)
 
 	return newArray
 }

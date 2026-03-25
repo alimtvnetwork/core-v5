@@ -1,98 +1,119 @@
 package enumimpltests
 
 import (
-	"gitlab.com/auk-go/core/coredata/corerange"
-	"gitlab.com/auk-go/core/coreimpl/enumimpl/enumtype"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
-var enumTestCases = []TestWrapper{
+var enumByteTestCases = []coretestcases.CaseV1{
 	{
-		Header: "Byte enum example min 0, max 10 -- generates min, max from given map[string]interface and interface as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: 0,
-			Max: 10,
+		Title: "EnumByte returns min 0 and max 10 -- DynamicMap input",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   0,
+				"A":         -2,
+				"B":         8,
+				"C":         5,
+				"Something": 10,
+			},
 		},
-		EnumMap: map[string]interface{}{
-			"Invalid":   0,
-			"A":         -2,
-			"B":         8,
-			"C":         5,
-			"Something": 10,
+		ExpectedInput: args.Map{
+			"min": 0,
+			"max": 10,
 		},
-		EnumType: enumtype.Byte,
 	},
-	{
-		Header: "Integer8 enum example min -2, max 12 -- generates min, max from given map[string]interface and interface as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: -2,
-			Max: 12,
-		},
-		EnumMap: map[string]interface{}{
-			"Invalid":   -2,
-			"A":         -2,
-			"B":         8,
-			"C":         5,
-			"Something": 12,
-		},
-		EnumType: enumtype.Integer8,
-	},
-	{
-		Header: "Integer16 enum example min -3, max 14 -- generates min, max from given map[string]interface and interface as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: -3,
-			Max: 14,
-		},
-		EnumMap: map[string]interface{}{
-			"Invalid":   -3,
-			"A":         -2,
-			"B":         -3,
-			"C":         5,
-			"Something": 14,
-		},
-		EnumType: enumtype.Integer16,
-	},
-	{
-		Header: "Integer32 enum example min -4, max 15 -- generates min, max from given map[string]interface and interface as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: -4,
-			Max: 15,
-		},
-		EnumMap: map[string]interface{}{
-			"Invalid":   -4,
-			"A":         -2,
-			"B":         -3,
-			"C":         5,
-			"Something": 15,
-		},
-		EnumType: enumtype.Integer16,
-	},
+}
 
+var enumInt8TestCases = []coretestcases.CaseV1{
 	{
-		Header: "UnsignedInteger16 enum example min 0, max 20 -- generates min, max from given map[string]interface and interface as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: 0,
-			Max: 20,
+		Title: "EnumInt8 returns min -2 and max 12 -- DynamicMap input",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   -2,
+				"A":         -2,
+				"B":         8,
+				"C":         5,
+				"Something": 12,
+			},
 		},
-		EnumMap: map[string]interface{}{
-			"Invalid":    0,
-			"Something2": 15,
-			"B":          15,
-			"Something":  20,
+		ExpectedInput: args.Map{
+			"min": -2,
+			"max": 12,
 		},
-		EnumType: enumtype.UnsignedInteger16,
 	},
+}
+
+var enumInt16TestCases = []coretestcases.CaseV1{
 	{
-		Header: "String enum example min 0, max 20 -- generates min, max from given map[string]interface and interface as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: 0,
-			Max: 20,
+		Title: "EnumInt16 returns min -3 and max 14 -- DynamicMap input",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   -3,
+				"A":         -2,
+				"B":         -3,
+				"C":         5,
+				"Something": 14,
+			},
 		},
-		EnumMap: map[string]interface{}{
-			"Invalid":    0,
-			"Something2": 15,
-			"B":          15,
-			"Something":  20,
+		ExpectedInput: args.Map{
+			"min": -3,
+			"max": 14,
 		},
-		EnumType: enumtype.String,
+	},
+}
+
+var enumInt32TestCases = []coretestcases.CaseV1{
+	{
+		Title: "EnumInt32 returns min -4 and max 15 -- DynamicMap input",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   -4,
+				"A":         -2,
+				"B":         -3,
+				"C":         5,
+				"Something": 15,
+			},
+		},
+		ExpectedInput: args.Map{
+			"min": -4,
+			"max": 15,
+		},
+	},
+}
+
+var enumUInt16TestCases = []coretestcases.CaseV1{
+	{
+		Title: "EnumUInt16 returns min 0 and max 20 -- DynamicMap input",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":    0,
+				"Something2": 15,
+				"B":          15,
+				"Something":  20,
+			},
+		},
+		ExpectedInput: args.Map{
+			"min": 0,
+			"max": 20,
+		},
+	},
+}
+
+var enumStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "EnumString returns min empty and max 'Something2' -- DynamicMap input lexicographic",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":    0,
+				"Something2": 15,
+				"B":          15,
+				"Something":  20,
+			},
+		},
+		ExpectedInput: args.Map{
+			"min": "B",
+			"max": "Something2",
+		},
 	},
 }

@@ -3,10 +3,10 @@ package coredynamic
 import "reflect"
 
 type (
-	SimpleInOutConverter                   func(in interface{}, typeMust reflect.Type) *SimpleResult
+	SimpleInOutConverter                   func(in any, typeMust reflect.Type) *SimpleResult
 	SimpleRequestConverter                 func(request SimpleRequest) *SimpleResult
-	TypeToTypeConverterFunc                func(in interface{}) (output interface{}, err error)
-	TypeToTypeConverterMustFunc            func(in interface{}) (output interface{})
-	TypeToTypeConverterWithOptionsFunc     func(in interface{}, options interface{}) (output interface{}, err error)
-	TypeToTypeConverterWithOptionsMustFunc func(in interface{}, options interface{}) (output interface{})
+	TypeToTypeConverterFunc                func(in any) (output any, err error)
+	TypeToTypeConverterMustFunc            func(in any) (output any)
+	TypeToTypeConverterWithOptionsFunc     func(in any, options any) (output any, err error)
+	TypeToTypeConverterWithOptionsMustFunc func(in any, options any) (output any)
 )

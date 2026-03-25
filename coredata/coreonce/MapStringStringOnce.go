@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type MapStringStringOnce struct {
@@ -129,7 +129,9 @@ func (it *MapStringStringOnce) IsEmpty() bool {
 
 func (it *MapStringStringOnce) HasAll(searchTerms ...string) bool {
 	for _, term := range searchTerms {
-		if !it.IsContains(term) {
+		isMissing := !it.IsContains(term)
+
+		if isMissing {
 			return false
 		}
 	}
@@ -287,8 +289,9 @@ func (it *MapStringStringOnce) IsEqual(rightMap map[string]string) bool {
 
 	for leftKey, leftVal := range currentItems {
 		rightVal, hasRight := rightMap[leftKey]
+		isMissing := !hasRight
 
-		if !hasRight {
+		if isMissing {
 			return false
 		}
 

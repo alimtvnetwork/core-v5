@@ -7,33 +7,23 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/stringslice"
-	"gitlab.com/auk-go/core/internal/mapdiffinternal"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type Hashset struct {
 	hasMapUpdated bool
-	isEmptySet    bool
-	length        int
 	items         map[string]bool
 	cachedList    []string
 	sync.Mutex
 }
 
 func (it *Hashset) IsEmpty() bool {
-	if it == nil {
-		return true
-	}
-
-	if it.hasMapUpdated {
-		it.isEmptySet = len(it.items) == 0
-	}
-
-	return it.isEmptySet
+	return it == nil || len(it.items) == 0
 }
 
 func (it *Hashset) HasItems() bool {
@@ -213,9 +203,8 @@ func (it *Hashset) AddWithWgLock(
 ) *Hashset {
 	it.Lock()
 	it.items[key] = true
-	it.Unlock()
-
 	it.hasMapUpdated = true
+	it.Unlock()
 
 	group.Done()
 
@@ -225,9 +214,8 @@ func (it *Hashset) AddWithWgLock(
 func (it *Hashset) AddPtrLock(key *string) *Hashset {
 	it.Lock()
 	it.items[*key] = true
-	it.Unlock()
-
 	it.hasMapUpdated = true
+	it.Unlock()
 
 	return it
 }
@@ -241,9 +229,11 @@ func (it *Hashset) Add(key string) *Hashset {
 
 func (it *Hashset) AddBool(key string) (isExist bool) {
 	_, has := it.items[key]
+	isNew := !has
 
-	if !has {
+	if isNew {
 		it.items[key] = true
+		it.hasMapUpdated = true
 	}
 
 	return has
@@ -254,7 +244,7 @@ func (it *Hashset) AddNonEmpty(str string) *Hashset {
 		return it
 	}
 
-	return it
+	return it.Add(str)
 }
 
 func (it *Hashset) AddNonEmptyWhitespace(str string) *Hashset {
@@ -266,7 +256,9 @@ func (it *Hashset) AddNonEmptyWhitespace(str string) *Hashset {
 }
 
 func (it *Hashset) AddIf(isAdd bool, addingString string) *Hashset {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -277,7 +269,9 @@ func (it *Hashset) AddIfMany(
 	isAdd bool,
 	addingStrings ...string,
 ) *Hashset {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -304,27 +298,23 @@ func (it *Hashset) AddFuncErr(
 }
 
 func (it *Hashset) AddStringsPtrWgLock(
-	keys *[]string, wg *sync.WaitGroup,
+	keys []string, wg *sync.WaitGroup,
 ) *Hashset {
-	if keys == nil {
-		return it
-	}
+	length := len(keys)
 
-	length := len(*keys)
-
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
 	it.Lock()
-	for _, key := range *keys {
+	for _, key := range keys {
 		it.items[key] = true
 	}
 
-	it.Unlock()
-	wg.Done()
-
 	it.hasMapUpdated = true
+	it.Unlock()
+
+	wg.Done()
 
 	return it
 }
@@ -338,7 +328,7 @@ func (it *Hashset) AddHashsetItems(
 
 	length := hashsetAdd.Length()
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacities(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -361,12 +351,14 @@ func (it *Hashset) AddItemsMap(
 
 	length := len(itemsMap)
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacities(length*2, constants.ArbitraryCapacity100)
 	}
 
 	for k, isEnabled := range itemsMap {
-		if !isEnabled {
+		isDisabled := !isEnabled
+
+		if isDisabled {
 			continue
 		}
 
@@ -390,23 +382,25 @@ func (it *Hashset) AddItemsMapWgLock(
 
 	length := len(*itemsMap)
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
+	it.Lock()
 	for k, isEnabled := range *itemsMap {
-		if !isEnabled {
+		isDisabled := !isEnabled
+
+		if isDisabled {
 			continue
 		}
 
-		it.Lock()
 		it.items[k] = true
-		it.Unlock()
 	}
 
-	wg.Done()
-
 	it.hasMapUpdated = true
+	it.Unlock()
+
+	wg.Done()
 
 	return it
 }
@@ -421,7 +415,7 @@ func (it *Hashset) AddHashsetWgLock(
 
 	length := hashsetAdd.LengthLock()
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -430,10 +424,10 @@ func (it *Hashset) AddHashsetWgLock(
 		it.items[k] = true
 	}
 
-	it.Unlock()
-	wg.Done()
-
 	it.hasMapUpdated = true
+	it.Unlock()
+
+	wg.Done()
 
 	return it
 }
@@ -470,9 +464,8 @@ func (it *Hashset) AddStringsLock(keys []string) *Hashset {
 		it.items[key] = true
 	}
 
-	it.Unlock()
-
 	it.hasMapUpdated = true
+	it.Unlock()
 
 	return it
 }
@@ -531,7 +524,7 @@ func (it *Hashset) AddCollections(
 
 func (it *Hashset) AddsAnyUsingFilter(
 	filter IsStringFilter,
-	anys ...interface{},
+	anys ...any,
 ) *Hashset {
 	if anys == nil {
 		return it
@@ -560,7 +553,7 @@ func (it *Hashset) AddsAnyUsingFilter(
 
 func (it *Hashset) AddsAnyUsingFilterLock(
 	filter IsStringFilter,
-	anys ...interface{},
+	anys ...any,
 ) *Hashset {
 	if anys == nil {
 		return it
@@ -581,9 +574,8 @@ func (it *Hashset) AddsAnyUsingFilterLock(
 		if isKeep {
 			it.Lock()
 			it.items[result] = true
-			it.Unlock()
-
 			it.hasMapUpdated = true
+			it.Unlock()
 		}
 
 		if isBreak {
@@ -650,6 +642,39 @@ func (it *Hashset) Has(key string) bool {
 	isSet, isFound := it.items[key]
 
 	return isFound && isSet
+}
+
+// Contains is an alias for Has.
+func (it *Hashset) Contains(key string) bool {
+	return it.Has(key)
+}
+
+// IsEqual is an alias for IsEquals.
+func (it *Hashset) IsEqual(another *Hashset) bool {
+	return it.IsEquals(another)
+}
+
+// SortedList returns the list of keys sorted in ascending order.
+func (it *Hashset) SortedList() []string {
+	list := it.List()
+	sorted := make([]string, len(list))
+	copy(sorted, list)
+	sort.Strings(sorted)
+
+	return sorted
+}
+
+// Filter returns a new Hashset containing only keys for which the predicate returns true.
+func (it *Hashset) Filter(predicate func(string) bool) *Hashset {
+	result := New.Hashset.Cap(it.Length())
+
+	for key, isSet := range it.items {
+		if isSet && predicate(key) {
+			result.Add(key)
+		}
+	}
+
+	return result
 }
 
 func (it *Hashset) HasLock(key string) bool {
@@ -763,12 +788,22 @@ func (it *Hashset) Lines() []string {
 	return it.List()
 }
 
+func (it *Hashset) SimpleSlice() *SimpleSlice {
+	if it.IsEmpty() {
+		return Empty.SimpleSlice()
+	}
+
+	var list SimpleSlice = it.List()
+
+	return &list
+}
+
 // GetFilteredItems must return slice.
 func (it *Hashset) GetFilteredItems(
 	filter IsStringFilter,
-) *[]string {
+) []string {
 	if it.IsEmpty() {
-		return &([]string{})
+		return []string{}
 	}
 
 	filteredList := make(
@@ -781,8 +816,9 @@ func (it *Hashset) GetFilteredItems(
 	for key := range it.items {
 		result, isKeep, isBreak := filter(key, i)
 		i++
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -792,11 +828,11 @@ func (it *Hashset) GetFilteredItems(
 		)
 
 		if isBreak {
-			return &filteredList
+			return filteredList
 		}
 	}
 
-	return &filteredList
+	return filteredList
 }
 
 // GetFilteredCollection must return items.
@@ -817,8 +853,9 @@ func (it *Hashset) GetFilteredCollection(
 	for key := range it.items {
 		result, isKeep, isBreak := filter(key, i)
 		i++
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -932,16 +969,20 @@ func (it *Hashset) Items() map[string]bool {
 }
 
 func (it *Hashset) List() []string {
-	return *it.ListPtr()
+	if it.hasMapUpdated || it.cachedList == nil {
+		it.setCached()
+	}
+
+	return it.cachedList
 }
 
-func (it *Hashset) MapStringAny() map[string]interface{} {
+func (it *Hashset) MapStringAny() map[string]any {
 	if it.IsEmpty() {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	newMap := make(
-		map[string]interface{},
+		map[string]any,
 		it.Length()+1,
 	)
 
@@ -961,32 +1002,29 @@ func (it *Hashset) JoinSorted(joiner string) string {
 		return constants.EmptyString
 	}
 
-	list := it.ListPtr()
-	sort.Strings(*list)
+	list := it.List()
+	sort.Strings(list)
 
-	return strings.Join(*list, joiner)
+	return strings.Join(list, joiner)
 }
 
 func (it *Hashset) ListPtrSortedAsc() []string {
-	list := it.ListPtr()
-	sort.Strings(*list)
+	list := it.List()
+	sort.Strings(list)
 
-	return *list
+	return list
 }
 
 func (it *Hashset) ListPtrSortedDsc() []string {
-	list := it.ListPtr()
-	sort.Strings(*list)
+	list := it.List()
+	sort.Strings(list)
 
-	return *stringslice.InPlaceReverse(list)
+	return *stringslice.InPlaceReverse(&list)
 }
 
-func (it *Hashset) ListPtr() *[]string {
-	if it.hasMapUpdated || it.cachedList == nil {
-		it.setCached()
-	}
-
-	return &it.cachedList
+// Deprecated: Use List instead.
+func (it *Hashset) ListPtr() []string {
+	return it.List()
 }
 
 func (it *Hashset) Clear() *Hashset {
@@ -1016,7 +1054,7 @@ func (it *Hashset) Dispose() {
 func (it *Hashset) ListCopyLock() []string {
 	it.Lock()
 	defer it.Unlock()
-	cloned := *it.ListPtr()
+	cloned := it.List()
 
 	return cloned
 }
@@ -1055,15 +1093,11 @@ func (it *Hashset) ToLowerSet() *Hashset {
 }
 
 func (it *Hashset) Length() int {
-	if it == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
-	if it.hasMapUpdated {
-		it.length = len(it.items)
-	}
-
-	return it.length
+	return len(it.items)
 }
 
 func (it *Hashset) LengthLock() int {
@@ -1167,7 +1201,7 @@ func (it *Hashset) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			*it.ListPtr(),
+			it.List(),
 			commonJoiner,
 		)
 }
@@ -1175,14 +1209,14 @@ func (it *Hashset) StringLock() string {
 func (it Hashset) Join(
 	joiner string,
 ) string {
-	return strings.Join(*it.ListPtr(), joiner)
+	return strings.Join(it.List(), joiner)
 }
 
 func (it Hashset) NonEmptyJoins(
 	joiner string,
 ) string {
 	return stringslice.NonEmptyJoinPtr(
-		it.ListPtr(),
+		it.List(),
 		joiner,
 	)
 }
@@ -1191,7 +1225,7 @@ func (it Hashset) NonWhitespaceJoins(
 	joiner string,
 ) string {
 	return stringslice.NonWhitespaceJoinPtr(
-		it.ListPtr(),
+		it.List(),
 		joiner,
 	)
 }
@@ -1206,7 +1240,7 @@ func (it Hashset) JsonModel() map[string]bool {
 }
 
 //goland:noinspection GoLinterLocal
-func (it Hashset) JsonModelAny() interface{} {
+func (it Hashset) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1220,9 +1254,8 @@ func (it *Hashset) UnmarshalJSON(data []byte) error {
 
 	if err == nil {
 		it.items = dataModelItems
-		it.length = -1
 		it.hasMapUpdated = true
-		it.isEmptySet = false
+		it.cachedList = nil
 	}
 
 	return err
@@ -1313,8 +1346,9 @@ func (it *Hashset) DistinctDiffLinesRaw(
 
 	for _, rightItem := range rightLines {
 		_, has := it.items[rightItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffLines = append(diffLines, rightItem)
 		}
 	}
@@ -1325,8 +1359,9 @@ func (it *Hashset) DistinctDiffLinesRaw(
 
 	for leftItem := range it.items {
 		_, has := rightHashset[leftItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffLines = append(diffLines, leftItem)
 		}
 	}
@@ -1351,7 +1386,9 @@ func (it *Hashset) DistinctDiffLines(
 		return map[string]bool{}
 	}
 
-	if !isLeftEmpty && len(rightLines) == 0 {
+	isLeftNotEmpty := !isLeftEmpty
+
+	if isLeftNotEmpty && len(rightLines) == 0 {
 		return it.Items()
 	}
 
@@ -1366,8 +1403,9 @@ func (it *Hashset) DistinctDiffLines(
 
 	for _, rightItem := range rightLines {
 		_, has := it.items[rightItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[rightItem] = true
 		}
 	}
@@ -1378,8 +1416,9 @@ func (it *Hashset) DistinctDiffLines(
 
 	for leftItem := range it.items {
 		_, has := rightHashset[leftItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[leftItem] = true
 		}
 	}
@@ -1391,6 +1430,46 @@ func (it *Hashset) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Hashset) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Hashset) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
+}
+
+func (it *Hashset) WrapDoubleQuote() *Hashset {
+	return it.Transpile(StringUtils.WrapDouble)
+}
+
+func (it *Hashset) WrapDoubleQuoteIfMissing() *Hashset {
+	return it.Transpile(StringUtils.WrapDoubleIfMissing)
+}
+
+func (it *Hashset) WrapSingleQuote() *Hashset {
+	return it.Transpile(StringUtils.WrapSingle)
+}
+
+func (it *Hashset) WrapSingleQuoteIfMissing() *Hashset {
+	return it.Transpile(StringUtils.WrapSingleIfMissing)
+}
+
+// Transpile applies fmtFunc to each key and returns a new Hashset.
+// Fix: build new map to avoid adding keys while iterating over old map.
+// See issues/corestrtests-hashset-transpile-mutation.md
+func (it *Hashset) Transpile(
+	fmtFunc func(s string) string,
+) *Hashset {
+	if it.IsEmpty() {
+		return Empty.Hashset()
+	}
+
+	newItems := make(map[string]bool, len(it.items))
+	for k, v := range it.items {
+		newItems[fmtFunc(k)] = v
+	}
+
+	it.items = newItems
+
+	return it
+}
+
+func (it *Hashset) JoinLine() string {
+	return it.Join("\n")
 }

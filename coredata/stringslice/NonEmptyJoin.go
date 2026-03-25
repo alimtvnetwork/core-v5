@@ -3,7 +3,7 @@ package stringslice
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func NonEmptyJoin(slice []string, joiner string) string {
@@ -17,5 +17,5 @@ func NonEmptyJoin(slice []string, joiner string) string {
 		return constants.EmptyString
 	}
 
-	return strings.Join(*NonEmptySlicePtr(&slice), joiner)
+	return strings.Join(NonEmptySlicePtr(slice), joiner)
 }

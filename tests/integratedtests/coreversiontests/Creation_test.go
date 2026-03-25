@@ -3,8 +3,8 @@ package coreversiontests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreversion"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coreversion"
 )
 
 func Test_Creation_Verification(t *testing.T) {

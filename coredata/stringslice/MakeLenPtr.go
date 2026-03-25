@@ -1,7 +1,6 @@
 package stringslice
 
-func MakeLenPtr(length int) *[]string {
-	slice := make([]string, length)
-
-	return &slice
+// Deprecated: Use MakeLen instead.
+func MakeLenPtr(length int) []string {
+	return make([]string, length)
 }

@@ -3,19 +3,19 @@ package isanytests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/conditional"
-	"gitlab.com/auk-go/core/corecsv"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/conditional"
+	"github.com/alimtvnetwork/core/corecsv"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 func Test_Conclusive_Verification(t *testing.T) {
 	for caseIndex, testCase := range conclusiveTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -27,7 +27,7 @@ func Test_Conclusive_Verification(t *testing.T) {
 			s := parameter.Second
 			isEqual, isConclusive := isany.Conclusive(f, s)
 			values := corecsv.AnyToValuesTypeString(f, s)
-			conclusive := conditional.String(
+			conclusive := conditional.IfString(
 				isConclusive,
 				"Conclusive",
 				"Inconclusive",

@@ -5,25 +5,25 @@ import (
 	"fmt"
 	"sort"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/csvinternal"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/coreonce"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type numberEnumBase struct {
-	actualValueRanges      interface{}
+	actualValueRanges      any
 	stringRanges           []string
 	rangesCsvString        coreonce.StringOnce
 	rangesInvalidMessage   coreonce.StringOnce
 	invalidError           coreonce.ErrorOnce
 	integerEnumRangesOnce  coreonce.IntegersOnce
 	typeName               string
-	minAny, maxAny         interface{}
+	minAny, maxAny         any
 	minStr, maxStr         string
 	keyAnyValues           []KeyAnyVal
-	rangesDynamicMap       map[string]interface{}
+	rangesDynamicMap       map[string]any
 	rangesIntegerStringMap map[int]string
 }
 
@@ -34,75 +34,88 @@ type numberEnumBase struct {
 //	Lengths must match stringRanges and actualRangesAnyType
 func newNumberEnumBase(
 	typeName string,
-	actualRangesAnyType interface{},
+	actualRangesAnyType any,
 	nameRanges []string,
-	min, max interface{},
+	min, max any,
 ) numberEnumBase {
 	if nameRanges == nil {
 		errcore.MeaningfulErrorHandle(
 			errcore.CannotBeNilType,
 			"newNumberEnumBase",
-			errors.New("StringRanges cannot be nil"))
+			errors.New("StringRanges cannot be nil"),
+		)
 	}
 
-	integerEnumRangesOnce := coreonce.NewIntegersOnce(func() []int {
-		return IntegersRangesOfAnyVal(actualRangesAnyType)
-	})
+	integerEnumRangesOnce := coreonce.NewIntegersOnce(
+		func() []int {
+			return IntegersRangesOfAnyVal(actualRangesAnyType)
+		},
+	)
 
 	_, isString := actualRangesAnyType.([]string)
 
-	rangesToCsvOnce := coreonce.NewStringOnce(func() string {
-		if isString {
-			clonedList := strutilinternal.Clone(nameRanges)
-			sort.Strings(clonedList)
+	rangesToCsvOnce := coreonce.NewStringOnce(
+		func() string {
+			if isString {
+				clonedList := strutilinternal.Clone(nameRanges)
+				sort.Strings(clonedList)
+
+				return csvinternal.StringsToStringDefaultNoQuotations(
+					clonedList...,
+				)
+			}
+
+			allKeyValues := KeyAnyValues(
+				nameRanges,
+				actualRangesAnyType,
+			)
+			length := len(allKeyValues)
+			newMap := make(map[int]string, length)
+			integersSlice := make([]int, length)
+
+			for i, keyAnyVal := range allKeyValues {
+				valueInt := keyAnyVal.ValInt()
+				newMap[valueInt] = keyAnyVal.String()
+				integersSlice[i] = valueInt
+			}
+
+			sort.Ints(integersSlice)
+
+			newSortedSlice := make([]string, length)
+
+			for i, valueInt := range integersSlice {
+				nameValue := newMap[valueInt]
+				newSortedSlice[i] = nameValue
+			}
 
 			return csvinternal.StringsToStringDefaultNoQuotations(
-				clonedList...)
-		}
+				newSortedSlice...,
+			)
+		},
+	)
 
-		allKeyValues := KeyAnyValues(
-			nameRanges,
-			actualRangesAnyType)
-		length := len(allKeyValues)
-		newMap := make(map[int]string, length)
-		integersSlice := make([]int, length)
+	invalidMessageOnce := coreonce.NewStringOnce(
+		func() string {
+			msg := errcore.EnumRangeNotMeet(
+				min,
+				max,
+				rangesToCsvOnce.Value(),
+			)
 
-		for i, keyAnyVal := range allKeyValues {
-			valueInt := keyAnyVal.ValInt()
-			newMap[valueInt] = keyAnyVal.String()
-			integersSlice[i] = valueInt
-		}
-
-		sort.Ints(integersSlice)
-
-		newSortedSlice := make([]string, length)
-
-		for i, valueInt := range integersSlice {
-			nameValue := newMap[valueInt]
-			newSortedSlice[i] = nameValue
-		}
-
-		return csvinternal.StringsToStringDefaultNoQuotations(
-			newSortedSlice...)
-	})
-
-	invalidMessageOnce := coreonce.NewStringOnce(func() string {
-		msg := errcore.EnumRangeNotMeet(
-			min,
-			max,
-			rangesToCsvOnce.Value())
-
-		return msg
-	})
+			return msg
+		},
+	)
 
 	return numberEnumBase{
 		actualValueRanges:    actualRangesAnyType,
 		stringRanges:         nameRanges,
 		rangesCsvString:      rangesToCsvOnce,
 		rangesInvalidMessage: invalidMessageOnce,
-		invalidError: coreonce.NewErrorOnce(func() error {
-			return errors.New(invalidMessageOnce.Value())
-		}),
+		invalidError: coreonce.NewErrorOnce(
+			func() error {
+				return errors.New(invalidMessageOnce.Value())
+			},
+		),
 		integerEnumRangesOnce: integerEnumRangesOnce,
 		typeName:              typeName,
 		minAny:                min,
@@ -110,7 +123,7 @@ func newNumberEnumBase(
 	}
 }
 
-func (it numberEnumBase) MinMaxAny() (min, max interface{}) {
+func (it numberEnumBase) MinMaxAny() (min, max any) {
 	return it.minAny, it.maxAny
 }
 
@@ -135,7 +148,8 @@ func (it numberEnumBase) MaxInt() int {
 func (it numberEnumBase) AllNameValues() []string {
 	return AllNameValues(
 		it.StringRanges(),
-		it.actualValueRanges)
+		it.actualValueRanges,
+	)
 }
 
 func (it numberEnumBase) RangesMap() map[int]string {
@@ -144,14 +158,17 @@ func (it numberEnumBase) RangesMap() map[int]string {
 
 func (it numberEnumBase) OnlySupportedErr(supportedNames ...string) error {
 	return OnlySupportedErr(
+		defaultStackSkipForSpecificMethod,
 		it.StringRanges(),
-		supportedNames...)
+		supportedNames...,
+	)
 }
 
 func (it numberEnumBase) OnlySupportedMsgErr(errMessage string, supportedNames ...string) error {
 	return errcore.ConcatMessageWithErr(
 		errMessage,
-		it.OnlySupportedErr(supportedNames...))
+		it.OnlySupportedErr(supportedNames...),
+	)
 }
 
 func (it *numberEnumBase) MaxValueString() string {
@@ -176,14 +193,15 @@ func (it numberEnumBase) Count() int {
 	return len(it.StringRanges())
 }
 
-func (it *numberEnumBase) RangesDynamicMap() map[string]interface{} {
+func (it *numberEnumBase) RangesDynamicMap() map[string]any {
 	if it.rangesDynamicMap != nil {
 		return it.rangesDynamicMap
 	}
 
 	newMap := make(
-		map[string]interface{},
-		len(it.stringRanges)+1)
+		map[string]any,
+		len(it.stringRanges)+1,
+	)
 
 	for _, keyAnyVal := range it.KeyAnyValues() {
 		newMap[keyAnyVal.Key] = keyAnyVal.AnyValue
@@ -199,12 +217,13 @@ func (it *numberEnumBase) DynamicMap() DynamicMap {
 }
 
 func (it *numberEnumBase) notFoundJsonBytesError(
-	currentValueInf interface{},
+	currentValueInf any,
 ) error {
 	compiledMessage := fmt.Sprintf(
 		currentValueNotFoundInJsonMapFormat,
 		currentValueInf,
-		it.RangesInvalidMessage())
+		it.RangesInvalidMessage(),
+	)
 
 	return errors.New(compiledMessage)
 }
@@ -216,7 +235,8 @@ func (it *numberEnumBase) RangesIntegerStringMap() map[int]string {
 
 	newMap := make(
 		map[int]string,
-		len(it.stringRanges)+1)
+		len(it.stringRanges)+1,
+	)
 
 	for _, keyAnyVal := range it.KeyAnyValues() {
 		newMap[keyAnyVal.ValInt()] = keyAnyVal.Key
@@ -234,7 +254,8 @@ func (it *numberEnumBase) KeyAnyValues() []KeyAnyVal {
 
 	it.keyAnyValues = KeyAnyValues(
 		it.StringRanges(),
-		it.actualValueRanges)
+		it.actualValueRanges,
+	)
 
 	return it.keyAnyValues
 }
@@ -242,14 +263,16 @@ func (it *numberEnumBase) KeyAnyValues() []KeyAnyVal {
 func (it numberEnumBase) KeyValIntegers() []KeyValInteger {
 	slice := make([]KeyValInteger, it.Length())
 
-	it.LoopInteger(func(index int, name string, valInteger int) (isBreak bool) {
-		slice[index] = KeyValInteger{
-			Key:          name,
-			ValueInteger: valInteger,
-		}
+	it.LoopInteger(
+		func(index int, name string, valInteger int) (isBreak bool) {
+			slice[index] = KeyValInteger{
+				Key:          name,
+				ValueInteger: valInteger,
+			}
 
-		return false
-	})
+			return false
+		},
+	)
 
 	return slice
 }
@@ -269,7 +292,8 @@ func (it numberEnumBase) LoopInteger(looperFunc LooperIntegerFunc) {
 		isBreak := looperFunc(
 			i,
 			keyAnyVal.Key,
-			keyAnyVal.ValInt())
+			keyAnyVal.ValInt(),
+		)
 
 		if isBreak {
 			return
@@ -288,14 +312,15 @@ func (it numberEnumBase) TypeName() string {
 // Make sure non ptr is called +
 // String should also be attached with non ptr.
 func (it numberEnumBase) NameWithValueOption(
-	value interface{},
+	value any,
 	isIncludeQuotation bool,
 ) string {
 	if isIncludeQuotation {
 		return fmt.Sprintf(
 			constants.EnumDoubleQuoteNameValueFormat,
 			value,
-			value)
+			value,
+		)
 	}
 
 	return NameWithValue(value)
@@ -308,13 +333,13 @@ func (it numberEnumBase) NameWithValueOption(
 // Make sure non ptr is called +
 // String should also be attached with non ptr.
 func (it numberEnumBase) NameWithValue(
-	value interface{},
+	value any,
 ) string {
 	return NameWithValue(value)
 }
 
 func (it numberEnumBase) ValueString(
-	value interface{},
+	value any,
 ) string {
 	return fmt.Sprintf(
 		constants.SprintNumberFormat,
@@ -339,7 +364,7 @@ func (it numberEnumBase) ValueString(
 //   - {value}     : represents value string
 func (it numberEnumBase) Format(
 	format string,
-	value interface{},
+	value any,
 ) string {
 	return Format(
 		it.TypeName(),
@@ -361,8 +386,8 @@ func (it *numberEnumBase) RangesInvalidErr() error {
 	return it.invalidError.Value()
 }
 
-func (it numberEnumBase) StringRangesPtr() *[]string {
-	return &it.stringRanges
+func (it numberEnumBase) StringRangesPtr() []string {
+	return it.stringRanges
 }
 
 func (it numberEnumBase) StringRanges() []string {
@@ -377,22 +402,24 @@ func (it numberEnumBase) NamesHashset() map[string]bool {
 	return toHashset(it.StringRanges()...)
 }
 
-func (it numberEnumBase) JsonString(input interface{}) string {
+func (it numberEnumBase) JsonString(input any) string {
 	return it.ToEnumString(input)
 }
 
 func (it numberEnumBase) ToEnumString(
-	input interface{},
+	input any,
 ) string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		input)
+		input,
+	)
 }
 
 func (it numberEnumBase) ToName(
-	input interface{},
+	input any,
 ) string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		input)
+		input,
+	)
 }

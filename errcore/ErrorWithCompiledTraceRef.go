@@ -5,7 +5,7 @@ import "fmt"
 func ErrorWithCompiledTraceRef(
 	err error,
 	compiledTraces string,
-	reference interface{},
+	reference any,
 ) string {
 	if err == nil {
 		return ""

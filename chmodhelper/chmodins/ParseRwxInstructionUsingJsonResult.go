@@ -1,8 +1,8 @@
 package chmodins
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func ParseRwxInstructionUsingJsonResult(

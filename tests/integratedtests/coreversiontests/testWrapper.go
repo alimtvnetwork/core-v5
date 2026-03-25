@@ -1,7 +1,7 @@
 package coreversiontests
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 type testWrapper coretestcases.CaseV1

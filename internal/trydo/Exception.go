@@ -1,3 +1,3 @@
 package trydo
 
-type Exception interface{}
+type Exception any

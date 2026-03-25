@@ -1,6 +1,6 @@
 package errcore
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func SimpleHandleErrMany(msg string, errorItems ...error) {
 	if errorItems == nil || len(errorItems) == 0 {

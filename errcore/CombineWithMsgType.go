@@ -1,13 +1,27 @@
 package errcore
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func CombineWithMsgType(
+func CombineWithMsgTypeStackTrace(
 	genericMsg RawErrorType,
 	otherMsg string,
-	reference interface{},
+	reference any,
+) string {
+	msg := CombineWithMsgTypeNoStack(
+		genericMsg,
+		otherMsg,
+		reference,
+	)
+
+	return StackEnhance.MsgSkip(1, msg)
+}
+
+func CombineWithMsgTypeNoStack(
+	genericMsg RawErrorType,
+	otherMsg string,
+	reference any,
 ) string {
 	if otherMsg == "" {
 		return genericMsg.String() +
@@ -19,5 +33,5 @@ func CombineWithMsgType(
 		otherMsg +
 		getReferenceMessage(reference)
 
-	return StackEnhance.MsgSkip(1, msg)
+	return msg
 }

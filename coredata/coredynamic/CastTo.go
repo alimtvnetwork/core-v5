@@ -3,14 +3,14 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 func CastTo(
 	isOutputPointer bool,
-	input interface{},
+	input any,
 	acceptedTypes ...reflect.Type,
 ) CastedResult {
 	currentRfType := reflect.TypeOf(input)
@@ -23,7 +23,9 @@ func CastTo(
 		acceptedTypes...,
 	)
 
-	if !isMatchingAcceptedType {
+	isNoMatch := !isMatchingAcceptedType
+
+	if isNoMatch {
 		// not matching
 		sliceErr = append(
 			sliceErr,
@@ -41,9 +43,6 @@ func CastTo(
 	hasNonPointerIssue := isNull && isOutNonPointer
 
 	if hasNonPointerIssue {
-		// has issue
-		// cannot non pointer a nil pointer
-		// will panic
 		sliceErr = append(
 			sliceErr,
 			errcore.
@@ -55,7 +54,6 @@ func CastTo(
 				),
 		)
 
-		// ending process
 		return CastedResult{
 			Casted:                 nil,
 			SourceReflectType:      currentRfType,

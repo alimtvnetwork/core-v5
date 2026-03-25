@@ -1,9 +1,9 @@
 package entityinf
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type TaskEntityDefiner interface {
@@ -13,7 +13,7 @@ type TaskEntityDefiner interface {
 
 	coreinterface.ReflectSetter
 	Deserialize(
-		anyPointer interface{},
+		anyPointer any,
 	) error
 
 	corejson.Jsoner

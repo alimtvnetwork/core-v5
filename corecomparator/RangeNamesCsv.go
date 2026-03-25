@@ -1,6 +1,6 @@
 package corecomparator
 
-import "gitlab.com/auk-go/core/internal/csvinternal"
+import "github.com/alimtvnetwork/core/internal/csvinternal"
 
 func RangeNamesCsv() string {
 	return csvinternal.RangeNamesWithValuesIndexesCsvString(

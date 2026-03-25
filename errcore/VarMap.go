@@ -3,11 +3,11 @@ package errcore
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func VarMap(
-	mappedItems map[string]interface{},
+	mappedItems map[string]any,
 ) string {
 	if len(mappedItems) == 0 {
 		return ""

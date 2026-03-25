@@ -1,7 +1,7 @@
 package osconsts
 
 import (
-	"gitlab.com/auk-go/core/internal/osconstsinternal"
+	"github.com/alimtvnetwork/core/internal/osconstsinternal"
 )
 
 // GOOS values https://stackoverflow.com/a/20728862

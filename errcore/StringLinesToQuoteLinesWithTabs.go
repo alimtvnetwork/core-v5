@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 // LinesToDoubleQuoteLinesWithTabs

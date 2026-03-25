@@ -4,14 +4,14 @@ import (
 	"errors"
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type castingAny struct{}
 
 func (it castingAny) FromToDefault(
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	return it.FromToOption(
 		true,
@@ -22,7 +22,7 @@ func (it castingAny) FromToDefault(
 
 func (it castingAny) FromToReflection(
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	return it.FromToOption(
 		true,
@@ -50,7 +50,7 @@ func (it castingAny) FromToReflection(
 func (it castingAny) FromToOption(
 	isUseReflection bool,
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	err, isApplicable := it.reflectionCasting(
 		isUseReflection,
@@ -135,10 +135,12 @@ func (it castingAny) FromToOption(
 //	todo refactor return err
 func (it castingAny) reflectionCasting(
 	isUseReflection bool,
-	fromAny interface{},
-	castedToPtr interface{},
+	fromAny any,
+	castedToPtr any,
 ) (err error, isApplicable bool) {
-	if !isUseReflection {
+	isSkipReflection := !isUseReflection
+
+	if isSkipReflection {
 		return nil, false
 	}
 
@@ -160,19 +162,25 @@ func (it castingAny) reflectionCasting(
 
 	isRightPtr := rightType.Kind() == reflect.Ptr
 
-	if !isRightPtr {
+	isNotPtr := !isRightPtr
+
+	if isNotPtr {
 		return nil, false
 	}
 
 	isLeftDefined := reflectinternal.Is.Defined(fromAny)
 
-	if !isLeftDefined {
+	isLeftUndefined := !isLeftDefined
+
+	if isLeftUndefined {
 		return nil, false
 	}
 
 	isRightDefined := reflectinternal.Is.Defined(castedToPtr)
 
-	if !isRightDefined {
+	isRightUndefined := !isRightDefined
+
+	if isRightUndefined {
 		return nil, false
 	}
 
@@ -189,7 +197,7 @@ func (it castingAny) reflectionCasting(
 
 func (it castingAny) OrDeserializeTo(
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	return it.FromToDefault(fromAny, castedToPtr)
 }

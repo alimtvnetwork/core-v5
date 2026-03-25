@@ -3,13 +3,11 @@ package stringslice
 import (
 	"reflect"
 	"sync"
-
-	"gitlab.com/auk-go/core/constants"
 )
 
 func AnyLinesProcessAsyncUsingProcessor(
-	lines interface{},
-	lineProcessor func(index int, lineIn interface{}) (lineOut string),
+	lines any,
+	lineProcessor func(index int, lineIn any) (lineOut string),
 ) []string {
 	if lines == nil {
 		return []string{}
@@ -20,7 +18,9 @@ func AnyLinesProcessAsyncUsingProcessor(
 	isArrayOrSlice := kind == reflect.Slice ||
 		kind == reflect.Array
 
-	if !isArrayOrSlice {
+	isNotSliceOrArray := !isArrayOrSlice
+
+	if isNotSliceOrArray {
 		return []string{}
 	}
 
@@ -31,12 +31,12 @@ func AnyLinesProcessAsyncUsingProcessor(
 		return []string{}
 	}
 
-	slice := Make(constants.Zero, length)
+	slice := MakeLen(length)
 	wg := sync.WaitGroup{}
 
 	wg.Add(length)
 
-	asyncProcessor := func(index int, lineIn interface{}) {
+	asyncProcessor := func(index int, lineIn any) {
 		slice[index] = lineProcessor(index, lineIn)
 
 		wg.Done()

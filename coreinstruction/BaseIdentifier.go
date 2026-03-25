@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type BaseIdentifier struct {
@@ -37,7 +37,6 @@ func (identifier *BaseIdentifier) IsIdCaseInsensitive(idInsensitive string) bool
 
 func (identifier *BaseIdentifier) IsIdContains(idContains string) bool {
 	return strings.Contains(identifier.Id, idContains)
-
 }
 
 func (identifier *BaseIdentifier) IsIdRegexMatches(regex *regexp.Regexp) bool {

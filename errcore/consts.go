@@ -1,6 +1,6 @@
 package errcore
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 const (
 	ReferenceStart                           = "Reference(s) ("
@@ -37,4 +37,6 @@ const (
 	NewLineCodeStacksHeader                       = "\nCode Stacks :\n"
 	CodeStacksHeaderNewLine                       = "Code Stacks :\n"
 	ShouldBeMessageFormat                         = "\"%v\" {actual} should be \"%v\" {expecting}" // actual, expecting
+	stackEnhanceFormat                            = "%s - \n%s\n %s: \n  - %s"                     // "%s - \n%s\n %s: \n  - %s"
+	combineMsgWithErrorFormat                     = "%s - %s"                                      // "%s - %s"
 )

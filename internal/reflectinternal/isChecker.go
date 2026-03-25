@@ -4,7 +4,15 @@ import "reflect"
 
 type isChecker struct{}
 
-func (it isChecker) Conclusive(left, right interface{}) (isEqual, isConclusive bool) {
+func (it isChecker) Conclusive(left, right any) (isEqual, isConclusive bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			// uncomparable types (e.g. slices) - fall through to reflect
+			isEqual = false
+			isConclusive = false
+		}
+	}()
+
 	if left == right {
 		return true, true
 	}
@@ -26,7 +34,7 @@ func (it isChecker) Conclusive(left, right interface{}) (isEqual, isConclusive b
 	if isLeftNull && isBothEqual {
 		// both null
 		return true, true
-	} else if !isBothEqual && isLeftNull || isRightNull {
+	} else if !isBothEqual && (isLeftNull || isRightNull) {
 		// any null but the other is not
 		return false, true
 	}
@@ -38,7 +46,7 @@ func (it isChecker) Conclusive(left, right interface{}) (isEqual, isConclusive b
 	return false, false
 }
 
-func (it isChecker) AnyEqual(left, right interface{}) bool {
+func (it isChecker) AnyEqual(left, right any) bool {
 	isEqual, isConclusive := it.Conclusive(left, right)
 
 	if isConclusive {
@@ -48,7 +56,7 @@ func (it isChecker) AnyEqual(left, right interface{}) bool {
 	return reflect.DeepEqual(left, right)
 }
 
-func (it isChecker) Func(item interface{}) bool {
+func (it isChecker) Func(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -58,7 +66,7 @@ func (it isChecker) Func(item interface{}) bool {
 	return it.FuncTypeOf(typeOf)
 }
 
-func (it isChecker) SliceOrArray(item interface{}) bool {
+func (it isChecker) SliceOrArray(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -68,7 +76,7 @@ func (it isChecker) SliceOrArray(item interface{}) bool {
 	return it.FuncTypeOf(typeOf)
 }
 
-func (it isChecker) NotFunc(item interface{}) bool {
+func (it isChecker) NotFunc(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -98,15 +106,15 @@ func (it isChecker) SliceOrArrayOf(typeOf reflect.Type) bool {
 	return false
 }
 
-func (it isChecker) NotNull(item interface{}) bool {
+func (it isChecker) NotNull(item any) bool {
 	return !it.Null(item)
 }
 
-func (it isChecker) Defined(item interface{}) bool {
+func (it isChecker) Defined(item any) bool {
 	return !it.Null(item)
 }
 
-func (it isChecker) Null(item interface{}) bool {
+func (it isChecker) Null(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -122,22 +130,50 @@ func (it isChecker) Null(item interface{}) bool {
 }
 
 func (it isChecker) NullRv(rv reflect.Value) bool {
+	if !rv.IsValid() {
+		return true
+	}
+
 	switch rv.Kind() {
-	case reflect.Chan, reflect.Func, reflect.Map, reflect.Ptr, reflect.UnsafePointer, reflect.Slice:
+	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Ptr, reflect.UnsafePointer, reflect.Slice:
 		return rv.IsNil()
 	default:
 		return false
 	}
 }
 
-// Number
+func (it isChecker) Number(i any) bool {
+	k := reflect.ValueOf(i)
+
+	return it.NumberKind(k.Kind())
+}
+
+func (it isChecker) String(i any) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.String
+}
+
+func (it isChecker) Pointer(i any) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.Ptr
+}
+
+func (it isChecker) Function(i any) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.Func
+}
+
+// NumberKind
 //
 // function returns true if the kind passed to it is one of the
 // primitive types (reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
 //
 //	reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 //	reflect.Float32, reflect.Float64)
-func (it isChecker) Number(kind reflect.Kind) bool {
+func (it isChecker) NumberKind(kind reflect.Kind) bool {
 	switch kind {
 	case
 		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
@@ -149,11 +185,23 @@ func (it isChecker) Number(kind reflect.Kind) bool {
 	}
 }
 
-// Primitive
+func (it isChecker) Primitive(i any) bool {
+	k := reflect.ValueOf(i)
+
+	return it.PrimitiveKind(k.Kind())
+}
+
+func (it isChecker) Boolean(i any) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.Bool
+}
+
+// PrimitiveKind
 //
 // function returns true if the kind passed to it is one of the
 // primitive types (boolean, int, uint, float, string)
-func (it isChecker) Primitive(kind reflect.Kind) bool {
+func (it isChecker) PrimitiveKind(kind reflect.Kind) bool {
 	switch kind {
 	case
 		reflect.Bool,
@@ -175,7 +223,7 @@ func (it isChecker) Primitive(kind reflect.Kind) bool {
 //
 // Reference:
 //   - Stackoverflow Example : https://stackoverflow.com/a/23555352
-func (it isChecker) Zero(anyItem interface{}) bool {
+func (it isChecker) Zero(anyItem any) bool {
 	if it.Null(anyItem) {
 		return true
 	}
@@ -216,7 +264,7 @@ func (it isChecker) ZeroRv(rv reflect.Value) bool {
 	return rv.Interface() == z.Interface()
 }
 
-func (it isChecker) Struct(structObj interface{}) bool {
+func (it isChecker) Struct(structObj any) bool {
 	structRv := reflect.ValueOf(structObj)
 	reducePtr := Looper.ReducePointerRvDefault(structRv)
 
@@ -237,7 +285,7 @@ func (it isChecker) StructRv(structRv reflect.Value) bool {
 	return false
 }
 
-func (it isChecker) Interface(i interface{}) bool {
+func (it isChecker) Interface(i any) bool {
 	iRv := reflect.ValueOf(i)
 	reducePtr := Looper.ReducePointerRvDefault(iRv)
 

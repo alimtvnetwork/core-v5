@@ -4,16 +4,16 @@ import (
 	"errors"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func SliceToErrorPtr(errorSlice *[]string) error {
-	if errorSlice == nil || len(*errorSlice) == 0 {
+func SliceToErrorPtr(errorSlice []string) error {
+	if len(errorSlice) == 0 {
 		return nil
 	}
 
 	fullError := strings.Join(
-		*errorSlice,
+		errorSlice,
 		constants.NewLineUnix)
 
 	return errors.New(fullError)

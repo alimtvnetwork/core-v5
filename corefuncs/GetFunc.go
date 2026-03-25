@@ -3,9 +3,9 @@ package corefuncs
 import (
 	"runtime"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
-func GetFunc(i interface{}) *runtime.Func {
-	return reflectinternal.GetFunc(i)
+func GetFunc(i any) *runtime.Func {
+	return reflectinternal.GetFunc.RunTime(i)
 }

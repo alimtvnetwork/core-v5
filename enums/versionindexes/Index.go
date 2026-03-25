@@ -1,9 +1,9 @@
 package versionindexes
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 type Index byte
@@ -36,7 +36,7 @@ func (it Index) IntegerEnumRanges() []int {
 	return BasicEnumImpl.IntegerEnumRanges()
 }
 
-func (it Index) MinMaxAny() (min, max interface{}) {
+func (it Index) MinMaxAny() (min, max any) {
 	return BasicEnumImpl.MinMaxAny()
 }
 
@@ -56,7 +56,7 @@ func (it Index) MinInt() int {
 	return BasicEnumImpl.MinInt()
 }
 
-func (it Index) RangesDynamicMap() map[string]interface{} {
+func (it Index) RangesDynamicMap() map[string]any {
 	return BasicEnumImpl.RangesDynamicMap()
 }
 

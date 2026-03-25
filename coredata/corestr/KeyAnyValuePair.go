@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type KeyAnyValuePair struct {
 	Key         string
 	valueString SimpleStringOnce
-	Value       interface{}
+	Value       any
 }
 
 func (it *KeyAnyValuePair) KeyName() string {
@@ -23,7 +23,7 @@ func (it *KeyAnyValuePair) VariableName() string {
 	return it.Key
 }
 
-func (it *KeyAnyValuePair) ValueAny() interface{} {
+func (it *KeyAnyValuePair) ValueAny() any {
 	return it.Value
 }
 

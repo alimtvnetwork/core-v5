@@ -1,7 +1,7 @@
 package coreinstruction
 
 import (
-	"gitlab.com/auk-go/core/reqtype"
+	"github.com/alimtvnetwork/core/reqtype"
 )
 
 type BaseLineIdentifier struct {

@@ -1,11 +1,11 @@
 package corepubsubinf
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/coreinterface/loggerinf"
-	"gitlab.com/auk-go/core/coreinterface/serializerinf"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coreinterface/loggerinf"
+	"github.com/alimtvnetwork/core/coreinterface/serializerinf"
 )
 
 type (
@@ -39,7 +39,7 @@ type (
 	)
 	AnyItemSubscribeFunc func(
 		categoryRevealer coreinterface.CategoryRevealer,
-		anyItem interface{},
+		anyItem any,
 	)
 
 	StringSubscribeFunc func(
@@ -71,7 +71,7 @@ type (
 	)
 
 	DirectAnyItemSubscribeFunc func(
-		anyItem interface{},
+		anyItem any,
 	)
 
 	DirectJsonResultSubscribeFunc func(
@@ -113,8 +113,8 @@ type (
 	CompletionFunc                      func(subscriptionRecorder SubscriptionRecorder)
 	StartEndSubscriptionFunc            func(isStart bool, subscriptionRecorder SubscriptionRecorder)
 	SimpleCompletionFunc                func(communicate CommunicateModeler)
-	CategoryNameAnyItemSubscriptionFunc func(categoryName string, anyItem interface{})
-	FilterAnyItemSubscriptionFunc       func(filter string, anyItem interface{})
+	CategoryNameAnyItemSubscriptionFunc func(categoryName string, anyItem any)
+	FilterAnyItemSubscriptionFunc       func(filter string, anyItem any)
 	FilterBytesSubscriptionFunc         func(filter string, rawBytes []byte)
 	MatcherFunc                         func() (isMatch bool)
 )

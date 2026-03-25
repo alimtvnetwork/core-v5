@@ -6,10 +6,10 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type TraceCollection struct {
@@ -76,6 +76,10 @@ func (it *TraceCollection) AddsUsingSkip(
 			continue
 		}
 
+		if trace.IsSkippable {
+			continue
+		}
+
 		it.Items = append(
 			it.Items,
 			trace,
@@ -113,6 +117,10 @@ func (it *TraceCollection) AddsUsingSkipUsingFilter(
 		if isSkip && isBreakOnceInvalid {
 			return it
 		} else if isSkip {
+			continue
+		}
+
+		if trace.IsSkippable {
 			continue
 		}
 
@@ -238,7 +246,7 @@ func (it *TraceCollection) InsertAt(index int, item Trace) *TraceCollection {
 	return it
 }
 
-func (it *TraceCollection) FirstDynamic() interface{} {
+func (it *TraceCollection) FirstDynamic() any {
 	return it.Items[0]
 }
 
@@ -246,7 +254,7 @@ func (it *TraceCollection) First() Trace {
 	return it.Items[0]
 }
 
-func (it *TraceCollection) LastDynamic() interface{} {
+func (it *TraceCollection) LastDynamic() any {
 	return it.Items[it.LastIndex()]
 }
 
@@ -254,7 +262,7 @@ func (it *TraceCollection) Last() Trace {
 	return it.Items[it.LastIndex()]
 }
 
-func (it *TraceCollection) FirstOrDefaultDynamic() interface{} {
+func (it *TraceCollection) FirstOrDefaultDynamic() any {
 	return it.FirstOrDefault()
 }
 
@@ -268,7 +276,7 @@ func (it *TraceCollection) FirstOrDefault() *Trace {
 	return &first
 }
 
-func (it *TraceCollection) LastOrDefaultDynamic() interface{} {
+func (it *TraceCollection) LastOrDefaultDynamic() any {
 	return it.LastOrDefault()
 }
 
@@ -282,7 +290,11 @@ func (it *TraceCollection) LastOrDefault() *Trace {
 	return &last
 }
 
-func (it *TraceCollection) SkipDynamic(skippingItemsCount int) interface{} {
+func (it *TraceCollection) SkipDynamic(skippingItemsCount int) any {
+	if skippingItemsCount >= len(it.Items) {
+		return []Trace{}
+	}
+
 	return it.Items[skippingItemsCount:]
 }
 
@@ -296,7 +308,7 @@ func (it *TraceCollection) SkipCollection(skippingItemsCount int) *TraceCollecti
 	}
 }
 
-func (it *TraceCollection) TakeDynamic(takeDynamicItems int) interface{} {
+func (it *TraceCollection) TakeDynamic(takeDynamicItems int) any {
 	return it.Items[:takeDynamicItems]
 }
 
@@ -325,7 +337,7 @@ func (it *TraceCollection) SafeLimitCollection(limit int) *TraceCollection {
 	}
 }
 
-func (it *TraceCollection) LimitDynamic(limit int) interface{} {
+func (it *TraceCollection) LimitDynamic(limit int) any {
 	return it.Take(limit)
 }
 
@@ -333,9 +345,15 @@ func (it *TraceCollection) Limit(limit int) []Trace {
 	return it.Take(limit)
 }
 
+// GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *TraceCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -849,7 +867,7 @@ func (it TraceCollection) JsonModel() []Trace {
 	return it.Items
 }
 
-func (it TraceCollection) JsonModelAny() interface{} {
+func (it TraceCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

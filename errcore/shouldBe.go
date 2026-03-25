@@ -21,20 +21,20 @@ func (it shouldBe) StrEqErr(actual, expecting string) error {
 	return errors.New(msg)
 }
 
-func (it shouldBe) AnyEqMsg(actual, expecting interface{}) string {
+func (it shouldBe) AnyEqMsg(actual, expecting any) string {
 	return fmt.Sprintf(
 		ShouldBeMessageFormat,
 		actual,
 		expecting)
 }
 
-func (it shouldBe) AnyEqErr(actual, expecting interface{}) error {
+func (it shouldBe) AnyEqErr(actual, expecting any) error {
 	msg := it.AnyEqMsg(expecting, actual)
 
 	return errors.New(msg)
 }
 
-func (it shouldBe) JsonEqMsg(actual, expecting interface{}) string {
+func (it shouldBe) JsonEqMsg(actual, expecting any) string {
 	actualJson, err := json.Marshal(actual)
 	MustBeEmpty(err)
 
@@ -47,7 +47,7 @@ func (it shouldBe) JsonEqMsg(actual, expecting interface{}) string {
 		expectingJson)
 }
 
-func (it shouldBe) JsonEqErr(actual, expecting interface{}) error {
+func (it shouldBe) JsonEqErr(actual, expecting any) error {
 	msg := it.JsonEqMsg(expecting, actual)
 
 	return errors.New(msg)

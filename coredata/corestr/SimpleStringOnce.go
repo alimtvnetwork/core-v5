@@ -7,13 +7,13 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 type SimpleStringOnce struct {
@@ -76,10 +76,8 @@ func (it *SimpleStringOnce) ValueBytes() []byte {
 	return []byte(it.value)
 }
 
-func (it *SimpleStringOnce) ValueBytesPtr() *[]byte {
-	allBytes := []byte(it.value)
-
-	return &allBytes
+func (it *SimpleStringOnce) ValueBytesPtr() []byte {
+	return []byte(it.value)
 }
 
 // SetOnUninitialized
@@ -268,7 +266,9 @@ func (it *SimpleStringOnce) WithinRange(
 		return toInt, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return toInt, false
 	}
 
@@ -697,7 +697,7 @@ func (it *SimpleStringOnce) JsonModel() SimpleStringOnceModel {
 	}
 }
 
-func (it *SimpleStringOnce) JsonModelAny() interface{} {
+func (it *SimpleStringOnce) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -722,11 +722,11 @@ func (it *SimpleStringOnce) UnmarshalJSON(
 }
 
 func (it SimpleStringOnce) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it SimpleStringOnce) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *SimpleStringOnce) ParseInjectUsingJson(
@@ -785,6 +785,6 @@ func (it *SimpleStringOnce) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *SimpleStringOnce) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *SimpleStringOnce) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

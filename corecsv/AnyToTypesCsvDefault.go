@@ -3,7 +3,7 @@ package corecsv
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // AnyToTypesCsvDefault
@@ -15,7 +15,7 @@ import (
 //   - isIncludeQuote && !isIncludeSingleQuote = "'%v'" will be added
 //   - !isIncludeQuote && !isIncludeSingleQuote = %v will be added
 func AnyToTypesCsvDefault(
-	references ...interface{},
+	references ...any,
 ) string {
 	toSlice := AnyToTypesCsvStrings(
 		false,

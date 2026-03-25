@@ -3,12 +3,12 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func ReflectKindValidation(
 	expectedKind reflect.Kind,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	actualKind := reflect.
 		ValueOf(anyItem).

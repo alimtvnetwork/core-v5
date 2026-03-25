@@ -4,34 +4,33 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_DynamicMapDiff1(t *testing.T) {
-	for caseIndex, testCase := range dynamicMapSimpleDiffTestCases {
+	for caseIndex, tc := range dynamicMapSimpleDiffCaseV1TestCases {
 		// Arrange
-		arrangeInput := testCase.ArrangeAsLeftRightDynamicMapWithDefaultChecker()
+		input := tc.ArrangeInput.(args.Map)
+		left := enumimpl.DynamicMap(input["left"].(map[string]any))
+		right := input["right"].(map[string]any)
+		checker := input["checker"].(enumimpl.DifferChecker)
 
 		// Act
-		diffJsonMessage := arrangeInput.Left.ShouldDiffLeftRightMessageUsingDifferChecker(
-			arrangeInput.DifferChecker,
+		diffJsonMessage := left.ShouldDiffLeftRightMessageUsingDifferChecker(
+			checker,
 			true,
-			testCase.CaseTitle(),
-			arrangeInput.Right,
+			tc.Title,
+			right,
 		)
 
-		actualLines := strings.Split(
+		actLines := strings.Split(
 			diffJsonMessage,
 			constants.NewLineUnix,
 		)
 
 		// Assert
-		testCase.ShouldBe(
-			caseIndex,
-			t,
-			ShouldResemble,
-			actualLines,
-		)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

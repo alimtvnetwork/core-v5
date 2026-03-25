@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func PrependJoin(
 	joiner string,
-	prepend interface{},
-	anyItems ...interface{},
+	prepend any,
+	anyItems ...any,
 ) string {
 	slice := make([]string, len(anyItems)+constants.Capacity1)
 	slice[constants.Zero] = fmt.Sprintf(constants.SprintValueFormat, prepend)

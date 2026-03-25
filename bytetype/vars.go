@@ -1,8 +1,8 @@
 package bytetype
 
 import (
-	"gitlab.com/auk-go/core/coreimpl/enumimpl"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 var (

@@ -3,58 +3,58 @@ package isanytests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/isany"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/isany"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 var (
 	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([]any{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	twoArgsTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.TwoAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 	oneFuncTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.OneFunc{}),
+		ArrangeInput:  reflect.TypeOf([]args.OneFuncAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	interfaceArrayTypeVerification = &coretests.VerifyTypeOf{
 
-		ArrangeInput:  reflect.TypeOf([][]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([][]any{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	someNull *args.Two = nil
+	someNull *args.TwoAny = nil
 
 	nullTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "null tests - all nulls will be returned as null, don't panic.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					nil,
-					&args.Two{},
+					&args.TwoAny{},
 					someNull,
 					1,
 					2,
-					args.Two{},
+					args.TwoAny{},
 				},
 				ExpectedInput: []string{
 					"0 : true (value: <nil>, type: <nil>)",
-					"1 : false (value: TwoFunc {  }, type: *args.Two)",
-					"2 : true (value: <nil>, type: *args.Two)",
+					"1 : false (value: Two {  }, type: *args.Two[interface {},interface {}])",
+					"2 : true (value: <nil>, type: *args.Two[interface {},interface {}])",
 					"3 : false (value: 1, type: int)",
 					"4 : false (value: 2, type: int)",
-					"5 : false (value: TwoFunc {  }, type: args.Two)",
+					"5 : false (value: {<nil> <nil> <nil> [] false { false}}, type: args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
@@ -66,16 +66,16 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if all cases are null, will return false.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					nil,
-					&args.Two{},
+					&args.TwoAny{},
 					someNull,
 					1,
 					2,
-					args.Two{},
+					args.TwoAny{},
 				},
 				ExpectedInput: []string{
-					"0 : false (<nil>, *args.Two, *args.Two, int, int, args.Two)",
+					"0 : false (<nil>, *args.Two[interface {},interface {}], *args.Two[interface {},interface {}], int, int, args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
@@ -84,14 +84,14 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "all are null, will return true.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					nil,
 					someNull,
 					someNull,
 					nil,
 				},
 				ExpectedInput: []string{
-					"1 : true (<nil>, *args.Two, *args.Two, <nil>)",
+					"1 : true (<nil>, *args.Two[interface {},interface {}], *args.Two[interface {},interface {}], <nil>)",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
@@ -103,15 +103,15 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result true, because one is nil.",
-				ArrangeInput: []interface{}{
-					&args.Two{},
+				ArrangeInput: []any{
+					&args.TwoAny{},
 					1,
 					2,
-					args.Two{},
+					args.TwoAny{},
 					someNull,
 				},
 				ExpectedInput: []string{
-					"0 : true (*args.Two, int, int, args.Two, *args.Two)",
+					"0 : true (*args.Two[interface {},interface {}], int, int, args.Two[interface {},interface {}], *args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
@@ -120,14 +120,14 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result true, because one is nil.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					nil,
 					someNull,
 					someNull,
 					nil,
 				},
 				ExpectedInput: []string{
-					"1 : true (<nil>, *args.Two, *args.Two, <nil>)",
+					"1 : true (<nil>, *args.Two[interface {},interface {}], *args.Two[interface {},interface {}], <nil>)",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
@@ -136,7 +136,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result false, because none is nil.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"",
@@ -155,19 +155,19 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "defined items test cases - only true if defined (not null) ones will be true.",
-				ArrangeInput: []interface{}{
-					&args.Two{},
+				ArrangeInput: []any{
+					&args.TwoAny{},
 					1,
 					nil,
-					args.Two{},
+					args.TwoAny{},
 					someNull,
 				},
 				ExpectedInput: []string{
-					"0 : true (value: TwoFunc {  }, type: *args.Two)",
+					"0 : true (value: Two {  }, type: *args.Two[interface {},interface {}])",
 					"1 : true (value: 1, type: int)",
 					"2 : false (value: <nil>, type: <nil>)",
-					"3 : true (value: TwoFunc {  }, type: args.Two)",
-					"4 : false (value: <nil>, type: *args.Two)",
+					"3 : true (value: {<nil> <nil> <nil> [] false { false}}, type: args.Two[interface {},interface {}])",
+					"4 : false (value: <nil>, type: *args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
@@ -179,7 +179,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both defined (not null) ones will be true.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -217,26 +217,26 @@ var (
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
+						First:  &args.TwoAny{},
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
-						Second: args.Two{},
+						First:  &args.TwoAny{},
+						Second: args.TwoAny{},
 					},
 				},
 				ExpectedInput: []string{
 					"0 : false (<nil>, <nil>)",
-					"1 : false (<nil>, *args.Two)",
-					"2 : false (*args.Two, <nil>)",
-					"3 : false (*args.Two, *args.Two)",
-					"4 : false (int, *args.Two)",
-					"5 : false (*args.Two, int)",
+					"1 : false (<nil>, *args.Two[interface {},interface {}])",
+					"2 : false (*args.Two[interface {},interface {}], <nil>)",
+					"3 : false (*args.Two[interface {},interface {}], *args.Two[interface {},interface {}])",
+					"4 : false (int, *args.Two[interface {},interface {}])",
+					"5 : false (*args.Two[interface {},interface {}], int)",
 					"6 : false (int, <nil>)",
 					"7 : false (<nil>, int)",
 					"8 : true (int, int)",
-					"9 : true (*args.Two, int)",
-					"10 : true (*args.Two, args.Two)",
+					"9 : true (*args.Two[interface {},interface {}], int)",
+					"10 : true (*args.Two[interface {},interface {}], args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
 				IsEnable:     issetter.True,
@@ -249,7 +249,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both are null (not defined). " +
 					"Kind of inverse of any defined.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -287,26 +287,26 @@ var (
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
+						First:  &args.TwoAny{},
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
-						Second: args.Two{},
+						First:  &args.TwoAny{},
+						Second: args.TwoAny{},
 					},
 				},
 				ExpectedInput: []string{
 					"0 : true (<nil>, <nil>)",
-					"1 : true (<nil>, *args.Two)",
-					"2 : true (*args.Two, <nil>)",
-					"3 : true (*args.Two, *args.Two)",
-					"4 : false (int, *args.Two)",
-					"5 : false (*args.Two, int)",
+					"1 : true (<nil>, *args.Two[interface {},interface {}])",
+					"2 : true (*args.Two[interface {},interface {}], <nil>)",
+					"3 : true (*args.Two[interface {},interface {}], *args.Two[interface {},interface {}])",
+					"4 : false (int, *args.Two[interface {},interface {}])",
+					"5 : false (*args.Two[interface {},interface {}], int)",
 					"6 : false (int, <nil>)",
 					"7 : false (<nil>, int)",
 					"8 : false (int, int)",
-					"9 : false (*args.Two, int)",
-					"10 : false (*args.Two, args.Two)",
+					"9 : false (*args.Two[interface {},interface {}], int)",
+					"10 : false (*args.Two[interface {},interface {}], args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
 				IsEnable:     issetter.True,
@@ -318,7 +318,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if all are defined (not null) - DefinedAllOf.",
-				ArrangeInput: [][]interface{}{
+				ArrangeInput: [][]any{
 					{
 						1,
 						2,
@@ -343,7 +343,7 @@ var (
 				ExpectedInput: []string{
 					"0 : true (int, int, string)",
 					"1 : false (int, <nil>, string)",
-					"2 : false (int, int, *args.Two)",
+					"2 : false (int, int, *args.Two[interface {},interface {}])",
 					"3 : true (string, int, float64)",
 				},
 				VerifyTypeOf: interfaceArrayTypeVerification,
@@ -356,7 +356,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any is defined (not null) - DefinedAnyOf.",
-				ArrangeInput: [][]interface{}{
+				ArrangeInput: [][]any{
 					{
 						1,
 						2,
@@ -386,9 +386,9 @@ var (
 				ExpectedInput: []string{
 					"0 : true (int, int, string)",
 					"1 : true (int, <nil>, string)",
-					"2 : true (int, int, *args.Two)",
+					"2 : true (int, int, *args.Two[interface {},interface {}])",
 					"3 : true (string, int, float64)",
-					"4 : false (<nil>, *args.Two, *args.Two)",
+					"4 : false (<nil>, *args.Two[interface {},interface {}], *args.Two[interface {},interface {}])",
 				},
 				VerifyTypeOf: interfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
@@ -400,7 +400,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. Here all are null comparison.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -432,7 +432,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with null with non null.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: someNull,
@@ -464,7 +464,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with same type different values.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: 2,
@@ -491,7 +491,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting equal comparing with any value as long as both are equal in terms of bytes.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: "1",
@@ -509,18 +509,18 @@ var (
 						Second: "alim is equal",
 					},
 					{
-						First: &args.Two{
+						First: &args.TwoAny{
 							First:  "1",
 							Second: "alim",
 						},
-						Second: args.Two{
+						Second: args.TwoAny{
 							First:  "1",
 							Second: "alim",
 						},
 					},
 					{
-						First:  &args.Two{},
-						Second: args.Two{},
+						First:  &args.TwoAny{},
+						Second: args.TwoAny{},
 					},
 				},
 				ExpectedInput: []string{
@@ -528,7 +528,7 @@ var (
 					"1 : true (20, 20)",
 					"2 : true (-11, -11)",
 					"3 : true (\"alim is equal\", \"alim is equal\")",
-					"4 : true ({\"FirstItem\":\"1\",\"SecondItem\":\"alim\"}, {\"FirstItem\":\"1\",\"SecondItem\":\"alim\"})",
+					"4 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
 					"5 : true (, )",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
@@ -539,7 +539,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with string with integer with same value.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: "1",
@@ -568,7 +568,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value same but data types are different.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -580,7 +580,7 @@ var (
 				},
 				ExpectedInput: []string{
 					"0 - Equal : true - Conclusive ('<nil>', '<nil>')",
-					"1 - Equal : true - Conclusive ('<nil> - *args.Two', '<nil> - *args.Two')",
+					"1 - Equal : true - Conclusive ('*args.Two[interface {},interface {}]', '*args.Two[interface {},interface {}]')",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
 				IsEnable:     issetter.True,
@@ -589,7 +589,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value same but data types are different.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: someNull,
@@ -600,8 +600,8 @@ var (
 					},
 				},
 				ExpectedInput: []string{
-					"0 - Equal : false - Conclusive ('<nil>', '<nil> - *args.Two')",
-					"1 - Equal : false - Conclusive ('<nil> - *args.Two', '<nil>')",
+					"0 - Equal : false - Conclusive ('<nil>', '*args.Two[interface {},interface {}]')",
+					"1 - Equal : false - Conclusive ('*args.Two[interface {},interface {}]', '<nil>')",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
 				IsEnable:     issetter.True,
@@ -610,7 +610,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all equal and conclusive because value same and data type also same.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: 1,
@@ -641,7 +641,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value different and data type also same and non pointer.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: 5,
@@ -672,7 +672,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Same value different type results not equal and conclusive.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: byte(2),
@@ -701,13 +701,13 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Primitive types verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.PrimitiveType,
 					},
 					{
-						First:    args.Two{},
+						First:    args.TwoAny{},
 						WorkFunc: isany.PrimitiveType,
 					},
 					{
@@ -749,7 +749,7 @@ var (
 				},
 				ExpectedInput: []string{
 					"0 : true (type: int, PrimitiveType, 1)",
-					"1 : false (type: args.Two, PrimitiveType, TwoFunc {  })",
+					"1 : false (type: args.Two[interface {},interface {}], PrimitiveType, {<nil> <nil> <nil> [] false { false}})",
 					"2 : true (type: string, PrimitiveType, some string)",
 					"3 : true (type: float32, PrimitiveType, 23)",
 					"4 : true (type: uint, PrimitiveType, 23)",
@@ -767,7 +767,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "NumberType : verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.NumberType,
@@ -833,13 +833,13 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Floating : verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:    args.Two{},
+						First:    args.TwoAny{},
 						WorkFunc: isany.FloatingPointType,
 					},
 					{
@@ -865,7 +865,7 @@ var (
 				},
 				ExpectedInput: []string{
 					"0 : false (type: int, FloatingPointType, 1)",
-					"1 : false (type: args.Two, FloatingPointType, TwoFunc {  })",
+					"1 : false (type: args.Two[interface {},interface {}], FloatingPointType, {<nil> <nil> <nil> [] false { false}})",
 					"2 : false (type: string, FloatingPointType, some string)",
 					"3 : true (type: float32, FloatingPointType, 23)",
 					"4 : true (type: float64, FloatingPointType, 1.5)",
@@ -879,7 +879,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "PositiveIntegerType: verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    uint(64),
 						WorkFunc: isany.PositiveIntegerType,
@@ -905,7 +905,7 @@ var (
 						WorkFunc: isany.PositiveIntegerType,
 					},
 					{
-						First:    args.OneFunc{},
+						First:    args.OneFuncAny{},
 						WorkFunc: isany.PositiveIntegerType,
 					},
 					{
@@ -936,7 +936,7 @@ var (
 					"3 : true (type: uint32, PositiveIntegerType, 32)",
 					"4 : true (type: uint64, PositiveIntegerType, 64)",
 					"5 : false (type: int, PositiveIntegerType, 1)",
-					"6 : false (type: args.OneFunc, PositiveIntegerType, OneFunc {  })",
+					"6 : false (type: args.OneFunc[interface {}], PositiveIntegerType, OneFunc {  })",
 					"7 : false (type: string, PositiveIntegerType, some string)",
 					"8 : false (type: float32, PositiveIntegerType, 23)",
 					"9 : false (type: float64, PositiveIntegerType, 1.5)",
@@ -950,16 +950,16 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "FuncOnly : function verification test.",
-				Parameters: &args.Holder{
+				Parameters: &args.HolderAny{
 					First: "isFunc",
 				},
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.FuncOnly,
 					},
 					{
-						First:    args.OneFunc{},
+						First:    args.OneFuncAny{},
 						WorkFunc: isany.FuncOnly,
 					},
 					{
@@ -981,9 +981,9 @@ var (
 				},
 				ExpectedInput: []string{
 					"0 : false (type: int, FuncOnly, FuncOnly)",
-					"1 : false (type: args.OneFunc, FuncOnly, FuncOnly)",
+					"1 : false (type: args.OneFunc[interface {}], FuncOnly, FuncOnly)",
 					"2 : false (type: string, FuncOnly, FuncOnly)",
-					"3 : false (type: *args.Two, FuncOnly, FuncOnly)",
+					"3 : false (type: *args.Two[interface {},interface {}], FuncOnly, FuncOnly)",
 					"4 : false (type: <nil>, FuncOnly, FuncOnly)",
 					"5 : true (type: func(interface {}) bool, FuncOnly, FuncOnly)",
 				},

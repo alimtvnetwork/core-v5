@@ -1,6 +1,6 @@
 package enuminf
 
-import "gitlab.com/auk-go/core/internal/internalinterface/internalenuminf"
+import "github.com/alimtvnetwork/core/internal/internalinterface/internalenuminf"
 
 type BaseCmdTyper interface {
 	BasicEnumer

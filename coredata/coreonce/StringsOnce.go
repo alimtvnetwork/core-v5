@@ -5,8 +5,8 @@ import (
 	"sort"
 	"sync"
 
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 type StringsOnce struct {
@@ -60,10 +60,9 @@ func (it *StringsOnce) Values() []string {
 	return it.Value()
 }
 
-func (it *StringsOnce) ValuesPtr() *[]string {
-	values := it.Value()
-
-	return &values
+// Deprecated: Use Values instead.
+func (it *StringsOnce) ValuesPtr() []string {
+	return it.Value()
 }
 
 func (it *StringsOnce) Value() []string {
@@ -108,7 +107,9 @@ func (it *StringsOnce) IsEmpty() bool {
 
 func (it *StringsOnce) HasAll(searchTerms ...string) bool {
 	for _, term := range searchTerms {
-		if !it.IsContains(term) {
+		isMissing := !it.IsContains(term)
+
+		if isMissing {
 			return false
 		}
 	}
@@ -229,8 +230,14 @@ func (it *StringsOnce) IsEqual(comparingItems ...string) bool {
 		return false
 	}
 
-	for i, item := range currentItems {
-		if item != comparingItems[i] {
+	currentMap := make(map[string]int, len(currentItems))
+	for _, item := range currentItems {
+		currentMap[item]++
+	}
+
+	for _, item := range comparingItems {
+		currentMap[item]--
+		if currentMap[item] < 0 {
 			return false
 		}
 	}

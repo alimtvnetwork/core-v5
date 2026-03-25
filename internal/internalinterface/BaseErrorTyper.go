@@ -12,7 +12,7 @@ type BaseErrorTyper interface {
 	Combine(
 		additionalMessage,
 		varName string,
-		val interface{},
+		val any,
 	) string
 	CombineNoRefs(
 		additionalMessage string,
@@ -20,11 +20,11 @@ type BaseErrorTyper interface {
 	Error(
 		additionalMessage,
 		varName string,
-		val interface{},
+		val any,
 	) error
 	ErrorReferences(
 		additionalMessage string,
-		references ...interface{},
+		references ...any,
 	) error
 	ErrorNoRefs(
 		additionalMessage string,
@@ -32,7 +32,7 @@ type BaseErrorTyper interface {
 	Panic(
 		additionalMessage,
 		varName string,
-		val interface{},
+		val any,
 	)
 	PanicNoRefs(
 		additionalMessage string,
@@ -47,25 +47,25 @@ type BaseErrorTyper interface {
 	) string
 	ReferencesCsv(
 		additionalMessage string,
-		references ...interface{},
+		references ...any,
 	) string
 	ReferencesLines(
 		additionalMessage string,
-		referencesLines ...interface{},
+		referencesLines ...any,
 	) string
 	ReferencesLinesError(
 		additionalMessage string,
-		referencesLines ...interface{},
+		referencesLines ...any,
 	) error
 	ReferencesCsvError(
 		additionalMessage string,
-		references ...interface{},
+		references ...any,
 	) error
 	ShortReferencesCsv(
-		references ...interface{},
+		references ...any,
 	) string
 	ShortReferencesCsvError(
-		references ...interface{},
+		references ...any,
 	) error
 	RawValue() uint16
 	Value() uint16

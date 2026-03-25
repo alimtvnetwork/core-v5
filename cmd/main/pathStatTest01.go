@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper"
 )
 
 func pathStatTest01() {

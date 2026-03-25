@@ -7,7 +7,7 @@ import "reflect"
 // # Returns true for any nil given
 //
 // Reference : https://stackoverflow.com/a/43896204
-func Null(item interface{}) bool {
+func Null(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -17,6 +17,7 @@ func Null(item interface{}) bool {
 	switch rv.Kind() {
 	case reflect.Chan,
 		reflect.Func,
+		reflect.Interface,
 		reflect.Map,
 		reflect.Ptr,
 		reflect.UnsafePointer,

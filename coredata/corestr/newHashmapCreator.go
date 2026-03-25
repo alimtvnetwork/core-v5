@@ -1,8 +1,8 @@
 package corestr
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
 )
 
 type newHashmapCreator struct{}
@@ -17,8 +17,6 @@ func (it *newHashmapCreator) Cap(length int) *Hashmap {
 	return &Hashmap{
 		items:         hashset,
 		hasMapUpdated: false,
-		length:        length,
-		isEmptySet:    true,
 	}
 }
 
@@ -81,12 +79,9 @@ func (it *newHashmapCreator) KeyValuesStrings(
 func (it *newHashmapCreator) UsingMap(
 	itemsMap map[string]string,
 ) *Hashmap {
-	length := len(itemsMap)
-
 	return &Hashmap{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == constants.Zero,
+		items:         itemsMap,
+		hasMapUpdated: true,
 	}
 }
 
@@ -111,9 +106,8 @@ func (it *newHashmapCreator) UsingMapOptions(
 
 	// no clone
 	return &Hashmap{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == constants.Zero,
+		items:         itemsMap,
+		hasMapUpdated: true,
 	}
 }
 

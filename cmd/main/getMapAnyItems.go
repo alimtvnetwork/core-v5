@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 func getMapAnyItems() *coredynamic.MapAnyItems {

@@ -1,6 +1,6 @@
 package coreinterface
 
-import "gitlab.com/auk-go/core/internal/internalinterface"
+import "github.com/alimtvnetwork/core/internal/internalinterface"
 
 type ChangesCommitter interface {
 	HasChangesChecker

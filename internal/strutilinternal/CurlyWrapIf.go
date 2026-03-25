@@ -3,14 +3,16 @@ package strutilinternal
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func CurlyWrapIf(
 	isCurly bool,
-	source interface{},
+	source any,
 ) string {
-	if !isCurly {
+	isNoCurly := !isCurly
+
+	if isNoCurly {
 		return fmt.Sprintf(
 			constants.SprintValueFormat,
 			source)

@@ -3,16 +3,16 @@ package isanytests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 func Test_Null_Verification(t *testing.T) {
 	for caseIndex, testCase := range nullTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]interface{})
+			ArrangeInput.([]any)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

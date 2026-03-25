@@ -1,5 +1,5 @@
 package internalinterface
 
 type ValueGetter interface {
-	ValueDynamic() interface{}
+	ValueDynamic() any
 }

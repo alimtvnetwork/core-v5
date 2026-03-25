@@ -1,6 +1,6 @@
 package stringutil
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func ToInt32Def(
 	s string,

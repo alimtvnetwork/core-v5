@@ -3,14 +3,14 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func PanicRangeNotMeet(
 	otherMsg string,
-	rangeStart interface{},
-	rangeEnd interface{},
-	wholeRange interface{},
+	rangeStart any,
+	rangeEnd any,
+	wholeRange any,
 ) string {
 	rangeStr := ""
 

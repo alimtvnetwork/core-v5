@@ -3,11 +3,11 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 func GetWhenActualAndExpectProcessedMessage(
-	actual interface{},
+	actual any,
 	expectationMessageDef *ExpectationMessageDef,
 ) string {
 	return fmt.Sprintf(

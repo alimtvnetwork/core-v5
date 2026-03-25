@@ -1,9 +1,10 @@
 package stringslice
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
+// Deprecated: Use SafeIndexAtUsingLastIndex instead.
 func SafeIndexAtUsingLastIndexPtr(
-	slice *[]string,
+	slice []string,
 	lastIndex,
 	index int,
 ) string {
@@ -11,5 +12,5 @@ func SafeIndexAtUsingLastIndexPtr(
 		return constants.EmptyString
 	}
 
-	return (*slice)[index]
+	return slice[index]
 }

@@ -1,0 +1,142 @@
+package coreversiontests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/corecmp"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreversion"
+	"github.com/alimtvnetwork/core/enums/versionindexes"
+	"github.com/alimtvnetwork/core/errcore"
+)
+
+func Test_ComparisonValueIndexes_Verification(t *testing.T) {
+	for caseIndex, testCase := range comparisonValueIndexesTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
+
+		// Act
+		leftV := coreversion.New.Create(leftStr)
+		rightV := coreversion.New.Create(rightStr)
+		result := leftV.ComparisonValueIndexes(
+			&rightV,
+			versionindexes.AllVersionIndexes...,
+		)
+
+		// Assert
+		actual := args.Map{
+			"result": result.Name(),
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+func Test_VersionSliceInteger_Verification(t *testing.T) {
+	for caseIndex, testCase := range versionSliceIntegerTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
+
+		// Act
+		leftV := coreversion.New.Create(leftStr)
+		rightV := coreversion.New.Create(rightStr)
+		leftValues := leftV.AllVersionValues()
+		rightValues := rightV.AllVersionValues()
+		result := corecmp.VersionSliceInteger(leftValues, rightValues)
+
+		// Assert
+		actual := args.Map{
+			"result": result.Name(),
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+func Test_IsAtLeast_Verification(t *testing.T) {
+	for caseIndex, testCase := range isAtLeastTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
+
+		// Act
+		result := coreversion.IsAtLeast(leftStr, rightStr)
+
+		// Assert
+		actual := args.Map{
+			"isAtLeast": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+func Test_IsLower_Verification(t *testing.T) {
+	for caseIndex, testCase := range isLowerTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
+
+		// Act
+		result := coreversion.IsLower(leftStr, rightStr)
+
+		// Assert
+		actual := args.Map{
+			"isLower": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+func Test_IsExpectedVersion_Verification(t *testing.T) {
+	for caseIndex, testCase := range isExpectedVersionTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
+		expected := input["expected"].(corecomparator.Compare)
+
+		// Act
+		result := coreversion.IsExpectedVersion(expected, leftStr, rightStr)
+
+		// Assert
+		actual := args.Map{
+			"isExpected": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}

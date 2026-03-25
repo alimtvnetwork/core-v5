@@ -1,6 +1,6 @@
 package corevalidatortestwrappers
 
-import "gitlab.com/auk-go/core/corevalidator"
+import "github.com/alimtvnetwork/core/corevalidator"
 
 type SegmentValidatorWrapper struct {
 	Header                string

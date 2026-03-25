@@ -1,14 +1,11 @@
 package strutilinternal
 
-func NonEmptySlicePtr(slice *[]string) *[]string {
-	if slice == nil {
-		return &[]string{}
-	}
-
-	length := len(*slice)
+// Deprecated: Use NonEmptySlice instead.
+func NonEmptySlicePtr(slice []string) []string {
+	length := len(slice)
 
 	if length == 0 {
-		return &[]string{}
+		return []string{}
 	}
 
 	newSlice := make(
@@ -16,11 +13,11 @@ func NonEmptySlicePtr(slice *[]string) *[]string {
 		0,
 		length)
 
-	for _, s := range *slice {
+	for _, s := range slice {
 		if s != "" {
 			newSlice = append(newSlice, s)
 		}
 	}
 
-	return &newSlice
+	return newSlice
 }

@@ -6,10 +6,10 @@ import (
 	"sort"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-type MapStringAnyDiff map[string]interface{}
+type MapStringAnyDiff map[string]any
 
 func (it *MapStringAnyDiff) Length() int {
 	if it == nil {
@@ -41,6 +41,7 @@ func (it MapStringAnyDiff) AllKeysSorted() []string {
 		it.Length())
 
 	index := 0
+
 	for key := range it {
 		allKeys[index] = key
 		index++
@@ -51,9 +52,9 @@ func (it MapStringAnyDiff) AllKeysSorted() []string {
 	return allKeys
 }
 
-func (it MapStringAnyDiff) Raw() map[string]interface{} {
+func (it MapStringAnyDiff) Raw() map[string]any {
 	if it == nil {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return it
@@ -61,7 +62,7 @@ func (it MapStringAnyDiff) Raw() map[string]interface{} {
 
 func (it *MapStringAnyDiff) HasAnyChanges(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	return !it.IsRawEqual(
 		isRegardlessType,
@@ -70,7 +71,7 @@ func (it *MapStringAnyDiff) HasAnyChanges(
 
 func (it *MapStringAnyDiff) IsRawEqual(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	if it == nil && rightMap == nil {
 		return true
@@ -86,8 +87,9 @@ func (it *MapStringAnyDiff) IsRawEqual(
 
 	for key, leftValInf := range *it {
 		rightValInf, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
@@ -104,25 +106,70 @@ func (it *MapStringAnyDiff) IsRawEqual(
 
 func (it *MapStringAnyDiff) HashmapDiffUsingRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) MapStringAnyDiff {
 	diffMap := it.DiffRaw(
 		isRegardlessType,
 		rightMap)
 
 	if len(diffMap) == 0 {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return diffMap
 }
 
+// diffLeftToRight collects entries from left that are missing or different in right.
+func (it *MapStringAnyDiff) diffLeftToRight(
+	isRegardlessType bool,
+	rightMap map[string]any,
+	diffMap map[string]any,
+) {
+	for key, leftValInf := range *it {
+		rightValInf, has := rightMap[key]
+
+		if !has {
+			diffMap[key] = leftValInf
+			continue
+		}
+
+		if it.isNotEqual(isRegardlessType, leftValInf, rightValInf) {
+			diffMap[key] = leftValInf
+		}
+	}
+}
+
+// diffRightToLeft collects entries from right that are missing or different in left.
+func (it *MapStringAnyDiff) diffRightToLeft(
+	isRegardlessType bool,
+	leftMap map[string]any,
+	rightMap map[string]any,
+	diffMap map[string]any,
+) {
+	for rightKey, rightAnyVal := range rightMap {
+		if _, hasDiff := diffMap[rightKey]; hasDiff {
+			continue
+		}
+
+		leftVal, has := leftMap[rightKey]
+
+		if !has {
+			diffMap[rightKey] = rightAnyVal
+			continue
+		}
+
+		if it.isNotEqual(isRegardlessType, rightAnyVal, leftVal) {
+			diffMap[rightKey] = rightAnyVal
+		}
+	}
+}
+
 func (it *MapStringAnyDiff) DiffRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
-) map[string]interface{} {
+	rightMap map[string]any,
+) map[string]any {
 	if it == nil && rightMap == nil {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	if it == nil && rightMap != nil {
@@ -134,63 +181,22 @@ func (it *MapStringAnyDiff) DiffRaw(
 	}
 
 	length := it.Length() / 3
-	diffMap := make(
-		map[string]interface{},
-		length)
+	diffMap := make(map[string]any, length)
 
-	for key, leftValInf := range *it {
-		rightValInf, has := rightMap[key]
-
-		if !has {
-			diffMap[key] = leftValInf
-
-			continue
-		}
-
-		if it.isNotEqual(
-			isRegardlessType,
-			leftValInf,
-			rightValInf) {
-			diffMap[key] = leftValInf
-		}
-	}
+	it.diffLeftToRight(isRegardlessType, rightMap, diffMap)
 
 	if len(diffMap) == 0 && it.Length() == len(rightMap) {
 		return diffMap
 	}
 
-	leftMap := *it
-	for rightKey, rightAnyVal := range rightMap {
-		_, hasDiff := diffMap[rightKey]
-
-		if hasDiff {
-			// already added
-
-			continue
-		}
-
-		leftVal, has := leftMap[rightKey]
-
-		if !has {
-			diffMap[rightKey] = rightAnyVal
-
-			continue
-		}
-
-		if it.isNotEqual(
-			isRegardlessType,
-			rightAnyVal,
-			leftVal) {
-			diffMap[rightKey] = rightAnyVal
-		}
-	}
+	it.diffRightToLeft(isRegardlessType, *it, rightMap, diffMap)
 
 	return diffMap
 }
 
 func (it *MapStringAnyDiff) DiffJsonMessage(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMap := it.HashmapDiffUsingRaw(
 		isRegardlessType, rightMap)
@@ -210,7 +216,7 @@ func (it *MapStringAnyDiff) DiffJsonMessage(
 }
 
 func (it *MapStringAnyDiff) ToStringsSliceOfDiffMap(
-	diffMap map[string]interface{},
+	diffMap map[string]any,
 ) (diffSlice []string) {
 	allKeys := MapStringAnyDiff(diffMap).AllKeysSorted()
 	slice := make([]string, len(diffMap))
@@ -239,7 +245,7 @@ func (it *MapStringAnyDiff) ToStringsSliceOfDiffMap(
 func (it *MapStringAnyDiff) ShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMessage := it.DiffJsonMessage(
 		isRegardlessType,
@@ -258,7 +264,7 @@ func (it *MapStringAnyDiff) ShouldDiffMessage(
 func (it *MapStringAnyDiff) LogShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	diffMessage = it.ShouldDiffMessage(
 		isRegardlessType,
@@ -277,7 +283,7 @@ func (it *MapStringAnyDiff) LogShouldDiffMessage(
 func (it *MapStringAnyDiff) isNotEqual(
 	isRegardlessType bool,
 	left,
-	right interface{},
+	right any,
 ) bool {
 	if isRegardlessType {
 		leftString := fmt.Sprintf(

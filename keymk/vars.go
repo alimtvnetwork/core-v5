@@ -1,6 +1,6 @@
 package keymk
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 var (
 	PipeJoinerOption = &Option{

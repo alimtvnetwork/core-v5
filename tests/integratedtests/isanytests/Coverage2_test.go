@@ -1,0 +1,358 @@
+package isanytests
+
+import (
+	"fmt"
+	"reflect"
+	"testing"
+	"unsafe"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/isany"
+)
+
+// ── Conclusive all branches ──
+
+func Test_Cov2_Conclusive_BothNil(t *testing.T) {
+	isEqual, isConcl := isany.Conclusive(nil, nil)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": true, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_BothNil returns nil -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_SamePointer(t *testing.T) {
+	v := 42
+	isEqual, isConcl := isany.Conclusive(&v, &v)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": true, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_SamePointer returns correct value -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_LeftNil(t *testing.T) {
+	isEqual, isConcl := isany.Conclusive(nil, 42)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": false, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_LeftNil returns nil -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_RightNil(t *testing.T) {
+	isEqual, isConcl := isany.Conclusive(42, nil)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": false, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_RightNil returns nil -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_BothTypedNilSameType(t *testing.T) {
+	var a, b *int
+	isEqual, isConcl := isany.Conclusive(a, b)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": true, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_BothTypedNilSameType returns nil -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_OneTypedNilOtherNot(t *testing.T) {
+	var a *int
+	v := 42
+	isEqual, isConcl := isany.Conclusive(a, &v)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": false, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_OneTypedNilOtherNot returns nil -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_DiffTypes(t *testing.T) {
+	isEqual, isConcl := isany.Conclusive(42, "hello")
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": false, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive_DiffTypes returns correct value -- with args", actual)
+}
+
+func Test_Cov2_Conclusive_Inconclusive(t *testing.T) {
+	isEqual, isConcl := isany.Conclusive(42, 43)
+	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
+	expected := args.Map{"isEqual": false, "isConcl": false}
+	expected.ShouldBeEqual(t, 0, "Conclusive_Inconclusive returns correct value -- with args", actual)
+}
+
+// ── ReflectValueNull ──
+
+func Test_Cov2_ReflectValueNull_NilPtr(t *testing.T) {
+	var ptr *int
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(ptr))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilPtr returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_NonNilPtr(t *testing.T) {
+	v := 42
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(&v))}
+	expected := args.Map{"isNull": false}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NonNilPtr returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_NilSlice(t *testing.T) {
+	var s []string
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(s))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilSlice returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_NilMap(t *testing.T) {
+	var m map[string]int
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(m))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilMap returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_NilChan(t *testing.T) {
+	var ch chan int
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(ch))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilChan returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_NilFunc(t *testing.T) {
+	var fn func()
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(fn))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilFunc returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_NilUnsafePtr(t *testing.T) {
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(unsafe.Pointer(nil)))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilUnsafePtr returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectValueNull_IntKind(t *testing.T) {
+	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(42))}
+	expected := args.Map{"isNull": false}
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull_IntKind returns correct value -- with args", actual)
+}
+
+// ── ReflectNull extended kinds ──
+
+func Test_Cov2_ReflectNull_NilMap(t *testing.T) {
+	var m map[string]int
+	actual := args.Map{"isNull": isany.ReflectNull(m)}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "ReflectNull_NilMap returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectNull_NonNilMap(t *testing.T) {
+	actual := args.Map{"isNull": isany.ReflectNull(map[string]int{"a": 1})}
+	expected := args.Map{"isNull": false}
+	expected.ShouldBeEqual(t, 0, "ReflectNull_NonNilMap returns nil -- with args", actual)
+}
+
+func Test_Cov2_ReflectNull_Int(t *testing.T) {
+	actual := args.Map{"isNull": isany.ReflectNull(42)}
+	expected := args.Map{"isNull": false}
+	expected.ShouldBeEqual(t, 0, "ReflectNull_Int returns correct value -- with args", actual)
+}
+
+// ── FloatingPointTypeRv ──
+
+func Test_Cov2_FloatingPointTypeRv_Float32(t *testing.T) {
+	actual := args.Map{"result": isany.FloatingPointTypeRv(reflect.ValueOf(float32(3.14)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "FloatingPointTypeRv_Float32 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_FloatingPointTypeRv_Int(t *testing.T) {
+	actual := args.Map{"result": isany.FloatingPointTypeRv(reflect.ValueOf(42))}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "FloatingPointTypeRv_Int returns correct value -- with args", actual)
+}
+
+// ── NumberTypeRv ──
+
+func Test_Cov2_NumberTypeRv_Int8(t *testing.T) {
+	actual := args.Map{"result": isany.NumberTypeRv(reflect.ValueOf(int8(1)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "NumberTypeRv_Int8 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_NumberTypeRv_Uint32(t *testing.T) {
+	actual := args.Map{"result": isany.NumberTypeRv(reflect.ValueOf(uint32(1)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "NumberTypeRv_Uint32 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_NumberTypeRv_String(t *testing.T) {
+	actual := args.Map{"result": isany.NumberTypeRv(reflect.ValueOf("hello"))}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "NumberTypeRv_String returns correct value -- with args", actual)
+}
+
+// ── PositiveIntegerTypeRv ──
+
+func Test_Cov2_PositiveIntegerTypeRv_Uint8(t *testing.T) {
+	actual := args.Map{"result": isany.PositiveIntegerTypeRv(reflect.ValueOf(uint8(1)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Uint8 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PositiveIntegerTypeRv_Uint16(t *testing.T) {
+	actual := args.Map{"result": isany.PositiveIntegerTypeRv(reflect.ValueOf(uint16(1)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Uint16 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PositiveIntegerTypeRv_Uint32(t *testing.T) {
+	actual := args.Map{"result": isany.PositiveIntegerTypeRv(reflect.ValueOf(uint32(1)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Uint32 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PositiveIntegerTypeRv_Uint64(t *testing.T) {
+	actual := args.Map{"result": isany.PositiveIntegerTypeRv(reflect.ValueOf(uint64(1)))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Uint64 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PositiveIntegerTypeRv_Int(t *testing.T) {
+	actual := args.Map{"result": isany.PositiveIntegerTypeRv(reflect.ValueOf(42))}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Int returns correct value -- with args", actual)
+}
+
+// ── PrimitiveTypeRv ──
+
+func Test_Cov2_PrimitiveTypeRv_Uintptr(t *testing.T) {
+	actual := args.Map{"result": isany.PrimitiveTypeRv(reflect.Uintptr)}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "PrimitiveTypeRv_Uintptr returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PrimitiveTypeRv_Struct(t *testing.T) {
+	actual := args.Map{"result": isany.PrimitiveTypeRv(reflect.Struct)}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "PrimitiveTypeRv_Struct returns correct value -- with args", actual)
+}
+
+// ── DeepEqualAllItems edge cases ──
+
+func Test_Cov2_DeepEqualAllItems(t *testing.T) {
+	actual := args.Map{
+		"empty":      isany.DeepEqualAllItems(),
+		"single":     isany.DeepEqualAllItems(42),
+		"twoEqual":   isany.DeepEqualAllItems(42, 42),
+		"twoDiff":    isany.DeepEqualAllItems(42, 43),
+		"threeMixed": isany.DeepEqualAllItems(42, 42, 43),
+		"threeEqual": isany.DeepEqualAllItems(42, 42, 42),
+	}
+	expected := args.Map{
+		"empty":      true,
+		"single":     true,
+		"twoEqual":   true,
+		"twoDiff":    false,
+		"threeMixed": false,
+		"threeEqual": true,
+	}
+	expected.ShouldBeEqual(t, 0, "DeepEqualAllItems returns correct value -- with args", actual)
+}
+
+// ── DefinedItems full coverage ──
+
+func Test_Cov2_DefinedItems_Empty(t *testing.T) {
+	isAll, items := isany.DefinedItems()
+	actual := args.Map{"isAll": isAll, "isNil": items == nil}
+	expected := args.Map{"isAll": false, "isNil": true}
+	expected.ShouldBeEqual(t, 0, "DefinedItems_Empty returns empty -- with args", actual)
+}
+
+func Test_Cov2_DefinedItems_AllDefined(t *testing.T) {
+	isAll, items := isany.DefinedItems(1, "hello", 3.14)
+	actual := args.Map{"isAll": isAll, "len": len(items)}
+	expected := args.Map{"isAll": true, "len": 3}
+	expected.ShouldBeEqual(t, 0, "DefinedItems_AllDefined returns correct value -- with args", actual)
+}
+
+func Test_Cov2_DefinedItems_SomeNil(t *testing.T) {
+	isAll, items := isany.DefinedItems(nil, 42, nil, "hello")
+	actual := args.Map{"isAll": isAll, "len": len(items)}
+	expected := args.Map{"isAll": false, "len": 2}
+	expected.ShouldBeEqual(t, 0, "DefinedItems_SomeNil returns nil -- with args", actual)
+}
+
+// ── DefinedAllOf / DefinedAnyOf ──
+
+func Test_Cov2_DefinedAllOf_Empty(t *testing.T) {
+	actual := args.Map{"result": isany.DefinedAllOf()}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "DefinedAllOf_Empty returns empty -- with args", actual)
+}
+
+func Test_Cov2_DefinedAnyOf(t *testing.T) {
+	actual := args.Map{
+		"empty":      isany.DefinedAnyOf(),
+		"allDefined": isany.DefinedAnyOf(42, "hello"),
+		"allNil":     isany.DefinedAnyOf(nil, nil),
+	}
+	expected := args.Map{
+		"empty":      false,
+		"allDefined": true,
+		"allNil":     false,
+	}
+	expected.ShouldBeEqual(t, 0, "DefinedAnyOf returns correct value -- with args", actual)
+}
+
+// ── Null / NumberType / PositiveIntegerType / FloatingPointType / PrimitiveType ──
+
+func Test_Cov2_Null_UnsafePointer(t *testing.T) {
+	actual := args.Map{"isNull": isany.Null(unsafe.Pointer(nil))}
+	expected := args.Map{"isNull": true}
+	expected.ShouldBeEqual(t, 0, "Null_UnsafePointer returns correct value -- with args", actual)
+}
+
+func Test_Cov2_NumberType_Extended(t *testing.T) {
+	actual := args.Map{
+		"uint":    isany.NumberType(uint(1)),
+		"int8":    isany.NumberType(int8(1)),
+		"float32": isany.NumberType(float32(1.0)),
+	}
+	expected := args.Map{
+		"uint":    true,
+		"int8":    true,
+		"float32": true,
+	}
+	expected.ShouldBeEqual(t, 0, "NumberType_Extended returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PositiveIntegerType_Extended(t *testing.T) {
+	actual := args.Map{
+		"uint8":  isany.PositiveIntegerType(uint8(1)),
+		"uint16": isany.PositiveIntegerType(uint16(1)),
+		"uint32": isany.PositiveIntegerType(uint32(1)),
+		"uint64": isany.PositiveIntegerType(uint64(1)),
+	}
+	expected := args.Map{
+		"uint8":  true,
+		"uint16": true,
+		"uint32": true,
+		"uint64": true,
+	}
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerType_Extended returns correct value -- with args", actual)
+}
+
+func Test_Cov2_FloatingPointType_Float32(t *testing.T) {
+	actual := args.Map{"result": isany.FloatingPointType(float32(1.0))}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "FloatingPointType_Float32 returns correct value -- with args", actual)
+}
+
+func Test_Cov2_PrimitiveType_Extended(t *testing.T) {
+	actual := args.Map{
+		"uint":  isany.PrimitiveType(uint(1)),
+		"int8":  isany.PrimitiveType(int8(1)),
+		"slice": isany.PrimitiveType([]int{}),
+	}
+	expected := args.Map{
+		"uint":  true,
+		"int8":  true,
+		"slice": false,
+	}
+	expected.ShouldBeEqual(t, 0, "PrimitiveType_Extended returns correct value -- with args", actual)
+}
+
+// keep fmt imported for any future use
+var _ = fmt.Sprintf

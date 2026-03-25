@@ -1,81 +1,112 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
-type LeftRight struct {
-	Left     interface{} `json:",omitempty"`
-	Right    interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+// LeftRight is a generic two-item holder with Left/Right semantics,
+// providing a semantic alternative to Two for cases where
+// the directionality of arguments matters.
+//
+// Type parameters TLeft and TRight represent the types of the Left and Right fields.
+// Use LeftRightAny (= LeftRight[any, any]) for untyped usage.
+//
+// Example (typed):
+//
+//	lr := args.LeftRight[string, int]{
+//	    Left:   "hello",
+//	    Right:  42,
+//	    Expect: true,
+//	}
+//
+// Example (untyped):
+//
+//	lr := args.LeftRightAny{
+//	    Left:   someValue,
+//	    Right:  anotherValue,
+//	    Expect: "expected",
+//	}
+type LeftRight[TLeft, TRight any] struct {
+	Left          TLeft                    `json:",omitempty"`
+	Right         TRight                   `json:",omitempty"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *LeftRight) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 2).
+func (it *LeftRight[TLeft, TRight]) ArgsCount() int {
 	return 2
 }
 
-func (it *LeftRight) FirstItem() interface{} {
+// FirstItem returns the Left field as any.
+func (it *LeftRight[TLeft, TRight]) FirstItem() any {
 	return it.Left
 }
 
-func (it *LeftRight) SecondItem() interface{} {
+// SecondItem returns the Right field as any.
+func (it *LeftRight[TLeft, TRight]) SecondItem() any {
 	return it.Right
 }
 
-func (it *LeftRight) Expected() interface{} {
+// Expected returns the expected value.
+func (it *LeftRight[TLeft, TRight]) Expected() any {
 	return it.Expect
 }
 
-func (it *LeftRight) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a TwoFuncAny with Left and Right fields.
+func (it *LeftRight[TLeft, TRight]) ArgTwo() TwoFuncAny {
+	return TwoFuncAny{
 		First:  it.Left,
 		Second: it.Right,
 	}
 }
 
-func (it *LeftRight) HasFirst() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Left)
+// HasFirst checks whether the Left field is defined.
+func (it *LeftRight[TLeft, TRight]) HasFirst() bool {
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Left)
 }
 
-func (it *LeftRight) HasSecond() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Right)
+// HasSecond checks whether the Right field is defined.
+func (it *LeftRight[TLeft, TRight]) HasSecond() bool {
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Right)
 }
 
-func (it *LeftRight) HasLeft() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Left)
+// HasLeft checks whether the Left field is defined (alias for HasFirst).
+func (it *LeftRight[TLeft, TRight]) HasLeft() bool {
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Left)
 }
 
-func (it *LeftRight) HasRight() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Right)
+// HasRight checks whether the Right field is defined (alias for HasSecond).
+func (it *LeftRight[TLeft, TRight]) HasRight() bool {
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Right)
 }
 
-func (it *LeftRight) HasExpect() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Expect)
+// HasExpect checks whether the Expect field is defined.
+func (it *LeftRight[TLeft, TRight]) HasExpect() bool {
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *LeftRight) ValidArgs() []interface{} {
-	var args []interface{}
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *LeftRight[TLeft, TRight]) ValidArgs() []any {
+	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.Left)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Right)
-	}
+	args = appendIfDefined(args, it.Left)
+	args = appendIfDefined(args, it.Right)
 
 	return args
 }
 
-func (it *LeftRight) Args(upTo int) []interface{} {
-	var args []interface{}
+// Args returns positional arguments up to the given count.
+func (it *LeftRight[TLeft, TRight]) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.Left)
@@ -88,72 +119,53 @@ func (it *LeftRight) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *LeftRight) Slice() []interface{} {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *LeftRight[TLeft, TRight]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.Left)
-	}
+	args = appendIfDefined(args, it.Left)
+	args = appendIfDefined(args, it.Right)
+	args = appendIfDefined(args, it.Expect)
 
-	if it.HasSecond() {
-		args = append(args, it.Right)
-	}
+	it.toSlice = args
+	it.isSliceCached = true
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
-
-	it.toSlice = &args
-
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *LeftRight) GetByIndex(index int) interface{} {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *LeftRight[TLeft, TRight]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it *LeftRight) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
-		"TwoFunc",
-		strings.Join(args, constants.CommaSpace),
+// String returns a formatted string representation.
+func (it *LeftRight[TLeft, TRight]) String() string {
+	return buildToString(
+		"LeftRight",
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *LeftRight) Clone() LeftRight {
-	return LeftRight{
+// Clone returns an independent copy of this LeftRight.
+func (it *LeftRight[TLeft, TRight]) Clone() LeftRight[TLeft, TRight] {
+	return LeftRight[TLeft, TRight]{
 		Left:   it.Left,
 		Right:  it.Right,
 		Expect: it.Expect,
 	}
 }
 
-func (it LeftRight) AsTwoParameter() TwoParameter {
+// AsTwoParameter returns the LeftRight as a TwoParameter interface.
+func (it LeftRight[TLeft, TRight]) AsTwoParameter() TwoParameter {
 	return &it
 }
 
-func (it LeftRight) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the LeftRight as an ArgBaseContractsBinder interface.
+func (it LeftRight[TLeft, TRight]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

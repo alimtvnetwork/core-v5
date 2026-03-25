@@ -3,22 +3,22 @@ package argstests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var (
 	commonType = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf(args.ThreeFunc{}),
+		ArrangeInput:  reflect.TypeOf(args.ThreeFuncAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	funWrapCreationTestCases = []coretestcases.CaseV1{
 		{
-			Title: "someFunctionV1 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns correct output -- someFunctionV1 with valid params ('f1','f2','f3')",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				Third:    "f3",
@@ -30,8 +30,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV1 => Calls dynamically with less param (null), outputs error args count mismatch.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns args count mismatch error -- someFunctionV1 with nil third param",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				Third:    nil,
@@ -54,8 +54,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV1 => Calls dynamically with mismatch datatype for arg 2nd, it expects string but given int, outputs error",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns type mismatch error -- someFunctionV1 with int instead of string for 2nd arg",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
 				Third:    "f3",
@@ -69,8 +69,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving nil as a work func, doesn't panic but returns error.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns invalid error -- nil WorkFunc",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
 				Third:    "f3",
@@ -85,8 +85,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving (int) as a work func, doesn't panic but returns error.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns invalid error -- int WorkFunc instead of func",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
 				Third:    "f3",
@@ -101,8 +101,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns correct output -- someFunctionV2 with valid params ('f1','f2')",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				WorkFunc: someFunctionV2,
@@ -114,8 +114,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns correct output -- someFunctionV2 duplicate case ('f1','f2')",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				WorkFunc: someFunctionV2,
@@ -127,8 +127,8 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV3 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			Title: "FuncWrap returns correct output -- someFunctionV3 with valid params ('f1','f2')",
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				WorkFunc: someFunctionV3,

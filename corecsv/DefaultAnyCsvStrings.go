@@ -1,7 +1,7 @@
 package corecsv
 
 func DefaultAnyCsvStrings(
-	references ...interface{},
+	references ...any,
 ) []string {
 	return AnyItemsToCsvStrings(
 		true,

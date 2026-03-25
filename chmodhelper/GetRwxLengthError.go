@@ -1,6 +1,6 @@
 package chmodhelper
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 func GetRwxLengthError(rwx string) error {
 	if len(rwx) != SingleRwxLength {

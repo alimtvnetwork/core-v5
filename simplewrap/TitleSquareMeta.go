@@ -2,8 +2,8 @@ package simplewrap
 
 import (
 	"fmt"
-	
-	"gitlab.com/auk-go/core/constants"
+
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // TitleSquareMeta
@@ -14,7 +14,7 @@ import (
 func TitleSquareMeta(
 	title,
 	value,
-	meta interface{},
+	meta any,
 ) string {
 	return fmt.Sprintf(
 		constants.SquareTitleMetaWrapFormat,

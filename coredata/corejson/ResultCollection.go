@@ -6,9 +6,9 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type ResultsCollection struct {
@@ -208,7 +208,7 @@ func (it *ResultsCollection) GetErrorsAsSingle() error {
 
 func (it *ResultsCollection) UnmarshalAt(
 	index int,
-	any interface{},
+	any any,
 ) error {
 	result := it.Items[index]
 
@@ -268,7 +268,7 @@ func (it *ResultsCollection) InjectIntoSameIndex(
 
 // UnmarshalIntoSameIndex any nil skip
 func (it *ResultsCollection) UnmarshalIntoSameIndex(
-	anys ...interface{},
+	anys ...any,
 ) (
 	errListPtr []error,
 	hasAnyError bool,
@@ -473,7 +473,7 @@ func (it *ResultsCollection) AddsPtr(
 }
 
 func (it *ResultsCollection) AddAny(
-	any interface{},
+	any any,
 ) *ResultsCollection {
 	if any == nil {
 		return it
@@ -488,7 +488,7 @@ func (it *ResultsCollection) AddAny(
 
 // AddAnyItems Skip on nil
 func (it *ResultsCollection) AddAnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *ResultsCollection {
 	if anyItems == nil {
 		return it
@@ -511,7 +511,7 @@ func (it *ResultsCollection) AddAnyItems(
 //
 //	Skip on nil
 func (it *ResultsCollection) AddAnyItemsSlice(
-	anyItems []interface{},
+	anyItems []any,
 ) *ResultsCollection {
 	if anyItems == nil {
 		return it
@@ -648,9 +648,15 @@ func (it *ResultsCollection) AddJsoners(
 	return it
 }
 
+// GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *ResultsCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -739,7 +745,7 @@ func (it *ResultsCollection) JsonModel() *ResultsCollection {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *ResultsCollection) JsonModelAny() interface{} {
+func (it *ResultsCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

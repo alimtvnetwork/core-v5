@@ -20,7 +20,7 @@ func (it newBasicStringCreator) Create(
 }
 
 func (it newBasicStringCreator) CreateDefault(
-	firstItem interface{},
+	firstItem any,
 	actualRangesNames []string,
 ) *BasicString {
 	typeName := reflect.TypeOf(firstItem).String()
@@ -34,7 +34,7 @@ func (it newBasicStringCreator) CreateDefault(
 
 func (it newBasicStringCreator) CreateUsingSlicePlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesNames []string,
 	aliasingMap map[string]string,
 ) *BasicString {
@@ -52,7 +52,7 @@ func (it newBasicStringCreator) CreateUsingSlicePlusAliasMapOptions(
 
 func (it newBasicStringCreator) CreateUsingMapPlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesNames []string,
 	aliasingMap map[string]string,
 ) *BasicString {
@@ -70,7 +70,7 @@ func (it newBasicStringCreator) CreateUsingMapPlusAliasMapOptions(
 
 func (it newBasicStringCreator) UsingFirstItemSliceCaseOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicString {
 	return it.CreateUsingMapPlusAliasMapOptions(
@@ -84,7 +84,7 @@ func (it newBasicStringCreator) UsingFirstItemSliceCaseOptions(
 //
 //	Includes both cases upper, lower case unmarshalling
 func (it newBasicStringCreator) UsingFirstItemSliceAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicString {
 	return it.CreateUsingMapPlusAliasMapOptions(
@@ -105,15 +105,20 @@ func (it newBasicStringCreator) CreateAliasMapOnly(
 	max := ""
 
 	index := 0
-	for _, name := range actualRangesNames {
+	for i, name := range actualRangesNames {
 		actualNames[index] = name
 
-		if name > max {
-			max = name
-		}
-
-		if name < min {
+		if i == 0 {
 			min = name
+			max = name
+		} else {
+			if name > max {
+				max = name
+			}
+
+			if name < min {
+				min = name
+			}
 		}
 
 		index++
@@ -248,6 +253,7 @@ func (it newBasicStringCreator) CreateUsingAliasMap(
 		numberEnumBase:                           enumBase,
 		minVal:                                   min,
 		maxVal:                                   max,
+		nameWithIndexMap:                         nameWithIndexMap,
 		jsonDoubleQuoteNameToValueHashMap:        stringsToHashSet(stringRangesNames),
 		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
 	}
@@ -258,7 +264,9 @@ func (it newBasicStringCreator) generateUppercaseLowercaseAliasMap(
 	names []string,
 	aliasingMap map[string]string,
 ) map[string]string {
-	if !isIncludeUppercaseLowercase {
+	isSkipUpperLower := !isIncludeUppercaseLowercase
+
+	if isSkipUpperLower {
 		return aliasingMap
 	}
 

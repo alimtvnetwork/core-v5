@@ -1,6 +1,6 @@
 package loggerinf
 
-import "gitlab.com/auk-go/core/coreinterface/enuminf"
+import "github.com/alimtvnetwork/core/coreinterface/enuminf"
 
 type FullLogger interface {
 	LogModel(
@@ -30,7 +30,7 @@ type FullLogger interface {
 		levelType enuminf.LogLevelTyper,
 		title string,
 		attr string,
-		model interface{},
+		model any,
 	)
 
 	LogAll(

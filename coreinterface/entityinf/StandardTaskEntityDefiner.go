@@ -1,8 +1,8 @@
 package entityinf
 
 import (
-	"gitlab.com/auk-go/core/internal/internalinterface"
-	"gitlab.com/auk-go/core/internal/internalinterface/internalserializer"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/internal/internalinterface/internalserializer"
 )
 
 type StandardTaskEntityDefiner interface {

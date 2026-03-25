@@ -1,16 +1,17 @@
 package corejsontests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smartystreets/goconvey/convey"
-
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreutils/stringutil"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreutils/stringutil"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
-func Test_FromTo(t *testing.T) {
+func Test_FromTo_Verification(t *testing.T) {
+	tc := deserializerFromToTestCase
+
 	type Example struct {
 		A       string
 		B       int
@@ -27,14 +28,16 @@ func Test_FromTo(t *testing.T) {
 
 	err := corejson.Deserialize.FromTo(
 		exampleFrom,
-		exampleTo)
+		exampleTo,
+	)
 
 	errcore.HandleErr(err)
 
 	to := stringutil.AnyToStringNameField(exampleTo)
 	from := stringutil.AnyToStringNameField(exampleFrom)
 
-	convey.Convey("corejson.Deserializer.FromTo - should matches from to casting", t, func() {
-		convey.So(to, convey.ShouldEqual, from)
-	})
+	// Assert
+	actLines := []string{fmt.Sprintf("%v", to == from)}
+
+	tc.ShouldBeEqual(t, 0, actLines...)
 }

@@ -1,7 +1,7 @@
 package corerange
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type RangeByte struct {
@@ -76,27 +76,26 @@ func (it *RangeByte) RangeLength() byte {
 
 // RangesInt returns empty ints if IsInvalid
 // return range int values
-func (it *RangeByte) RangesInt() *[]byte {
+func (it *RangeByte) RangesInt() []byte {
 	return it.Ranges()
 }
 
 // Ranges returns empty ints if IsInvalid
 // return range int values
-func (it *RangeByte) Ranges() *[]byte {
+func (it *RangeByte) Ranges() []byte {
 	if it.IsInvalid() {
-		return &[]byte{}
+		return []byte{}
 	}
 
-	length := it.RangeLength()
+	length := int(it.DifferenceAbsolute()) + 1
 	start := it.Start
-	slice := make([]byte, constants.Zero, length)
-	var i byte
+	slice := make([]byte, length)
 
-	for i = 0; i < length; i++ {
-		slice[i] = start + i
+	for i := 0; i < length; i++ {
+		slice[i] = start + byte(i)
 	}
 
-	return &slice
+	return slice
 }
 
 // IsWithinRange it.Start <= value && value <= it.End

@@ -1,8 +1,8 @@
 package coreinstruction
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 type NameList struct {
@@ -27,10 +27,6 @@ func (it *NameList) HasName() bool {
 }
 
 func (it NameList) String() string {
-	if it.IsNull() {
-		return ""
-	}
-
 	return corejson.
 		Serialize.
 		ToString(it)

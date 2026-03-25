@@ -6,10 +6,10 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type LinkedCollections struct {
@@ -224,7 +224,7 @@ func (it *LinkedCollections) AddsUsingProcessorAsyncOnComplete(
 	onComplete OnCompleteLinkedCollections,
 	processor AnyToCollectionProcessor,
 	isSkipOnNil bool,
-	anys ...interface{},
+	anys ...any,
 ) *LinkedCollections {
 	go func() {
 		it.Lock()
@@ -256,7 +256,7 @@ func (it *LinkedCollections) AddsUsingProcessorAsync(
 	wg *sync.WaitGroup,
 	processor AnyToCollectionProcessor,
 	isSkipOnNil bool,
-	anys ...interface{},
+	anys ...any,
 ) *LinkedCollections {
 	go func() {
 		it.Lock()
@@ -683,7 +683,9 @@ func (it *LinkedCollections) RemoveNodeByIndex(
 	) (isBreak bool) {
 		hasIndex := removingIndex == arg.Index
 
-		if !hasIndex {
+		isNotFound := !hasIndex
+
+		if isNotFound {
 			return false
 		}
 
@@ -731,7 +733,7 @@ func (it *LinkedCollections) RemoveNodeByIndexes(
 
 	nonChainedNodes := it.Filter(
 		func(arg *LinkedCollectionFilterParameter) *LinkedCollectionFilterResult {
-			hasIndex := coreindexes.HasIndexPlusRemoveIndex(removingIndexes, arg.Index)
+			hasIndex := coreindexes.HasIndexPlusRemoveIndex(&removingIndexes, arg.Index)
 			if hasIndex {
 				// remove
 				return &LinkedCollectionFilterResult{
@@ -1246,8 +1248,10 @@ func (it *LinkedCollections) AddCollections(
 	return it
 }
 
+// Deprecated: Use ToStrings instead.
 func (it *LinkedCollections) ToStringsPtr() *[]string {
-	return it.ToCollectionSimple().ListPtr()
+	list := it.ToStrings()
+	return &list
 }
 
 func (it *LinkedCollections) ToStrings() []string {
@@ -1355,22 +1359,21 @@ func (it *LinkedCollections) SimpleSlice() *SimpleSlice {
 	return &list
 }
 
-// ListPtr must return slice.
+// Deprecated: Use List instead.
 func (it *LinkedCollections) ListPtr() *[]string {
-	if it.IsEmpty() {
-		return &[]string{}
-	}
-
-	return it.
-		ToCollection(constants.ArbitraryCapacity5).
-		ListPtr()
+	list := it.List()
+	return &list
 }
 
 // List must return slice.
 func (it *LinkedCollections) List() []string {
-	list := it.ListPtr()
+	if it.IsEmpty() {
+		return []string{}
+	}
 
-	return *list
+	return it.
+		ToCollection(constants.ArbitraryCapacity5).
+		List()
 }
 
 func (it *LinkedCollections) String() string {
@@ -1401,7 +1404,7 @@ func (it *LinkedCollections) StringLock() string {
 func (it *LinkedCollections) Join(
 	separator string,
 ) string {
-	return strings.Join(*it.ListPtr(), separator)
+	return strings.Join(it.List(), separator)
 }
 
 func (it *LinkedCollections) Joins(
@@ -1425,7 +1428,7 @@ func (it *LinkedCollections) JsonModel() []string {
 	return it.ToCollection(0).JsonModel()
 }
 
-func (it *LinkedCollections) JsonModelAny() interface{} {
+func (it *LinkedCollections) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1462,11 +1465,11 @@ func (it *LinkedCollections) Clear() *LinkedCollections {
 }
 
 func (it LinkedCollections) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it LinkedCollections) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *LinkedCollections) ParseInjectUsingJson(

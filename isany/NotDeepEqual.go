@@ -1,9 +1,9 @@
 package isany
 
-import "gitlab.com/auk-go/core/internal/reflectinternal"
+import "github.com/alimtvnetwork/core/internal/reflectinternal"
 
 func NotDeepEqual(
-	left, right interface{},
+	left, right any,
 ) (isNotEqual bool) {
 	return !reflectinternal.Is.AnyEqual(left, right)
 }

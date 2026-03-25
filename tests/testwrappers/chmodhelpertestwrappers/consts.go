@@ -1,6 +1,6 @@
 package chmodhelpertestwrappers
 
-import "gitlab.com/auk-go/core/coretests"
+import "github.com/alimtvnetwork/core/coretests"
 
 const (
 	RwxApplyOnPath                coretests.TestFuncName = "RwxApplyOnPath"

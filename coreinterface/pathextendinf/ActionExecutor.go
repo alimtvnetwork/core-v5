@@ -1,6 +1,6 @@
 package pathextendinf
 
-import "gitlab.com/auk-go/core/coreinterface/errcoreinf"
+import "github.com/alimtvnetwork/core/coreinterface/errcoreinf"
 
 type ActionExecutor interface {
 	HasAnyAction() bool

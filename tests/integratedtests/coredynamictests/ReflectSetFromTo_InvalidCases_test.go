@@ -1,14 +1,14 @@
 package coredynamictests
 
 import (
+	"fmt"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/internal/trydo"
-	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/internal/trydo"
+	"github.com/alimtvnetwork/core/tests/testwrappers/coredynamictestwrappers"
 )
 
 // Test_ReflectSetFromTo_ValidCases
@@ -19,8 +19,8 @@ import (
 //   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
 //   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
 //   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
-func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) {
-	for _, testCase := range coredynamictestwrappers.ReflectSetFromToInvalidTestCases {
+func Test_ReflectSetFromTo_InvalidCases_Verification(t *testing.T) {
+	for caseIndex, testCase := range coredynamictestwrappers.ReflectSetFromToInvalidTestCases {
 		// Act
 		wrappedResult := trydo.ErrorFuncWrapPanic(
 			func() error {
@@ -32,42 +32,35 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 		)
 
 		err := wrappedResult.Error
-
 		testCase.SetActual(wrappedResult)
 
-		// Assert
-		Convey(
-			testCase.CaseTitle(), t, func() {
-				if testCase.IsExpectingError {
-					So(err, ShouldNotBeNil)
-				} else {
-					So(err, ShouldBeNil)
-				}
-			},
-		)
+		// Assert - error expectation
+		hasErr := fmt.Sprintf("%v", err != nil)
+		expectedHasErr := fmt.Sprintf("%v", testCase.IsExpectingError)
 
-		var parameter = &corevalidator.Parameter{
-			CaseIndex:                  0,
+		actLines := []string{hasErr}
+		expected := []string{expectedHasErr}
+
+		// Assert - validator verification
+		parameter := &corevalidator.Parameter{
+			CaseIndex:                  caseIndex,
 			Header:                     testCase.Header,
 			IsSkipCompareOnActualEmpty: false,
 			IsAttachUserInputs:         true,
 			IsCaseSensitive:            true,
 		}
 
-		validator := testCase.Validator
-
-		Convey(
-			testCase.CaseTitle()+"-exception-validation", t, func() {
-				finalErr := getFinalVerificationError(
-					testCase,
-					validator,
-					parameter,
-					wrappedResult,
-				)
-
-				So(finalErr, ShouldBeNil)
-			},
+		finalErr := getFinalVerificationError(
+			testCase,
+			testCase.Validator,
+			parameter,
+			wrappedResult,
 		)
+
+		actLines = append(actLines, fmt.Sprintf("%v", finalErr == nil))
+		expected = append(expected, "true")
+
+		testCase.ShouldBeEqual(t, caseIndex, actLines, expected)
 	}
 }
 

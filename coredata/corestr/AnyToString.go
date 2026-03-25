@@ -3,12 +3,12 @@ package corestr
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func AnyToString(
 	isIncludeFieldName bool,
-	any interface{},
+	any any,
 ) string {
 	if any == "" {
 		return constants.EmptyString

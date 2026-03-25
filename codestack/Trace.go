@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 type Trace struct {
@@ -17,6 +17,7 @@ type Trace struct {
 	FilePath    string
 	Line        int
 	IsOkay      bool
+	IsSkippable bool
 	message     corestr.SimpleStringOnce
 	shortString corestr.SimpleStringOnce
 }
@@ -137,7 +138,7 @@ func (it Trace) JsonModel() Trace {
 	return it
 }
 
-func (it *Trace) JsonModelAny() interface{} {
+func (it *Trace) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -153,6 +154,7 @@ func (it *Trace) Dispose() {
 	it.FilePath = constants.EmptyString
 	it.Line = constants.Zero
 	it.IsOkay = false
+	it.IsSkippable = false
 	it.message.Dispose()
 	it.shortString.Dispose()
 }
@@ -218,6 +220,7 @@ func (it Trace) Clone() Trace {
 		FilePath:          it.FilePath,
 		Line:              it.Line,
 		IsOkay:            it.IsOkay,
+		IsSkippable:       it.IsSkippable,
 	}
 }
 

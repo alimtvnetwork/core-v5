@@ -2,8 +2,6 @@ package stringslice
 
 import (
 	"sync"
-
-	"gitlab.com/auk-go/core/constants"
 )
 
 func LinesAsyncProcess(
@@ -14,7 +12,7 @@ func LinesAsyncProcess(
 		return []string{}
 	}
 
-	slice := Make(constants.Zero, len(lines))
+	slice := MakeLen(len(lines))
 	wg := sync.WaitGroup{}
 
 	wg.Add(len(lines))

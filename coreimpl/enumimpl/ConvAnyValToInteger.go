@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func ConvEnumAnyValToInteger(val interface{}) int {
+func ConvEnumAnyValToInteger(val any) int {
 	_, isStr := val.(string)
 
 	if isStr {

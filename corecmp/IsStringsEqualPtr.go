@@ -1,6 +1,6 @@
 package corecmp
 
-func IsStringsEqualPtr(leftLines, rightLines *[]string) bool {
+func IsStringsEqualPtr(leftLines, rightLines []string) bool {
 	if leftLines == nil && rightLines == nil {
 		return true
 	}
@@ -9,11 +9,11 @@ func IsStringsEqualPtr(leftLines, rightLines *[]string) bool {
 		return false
 	}
 
-	length := len(*leftLines)
+	length := len(leftLines)
 
-	if length != len(*rightLines) {
+	if length != len(rightLines) {
 		return false
 	}
 
-	return IsStringsEqual(*leftLines, *rightLines)
+	return IsStringsEqual(leftLines, rightLines)
 }

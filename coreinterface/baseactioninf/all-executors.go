@@ -30,7 +30,7 @@ type SimpleResulter interface {
 	CategoryTypeNamer
 
 	Exec() ([]byte, error)
-	ExecAny() (anyItem interface{}, err error)
+	ExecAny() (anyItem any, err error)
 
 	IsApply() (isSuccess bool)
 }

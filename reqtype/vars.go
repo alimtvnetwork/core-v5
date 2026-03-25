@@ -1,8 +1,8 @@
 package reqtype
 
 import (
-	"gitlab.com/auk-go/core/coreimpl/enumimpl"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 var (
@@ -211,6 +211,7 @@ var (
 
 	updateOrRemoveMap = map[Request]bool{
 		Update:               true,
+		Delete:               true,
 		CreateOrUpdate:       true,
 		DropOrSkipOnNonExist: true,
 		UpdateOnExist:        true,

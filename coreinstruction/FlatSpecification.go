@@ -1,6 +1,6 @@
 package coreinstruction
 
-import "gitlab.com/auk-go/core/coredata/stringslice"
+import "github.com/alimtvnetwork/core/coredata/stringslice"
 
 type FlatSpecification struct {
 	Id       string   `json:"Id"`
@@ -24,12 +24,15 @@ func InvalidFlatSpecification() *FlatSpecification {
 }
 
 func NewFlatSpecificationUsingSpec(spec *Specification, isValid bool) *FlatSpecification {
+	clonedTags := make([]string, len(spec.Tags))
+	copy(clonedTags, spec.Tags)
+
 	return &FlatSpecification{
 		Id:       spec.Id,
 		Display:  spec.Display,
 		Type:     spec.Type,
 		IsGlobal: spec.IsGlobal,
-		Tags:     spec.Tags,
+		Tags:     clonedTags,
 		IsValid:  isValid,
 		spec:     spec,
 	}

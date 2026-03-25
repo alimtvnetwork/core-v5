@@ -9,14 +9,14 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/stringslice"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 type Collection struct {
@@ -41,7 +41,7 @@ func (it *Collection) LastIndex() int {
 }
 
 func (it *Collection) HasIndex(index int) bool {
-	return it.LastIndex() >= index
+	return index >= 0 && it.LastIndex() >= index
 }
 
 func (it *Collection) ListStringsPtr() []string {
@@ -58,7 +58,7 @@ func (it *Collection) StringJSON() string {
 
 func (it *Collection) RemoveAt(index int) (isSuccess bool) {
 	length := it.Length()
-	if length-1 > index {
+	if index < 0 || index >= length {
 		return false
 	}
 
@@ -75,7 +75,7 @@ func (it *Collection) Count() int {
 }
 
 func (it *Collection) Capacity() int {
-	if it.items == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
@@ -110,32 +110,43 @@ func (it *Collection) IsEquals(
 	)
 }
 
+// isCollectionPrecheckEqual handles nil, identity, and length checks.
+// Returns (result, handled) — if handled is true, use the result directly.
+func isCollectionPrecheckEqual(a, b *Collection) (result, handled bool) {
+	if a == nil && b == nil {
+		return true, true
+	}
+
+	if a == nil || b == nil {
+		return false, true
+	}
+
+	if a == b {
+		return true, true
+	}
+
+	if a.IsEmpty() && b.IsEmpty() {
+		return true, true
+	}
+
+	if a.IsEmpty() || b.IsEmpty() {
+		return false, true
+	}
+
+	if a.Length() != b.Length() {
+		return false, true
+	}
+
+	return false, false
+}
+
 func (it *Collection) IsEqualsWithSensitive(
 	isCaseSensitive bool,
 	anotherCollection *Collection,
 ) bool {
-	if anotherCollection == nil && it == nil {
-		return true
-	}
-
-	if anotherCollection == nil || it == nil {
-		return false
-	}
-
-	if it == anotherCollection {
-		return true
-	}
-
-	if it.IsEmpty() && anotherCollection.IsEmpty() {
-		return true
-	}
-
-	if it.IsEmpty() || anotherCollection.IsEmpty() {
-		return false
-	}
-
-	if it.Length() != anotherCollection.Length() {
-		return false
+	result, handled := isCollectionPrecheckEqual(it, anotherCollection)
+	if handled {
+		return result
 	}
 
 	leftItems := it.items
@@ -256,7 +267,9 @@ func (it *Collection) AddIf(
 	isAdd bool,
 	addingString string,
 ) *Collection {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -304,12 +317,12 @@ func (it *Collection) ConcatNew(
 }
 
 func (it *Collection) ToError(sep string) error {
-	return errcore.SliceError(sep, &it.items)
+	return errcore.SliceError(sep, it.items)
 }
 
 func (it *Collection) ToDefaultError() error {
 	return errcore.SliceError(
-		constants.NewLineUnix, &it.items,
+		constants.NewLineUnix, it.items,
 	)
 }
 
@@ -317,7 +330,9 @@ func (it *Collection) AddIfMany(
 	isAdd bool,
 	addingStrings ...string,
 ) *Collection {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -504,7 +519,9 @@ func (it *Collection) resizeForHashmaps(
 		length += hashmap.Length()
 	}
 
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -533,7 +550,9 @@ func (it *Collection) resizeForCollections(
 		length += hashmap.Length()
 	}
 
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -553,7 +572,9 @@ func (it *Collection) resizeForItems(
 	}
 
 	length := len(items)
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -566,14 +587,16 @@ func (it *Collection) resizeForItems(
 
 func (it *Collection) resizeForAnys(
 	multiplier int,
-	items []interface{},
+	items []any,
 ) *Collection {
 	if len(items) == 0 {
 		return it
 	}
 
 	length := len(items)
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -804,9 +827,15 @@ func (it *Collection) Reverse() *Collection {
 	return it
 }
 
+// GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *Collection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -828,7 +857,8 @@ func (it *Collection) GetPagedCollection(
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
 	pagesPossibleCeiling := int(math.Ceil(pagesPossibleFloat))
-	collectionOfCollection := New.CollectionsOfCollection.Cap(
+	collectionOfCollection := New.CollectionsOfCollection.LenCap(
+		pagesPossibleCeiling,
 		pagesPossibleCeiling,
 	)
 
@@ -935,17 +965,12 @@ func (it *Collection) InsertAt(
 		return it.Adds(stringItems...)
 	}
 
-	// https://bit.ly/3pIDfRY
-	it.items =
-		append(
-			it.items[:index],
-			stringItems...,
-		)
-
-	it.items = append(
-		it.items,
-		it.items[index:]...,
-	)
+	// Use grow-copy-assign pattern to avoid slice bounds issues.
+	// See issues/simpleslice-insertat-bounds.md for background.
+	tail := make([]string, len(it.items[index:]))
+	copy(tail, it.items[index:])
+	it.items = append(it.items[:index], stringItems...)
+	it.items = append(it.items, tail...)
 
 	return it
 }
@@ -991,11 +1016,13 @@ func (it *Collection) RemoveItemsIndexesPtr(
 	indexesLength := len(indexes)
 	hasPossibleError := length == 0 && indexesLength > 0
 
-	if hasPossibleError && !isIgnoreRemoveError {
+	isValidateErrors := !isIgnoreRemoveError
+
+	if hasPossibleError && isValidateErrors {
 		panic(errcore.CannotRemoveIndexesFromEmptyCollectionType)
 	}
 
-	if !isIgnoreRemoveError {
+	if isValidateErrors {
 		errcore.PanicOnIndexOutOfRange(length, indexes)
 	}
 
@@ -1073,7 +1100,7 @@ func (it *Collection) AppendCollections(
 
 // AppendAnysLock Continue on nil
 func (it *Collection) AppendAnysLock(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if len(anyItems) == 0 {
 		return it
@@ -1088,7 +1115,7 @@ func (it *Collection) AppendAnysLock(
 
 // AppendAnys Continue on nil
 func (it *Collection) AppendAnys(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if len(anyItems) == 0 {
 		return it
@@ -1121,7 +1148,7 @@ func (it *Collection) AppendAnys(
 // AppendAnysUsingFilter Skip on nil
 func (it *Collection) AppendAnysUsingFilter(
 	filter IsStringFilter,
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if len(anyItems) == 0 {
 		return it
@@ -1143,8 +1170,9 @@ func (it *Collection) AppendAnysUsingFilter(
 		)
 
 		result, isKeep, isBreak := filter(anyStr, i)
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -1164,7 +1192,7 @@ func (it *Collection) AppendAnysUsingFilter(
 // AppendAnysUsingFilterLock Skip on nil
 func (it *Collection) AppendAnysUsingFilterLock(
 	filter IsStringFilter,
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if anyItems == nil {
 		return it
@@ -1182,8 +1210,9 @@ func (it *Collection) AppendAnysUsingFilterLock(
 
 		anyStr := fmt.Sprintf(constants.SprintValueFormat, any)
 		result, isKeep, isBreak := filter(anyStr, i)
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -1204,7 +1233,7 @@ func (it *Collection) AppendAnysUsingFilterLock(
 
 // AppendNonEmptyAnys Continue on nil
 func (it *Collection) AppendNonEmptyAnys(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if anyItems == nil {
 		return it
@@ -1467,10 +1496,18 @@ func (it *Collection) FilterPtr(filterPtr IsStringPointerFilter) *[]*string {
 	return &list
 }
 
-// NonEmptyListPtr must return a slice
+// NonEmptyListPtr returns non-empty items as a slice.
+//
+// Deprecated: Use NonEmptyList instead.
 func (it *Collection) NonEmptyListPtr() *[]string {
+	list := it.NonEmptyList()
+	return &list
+}
+
+// NonEmptyList returns all non-empty string items.
+func (it *Collection) NonEmptyList() []string {
 	if it.IsEmpty() {
-		return &([]string{})
+		return []string{}
 	}
 
 	list := make([]string, 0, it.Length())
@@ -1483,7 +1520,7 @@ func (it *Collection) NonEmptyListPtr() *[]string {
 		list = append(list, element)
 	}
 
-	return &list
+	return list
 }
 
 func (it *Collection) HashsetAsIs() *Hashset {
@@ -1510,12 +1547,19 @@ func (it *Collection) NonEmptyItems() []string {
 	return stringslice.NonEmptySlice(it.items)
 }
 
-func (it *Collection) NonEmptyItemsPtr() *[]string {
-	return stringslice.NonEmptySlicePtr(&it.items)
+// Deprecated: Use NonEmptyItems instead.
+func (it *Collection) NonEmptyItemsPtr() []string {
+	return stringslice.NonEmptySlicePtr(it.items)
 }
 
-func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() *[]string {
-	return stringslice.NonWhitespacePtr(&it.items)
+// NonEmptyItemsOrNonWhitespace returns items that are non-empty and non-whitespace.
+func (it *Collection) NonEmptyItemsOrNonWhitespace() []string {
+	return stringslice.NonWhitespace(it.items)
+}
+
+// Deprecated: Use NonEmptyItemsOrNonWhitespace instead.
+func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() []string {
+	return stringslice.NonWhitespacePtr(it.items)
 }
 
 // Items direct return pointer
@@ -1523,9 +1567,9 @@ func (it *Collection) Items() []string {
 	return it.items
 }
 
-// ListPtr direct return pointer
-func (it *Collection) ListPtr() *[]string {
-	return &it.items
+// Deprecated: Use List or Items instead.
+func (it *Collection) ListPtr() []string {
+	return it.items
 }
 
 // ListCopyPtrLock returns a copy of the items
@@ -1583,7 +1627,9 @@ func (it *Collection) HasAll(items ...string) bool {
 	}
 
 	for _, element := range items {
-		if !it.IsContainsPtr(&element) {
+		isMissing := !it.IsContainsPtr(&element)
+
+		if isMissing {
 			return false
 		}
 	}
@@ -1592,13 +1638,14 @@ func (it *Collection) HasAll(items ...string) bool {
 }
 
 // SortedListAsc Creates new doesn't modify current collection
-func (it *Collection) SortedListAsc() *[]string {
+func (it *Collection) SortedListAsc() []string {
 	if it.IsEmpty() {
-		return &[]string{}
+		return []string{}
 	}
 
-	list := &(it.items)
-	sort.Strings(*list)
+	list := make([]string, len(it.items))
+	copy(list, it.items)
+	sort.Strings(list)
 
 	return list
 }
@@ -1629,11 +1676,12 @@ func (it *Collection) SortedAscLock() *Collection {
 }
 
 // SortedListDsc Creates new one.
-func (it *Collection) SortedListDsc() *[]string {
+func (it *Collection) SortedListDsc() []string {
 	list := it.SortedListAsc()
-	stringslice.InPlaceReverse(
-		&it.items,
-	)
+	// reverse in place
+	for i, j := 0, len(list)-1; i < j; i, j = i+1, j-1 {
+		list[i], list[j] = list[j], list[i]
+	}
 
 	return list
 }
@@ -1677,9 +1725,9 @@ func (it *Collection) GetHashsetPlusHasAll(items []string) (*Hashset, bool) {
 	return hashset, hashset.HasAllStrings(items)
 }
 
-// IsContainsAllPtr nil will return false.
-func (it *Collection) IsContainsAllPtr(items *[]string) bool {
-	if items == nil {
+// IsContainsAllSlice returns false if the slice is empty or any item is missing.
+func (it *Collection) IsContainsAllSlice(items []string) bool {
+	if len(items) == 0 {
 		return false
 	}
 
@@ -1687,8 +1735,10 @@ func (it *Collection) IsContainsAllPtr(items *[]string) bool {
 		return false
 	}
 
-	for _, item := range *items {
-		if !it.IsContainsPtr(&item) {
+	for _, item := range items {
+		isMissing := !it.IsContainsPtr(&item)
+
+		if isMissing {
 			return false
 		}
 	}
@@ -1702,7 +1752,7 @@ func (it *Collection) IsContainsAll(items ...string) bool {
 		return false
 	}
 
-	return it.IsContainsAllPtr(&items)
+	return it.IsContainsAllSlice(items)
 }
 
 // IsContainsAllLock nil will return false.
@@ -1714,7 +1764,7 @@ func (it *Collection) IsContainsAllLock(items ...string) bool {
 		return false
 	}
 
-	return it.IsContainsAllPtr(&items)
+	return it.IsContainsAllSlice(items)
 }
 
 func (it *Collection) New(
@@ -1739,7 +1789,7 @@ func (it *Collection) AddNonEmptyStrings(
 	}
 
 	return it.
-		AddNonEmptyStringsPtr(&slice)
+		AddNonEmptyStringsSlice(slice)
 }
 
 func (it *Collection) AddFuncResult(
@@ -1751,7 +1801,13 @@ func (it *Collection) AddFuncResult(
 
 	items := it.items
 
+	// Fix: skip nil function pointers to prevent nil dereference panic.
+	// See issues/corestrtests-collection-addfuncresult-nil.md
 	for _, getterFunc := range getterFunctions {
+		if getterFunc == nil {
+			continue
+		}
+
 		item := getterFunc()
 
 		items = append(items, item)
@@ -1762,16 +1818,20 @@ func (it *Collection) AddFuncResult(
 	return it
 }
 
-func (it *Collection) AddNonEmptyStringsPtr(
-	slice *[]string,
+func (it *Collection) AddNonEmptyStringsSlice(
+	slice []string,
 ) *Collection {
-	if slice == nil || len(*slice) == 0 {
+	if len(slice) == 0 {
 		return it
 	}
 
 	items := it.items
 
-	for _, addingItem := range *slice {
+	for _, addingItem := range slice {
+		if addingItem == "" {
+			continue
+		}
+
 		items = append(items, addingItem)
 	}
 
@@ -1781,11 +1841,11 @@ func (it *Collection) AddNonEmptyStringsPtr(
 }
 
 func (it *Collection) AddStringsByFuncChecking(
-	slice *[]string,
+	slice []string,
 	isIntegrityOkay func(line string) bool,
 ) *Collection {
 
-	for _, item := range *slice {
+	for _, item := range slice {
 		if isIntegrityOkay(item) {
 			it.Add(item)
 		}
@@ -1814,11 +1874,12 @@ func (it *Collection) MergeSlicesOfSlice(slices ...[]string) *Collection {
 // It is like set A - B
 // Set A = this collection
 // Set B = itemsCollection given in parameters.
-func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]string {
+func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) []string {
 	if itemsCollection == nil || itemsCollection.IsEmpty() {
-		newItems := it.items
+		newItems := make([]string, len(it.items))
+		copy(newItems, it.items)
 
-		return &newItems
+		return newItems
 	}
 
 	finalList := make(
@@ -1838,7 +1899,7 @@ func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]str
 		)
 	}
 
-	return &finalList
+	return finalList
 }
 
 // GetAllExcept Get all items except the mentioned ones.
@@ -1846,11 +1907,12 @@ func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]str
 // It is like set A - B
 // Set A = this collection
 // Set B = items given in parameters.
-func (it *Collection) GetAllExcept(items []string) *[]string {
+func (it *Collection) GetAllExcept(items []string) []string {
 	if items == nil {
-		newItems := it.items
+		newItems := make([]string, len(it.items))
+		copy(newItems, it.items)
 
-		return &newItems
+		return newItems
 	}
 
 	newCollection := New.Collection.StringsOptions(
@@ -1997,8 +2059,7 @@ func (it *Collection) Joins(
 	}
 
 	newItems := make([]string, 0, it.Length()+len(items))
-	copy(newItems, it.items)
-
+	newItems = append(newItems, it.items...)
 	newItems = append(newItems, items...)
 
 	return strings.Join(newItems, separator)
@@ -2008,7 +2069,7 @@ func (it *Collection) NonEmptyJoins(
 	joiner string,
 ) string {
 	return stringslice.NonEmptyJoinPtr(
-		&it.items,
+		it.items,
 		joiner,
 	)
 }
@@ -2017,7 +2078,7 @@ func (it *Collection) NonWhitespaceJoins(
 	joiner string,
 ) string {
 	return stringslice.NonWhitespaceJoinPtr(
-		&it.items,
+		it.items,
 		joiner,
 	)
 }
@@ -2026,7 +2087,7 @@ func (it *Collection) JsonModel() []string {
 	return it.items
 }
 
-func (it *Collection) JsonModelAny() interface{} {
+func (it *Collection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -2047,11 +2108,11 @@ func (it *Collection) UnmarshalJSON(data []byte) error {
 }
 
 func (it Collection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it Collection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 //goland:noinspection GoLinterLocal
@@ -2124,7 +2185,7 @@ func (it *Collection) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Collection) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Collection) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }
 

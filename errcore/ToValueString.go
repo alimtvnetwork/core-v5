@@ -3,10 +3,10 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func ToValueString(reference interface{}) string {
+func ToValueString(reference any) string {
 	return fmt.Sprintf(
 		constants.SprintPropertyNameValueFormat,
 		reference)

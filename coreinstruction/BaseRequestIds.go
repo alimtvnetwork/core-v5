@@ -1,6 +1,6 @@
 package coreinstruction
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 type BaseRequestIds struct {
 	RequestIds []IdentifierWithIsGlobal `json:"RequestIds,omitempty"`
@@ -11,7 +11,7 @@ func NewBaseRequestIds(
 	ids ...string,
 ) *BaseRequestIds {
 	return &BaseRequestIds{
-		RequestIds: *NewRequestIds(
+		RequestIds: NewRequestIds(
 			isGlobal,
 			ids...),
 	}
@@ -20,10 +20,10 @@ func NewBaseRequestIds(
 func NewRequestIds(
 	isGlobal bool,
 	ids ...string,
-) *[]IdentifierWithIsGlobal {
+) []IdentifierWithIsGlobal {
 	slice := make([]IdentifierWithIsGlobal, len(ids))
 	if len(ids) == 0 {
-		return &slice
+		return slice
 	}
 
 	for i, id := range ids {
@@ -33,7 +33,7 @@ func NewRequestIds(
 		}
 	}
 
-	return &slice
+	return slice
 }
 
 func NewRequestId(
@@ -47,7 +47,7 @@ func NewRequestId(
 }
 
 func (b *BaseRequestIds) RequestIdsLength() int {
-	if b != nil && b.RequestIds != nil {
+	if b == nil || b.RequestIds == nil {
 		return constants.Zero
 	}
 

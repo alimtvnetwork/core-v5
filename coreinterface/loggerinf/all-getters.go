@@ -1,8 +1,8 @@
 package loggerinf
 
 import (
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type ModelBytesGetter interface {

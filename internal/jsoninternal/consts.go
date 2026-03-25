@@ -1,5 +1,5 @@
 package jsoninternal
 
 const (
-	indent = "  "
+	Indent = "  "
 )

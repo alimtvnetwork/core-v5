@@ -1,12 +1,12 @@
 package enumimpl
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func JoinPrependUsingDot(
-	prepend interface{},
-	anyItems ...interface{},
+	prepend any,
+	anyItems ...any,
 ) string {
 	return PrependJoin(
 		constants.Dot,

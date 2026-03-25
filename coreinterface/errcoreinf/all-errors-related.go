@@ -3,10 +3,10 @@ package errcoreinf
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type IsReferencesEmptyChecker interface {
@@ -153,7 +153,7 @@ type CodeTypeNameWithReferencer interface {
 }
 
 type JsonModelAnyGetter interface {
-	JsonModelAny() interface{}
+	JsonModelAny() any
 }
 
 type CategoryNamer interface {
@@ -217,7 +217,7 @@ type ErrWrapperLogger interface {
 }
 
 type ValueDynamicGetter interface {
-	ValueDynamic() interface{}
+	ValueDynamic() any
 }
 
 type ValueStringGetter interface {
@@ -229,7 +229,7 @@ type VariableValueStringGetter interface {
 }
 
 type VariableValueDynamicGetter interface {
-	VariableValueDynamic() (varName string, value interface{})
+	VariableValueDynamic() (varName string, value any)
 }
 
 type StringWithoutTyper interface {
@@ -269,7 +269,7 @@ type ReferenceCollectionDefiner interface {
 	coreinterface.LengthGetter
 	coreinterface.CountGetter
 
-	AddVarVal(varName string, val interface{}) ReferenceCollectionDefiner
+	AddVarVal(varName string, val any) ReferenceCollectionDefiner
 	AddReferencer(ref Referencer) ReferenceCollectionDefiner
 	AddReferences(references ...Referencer) ReferenceCollectionDefiner
 
@@ -348,19 +348,19 @@ type CompiledVoidLogger interface {
 }
 
 type ShouldBeErrorVerifier interface {
-	ShouldBeError(right interface{}) error
+	ShouldBeError(right any) error
 }
 
 type ShouldBeMessageVerifier interface {
-	ShouldBe(right interface{}) string
+	ShouldBe(right any) string
 }
 
 type LeftShouldBeMessageVerifier interface {
-	ShouldBe(left, right interface{}) string
+	ShouldBe(left, right any) string
 }
 
 type LeftShouldBeErrorVerifier interface {
-	ShouldBeError(left, right interface{}) error
+	ShouldBeError(left, right any) error
 }
 
 type CompleteSuccesser interface {

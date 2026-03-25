@@ -67,7 +67,7 @@ func (it newBytesCollectionCreator) UsingCap(
 }
 
 func (it newBytesCollectionCreator) AnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) (*BytesCollection, error) {
 	length := len(anyItems)
 	collection := it.UsingCap(length)

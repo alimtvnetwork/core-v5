@@ -1,11 +1,10 @@
 package stringslice
 
-func TrimmedEachWordsPtr(slice *[]string) *[]string {
-	if slice == nil || *slice == nil {
-		return &[]string{}
+// Deprecated: Use TrimmedEachWords instead.
+func TrimmedEachWordsPtr(slice []string) []string {
+	if len(slice) == 0 {
+		return []string{}
 	}
 
-	results := TrimmedEachWords(*slice)
-
-	return &results
+	return TrimmedEachWords(slice)
 }

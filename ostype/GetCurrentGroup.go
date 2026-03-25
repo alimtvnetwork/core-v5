@@ -1,6 +1,6 @@
 package ostype
 
-import "gitlab.com/auk-go/core/osconsts"
+import "github.com/alimtvnetwork/core/osconsts"
 
 func GetCurrentGroup() Group {
 	return GetGroup(osconsts.CurrentOperatingSystem)

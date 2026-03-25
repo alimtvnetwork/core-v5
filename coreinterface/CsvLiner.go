@@ -1,6 +1,6 @@
 package coreinterface
 
 type CsvLiner interface {
-	CsvLines() *[]string
-	CsvLinesOptions(isSkipQuoteOnlyOnExistence bool) *[]string
+	CsvLines() []string
+	CsvLinesOptions(isSkipQuoteOnlyOnExistence bool) []string
 }

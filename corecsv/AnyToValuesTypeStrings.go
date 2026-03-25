@@ -3,14 +3,14 @@ package corecsv
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // AnyToValuesTypeStrings
 //
 // Output : []{ 'value - type', 'value - type', ... }
 func AnyToValuesTypeStrings(
-	references ...interface{},
+	references ...any,
 ) []string {
 	if len(references) == 0 {
 		return []string{}

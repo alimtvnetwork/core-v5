@@ -1,7 +1,7 @@
 package corestr
 
 import (
-	"gitlab.com/auk-go/core/converters"
+	"github.com/alimtvnetwork/core/converters"
 )
 
 type newLinkedListCollectionsCreator struct{}

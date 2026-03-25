@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func AllNameValues(nameStrings []string, anyEnumVal interface{}) []string {
+func AllNameValues(nameStrings []string, anyEnumVal any) []string {
 	reflectValues := reflect.ValueOf(anyEnumVal)
 	length := reflectValues.Len()
 	slice := make([]string, length)

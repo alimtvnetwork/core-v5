@@ -1,7 +1,7 @@
 package converters
 
 import (
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type StringsToMapConverter []string
@@ -80,8 +80,8 @@ func (it StringsToMapConverter) LineProcessorMapStringIntegerOptions(
 }
 
 func (it StringsToMapConverter) LineProcessorMapStringAnyTrim(
-	processorFunc func(line string) (key string, val interface{}),
-) map[string]interface{} {
+	processorFunc func(line string) (key string, val any),
+) map[string]any {
 	return it.LineProcessorMapStringAnyOptions(
 		true,
 		processorFunc)
@@ -89,8 +89,8 @@ func (it StringsToMapConverter) LineProcessorMapStringAnyTrim(
 
 func (it StringsToMapConverter) LineProcessorMapStringAnyOptions(
 	isTrimBefore bool,
-	processorFunc func(line string) (key string, val interface{}),
-) map[string]interface{} {
+	processorFunc func(line string) (key string, val any),
+) map[string]any {
 	return strutilinternal.
 		SliceToMapConverter(it.Strings()).
 		LineProcessorMapStringAnyOptions(

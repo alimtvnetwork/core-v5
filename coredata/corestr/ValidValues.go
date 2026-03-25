@@ -1,10 +1,10 @@
 package corestr
 
 import (
-	"gitlab.com/auk-go/core/conditional"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/conditional"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type ValidValues struct {
@@ -107,7 +107,7 @@ func (it *ValidValues) SafeValidValueAt(index int) string {
 	if it.HasIndex(index) {
 		validVal := it.ValidValues[index]
 
-		return conditional.String(
+		return conditional.IfString(
 			validVal.IsValid,
 			validVal.Value,
 			constants.EmptyString)

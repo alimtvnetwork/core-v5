@@ -5,5 +5,5 @@ type bytesSerializer interface {
 }
 
 type bytesDeserializer interface {
-	Deserialize(toPtr interface{}) error
+	Deserialize(toPtr any) error
 }

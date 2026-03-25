@@ -1,11 +1,12 @@
 package enumimpl
 
 import (
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 func OnlySupportedErr(
+	skipStack int,
 	allNames []string,
 	supportedNames ...string,
 ) error {
@@ -15,23 +16,28 @@ func OnlySupportedErr(
 
 	unsupportedNames := UnsupportedNames(
 		allNames,
-		supportedNames...)
+		supportedNames...,
+	)
 
 	if len(unsupportedNames) == 0 {
 		return nil
 	}
 
 	supportedCsv := csvinternal.StringsToStringDefault(
-		supportedNames...)
+		supportedNames...,
+	)
 
 	unsupportedCsv := csvinternal.StringsToStringDefault(
-		unsupportedNames...)
+		unsupportedNames...,
+	)
 
 	supportedMsg := "Only supported (" + supportedCsv + ")"
-	unsupportedMsg := "Unsupported (" + unsupportedCsv + ")"
+	unsupportedMsg := ". Unsupported (" + unsupportedCsv + ")"
 
 	return errcore.
 		RangesOnlySupportedType.
-		ErrorNoRefs(
-			supportedMsg + unsupportedMsg)
+		ErrorNoRefsSkip(
+			skipStack,
+			supportedMsg+unsupportedMsg,
+		)
 }

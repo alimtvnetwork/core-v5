@@ -1,6 +1,6 @@
 package corejson
 
-func JsonStringOrErrMsg(anyItem interface{}) (jsonStringOrErr string) {
+func JsonStringOrErrMsg(anyItem any) (jsonStringOrErr string) {
 	jsonResult := New(anyItem)
 
 	if jsonResult.HasError() {

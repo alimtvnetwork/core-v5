@@ -1,23 +1,23 @@
 package simplewrap
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 func CurlyWrapOption(
 	isSkipIfExists bool,
-	source interface{},
+	source any,
 ) string {
-	toStr := convertinteranl.
+	toStr := convertinternal.
 		AnyTo.
 		SmartString(source)
-	
+
 	if isSkipIfExists {
 		return ConditionalWrapWith(
 			'{',
 			toStr,
 			'}')
 	}
-	
+
 	return CurlyWrap(source)
 }

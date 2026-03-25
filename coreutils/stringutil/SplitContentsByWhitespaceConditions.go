@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
 )
 
 func SplitContentsByWhitespaceConditions(

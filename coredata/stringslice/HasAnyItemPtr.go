@@ -1,5 +1,6 @@
 package stringslice
 
-func HasAnyItemPtr(slice *[]string) bool {
+// Deprecated: Use HasAnyItem instead.
+func HasAnyItemPtr(slice []string) bool {
 	return !IsEmptyPtr(slice)
 }

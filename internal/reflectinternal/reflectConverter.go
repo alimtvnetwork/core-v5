@@ -6,13 +6,13 @@ import (
 	"sync"
 	"unsafe"
 
-	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 type reflectConverter struct{}
 
-func (it reflectConverter) ArgsToReflectValues(args []interface{}) []reflect.Value {
+func (it reflectConverter) ArgsToReflectValues(args []any) []reflect.Value {
 	if len(args) == 0 {
 		return []reflect.Value{}
 	}
@@ -31,13 +31,13 @@ func (it reflectConverter) ArgsToReflectValues(args []interface{}) []reflect.Val
 
 func (it reflectConverter) ReflectValuesToInterfaces(
 	reflectValues []reflect.Value,
-) []interface{} {
+) []any {
 	if len(reflectValues) == 0 {
-		return []interface{}{}
+		return []any{}
 	}
 
 	list := make(
-		[]interface{},
+		[]any,
 		len(reflectValues),
 	)
 
@@ -48,7 +48,7 @@ func (it reflectConverter) ReflectValuesToInterfaces(
 	return list
 }
 
-func (it reflectConverter) ReflectValueToAnyValue(rv reflect.Value) interface{} {
+func (it reflectConverter) ReflectValueToAnyValue(rv reflect.Value) any {
 	if Is.Null(rv) {
 		return nil
 	}
@@ -57,13 +57,20 @@ func (it reflectConverter) ReflectValueToAnyValue(rv reflect.Value) interface{} 
 
 	switch k {
 	case reflect.Ptr, reflect.Interface:
+		if rv.IsNil() {
+			return nil
+		}
 		return rv.Elem().Interface()
+	case reflect.String:
+		return rv.String()
+	case reflect.Int:
+		return rv.Int()
 	default:
 		return rv.Interface()
 	}
 }
 
-func (it reflectConverter) InterfacesToTypes(items []interface{}) []reflect.Type {
+func (it reflectConverter) InterfacesToTypes(items []any) []reflect.Type {
 	if len(items) == 0 {
 		return []reflect.Type{}
 	}
@@ -78,7 +85,7 @@ func (it reflectConverter) InterfacesToTypes(items []interface{}) []reflect.Type
 	return output
 }
 
-func (it reflectConverter) InterfacesToTypesNames(items []interface{}) []string {
+func (it reflectConverter) InterfacesToTypesNames(items []any) []string {
 	if len(items) == 0 {
 		return []string{}
 	}
@@ -93,7 +100,7 @@ func (it reflectConverter) InterfacesToTypesNames(items []interface{}) []string 
 	return output
 }
 
-func (it reflectConverter) InterfacesToTypesNamesWithValues(items []interface{}) []string {
+func (it reflectConverter) InterfacesToTypesNamesWithValues(items []any) []string {
 	if len(items) == 0 {
 		return []string{}
 	}
@@ -106,7 +113,7 @@ func (it reflectConverter) InterfacesToTypesNamesWithValues(items []interface{})
 			"%d. %s [value: %s]",
 			i,
 			toType.Name(),
-			convertinteranl.AnyTo.SmartString(item),
+			convertinternal.AnyTo.SmartString(item),
 		)
 
 		output = append(output, compiledString)
@@ -126,13 +133,27 @@ func (it reflectConverter) ReflectValueToPointerReflectValue(
 	return reflect.NewAt(rv.Type(), unsafePtr)
 }
 
+func (it reflectConverter) ToPtrRvIfNotAlready(
+	rv reflect.Value,
+) reflect.Value {
+	if rv.Kind() == reflect.Ptr {
+		return rv
+	}
+
+	toInterface := rv.Interface()
+	toPointer := &toInterface
+	unsafePtr := unsafe.Pointer(&toPointer)
+
+	return reflect.NewAt(rv.Type(), unsafePtr)
+}
+
 // ReducePointer
 //
 // anyItem must be a struct or pointer to struct
 //
 // level means how many ****Struct to reduce to Struct
 func (it reflectConverter) ReducePointer(
-	anyItem interface{},
+	anyItem any,
 	level int,
 ) *reflectmodel.ReflectValueKind {
 	rv := reflect.ValueOf(anyItem) // can be a pointer or non pointer
@@ -158,9 +179,9 @@ func (it reflectConverter) ReducePointerRv(
 //
 // Default means level 3 at max
 func (it reflectConverter) ReducePointerDefault(
-	anyItem interface{},
+	anyItem any,
 ) *reflectmodel.ReflectValueKind {
-	return it.ReducePointerDefault(anyItem)
+	return it.ReducePointer(anyItem, 3)
 }
 
 // ReducePointerRvDefault
@@ -177,7 +198,7 @@ func (it reflectConverter) ReducePointerRvDefault(
 }
 
 func (it reflectConverter) ReducePointerDefaultToType(
-	anyItem interface{},
+	anyItem any,
 ) *reflect.Type {
 	rv := reflect.ValueOf(anyItem)
 
@@ -212,7 +233,7 @@ func (it reflectConverter) ReducePointerRvDefaultToType(
 func (it reflectConverter) ReflectValToInterfaces(
 	isSkipOnNil bool,
 	reflectVal reflect.Value,
-) []interface{} {
+) []any {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ReflectValToInterfaces(
 			isSkipOnNil,
@@ -224,12 +245,14 @@ func (it reflectConverter) ReflectValToInterfaces(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
-		return []interface{}{}
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
+		return []any{}
 	}
 
 	length := reflectVal.Len()
-	slice := make([]interface{}, 0, length)
+	slice := make([]any, 0, length)
 
 	if length == 0 {
 		return slice
@@ -256,7 +279,7 @@ func (it reflectConverter) ReflectValToInterfaces(
 
 func (it reflectConverter) ReflectValToInterfacesAsync(
 	reflectVal reflect.Value,
-) []interface{} {
+) []any {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ReflectValToInterfacesAsync(
 			reflect.Indirect(reflectVal),
@@ -267,12 +290,14 @@ func (it reflectConverter) ReflectValToInterfacesAsync(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
-		return []interface{}{}
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
+		return []any{}
 	}
 
 	length := reflectVal.Len()
-	slice := make([]interface{}, length)
+	slice := make([]any, length)
 
 	if length == 0 {
 		return slice
@@ -304,9 +329,9 @@ func (it reflectConverter) ReflectValToInterfacesAsync(
 
 func (it reflectConverter) ReflectValToInterfacesUsingProcessor(
 	isSkipOnNil bool,
-	processorFunc func(item interface{}) (result interface{}, isTake, isBreak bool),
+	processorFunc func(item any) (result any, isTake, isBreak bool),
 	reflectVal reflect.Value,
-) []interface{} {
+) []any {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ReflectValToInterfaces(
 			isSkipOnNil,
@@ -318,12 +343,14 @@ func (it reflectConverter) ReflectValToInterfacesUsingProcessor(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
-		return []interface{}{}
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
+		return []any{}
 	}
 
 	length := reflectVal.Len()
-	slice := make([]interface{}, 0, length)
+	slice := make([]any, 0, length)
 
 	if length == 0 {
 		return slice
@@ -357,8 +384,8 @@ func (it reflectConverter) ReflectValToInterfacesUsingProcessor(
 	return slice
 }
 
-func (it reflectConverter) ReflectInterfaceVal(any interface{}) interface{} {
-	rVal := reflect.ValueOf(any)
+func (it reflectConverter) ReflectInterfaceVal(anyItem any) any {
+	rVal := reflect.ValueOf(anyItem)
 
 	if rVal.Kind() == reflect.Ptr {
 		rVal = rVal.Elem()
@@ -368,26 +395,26 @@ func (it reflectConverter) ReflectInterfaceVal(any interface{}) interface{} {
 }
 
 func (it reflectConverter) ToPointerRv(
-	any interface{},
+	anyItem any,
 ) *reflect.Value {
-	if any == nil {
+	if anyItem == nil {
 		return nil
 	}
 
-	rv := reflect.ValueOf(any)
+	rv := reflect.ValueOf(anyItem)
 	newRv := it.ReflectValueToPointerReflectValue(rv)
 
 	return &newRv
 }
 
 func (it reflectConverter) ToPointer(
-	any interface{},
-) interface{} {
-	if any == nil {
-		return any
+	anyItem any,
+) any {
+	if anyItem == nil {
+		return anyItem
 	}
 
-	rv := reflect.ValueOf(any)
+	rv := reflect.ValueOf(anyItem)
 	newRv := it.ReflectValueToPointerReflectValue(rv)
 
 	return newRv.Interface()

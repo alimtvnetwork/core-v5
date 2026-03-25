@@ -4,12 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/filemode"
-	"gitlab.com/auk-go/core/internal/pathinternal"
-	"gitlab.com/auk-go/core/iserror"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/filemode"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/iserror"
 )
 
 func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
@@ -157,7 +157,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_ExistingFileFails_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
 	chmodhelper.SimpleFileWriter.Lock()
 	defer chmodhelper.SimpleFileWriter.Unlock()
@@ -183,13 +183,14 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail",
+				"Test_SimpleFileWriter_CreateDir_ExistingFileFails_Verification",
 			)
 
 			for fileIndex, file := range input.Files {
 				finalPath := pathinternal.Join(dir, file)
 
 				err := fileWriter.String.Default(
+					false,
 					finalPath,
 					"",
 				)
@@ -242,7 +243,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
 	chmodhelper.SimpleFileWriter.Lock()
 	defer chmodhelper.SimpleFileWriter.Unlock()
@@ -268,7 +269,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails",
+				"Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification",
 			)
 
 			for fileIndex, file := range input.Files {
@@ -276,6 +277,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 				parentDir := pathinternal.ParentDir(finalPath)
 
 				err := fileWriter.String.Chmod(
+					false,
 					filemode.X200,
 					filemode.X300,
 					finalPath,

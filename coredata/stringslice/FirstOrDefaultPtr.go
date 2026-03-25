@@ -1,11 +1,12 @@
 package stringslice
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
-func FirstOrDefaultPtr(slice *[]string) string {
-	if slice == nil || len(*slice) == 0 {
+// Deprecated: Use FirstOrDefault instead.
+func FirstOrDefaultPtr(slice []string) string {
+	if len(slice) == 0 {
 		return constants.EmptyString
 	}
 
-	return (*slice)[0]
+	return slice[0]
 }

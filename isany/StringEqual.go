@@ -1,9 +1,9 @@
 package isany
 
-import "gitlab.com/auk-go/core/internal/strutilinternal"
+import "github.com/alimtvnetwork/core/internal/strutilinternal"
 
 func StringEqual(
-	left, right interface{},
+	left, right any,
 ) bool {
 	leftString := strutilinternal.AnyToFieldNameString(left)
 	rightString := strutilinternal.AnyToFieldNameString(right)

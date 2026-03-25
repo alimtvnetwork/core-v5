@@ -1,16 +1,16 @@
 package errcore
 
 func VarThreeNoType(
-	var1 string,
-	val1 interface{},
-	var2 string,
-	val2 interface{},
-	var3 string,
-	val3 interface{},
+	firstName string,
+	firstValue any,
+	secondName string,
+	secondValue any,
+	thirdName string,
+	thirdValue any,
 ) string {
 	return VarThree(
 		false,
-		var1, val1,
-		var2, val2,
-		var3, val3)
+		firstName, firstValue,
+		secondName, secondValue,
+		thirdName, thirdValue)
 }

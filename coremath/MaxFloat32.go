@@ -1,10 +1,12 @@
 package coremath
 
+// Deprecated: Use the built-in max() function (Go 1.21+).
+//
 //goland:noinspection ALL
-func MaxFloat32(v1, v2 float32) float32 {
-	if v1 < v2 {
-		return v2
+func MaxFloat32(left, right float32) float32 {
+	if left < right {
+		return right
 	}
 
-	return v1
+	return left
 }

@@ -1,7 +1,7 @@
 package chmodins
 
 import (
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // GetRwxFullLengthError must be 10 chars length

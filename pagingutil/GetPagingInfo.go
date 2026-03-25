@@ -1,43 +1,58 @@
 package pagingutil
 
-import "gitlab.com/auk-go/core/errcore"
-
+// GetPagingInfo calculates paging metadata from a PagingRequest.
+//
+// Validation rules:
+//   - Zero or negative EachPageSize → empty PagingInfo (no paging possible).
+//   - Zero Length → empty PagingInfo with PageIndex 0.
+//   - PageIndex below 1 → clamped to first page (1).
+//   - PageIndex above total pages → clamped to last page.
+//   - Length < EachPageSize → single page, IsPagingPossible = false.
 func GetPagingInfo(request PagingRequest) PagingInfo {
+	// Guard: invalid page size
+	if isPageSizeInvalid(request.EachPageSize) {
+		return PagingInfo{TotalPages: 0}
+	}
+
 	length := request.Length
 
-	if length < request.EachPageSize {
+	// Guard: no items
+	if isLengthEmpty(length) {
 		return PagingInfo{
-			PageIndex:        request.PageIndex,
+			PageIndex:        0,
 			SkipItems:        0,
-			EndingLength:     request.EachPageSize,
+			EndingLength:     0,
+			TotalPages:       0,
 			IsPagingPossible: false,
 		}
 	}
 
-	/**
-	 * eachPageItems = 10
-	 * pageIndex = 4
-	 * skipItems = 10 * (4 - 1) = 30
-	 */
-	skipItems := request.EachPageSize * (request.PageIndex - 1)
-	if skipItems < 0 {
-		errcore.
-			CannotBeNegativeIndexType.
-			HandleUsingPanic(
-				"pageIndex cannot be negative or zero.",
-				request.PageIndex)
+	// Guard: everything fits in one page
+	if isPagingOutOfRange(length, request.EachPageSize) {
+		return PagingInfo{
+			PageIndex:        1,
+			SkipItems:        0,
+			EndingLength:     length,
+			TotalPages:       1,
+			IsPagingPossible: false,
+		}
 	}
 
-	endingIndex := skipItems + request.EachPageSize
+	// Calculate total pages for clamping
+	totalPages := GetPagesSize(request.EachPageSize, length)
 
-	if endingIndex > length {
-		endingIndex = length
-	}
+	// Clamp page index to valid range
+	pageIndex := clampedPageIndex(request.PageIndex, totalPages)
+
+	// Calculate offsets
+	skipItems := calculateSkipItems(pageIndex, request.EachPageSize)
+	endingIndex := clampedEndingLength(skipItems+request.EachPageSize, length)
 
 	return PagingInfo{
-		PageIndex:        request.PageIndex,
+		PageIndex:        pageIndex,
 		SkipItems:        skipItems,
 		EndingLength:     endingIndex,
+		TotalPages:       totalPages,
 		IsPagingPossible: true,
 	}
 }

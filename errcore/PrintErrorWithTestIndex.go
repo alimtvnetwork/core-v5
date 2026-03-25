@@ -1,10 +1,6 @@
 package errcore
 
-import (
-	"fmt"
-
-	"gitlab.com/auk-go/core/constants"
-)
+import "log/slog"
 
 func PrintErrorWithTestIndex(
 	caseIndex int,
@@ -12,14 +8,10 @@ func PrintErrorWithTestIndex(
 	err error,
 ) {
 	if err != nil {
-		fmt.Print(
-			"Case Index: ",
-			caseIndex,
-			constants.NewLineUnix,
-			" \t    Title: ",
-			header,
-			constants.NewLineUnix,
-			" \t  Summary: ",
-			err)
+		slog.Error("test error",
+			"caseIndex", caseIndex,
+			"title", header,
+			"summary", err,
+		)
 	}
 }

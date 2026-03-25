@@ -3,12 +3,12 @@ package errcore
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/namevalue"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/namevalue"
 )
 
 func VarNameValues(
-	nameValues ...namevalue.Instance,
+	nameValues ...namevalue.StringAny,
 ) string {
 	if len(nameValues) == 0 {
 		return ""

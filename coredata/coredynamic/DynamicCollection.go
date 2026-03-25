@@ -7,12 +7,12 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-	"gitlab.com/auk-go/core/pagingutil"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/pagingutil"
 )
 
 type DynamicCollection struct {
@@ -41,7 +41,7 @@ func (it *DynamicCollection) Items() []Dynamic {
 	return it.items
 }
 
-func (it *DynamicCollection) FirstDynamic() interface{} {
+func (it *DynamicCollection) FirstDynamic() any {
 	return it.items[0]
 }
 
@@ -49,7 +49,7 @@ func (it *DynamicCollection) First() Dynamic {
 	return it.items[0]
 }
 
-func (it *DynamicCollection) LastDynamic() interface{} {
+func (it *DynamicCollection) LastDynamic() any {
 	return it.items[it.LastIndex()]
 }
 
@@ -57,7 +57,7 @@ func (it *DynamicCollection) Last() Dynamic {
 	return it.items[it.LastIndex()]
 }
 
-func (it *DynamicCollection) FirstOrDefaultDynamic() interface{} {
+func (it *DynamicCollection) FirstOrDefaultDynamic() any {
 	return it.FirstOrDefault()
 }
 
@@ -71,7 +71,7 @@ func (it *DynamicCollection) FirstOrDefault() *Dynamic {
 	return &first
 }
 
-func (it *DynamicCollection) LastOrDefaultDynamic() interface{} {
+func (it *DynamicCollection) LastOrDefaultDynamic() any {
 	return it.LastOrDefault()
 }
 
@@ -85,7 +85,7 @@ func (it *DynamicCollection) LastOrDefault() *Dynamic {
 	return &last
 }
 
-func (it *DynamicCollection) SkipDynamic(skippingItemsCount int) interface{} {
+func (it *DynamicCollection) SkipDynamic(skippingItemsCount int) any {
 	return it.items[skippingItemsCount:]
 }
 
@@ -99,7 +99,7 @@ func (it *DynamicCollection) SkipCollection(skippingItemsCount int) *DynamicColl
 	}
 }
 
-func (it *DynamicCollection) TakeDynamic(takeDynamicItems int) interface{} {
+func (it *DynamicCollection) TakeDynamic(takeDynamicItems int) any {
 	return it.items[:takeDynamicItems]
 }
 
@@ -128,7 +128,7 @@ func (it *DynamicCollection) SafeLimitCollection(limit int) *DynamicCollection {
 	}
 }
 
-func (it *DynamicCollection) LimitDynamic(limit int) interface{} {
+func (it *DynamicCollection) LimitDynamic(limit int) any {
 	return it.Take(limit)
 }
 
@@ -184,7 +184,8 @@ func (it *DynamicCollection) HasIndex(index int) bool {
 	return it.LastIndex() >= index
 }
 
-func (it *DynamicCollection) ListStringsPtr() *[]string {
+// Deprecated: Use ListStrings instead.
+func (it *DynamicCollection) ListStringsPtr() []string {
 	slice := make([]string, constants.Zero, it.Length()+1)
 
 	for _, dynamic := range it.items {
@@ -193,15 +194,17 @@ func (it *DynamicCollection) ListStringsPtr() *[]string {
 		slice = append(slice, str)
 	}
 
-	return &slice
+	return slice
 }
 
 func (it *DynamicCollection) ListStrings() []string {
-	return *it.ListStringsPtr()
+	return it.ListStringsPtr()
 }
 
 func (it *DynamicCollection) RemoveAt(index int) (isSuccess bool) {
-	if !it.HasIndex(index) {
+	isInvalidIndex := !it.HasIndex(index)
+
+	if isInvalidIndex {
 		return false
 	}
 
@@ -218,7 +221,7 @@ func (it *DynamicCollection) AddAnyItemsWithTypeValidation(
 	isContinueOnError,
 	isNullNotAllowed bool,
 	expectedType reflect.Type,
-	anyItems ...interface{},
+	anyItems ...any,
 ) error {
 	if len(anyItems) == 0 {
 		return nil
@@ -260,7 +263,7 @@ func (it *DynamicCollection) AddAnyItemsWithTypeValidation(
 func (it *DynamicCollection) AddAnyWithTypeValidation(
 	isNullNotAllowed bool,
 	expectedType reflect.Type,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	err := ReflectTypeValidation(
 		isNullNotAllowed,
@@ -281,7 +284,7 @@ func (it *DynamicCollection) AddAnyWithTypeValidation(
 }
 
 func (it *DynamicCollection) AddAny(
-	anyItem interface{}, isValid bool,
+	anyItem any, isValid bool,
 ) *DynamicCollection {
 	it.items = append(
 		it.items,
@@ -292,7 +295,7 @@ func (it *DynamicCollection) AddAny(
 }
 
 func (it *DynamicCollection) AddAnyNonNull(
-	anyItem interface{}, isValid bool,
+	anyItem any, isValid bool,
 ) *DynamicCollection {
 	if anyItem == nil {
 		return it
@@ -307,7 +310,7 @@ func (it *DynamicCollection) AddAnyNonNull(
 }
 
 func (it *DynamicCollection) AddAnyMany(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *DynamicCollection {
 	if anyItems == nil {
 		return it
@@ -361,12 +364,12 @@ func (it *DynamicCollection) AddManyPtr(
 	return it
 }
 
-func (it *DynamicCollection) AnyItems() []interface{} {
+func (it *DynamicCollection) AnyItems() []any {
 	if it.IsEmpty() {
-		return []interface{}{}
+		return []any{}
 	}
 
-	slice := make([]interface{}, it.Length())
+	slice := make([]any, it.Length())
 
 	for i, dynamicInstance := range it.items {
 		slice[i] = dynamicInstance.Value()
@@ -377,7 +380,7 @@ func (it *DynamicCollection) AnyItems() []interface{} {
 
 func (it *DynamicCollection) AddAnySliceFromSingleItem(
 	isValid bool,
-	sliceList interface{},
+	sliceList any,
 ) *DynamicCollection {
 	if sliceList == nil {
 		return it
@@ -386,6 +389,7 @@ func (it *DynamicCollection) AddAnySliceFromSingleItem(
 	items := reflectinternal.
 		SliceConverter.
 		ToAnyItemsAsync(sliceList)
+
 	for _, item := range items {
 		it.items = append(
 			it.items,
@@ -480,6 +484,10 @@ func (it *DynamicCollection) JsonResultsPtrCollection() *corejson.ResultsPtrColl
 func (it *DynamicCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -519,6 +527,7 @@ func (it *DynamicCollection) GetPagedCollection(
 	}
 
 	wg.Add(pagesPossibleCeiling)
+
 	for i := 1; i <= pagesPossibleCeiling; i++ {
 		go addPagedItemsFunc(i)
 	}
@@ -570,7 +579,7 @@ func (it *DynamicCollection) JsonModel() DynamicCollectionModel {
 	}
 }
 
-func (it *DynamicCollection) JsonModelAny() interface{} {
+func (it *DynamicCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

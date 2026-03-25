@@ -3,11 +3,11 @@ package corejson
 import (
 	"encoding/json"
 
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
-func NewPtr(anyItem interface{}) *Result {
+func NewPtr(anyItem any) *Result {
 	jsonBytes, err := json.Marshal(anyItem)
 	typeName := reflectinternal.TypeName(anyItem)
 

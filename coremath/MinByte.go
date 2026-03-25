@@ -1,10 +1,12 @@
 package coremath
 
+// Deprecated: Use the built-in min() function (Go 1.21+).
+//
 //goland:noinspection ALL
-func MinByte(v1, v2 byte) byte {
-	if v1 > v2 {
-		return v2
+func MinByte(left, right byte) byte {
+	if left > right {
+		return right
 	}
 
-	return v1
+	return left
 }

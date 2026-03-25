@@ -1,6 +1,6 @@
 package corecmp
 
-import "gitlab.com/auk-go/core/corecomparator"
+import "github.com/alimtvnetwork/core/corecomparator"
 
 func VersionSliceByte(leftVersions, rightVersions []byte) corecomparator.Compare {
 	if leftVersions == nil && rightVersions == nil {

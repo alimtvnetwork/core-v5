@@ -1,6 +1,6 @@
 package mapdiffinternal
 
-func isStringType(anyItem interface{}) bool {
+func isStringType(anyItem any) bool {
 	_, isSuccess := anyItem.(string)
 
 	return isSuccess

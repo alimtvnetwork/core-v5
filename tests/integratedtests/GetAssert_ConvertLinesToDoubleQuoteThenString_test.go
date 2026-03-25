@@ -3,8 +3,8 @@ package integratedtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests"
 )
 
 func Test_ConvertLinesToDoubleQuoteThenString_Verification(t *testing.T) {

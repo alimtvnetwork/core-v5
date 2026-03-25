@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type BaseUsername struct {
@@ -37,7 +37,6 @@ func (it *BaseUsername) IsUsernameCaseInsensitive(usernameInsensitive string) bo
 
 func (it *BaseUsername) IsUsernameContains(usernameContains string) bool {
 	return strings.Contains(it.Username, usernameContains)
-
 }
 
 func (it *BaseUsername) IsUsernameRegexMatches(regex *regexp.Regexp) bool {

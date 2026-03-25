@@ -1,8 +1,8 @@
 package integratedtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var (
@@ -46,9 +46,9 @@ var (
 			VerifyTypeOf:  commonType,
 		},
 		{
-			Title: "giving []interface - json convert and returns as it is.",
+			Title: "giving []any - json convert and returns as it is.",
 			ArrangeInput: args.Map{
-				"any": []interface{}{
+				"any": []any{
 					"passed []interface, which is",
 					"any but lines of any",
 					"gets no converted and",
@@ -64,13 +64,13 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving map[string]interface{} - converts to lines and returns sorted lines.",
+			Title: "giving map[string]any - converts to lines and returns sorted lines.",
 			ArrangeInput: args.Map{
-				"any": map[string]interface{}{
+				"any": map[string]any{
 					"line 1": "passed map[string]interface, which is",
 					"line 2": "any but keys as is but converts",
 					"line 3": "value to SmartJSON and",
-					"line 4": map[string]interface{}{
+					"line 4": map[string]any{
 						"sub line 1": "returns",
 						"sub line 2": -5,
 					},
@@ -78,8 +78,8 @@ var (
 						"some line 1",
 						"some line 2",
 					},
-					"line 6": []interface{}{
-						args.One{
+					"line 6": []any{
+						args.OneAny{
 							First:  "line 6.1 first",
 							Expect: "line 6.1 expect",
 						},
@@ -93,20 +93,20 @@ var (
 				"line 3 : value to SmartJSON and",
 				"line 4 : {\"sub line 1\":\"returns\",\"sub line 2\":-5}",
 				"line 5 : some line 1\nsome line 2",
-				"line 6 : [{\"FirstItem\":\"line 6.1 first\",\"Expect\":\"line 6.1 expect\"},\"some line 2\"]",
+				"line 6 : [{\"First\":\"line 6.1 first\",\"Expect\":\"line 6.1 expect\"},\"some line 2\"]",
 			},
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving map[interface{}]interface{} - converts to lines and returns sorted lines.",
+			Title: "giving map[any]any - converts to lines and returns sorted lines.",
 			ArrangeInput: args.Map{
-				"any": map[interface{}]interface{}{
+				"any": map[any]any{
 					0:        "it is 0",
 					1:        []string{"it is 1"},
-					"line 1": "passed map[interface{}]interface{}, which is",
+					"line 1": "passed map[any]any, which is",
 					"line 2": "converts both keys and values to",
 					"line 3": "SmartJSON and returns it.",
-					"line 4": map[string]interface{}{
+					"line 4": map[string]any{
 						"sub line 1": "returns",
 						"sub line 2": -5,
 					},
@@ -114,16 +114,14 @@ var (
 						"some line 1",
 						"some line 2",
 					},
-					"line 6": []interface{}{
-						args.One{
+					"line 6": []any{
+						args.OneAny{
 							First:  "line 6.1 first",
 							Expect: "line 6.1 expect",
 						},
 						"some line 2",
 					},
-					args.One{
-						First: "line 7 - key",
-					}: args.One{
+					"{\"First\":\"line 7 - key\"}": args.OneAny{
 						First:  "line 7 - value",
 						Expect: "line 7 - value.expect",
 					},
@@ -132,13 +130,13 @@ var (
 			ExpectedInput: []string{
 				"0 : it is 0",
 				"1 : it is 1",
-				"line 1 : passed map[interface{}]interface{}, which is",
+				"line 1 : passed map[any]any, which is",
 				"line 2 : converts both keys and values to",
 				"line 3 : SmartJSON and returns it.",
 				"line 4 : {\"sub line 1\":\"returns\",\"sub line 2\":-5}",
 				"line 5 : some line 1\nsome line 2",
-				"line 6 : [{\"FirstItem\":\"line 6.1 first\",\"Expect\":\"line 6.1 expect\"},\"some line 2\"]",
-				"{\"FirstItem\":\"line 7 - key\"} : {\"FirstItem\":\"line 7 - value\",\"Expect\":\"line 7 - value.expect\"}",
+				"line 6 : [{\"First\":\"line 6.1 first\",\"Expect\":\"line 6.1 expect\"},\"some line 2\"]",
+				"{\"First\":\"line 7 - key\"} : {\"First\":\"line 7 - value\",\"Expect\":\"line 7 - value.expect\"}",
 			},
 			VerifyTypeOf: commonType,
 		},
@@ -229,7 +227,7 @@ var (
 		{
 			Title: "giving args.One - converts to Smart JSON.",
 			ArrangeInput: args.Map{
-				"any": args.One{
+				"any": args.OneAny{
 					First: []string{
 						"line 1",
 						"line 2",
@@ -241,16 +239,9 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				"{",
-				"  \"FirstItem\": [",
-				"    \"line 1\",",
-				"    \"line 2\"",
-				"  ],",
-				"  \"Expect\": [",
-				"    \"expect 1\",",
-				"    \"expect 2\"",
-				"  ]",
-				"}",
+				"One { line 1",
+				"line 2, expect 1",
+				"expect 2 }",
 			},
 			VerifyTypeOf: commonType,
 		},

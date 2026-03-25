@@ -3,16 +3,16 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 func GetSearchLineNumberExpectationMessage(
 	counter int,
 	lineNumberExpect int,
 	lineNumberActualContent int,
-	content interface{},
-	searchTerm interface{},
-	additionalInfo interface{},
+	content any,
+	searchTerm any,
+	additionalInfo any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.PrintSearchLineNumberDidntMatchFormat,

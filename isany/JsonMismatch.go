@@ -4,7 +4,7 @@ package isany
 //
 //	Inverse of JsonEqual
 func JsonMismatch(
-	left, right interface{},
+	left, right any,
 ) bool {
 	return !JsonEqual(left, right)
 }

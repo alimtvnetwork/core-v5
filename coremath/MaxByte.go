@@ -1,10 +1,12 @@
 package coremath
 
+// Deprecated: Use the built-in max() function (Go 1.21+).
+//
 //goland:noinspection ALL
-func MaxByte(v1, v2 byte) byte {
-	if v1 < v2 {
-		return v2
+func MaxByte(left, right byte) byte {
+	if left < right {
+		return right
 	}
 
-	return v1
+	return left
 }

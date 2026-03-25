@@ -1,6 +1,6 @@
 package conditional
 
-import "gitlab.com/auk-go/core/issetter"
+import "github.com/alimtvnetwork/core/issetter"
 
 func Setter(
 	isTrue bool,

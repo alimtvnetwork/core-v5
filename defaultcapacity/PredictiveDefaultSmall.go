@@ -1,8 +1,8 @@
 package defaultcapacity
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/percentconst"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/percentconst"
 )
 
 func PredictiveDefaultSmall(possibleLen int) int {

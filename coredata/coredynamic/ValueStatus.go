@@ -1,12 +1,12 @@
 package coredynamic
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 type ValueStatus struct {
 	IsValid bool
 	Message string
 	Index   int
-	Value   interface{}
+	Value   any
 }
 
 func InvalidValueStatusNoMessage() *ValueStatus {

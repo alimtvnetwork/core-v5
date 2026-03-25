@@ -18,8 +18,9 @@ func IsContains(
 		return false
 	}
 
-	if !isCaseSensitive {
-		// insensitive
+	isInsensitive := !isCaseSensitive
+
+	if isInsensitive {
 		for i := startsAtIndex; i < length; i++ {
 			if strings.EqualFold(lines[i], findingString) {
 				return true

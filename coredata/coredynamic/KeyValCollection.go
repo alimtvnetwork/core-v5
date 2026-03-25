@@ -6,13 +6,17 @@ import (
 	"sort"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/pagingutil"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/pagingutil"
 )
 
 type KeyValCollection struct {
 	items []KeyVal
+}
+
+type keyValCollectionJsonModel struct {
+	Items []KeyVal `json:"Items"`
 }
 
 func EmptyKeyValCollection() *KeyValCollection {
@@ -98,6 +102,10 @@ func (it *KeyValCollection) AddManyPtr(
 }
 
 func (it *KeyValCollection) Items() []KeyVal {
+	if it == nil {
+		return nil
+	}
+
 	return it.items
 }
 
@@ -106,7 +114,7 @@ func (it *KeyValCollection) MapAnyItems() *MapAnyItems {
 		return EmptyMapAnyItems()
 	}
 
-	mapItems := make(map[string]interface{}, it.Length())
+	mapItems := make(map[string]any, it.Length())
 	for _, keyVal := range it.items {
 		mapItems[keyVal.KeyString()] = keyVal.Value
 	}
@@ -169,6 +177,10 @@ func (it *KeyValCollection) JsonResultsPtrCollection() *corejson.ResultsPtrColle
 func (it *KeyValCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -274,12 +286,12 @@ func (it *KeyValCollection) AllKeysSorted() []string {
 	return keys
 }
 
-func (it *KeyValCollection) AllValues() []interface{} {
+func (it *KeyValCollection) AllValues() []any {
 	if it.IsEmpty() {
-		return []interface{}{}
+		return []any{}
 	}
 
-	values := make([]interface{}, it.Length())
+	values := make([]any, it.Length())
 
 	for i, result := range it.items {
 		values[i] = result.Value
@@ -289,36 +301,54 @@ func (it *KeyValCollection) AllValues() []interface{} {
 }
 
 func (it *KeyValCollection) String() string {
+	if it == nil {
+		return ""
+	}
+
 	return fmt.Sprintf(
 		constants.SprintPropertyNameValueFormat,
 		it.items)
 }
 
-func (it KeyValCollection) JsonModel() interface{} {
-	return it
+func (it KeyValCollection) JsonModel() any {
+	return keyValCollectionJsonModel{
+		Items: it.items,
+	}
 }
 
-func (it KeyValCollection) JsonModelAny() interface{} {
+func (it KeyValCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
 func (it KeyValCollection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(it.JsonModel())
 }
 
 func (it KeyValCollection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(it.JsonModel())
 }
 
 //goland:noinspection GoLinterLocal
 func (it *KeyValCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*KeyValCollection, error) {
-	err := jsonResult.Unmarshal(it)
+	jsonModel := keyValCollectionJsonModel{}
+	err := jsonResult.Unmarshal(&jsonModel)
 
 	if err != nil {
-		return nil, err
+		legacyItems := []KeyVal{}
+		legacyErr := jsonResult.Unmarshal(&legacyItems)
+
+		if legacyErr != nil {
+			return nil, err
+		}
+
+		it.items = legacyItems
+
+		return it, nil
 	}
+
+	it.items = jsonModel.Items
 
 	return it, nil
 }

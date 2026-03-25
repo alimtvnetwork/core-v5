@@ -3,11 +3,11 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 func MsgHeaderPlusEnding(
-	header, message interface{},
+	header, message any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.MsgHeaderPlusEndingFormat,

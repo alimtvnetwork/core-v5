@@ -3,7 +3,7 @@ package csvinternal
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // AnyItemsToCsvString
@@ -20,7 +20,7 @@ func AnyItemsToCsvString(
 	joiner string,
 	isIncludeQuote,
 	isIncludeSingleQuote bool,
-	references ...interface{},
+	references ...any,
 ) string {
 	if len(references) == 0 {
 		return constants.EmptyString

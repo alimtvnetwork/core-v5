@@ -31,7 +31,7 @@ type Compiler interface {
 }
 
 type FmtCompiler interface {
-	CompileFmt(formatter string, v ...interface{}) string
+	CompileFmt(formatter string, v ...any) string
 }
 
 type Serializer interface {

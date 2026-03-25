@@ -3,13 +3,14 @@ package corestr
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"sort"
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreindexes"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreindexes"
 )
 
 type CharHashsetMap struct {
@@ -261,7 +262,7 @@ func (it *CharHashsetMap) StringLock() string {
 	)
 }
 
-func (it *CharHashsetMap) List() *[]string {
+func (it *CharHashsetMap) List() []string {
 	list := make([]string, it.AllLengthsSum())
 
 	i := 0
@@ -272,48 +273,43 @@ func (it *CharHashsetMap) List() *[]string {
 		}
 	}
 
-	return &list
+	return list
 }
 
-func (it *CharHashsetMap) SortedListAsc() *[]string {
+func (it *CharHashsetMap) SortedListAsc() []string {
 	list := it.List()
-	sort.Strings(*list)
+	sort.Strings(list)
 
 	return list
 }
 
-func (it *CharHashsetMap) SortedListDsc() *[]string {
+func (it *CharHashsetMap) SortedListDsc() []string {
 	list := it.SortedListAsc()
-	length := len(*list)
-	mid := length / 2
-
-	for i := 0; i < mid; i++ {
-		temp := (*list)[i]
-		(*list)[i] = (*list)[length-1-i]
-		(*list)[length-1-i] = temp
+	for i, j := 0, len(list)-1; i < j; i, j = i+1, j-1 {
+		list[i], list[j] = list[j], list[i]
 	}
 
 	return list
 }
 
 func (it *CharHashsetMap) Print(isPrint bool) {
-	if !isPrint {
+	isSkipPrint := !isPrint
+
+	if isSkipPrint {
 		return
 	}
 
-	fmt.Println(
-		it.String(),
-	)
+	slog.Info("char hashset map", "content", it.String())
 }
 
 func (it *CharHashsetMap) PrintLock(isPrint bool) {
-	if !isPrint {
+	isSkipPrint := !isPrint
+
+	if isSkipPrint {
 		return
 	}
 
-	fmt.Println(
-		it.StringLock(),
-	)
+	slog.Info("char hashset map (locked)", "content", it.StringLock())
 }
 
 func (it *CharHashsetMap) IsEmpty() bool {
@@ -572,12 +568,15 @@ func (it *CharHashsetMap) IsEquals(
 
 	for key, hashset := range leftMap {
 		rHashset, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
-		if !rHashset.IsEquals(hashset) {
+		isDifferent := !rHashset.IsEquals(hashset)
+
+		if isDifferent {
 			return false
 		}
 	}
@@ -591,6 +590,9 @@ func (it *CharHashsetMap) AddLock(
 	char := it.GetChar(str)
 
 	it.Lock()
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	hashset, has := it.items[char]
 	it.Unlock()
 
@@ -613,8 +615,15 @@ func (it *CharHashsetMap) AddLock(
 func (it *CharHashsetMap) Add(
 	str string,
 ) *CharHashsetMap {
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
+
 	char := it.GetChar(str)
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	hashset, has := it.items[char]
 
 	if has {
@@ -639,12 +648,19 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 		return it
 	}
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
+
 	length := len(allItemsWithSameChar)
 
 	if length == 0 {
 		return it
 	}
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	values, has := it.items[char]
 
 	if has {
@@ -1080,7 +1096,7 @@ func (it *CharHashsetMap) JsonModel() *CharHashsetDataModel {
 	}
 }
 
-func (it *CharHashsetMap) JsonModelAny() interface{} {
+func (it *CharHashsetMap) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1155,11 +1171,11 @@ func (it *CharHashsetMap) UnmarshalJSON(data []byte) error {
 }
 
 func (it CharHashsetMap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it CharHashsetMap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 // RemoveAll remove all existing items, deletes items using delete(*charCollectionMap.items, char), expensive operation

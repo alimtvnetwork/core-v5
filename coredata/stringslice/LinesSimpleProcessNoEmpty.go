@@ -1,7 +1,7 @@
 package stringslice
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // LinesSimpleProcessNoEmpty split text using constants.NewLineUnix

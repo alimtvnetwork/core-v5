@@ -3,12 +3,12 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // MapAsKeyValSlice
 //
-//	expectation : map[key:interface{}]interface{}
+//	expectation : map[key:any]any
 func MapAsKeyValSlice(reflectVal reflect.Value) (*KeyValCollection, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return MapAsKeyValSlice(

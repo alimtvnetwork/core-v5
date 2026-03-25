@@ -6,13 +6,13 @@ import (
 	"errors"
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/csvinternal"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type Result struct {
@@ -29,7 +29,8 @@ func (it *Result) Map() map[string]string {
 
 	newMap := make(
 		map[string]string,
-		constants.Capacity3)
+		constants.Capacity3,
+	)
 
 	if len(it.Bytes) > 0 {
 		newMap[bytesFieldName] = it.JsonString()
@@ -47,14 +48,15 @@ func (it *Result) Map() map[string]string {
 }
 
 func (it *Result) DeserializedFieldsToMap() (
-	fieldsMap map[string]interface{},
+	fieldsMap map[string]any,
 	parsingErr error,
 ) {
 	if it == nil || len(it.Bytes) == 0 {
-		return map[string]interface{}{}, nil
+		return map[string]any{}, nil
 	}
 
-	parsingErr = it.Deserialize(fieldsMap)
+	fieldsMap = map[string]any{}
+	parsingErr = it.Deserialize(&fieldsMap)
 
 	return fieldsMap, parsingErr
 }
@@ -64,7 +66,7 @@ func (it *Result) DeserializedFieldsToMap() (
 // Warning:
 //   - Swallows the error
 func (it *Result) SafeDeserializedFieldsToMap() (
-	fieldsMap map[string]interface{},
+	fieldsMap map[string]any,
 ) {
 	fieldsMap, _ = it.DeserializedFieldsToMap()
 
@@ -160,7 +162,8 @@ func (it *Result) PrettyJsonBuffer(prefix, indent string) (*bytes.Buffer, error)
 		&prettyJSON,
 		it.Bytes,
 		prefix,
-		indent)
+		indent,
+	)
 
 	return &prettyJSON, err
 }
@@ -172,7 +175,8 @@ func (it *Result) PrettyJsonString() string {
 
 	prettyJSON, err := it.PrettyJsonBuffer(
 		constants.EmptyString,
-		constants.Tab)
+		prettyIndent,
+	)
 
 	if err != nil {
 		return ""
@@ -251,7 +255,8 @@ func (it Result) String() string {
 
 	toString := fmt.Sprintf(
 		constants.SprintValueFormat,
-		currentMap)
+		currentMap,
+	)
 
 	currentMap = nil
 
@@ -286,12 +291,13 @@ func (it *Result) SafeValues() []byte {
 	return it.Bytes
 }
 
-func (it *Result) SafeValuesPtr() *[]byte {
+// Deprecated: Use SafeValues instead.
+func (it *Result) SafeValuesPtr() []byte {
 	if it.HasIssuesOrEmpty() {
-		return &[]byte{}
+		return []byte{}
 	}
 
-	return &it.Bytes
+	return it.Bytes
 }
 
 func (it *Result) Raw() ([]byte, error) {
@@ -372,7 +378,8 @@ func (it *Result) MeaningfulError() error {
 		FailedToParseType.
 		Error(
 			errcore.ToString(it.Error)+", type:"+it.TypeName+", payload:",
-			it.safeJsonStringInternal())
+			it.safeJsonStringInternal(),
+		)
 }
 
 func (it *Result) safeJsonStringInternal() string {
@@ -523,7 +530,7 @@ func (it *Result) InjectInto(
 //
 // Same as Unmarshal, just alias
 func (it *Result) Deserialize(
-	anyPointer interface{},
+	anyPointer any,
 ) error {
 	return it.Unmarshal(anyPointer)
 }
@@ -532,7 +539,7 @@ func (it *Result) Deserialize(
 //
 // Same as UnmarshalMust, just alias
 func (it *Result) DeserializeMust(
-	anyPointer interface{},
+	anyPointer any,
 ) {
 	err := it.Unmarshal(anyPointer)
 
@@ -542,7 +549,7 @@ func (it *Result) DeserializeMust(
 }
 
 func (it *Result) UnmarshalMust(
-	anyPointer interface{},
+	anyPointer any,
 ) {
 	err := it.Unmarshal(anyPointer)
 
@@ -555,25 +562,27 @@ func (it *Result) UnmarshalMust(
 //
 //	deserializes current safe bytes to given pointer
 func (it *Result) Unmarshal(
-	anyPointer interface{},
+	anyPointer any,
 ) error {
 	if it == nil {
 		return errcore.
 			UnMarshallingFailedType.
 			Error(
 				"cannot unmarshal null json result, to pointer type",
-				reflectinternal.TypeName(anyPointer))
+				reflectinternal.TypeName(anyPointer),
+			)
 	}
 
 	if it.HasError() {
 		compiledMessage := errcore.MessageVarMap(
 			"json unmarshal failed with existing error",
-			map[string]interface{}{
+			map[string]any{
 				"err":     it.ErrorString(),
 				"src":     it.TypeName,
 				"dst":     reflectinternal.TypeName(anyPointer),
 				"payload": it.safeJsonStringInternal(),
-			})
+			},
+		)
 
 		return errcore.
 			UnMarshallingFailedType.
@@ -582,7 +591,8 @@ func (it *Result) Unmarshal(
 
 	err := json.Unmarshal(
 		it.Bytes,
-		anyPointer)
+		anyPointer,
+	)
 
 	if err == nil {
 		return nil
@@ -591,12 +601,13 @@ func (it *Result) Unmarshal(
 	// unmarshal caught error
 	compiledMessage := errcore.MessageVarMap(
 		"json unmarshal failed",
-		map[string]interface{}{
+		map[string]any{
 			"err":     it.ErrorString(),
 			"src":     it.TypeName,
 			"dst":     reflectinternal.TypeName(anyPointer),
 			"payload": it.safeJsonStringInternal(),
-		})
+		},
+	)
 
 	return errcore.
 		UnMarshallingFailedType.
@@ -661,7 +672,7 @@ func (it *Result) SerializeMust() []byte {
 //
 // Ignores and returns nil if HasIssuesOrEmpty satisfied
 func (it *Result) UnmarshalSkipExistingIssues(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	if it.HasIssuesOrEmpty() {
 		return nil
@@ -676,12 +687,13 @@ func (it *Result) UnmarshalSkipExistingIssues(
 	// unmarshal caught error
 	compiledMessage := errcore.MessageVarMap(
 		"json unmarshal failed",
-		map[string]interface{}{
+		map[string]any{
 			"err":     err,
 			"src":     it.TypeName,
 			"dst":     reflectinternal.TypeName(toPointer),
 			"payload": it.safeJsonStringInternal(),
-		})
+		},
+	)
 
 	return errcore.
 		UnMarshallingFailedType.
@@ -707,7 +719,7 @@ func (it *Result) JsonModel() Result {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *Result) JsonModelAny() interface{} {
+func (it *Result) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -730,7 +742,8 @@ func (it *Result) ParseInjectUsingJson(
 	jsonResultIn *Result,
 ) (*Result, error) {
 	err := jsonResultIn.Unmarshal(
-		it)
+		it,
+	)
 
 	if err != nil {
 		return Empty.ResultPtrWithErr(it.TypeName, err), err
@@ -744,7 +757,8 @@ func (it *Result) ParseInjectUsingJsonMust(
 	jsonResultIn *Result,
 ) *Result {
 	result, err := it.ParseInjectUsingJson(
-		jsonResultIn)
+		jsonResultIn,
+	)
 
 	if err != nil {
 		panic(err)
@@ -800,7 +814,9 @@ func (it *Result) IsEqualPtr(another *Result) bool {
 		return false
 	}
 
-	if !it.IsErrorEqual(another.Error) {
+	isErrorDifferent := !it.IsErrorEqual(another.Error)
+
+	if isErrorDifferent {
 		return false
 	}
 
@@ -826,7 +842,8 @@ func (it *Result) CombineErrorWithRefString(references ...string) string {
 	return fmt.Sprintf(
 		constants.MessageReferenceWrapFormat,
 		it.Error.Error(),
-		csv)
+		csv,
+	)
 }
 
 func (it *Result) CombineErrorWithRefError(references ...string) error {
@@ -835,7 +852,8 @@ func (it *Result) CombineErrorWithRefError(references ...string) error {
 	}
 
 	errorString := it.CombineErrorWithRefString(
-		references...)
+		references...,
+	)
 
 	return errors.New(errorString)
 }
@@ -845,7 +863,9 @@ func (it Result) IsEqual(another Result) bool {
 		return false
 	}
 
-	if !it.IsErrorEqual(another.Error) {
+	isErrorDifferent := !it.IsErrorEqual(another.Error)
+
+	if isErrorDifferent {
 		return false
 	}
 
@@ -902,14 +922,16 @@ func (it Result) Clone(isDeepClone bool) Result {
 		return NewResult.Create(
 			[]byte{},
 			it.CloneError(),
-			it.TypeName)
+			it.TypeName,
+		)
 	}
 
 	if !isDeepClone || it.Length() == 0 {
 		return NewResult.Create(
 			it.Bytes,
 			it.CloneError(),
-			it.TypeName)
+			it.TypeName,
+		)
 	}
 
 	newBytes := make([]byte, it.Length())
@@ -918,7 +940,8 @@ func (it Result) Clone(isDeepClone bool) Result {
 	return NewResult.Create(
 		newBytes,
 		it.CloneError(),
-		it.TypeName)
+		it.TypeName,
+	)
 }
 
 func (it Result) AsJsonContractsBinder() JsonContractsBinder {

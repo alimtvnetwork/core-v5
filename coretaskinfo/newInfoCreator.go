@@ -1,7 +1,7 @@
 package coretaskinfo
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 type newInfoCreator struct {

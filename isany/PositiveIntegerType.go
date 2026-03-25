@@ -16,6 +16,6 @@ func PositiveIntegerTypeRv(rv reflect.Value) bool {
 	}
 }
 
-func PositiveIntegerType(anyItem interface{}) bool {
+func PositiveIntegerType(anyItem any) bool {
 	return PositiveIntegerTypeRv(reflect.ValueOf(anyItem))
 }

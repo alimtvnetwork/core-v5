@@ -6,11 +6,11 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type LinkedList struct {
@@ -166,7 +166,9 @@ func (it *LinkedList) AddItemsMap(itemsMap map[string]bool) *LinkedList {
 	}
 
 	for key, isAdd := range itemsMap {
-		if !isAdd {
+		isSkip := !isAdd
+
+		if isSkip {
 			continue
 		}
 
@@ -251,7 +253,9 @@ func (it *LinkedList) AddNonEmptyWhitespace(item string) *LinkedList {
 }
 
 func (it *LinkedList) AddIf(isAdd bool, item string) *LinkedList {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -262,7 +266,9 @@ func (it *LinkedList) AddsIf(
 	isAdd bool,
 	addingStrings ...string,
 ) *LinkedList {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -339,10 +345,10 @@ func (it *LinkedList) AddCollectionToNode(
 	node *LinkedListNode,
 	collection *Collection,
 ) *LinkedList {
-	return it.AddStringsPtrToNode(
+	return it.AddStringsToNode(
 		isSkipOnNull,
 		node,
-		collection.ListPtr(),
+		collection.List(),
 	)
 }
 
@@ -400,12 +406,12 @@ func (it *LinkedList) Loop(
 
 func (it *LinkedList) Filter(
 	filter LinkedListFilter,
-) *[]*LinkedListNode {
+) []*LinkedListNode {
 	length := it.Length()
 	list := make([]*LinkedListNode, 0, length)
 
 	if length == 0 {
-		return &list
+		return list
 	}
 
 	node := it.head
@@ -420,7 +426,7 @@ func (it *LinkedList) Filter(
 	}
 
 	if result.IsBreak {
-		return &list
+		return list
 	}
 
 	index := 1
@@ -439,13 +445,13 @@ func (it *LinkedList) Filter(
 		}
 
 		if result2.IsBreak {
-			return &list
+			return list
 		}
 
 		index++
 	}
 
-	return &list
+	return list
 }
 
 func (it *LinkedList) RemoveNodeByElementValue(
@@ -501,7 +507,9 @@ func (it *LinkedList) RemoveNodeByIndex(
 	) (isBreak bool) {
 		hasIndex := removingIndex == arg.Index
 
-		if !hasIndex {
+		isNotFound := !hasIndex
+
+		if isNotFound {
 			return false
 		}
 
@@ -553,7 +561,7 @@ func (it *LinkedList) RemoveNodeByIndexes(
 		func(
 			arg *LinkedListFilterParameter,
 		) *LinkedListFilterResult {
-			hasIndex := coreindexes.HasIndexPlusRemoveIndex(removingIndexesCopy, arg.Index)
+			hasIndex := coreindexes.HasIndexPlusRemoveIndex(&removingIndexesCopy, arg.Index)
 			if hasIndex {
 				// remove
 				return &LinkedListFilterResult{
@@ -652,13 +660,13 @@ func (it *LinkedList) RemoveNode(
 	return it.Loop(processor)
 }
 
-// AddStringsPtrToNode iSkipOnNil
-func (it *LinkedList) AddStringsPtrToNode(
+// AddStringsToNode adds items to the linked list after the given node.
+func (it *LinkedList) AddStringsToNode(
 	isSkipOnNull bool,
 	node *LinkedListNode,
-	items *[]string,
+	items []string,
 ) *LinkedList {
-	if items == nil || node == nil && isSkipOnNull {
+	if len(items) == 0 || node == nil && isSkipOnNull {
 		return it
 	}
 
@@ -671,26 +679,22 @@ func (it *LinkedList) AddStringsPtrToNode(
 			)
 	}
 
-	length := len(*items)
-
-	if length == 0 {
-		return it
-	}
+	length := len(items)
 
 	if length == 1 {
-		it.AddAfterNode(node, (*items)[0])
+		it.AddAfterNode(node, items[0])
 
 		return it
 	}
 
 	finalHead := &LinkedListNode{
-		Element: (*items)[0],
+		Element: items[0],
 		next:    nil,
 	}
 
 	nextNode := finalHead
 
-	for _, item := range (*items)[1:] {
+	for _, item := range items[1:] {
 		nextNode = nextNode.AddNext(it, item)
 	}
 
@@ -701,6 +705,19 @@ func (it *LinkedList) AddStringsPtrToNode(
 	it.incrementLength()
 
 	return it
+}
+
+// Deprecated: Use AddStringsToNode instead.
+func (it *LinkedList) AddStringsPtrToNode(
+	isSkipOnNull bool,
+	node *LinkedListNode,
+	items *[]string,
+) *LinkedList {
+	if items == nil {
+		return it
+	}
+
+	return it.AddStringsToNode(isSkipOnNull, node, *items)
 }
 
 func (it *LinkedList) AddAfterNode(
@@ -855,14 +872,19 @@ func (it *LinkedList) SafePointerIndexAtUsingDefaultLock(
 	return it.SafePointerIndexAtUsingDefault(index, defaultString)
 }
 
-func (it *LinkedList) GetNextNodes(count int) *[]*LinkedListNode {
+func (it *LinkedList) GetNextNodes(count int) []*LinkedListNode {
+	if count <= 0 || it.IsEmpty() {
+		return []*LinkedListNode{}
+	}
+
 	counter := 0
 
 	return it.Filter(
 		func(
 			arg *LinkedListFilterParameter,
 		) *LinkedListFilterResult {
-			isBreak := counter >= count-1
+			counter++
+			isBreak := counter >= count
 			return &LinkedListFilterResult{
 				Value:   arg.Node,
 				IsKeep:  true,
@@ -872,7 +894,7 @@ func (it *LinkedList) GetNextNodes(count int) *[]*LinkedListNode {
 	)
 }
 
-func (it *LinkedList) GetAllLinkedNodes() *[]*LinkedListNode {
+func (it *LinkedList) GetAllLinkedNodes() []*LinkedListNode {
 	return it.Filter(
 		func(
 			arg *LinkedListFilterParameter,
@@ -887,12 +909,8 @@ func (it *LinkedList) GetAllLinkedNodes() *[]*LinkedListNode {
 }
 
 // AddPointerStringsPtr skip on nil, add to back
-func (it *LinkedList) AddPointerStringsPtr(items *[]*string) *LinkedList {
-	if items == nil {
-		return it
-	}
-
-	for _, item := range *items {
+func (it *LinkedList) AddPointerStringsPtr(items []*string) *LinkedList {
+	for _, item := range items {
 		if item == nil {
 			continue
 		}
@@ -958,19 +976,25 @@ func (it *LinkedList) List() []string {
 	return list
 }
 
-// ListPtr must return slice.
-func (it *LinkedList) ListPtr() *[]string {
-	list := it.List()
-
-	return &list
+// Deprecated: Use List instead.
+func (it *LinkedList) ListPtr() []string {
+	return it.List()
 }
 
-// ListPtrLock must return slice.
-func (it *LinkedList) ListPtrLock() *[]string {
+// ListLock returns the list with mutex protection.
+func (it *LinkedList) ListLock() []string {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.ListPtr()
+	return it.List()
+}
+
+// Deprecated: Use ListLock instead.
+func (it *LinkedList) ListPtrLock() []string {
+	it.Lock()
+	defer it.Unlock()
+
+	return it.List()
 }
 
 func (it *LinkedList) String() string {
@@ -995,7 +1019,7 @@ func (it *LinkedList) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			*it.ListPtr(),
+			it.List(),
 			commonJoiner,
 		)
 }
@@ -1003,7 +1027,7 @@ func (it *LinkedList) StringLock() string {
 func (it *LinkedList) Join(
 	separator string,
 ) string {
-	return strings.Join(*it.ListPtr(), separator)
+	return strings.Join(it.List(), separator)
 }
 
 func (it *LinkedList) JoinLock(
@@ -1012,7 +1036,7 @@ func (it *LinkedList) JoinLock(
 	it.Lock()
 	defer it.Unlock()
 
-	return strings.Join(*it.ListPtr(), separator)
+	return strings.Join(it.List(), separator)
 }
 
 func (it *LinkedList) Joins(
@@ -1036,7 +1060,7 @@ func (it *LinkedList) JsonModel() []string {
 	return it.ToCollection(0).JsonModel()
 }
 
-func (it *LinkedList) JsonModelAny() interface{} {
+func (it *LinkedList) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1073,11 +1097,11 @@ func (it *LinkedList) Clear() *LinkedList {
 }
 
 func (it LinkedList) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it LinkedList) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *LinkedList) ParseInjectUsingJson(

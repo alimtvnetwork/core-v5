@@ -2,15 +2,17 @@ package coretestcases
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 // CaseV1
@@ -22,12 +24,32 @@ import (
 //   - Will verify type using VerifyTypeOf
 type CaseV1 coretests.BaseTestCase
 
-func (it CaseV1) Input() interface{} {
+func (it CaseV1) Input() any {
 	return it.ArrangeInput
 }
 
-func (it CaseV1) Expected() interface{} {
+func (it CaseV1) Expected() any {
 	return it.ExpectedInput
+}
+
+// ExpectedLines normalizes ExpectedInput to []string.
+//
+// Supported types:
+//   - string        → []string{s}
+//   - []string      → as-is
+//   - int           → []string{strconv.Itoa(v)}
+//   - []int         → each element converted via strconv.Itoa
+//   - bool          → []string{"true"} or []string{"false"}
+//   - []bool        → each element converted via strconv.FormatBool
+//   - byte          → []string{strconv.Itoa(int(v))}
+//   - []any         → each element converted via fmt.Sprintf
+//   - map[string]any, map[string]string, map[string]int, etc.
+//   - any other     → delegates to convertinternal.AnyTo.Strings (PrettyJSON fallback)
+//
+// This allows test cases to use any reasonable type for ExpectedInput
+// while still producing []string for line-based assertion comparison.
+func (it CaseV1) ExpectedLines() []string {
+	return convertinternal.AnyTo.Strings(it.ExpectedInput)
 }
 
 func (it CaseV1) ArrangeTypeName() string {
@@ -37,7 +59,7 @@ func (it CaseV1) ArrangeTypeName() string {
 // Actual
 //
 // Must SetActual first.
-func (it CaseV1) Actual() interface{} {
+func (it CaseV1) Actual() any {
 	return it.ActualInput
 }
 
@@ -45,7 +67,7 @@ func (it CaseV1) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
 	return it
 }
 
-func (it CaseV1) SetActual(actual interface{}) {
+func (it CaseV1) SetActual(actual any) {
 	it.ActualInput = actual
 }
 
@@ -53,8 +75,132 @@ func (it CaseV1) CaseTitle() string {
 	return it.Title
 }
 
-func (it CaseV1) SetExpected(expected interface{}) {
+func (it CaseV1) SetExpected(expected any) {
 	it.ExpectedInput = expected
+}
+
+// VerifyTypeOfMatch
+//
+// Will verify type using reflect.TypeOf
+func (it CaseV1) VerifyTypeOfMatch(
+	t *testing.T,
+	caseIndex int,
+	actual any,
+) {
+	baseCase := it.AsBaseTestCase()
+
+	if baseCase.IsTypeInvalidOrSkipVerify() {
+		return
+	}
+
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
+
+	title := fmt.Sprintf(
+		typeVerifyTitleFormat,
+		it.Title,
+	)
+
+	convey.Convey(title, t, func() {
+		convey.So(
+			actualType,
+			should.Resemble,
+			expectedType,
+		)
+	})
+}
+
+// VerifyTypeOfMust
+//
+// Will verify type using reflect.TypeOf
+func (it CaseV1) VerifyTypeOfMust(
+	t *testing.T,
+	caseIndex int,
+	actual any,
+) {
+	baseCase := it.AsBaseTestCase()
+
+	if baseCase.IsTypeInvalidOrSkipVerify() {
+		return
+	}
+
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
+
+	title := fmt.Sprintf(
+		typeVerifyTitleFormat,
+		it.Title,
+	)
+
+	convey.Convey(title, t, func() {
+		convey.So(
+			actualType,
+			should.Resemble,
+			expectedType,
+		)
+	})
+}
+
+// VerifyType
+//
+// Will verify type using reflect.Type
+func (it CaseV1) VerifyType(
+	t *testing.T,
+	caseIndex int,
+	actual any,
+) {
+	baseCase := it.AsBaseTestCase()
+
+	if baseCase.IsTypeInvalidOrSkipVerify() {
+		return
+	}
+
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
+
+	title := fmt.Sprintf(
+		typeVerifyTitleFormat,
+		it.Title,
+	)
+
+	convey.Convey(title, t, func() {
+		convey.So(
+			actualType,
+			should.Resemble,
+			expectedType,
+		)
+	})
+}
+
+// VerifyTypeMust
+//
+// Will verify type using reflect.Type
+func (it CaseV1) VerifyTypeMust(
+	t *testing.T,
+	caseIndex int,
+	actual any,
+) {
+	baseCase := it.AsBaseTestCase()
+
+	if baseCase.IsTypeInvalidOrSkipVerify() {
+		return
+	}
+
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
+
+	title := fmt.Sprintf(
+		typeVerifyTitleFormat,
+		it.Title,
+	)
+
+	convey.Convey(title, t, func() {
+		convey.So(
+			actualType,
+			should.Resemble,
+			expectedType,
+		)
+	})
 }
 
 func (it CaseV1) VerifyAllEqual(
@@ -103,7 +249,7 @@ func (it CaseV1) SliceValidatorCondition(
 		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	return sliceValidator
@@ -120,7 +266,7 @@ func (it CaseV1) VerifyAll(
 		Condition:     corevalidator.DefaultDisabledCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	finalErr := it.VerifyAllSliceValidator(
@@ -145,7 +291,7 @@ func (it CaseV1) VerifyAllCondition(
 		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	finalErr := it.VerifyAllSliceValidator(
@@ -169,7 +315,7 @@ func (it CaseV1) VerifyFirst(
 		Condition:     corevalidator.DefaultTrimCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	param := corevalidator.Parameter{
@@ -301,6 +447,14 @@ func (it CaseV1) ShouldBeEqual(
 	caseIndex int,
 	actualElements ...string,
 ) {
+	// When ExpectedInput is a single string, wrap it as []string
+	// so that "" becomes [""] matching the actual [""] from variadic.
+	// This prevents AnyTo.Strings("") returning [] (0 elements)
+	// while actual has [""] (1 element).
+	if s, ok := it.ExpectedInput.(string); ok {
+		it.ExpectedInput = []string{s}
+	}
+
 	_ = it.ShouldBe(
 		t,
 		caseIndex,
@@ -406,7 +560,7 @@ func (it CaseV1) ShouldBeRegex(
 	)
 }
 
-// ShouldBeRegex
+// ShouldBeTrimRegex
 //
 // Each expectation line acts as a regex to
 // be validated against the actual line.
@@ -455,9 +609,9 @@ func (it CaseV1) AssertDirectly(
 	additionalTitle string,
 	msg string,
 	caseIndex int,
-	actual interface{},
+	actual any,
 	assertion convey.Assertion,
-	expectation interface{},
+	expectation any,
 ) {
 	finalTitle := it.PrepareTitle(
 		caseIndex,

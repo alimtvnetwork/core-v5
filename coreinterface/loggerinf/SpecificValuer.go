@@ -17,11 +17,11 @@ type SpecificValuer interface {
 	IsEmptyKeyValuePairs() bool
 	IsEmptyAnyKeyValuePairs() bool
 
-	AnyValuesMap() map[string]interface{}
+	AnyValuesMap() map[string]any
 	KeyValuesPairsMap() map[string]string
 
-	GetAnyValue(key string) (val interface{}, isFound bool)
+	GetAnyValue(key string) (val any, isFound bool)
 	GetKeyValue(key string) (val string, isFound bool)
 
-	AnyValueReflectSetTo(toPtr interface{}) error
+	AnyValueReflectSetTo(toPtr any) error
 }

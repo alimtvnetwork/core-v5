@@ -1,13 +1,14 @@
 package corevalidator
 
 import (
-	"fmt"
+	"log/slog"
 	"testing"
 
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/errcore"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corestr"
 )
 
 type SliceValidators struct {
@@ -72,7 +73,20 @@ func (it *SliceValidators) VerifyAll(
 	for _, sliceValidator := range it.Validators {
 		err := sliceValidator.AllVerifyError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	if errs.IsEmpty() {
@@ -83,7 +97,7 @@ func (it *SliceValidators) VerifyAll(
 	err := errs.AsDefaultError()
 
 	if isPrintError {
-		fmt.Println(err)
+		slog.Error("verification failed", "error", err)
 	}
 
 	return err
@@ -118,7 +132,20 @@ func (it *SliceValidators) VerifyAllError(
 	for _, sliceValidator := range it.Validators {
 		err := sliceValidator.AllVerifyError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	header := params.Header
@@ -162,7 +189,20 @@ func (it *SliceValidators) VerifyAllErrorUsingActual(
 		sliceValidator.SetActual(actualLines)
 		err := sliceValidator.AllVerifyError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	header := params.Header
@@ -188,7 +228,20 @@ func (it *SliceValidators) VerifyFirst(
 	for _, sliceValidator := range it.Validators {
 		err := sliceValidator.VerifyFirstError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	if errs.IsEmpty() {
@@ -201,7 +254,7 @@ func (it *SliceValidators) VerifyFirst(
 	err := errs.AsDefaultError()
 
 	if isPrintError {
-		fmt.Println(err)
+		slog.Error("verification failed", "error", err)
 	}
 
 	return err
@@ -225,7 +278,20 @@ func (it *SliceValidators) VerifyUpto(
 			params,
 			length)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	if errs.IsEmpty() {
@@ -236,7 +302,7 @@ func (it *SliceValidators) VerifyUpto(
 	err := errs.AsDefaultError()
 
 	if isPrintErr {
-		fmt.Println(err)
+		slog.Error("verification failed", "error", err)
 	}
 
 	return err

@@ -1,13 +1,13 @@
-module gitlab.com/auk-go/core
+module github.com/alimtvnetwork/core
 
-go 1.17.8
+go 1.25.0
 
 require (
-	github.com/smarty/assertions v1.15.1
+	github.com/smarty/assertions v1.16.0
 	github.com/smartystreets/goconvey v1.8.1
 )
 
 require (
-	github.com/gopherjs/gopherjs v1.17.2 // indirect
+	github.com/gopherjs/gopherjs v1.20.1 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 )

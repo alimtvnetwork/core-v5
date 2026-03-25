@@ -10,6 +10,9 @@ type RequestSpecification struct {
 }
 
 func (r RequestSpecification) Clone() *RequestSpecification {
+	clonedTags := make([]string, len(r.Tags))
+	copy(clonedTags, r.Tags)
+
 	return &RequestSpecification{
 		BaseIdentifier: BaseIdentifier{r.Id},
 		BaseTypeDotFilter: BaseTypeDotFilter{
@@ -17,7 +20,7 @@ func (r RequestSpecification) Clone() *RequestSpecification {
 			TypeDotFilter:   r.TypeDotFilter,
 		},
 		BaseTags: BaseTags{
-			Tags: r.Tags,
+			Tags: clonedTags,
 		},
 		BaseIsGlobal:          BaseIsGlobal{r.IsGlobal},
 		BaseIsContinueOnError: BaseIsContinueOnError{r.IsContinueOnError},

@@ -1,9 +1,9 @@
 package loggerinf
 
 import (
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/coreinterface/pathextendinf"
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coreinterface/pathextendinf"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type AttrPersistentLogger interface {
@@ -13,8 +13,8 @@ type AttrPersistentLogger interface {
 	IsDbLogger() bool
 	IsFileLogger() bool
 
-	DynamicConfig() interface{}
-	ConfigReflectSetTo(toPointer interface{}) error
+	DynamicConfig() any
+	ConfigReflectSetTo(toPointer any) error
 
 	// PersistentLoggerTyper
 	//

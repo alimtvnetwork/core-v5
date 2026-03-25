@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 	arrangeInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([]any{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -31,7 +31,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
 					"On all true options, it will look like format: '%s', eg. '%s', '%s', '%s'...",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"alim",
@@ -73,7 +73,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
 					"It will look like format: \"%s\", eg. \"%s\", \"%s\", \"%s\"...",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"alim",
@@ -115,7 +115,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
 					"It will look like format: %s, eg. %s, %s, %s...",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"alim",
@@ -245,14 +245,14 @@ var (
 					"Where It is",
 					"",
 				},
-				ExpectedInput: []string{
-					"some val at 0[0]",
-					"some val at 1[1]",
-					"some val at 2[2]",
-					"Alim Ul Karim[3]",
-					"Where It is[4]",
-					"[5]",
-				},
+			ExpectedInput: []string{
+				"some val at 0(0)",
+				"some val at 1(1)",
+				"some val at 2(2)",
+				"Alim Ul Karim(3)",
+				"Where It is(4)",
+				"(5)",
+			},
 				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
@@ -272,9 +272,9 @@ var (
 					"Where It is",
 					"",
 				},
-				ExpectedInput: []string{
-					"some val at 0[0], some val at 1[1], some val at 2[2], Alim Ul Karim[3], Where It is[4], [5]",
-				},
+			ExpectedInput: []string{
+				"some val at 0(0), some val at 1(1), some val at 2(2), Alim Ul Karim(3), Where It is(4), (5)",
+			},
 				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
@@ -310,7 +310,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given items types will be converted into string with a single quote.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					coretests.SomeString{
 						Value: "some value",
 					},
@@ -340,7 +340,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given items types will be converted into string with a double quote.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					coretests.SomeString{
 						Value: "some value",
 					},
@@ -370,7 +370,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given items types will be converted into string without any quote.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					coretests.SomeString{
 						Value: "some value",
 					},

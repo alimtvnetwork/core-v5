@@ -5,7 +5,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"gitlab.com/auk-go/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper"
 )
 
 func currentPackageAllFiles() []string {

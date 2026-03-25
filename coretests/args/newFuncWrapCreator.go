@@ -3,23 +3,26 @@ package args
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-	"gitlab.com/auk-go/core/iserror"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/iserror"
 )
 
 type newFuncWrapCreator struct{}
 
-func (it newFuncWrapCreator) Default(anyFunc interface{}) *FuncWrap {
+// Default creates a FuncWrapAny from any value.
+// If the value is nil, not a function, or already a FuncWrap,
+// it handles each case appropriately.
+func (it newFuncWrapCreator) Default(anyFunc any) *FuncWrapAny {
 	if reflectinternal.Is.Null(anyFunc) {
-		return &FuncWrap{
+		return &FuncWrapAny{
 			Func:      anyFunc,
 			isInvalid: true,
 		}
 	}
 
 	switch v := anyFunc.(type) {
-	case *FuncWrap:
+	case *FuncWrapAny:
 		return v
 	case FuncWrapGetter:
 		return v.FuncWrap()
@@ -29,21 +32,16 @@ func (it newFuncWrapCreator) Default(anyFunc interface{}) *FuncWrap {
 	kind := typeOf.Kind()
 
 	if kind != reflect.Func {
-		// invalid
-
-		return &FuncWrap{
+		return &FuncWrapAny{
 			Func:      anyFunc,
 			isInvalid: true,
 			rvType:    typeOf,
 		}
 	}
 
-	// valid
-	fullName, nameOnly := reflectinternal.
-		GetFunc.
-		FullNameWithName(anyFunc)
+	fullName, nameOnly := reflectinternal.GetFunc.FullNameWithName(anyFunc)
 
-	return &FuncWrap{
+	return &FuncWrapAny{
 		Name:      nameOnly,
 		FullName:  fullName,
 		Func:      anyFunc,
@@ -53,29 +51,25 @@ func (it newFuncWrapCreator) Default(anyFunc interface{}) *FuncWrap {
 	}
 }
 
-func (it newFuncWrapCreator) Single(
-	anyFunc interface{},
-) *FuncWrap {
+// Single is an alias for Default.
+func (it newFuncWrapCreator) Single(anyFunc any) *FuncWrapAny {
 	return it.Default(anyFunc)
 }
 
-func (it newFuncWrapCreator) Invalid() *FuncWrap {
-	return &FuncWrap{
+// Invalid creates an invalid FuncWrapAny.
+func (it newFuncWrapCreator) Invalid() *FuncWrapAny {
+	return &FuncWrapAny{
 		isInvalid: true,
 	}
 }
 
-func (it newFuncWrapCreator) Map(
-	anyFunctions ...interface{},
-) FuncMap {
+// Map creates a FuncMap from multiple function values.
+func (it newFuncWrapCreator) Map(anyFunctions ...any) FuncMap {
 	if len(anyFunctions) == 0 {
-		return map[string]FuncWrap{}
+		return map[string]FuncWrapAny{}
 	}
 
-	newMap := make(
-		map[string]FuncWrap,
-		len(anyFunctions),
-	)
+	newMap := make(map[string]FuncWrapAny, len(anyFunctions))
 
 	for _, function := range anyFunctions {
 		v := it.Default(function)
@@ -88,38 +82,33 @@ func (it newFuncWrapCreator) Map(
 	return newMap
 }
 
-func (it newFuncWrapCreator) Many(
-	anyFunctions ...interface{},
-) []*FuncWrap {
+// Many creates a slice of FuncWrapAny pointers from multiple function values.
+func (it newFuncWrapCreator) Many(anyFunctions ...any) []*FuncWrapAny {
 	if len(anyFunctions) == 0 {
-		return []*FuncWrap{}
+		return []*FuncWrapAny{}
 	}
 
-	slice := make(
-		[]*FuncWrap,
-		len(anyFunctions),
-	)
+	slice := make([]*FuncWrapAny, len(anyFunctions))
 
 	for i, function := range anyFunctions {
-		v := it.Default(function)
-
-		slice[i] = v
+		slice[i] = it.Default(function)
 	}
 
 	return slice
 }
 
-func (it newFuncWrapCreator) MethodToFunc(
-	m *reflect.Method,
-) (*FuncWrap, error) {
+// MethodToFunc converts a reflect.Method to a FuncWrapAny.
+func (it newFuncWrapCreator) MethodToFunc(m *reflect.Method) (*FuncWrapAny, error) {
 	if m == nil {
-		return it.Invalid(), errcore.CannotBeNilType.ErrorNoRefs("m * method cannot be nil")
+		return it.Invalid(), errcore.CannotBeNilType.ErrorNoRefs(
+			"m * method cannot be nil",
+		)
 	}
 
 	name := m.Name
 	fullName := m.PkgPath + name
 
-	return &FuncWrap{
+	return &FuncWrapAny{
 		Name:      name,
 		FullName:  fullName,
 		Func:      m.Func.Interface(),
@@ -129,25 +118,19 @@ func (it newFuncWrapCreator) MethodToFunc(
 	}, nil
 }
 
-func (it newFuncWrapCreator) StructToMap(
-	i interface{},
-) (FuncMap, error) {
+// StructToMap creates a FuncMap from all public methods of a struct.
+func (it newFuncWrapCreator) StructToMap(i any) (FuncMap, error) {
 	methods, err := reflectinternal.Looper.MethodsMap(i)
 
 	if iserror.Defined(err) {
 		return Empty.FuncMap(), err
 	}
 
-	newMap := make(
-		map[string]FuncWrap,
-		len(methods),
-	)
-
+	newMap := make(map[string]FuncWrapAny, len(methods))
 	var rawErr errcore.RawErrCollection
 
 	for index, method := range methods {
 		v, nErr := it.MethodToFunc(method)
-
 		rawErr.Add(nErr)
 
 		if v.IsValid() {

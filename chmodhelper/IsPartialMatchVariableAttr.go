@@ -1,6 +1,6 @@
 package chmodhelper
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 // IsPartialMatchVariableAttr
 //
@@ -30,9 +30,9 @@ func IsPartialMatchVariableAttr(
 		constants.WildcardChar,
 	)
 
-	isRead := givenVarAttr.isRead.IsWildcardOrBool(read == r)
-	isWrite := givenVarAttr.isWrite.IsWildcardOrBool(write == w)
-	isExecute := givenVarAttr.isExecute.IsWildcardOrBool(execute == x)
+	isRead := givenVarAttr.isRead.IsWildcard() || (read == r)
+	isWrite := givenVarAttr.isWrite.IsWildcard() || (write == w)
+	isExecute := givenVarAttr.isExecute.IsWildcard() || (execute == x)
 
 	return isRead &&
 		isWrite &&

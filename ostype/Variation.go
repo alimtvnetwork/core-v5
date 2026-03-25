@@ -1,8 +1,8 @@
 package ostype
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
 )
 
 type Variation byte
@@ -49,7 +49,7 @@ func (it Variation) IntegerEnumRanges() []int {
 	return basicEnumImplOsType.IntegerEnumRanges()
 }
 
-func (it Variation) MinMaxAny() (min, max interface{}) {
+func (it Variation) MinMaxAny() (min, max any) {
 	return basicEnumImplOsType.MinMaxAny()
 }
 
@@ -69,7 +69,7 @@ func (it Variation) MinInt() int {
 	return basicEnumImplOsType.MinInt()
 }
 
-func (it Variation) RangesDynamicMap() map[string]interface{} {
+func (it Variation) RangesDynamicMap() map[string]any {
 	return basicEnumImplOsType.RangesDynamicMap()
 }
 
@@ -235,7 +235,7 @@ func (it Variation) IsNetBsd() bool {
 }
 
 func (it Variation) IsOpenBsd() bool {
-	return it == NetBsd
+	return it == OpenBsd
 }
 
 func (it Variation) IsDragonFly() bool {

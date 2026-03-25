@@ -3,8 +3,8 @@ package converters
 import (
 	"unsafe"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 func UnsafeBytesToStringWithErr(unsafeBytes []byte) (string, error) {
@@ -17,18 +17,23 @@ func UnsafeBytesToStringWithErr(unsafeBytes []byte) (string, error) {
 
 // UnsafeBytesToStrings
 //
-// # Returns string arrays from unsafe bytes pointer
+// # Returns string arrays from unsafe bytes
 //
-// May panic on conversion if the bytes were not in unsafe pointer.
-//
-// Expressions:
-// - return (*[] string)(unsafe.Pointer(allBytes))
-func UnsafeBytesToStrings(unsafeBytes *[]byte) *[]string {
-	if unsafeBytes == nil || *unsafeBytes == nil {
+// Deprecated: This function is fundamentally broken — it reinterprets
+// []byte (1-byte elements) as []string (16-byte elements) via unsafe.Pointer,
+// producing corrupted memory reads. Do not use.
+// Use a proper loop conversion instead.
+func UnsafeBytesToStrings(unsafeBytes []byte) []string {
+	if unsafeBytes == nil {
 		return nil
 	}
 
-	return (*[]string)(unsafe.Pointer(unsafeBytes))
+	results := make([]string, len(unsafeBytes))
+	for i, b := range unsafeBytes {
+		results[i] = string(b)
+	}
+
+	return results
 }
 
 func UnsafeBytesToStringPtr(unsafeBytes []byte) *string {
@@ -47,16 +52,16 @@ func UnsafeBytesToString(unsafeBytes []byte) string {
 	return *(*string)(unsafe.Pointer(&unsafeBytes))
 }
 
-// UnsafeBytesPtrToStringPtr Returns string from unsafe bytes pointer
+// UnsafeBytesPtrToStringPtr Returns string from unsafe bytes
 //
 // May panic on conversion if the bytes were not in unsafe pointer.
 //
 // Expressions:
 // - return (*string)(unsafe.Pointer(allBytes))
-func UnsafeBytesPtrToStringPtr(unsafeBytes *[]byte) *string {
-	if unsafeBytes == nil || *unsafeBytes == nil {
+func UnsafeBytesPtrToStringPtr(unsafeBytes []byte) *string {
+	if unsafeBytes == nil {
 		return nil
 	}
 
-	return (*string)(unsafe.Pointer(unsafeBytes))
+	return (*string)(unsafe.Pointer(&unsafeBytes))
 }

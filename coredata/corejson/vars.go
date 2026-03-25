@@ -1,9 +1,10 @@
 package corejson
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/jsoninternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 var (
@@ -18,6 +19,7 @@ var (
 	NewMapResults           = newMapResultsCreator{}
 	CastAny                 = castingAny{}
 	AnyTo                   = anyTo{}
+	Pretty                  = jsoninternal.Pretty
 	StaticJsonError         = errcore.
 				EmptyResultCannotMakeJsonType.
 				ErrorNoRefs(constants.EmptyString)

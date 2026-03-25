@@ -1,9 +1,9 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 type AuthInfo struct {
@@ -17,7 +17,7 @@ type AuthInfo struct {
 // IdentifierInteger
 //
 // Invalid value returns constants.InvalidValue
-func (it *AuthInfo) IdentifierInteger() int {
+func (it AuthInfo) IdentifierInteger() int {
 	if it.Identifier == "" {
 		return constants.InvalidValue
 	}
@@ -33,7 +33,7 @@ func (it *AuthInfo) IdentifierInteger() int {
 // IdentifierUnsignedInteger
 //
 // Invalid value returns constants.Zero
-func (it *AuthInfo) IdentifierUnsignedInteger() uint {
+func (it AuthInfo) IdentifierUnsignedInteger() uint {
 	idInt := it.IdentifierInteger()
 
 	if idInt < 0 {
@@ -97,7 +97,7 @@ func (it *AuthInfo) HasSessionInfo() bool {
 	return !it.IsSessionInfoEmpty()
 }
 
-func (it *AuthInfo) String() string {
+func (it AuthInfo) String() string {
 	return it.JsonPtr().JsonString()
 }
 
@@ -228,20 +228,21 @@ func (it *AuthInfo) SetSystemUser(
 	return it
 }
 
-func (it *AuthInfo) PrettyJsonString() string {
+func (it AuthInfo) PrettyJsonString() string {
 	return it.JsonPtr().PrettyJsonString()
 }
 
-func (it *AuthInfo) Json() corejson.Result {
+func (it AuthInfo) Json() corejson.Result {
 	return corejson.New(it)
 }
 
-func (it *AuthInfo) JsonPtr() *corejson.Result {
+func (it AuthInfo) JsonPtr() *corejson.Result {
 	return corejson.NewPtr(it)
 }
 
-func (it *AuthInfo) Clone() AuthInfo {
+func (it AuthInfo) Clone() AuthInfo {
 	return AuthInfo{
+		Identifier:   it.Identifier,
 		ActionType:   it.ActionType,
 		ResourceName: it.ResourceName,
 		SessionInfo:  it.SessionInfo.ClonePtr(),

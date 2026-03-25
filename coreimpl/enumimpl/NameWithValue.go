@@ -3,11 +3,11 @@ package enumimpl
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func NameWithValue(
-	value interface{},
+	value any,
 ) string {
 	return fmt.Sprintf(
 		constants.EnumNameValueFormat,

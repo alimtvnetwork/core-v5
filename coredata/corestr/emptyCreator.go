@@ -49,8 +49,6 @@ func (it *emptyCreator) SimpleStringOncePtr() *SimpleStringOnce {
 func (it *emptyCreator) Hashset() *Hashset {
 	return &Hashset{
 		hasMapUpdated: false,
-		isEmptySet:    true,
-		length:        0,
 		items:         map[string]bool{},
 	}
 }
@@ -63,8 +61,7 @@ func (it *emptyCreator) HashsetsCollection() *HashsetsCollection {
 
 func (it *emptyCreator) Hashmap() *Hashmap {
 	return &Hashmap{
-		isEmptySet: true,
-		items:      map[string]string{},
+		items: map[string]string{},
 	}
 }
 

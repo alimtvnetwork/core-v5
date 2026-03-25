@@ -1,18 +1,20 @@
 package corestr
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 //goland:noinspection ALL
 var (
 	New             = &newCreator{}
 	Empty           = &emptyCreator{}
+	StringUtils     = utils{}
 	StaticJsonError = errcore.EmptyResultCannotMakeJsonType.
 			Error(constants.EmptyString, constants.EmptyString)
 	ExpectingLengthForLeftRight      = constants.Two
 	LeftRightExpectingLengthMessager = errcore.ExpectingFuture(
 		"Expecting length at least",
-		ExpectingLengthForLeftRight)
+		ExpectingLengthForLeftRight,
+	)
 )

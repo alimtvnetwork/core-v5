@@ -6,7 +6,7 @@ import (
 
 func MsgHeaderIf(
 	isHeader bool,
-	items ...interface{},
+	items ...any,
 ) string {
 	if isHeader {
 		return MsgHeader(items...)

@@ -1,7 +1,7 @@
 package errcore
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
-func SliceErrorDefault(slice *[]string) error {
+func SliceErrorDefault(slice []string) error {
 	return SliceError(constants.NewLineUnix, slice)
 }

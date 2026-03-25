@@ -1,5 +1,5 @@
 package internalserializer
 
 type FieldBytesToPointerDeserializer interface {
-	Deserialize(toPtr interface{}) error
+	Deserialize(toPtr any) error
 }

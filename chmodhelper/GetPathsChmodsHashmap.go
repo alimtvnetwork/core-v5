@@ -1,8 +1,8 @@
 package chmodhelper
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // GetFilesChmodRwxFullMap returns filePath -> "-rwxrwxrwx"
@@ -19,10 +19,10 @@ func GetFilesChmodRwxFullMap(
 	var sliceErr []string
 
 	for _, filePath := range requestedPaths {
-		fileMode, err2 := GetExistingChmod(filePath)
+		fileMode, chmodErr := GetExistingChmod(filePath)
 
-		if err2 != nil {
-			sliceErr = append(sliceErr, err2.Error())
+		if chmodErr != nil {
+			sliceErr = append(sliceErr, chmodErr.Error())
 
 			continue
 		}
@@ -30,5 +30,5 @@ func GetFilesChmodRwxFullMap(
 		hashmap.AddOrUpdate(filePath, fileMode.String())
 	}
 
-	return hashmap, errcore.SliceErrorDefault(&sliceErr)
+	return hashmap, errcore.SliceErrorDefault(sliceErr)
 }

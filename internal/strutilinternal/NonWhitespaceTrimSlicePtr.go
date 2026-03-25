@@ -1,11 +1,10 @@
 package strutilinternal
 
-func NonWhitespaceTrimSlicePtr(slice *[]string) *[]string {
-	if slice == nil || *slice == nil {
-		return &[]string{}
+// Deprecated: Use NonWhitespaceTrimSlice instead.
+func NonWhitespaceTrimSlicePtr(slice []string) []string {
+	if len(slice) == 0 {
+		return []string{}
 	}
 
-	results := NonWhitespaceTrimSlice(*slice)
-
-	return &results
+	return NonWhitespaceTrimSlice(slice)
 }

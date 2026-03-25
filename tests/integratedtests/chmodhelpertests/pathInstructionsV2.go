@@ -1,14 +1,14 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 var pathInstructionsV2 = []chmodhelper.DirFilesWithRwxPermission{
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
-			Dir: "/temp/core/test-cases",
+			Dir: "/tmp/core/test-cases",
 			Files: []string{
 				"file-1.txt",
 				"file-2.txt",
@@ -19,7 +19,7 @@ var pathInstructionsV2 = []chmodhelper.DirFilesWithRwxPermission{
 	},
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
-			Dir: "/temp/core/test-cases-2",
+			Dir: "/tmp/core/test-cases-2",
 			Files: []string{
 				"file-1.txt",
 				"file-2.txt",
@@ -30,7 +30,7 @@ var pathInstructionsV2 = []chmodhelper.DirFilesWithRwxPermission{
 	},
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
-			Dir: "/temp/core/test-cases-3",
+			Dir: "/tmp/core/test-cases-3",
 			Files: []string{
 				"file-1.txt",
 				"file-2.txt",

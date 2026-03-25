@@ -1,16 +1,16 @@
 package corestr
 
 type NonChainedLinkedListNodes struct {
-	items             *[]*LinkedListNode
+	items             []*LinkedListNode
 	isChainingApplied bool
 }
 
-func (receiver *NonChainedLinkedListNodes) IsChainingApplied() bool {
-	return receiver.isChainingApplied
+func (it *NonChainedLinkedListNodes) IsChainingApplied() bool {
+	return it.isChainingApplied
 }
 
-func (receiver *NonChainedLinkedListNodes) Items() *[]*LinkedListNode {
-	return receiver.items
+func (it *NonChainedLinkedListNodes) Items() []*LinkedListNode {
+	return it.items
 }
 
 func NewNonChainedLinkedListNodes(
@@ -19,110 +19,111 @@ func NewNonChainedLinkedListNodes(
 	items := make([]*LinkedListNode, 0, capacity)
 
 	return &NonChainedLinkedListNodes{
-		items: &items,
+		items: items,
 	}
 }
 
-func (receiver *NonChainedLinkedListNodes) Length() int {
-	if receiver.items == nil {
+func (it *NonChainedLinkedListNodes) Length() int {
+	if it.items == nil {
 		return 0
 	}
 
-	return len(*receiver.items)
+	return len(it.items)
 }
 
-func (receiver *NonChainedLinkedListNodes) IsEmpty() bool {
-	return receiver.items == nil || len(*receiver.items) == 0
+func (it *NonChainedLinkedListNodes) IsEmpty() bool {
+	return it.items == nil || len(it.items) == 0
 }
 
-func (receiver *NonChainedLinkedListNodes) Adds(
+func (it *NonChainedLinkedListNodes) Adds(
 	nodes ...*LinkedListNode,
 ) *NonChainedLinkedListNodes {
 	if nodes == nil {
-		return receiver
+		return it
 	}
 
 	for i := range nodes {
-		*receiver.items = append(
-			*receiver.items,
-			nodes[i])
+		it.items = append(
+			it.items,
+			nodes[i],
+		)
 	}
 
-	return receiver
+	return it
 }
 
-func (receiver *NonChainedLinkedListNodes) HasItems() bool {
-	return !receiver.IsEmpty()
+func (it *NonChainedLinkedListNodes) HasItems() bool {
+	return !it.IsEmpty()
 }
 
-func (receiver *NonChainedLinkedListNodes) First() *LinkedListNode {
-	return (*receiver.items)[0]
+func (it *NonChainedLinkedListNodes) First() *LinkedListNode {
+	return it.items[0]
 }
 
-func (receiver *NonChainedLinkedListNodes) FirstOrDefault() *LinkedListNode {
-	if receiver.IsEmpty() {
+func (it *NonChainedLinkedListNodes) FirstOrDefault() *LinkedListNode {
+	if it.IsEmpty() {
 		return nil
 	}
 
-	return (*receiver.items)[0]
+	return it.items[0]
 }
 
-func (receiver *NonChainedLinkedListNodes) Last() *LinkedListNode {
-	return (*receiver.items)[receiver.Length()-1]
+func (it *NonChainedLinkedListNodes) Last() *LinkedListNode {
+	return it.items[it.Length()-1]
 }
 
-func (receiver *NonChainedLinkedListNodes) LastOrDefault() *LinkedListNode {
-	if receiver.IsEmpty() {
+func (it *NonChainedLinkedListNodes) LastOrDefault() *LinkedListNode {
+	if it.IsEmpty() {
 		return nil
 	}
 
-	return (*receiver.items)[receiver.Length()-1]
+	return it.items[it.Length()-1]
 }
 
 // ApplyChaining Warning Mutates data inside.
-func (receiver *NonChainedLinkedListNodes) ApplyChaining() *NonChainedLinkedListNodes {
-	length := receiver.Length()
+func (it *NonChainedLinkedListNodes) ApplyChaining() *NonChainedLinkedListNodes {
+	length := it.Length()
 	if length == 0 {
-		return receiver
+		return it
 	}
 
-	receiver.isChainingApplied = true
-	for i, node := range *receiver.items {
+	it.isChainingApplied = true
+	for i, node := range it.items {
 		if i+1 >= length {
 			break
 		}
 
-		nextNode := (*receiver.items)[i+1]
+		nextNode := it.items[i+1]
 		node.next = nextNode
 	}
 
-	if receiver.HasItems() {
-		receiver.Last().next = nil
+	if it.HasItems() {
+		it.Last().next = nil
 	}
 
-	return receiver
+	return it
 }
 
-func (receiver *NonChainedLinkedListNodes) ToChainedNodes() *[]*LinkedListNode {
-	length := receiver.Length()
+func (it *NonChainedLinkedListNodes) ToChainedNodes() []*LinkedListNode {
+	length := it.Length()
 	list := make([]*LinkedListNode, length)
 
 	if length == 0 {
-		return &list
+		return list
 	}
 
-	for i, node := range *receiver.items {
+	for i, node := range it.items {
 		if i+1 >= length {
 			break
 		}
 
 		curNode := node.Clone()
 		list = append(list, curNode)
-		nextNode := (*receiver.items)[i+1]
+		nextNode := it.items[i+1]
 		nextNodeClone := nextNode.Clone()
 		curNode.next = nextNodeClone
 		list = append(list, nextNodeClone)
 	}
 
-	return &list
+	return list
 }

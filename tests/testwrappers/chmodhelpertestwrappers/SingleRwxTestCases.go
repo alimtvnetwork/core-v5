@@ -1,8 +1,8 @@
 package chmodhelpertestwrappers
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/chmodhelper/chmodclasstype"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodclasstype"
 )
 
 var SingleRwxTestCases = []chmodhelper.SingleRwx{

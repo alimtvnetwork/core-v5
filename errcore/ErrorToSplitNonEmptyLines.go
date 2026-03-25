@@ -1,6 +1,6 @@
 package errcore
 
-import "gitlab.com/auk-go/core/internal/strutilinternal"
+import "github.com/alimtvnetwork/core/internal/strutilinternal"
 
 func ErrorToSplitNonEmptyLines(err error) []string {
 	lines := ErrorToSplitLines(err)

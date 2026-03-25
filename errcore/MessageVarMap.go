@@ -4,7 +4,7 @@ import "fmt"
 
 func MessageVarMap(
 	message string,
-	mappedItems map[string]interface{},
+	mappedItems map[string]any,
 ) string {
 	if len(mappedItems) == 0 {
 		return message

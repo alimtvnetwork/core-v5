@@ -1,28 +1,31 @@
 package errcore
 
-import "fmt"
+import (
+	"fmt"
+	"log/slog"
+)
 
 func FmtDebug(
 	format string,
-	items ...interface{},
+	items ...any,
 ) {
-	fmt.Printf(format, items...)
+	slog.Debug(fmt.Sprintf(format, items...))
 }
 
 func ValidPrint(
 	isValid bool,
-	items ...interface{},
+	items ...any,
 ) {
 	if isValid {
-		fmt.Print(items...)
+		slog.Info("valid", "values", fmt.Sprint(items...))
 	}
 }
 
 func FailedPrint(
 	isFailed bool,
-	items ...interface{},
+	items ...any,
 ) {
 	if isFailed {
-		fmt.Print(items...)
+		slog.Warn("failed", "values", fmt.Sprint(items...))
 	}
 }

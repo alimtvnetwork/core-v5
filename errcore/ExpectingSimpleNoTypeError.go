@@ -2,7 +2,7 @@ package errcore
 
 import "fmt"
 
-func ExpectingSimpleNoTypeError(title, wasExpecting, actual interface{}) error {
+func ExpectingSimpleNoTypeError(title, wasExpecting, actual any) error {
 	return fmt.Errorf(
 		expectingSimpleNoTypeMessageFormat,
 		title,

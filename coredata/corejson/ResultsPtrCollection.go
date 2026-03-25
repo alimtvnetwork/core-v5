@@ -6,9 +6,9 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type ResultsPtrCollection struct {
@@ -186,10 +186,9 @@ func (it *ResultsPtrCollection) GetErrorsStrings() []string {
 	return errStrList
 }
 
-func (it *ResultsPtrCollection) GetErrorsStringsPtr() *[]string {
-	errStrList := it.GetErrorsStrings()
-
-	return &errStrList
+// Deprecated: Use GetErrorsStrings instead.
+func (it *ResultsPtrCollection) GetErrorsStringsPtr() []string {
+	return it.GetErrorsStrings()
 }
 
 func (it *ResultsPtrCollection) GetErrorsAsSingleString() string {
@@ -208,7 +207,7 @@ func (it *ResultsPtrCollection) GetErrorsAsSingle() error {
 
 func (it *ResultsPtrCollection) UnmarshalAt(
 	index int,
-	any interface{},
+	any any,
 ) error {
 	result := it.Items[index]
 
@@ -284,7 +283,7 @@ func (it *ResultsPtrCollection) InjectIntoSameIndex(
 
 // UnmarshalIntoSameIndex any nil skip
 func (it *ResultsPtrCollection) UnmarshalIntoSameIndex(
-	anys ...interface{},
+	anys ...any,
 ) (
 	errListPtr []error,
 	hasAnyError bool,
@@ -437,7 +436,7 @@ func (it *ResultsPtrCollection) Adds(
 }
 
 func (it *ResultsPtrCollection) AddAny(
-	any interface{},
+	any any,
 ) *ResultsPtrCollection {
 	if any == nil {
 		return it
@@ -452,7 +451,7 @@ func (it *ResultsPtrCollection) AddAny(
 
 // AddAnyItems Skip on nil
 func (it *ResultsPtrCollection) AddAnyItems(
-	anys ...interface{},
+	anys ...any,
 ) *ResultsPtrCollection {
 	if anys == nil {
 		return it
@@ -567,10 +566,9 @@ func (it *ResultsPtrCollection) GetStrings() []string {
 	return list
 }
 
-func (it *ResultsPtrCollection) GetStringsPtr() *[]string {
-	list := it.GetStrings()
-
-	return &list
+// Deprecated: Use GetStrings instead.
+func (it *ResultsPtrCollection) GetStringsPtr() []string {
+	return it.GetStrings()
 }
 
 // AddJsoners skip on nil
@@ -609,9 +607,15 @@ func (it *ResultsPtrCollection) Ptr() *ResultsPtrCollection {
 	return it
 }
 
+// GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *ResultsPtrCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -701,7 +705,7 @@ func (it *ResultsPtrCollection) JsonModel() *ResultsPtrCollection {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *ResultsPtrCollection) JsonModelAny() interface{} {
+func (it *ResultsPtrCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

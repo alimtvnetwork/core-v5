@@ -3,19 +3,19 @@ package isanytests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/conditional"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"github.com/alimtvnetwork/core/conditional"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 func Test_Reflection_Types_Verification(t *testing.T) {
-	toStringFunc := convertinteranl.AnyTo.SmartString
+	toStringFunc := convertinternal.AnyTo.SmartString
 	for caseIndex, testCase := range reflectionTypesTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.OneFunc)
+			ArrangeInput.([]args.OneFuncAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -27,7 +27,7 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 			isFunc := testCase.FirstParam()
 			checkerFunc := convertFuncType(input.WorkFunc)
 			funcName := input.GetFuncName()
-			value := conditional.String(
+			value := conditional.IfString(
 				isFunc == "isFunc",
 				funcName,
 				toStringFunc(first),

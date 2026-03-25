@@ -1,7 +1,6 @@
 package stringslice
 
-func MakePtr(length, capacity int) *[]string {
-	slice := make([]string, length, capacity)
-
-	return &slice
+// Deprecated: Use Make instead.
+func MakePtr(length, capacity int) []string {
+	return make([]string, length, capacity)
 }

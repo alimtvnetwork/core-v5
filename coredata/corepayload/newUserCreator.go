@@ -3,9 +3,9 @@ package corepayload
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 type newUserCreator struct{}
@@ -29,7 +29,7 @@ func (it newUserCreator) Deserialize(
 }
 
 func (it newUserCreator) CastOrDeserializeFrom(
-	anyItem interface{},
+	anyItem any,
 ) (*User, error) {
 	if isany.Null(anyItem) {
 		return nil, errcore.

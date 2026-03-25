@@ -1,8 +1,8 @@
 package coreinstruction
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/reqtype"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/reqtype"
 )
 
 type LineIdentifier struct {
@@ -23,21 +23,37 @@ func (it *LineIdentifier) HasLineNumber() bool {
 }
 
 func (it *LineIdentifier) IsNewLineRequest() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.LineModifyAs.IsCreate()
 }
 
 func (it *LineIdentifier) IsDeleteLineRequest() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.HasLineNumber() &&
-		it.LineModifyAs.IsDelete() ||
-		it.LineModifyAs.IsDrop()
+		(it.LineModifyAs.IsDelete() ||
+			it.LineModifyAs.IsDrop())
 }
 
 func (it *LineIdentifier) IsModifyLineRequest() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.HasLineNumber() &&
 		it.LineModifyAs.IsUpdate()
 }
 
 func (it *LineIdentifier) IsAddNewOrModifyLineRequest() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.IsNewLineRequest() || it.IsModifyLineRequest()
 }
 

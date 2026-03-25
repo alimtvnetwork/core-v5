@@ -4,38 +4,38 @@ type BaseRawErrorTyper interface {
 	String() string
 	NameWithNameEqualer
 	Combine(
-		otherMsg string, reference interface{},
+		otherMsg string, reference any,
 	) string
 	TypesAttach(
 		otherMsg string,
-		reflectionTypes ...interface{},
+		reflectionTypes ...any,
 	) string
 	TypesAttachErr(
 		otherMsg string,
-		reflectionTypes ...interface{},
+		reflectionTypes ...any,
 	) error
 	SrcDestination(
 		otherMsg string,
-		srcName string, srcValue interface{},
-		destinationName string, destinationValue interface{},
+		srcName string, srcValue any,
+		destinationName string, destinationValue any,
 	) string
 	SrcDestinationErr(
 		otherMsg string,
-		srcName string, srcValue interface{},
-		destinationName string, destinationValue interface{},
+		srcName string, srcValue any,
+		destinationName string, destinationValue any,
 	) error
-	Error(otherMsg string, reference interface{}) error
+	Error(otherMsg string, reference any) error
 	MsgCsvRef(
 		otherMsg string,
-		csvReferenceItems ...interface{},
+		csvReferenceItems ...any,
 	) string
 	MsgCsvRefError(
 		otherMsg string,
-		csvReferenceItems ...interface{},
+		csvReferenceItems ...any,
 	) error
-	ErrorRefOnly(reference interface{}) error
-	Expecting(expecting, actual interface{}) error
+	ErrorRefOnly(reference any) error
+	Expecting(expecting, actual any) error
 	NoRef(otherMsg string) string
 	ErrorNoRefs(otherMsg string) error
-	HandleUsingPanic(otherMsg string, reference interface{})
+	HandleUsingPanic(otherMsg string, reference any)
 }

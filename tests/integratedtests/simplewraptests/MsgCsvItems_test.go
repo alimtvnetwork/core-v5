@@ -3,18 +3,18 @@ package simplewraptests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 func Test_MsgCsvItems_Verification(t *testing.T) {
 	for caseIndex, testCase := range msgCsvItemsTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 		title := inputs[0].(string)
-		csvItems := inputs[1].([]interface{})
+		csvItems := inputs[1].([]any)
 
 		// Act
 		actualSlice.Add(

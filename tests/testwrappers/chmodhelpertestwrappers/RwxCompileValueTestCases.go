@@ -1,6 +1,6 @@
 package chmodhelpertestwrappers
 
-import "gitlab.com/auk-go/core/chmodhelper/chmodins"
+import "github.com/alimtvnetwork/core/chmodhelper/chmodins"
 
 var RwxCompileValueTestCases = []RwxCompileValueTestWrapper{
 	{

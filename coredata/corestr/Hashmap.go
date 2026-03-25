@@ -7,31 +7,21 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/mapdiffinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
 )
 
 type Hashmap struct {
 	hasMapUpdated bool
-	isEmptySet    bool
-	length        int
 	items         map[string]string
 	cachedList    []string
 	sync.Mutex
 }
 
 func (it *Hashmap) IsEmpty() bool {
-	if it == nil {
-		return true
-	}
-
-	if it.hasMapUpdated {
-		it.isEmptySet = len(it.items) == 0
-	}
-
-	return it.isEmptySet
+	return it == nil || len(it.items) == 0
 }
 
 func (it *Hashmap) HasItems() bool {
@@ -95,7 +85,7 @@ func (it *Hashmap) AddOrUpdateKeyStrValFloat64(
 
 func (it *Hashmap) AddOrUpdateKeyStrValAny(
 	key string,
-	val interface{},
+	val any,
 ) *Hashmap {
 	it.items[key] = fmt.Sprintf(constants.SprintValueFormat, val)
 	it.hasMapUpdated = true
@@ -164,6 +154,18 @@ func (it *Hashmap) SetBySplitter(
 	return it.Set(splits[0], "")
 }
 
+func safeWaitGroupDone(wg *sync.WaitGroup) {
+	if wg == nil {
+		return
+	}
+
+	defer func() {
+		_ = recover()
+	}()
+
+	wg.Done()
+}
+
 func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	wg *sync.WaitGroup,
 	keys, values []string,
@@ -179,6 +181,9 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	}
 
 	if len(keys) == 0 {
+		// See issues/corestrtests-waitgroup-deadlock-empty-keys.md
+		// and issues/corestrtests-wg-negative-counter-panic.md
+		safeWaitGroupDone(wg)
 		return it
 	}
 
@@ -189,7 +194,7 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 
 	it.hasMapUpdated = true
 	it.Unlock()
-	wg.Done()
+	safeWaitGroupDone(wg)
 
 	return it
 }
@@ -278,6 +283,12 @@ func (it *Hashmap) AddOrUpdateCollection(
 	keys, values *Collection,
 ) *Hashmap {
 	if (keys == nil || keys.IsEmpty()) || (values == nil || values.IsEmpty()) {
+		return it
+	}
+
+	isLengthMismatch := keys.Length() != values.Length()
+
+	if isLengthMismatch {
 		return it
 	}
 
@@ -386,7 +397,7 @@ func (it *Hashmap) ConcatNew(
 			continue
 		}
 
-		length += h.length
+		length += h.Length()
 	}
 
 	newHashmap := New.Hashmap.UsingMapOptions(
@@ -500,8 +511,9 @@ func (it *Hashmap) HasLock(key string) bool {
 func (it *Hashmap) HasAllStrings(keys ...string) bool {
 	for _, key := range keys {
 		_, isFound := it.items[key]
+		isMissing := !isFound
 
-		if !isFound {
+		if isMissing {
 			// not found
 			return false
 		}
@@ -514,7 +526,7 @@ func (it *Hashmap) HasAllStrings(keys ...string) bool {
 func (it *Hashmap) DiffRaw(
 	rightMap map[string]string,
 ) map[string]string {
-	mapDiffer := mapdiffinternal.HashmapDiff(rightMap)
+	mapDiffer := mapdiffinternal.HashmapDiff(it.items)
 
 	return mapDiffer.DiffRaw(rightMap)
 }
@@ -541,8 +553,9 @@ func (it *Hashmap) HasAllCollectionItems(
 func (it *Hashmap) HasAll(keys ...string) bool {
 	for _, key := range keys {
 		_, isFound := it.items[key]
+		isMissing := !isFound
 
-		if !isFound {
+		if isMissing {
 			// not found
 			return false
 		}
@@ -582,9 +595,9 @@ func (it *Hashmap) HasWithLock(key string) bool {
 // GetKeysFilteredItems must return slice.
 func (it *Hashmap) GetKeysFilteredItems(
 	filter IsStringFilter,
-) *[]string {
+) []string {
 	if it.IsEmpty() {
-		return &([]string{})
+		return []string{}
 	}
 
 	filteredList := make(
@@ -599,7 +612,9 @@ func (it *Hashmap) GetKeysFilteredItems(
 			filter(key, i)
 
 		i++
-		if !isKeep {
+		isSkip := !isKeep
+
+		if isSkip {
 			continue
 		}
 
@@ -609,11 +624,11 @@ func (it *Hashmap) GetKeysFilteredItems(
 		)
 
 		if isBreak {
-			return &filteredList
+			return filteredList
 		}
 	}
 
-	return &filteredList
+	return filteredList
 }
 
 // GetKeysFilteredCollection must return items.
@@ -634,8 +649,9 @@ func (it *Hashmap) GetKeysFilteredCollection(
 	for key := range it.items {
 		result, isKeep, isBreak := filter(key, i)
 		i++
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -671,12 +687,14 @@ func (it *Hashmap) SafeItems() map[string]string {
 //goland:noinspection GoLinterLocal
 func (it *Hashmap) ItemsCopyLock() *map[string]string {
 	it.Lock()
+	defer it.Unlock()
 
-	copiedItemsMap := &it.items
+	copiedMap := make(map[string]string, len(it.items))
+	for k, v := range it.items {
+		copiedMap[k] = v
+	}
 
-	it.Unlock()
-
-	return copiedItemsMap
+	return &copiedMap
 }
 
 func (it *Hashmap) ValuesCollection() *Collection {
@@ -885,13 +903,17 @@ func (it *Hashmap) setCached() {
 	it.cachedList = list
 }
 
-// ValuesToLower CreateUsingAliasMap a new items with all lower strings
+// Deprecated: Use KeysToLower instead.
 func (it *Hashmap) ValuesToLower() *Hashmap {
+	return it.KeysToLower()
+}
+
+// KeysToLower creates a new hashmap with all keys lowercased.
+func (it *Hashmap) KeysToLower() *Hashmap {
 	newMap := make(map[string]string, it.Length())
 
-	var toLower string
 	for key, value := range it.items {
-		toLower = strings.ToLower(key)
+		toLower := strings.ToLower(key)
 		newMap[toLower] = value
 	}
 
@@ -903,15 +925,11 @@ func (it *Hashmap) ValuesToLower() *Hashmap {
 }
 
 func (it *Hashmap) Length() int {
-	if it == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
-	if it.hasMapUpdated || it.length < 0 {
-		it.length = len(it.items)
-	}
-
-	return it.length
+	return len(it.items)
 }
 
 func (it *Hashmap) LengthLock() int {
@@ -965,7 +983,7 @@ func (it *Hashmap) IsEqualPtr(another *Hashmap) bool {
 	for key, value := range it.items {
 		result, has := another.items[key]
 
-		if !has || !(result != value) {
+		if !has || result != value {
 			return false
 		}
 	}
@@ -1103,7 +1121,7 @@ func (it *Hashmap) JsonModel() map[string]string {
 	return it.items
 }
 
-func (it *Hashmap) JsonModelAny() interface{} {
+func (it *Hashmap) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1117,9 +1135,7 @@ func (it *Hashmap) UnmarshalJSON(data []byte) error {
 
 	if err == nil {
 		it.items = dataModelItems
-		it.length = len(it.items)
-		it.hasMapUpdated = false
-		it.isEmptySet = it.length == 0
+		it.hasMapUpdated = true
 		it.cachedList = nil
 	}
 
@@ -1127,11 +1143,11 @@ func (it *Hashmap) UnmarshalJSON(data []byte) error {
 }
 
 func (it Hashmap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it Hashmap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 // ParseInjectUsingJson It will not update the self but creates a new one.
@@ -1170,7 +1186,7 @@ func (it *Hashmap) ToDefaultError() error {
 	)
 }
 
-func (it *Hashmap) KeyValStringLines() *[]string {
+func (it *Hashmap) KeyValStringLines() []string {
 	return it.ToStringsUsingCompiler(
 		func(key, val string) string {
 			return key + constants.HyphenAngelRight + val
@@ -1180,12 +1196,15 @@ func (it *Hashmap) KeyValStringLines() *[]string {
 
 func (it *Hashmap) Clear() *Hashmap {
 	if it == nil {
-		return it
+		return nil
 	}
 
-	it.items = nil
 	it.items = map[string]string{}
-	it.cachedList = it.cachedList[:0]
+
+	if it.cachedList != nil {
+		it.cachedList = it.cachedList[:0]
+	}
+
 	it.hasMapUpdated = true
 
 	return it
@@ -1205,12 +1224,12 @@ func (it *Hashmap) ToStringsUsingCompiler(
 		key,
 		val string,
 	) string,
-) *[]string {
+) []string {
 	length := it.Length()
 	slice := make([]string, length)
 
 	if length == 0 {
-		return &slice
+		return slice
 	}
 
 	index := 0
@@ -1221,7 +1240,7 @@ func (it *Hashmap) ToStringsUsingCompiler(
 		index++
 	}
 
-	return &slice
+	return slice
 }
 
 func (it *Hashmap) AsJsoner() corejson.Jsoner {
@@ -1261,10 +1280,19 @@ func (it *Hashmap) ClonePtr() *Hashmap {
 }
 
 func (it Hashmap) Clone() Hashmap {
-	empty := Empty.Hashmap()
-	jsonResult := it.JsonPtr()
+	cloned := *Empty.Hashmap()
 
-	return *empty.ParseInjectUsingJsonMust(jsonResult)
+	if len(it.items) == 0 {
+		return cloned
+	}
+
+	cloned.items = make(map[string]string, len(it.items))
+	for key, val := range it.items {
+		cloned.items[key] = val
+	}
+	cloned.hasMapUpdated = it.hasMapUpdated
+
+	return cloned
 }
 
 func (it *Hashmap) Get(key string) (val string, isFound bool) {
@@ -1273,10 +1301,15 @@ func (it *Hashmap) Get(key string) (val string, isFound bool) {
 	return val, isFound
 }
 
+// GetValue is an alias for Get.
+func (it *Hashmap) GetValue(key string) (val string, isFound bool) {
+	return it.Get(key)
+}
+
 func (it *Hashmap) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Hashmap) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Hashmap) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

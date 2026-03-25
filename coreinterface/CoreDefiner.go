@@ -3,7 +3,7 @@ package coreinterface
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 type CoreDefiner interface {

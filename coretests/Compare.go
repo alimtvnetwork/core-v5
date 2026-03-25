@@ -2,9 +2,10 @@ package coretests
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type Compare struct {
@@ -46,7 +47,7 @@ func (it *Compare) SortedString() string {
 
 func (it *Compare) GetPrintMessage(index int) string {
 	return fmt.Sprintf(
-		"\n\tIndex:%d\n\tString Contains:%s\n\tString Processed:%s",
+		"\n\tIndex:%d\n\tString IsContains:%s\n\tString Processed:%s",
 		index,
 		it.StringContains,
 		it.SortedString(),
@@ -68,7 +69,7 @@ func (it *Compare) IsMatch(
 		if !isMatch && isPrint {
 			compiledMessage := it.GetPrintMessage(index)
 
-			fmt.Println(compiledMessage)
+			slog.Warn("compare mismatch", "message", compiledMessage)
 		}
 
 		return isMatch
@@ -86,7 +87,7 @@ func (it *Compare) IsMatch(
 	if !isMatch && isPrint {
 		compiledMessage := it.GetPrintMessage(index)
 
-		fmt.Println(compiledMessage)
+		slog.Warn("compare mismatch", "message", compiledMessage)
 	}
 
 	return isMatch

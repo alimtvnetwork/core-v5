@@ -1,73 +1,87 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
-type Two struct {
-	First    interface{}              `json:",omitempty"`
-	Second   interface{}              `json:",omitempty"`
-	Expect   interface{}              `json:",omitempty"`
-	toSlice  *[]interface{}           `json:"-"`
-	toString corestr.SimpleStringOnce `json:"-"`
+// Two holds two typed positional arguments plus an optional Expect field.
+//
+// Type parameters T1 and T2 represent the types of the First and Second arguments.
+// Use TwoAny (= Two[any, any]) for untyped usage.
+//
+// Example (typed):
+//
+//	arg := args.Two[string, int]{
+//	    First:  "hello",
+//	    Second: 42,
+//	    Expect: true,
+//	}
+type Two[T1, T2 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *Two) FirstItem() interface{} {
+// FirstItem returns the First argument as any for interface compatibility.
+func (it *Two[T1, T2]) FirstItem() any {
 	return it.First
 }
 
-func (it *Two) SecondItem() interface{} {
+// SecondItem returns the Second argument as any for interface compatibility.
+func (it *Two[T1, T2]) SecondItem() any {
 	return it.Second
 }
 
-func (it *Two) Expected() interface{} {
+// Expected returns the expected value.
+func (it *Two[T1, T2]) Expected() any {
 	return it.Expect
 }
 
-func (it *Two) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a TwoFunc with First and Second fields.
+func (it *Two[T1, T2]) ArgTwo() TwoFuncAny {
+	return TwoFuncAny{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *Two) HasFirst() bool {
+// HasFirst checks whether the First argument is defined.
+func (it *Two[T1, T2]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *Two) HasSecond() bool {
+// HasSecond checks whether the Second argument is defined.
+func (it *Two[T1, T2]) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *Two) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *Two[T1, T2]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *Two) ValidArgs() []interface{} {
-	var args []interface{}
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *Two[T1, T2]) ValidArgs() []any {
+	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
 
 	return args
 }
 
-func (it *Two) ArgsCount() int {
-	return 1
+// ArgsCount returns the number of positional argument slots (always 2).
+func (it *Two[T1, T2]) ArgsCount() int {
+	return 2
 }
 
-func (it *Two) Args(upTo int) []interface{} {
-	var args []interface{}
+// Args returns positional arguments up to the given count.
+func (it *Two[T1, T2]) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -80,72 +94,53 @@ func (it *Two) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *Two) Slice() []interface{} {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *Two[T1, T2]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Expect)
 
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
+	it.toSlice = args
+	it.isSliceCached = true
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
-
-	it.toSlice = &args
-
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *Two) GetByIndex(index int) interface{} {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *Two[T1, T2]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it *Two) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
-		"TwoFunc",
-		strings.Join(args, constants.CommaSpace),
+// String returns a formatted string representation of the Two instance.
+func (it *Two[T1, T2]) String() string {
+	return buildToString(
+		"Two",
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *Two) LeftRight() LeftRight {
-	return LeftRight{
+// LeftRight converts the Two to a LeftRightAny.
+func (it *Two[T1, T2]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Right:  it.Second,
 		Expect: it.Expect,
 	}
 }
 
-func (it Two) AsTwoParameter() TwoParameter {
+// AsTwoParameter returns the Two as a TwoParameter interface.
+func (it Two[T1, T2]) AsTwoParameter() TwoParameter {
 	return &it
 }
 
-func (it Two) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the Two as an ArgBaseContractsBinder interface.
+func (it Two[T1, T2]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

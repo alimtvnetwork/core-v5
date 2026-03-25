@@ -1,0 +1,43 @@
+package coreversiontests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coreversion"
+)
+
+// Test_Cov5_VersionDisplayMajorMinorPatch_InvalidPatch tests the IsPatchInvalid branch.
+func Test_Cov5_VersionDisplayMajorMinorPatch_InvalidPatch(t *testing.T) {
+	// Arrange
+	v := coreversion.Version{
+		VersionMajor: 1,
+		VersionMinor: 2,
+		VersionPatch: -1,
+	}
+
+	// Act
+	actual := v.VersionDisplayMajorMinorPatch()
+
+	// Assert
+	expected := "v1.2"
+	if actual != expected {
+		t.Fatalf("VersionDisplayMajorMinorPatch with invalid patch: got %q, want %q", actual, expected)
+	}
+}
+
+// Test_Cov5_Major_Compare tests the Major() comparison method.
+func Test_Cov5_Major_Compare(t *testing.T) {
+	// Arrange
+	v := coreversion.Version{
+		VersionMajor: 3,
+		VersionMinor: 0,
+	}
+
+	// Act
+	result := v.Major(3)
+
+	// Assert
+	if !result.IsEqual() {
+		t.Fatalf("Major(3) on version with major=3 should be Equal, got %v", result)
+	}
+}

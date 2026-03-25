@@ -7,18 +7,10 @@ type HashmapDataModel struct {
 }
 
 func NewHashmapUsingDataModel(dataModel *HashmapDataModel) *Hashmap {
-	length := 0
-
-	if dataModel.Items != nil {
-		length = len(dataModel.Items)
-	}
-
 	return &Hashmap{
 		items:         dataModel.Items,
 		hasMapUpdated: false,
 		cachedList:    nil,
-		length:        length,
-		isEmptySet:    length == 0,
 		Mutex:         sync.Mutex{},
 	}
 }

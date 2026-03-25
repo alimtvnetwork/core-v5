@@ -1,11 +1,11 @@
 package isany
 
 import (
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 func DeepEqual(
-	left, right interface{},
+	left, right any,
 ) (isEqual bool) {
 	return reflectinternal.Is.AnyEqual(left, right)
 }

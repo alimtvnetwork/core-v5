@@ -2,8 +2,8 @@ package simplewrap
 
 import (
 	"fmt"
-	
-	"gitlab.com/auk-go/core/constants"
+
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // MsgWrapMsg
@@ -13,15 +13,15 @@ func MsgWrapMsg(msg, wrappedMsg string) string {
 	if msg == "" && wrappedMsg == "" {
 		return ""
 	}
-	
+
 	if msg == "" && wrappedMsg != "" {
 		return wrappedMsg
 	}
-	
+
 	if msg != "" && wrappedMsg == "" {
 		return msg
 	}
-	
+
 	return fmt.Sprintf(
 		constants.StringWrapValueFormat,
 		msg,

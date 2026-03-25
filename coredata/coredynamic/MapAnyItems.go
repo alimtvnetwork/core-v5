@@ -7,16 +7,16 @@ import (
 	"sort"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/mapdiffinternal"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type MapAnyItems struct {
-	Items map[string]interface{}
+	Items map[string]any
 }
 
 func EmptyMapAnyItems() *MapAnyItems {
@@ -24,13 +24,13 @@ func EmptyMapAnyItems() *MapAnyItems {
 }
 
 func NewMapAnyItems(capacity int) *MapAnyItems {
-	slice := make(map[string]interface{}, capacity)
+	slice := make(map[string]any, capacity)
 
 	return &MapAnyItems{Items: slice}
 }
 
 func NewMapAnyItemsUsingAnyTypeMap(
-	anyTypeOfMap interface{},
+	anyTypeOfMap any,
 ) (*MapAnyItems, error) {
 	if reflectinternal.Is.Null(anyTypeOfMap) {
 		return EmptyMapAnyItems(), errcore.
@@ -39,7 +39,7 @@ func NewMapAnyItemsUsingAnyTypeMap(
 	}
 
 	rv := reflect.ValueOf(anyTypeOfMap)
-	convertedMap, err := reflectinternal.MapConverter.ToMapStringAny(rv)
+	convertedMap, err := reflectinternal.MapConverter.ToMapStringAnyRv(rv)
 
 	if err != nil {
 		return EmptyMapAnyItems(), err
@@ -49,7 +49,7 @@ func NewMapAnyItemsUsingAnyTypeMap(
 }
 
 func NewMapAnyItemsUsingItems(
-	itemsMap map[string]interface{},
+	itemsMap map[string]any,
 ) *MapAnyItems {
 	if len(itemsMap) == 0 {
 		return EmptyMapAnyItems()
@@ -75,6 +75,10 @@ func (it *MapAnyItems) HasAnyItem() bool {
 }
 
 func (it *MapAnyItems) HasKey(key string) bool {
+	if it == nil {
+		return false
+	}
+
 	_, has := it.Items[key]
 
 	return has
@@ -82,11 +86,12 @@ func (it *MapAnyItems) HasKey(key string) bool {
 
 func (it *MapAnyItems) ReflectSetTo(
 	key string,
-	toPointerOrBytes interface{},
+	toPointerOrBytes any,
 ) error {
 	valInf, has := it.Items[key]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return errcore.ErrorWithRefToError(
 			defaulterr.KeyNotExistInMap,
 			it.AllKeysSorted(),
@@ -101,7 +106,7 @@ func (it *MapAnyItems) ReflectSetTo(
 
 func (it *MapAnyItems) ReflectSetToMust(
 	key string,
-	toPointerOrBytes interface{},
+	toPointerOrBytes any,
 ) {
 	err := it.ReflectSetTo(key, toPointerOrBytes)
 	errcore.HandleErr(err)
@@ -109,7 +114,7 @@ func (it *MapAnyItems) ReflectSetToMust(
 
 func (it *MapAnyItems) GetValue(
 	key string,
-) (any interface{}) {
+) (any any) {
 	valInf, has := it.Items[key]
 
 	if has {
@@ -122,7 +127,7 @@ func (it *MapAnyItems) GetValue(
 func (it *MapAnyItems) GetFieldsMap(
 	key string,
 ) (
-	fieldMap map[string]interface{},
+	fieldMap map[string]any,
 	parsingErr error,
 	isFound bool,
 ) {
@@ -147,7 +152,7 @@ func (it *MapAnyItems) GetFieldsMap(
 func (it *MapAnyItems) GetSafeFieldsMap(
 	key string,
 ) (
-	fieldMap map[string]interface{},
+	fieldMap map[string]any,
 	isFound bool,
 ) {
 	fieldMap, _, isFound = it.GetFieldsMap(key)
@@ -157,7 +162,7 @@ func (it *MapAnyItems) GetSafeFieldsMap(
 
 func (it *MapAnyItems) Get(
 	key string,
-) (any interface{}, has bool) {
+) (any any, has bool) {
 	valInf, has := it.Items[key]
 
 	if has {
@@ -169,7 +174,7 @@ func (it *MapAnyItems) Get(
 
 func (it *MapAnyItems) Deserialize(
 	key string,
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return it.GetUsingUnmarshallAt(
 		key,
@@ -179,7 +184,7 @@ func (it *MapAnyItems) Deserialize(
 
 func (it *MapAnyItems) DeserializeMust(
 	key string,
-	toPointer interface{},
+	toPointer any,
 ) {
 	err := it.GetUsingUnmarshallAt(
 		key,
@@ -190,11 +195,12 @@ func (it *MapAnyItems) DeserializeMust(
 
 func (it *MapAnyItems) GetUsingUnmarshallAt(
 	key string,
-	unmarshalRef interface{},
+	unmarshalRef any,
 ) error {
 	valInf, has := it.Items[key]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return errcore.
 			KeyNotExistInMapType.
 			ErrorRefOnly(key)
@@ -266,11 +272,12 @@ func (it *MapAnyItems) GetManyItemsRefs(
 
 func (it *MapAnyItems) GetItemRef(
 	key string,
-	referenceOut interface{},
+	referenceOut any,
 ) error {
 	valInf, has := it.Items[key]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return errcore.
 			KeyNotExistInMapType.
 			Error("key", key)
@@ -368,7 +375,7 @@ func (it *MapAnyItems) GetItemRef(
 
 func (it *MapAnyItems) Add(
 	key string,
-	valInf interface{},
+	valInf any,
 ) (isNewlyAdded bool) {
 	_, isAlreadyExist := it.Items[key]
 
@@ -379,7 +386,7 @@ func (it *MapAnyItems) Add(
 
 func (it *MapAnyItems) Set(
 	key string,
-	valInf interface{},
+	valInf any,
 ) (isNewlyAdded bool) {
 	_, isAlreadyExist := it.Items[key]
 
@@ -419,7 +426,7 @@ func (it *MapAnyItems) AddKeyAnyWithValidation(
 func (it *MapAnyItems) AddWithValidation(
 	typeVerify reflect.Type,
 	key string,
-	anyInf interface{},
+	anyInf any,
 ) error {
 	actualTypeOf := reflect.TypeOf(anyInf)
 	if actualTypeOf != typeVerify {
@@ -452,6 +459,10 @@ func (it *MapAnyItems) AddJsonResultPtr(
 func (it *MapAnyItems) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -490,6 +501,7 @@ func (it *MapAnyItems) GetPagedCollection(
 	}
 
 	wg.Add(pagesPossibleCeiling)
+
 	for i := 1; i <= pagesPossibleCeiling; i++ {
 		go addPagedItemsFunc(i)
 	}
@@ -503,7 +515,7 @@ func (it *MapAnyItems) GetPagedCollection(
 //
 //	apply override on existing result
 func (it *MapAnyItems) AddMapResult(
-	mapResults map[string]interface{},
+	mapResults map[string]any,
 ) *MapAnyItems {
 	if len(mapResults) == 0 {
 		return it
@@ -518,7 +530,7 @@ func (it *MapAnyItems) AddMapResult(
 
 func (it *MapAnyItems) AddMapResultOption(
 	isOverride bool,
-	mapResults map[string]interface{},
+	mapResults map[string]any,
 ) *MapAnyItems {
 	if len(mapResults) == 0 {
 		return it
@@ -531,8 +543,9 @@ func (it *MapAnyItems) AddMapResultOption(
 	// no override
 	for key, result := range mapResults {
 		_, isFound := it.Items[key]
+		isMissing := !isFound
 
-		if !isFound {
+		if isMissing {
 			continue
 		}
 
@@ -544,7 +557,7 @@ func (it *MapAnyItems) AddMapResultOption(
 
 func (it *MapAnyItems) AddManyMapResultsUsingOption(
 	isOverridingExisting bool,
-	mapsOfMapsResults ...map[string]interface{},
+	mapsOfMapsResults ...map[string]any,
 ) *MapAnyItems {
 	if len(mapsOfMapsResults) == 0 {
 		return it
@@ -624,7 +637,7 @@ func (it *MapAnyItems) GetNewMapUsingKeys(
 		return EmptyMapAnyItems()
 	}
 
-	mapResults := make(map[string]interface{}, len(keys))
+	mapResults := make(map[string]any, len(keys))
 
 	for _, key := range keys {
 		item, has := it.Items[key]
@@ -735,12 +748,12 @@ func (it *MapAnyItems) AllKeysSorted() []string {
 	return keys
 }
 
-func (it *MapAnyItems) AllValues() []interface{} {
+func (it *MapAnyItems) AllValues() []any {
 	if it.IsEmpty() {
-		return []interface{}{}
+		return []any{}
 	}
 
-	values := make([]interface{}, it.Length())
+	values := make([]any, it.Length())
 
 	index := 0
 	for _, result := range it.Items {
@@ -753,8 +766,8 @@ func (it *MapAnyItems) AllValues() []interface{} {
 
 func (it *MapAnyItems) DiffRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
-) map[string]interface{} {
+	rightMap map[string]any,
+) map[string]any {
 	mapDiffer := mapdiffinternal.MapStringAnyDiff(
 		rightMap,
 	)
@@ -779,7 +792,7 @@ func (it *MapAnyItems) Diff(
 
 func (it *MapAnyItems) IsRawEqual(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	differ := it.RawMapStringAnyDiff()
 
@@ -792,7 +805,7 @@ func (it *MapAnyItems) IsRawEqual(
 
 func (it *MapAnyItems) HashmapDiffUsingRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) MapAnyItemDiff {
 	diffMap := it.DiffRaw(
 		isRegardlessType,
@@ -800,7 +813,7 @@ func (it *MapAnyItems) HashmapDiffUsingRaw(
 	)
 
 	if len(diffMap) == 0 {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return diffMap
@@ -812,7 +825,7 @@ func (it *MapAnyItems) MapAnyItems() *MapAnyItems {
 
 func (it *MapAnyItems) HasAnyChanges(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	return !it.IsRawEqual(
 		isRegardlessType,
@@ -826,7 +839,7 @@ func (it *MapAnyItems) MapStringAnyDiff() mapdiffinternal.MapStringAnyDiff {
 
 func (it *MapAnyItems) DiffJsonMessage(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	differ := it.RawMapStringAnyDiff()
 
@@ -837,7 +850,7 @@ func (it *MapAnyItems) DiffJsonMessage(
 }
 
 func (it *MapAnyItems) ToStringsSliceOfDiffMap(
-	diffMap map[string]interface{},
+	diffMap map[string]any,
 ) (diffSlice []string) {
 	differ := it.RawMapStringAnyDiff()
 
@@ -849,7 +862,7 @@ func (it *MapAnyItems) ToStringsSliceOfDiffMap(
 func (it *MapAnyItems) ShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	differ := it.RawMapStringAnyDiff()
 
@@ -863,7 +876,7 @@ func (it *MapAnyItems) ShouldDiffMessage(
 func (it *MapAnyItems) LogShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	differ := it.RawMapStringAnyDiff()
 
@@ -946,7 +959,7 @@ func (it *MapAnyItems) JsonModel() *corejson.MapResults {
 	return mapResults
 }
 
-func (it *MapAnyItems) JsonModelAny() interface{} {
+func (it *MapAnyItems) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1006,7 +1019,7 @@ func (it *MapAnyItems) Clear() {
 		return
 	}
 
-	it.Items = map[string]interface{}{}
+	it.Items = map[string]any{}
 }
 
 func (it *MapAnyItems) DeepClear() {
@@ -1024,7 +1037,7 @@ func (it *MapAnyItems) DeepClear() {
 
 	go tempClearFunc()
 
-	it.Items = map[string]interface{}{}
+	it.Items = map[string]any{}
 }
 
 func (it *MapAnyItems) Dispose() {
@@ -1041,7 +1054,7 @@ func (it *MapAnyItems) String() string {
 }
 
 func (it *MapAnyItems) IsEqualRaw(
-	rightMappedItems map[string]interface{},
+	rightMappedItems map[string]any,
 ) bool {
 	if it == nil && rightMappedItems == nil {
 		return true
@@ -1060,13 +1073,16 @@ func (it *MapAnyItems) IsEqualRaw(
 
 	for key := range it.Items {
 		rightElem, has := rightMappedItems[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
 		leftElem := it.Items[key]
-		if !reflectinternal.Is.AnyEqual(leftElem, rightElem) {
+		isDifferent := !reflectinternal.Is.AnyEqual(leftElem, rightElem)
+
+		if isDifferent {
 			return false
 		}
 	}
@@ -1114,7 +1130,7 @@ func (it *MapAnyItems) ClonePtr() (*MapAnyItems, error) {
 
 func (it *MapAnyItems) RawMapStringAnyDiff() mapdiffinternal.MapStringAnyDiff {
 	if it == nil {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return it.Items

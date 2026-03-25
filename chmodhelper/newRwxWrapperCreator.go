@@ -3,10 +3,10 @@ package chmodhelper
 import (
 	"os"
 
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/messages"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/messages"
 )
 
 type newRwxWrapperCreator struct{}
@@ -85,7 +85,7 @@ func (it newRwxWrapperCreator) InvalidPtr() *RwxWrapper {
 func (it newRwxWrapperCreator) UsingChmod(
 	fileMode os.FileMode,
 ) *RwxWrapper {
-	return it.UsingChmod(fileMode)
+	return it.UsingFileModePtr(fileMode)
 }
 
 // UsingFileModePtr
@@ -372,7 +372,9 @@ func (it newRwxWrapperCreator) UsingExistingFileSkipInvalidFile(
 ) (rwxWrapper *RwxWrapper, isInvalidFile bool) {
 	existingChmod, isInvalidFile := GetExistingChmodOfValidFile(filePath)
 
-	if !isInvalidFile {
+	isValidFile := !isInvalidFile
+
+	if isValidFile {
 		// valid
 		return it.UsingFileModePtr(existingChmod), isInvalidFile
 	}

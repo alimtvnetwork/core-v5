@@ -7,9 +7,9 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreindexes"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreindexes"
 )
 
 type CharCollectionMap struct {
@@ -201,7 +201,9 @@ func (it *CharCollectionMap) StringLock() string {
 }
 
 func (it *CharCollectionMap) Print(isPrint bool) {
-	if !isPrint {
+	isSkipPrint := !isPrint
+
+	if isSkipPrint {
 		return
 	}
 
@@ -211,7 +213,9 @@ func (it *CharCollectionMap) Print(isPrint bool) {
 }
 
 func (it *CharCollectionMap) PrintLock(isPrint bool) {
-	if !isPrint {
+	isSkipPrint := !isPrint
+
+	if isSkipPrint {
 		return
 	}
 
@@ -458,15 +462,18 @@ func (it *CharCollectionMap) IsEqualsCaseSensitive(
 
 	for key, collection := range leftMap {
 		rCollection, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
-		if !rCollection.IsEqualsWithSensitive(
+		isDifferent := !rCollection.IsEqualsWithSensitive(
 			isCaseSensitive,
 			collection,
-		) {
+		)
+
+		if isDifferent {
 			return false
 		}
 	}
@@ -502,6 +509,10 @@ func (it *CharCollectionMap) AddLock(
 func (it *CharCollectionMap) Add(
 	str string,
 ) *CharCollectionMap {
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, charCollectionDefaultCapacity)
+	}
+
 	char := it.GetChar(str)
 
 	collection, has := it.items[char]
@@ -527,6 +538,10 @@ func (it *CharCollectionMap) AddSameStartingCharItems(
 ) *CharCollectionMap {
 	if len(allItemsWithSameChar) == 0 {
 		return it
+	}
+
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, charCollectionDefaultCapacity)
 	}
 
 	values, has := it.items[char]
@@ -873,8 +888,9 @@ func (it *CharCollectionMap) HashsetByChar(
 	char byte,
 ) *Hashset {
 	collection, has := it.items[char]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return nil
 	}
 
@@ -1001,7 +1017,7 @@ func (it *CharCollectionMap) JsonModel() *CharCollectionDataModel {
 	}
 }
 
-func (it *CharCollectionMap) JsonModelAny() interface{} {
+func (it *CharCollectionMap) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1050,11 +1066,11 @@ func (it *CharCollectionMap) UnmarshalJSON(data []byte) error {
 }
 
 func (it CharCollectionMap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it CharCollectionMap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *CharCollectionMap) ParseInjectUsingJson(

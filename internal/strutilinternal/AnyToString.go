@@ -3,10 +3,10 @@ package strutilinternal
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func AnyToString(any interface{}) string {
+func AnyToString(any any) string {
 	if any == nil {
 		return ""
 	}

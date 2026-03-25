@@ -1,6 +1,6 @@
 package enuminf
 
-import "gitlab.com/auk-go/core/internal/internalinterface"
+import "github.com/alimtvnetwork/core/internal/internalinterface"
 
 type SplitNameValueByteGetter interface {
 	enumNameStinger
@@ -45,7 +45,7 @@ type ByteTypeEnumGetter interface {
 }
 
 type StringRangesGetter interface {
-	StringRangesPtr() *[]string
+	StringRangesPtr() []string
 	StringRanges() []string
 }
 
@@ -62,7 +62,7 @@ type RangesIntegerStringMapGetter interface {
 }
 
 type RangesDynamicMapGetter interface {
-	RangesDynamicMap() map[string]interface{}
+	RangesDynamicMap() map[string]any
 }
 
 type IntegerEnumRangesGetter interface {

@@ -1,9 +1,9 @@
 package entityinf
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/internalinterface"
-	"gitlab.com/auk-go/core/internal/internalinterface/internalserializer"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/internal/internalinterface/internalserializer"
 )
 
 type BaseRecordEntityDefiner interface {

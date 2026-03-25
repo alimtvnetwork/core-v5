@@ -1,5 +1,5 @@
 package loggerinf
 
 type WarningLogger interface {
-	Warn(args ...interface{}) // Warn logs a message at Warning level.
+	Warn(args ...any) // Warn logs a message at Warning level.
 }

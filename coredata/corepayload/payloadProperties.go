@@ -1,10 +1,10 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/coreinterface/payloadinf"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coreinterface/payloadinf"
 )
 
 type payloadProperties struct {
@@ -16,11 +16,11 @@ func (it *payloadProperties) SetBasicError(basicError errcoreinf.BasicErrWrapper
 	it.payloadWrapper.Attributes.SetBasicErr(basicError)
 }
 
-func (it *payloadProperties) BasicError() errcoreinf.BasicErrWrapper {
+func (it payloadProperties) BasicError() errcoreinf.BasicErrWrapper {
 	return it.payloadWrapper.BasicError()
 }
 
-func (it *payloadProperties) ReflectSetTo(toPointer interface{}) error {
+func (it *payloadProperties) ReflectSetTo(toPointer any) error {
 	return coredynamic.ReflectSetFromTo(it.payloadWrapper, toPointer)
 }
 
@@ -46,11 +46,11 @@ func (it *payloadProperties) SetNameMust(name string) {
 	it.payloadWrapper.Name = name
 }
 
-func (it *payloadProperties) IdInteger() int {
+func (it payloadProperties) IdInteger() int {
 	return it.payloadWrapper.IdInteger()
 }
 
-func (it *payloadProperties) IdUnsignedInteger() uint {
+func (it payloadProperties) IdUnsignedInteger() uint {
 	return it.payloadWrapper.IdentifierUnsignedInteger()
 }
 
@@ -96,7 +96,7 @@ func (it *payloadProperties) SetEntityTypeMust(entityName string) {
 	it.payloadWrapper.EntityType = entityName
 }
 
-func (it *payloadProperties) HasManyRecord() bool {
+func (it payloadProperties) HasManyRecord() bool {
 	return it.payloadWrapper.HasManyRecords
 }
 
@@ -122,7 +122,7 @@ func (it *payloadProperties) SetDynamicPayloads(dynamicPayloads []byte) error {
 	return nil
 }
 
-func (it *payloadProperties) DynamicPayloadsDeserializedTo(toPtr interface{}) error {
+func (it *payloadProperties) DynamicPayloadsDeserializedTo(toPtr any) error {
 	return it.payloadWrapper.Deserialize(toPtr)
 }
 

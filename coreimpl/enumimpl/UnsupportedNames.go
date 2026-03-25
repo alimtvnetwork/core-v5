@@ -7,18 +7,19 @@ func UnsupportedNames(
 	unsupportedNames := make(
 		[]string,
 		0,
-		len(allNames)-len(supportedNames)+1)
+		len(allNames)-len(supportedNames)+1,
+	)
+
 	supportedNamesHashset := toHashset(supportedNames...)
 
 	for _, name := range allNames {
-		_, has := supportedNamesHashset[name]
-
-		if !has {
+		if !supportedNamesHashset[name] {
 			unsupportedNames = append(
 				unsupportedNames,
-				name)
+				name,
+			)
 		}
 	}
 
-	return supportedNames
+	return unsupportedNames
 }

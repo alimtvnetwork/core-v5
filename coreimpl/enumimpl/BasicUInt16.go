@@ -3,11 +3,11 @@ package enumimpl
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coreimpl/enumimpl/enumtype"
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl/enumtype"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type BasicUInt16 struct {
@@ -91,7 +91,7 @@ func (it BasicUInt16) GetStringValue(input uint16) string {
 
 func (it BasicUInt16) ExpectingEnumValueError(
 	rawString string,
-	expectedEnum interface{},
+	expectedEnum any,
 ) error {
 	expectedEnumName := it.ToName(expectedEnum)
 	expectedValue := it.GetValueByString(expectedEnumName)
@@ -163,7 +163,7 @@ func (it BasicUInt16) AppendPrependJoinNamer(
 		appendVal.Name()
 }
 
-func (it BasicUInt16) ToNumberString(valueInRawFormat interface{}) string {
+func (it BasicUInt16) ToNumberString(valueInRawFormat any) string {
 	return fmt.Sprintf(constants.SprintValueFormat, valueInRawFormat)
 }
 

@@ -1,6 +1,6 @@
 package conditional
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func StringDefault(
 	isTrue bool,

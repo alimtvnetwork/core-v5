@@ -2,8 +2,8 @@ package simplewrap
 
 import (
 	"fmt"
-	
-	"gitlab.com/auk-go/core/constants"
+
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // WithDoubleQuoteAny
@@ -11,7 +11,7 @@ import (
 //	Alias for ToJsonName
 //
 //	" + source + " , also take care of any double if available next.
-func WithDoubleQuoteAny(source interface{}) string {
+func WithDoubleQuoteAny(source any) string {
 	return fmt.Sprintf(
 		constants.SprintValueDoubleQuotationFormat,
 		toString(source))

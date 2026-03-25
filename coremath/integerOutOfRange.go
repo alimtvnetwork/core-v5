@@ -3,8 +3,8 @@ package coremath
 import (
 	"math"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/osconsts"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/osconsts"
 )
 
 type integerOutOfRange struct{}
@@ -22,7 +22,7 @@ func (it integerOutOfRange) ToUnsignedInt32(value int) bool {
 		return !(value >= 0 && value <= math.MaxInt32)
 	}
 
-	return !(value >= 0 && value <= math.MaxInt32)
+	return !(value >= 0 && value <= math.MaxUint32)
 }
 
 func (it integerOutOfRange) ToUnsignedInt64(value int) bool {

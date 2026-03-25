@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 type RawErrorType string
@@ -59,6 +59,8 @@ const (
 	EmptyArrayType                             RawErrorType = "Empty array, which is unexpected."
 	EmptyItemsType                             RawErrorType = "Empty items, which is unexpected."
 	PathErrorType                              RawErrorType = "Path error, which is unexpected."
+	PathExist                                  RawErrorType = "file path exist but expect to be missing or clear"
+	ParsingFailed                              RawErrorType = "parsing failed"
 	PathRemoveFailedType                       RawErrorType = "Path remove failed."
 	PathCreateFailedType                       RawErrorType = "Path create failed."
 	FileCloseFailedType                        RawErrorType = "File close failed."
@@ -93,8 +95,10 @@ const (
 	RangesOnlySupportedType                    RawErrorType = "Only Ranges: Only selected ranges supported for the function or feature."
 	PathsMissingOrHavingIssuesType             RawErrorType = "Path missing or having other access issues!"
 	BytesAreNilOrEmptyType                     RawErrorType = "Bytes data either nil or empty."
-	ValidataionFailedType                      RawErrorType = "Validation failed!"
-	LengthIssueType                            RawErrorType = "Length Issue!"
+	// Deprecated: Use ValidationFailedType instead.
+	ValidataionFailedType RawErrorType = "Validation failed!"
+	ValidationFailedType  RawErrorType = "Validation failed!"
+	LengthIssueType       RawErrorType = "Length Issue!"
 )
 
 func GetSet(
@@ -128,10 +132,10 @@ func (it RawErrorType) String() string {
 func (it RawErrorType) CombineWithAnother(
 	another RawErrorType,
 	otherMsg string,
-	reference interface{},
+	reference any,
 ) RawErrorType {
 	return RawErrorType(
-		CombineWithMsgType(
+		CombineWithMsgTypeNoStack(
 			it,
 			otherMsg+constants.NewLineUnix+another.String(),
 			reference,
@@ -140,16 +144,16 @@ func (it RawErrorType) CombineWithAnother(
 }
 
 func (it RawErrorType) Combine(
-	otherMsg string, reference interface{},
+	otherMsg string, reference any,
 ) string {
-	return CombineWithMsgType(it, otherMsg, reference)
+	return CombineWithMsgTypeNoStack(it, otherMsg, reference)
 }
 
 func (it RawErrorType) TypesAttach(
 	otherMsg string,
-	reflectionTypes ...interface{},
+	reflectionTypes ...any,
 ) string {
-	return CombineWithMsgType(
+	return CombineWithMsgTypeNoStack(
 		it,
 		otherMsg,
 		typesNamesString(
@@ -160,7 +164,7 @@ func (it RawErrorType) TypesAttach(
 
 func (it RawErrorType) TypesAttachErr(
 	otherMsg string,
-	reflectionTypes ...interface{},
+	reflectionTypes ...any,
 ) error {
 	message := it.TypesAttach(otherMsg, reflectionTypes...)
 
@@ -169,21 +173,21 @@ func (it RawErrorType) TypesAttachErr(
 
 func (it RawErrorType) SrcDestination(
 	otherMsg string,
-	srcName string, srcValue interface{},
-	destinationName string, destinationValue interface{},
+	srcName string, srcValue any,
+	destinationName string, destinationValue any,
 ) string {
 	reference := VarTwoNoType(
 		srcName, srcValue,
 		destinationName, destinationValue,
 	)
 
-	return CombineWithMsgType(it, otherMsg, reference)
+	return CombineWithMsgTypeNoStack(it, otherMsg, reference)
 }
 
 func (it RawErrorType) SrcDestinationErr(
 	otherMsg string,
-	srcName string, srcValue interface{},
-	destinationName string, destinationValue interface{},
+	srcName string, srcValue any,
+	destinationName string, destinationValue any,
 ) error {
 	wholeMessage := it.SrcDestination(
 		otherMsg,
@@ -194,15 +198,21 @@ func (it RawErrorType) SrcDestinationErr(
 	return errors.New(wholeMessage)
 }
 
-func (it RawErrorType) Error(otherMsg string, reference interface{}) error {
-	msg := CombineWithMsgType(it, otherMsg, reference)
+func (it RawErrorType) Error(otherMsg string, reference any) error {
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, reference)
 
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
 
+func (it RawErrorType) ErrorSkip(skipStack int, otherMsg string, reference any) error {
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, reference)
+
+	return StackEnhance.MsgToErrSkip(1+skipStack, msg)
+}
+
 func (it RawErrorType) Fmt(
 	format string,
-	v ...interface{},
+	v ...any,
 ) error {
 	if format == "" && len(v) == 0 {
 		return it.ErrorRefOnly(nil)
@@ -213,7 +223,7 @@ func (it RawErrorType) Fmt(
 		v...,
 	)
 
-	msg := CombineWithMsgType(it, compiledMessage, nil)
+	msg := CombineWithMsgTypeNoStack(it, compiledMessage, nil)
 
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
@@ -221,9 +231,11 @@ func (it RawErrorType) Fmt(
 func (it RawErrorType) FmtIf(
 	isError bool,
 	format string,
-	v ...interface{},
+	v ...any,
 ) error {
-	if !isError {
+	isNoError := !isError
+
+	if isNoError {
 		return nil
 	}
 
@@ -237,7 +249,7 @@ func (it RawErrorType) MergeError(
 		return nil
 	}
 
-	return it.ErrorNoRefs(err.Error())
+	return fmt.Errorf("%s: %w", it.String(), err)
 }
 
 func (it RawErrorType) MergeErrorWithMessage(
@@ -248,35 +260,39 @@ func (it RawErrorType) MergeErrorWithMessage(
 		return nil
 	}
 
-	return it.ErrorNoRefs(message + err.Error())
+	return fmt.Errorf("%s %s: %w", it.String(), message, err)
 }
 
 func (it RawErrorType) MergeErrorWithMessageRef(
 	err error,
 	message string,
-	reference interface{},
+	reference any,
 ) error {
 	if err == nil {
 		return nil
 	}
 
-	return it.Error(message+err.Error(), reference)
+	refMsg := CombineWithMsgTypeNoStack(it, message, reference)
+
+	return fmt.Errorf("%s: %w", refMsg, err)
 }
 
 func (it RawErrorType) MergeErrorWithRef(
 	err error,
-	reference interface{},
+	reference any,
 ) error {
 	if err == nil {
 		return nil
 	}
 
-	return it.Error(err.Error(), reference)
+	refMsg := CombineWithMsgTypeNoStack(it, "", reference)
+
+	return fmt.Errorf("%s: %w", refMsg, err)
 }
 
 func (it RawErrorType) MsgCsvRef(
 	otherMsg string,
-	csvReferenceItems ...interface{},
+	csvReferenceItems ...any,
 ) string {
 	if len(csvReferenceItems) == 0 {
 		return it.NoRef(otherMsg)
@@ -304,50 +320,57 @@ func (it RawErrorType) MsgCsvRef(
 
 func (it RawErrorType) MsgCsvRefError(
 	otherMsg string,
-	csvReferenceItems ...interface{},
+	csvReferenceItems ...any,
 ) error {
 	msg := it.MsgCsvRef(otherMsg, csvReferenceItems...)
+	msg = StackEnhance.MsgSkip(1, msg)
 
 	return errors.New(msg)
 }
 
-func (it RawErrorType) ErrorRefOnly(reference interface{}) error {
-	msg := CombineWithMsgType(it, constants.EmptyString, reference)
+func (it RawErrorType) ErrorRefOnly(reference any) error {
+	msg := CombineWithMsgTypeStackTrace(it, constants.EmptyString, reference)
 
 	return errors.New(msg)
 }
 
-func (it RawErrorType) Expecting(expecting, actual interface{}) error {
+func (it RawErrorType) Expecting(expecting, actual any) error {
 	msg := Expecting(
 		it.String(),
 		expecting,
 		actual,
 	)
 
+	msg = StackEnhance.MsgSkip(1, msg)
+
 	return errors.New(msg)
 }
 
 func (it RawErrorType) NoRef(otherMsg string) string {
 	if otherMsg == "" {
-		return it.String()
+		return StackEnhance.MsgSkip(1, it.String())
 	}
 
-	msg := CombineWithMsgType(it, otherMsg, nil)
+	msg := CombineWithMsgTypeStackTrace(it, otherMsg, nil)
 
 	return msg
 }
 
 func (it RawErrorType) ErrorNoRefs(otherMsg string) error {
-	if otherMsg == "" {
-		return errors.New(it.String())
-	}
-
-	msg := CombineWithMsgType(it, otherMsg, nil)
-
-	return StackEnhance.MsgToErrSkip(1, msg)
+	return it.ErrorNoRefsSkip(1, otherMsg)
 }
 
-func (it RawErrorType) HandleUsingPanic(otherMsg string, reference interface{}) {
+func (it RawErrorType) ErrorNoRefsSkip(stack int, otherMsg string) error {
+	if otherMsg == "" {
+		return StackEnhance.MsgToErrSkip(1+stack, it.String())
+	}
+
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, nil)
+
+	return StackEnhance.MsgToErrSkip(1+stack, msg)
+}
+
+func (it RawErrorType) HandleUsingPanic(otherMsg string, reference any) {
 	msg := it.Combine(otherMsg, reference)
 
 	panic(msg)

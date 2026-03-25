@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // prettyJson
@@ -12,7 +12,7 @@ import (
 // Warning:
 //
 //	swallows error
-func prettyJson(anyItem interface{}) string {
+func prettyJson(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}

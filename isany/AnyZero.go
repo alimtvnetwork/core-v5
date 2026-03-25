@@ -6,7 +6,7 @@ package isany
 //
 // Reference:
 //   - Stackoverflow Example : https://stackoverflow.com/a/23555352
-func AnyZero(anyItems ...interface{}) bool {
+func AnyZero(anyItems ...any) bool {
 	if len(anyItems) == 0 {
 		return true
 	}

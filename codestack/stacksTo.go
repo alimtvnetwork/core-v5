@@ -1,6 +1,6 @@
 package codestack
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 type stacksTo struct{}
 

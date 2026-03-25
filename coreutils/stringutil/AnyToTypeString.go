@@ -3,9 +3,9 @@ package stringutil
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
-func AnyToTypeString(any interface{}) string {
+func AnyToTypeString(any any) string {
 	return fmt.Sprintf(constants.SprintTypeFormat, any)
 }

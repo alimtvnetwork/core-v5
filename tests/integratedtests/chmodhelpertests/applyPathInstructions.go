@@ -1,9 +1,9 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 func applyPathInstructions(
@@ -16,10 +16,10 @@ func applyPathInstructions(
 	errcore.SimpleHandleErr(err, "applyPathInstructions")
 
 	for _, createPath := range testCase.CreatePaths {
-		err2 := executors.ApplyOnPaths(createPath.GetPaths())
+		applyErr := executors.ApplyOnPaths(createPath.GetPaths())
 
-		if err2 != nil {
-			return err2
+		if applyErr != nil {
+			return applyErr
 		}
 	}
 

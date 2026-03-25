@@ -9,14 +9,14 @@ import (
 	"os/exec"
 	"strconv"
 
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/fsinternal"
-	"gitlab.com/auk-go/core/internal/osconstsinternal"
-	"gitlab.com/auk-go/core/osconsts"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/fsinternal"
+	"github.com/alimtvnetwork/core/internal/osconstsinternal"
+	"github.com/alimtvnetwork/core/osconsts"
 )
 
 type RwxWrapper struct {
@@ -273,7 +273,9 @@ func (it *RwxWrapper) ApplyChmodOptions(
 	isSkipOnInvalid bool,
 	location string,
 ) error {
-	if !isApply {
+	isSkipApply := !isApply
+
+	if isSkipApply {
 		return nil
 	}
 
@@ -637,7 +639,7 @@ func (it *RwxWrapper) applyLinuxChmodRecursiveManyContinueOnError(
 		}
 	}
 
-	return errcore.SliceToErrorPtr(&errSlice)
+	return errcore.SliceToErrorPtr(errSlice)
 }
 
 func (it *RwxWrapper) applyLinuxChmodNonRecursiveManyContinueOnError(
@@ -657,7 +659,7 @@ func (it *RwxWrapper) applyLinuxChmodNonRecursiveManyContinueOnError(
 		}
 	}
 
-	return errcore.SliceToErrorPtr(&errSlice)
+	return errcore.SliceToErrorPtr(errSlice)
 }
 
 // IsEqualVarWrapper if rwxVariableWrapper nil then returns false

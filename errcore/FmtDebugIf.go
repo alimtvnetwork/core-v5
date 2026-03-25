@@ -1,15 +1,18 @@
 package errcore
 
-import "fmt"
+import (
+	"fmt"
+	"log/slog"
+)
 
 func FmtDebugIf(
 	isDebug bool,
 	format string,
-	items ...interface{},
+	items ...any,
 ) {
 	if !isDebug {
 		return
 	}
 
-	fmt.Printf(format, items...)
+	slog.Debug(fmt.Sprintf(format, items...))
 }

@@ -1,7 +1,7 @@
 package issetter
 
 import (
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func NewMust(name string) Value {

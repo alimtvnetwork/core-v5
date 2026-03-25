@@ -117,7 +117,7 @@ type BaseErrorOrCollectionWrapper interface {
 	CompiledVoidLogger
 	IsCollectionTyper
 
-	ReflectSetTo(toPtr interface{}) error
+	ReflectSetTo(toPtr any) error
 
 	fmt.Stringer
 }
@@ -187,25 +187,25 @@ type BaseRawErrCollectionDefiner interface {
 	AddMessages(messages ...string)
 	AddMsg(message string)
 	AddErrorWithMessage(err error, message string)
-	AddErrorWithMessageRef(err error, message string, reference interface{})
-	Fmt(format string, v ...interface{})
-	FmtIf(isAdd bool, format string, v ...interface{})
-	References(message string, v ...interface{})
+	AddErrorWithMessageRef(err error, message string, reference any)
+	Fmt(format string, v ...any)
+	FmtIf(isAdd bool, format string, v ...any)
+	References(message string, v ...any)
 	AddErrorer
 	IsErrorsCollected
 	AddWithTraceRef(
 		err error,
 		traces []string,
-		referenceItem interface{},
+		referenceItem any,
 	)
 	AddWithCompiledTraceRef(
 		err error,
 		compiledTrace string,
-		referenceItem interface{},
+		referenceItem any,
 	)
 	AddWithRef(
 		err error,
-		referenceItem interface{},
+		referenceItem any,
 	)
 	AddManyErrorer
 	ConditionalErrorAdder
@@ -229,18 +229,18 @@ type BaseRawErrCollectionDefiner interface {
 }
 
 type DyanmicLinqer interface {
-	FirstDynamic() interface{}
-	LastDynamic() interface{}
+	FirstDynamic() any
+	LastDynamic() any
 	FirstOrDefaultError() error
 	FirstOrDefaultFullMessage() string
 	LastOrDefaultCompiledError() error
 	LastOrDefaultError() error
 	LastOrDefaultFullMessage() string
-	FirstOrDefaultDynamic() interface{}
-	LastOrDefaultDynamic() interface{}
-	SkipDynamic(skippingItemsCount int) interface{}
-	TakeDynamic(takeDynamicItems int) interface{}
-	LimitDynamic(limit int) interface{}
+	FirstOrDefaultDynamic() any
+	LastOrDefaultDynamic() any
+	SkipDynamic(skippingItemsCount int) any
+	TakeDynamic(takeDynamicItems int) any
+	LimitDynamic(limit int) any
 }
 
 type AddManyErrorer interface {

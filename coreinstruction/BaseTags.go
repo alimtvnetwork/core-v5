@@ -3,8 +3,8 @@ package coreinstruction
 import (
 	"regexp"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 type BaseTags struct {
@@ -12,12 +12,13 @@ type BaseTags struct {
 	Tags        []string `json:"Tags,omitempty"`
 }
 
-func NewTagsPtr(tags *[]string) *BaseTags {
-	if tags == nil || len(*tags) == 0 {
+// Deprecated: Use NewTags instead.
+func NewTagsPtr(tags []string) *BaseTags {
+	if len(tags) == 0 {
 		return NewTags(nil)
 	}
 
-	return NewTags(*tags)
+	return NewTags(tags)
 }
 
 func NewTags(tags []string) *BaseTags {
@@ -44,7 +45,7 @@ func (it BaseTags) IsTagsEmpty() bool {
 	return it.TagsLength() == 0
 }
 
-func (it BaseTags) TagsHashset() *corestr.Hashset {
+func (it *BaseTags) TagsHashset() *corestr.Hashset {
 	if it.tagsHashset != nil {
 		return it.tagsHashset
 	}

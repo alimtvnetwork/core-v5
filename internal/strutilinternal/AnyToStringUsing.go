@@ -3,12 +3,12 @@ package strutilinternal
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func AnyToStringUsing(
 	isIncludeFields bool,
-	any interface{},
+	any any,
 ) string {
 	if any == nil {
 		return ""

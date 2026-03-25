@@ -7,7 +7,9 @@ func CombinedBooleans(
 	isConditions ...bool,
 ) Value {
 	for _, isCondition := range isConditions {
-		if !isCondition {
+		isFailed := !isCondition
+
+		if isFailed {
 			return False
 		}
 	}

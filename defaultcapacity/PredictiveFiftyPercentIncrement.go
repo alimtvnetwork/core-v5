@@ -1,7 +1,7 @@
 package defaultcapacity
 
 import (
-	"gitlab.com/auk-go/core/constants/percentconst"
+	"github.com/alimtvnetwork/core/constants/percentconst"
 )
 
 // PredictiveFiftyPercentIncrement Result must be positive possibleLen * multiplier + additionalCap.

@@ -39,7 +39,9 @@ func IsStartsWith(
 
 	remainingText := content[:startsWithLength]
 
-	if !isIgnoreCase {
+	isCaseSensitive := !isIgnoreCase
+
+	if isCaseSensitive {
 		return startsWith == remainingText
 	}
 

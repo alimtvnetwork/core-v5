@@ -1,17 +1,13 @@
 package stringslice
 
-// ClonePtr on nil or empty makes new  &[]string{}
-// else makes a copy of itself
-func ClonePtr(slice *[]string) (slicePtr *[]string) {
-	if slice == nil || len(*slice) == 0 {
-		return &[]string{}
+// Deprecated: Use Clone instead.
+func ClonePtr(slice []string) []string {
+	if len(slice) == 0 {
+		return []string{}
 	}
 
-	newSlice := make([]string, len(*slice))
+	newSlice := make([]string, len(slice))
+	copy(newSlice, slice)
 
-	for i, s := range *slice {
-		newSlice[i] = s
-	}
-
-	return &newSlice
+	return newSlice
 }

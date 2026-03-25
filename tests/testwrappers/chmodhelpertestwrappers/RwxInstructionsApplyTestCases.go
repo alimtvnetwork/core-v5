@@ -1,7 +1,7 @@
 package chmodhelpertestwrappers
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
 )
 
 // RwxInstructionsApplyTestCases https://ss64.com/bash/chmod.html
