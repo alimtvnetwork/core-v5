@@ -3,6 +3,7 @@ package pathinternal
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) error {
