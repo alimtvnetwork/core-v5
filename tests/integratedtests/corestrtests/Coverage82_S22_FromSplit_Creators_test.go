@@ -1073,7 +1073,7 @@ func Test_S22_130_NewSSO_Init(t *testing.T) {
 	if sso.Value() != "hello" {
 		t.Errorf("New.SimpleStringOnce.Init returns hello, got %s", sso.Value())
 	}
-	if !sso.IsInitialize() {
+	if !sso.IsInitialized() {
 		t.Error("New.SimpleStringOnce.Init returns initialized")
 	}
 }
@@ -1096,7 +1096,7 @@ func Test_S22_132_NewSSO_Uninitialized(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Uninitialized("test")
 
 	// Assert
-	if sso.IsInitialize() {
+	if sso.IsInitialized() {
 		t.Error("New.SimpleStringOnce.Uninitialized returns not initialized")
 	}
 }
@@ -1139,7 +1139,7 @@ func Test_S22_136_NewSSO_Any_no_field_names(t *testing.T) {
 	if sso.Value() == "" {
 		t.Error("New.SimpleStringOnce.Any returns non-empty -- int input")
 	}
-	if !sso.IsInitialize() {
+	if !sso.IsInitialized() {
 		t.Error("New.SimpleStringOnce.Any returns initialized -- isInit true")
 	}
 }
@@ -1149,7 +1149,7 @@ func Test_S22_137_NewSSO_Any_with_field_names(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Any(true, "test", false)
 
 	// Assert
-	if sso.IsInitialize() {
+	if sso.IsInitialized() {
 		t.Error("New.SimpleStringOnce.Any returns not initialized -- isInit false")
 	}
 }
