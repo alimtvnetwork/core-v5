@@ -590,6 +590,9 @@ func (it *CharHashsetMap) AddLock(
 	char := it.GetChar(str)
 
 	it.Lock()
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	hashset, has := it.items[char]
 	it.Unlock()
 
@@ -614,6 +617,9 @@ func (it *CharHashsetMap) Add(
 ) *CharHashsetMap {
 	char := it.GetChar(str)
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	hashset, has := it.items[char]
 
 	if has {
@@ -644,6 +650,9 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 		return it
 	}
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	values, has := it.items[char]
 
 	if has {
