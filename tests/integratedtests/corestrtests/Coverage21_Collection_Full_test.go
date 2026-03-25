@@ -330,7 +330,7 @@ func Test_Cov21_Collection_HashsetOps(t *testing.T) {
 
 func Test_Cov21_Collection_Items_List_ListPtr(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	_ = c.Strings()
+	_ = c.Items()
 	_ = c.List()
 	_ = c.ListPtr()
 }

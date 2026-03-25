@@ -449,7 +449,7 @@ func Test_Cov9_Hashmap_ConcatNew_Empty(t *testing.T) {
 
 func Test_Cov9_Hashset_Basic(t *testing.T) {
 	h := corestr.New.Hashset.Cap(5)
-	h.AddOrUpdate("a").Add("b")
+	h.Add("a").Add("b")
 	actual := args.Map{
 		"len":      h.Length(),
 		"has":      h.Has("a"),
@@ -530,7 +530,7 @@ func Test_Cov9_Hashset_Resize(t *testing.T) {
 
 func Test_Cov9_Hashset_Collection(t *testing.T) {
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	c := h.Collection()
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
@@ -549,9 +549,9 @@ func Test_Cov9_Hashset_IsEquals(t *testing.T) {
 
 func Test_Cov9_Hashset_AddHashsetItems(t *testing.T) {
 	h1 := corestr.New.Hashset.Cap(3)
-	h1.AddOrUpdate("a")
+	h1.Add("a")
 	h2 := corestr.New.Hashset.Cap(3)
-	h2.AddOrUpdate("b")
+	h2.Add("b")
 	h1.AddHashsetItems(h2)
 	h1.AddHashsetItems(nil)
 	actual := args.Map{"len": h1.Length()}
@@ -590,9 +590,9 @@ func Test_Cov9_Hashset_AddItemsMap(t *testing.T) {
 
 func Test_Cov9_Hashset_ConcatNewHashsets(t *testing.T) {
 	h1 := corestr.New.Hashset.Cap(3)
-	h1.AddOrUpdate("a")
+	h1.Add("a")
 	h2 := corestr.New.Hashset.Cap(3)
-	h2.AddOrUpdate("b")
+	h2.Add("b")
 	newH := h1.ConcatNewHashsets(true, h2)
 	actual := args.Map{"len": newH.Length()}
 	expected := args.Map{"len": 2}
@@ -601,7 +601,7 @@ func Test_Cov9_Hashset_ConcatNewHashsets(t *testing.T) {
 
 func Test_Cov9_Hashset_ConcatNewHashsets_Empty(t *testing.T) {
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	newH := h.ConcatNewHashsets(true)
 	actual := args.Map{"len": newH.Length()}
 	expected := args.Map{"len": 1}
@@ -610,7 +610,7 @@ func Test_Cov9_Hashset_ConcatNewHashsets_Empty(t *testing.T) {
 
 func Test_Cov9_Hashset_ConcatNewStrings(t *testing.T) {
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	newH := h.ConcatNewStrings(true, []string{"b", "c"})
 	actual := args.Map{"len": newH.Length()}
 	expected := args.Map{"len": 3}
@@ -619,7 +619,7 @@ func Test_Cov9_Hashset_ConcatNewStrings(t *testing.T) {
 
 func Test_Cov9_Hashset_ConcatNewStrings_Empty(t *testing.T) {
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	newH := h.ConcatNewStrings(true)
 	actual := args.Map{"len": newH.Length()}
 	expected := args.Map{"len": 1}
@@ -1974,7 +1974,7 @@ func Test_Cov9_HashsetsCollection_Basic(t *testing.T) {
 func Test_Cov9_HashsetsCollection_AddNonNilNonEmpty(t *testing.T) {
 	hsc := corestr.New.HashsetsCollection.LenCap(0, 5)
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	hsc.AddNonNil(h)
 	hsc.AddNonNil(nil)
 	hsc.AddNonEmpty(h)
@@ -1985,11 +1985,11 @@ func Test_Cov9_HashsetsCollection_AddNonNilNonEmpty(t *testing.T) {
 
 func Test_Cov9_HashsetsCollection_IsEqual(t *testing.T) {
 	h1 := corestr.New.Hashset.Cap(3)
-	h1.AddOrUpdate("a")
+	h1.Add("a")
 	hsc1 := corestr.New.HashsetsCollection.LenCap(0, 3)
 	hsc1.Add(h1)
 	h2 := corestr.New.Hashset.Cap(3)
-	h2.AddOrUpdate("a")
+	h2.Add("a")
 	hsc2 := corestr.New.HashsetsCollection.LenCap(0, 3)
 	hsc2.Add(h2)
 	actual := args.Map{
@@ -2002,7 +2002,7 @@ func Test_Cov9_HashsetsCollection_IsEqual(t *testing.T) {
 
 func Test_Cov9_HashsetsCollection_StringsList(t *testing.T) {
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	hsc := corestr.New.HashsetsCollection.LenCap(0, 3)
 	hsc.Add(h)
 	list := hsc.StringsList()
@@ -2022,7 +2022,7 @@ func Test_Cov9_HashsetsCollection_String(t *testing.T) {
 	hsc := corestr.New.HashsetsCollection.LenCap(0, 3)
 	emptyStr := hsc.String()
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	hsc.Add(h)
 	nonEmptyStr := hsc.String()
 	actual := args.Map{
@@ -2035,7 +2035,7 @@ func Test_Cov9_HashsetsCollection_String(t *testing.T) {
 
 func Test_Cov9_HashsetsCollection_Join(t *testing.T) {
 	h := corestr.New.Hashset.Cap(3)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	hsc := corestr.New.HashsetsCollection.LenCap(0, 3)
 	hsc.Add(h)
 	joined := hsc.Join(",")

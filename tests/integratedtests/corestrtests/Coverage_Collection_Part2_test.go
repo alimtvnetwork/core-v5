@@ -534,7 +534,7 @@ func Test_CovP2_40_NonEmptyItemsOrNonWhitespacePtr(t *testing.T) {
 
 func Test_CovP2_41_Items(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
-	if len(col.Strings()) != 1 {
+	if len(col.Items()) != 1 {
 		t.Fatal("expected 1")
 	}
 }

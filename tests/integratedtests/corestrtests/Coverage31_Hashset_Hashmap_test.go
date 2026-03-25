@@ -46,7 +46,7 @@ func Test_C31_Hashset_ResizeLock(t *testing.T) {
 
 func Test_C31_Hashset_Add(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddOrUpdate("a")
+	h.Add("a")
 	if !h.Has("a") { t.Fatal("expected true") }
 }
 

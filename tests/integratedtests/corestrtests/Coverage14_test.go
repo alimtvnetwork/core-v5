@@ -462,8 +462,8 @@ func Test_Cov14_HashmapDiff_AllMethods(t *testing.T) {
 
 func Test_Cov14_Hashset_BasicOps(t *testing.T) {
 	h := corestr.New.Hashset.Cap(10)
-	h.AddOrUpdate("a")
-	h.AddOrUpdate("b")
+	h.Add("a")
+	h.Add("b")
 
 	if h.Length() != 2 || h.IsEmpty() || !h.HasItems() || !h.HasAnyItem() {
 		t.Fatal("expected 2")
@@ -690,7 +690,7 @@ func Test_Cov14_Hashset_ToLowerSet(t *testing.T) {
 
 func Test_Cov14_Hashset_Resize(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.AddOrUpdate("a")
+	h.Add("a")
 	h.Resize(100)
 	h.AddCapacities(50)
 

@@ -94,9 +94,9 @@ func Test_Hashset_Cap_Cov2(t *testing.T) {
 
 func Test_Hashset_Add_Cov2(t *testing.T) {
 	h := corestr.New.Hashset.Cap(5)
-	h.AddOrUpdate("hello")
-	h.AddOrUpdate("hello")
-	h.AddOrUpdate("world")
+	h.Add("hello")
+	h.Add("hello")
+	h.Add("world")
 	actual := args.Map{"length": h.Length(), "has": h.Has("hello"), "hasNo": h.Has("nope")}
 	expected := args.Map{"length": 2, "has": true, "hasNo": false}
 	expected.ShouldBeEqual(t, 0, "Hashset_Add returns correct value -- with args", actual)

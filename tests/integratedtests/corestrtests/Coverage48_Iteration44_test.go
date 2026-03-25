@@ -379,7 +379,7 @@ func Test_Cov48_Collection_List(t *testing.T) {
 
 func Test_Cov48_Collection_Items(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	tc := caseV1Compat{Name: "Items", Expected: 1, Actual: len(c.Strings()), Args: args.Map{}}
+	tc := caseV1Compat{Name: "Items", Expected: 1, Actual: len(c.Items()), Args: args.Map{}}
 	tc.ShouldBeEqual(t)
 }
 

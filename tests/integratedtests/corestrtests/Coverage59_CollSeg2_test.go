@@ -568,7 +568,7 @@ func Test_Cov59_Collection_NonEmptyItemsOrNonWhitespacePtr(t *testing.T) {
 
 func Test_Cov59_Collection_Items(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	actual := args.Map{"len": len(c.Strings())}
+	actual := args.Map{"len": len(c.Items())}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "Items returns items", actual)
 }
