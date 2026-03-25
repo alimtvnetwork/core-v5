@@ -288,11 +288,11 @@ func (it *HashsetsCollection) UnmarshalJSON(
 }
 
 func (it HashsetsCollection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it HashsetsCollection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *HashsetsCollection) ParseInjectUsingJson(

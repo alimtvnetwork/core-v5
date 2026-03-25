@@ -540,6 +540,10 @@ func (it *CharCollectionMap) AddSameStartingCharItems(
 		return it
 	}
 
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, charCollectionDefaultCapacity)
+	}
+
 	values, has := it.items[char]
 
 	if has {
