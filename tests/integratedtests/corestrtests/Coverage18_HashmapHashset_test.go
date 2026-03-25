@@ -378,7 +378,7 @@ func Test_Cov18_Hashset_Basic(t *testing.T) {
 
 func Test_Cov18_Hashset_Add(t *testing.T) {
 	h := corestr.New.Hashset.Cap(5)
-	h.Add("a").Add("b")
+	h.AddOrUpdate("a").Add("b")
 	h.AddLock("c")
 	h.AddNonEmpty("")
 	h.AddNonEmpty("d")

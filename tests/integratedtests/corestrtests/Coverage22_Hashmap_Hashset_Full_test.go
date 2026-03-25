@@ -371,7 +371,7 @@ func Test_Cov22_Hashmap_Collection(t *testing.T) {
 
 func Test_Cov22_Hashset_AddMethods(t *testing.T) {
 	h := corestr.New.Hashset.Cap(10)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	h.AddNonEmpty("")
 	h.AddNonEmpty("b")
 	h.AddNonEmptyWhitespace("  ")
@@ -394,7 +394,7 @@ func Test_Cov22_Hashset_AddMethods(t *testing.T) {
 
 func Test_Cov22_Hashset_Lookups(t *testing.T) {
 	h := corestr.New.Hashset.Cap(5)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	if !h.Has("a") || !h.Contains("a") {
 		t.Fatal("expected found")
 	}
@@ -471,9 +471,9 @@ func Test_Cov22_Hashset_GetAllExcept(t *testing.T) {
 
 func Test_Cov22_Hashset_Concat(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	h2 := corestr.New.Hashset.Cap(2)
-	h2.Add("b")
+	h2.AddOrUpdate("b")
 	newH := h.ConcatNewHashsets(true, h2)
 	if newH.Length() < 2 {
 		t.Fatal("expected at least 2")
@@ -483,9 +483,9 @@ func Test_Cov22_Hashset_Concat(t *testing.T) {
 
 func Test_Cov22_Hashset_IsEquals(t *testing.T) {
 	h1 := corestr.New.Hashset.Cap(2)
-	h1.Add("a")
+	h1.AddOrUpdate("a")
 	h2 := corestr.New.Hashset.Cap(2)
-	h2.Add("a")
+	h2.AddOrUpdate("a")
 	if !h1.IsEquals(h2) {
 		t.Fatal("expected equal")
 	}
@@ -503,14 +503,14 @@ func Test_Cov22_Hashset_Remove(t *testing.T) {
 	h.Remove("a")
 	h.SafeRemove("b")
 	h.SafeRemove("missing")
-	h.Add("c")
+	h.AddOrUpdate("c")
 	h.RemoveWithLock("c")
 }
 
 func Test_Cov22_Hashset_String(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
 	_ = h.String()
-	h.Add("a")
+	h.AddOrUpdate("a")
 	_ = h.String()
 	_ = h.StringLock()
 }
@@ -527,7 +527,7 @@ func Test_Cov22_Hashset_Join(t *testing.T) {
 
 func Test_Cov22_Hashset_JsonOps(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	_ = h.JsonModel()
 	_ = h.JsonModelAny()
 	b, _ := h.MarshalJSON()
@@ -543,18 +543,18 @@ func Test_Cov22_Hashset_JsonOps(t *testing.T) {
 
 func Test_Cov22_Hashset_ClearDispose(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	h.Clear()
 	if h.Length() != 0 {
 		t.Fatal("expected 0")
 	}
-	h.Add("b")
+	h.AddOrUpdate("b")
 	h.Dispose()
 }
 
 func Test_Cov22_Hashset_Resize(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	h.Resize(100)
 	h.ResizeLock(200)
 	h.AddCapacities(50)
@@ -563,7 +563,7 @@ func Test_Cov22_Hashset_Resize(t *testing.T) {
 
 func Test_Cov22_Hashset_ToLowerSet(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("ABC")
+	h.AddOrUpdate("ABC")
 	lower := h.ToLowerSet()
 	if !lower.Has("abc") {
 		t.Fatal("expected lowercase")
@@ -596,7 +596,7 @@ func Test_Cov22_Hashset_DistinctDiffHashset(t *testing.T) {
 
 func Test_Cov22_Hashset_SerializeDeserialize(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	_, _ = h.Serialize()
 	var target map[string]bool
 	_ = h.Deserialize(&target)
@@ -604,7 +604,7 @@ func Test_Cov22_Hashset_SerializeDeserialize(t *testing.T) {
 
 func Test_Cov22_Hashset_ParseInjectUsingJson(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	jr := h.JsonPtr()
 	target := corestr.New.Hashset.Cap(2)
 	_, err := target.ParseInjectUsingJson(jr)
@@ -615,10 +615,10 @@ func Test_Cov22_Hashset_ParseInjectUsingJson(t *testing.T) {
 
 func Test_Cov22_Hashset_WrapQuotes(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	_ = h.WrapDoubleQuote()
 	h2 := corestr.New.Hashset.Cap(2)
-	h2.Add("b")
+	h2.AddOrUpdate("b")
 	_ = h2.WrapSingleQuote()
 	h3 := corestr.New.Hashset.Cap(2)
 	h3.Add("c")
@@ -630,7 +630,7 @@ func Test_Cov22_Hashset_WrapQuotes(t *testing.T) {
 
 func Test_Cov22_Hashset_MapStringAny(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	m := h.MapStringAny()
 	if len(m) != 1 {
 		t.Fatal("expected 1")
@@ -720,7 +720,7 @@ func Test_Cov22_Hashset_AddsAnyUsingFilter(t *testing.T) {
 
 func Test_Cov22_Hashset_Transpile(t *testing.T) {
 	h := corestr.New.Hashset.Cap(2)
-	h.Add("a")
+	h.AddOrUpdate("a")
 	result := h.Transpile(func(s string) string { return s + "!" })
 	if !result.Has("a!") {
 		t.Fatal("expected transpiled")

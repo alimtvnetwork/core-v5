@@ -530,7 +530,7 @@ func Test_Cov16_Collection_Extended(t *testing.T) {
 	_ = c.UniqueListLock()
 	_ = c.UniqueBoolMap()
 	_ = c.UniqueBoolMapLock()
-	_ = c.Items()
+	_ = c.Strings()
 	_ = c.ListPtr()
 	_ = c.ListCopyPtrLock()
 	_ = c.Has("b")
