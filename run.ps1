@@ -2081,6 +2081,7 @@ function Show-Help {
 }
 
 # -- Dispatch --
+# Fix reference: issues/runps1-precommit-null-array-crash.md
 $firstExtraArg = if ($ExtraArgs -and $ExtraArgs.Count -gt 0) { $ExtraArgs[0] } else { $null }
 
 switch ($Command.ToLower()) {
