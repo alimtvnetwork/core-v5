@@ -126,7 +126,7 @@ func Test_CovS24_07_NewCharCollectionMapUsingDataModel(t *testing.T) {
 func Test_CovS24_08_NewCharCollectionMapDataModelUsing(t *testing.T) {
 	// Arrange
 	ccm := corestr.New.CharCollectionMap.Empty()
-	ccm.AddString("alpha")
+	ccm.Add("alpha")
 
 	// Act
 	model := corestr.NewCharCollectionMapDataModelUsing(ccm)
