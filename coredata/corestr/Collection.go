@@ -965,17 +965,12 @@ func (it *Collection) InsertAt(
 		return it.Adds(stringItems...)
 	}
 
-	// https://bit.ly/3pIDfRY
-	it.items =
-		append(
-			it.items[:index],
-			stringItems...,
-		)
-
-	it.items = append(
-		it.items,
-		it.items[index:]...,
-	)
+	// Use grow-copy-assign pattern to avoid slice bounds issues.
+	// See issues/simpleslice-insertat-bounds.md for background.
+	tail := make([]string, len(it.items[index:]))
+	copy(tail, it.items[index:])
+	it.items = append(it.items[:index], stringItems...)
+	it.items = append(it.items, tail...)
 
 	return it
 }
