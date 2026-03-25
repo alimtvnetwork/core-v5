@@ -509,6 +509,10 @@ func (it *CharCollectionMap) AddLock(
 func (it *CharCollectionMap) Add(
 	str string,
 ) *CharCollectionMap {
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, charCollectionDefaultCapacity)
+	}
+
 	char := it.GetChar(str)
 
 	collection, has := it.items[char]
