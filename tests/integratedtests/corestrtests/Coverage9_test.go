@@ -478,7 +478,7 @@ func Test_Cov9_Hashset_AddVariations(t *testing.T) {
 	h.AddBool("g")
 	h.AddBool("g") // duplicate
 	actual := args.Map{"len": h.Length()}
-	expected := args.Map{"len": 6} // a,b,c,d,e,f,g = 7? no — AddBool doesn't add if exists. a,b,c,d,e,f,g = 7
+	expected := args.Map{"len": 7} // a,b,c,d,e,f,g = 7
 	expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- add variations", actual)
 }
 
