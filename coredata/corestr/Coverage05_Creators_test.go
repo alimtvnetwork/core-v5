@@ -6,7 +6,7 @@ import (
 
 // ── newCollectionCreator ──
 
-func TestNewCollectionCreator(t *testing.T) {
+func TestNewCollectionCreator_C05(t *testing.T) {
 	c := New.Collection.Empty()
 	if !c.IsEmpty() {
 		t.Fatal("expected empty")
@@ -63,7 +63,7 @@ func TestNewCollectionCreator(t *testing.T) {
 
 // ── newSimpleSliceCreator ──
 
-func TestNewSimpleSliceCreator(t *testing.T) {
+func TestNewSimpleSliceCreator_C05(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	if !s.IsEmpty() {
 		t.Fatal("expected empty")
@@ -133,7 +133,7 @@ func TestNewSimpleSliceCreator(t *testing.T) {
 
 // ── newSimpleStringOnceCreator ──
 
-func TestNewSimpleStringOnceCreator(t *testing.T) {
+func TestNewSimpleStringOnceCreator_C05(t *testing.T) {
 	s := New.SimpleStringOnce.Init("hello")
 	if s.Value() != "hello" || !s.IsInitialized() {
 		t.Fatal("unexpected")
@@ -158,7 +158,7 @@ func TestNewSimpleStringOnceCreator(t *testing.T) {
 
 // ── newHashsetCreator ──
 
-func TestNewHashsetCreator(t *testing.T) {
+func TestNewHashsetCreator_C05(t *testing.T) {
 	h := New.Hashset.Empty()
 	if !h.IsEmpty() {
 		t.Fatal("expected empty")
@@ -205,7 +205,7 @@ func TestNewHashsetCreator(t *testing.T) {
 
 // ── newHashmapCreator ──
 
-func TestNewHashmapCreator(t *testing.T) {
+func TestNewHashmapCreator_C05(t *testing.T) {
 	h := New.Hashmap.Empty()
 	if !h.IsEmpty() {
 		t.Fatal("expected empty")
@@ -250,7 +250,7 @@ func TestNewHashmapCreator(t *testing.T) {
 
 // ── newLinkedListCreator ──
 
-func TestNewLinkedListCreator(t *testing.T) {
+func TestNewLinkedListCreator_C05(t *testing.T) {
 	ll := New.LinkedList.Create()
 	if ll.Length() != 0 {
 		t.Fatal("expected 0")
@@ -275,7 +275,7 @@ func TestNewLinkedListCreator(t *testing.T) {
 
 // ── newLinkedListCollectionsCreator ──
 
-func TestNewLinkedCollectionCreator(t *testing.T) {
+func TestNewLinkedCollectionCreator_C05(t *testing.T) {
 	lc := New.LinkedCollection.Create()
 	if lc.Length() != 0 {
 		t.Fatal("expected 0")
@@ -296,7 +296,7 @@ func TestNewLinkedCollectionCreator(t *testing.T) {
 
 // ── other creators ──
 
-func TestNewKeyValuesCreator(t *testing.T) {
+func TestNewKeyValuesCreator_C05(t *testing.T) {
 	kv := New.KeyValues.Empty()
 	if !kv.IsEmpty() {
 		t.Fatal("expected empty")
@@ -319,7 +319,7 @@ func TestNewKeyValuesCreator(t *testing.T) {
 	_ = kv8
 }
 
-func TestNewCollectionsOfCollectionCreator(t *testing.T) {
+func TestNewCollectionsOfCollectionCreator_C05(t *testing.T) {
 	c := New.CollectionsOfCollection.Empty()
 	if !c.IsEmpty() {
 		t.Fatal("expected empty")
@@ -342,7 +342,7 @@ func TestNewCollectionsOfCollectionCreator(t *testing.T) {
 	_ = c9
 }
 
-func TestNewHashsetsCollectionCreator(t *testing.T) {
+func TestNewHashsetsCollectionCreator_C05(t *testing.T) {
 	hc := New.HashsetsCollection.Empty()
 	if !hc.IsEmpty() {
 		t.Fatal("expected empty")
@@ -360,7 +360,7 @@ func TestNewHashsetsCollectionCreator(t *testing.T) {
 	_ = hc5
 }
 
-func TestNewCharCollectionMapCreator(t *testing.T) {
+func TestNewCharCollectionMapCreator_C05(t *testing.T) {
 	ccm := New.CharCollectionMap.Empty()
 	if !ccm.IsEmpty() {
 		t.Fatal("expected empty")
@@ -379,7 +379,7 @@ func TestNewCharCollectionMapCreator(t *testing.T) {
 	_ = ccm7
 }
 
-func TestNewCharHashsetMapCreator(t *testing.T) {
+func TestNewCharHashsetMapCreator_C05(t *testing.T) {
 	chm := New.CharHashsetMap.Cap(20, 20)
 	if chm.IsEmpty() {
 		// empty because no items added, but initialized

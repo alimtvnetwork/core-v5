@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSimpleSlice_Basic(t *testing.T) {
+func TestSimpleSlice_Basic_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	if !s.IsEmpty() || s.HasAnyItem() {
 		t.Fatal("should be empty")
@@ -15,14 +15,14 @@ func TestSimpleSlice_Basic(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_NilReceiver(t *testing.T) {
+func TestSimpleSlice_NilReceiver_C03(t *testing.T) {
 	var s *SimpleSlice
 	if s.Length() != 0 || !s.IsEmpty() {
 		t.Fatal("expected 0/empty")
 	}
 }
 
-func TestSimpleSlice_Add(t *testing.T) {
+func TestSimpleSlice_Add_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.Add("a").Add("b")
 	if s.Length() != 2 {
@@ -30,7 +30,7 @@ func TestSimpleSlice_Add(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddSplit(t *testing.T) {
+func TestSimpleSlice_AddSplit_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddSplit("a,b,c", ",")
 	if s.Length() != 3 {
@@ -38,7 +38,7 @@ func TestSimpleSlice_AddSplit(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddIf(t *testing.T) {
+func TestSimpleSlice_AddIf_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddIf(false, "skip")
 	s.AddIf(true, "add")
@@ -47,7 +47,7 @@ func TestSimpleSlice_AddIf(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_Adds(t *testing.T) {
+func TestSimpleSlice_Adds_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.Adds()
 	s.Adds("a", "b")
@@ -56,7 +56,7 @@ func TestSimpleSlice_Adds(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_Append(t *testing.T) {
+func TestSimpleSlice_Append_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.Append()
 	s.Append("a")
@@ -65,7 +65,7 @@ func TestSimpleSlice_Append(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AppendFmt(t *testing.T) {
+func TestSimpleSlice_AppendFmt_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AppendFmt("", /* empty */)
 	s.AppendFmt("hello %s", "world")
@@ -74,7 +74,7 @@ func TestSimpleSlice_AppendFmt(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AppendFmtIf(t *testing.T) {
+func TestSimpleSlice_AppendFmtIf_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AppendFmtIf(false, "skip")
 	s.AppendFmtIf(true, "val=%d", 42)
@@ -83,7 +83,7 @@ func TestSimpleSlice_AppendFmtIf(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddAsTitleValue(t *testing.T) {
+func TestSimpleSlice_AddAsTitleValue_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddAsTitleValue("key", "val")
 	if s.Length() != 1 {
@@ -91,7 +91,7 @@ func TestSimpleSlice_AddAsTitleValue(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddAsCurlyTitleWrap(t *testing.T) {
+func TestSimpleSlice_AddAsCurlyTitleWrap_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddAsCurlyTitleWrap("key", "val")
 	if s.Length() != 1 {
@@ -99,7 +99,7 @@ func TestSimpleSlice_AddAsCurlyTitleWrap(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddAsCurlyTitleWrapIf(t *testing.T) {
+func TestSimpleSlice_AddAsCurlyTitleWrapIf_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddAsCurlyTitleWrapIf(false, "k", "v")
 	s.AddAsCurlyTitleWrapIf(true, "k", "v")
@@ -108,7 +108,7 @@ func TestSimpleSlice_AddAsCurlyTitleWrapIf(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddAsTitleValueIf(t *testing.T) {
+func TestSimpleSlice_AddAsTitleValueIf_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddAsTitleValueIf(false, "k", "v")
 	s.AddAsTitleValueIf(true, "k", "v")
@@ -117,7 +117,7 @@ func TestSimpleSlice_AddAsTitleValueIf(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_InsertAt(t *testing.T) {
+func TestSimpleSlice_InsertAt_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "c")
 	s.InsertAt(1, "b")
 	if s.Length() != 3 || (*s)[1] != "b" {
@@ -128,7 +128,7 @@ func TestSimpleSlice_InsertAt(t *testing.T) {
 	s.InsertAt(100, "x")
 }
 
-func TestSimpleSlice_AddsIf(t *testing.T) {
+func TestSimpleSlice_AddsIf_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddsIf(false, "skip")
 	s.AddsIf(true, "a", "b")
@@ -137,7 +137,7 @@ func TestSimpleSlice_AddsIf(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddError(t *testing.T) {
+func TestSimpleSlice_AddError_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddError(nil)
 	s.AddError(errors.New("e"))
@@ -146,7 +146,7 @@ func TestSimpleSlice_AddError(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddStruct(t *testing.T) {
+func TestSimpleSlice_AddStruct_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddStruct(false, nil)
 	s.AddStruct(false, "hello")
@@ -155,7 +155,7 @@ func TestSimpleSlice_AddStruct(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AddPointer(t *testing.T) {
+func TestSimpleSlice_AddPointer_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	s.AddPointer(false, nil)
 	val := "hello"
@@ -165,7 +165,7 @@ func TestSimpleSlice_AddPointer(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_AsError(t *testing.T) {
+func TestSimpleSlice_AsError_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	if s.AsDefaultError() != nil {
 		t.Fatal("expected nil")
@@ -179,7 +179,7 @@ func TestSimpleSlice_AsError(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_FirstLast(t *testing.T) {
+func TestSimpleSlice_FirstLast_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b", "c")
 	if s.First() != "a" || s.Last() != "c" {
 		t.Fatal("unexpected")
@@ -195,14 +195,14 @@ func TestSimpleSlice_FirstLast(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_FirstOrDefault_Empty(t *testing.T) {
+func TestSimpleSlice_FirstOrDefault_Empty_C03(t *testing.T) {
 	s := New.SimpleSlice.Empty()
 	if s.FirstOrDefault() != "" || s.LastOrDefault() != "" {
 		t.Fatal("expected empty")
 	}
 }
 
-func TestSimpleSlice_SkipTake(t *testing.T) {
+func TestSimpleSlice_SkipTake_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b", "c")
 	if len(s.Skip(1)) != 2 {
 		t.Fatal("expected 2")
@@ -222,7 +222,7 @@ func TestSimpleSlice_SkipTake(t *testing.T) {
 	_ = s.Limit(1)
 }
 
-func TestSimpleSlice_CountFunc(t *testing.T) {
+func TestSimpleSlice_CountFunc_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "bb", "ccc")
 	count := s.CountFunc(func(i int, item string) bool { return len(item) > 1 })
 	if count != 2 {
@@ -234,7 +234,7 @@ func TestSimpleSlice_CountFunc(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_IsContains(t *testing.T) {
+func TestSimpleSlice_IsContains_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b")
 	if !s.IsContains("a") || s.IsContains("c") {
 		t.Fatal("unexpected")
@@ -245,7 +245,7 @@ func TestSimpleSlice_IsContains(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_IsContainsFunc(t *testing.T) {
+func TestSimpleSlice_IsContainsFunc_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("hello", "world")
 	found := s.IsContainsFunc("hello", func(item, searching string) bool { return item == searching })
 	if !found {
@@ -257,7 +257,7 @@ func TestSimpleSlice_IsContainsFunc(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_IndexOf(t *testing.T) {
+func TestSimpleSlice_IndexOf_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b", "c")
 	if s.IndexOf("b") != 1 || s.IndexOf("z") != -1 {
 		t.Fatal("unexpected")
@@ -268,7 +268,7 @@ func TestSimpleSlice_IndexOf(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_IndexOfFunc(t *testing.T) {
+func TestSimpleSlice_IndexOfFunc_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b")
 	idx := s.IndexOfFunc("b", func(item, searching string) bool { return item == searching })
 	if idx != 1 {
@@ -280,21 +280,21 @@ func TestSimpleSlice_IndexOfFunc(t *testing.T) {
 	}
 }
 
-func TestSimpleSlice_HasIndex(t *testing.T) {
+func TestSimpleSlice_HasIndex_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a", "b")
 	if !s.HasIndex(0) || !s.HasIndex(1) || s.HasIndex(2) || s.HasIndex(-1) {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestSimpleSlice_StringsList(t *testing.T) {
+func TestSimpleSlice_StringsList_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a")
 	if len(s.Strings()) != 1 || len(s.List()) != 1 {
 		t.Fatal("expected 1")
 	}
 }
 
-func TestSimpleSlice_WrapQuotes(t *testing.T) {
+func TestSimpleSlice_WrapQuotes_C03(t *testing.T) {
 	s := New.SimpleSlice.Lines("a")
 	_ = s.WrapDoubleQuote()
 	s2 := New.SimpleSlice.Lines("a")

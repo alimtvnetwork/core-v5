@@ -6,14 +6,14 @@ import (
 
 // ── CloneSlice ──
 
-func TestCloneSlice_Empty(t *testing.T) {
+func TestCloneSlice_Empty_C01(t *testing.T) {
 	result := CloneSlice(nil)
 	if len(result) != 0 {
 		t.Fatal("expected empty")
 	}
 }
 
-func TestCloneSlice_WithItems(t *testing.T) {
+func TestCloneSlice_WithItems_C01(t *testing.T) {
 	result := CloneSlice([]string{"a", "b"})
 	if len(result) != 2 || result[0] != "a" {
 		t.Fatal("unexpected")
@@ -22,21 +22,21 @@ func TestCloneSlice_WithItems(t *testing.T) {
 
 // ── CloneSliceIf ──
 
-func TestCloneSliceIf_Empty(t *testing.T) {
+func TestCloneSliceIf_Empty_C01(t *testing.T) {
 	result := CloneSliceIf(true)
 	if len(result) != 0 {
 		t.Fatal("expected empty")
 	}
 }
 
-func TestCloneSliceIf_NoClone(t *testing.T) {
+func TestCloneSliceIf_NoClone_C01(t *testing.T) {
 	result := CloneSliceIf(false, "a", "b")
 	if len(result) != 2 {
 		t.Fatal("expected 2")
 	}
 }
 
-func TestCloneSliceIf_Clone(t *testing.T) {
+func TestCloneSliceIf_Clone_C01(t *testing.T) {
 	result := CloneSliceIf(true, "a", "b")
 	if len(result) != 2 {
 		t.Fatal("expected 2")
@@ -45,27 +45,27 @@ func TestCloneSliceIf_Clone(t *testing.T) {
 
 // ── AnyToString ──
 
-func TestAnyToString_Empty(t *testing.T) {
+func TestAnyToString_Empty_C01(t *testing.T) {
 	if AnyToString(false, "") != "" {
 		t.Fatal("expected empty")
 	}
 }
 
-func TestAnyToString_WithFieldName(t *testing.T) {
+func TestAnyToString_WithFieldName_C01(t *testing.T) {
 	s := AnyToString(true, "hello")
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
-func TestAnyToString_WithoutFieldName(t *testing.T) {
+func TestAnyToString_WithoutFieldName_C01(t *testing.T) {
 	s := AnyToString(false, "hello")
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
-func TestAnyToString_Ptr(t *testing.T) {
+func TestAnyToString_Ptr_C01(t *testing.T) {
 	val := "hello"
 	s := AnyToString(false, &val)
 	if s == "" {
@@ -75,20 +75,20 @@ func TestAnyToString_Ptr(t *testing.T) {
 
 // ── reflectInterfaceVal ──
 
-func TestReflectInterfaceVal_Nil(t *testing.T) {
+func TestReflectInterfaceVal_Nil_C01(t *testing.T) {
 	if reflectInterfaceVal(nil) != nil {
 		t.Fatal("expected nil")
 	}
 }
 
-func TestReflectInterfaceVal_Value(t *testing.T) {
+func TestReflectInterfaceVal_Value_C01(t *testing.T) {
 	v := reflectInterfaceVal(42)
 	if v != 42 {
 		t.Fatal("expected 42")
 	}
 }
 
-func TestReflectInterfaceVal_Ptr(t *testing.T) {
+func TestReflectInterfaceVal_Ptr_C01(t *testing.T) {
 	val := "hello"
 	v := reflectInterfaceVal(&val)
 	if v != "hello" {
@@ -98,20 +98,20 @@ func TestReflectInterfaceVal_Ptr(t *testing.T) {
 
 // ── AllIndividualStringsOfStringsLength ──
 
-func TestAllIndividualStringsOfStringsLength_Nil(t *testing.T) {
+func TestAllIndividualStringsOfStringsLength_Nil_C01(t *testing.T) {
 	if AllIndividualStringsOfStringsLength(nil) != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func TestAllIndividualStringsOfStringsLength_Empty(t *testing.T) {
+func TestAllIndividualStringsOfStringsLength_Empty_C01(t *testing.T) {
 	items := [][]string{}
 	if AllIndividualStringsOfStringsLength(&items) != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func TestAllIndividualStringsOfStringsLength_WithItems(t *testing.T) {
+func TestAllIndividualStringsOfStringsLength_WithItems_C01(t *testing.T) {
 	items := [][]string{{"a", "b"}, {"c"}}
 	if AllIndividualStringsOfStringsLength(&items) != 3 {
 		t.Fatal("expected 3")
@@ -120,13 +120,13 @@ func TestAllIndividualStringsOfStringsLength_WithItems(t *testing.T) {
 
 // ── AllIndividualsLengthOfSimpleSlices ──
 
-func TestAllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
+func TestAllIndividualsLengthOfSimpleSlices_Nil_C01(t *testing.T) {
 	if AllIndividualsLengthOfSimpleSlices() != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func TestAllIndividualsLengthOfSimpleSlices_WithItems(t *testing.T) {
+func TestAllIndividualsLengthOfSimpleSlices_WithItems_C01(t *testing.T) {
 	s1 := New.SimpleSlice.Lines("a", "b")
 	s2 := New.SimpleSlice.Lines("c")
 	if AllIndividualsLengthOfSimpleSlices(s1, s2) != 3 {
@@ -136,55 +136,55 @@ func TestAllIndividualsLengthOfSimpleSlices_WithItems(t *testing.T) {
 
 // ── utils ──
 
-func TestUtils_WrapDouble(t *testing.T) {
+func TestUtils_WrapDouble_C01(t *testing.T) {
 	if StringUtils.WrapDouble("a") != `"a"` {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapSingle(t *testing.T) {
+func TestUtils_WrapSingle_C01(t *testing.T) {
 	if StringUtils.WrapSingle("a") != "'a'" {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapTilda(t *testing.T) {
+func TestUtils_WrapTilda_C01(t *testing.T) {
 	if StringUtils.WrapTilda("a") != "`a`" {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapDoubleIfMissing_Empty(t *testing.T) {
+func TestUtils_WrapDoubleIfMissing_Empty_C01(t *testing.T) {
 	if StringUtils.WrapDoubleIfMissing("") != `""` {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapDoubleIfMissing_AlreadyWrapped(t *testing.T) {
+func TestUtils_WrapDoubleIfMissing_AlreadyWrapped_C01(t *testing.T) {
 	if StringUtils.WrapDoubleIfMissing(`"a"`) != `"a"` {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapDoubleIfMissing_NotWrapped(t *testing.T) {
+func TestUtils_WrapDoubleIfMissing_NotWrapped_C01(t *testing.T) {
 	if StringUtils.WrapDoubleIfMissing("a") != `"a"` {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapSingleIfMissing_Empty(t *testing.T) {
+func TestUtils_WrapSingleIfMissing_Empty_C01(t *testing.T) {
 	if StringUtils.WrapSingleIfMissing("") != "''" {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapSingleIfMissing_AlreadyWrapped(t *testing.T) {
+func TestUtils_WrapSingleIfMissing_AlreadyWrapped_C01(t *testing.T) {
 	if StringUtils.WrapSingleIfMissing("'a'") != "'a'" {
 		t.Fatal("unexpected")
 	}
 }
 
-func TestUtils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
+func TestUtils_WrapSingleIfMissing_NotWrapped_C01(t *testing.T) {
 	if StringUtils.WrapSingleIfMissing("a") != "'a'" {
 		t.Fatal("unexpected")
 	}
@@ -192,7 +192,7 @@ func TestUtils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
 
 // ── Empty creators ──
 
-func TestEmptyCreator_All(t *testing.T) {
+func TestEmptyCreator_All_C01(t *testing.T) {
 	_ = Empty.Collection()
 	_ = Empty.LinkedList()
 	_ = Empty.SimpleSlice()
@@ -214,7 +214,7 @@ func TestEmptyCreator_All(t *testing.T) {
 
 // ── DataModels ──
 
-func TestCharCollectionDataModel(t *testing.T) {
+func TestCharCollectionDataModel_C01(t *testing.T) {
 	dm := &CharCollectionDataModel{
 		Items:                  map[byte]*Collection{},
 		EachCollectionCapacity: 10,
@@ -229,7 +229,7 @@ func TestCharCollectionDataModel(t *testing.T) {
 	}
 }
 
-func TestCharHashsetDataModel(t *testing.T) {
+func TestCharHashsetDataModel_C01(t *testing.T) {
 	dm := &CharHashsetDataModel{
 		Items:               map[byte]*Hashset{},
 		EachHashsetCapacity: 10,
@@ -244,7 +244,7 @@ func TestCharHashsetDataModel(t *testing.T) {
 	}
 }
 
-func TestHashmapDataModel(t *testing.T) {
+func TestHashmapDataModel_C01(t *testing.T) {
 	dm := &HashmapDataModel{Items: map[string]string{"a": "b"}}
 	hm := NewHashmapUsingDataModel(dm)
 	if hm == nil || hm.IsEmpty() {
@@ -256,7 +256,7 @@ func TestHashmapDataModel(t *testing.T) {
 	}
 }
 
-func TestHashsetDataModel(t *testing.T) {
+func TestHashsetDataModel_C01(t *testing.T) {
 	dm := &HashsetDataModel{Items: map[string]bool{"a": true}}
 	hs := NewHashsetUsingDataModel(dm)
 	if hs == nil || hs.IsEmpty() {
@@ -268,7 +268,7 @@ func TestHashsetDataModel(t *testing.T) {
 	}
 }
 
-func TestHashsetsCollectionDataModel(t *testing.T) {
+func TestHashsetsCollectionDataModel_C01(t *testing.T) {
 	dm := &HashsetsCollectionDataModel{Items: []*Hashset{}}
 	hc := NewHashsetsCollectionUsingDataModel(dm)
 	if hc == nil {
@@ -282,7 +282,7 @@ func TestHashsetsCollectionDataModel(t *testing.T) {
 
 // ── SimpleStringOnceModel ──
 
-func TestSimpleStringOnceModel(t *testing.T) {
+func TestSimpleStringOnceModel_C01(t *testing.T) {
 	m := SimpleStringOnceModel{Value: "hello", IsInitialize: true}
 	if m.Value != "hello" {
 		t.Fatal("unexpected")
@@ -291,7 +291,7 @@ func TestSimpleStringOnceModel(t *testing.T) {
 
 // ── CollectionsOfCollectionModel ──
 
-func TestCollectionsOfCollectionModel(t *testing.T) {
+func TestCollectionsOfCollectionModel_C01(t *testing.T) {
 	m := CollectionsOfCollectionModel{Items: []*Collection{}}
 	if m.Items == nil {
 		t.Fatal("unexpected")

@@ -4,14 +4,14 @@ import (
 	"testing"
 )
 
-func TestLinkedList_Basic(t *testing.T) {
+func TestLinkedList_Basic_C08(t *testing.T) {
 	ll := New.LinkedList.Create()
 	if !ll.IsEmpty() || ll.HasItems() { t.Fatal("expected empty") }
 	if ll.Length() != 0 { t.Fatal("expected 0") }
 	if ll.IsEmptyLock() != true { t.Fatal("expected empty") }
 }
 
-func TestLinkedList_Add(t *testing.T) {
+func TestLinkedList_Add_C08(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Add("a").Add("b").Add("c")
 	if ll.Length() != 3 { t.Fatal("expected 3") }
@@ -34,7 +34,7 @@ func TestLinkedList_Add(t *testing.T) {
 	ll.PushBack("n")
 }
 
-func TestLinkedList_AddStrings(t *testing.T) {
+func TestLinkedList_AddStrings_C08(t *testing.T) {
 	ll := New.LinkedList.Create()
 	ll.Adds("a", "b")
 	ll.Adds()
@@ -47,7 +47,7 @@ func TestLinkedList_AddStrings(t *testing.T) {
 	ll.AddItemsMap(nil)
 }
 
-func TestLinkedList_List(t *testing.T) {
+func TestLinkedList_List_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	list := ll.List()
 	if len(list) != 3 { t.Fatal("expected 3") }
@@ -60,7 +60,7 @@ func TestLinkedList_List(t *testing.T) {
 	_ = ll.JoinLock(",")
 }
 
-func TestLinkedList_ToCollection(t *testing.T) {
+func TestLinkedList_ToCollection_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b"})
 	c := ll.ToCollection(0)
 	if c.Length() != 2 { t.Fatal("expected 2") }
@@ -69,7 +69,7 @@ func TestLinkedList_ToCollection(t *testing.T) {
 	if c2.Length() != 0 { t.Fatal("expected 0") }
 }
 
-func TestLinkedList_Loop(t *testing.T) {
+func TestLinkedList_Loop_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	count := 0
 	ll.Loop(func(arg *LinkedListProcessorParameter) bool {
@@ -79,7 +79,7 @@ func TestLinkedList_Loop(t *testing.T) {
 	if count != 3 { t.Fatal("expected 3") }
 }
 
-func TestLinkedList_Filter(t *testing.T) {
+func TestLinkedList_Filter_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	nodes := ll.Filter(func(arg *LinkedListFilterParameter) *LinkedListFilterResult {
 		return &LinkedListFilterResult{Value: arg.Node, IsKeep: true, IsBreak: false}
@@ -87,7 +87,7 @@ func TestLinkedList_Filter(t *testing.T) {
 	if len(nodes) != 3 { t.Fatal("expected 3") }
 }
 
-func TestLinkedList_IndexAt(t *testing.T) {
+func TestLinkedList_IndexAt_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	node := ll.SafeIndexAt(1)
 	if node == nil || node.Element != "b" { t.Fatal("unexpected") }
@@ -101,7 +101,7 @@ func TestLinkedList_IndexAt(t *testing.T) {
 	_ = ll.SafeIndexAtLock(0)
 }
 
-func TestLinkedList_GetNextNodes(t *testing.T) {
+func TestLinkedList_GetNextNodes_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	nodes := ll.GetNextNodes(2)
 	if len(nodes) != 2 { t.Fatal("expected 2") }
@@ -109,27 +109,27 @@ func TestLinkedList_GetNextNodes(t *testing.T) {
 	if len(all) != 3 { t.Fatal("expected 3") }
 }
 
-func TestLinkedList_IsEquals(t *testing.T) {
+func TestLinkedList_IsEquals_C08(t *testing.T) {
 	ll1 := New.LinkedList.Strings([]string{"a", "b"})
 	ll2 := New.LinkedList.Strings([]string{"a", "b"})
 	if !ll1.IsEquals(ll2) { t.Fatal("expected equal") }
 	if !ll1.IsEqualsWithSensitive(ll2, false) { t.Fatal("expected equal") }
 }
 
-func TestLinkedList_RemoveNodeByIndex(t *testing.T) {
+func TestLinkedList_RemoveNodeByIndex_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b", "c"})
 	ll.RemoveNodeByIndex(0)
 	if ll.Length() != 2 { t.Fatal("expected 2") }
 }
 
-func TestLinkedList_Clear(t *testing.T) {
+func TestLinkedList_Clear_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b"})
 	ll.Clear()
 	if ll.Length() != 0 { t.Fatal("expected 0") }
 	ll.RemoveAll()
 }
 
-func TestLinkedList_JsonAndMarshal(t *testing.T) {
+func TestLinkedList_JsonAndMarshal_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a"})
 	_ = ll.JsonModel()
 	_ = ll.JsonModelAny()
@@ -137,13 +137,13 @@ func TestLinkedList_JsonAndMarshal(t *testing.T) {
 	_ = ll.AsJsonMarshaller()
 }
 
-func TestLinkedList_Joins(t *testing.T) {
+func TestLinkedList_Joins_C08(t *testing.T) {
 	ll := New.LinkedList.Strings([]string{"a", "b"})
 	s := ll.Joins(",", "c")
 	if s == "" { t.Fatal("expected non-empty") }
 }
 
-func TestLinkedList_AppendNode(t *testing.T) {
+func TestLinkedList_AppendNode_C08(t *testing.T) {
 	ll := New.LinkedList.Create()
 	node := &LinkedListNode{Element: "a"}
 	ll.AppendNode(node)
@@ -151,14 +151,14 @@ func TestLinkedList_AppendNode(t *testing.T) {
 	ll.AppendNode(&LinkedListNode{Element: "b"})
 }
 
-func TestLinkedList_AppendChainOfNodes(t *testing.T) {
+func TestLinkedList_AppendChainOfNodes_C08(t *testing.T) {
 	ll := New.LinkedList.Create()
 	n1 := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	ll.AppendChainOfNodes(n1)
 	if ll.Length() != 2 { t.Fatal("expected 2") }
 }
 
-func TestLinkedListNode_Methods(t *testing.T) {
+func TestLinkedListNode_Methods_C08(t *testing.T) {
 	n := &LinkedListNode{Element: "a"}
 	if n.HasNext() { t.Fatal("expected no next") }
 	if n.String() != "a" { t.Fatal("expected a") }
@@ -174,13 +174,13 @@ func TestLinkedListNode_Methods(t *testing.T) {
 	_ = n.CreateLinkedList()
 }
 
-func TestLinkedListNode_EndOfChain(t *testing.T) {
+func TestLinkedListNode_EndOfChain_C08(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a", next: &LinkedListNode{Element: "b"}}
 	end, length := n1.EndOfChain()
 	if end.Element != "b" || length != 2 { t.Fatal("unexpected") }
 }
 
-func TestLinkedListNode_IsEqual(t *testing.T) {
+func TestLinkedListNode_IsEqual_C08(t *testing.T) {
 	n1 := &LinkedListNode{Element: "a"}
 	n2 := &LinkedListNode{Element: "a"}
 	if !n1.IsEqual(n2) { t.Fatal("expected equal") }

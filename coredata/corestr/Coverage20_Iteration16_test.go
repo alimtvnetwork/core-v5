@@ -8,7 +8,7 @@ import (
 // ValidValue — uncovered branches
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_I16_ValidValue_Constructors(t *testing.T) {
+func Test_I16_ValidValue_Constructors_C20(t *testing.T) {
 	vv := NewValidValueUsingAny(false, true, "hello")
 	if vv == nil || !vv.IsValid {
 		t.Fatal("expected valid")
@@ -35,7 +35,7 @@ func Test_I16_ValidValue_Constructors(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_ValueBytesOnce(t *testing.T) {
+func Test_I16_ValidValue_ValueBytesOnce_C20(t *testing.T) {
 	vv := NewValidValue("test")
 	b1 := vv.ValueBytesOnce()
 	b2 := vv.ValueBytesOnce()
@@ -48,7 +48,7 @@ func Test_I16_ValidValue_ValueBytesOnce(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_StringChecks(t *testing.T) {
+func Test_I16_ValidValue_StringChecks_C20(t *testing.T) {
 	vv := NewValidValue("  hello  ")
 	if vv.IsEmpty() {
 		t.Fatal("expected not empty")
@@ -70,7 +70,7 @@ func Test_I16_ValidValue_StringChecks(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_ValueConversions(t *testing.T) {
+func Test_I16_ValidValue_ValueConversions_C20(t *testing.T) {
 	vv := NewValidValue("true")
 	if !vv.ValueBool() {
 		t.Fatal("expected true")
@@ -114,7 +114,7 @@ func Test_I16_ValidValue_ValueConversions(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_Comparisons(t *testing.T) {
+func Test_I16_ValidValue_Comparisons_C20(t *testing.T) {
 	vv := NewValidValue("hello")
 	if !vv.Is("hello") {
 		t.Fatal("expected match")
@@ -145,7 +145,7 @@ func Test_I16_ValidValue_Comparisons(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_CloneAndDispose(t *testing.T) {
+func Test_I16_ValidValue_CloneAndDispose_C20(t *testing.T) {
 	var vvNil *ValidValue
 	if vvNil.Clone() != nil {
 		t.Fatal("expected nil clone for nil")
@@ -175,7 +175,7 @@ func Test_I16_ValidValue_CloneAndDispose(t *testing.T) {
 	vvNil.Dispose()
 }
 
-func Test_I16_ValidValue_Json(t *testing.T) {
+func Test_I16_ValidValue_Json_C20(t *testing.T) {
 	vv := NewValidValue("test")
 	j := vv.Json()
 	_ = j
@@ -192,7 +192,7 @@ func Test_I16_ValidValue_Json(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_ParseInjectUsingJson(t *testing.T) {
+func Test_I16_ValidValue_ParseInjectUsingJson_C20(t *testing.T) {
 	vv := NewValidValue("test")
 	j := vv.JsonPtr()
 	vv2 := &ValidValue{}
@@ -205,7 +205,7 @@ func Test_I16_ValidValue_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValue_Split(t *testing.T) {
+func Test_I16_ValidValue_Split_C20(t *testing.T) {
 	vv := NewValidValue("a,b,c")
 	parts := vv.Split(",")
 	if len(parts) != 3 {
@@ -225,7 +225,7 @@ func Test_I16_ValidValue_Split(t *testing.T) {
 // ValidValues — uncovered branches
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_I16_ValidValues_Basics(t *testing.T) {
+func Test_I16_ValidValues_Basics_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	if vvs.HasAnyItem() {
 		t.Fatal("expected empty")
@@ -252,7 +252,7 @@ func Test_I16_ValidValues_Basics(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_UsingValues(t *testing.T) {
+func Test_I16_ValidValues_UsingValues_C20(t *testing.T) {
 	v1 := ValidValue{Value: "x", IsValid: true}
 	vvs := NewValidValuesUsingValues(v1)
 	if vvs.Length() != 1 {
@@ -265,7 +265,7 @@ func Test_I16_ValidValues_UsingValues(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_StringsAndFullStrings(t *testing.T) {
+func Test_I16_ValidValues_StringsAndFullStrings_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	if len(vvs.Strings()) != 0 {
 		t.Fatal("expected empty strings")
@@ -285,7 +285,7 @@ func Test_I16_ValidValues_StringsAndFullStrings(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_Find(t *testing.T) {
+func Test_I16_ValidValues_Find_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	found := vvs.Find(func(i int, v *ValidValue) (*ValidValue, bool, bool) {
 		return v, true, false
@@ -306,7 +306,7 @@ func Test_I16_ValidValues_Find(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_SafeValidValueAt(t *testing.T) {
+func Test_I16_ValidValues_SafeValidValueAt_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	vvs.AddFull(true, "valid", "")
 	vvs.AddFull(false, "invalid", "err")
@@ -322,7 +322,7 @@ func Test_I16_ValidValues_SafeValidValueAt(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_SafeIndexes(t *testing.T) {
+func Test_I16_ValidValues_SafeIndexes_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	vvs.Add("a").Add("b")
 	vals := vvs.SafeValuesAtIndexes(0, 1)
@@ -339,7 +339,7 @@ func Test_I16_ValidValues_SafeIndexes(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_ConcatAndAdd(t *testing.T) {
+func Test_I16_ValidValues_ConcatAndAdd_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	vvs.Add("a")
 
@@ -372,7 +372,7 @@ func Test_I16_ValidValues_ConcatAndAdd(t *testing.T) {
 	vvs.AddsPtr()
 }
 
-func Test_I16_ValidValues_HashmapAndMap(t *testing.T) {
+func Test_I16_ValidValues_HashmapAndMap_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	h := vvs.Hashmap()
 	if h == nil {
@@ -390,7 +390,7 @@ func Test_I16_ValidValues_HashmapAndMap(t *testing.T) {
 	}
 }
 
-func Test_I16_ValidValues_AddHashset(t *testing.T) {
+func Test_I16_ValidValues_AddHashset_C20(t *testing.T) {
 	vvs := EmptyValidValues()
 	vvs.AddHashsetMap(nil)
 	vvs.AddHashset(nil)
@@ -404,7 +404,7 @@ func Test_I16_ValidValues_AddHashset(t *testing.T) {
 // ValueStatus — uncovered branches
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_I16_ValueStatus_Constructors(t *testing.T) {
+func Test_I16_ValueStatus_Constructors_C20(t *testing.T) {
 	vs := InvalidValueStatusNoMessage()
 	if vs == nil {
 		t.Fatal("expected non-nil")
@@ -423,7 +423,7 @@ func Test_I16_ValueStatus_Constructors(t *testing.T) {
 // TextWithLineNumber — uncovered branches
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_I16_TextWithLineNumber_All(t *testing.T) {
+func Test_I16_TextWithLineNumber_All_C20(t *testing.T) {
 	var tln *TextWithLineNumber
 	if tln.HasLineNumber() {
 		t.Fatal("expected false for nil")
@@ -466,7 +466,7 @@ func Test_I16_TextWithLineNumber_All(t *testing.T) {
 // LeftRight (corestr) — uncovered branches
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_I16_LeftRight_Constructors(t *testing.T) {
+func Test_I16_LeftRight_Constructors_C20(t *testing.T) {
 	lr := InvalidLeftRightNoMessage()
 	if lr.IsValid {
 		t.Fatal("expected invalid")
@@ -481,7 +481,7 @@ func Test_I16_LeftRight_Constructors(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftRight_UsingSlice(t *testing.T) {
+func Test_I16_LeftRight_UsingSlice_C20(t *testing.T) {
 	lr := LeftRightUsingSlice(nil)
 	if lr.IsValid {
 		t.Fatal("expected invalid for nil")
@@ -496,7 +496,7 @@ func Test_I16_LeftRight_UsingSlice(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftRight_UsingSlicePtr(t *testing.T) {
+func Test_I16_LeftRight_UsingSlicePtr_C20(t *testing.T) {
 	lr := LeftRightUsingSlicePtr([]string{})
 	if lr.IsValid {
 		t.Fatal("expected invalid")
@@ -507,7 +507,7 @@ func Test_I16_LeftRight_UsingSlicePtr(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftRight_TrimmedUsingSlice(t *testing.T) {
+func Test_I16_LeftRight_TrimmedUsingSlice_C20(t *testing.T) {
 	lr := LeftRightTrimmedUsingSlice(nil)
 	if lr.IsValid {
 		t.Fatal("expected invalid")
@@ -526,7 +526,7 @@ func Test_I16_LeftRight_TrimmedUsingSlice(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftRight_Methods(t *testing.T) {
+func Test_I16_LeftRight_Methods_C20(t *testing.T) {
 	lr := NewLeftRight("hello", "world")
 	if string(lr.LeftBytes()) != "hello" {
 		t.Fatal("expected hello bytes")
@@ -561,7 +561,7 @@ func Test_I16_LeftRight_Methods(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftRight_IsEqual(t *testing.T) {
+func Test_I16_LeftRight_IsEqual_C20(t *testing.T) {
 	var lr1 *LeftRight
 	var lr2 *LeftRight
 	if !lr1.IsEqual(lr2) {
@@ -580,7 +580,7 @@ func Test_I16_LeftRight_IsEqual(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftRight_CloneAndDispose(t *testing.T) {
+func Test_I16_LeftRight_CloneAndDispose_C20(t *testing.T) {
 	lr := NewLeftRight("a", "b")
 	c := lr.Clone()
 	if c.Left != "a" {
@@ -597,7 +597,7 @@ func Test_I16_LeftRight_CloneAndDispose(t *testing.T) {
 // LeftMiddleRight — uncovered branches
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_I16_LeftMiddleRight_Constructors(t *testing.T) {
+func Test_I16_LeftMiddleRight_Constructors_C20(t *testing.T) {
 	lmr := InvalidLeftMiddleRightNoMessage()
 	if lmr.IsValid {
 		t.Fatal("expected invalid")
@@ -612,7 +612,7 @@ func Test_I16_LeftMiddleRight_Constructors(t *testing.T) {
 	}
 }
 
-func Test_I16_LeftMiddleRight_Methods(t *testing.T) {
+func Test_I16_LeftMiddleRight_Methods_C20(t *testing.T) {
 	lmr := NewLeftMiddleRight("a", "m", "b")
 	if string(lmr.LeftBytes()) != "a" {
 		t.Fatal("expected a")

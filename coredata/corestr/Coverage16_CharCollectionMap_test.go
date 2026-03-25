@@ -7,7 +7,7 @@ import (
 
 // ── Creators ──────────────────────────────────────────────
 
-func Test_CharCollectionMap_NewEmpty(t *testing.T) {
+func Test_CharCollectionMap_NewEmpty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	if cm == nil {
 		t.Fatal("expected non-nil")
@@ -20,14 +20,14 @@ func Test_CharCollectionMap_NewEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_NewCapSelfCap(t *testing.T) {
+func Test_CharCollectionMap_NewCapSelfCap_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(20, 5)
 	if cm == nil || cm.HasItems() {
 		t.Fatal("expected empty map")
 	}
 }
 
-func Test_CharCollectionMap_NewItems(t *testing.T) {
+func Test_CharCollectionMap_NewItems_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"apple", "avocado", "banana"})
 	if cm.Length() != 2 {
 		t.Fatalf("expected 2 char groups, got %d", cm.Length())
@@ -37,21 +37,21 @@ func Test_CharCollectionMap_NewItems(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_NewItems_Empty(t *testing.T) {
+func Test_CharCollectionMap_NewItems_Empty_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{})
 	if !cm.IsEmpty() {
 		t.Fatal("expected empty")
 	}
 }
 
-func Test_CharCollectionMap_NewItemsPtrWithCap(t *testing.T) {
+func Test_CharCollectionMap_NewItemsPtrWithCap_C16(t *testing.T) {
 	cm := New.CharCollectionMap.ItemsPtrWithCap(5, 3, []string{"cat", "car", "dog"})
 	if cm.Length() != 2 {
 		t.Fatalf("expected 2, got %d", cm.Length())
 	}
 }
 
-func Test_CharCollectionMap_NewItemsPtrWithCap_Empty(t *testing.T) {
+func Test_CharCollectionMap_NewItemsPtrWithCap_Empty_C16(t *testing.T) {
 	cm := New.CharCollectionMap.ItemsPtrWithCap(5, 3, []string{})
 	if cm.HasItems() {
 		t.Fatal("expected empty")
@@ -60,7 +60,7 @@ func Test_CharCollectionMap_NewItemsPtrWithCap_Empty(t *testing.T) {
 
 // ── GetChar ───────────────────────────────────────────────
 
-func Test_CharCollectionMap_GetChar(t *testing.T) {
+func Test_CharCollectionMap_GetChar_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	if cm.GetChar("hello") != 'h' {
 		t.Fatal("expected 'h'")
@@ -72,7 +72,7 @@ func Test_CharCollectionMap_GetChar(t *testing.T) {
 
 // ── GetCharsGroups ────────────────────────────────────────
 
-func Test_CharCollectionMap_GetCharsGroups(t *testing.T) {
+func Test_CharCollectionMap_GetCharsGroups_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	result := cm.GetCharsGroups([]string{"abc", "axy", "bcd"})
 	if result.Length() != 2 {
@@ -80,7 +80,7 @@ func Test_CharCollectionMap_GetCharsGroups(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_GetCharsGroups_Empty(t *testing.T) {
+func Test_CharCollectionMap_GetCharsGroups_Empty_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	result := cm.GetCharsGroups([]string{})
 	if result != cm {
@@ -90,7 +90,7 @@ func Test_CharCollectionMap_GetCharsGroups_Empty(t *testing.T) {
 
 // ── Add / AddStrings ──────────────────────────────────────
 
-func Test_CharCollectionMap_Add(t *testing.T) {
+func Test_CharCollectionMap_Add_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.Add("alpha")
 	cm.Add("avocado")
@@ -103,7 +103,7 @@ func Test_CharCollectionMap_Add(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddStrings(t *testing.T) {
+func Test_CharCollectionMap_AddStrings_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddStrings("x1", "x2", "y1")
 	if cm.LengthOf('x') != 2 {
@@ -111,7 +111,7 @@ func Test_CharCollectionMap_AddStrings(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddStrings_Empty(t *testing.T) {
+func Test_CharCollectionMap_AddStrings_Empty_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddStrings()
 	if cm.HasItems() {
@@ -119,7 +119,7 @@ func Test_CharCollectionMap_AddStrings_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddLock(t *testing.T) {
+func Test_CharCollectionMap_AddLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddLock("hello")
 	cm.AddLock("help")
@@ -130,7 +130,7 @@ func Test_CharCollectionMap_AddLock(t *testing.T) {
 
 // ── AddSameStartingCharItems ──────────────────────────────
 
-func Test_CharCollectionMap_AddSameStartingCharItems(t *testing.T) {
+func Test_CharCollectionMap_AddSameStartingCharItems_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddSameStartingCharItems('a', []string{"abc", "axy"}, false)
 	if cm.LengthOfCollectionFromFirstChar("a") != 2 {
@@ -143,7 +143,7 @@ func Test_CharCollectionMap_AddSameStartingCharItems(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddSameStartingCharItems_Empty(t *testing.T) {
+func Test_CharCollectionMap_AddSameStartingCharItems_Empty_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddSameStartingCharItems('a', []string{}, false)
 	if cm.HasItems() {
@@ -153,7 +153,7 @@ func Test_CharCollectionMap_AddSameStartingCharItems_Empty(t *testing.T) {
 
 // ── Has / HasWithCollection ───────────────────────────────
 
-func Test_CharCollectionMap_Has(t *testing.T) {
+func Test_CharCollectionMap_Has_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"foo", "far", "bar"})
 	if !cm.Has("foo") {
 		t.Fatal("expected has foo")
@@ -166,14 +166,14 @@ func Test_CharCollectionMap_Has(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_Has_Empty(t *testing.T) {
+func Test_CharCollectionMap_Has_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	if cm.Has("anything") {
 		t.Fatal("expected false on empty")
 	}
 }
 
-func Test_CharCollectionMap_HasWithCollection(t *testing.T) {
+func Test_CharCollectionMap_HasWithCollection_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"foo", "far"})
 	has, col := cm.HasWithCollection("foo")
 	if !has || col.IsEmpty() {
@@ -185,7 +185,7 @@ func Test_CharCollectionMap_HasWithCollection(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HasWithCollection_Empty(t *testing.T) {
+func Test_CharCollectionMap_HasWithCollection_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	has, col := cm.HasWithCollection("foo")
 	if has || col == nil {
@@ -193,7 +193,7 @@ func Test_CharCollectionMap_HasWithCollection_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HasWithCollectionLock(t *testing.T) {
+func Test_CharCollectionMap_HasWithCollectionLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"foo", "far"})
 	has, col := cm.HasWithCollectionLock("foo")
 	if !has || col.IsEmpty() {
@@ -205,7 +205,7 @@ func Test_CharCollectionMap_HasWithCollectionLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HasWithCollectionLock_Empty(t *testing.T) {
+func Test_CharCollectionMap_HasWithCollectionLock_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	has, col := cm.HasWithCollectionLock("x")
 	if has || col == nil {
@@ -215,7 +215,7 @@ func Test_CharCollectionMap_HasWithCollectionLock_Empty(t *testing.T) {
 
 // ── LengthOf / LengthOfLock ──────────────────────────────
 
-func Test_CharCollectionMap_LengthOf(t *testing.T) {
+func Test_CharCollectionMap_LengthOf_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "axy"})
 	if cm.LengthOf('a') != 2 {
 		t.Fatal("expected 2")
@@ -225,14 +225,14 @@ func Test_CharCollectionMap_LengthOf(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_LengthOf_Empty(t *testing.T) {
+func Test_CharCollectionMap_LengthOf_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	if cm.LengthOf('a') != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
-func Test_CharCollectionMap_LengthOfLock(t *testing.T) {
+func Test_CharCollectionMap_LengthOfLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	if cm.LengthOfLock('a') != 1 {
 		t.Fatal("expected 1")
@@ -242,7 +242,7 @@ func Test_CharCollectionMap_LengthOfLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_LengthOfLock_Empty(t *testing.T) {
+func Test_CharCollectionMap_LengthOfLock_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	if cm.LengthOfLock('a') != 0 {
 		t.Fatal("expected 0")
@@ -251,7 +251,7 @@ func Test_CharCollectionMap_LengthOfLock_Empty(t *testing.T) {
 
 // ── LengthOfCollectionFromFirstChar ───────────────────────
 
-func Test_CharCollectionMap_LengthOfCollectionFromFirstChar(t *testing.T) {
+func Test_CharCollectionMap_LengthOfCollectionFromFirstChar_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "axy"})
 	if cm.LengthOfCollectionFromFirstChar("a") != 2 {
 		t.Fatal("expected 2")
@@ -263,14 +263,14 @@ func Test_CharCollectionMap_LengthOfCollectionFromFirstChar(t *testing.T) {
 
 // ── AllLengthsSum / AllLengthsSumLock ─────────────────────
 
-func Test_CharCollectionMap_AllLengthsSum(t *testing.T) {
+func Test_CharCollectionMap_AllLengthsSum_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"a1", "a2", "b1"})
 	if cm.AllLengthsSum() != 3 {
 		t.Fatalf("expected 3, got %d", cm.AllLengthsSum())
 	}
 }
 
-func Test_CharCollectionMap_AllLengthsSumLock(t *testing.T) {
+func Test_CharCollectionMap_AllLengthsSumLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"a1", "b1"})
 	if cm.AllLengthsSumLock() != 2 {
 		t.Fatal("expected 2")
@@ -279,7 +279,7 @@ func Test_CharCollectionMap_AllLengthsSumLock(t *testing.T) {
 
 // ── IsEmpty / HasItems / IsEmptyLock ──────────────────────
 
-func Test_CharCollectionMap_IsEmpty(t *testing.T) {
+func Test_CharCollectionMap_IsEmpty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	if !cm.IsEmpty() || cm.HasItems() {
 		t.Fatal("expected empty")
@@ -290,7 +290,7 @@ func Test_CharCollectionMap_IsEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEmptyLock(t *testing.T) {
+func Test_CharCollectionMap_IsEmptyLock_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	if !cm.IsEmptyLock() {
 		t.Fatal("expected empty")
@@ -299,7 +299,7 @@ func Test_CharCollectionMap_IsEmptyLock(t *testing.T) {
 
 // ── IsEquals / IsEqualsCaseSensitive ──────────────────────
 
-func Test_CharCollectionMap_IsEquals(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	cm2 := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	if !cm1.IsEquals(cm2) {
@@ -307,21 +307,21 @@ func Test_CharCollectionMap_IsEquals(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEquals_Nil(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_Nil_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	if cm1.IsEquals(nil) {
 		t.Fatal("expected not equal to nil")
 	}
 }
 
-func Test_CharCollectionMap_IsEquals_SameRef(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_SameRef_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	if !cm1.IsEqualsCaseSensitive(true, cm1) {
 		t.Fatal("expected same ref equal")
 	}
 }
 
-func Test_CharCollectionMap_IsEquals_BothEmpty(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_BothEmpty_C16(t *testing.T) {
 	cm1 := Empty.CharCollectionMap()
 	cm2 := Empty.CharCollectionMap()
 	if !cm1.IsEquals(cm2) {
@@ -329,7 +329,7 @@ func Test_CharCollectionMap_IsEquals_BothEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEquals_OneEmpty(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_OneEmpty_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	cm2 := Empty.CharCollectionMap()
 	if cm1.IsEquals(cm2) {
@@ -337,7 +337,7 @@ func Test_CharCollectionMap_IsEquals_OneEmpty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEquals_DiffLength(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_DiffLength_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	cm2 := New.CharCollectionMap.Items([]string{"abc"})
 	if cm1.IsEquals(cm2) {
@@ -345,7 +345,7 @@ func Test_CharCollectionMap_IsEquals_DiffLength(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEquals_DiffContent(t *testing.T) {
+func Test_CharCollectionMap_IsEquals_DiffContent_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	cm2 := New.CharCollectionMap.Items([]string{"axy"})
 	// same char key 'a', different content within
@@ -354,7 +354,7 @@ func Test_CharCollectionMap_IsEquals_DiffContent(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEqualsLock(t *testing.T) {
+func Test_CharCollectionMap_IsEqualsLock_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	cm2 := New.CharCollectionMap.Items([]string{"abc"})
 	if !cm1.IsEqualsLock(cm2) {
@@ -362,7 +362,7 @@ func Test_CharCollectionMap_IsEqualsLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEqualsCaseSensitiveLock(t *testing.T) {
+func Test_CharCollectionMap_IsEqualsCaseSensitiveLock_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	cm2 := New.CharCollectionMap.Items([]string{"abc"})
 	if !cm1.IsEqualsCaseSensitiveLock(true, cm2) {
@@ -370,7 +370,7 @@ func Test_CharCollectionMap_IsEqualsCaseSensitiveLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_IsEqualsMissingKey(t *testing.T) {
+func Test_CharCollectionMap_IsEqualsMissingKey_C16(t *testing.T) {
 	cm1 := New.CharCollectionMap.Items([]string{"abc"})
 	cm2 := New.CharCollectionMap.Items([]string{"xyz"})
 	if cm1.IsEqualsCaseSensitive(true, cm2) {
@@ -380,7 +380,7 @@ func Test_CharCollectionMap_IsEqualsMissingKey(t *testing.T) {
 
 // ── GetCollection ─────────────────────────────────────────
 
-func Test_CharCollectionMap_GetCollection(t *testing.T) {
+func Test_CharCollectionMap_GetCollection_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "axy"})
 	col := cm.GetCollection("a", false)
 	if col == nil || col.Length() != 2 {
@@ -398,7 +398,7 @@ func Test_CharCollectionMap_GetCollection(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_GetCollectionLock(t *testing.T) {
+func Test_CharCollectionMap_GetCollectionLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	col := cm.GetCollectionLock("a", false)
 	if col == nil {
@@ -406,7 +406,7 @@ func Test_CharCollectionMap_GetCollectionLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_GetCollectionByChar(t *testing.T) {
+func Test_CharCollectionMap_GetCollectionByChar_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	col := cm.GetCollectionByChar('a')
 	if col == nil {
@@ -416,7 +416,7 @@ func Test_CharCollectionMap_GetCollectionByChar(t *testing.T) {
 
 // ── AddSameCharsCollection ────────────────────────────────
 
-func Test_CharCollectionMap_AddSameCharsCollection(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollection_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	col := New.Collection.Strings([]string{"abc", "axy"})
 	result := cm.AddSameCharsCollection("a", col)
@@ -431,7 +431,7 @@ func Test_CharCollectionMap_AddSameCharsCollection(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddSameCharsCollection_NilCol(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollection_NilCol_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	result := cm.AddSameCharsCollection("a", nil)
 	if result == nil {
@@ -439,7 +439,7 @@ func Test_CharCollectionMap_AddSameCharsCollection_NilCol(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddSameCharsCollection_ExistingButNilAdd(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollection_ExistingButNilAdd_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	result := cm.AddSameCharsCollection("a", nil)
 	if result == nil {
@@ -447,7 +447,7 @@ func Test_CharCollectionMap_AddSameCharsCollection_ExistingButNilAdd(t *testing.
 	}
 }
 
-func Test_CharCollectionMap_AddSameCharsCollectionLock(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollectionLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	col := New.Collection.Strings([]string{"abc"})
 	result := cm.AddSameCharsCollectionLock("a", col)
@@ -456,7 +456,7 @@ func Test_CharCollectionMap_AddSameCharsCollectionLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddSameCharsCollectionLock_NilCol(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollectionLock_NilCol_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	result := cm.AddSameCharsCollectionLock("a", nil)
 	if result == nil {
@@ -464,7 +464,7 @@ func Test_CharCollectionMap_AddSameCharsCollectionLock_NilCol(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddSameCharsCollectionLock_ExistingButNilAdd(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollectionLock_ExistingButNilAdd_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	result := cm.AddSameCharsCollectionLock("a", nil)
 	if result == nil {
@@ -472,7 +472,7 @@ func Test_CharCollectionMap_AddSameCharsCollectionLock_ExistingButNilAdd(t *test
 	}
 }
 
-func Test_CharCollectionMap_AddSameCharsCollectionLock_AddToExisting(t *testing.T) {
+func Test_CharCollectionMap_AddSameCharsCollectionLock_AddToExisting_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	col := New.Collection.Strings([]string{"axy"})
 	result := cm.AddSameCharsCollectionLock("a", col)
@@ -483,7 +483,7 @@ func Test_CharCollectionMap_AddSameCharsCollectionLock_AddToExisting(t *testing.
 
 // ── AddCollectionItems ────────────────────────────────────
 
-func Test_CharCollectionMap_AddCollectionItems(t *testing.T) {
+func Test_CharCollectionMap_AddCollectionItems_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	col := New.Collection.Strings([]string{"abc", "xyz"})
 	cm.AddCollectionItems(col)
@@ -492,7 +492,7 @@ func Test_CharCollectionMap_AddCollectionItems(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddCollectionItems_Nil(t *testing.T) {
+func Test_CharCollectionMap_AddCollectionItems_Nil_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddCollectionItems(nil)
 	if cm.HasItems() {
@@ -502,7 +502,7 @@ func Test_CharCollectionMap_AddCollectionItems_Nil(t *testing.T) {
 
 // ── AddHashmapsValues ─────────────────────────────────────
 
-func Test_CharCollectionMap_AddHashmapsValues(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsValues_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	hm := New.Hashmap.StringsKeyValue("k1", "alpha", "k2", "beta")
 	cm.AddHashmapsValues(hm)
@@ -511,7 +511,7 @@ func Test_CharCollectionMap_AddHashmapsValues(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddHashmapsValues_Nil(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsValues_Nil_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddHashmapsValues(nil)
 	if cm.HasItems() {
@@ -521,7 +521,7 @@ func Test_CharCollectionMap_AddHashmapsValues_Nil(t *testing.T) {
 
 // ── AddHashmapsKeysValuesBoth ─────────────────────────────
 
-func Test_CharCollectionMap_AddHashmapsKeysValuesBoth(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsKeysValuesBoth_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	hm := New.Hashmap.StringsKeyValue("k1", "v1")
 	cm.AddHashmapsKeysValuesBoth(hm)
@@ -530,7 +530,7 @@ func Test_CharCollectionMap_AddHashmapsKeysValuesBoth(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddHashmapsKeysValuesBoth_Nil(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsKeysValuesBoth_Nil_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddHashmapsKeysValuesBoth(nil)
 	if cm.HasItems() {
@@ -540,7 +540,7 @@ func Test_CharCollectionMap_AddHashmapsKeysValuesBoth_Nil(t *testing.T) {
 
 // ── AddHashmapsKeysOrValuesBothUsingFilter ────────────────
 
-func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	hm := New.Hashmap.StringsKeyValue("k1", "v1", "k2", "v2")
 	cm.AddHashmapsKeysOrValuesBothUsingFilter(
@@ -554,7 +554,7 @@ func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter(t *testing.T)
 	}
 }
 
-func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Nil(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Nil_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	cm.AddHashmapsKeysOrValuesBothUsingFilter(nil, nil)
 	if cm.HasItems() {
@@ -562,7 +562,7 @@ func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Nil(t *testin
 	}
 }
 
-func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break(t *testing.T) {
+func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	hm := New.Hashmap.StringsKeyValue("k1", "v1", "k2", "v2")
 	cm.AddHashmapsKeysOrValuesBothUsingFilter(
@@ -578,7 +578,7 @@ func Test_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break(t *test
 
 // ── AddCharHashsetMap ─────────────────────────────────────
 
-func Test_CharCollectionMap_AddCharHashsetMap(t *testing.T) {
+func Test_CharCollectionMap_AddCharHashsetMap_C16(t *testing.T) {
 	cm := New.CharCollectionMap.CapSelfCap(10, 5)
 	hsm := New.CharHashsetMap.CapItems(10, 5, "abc", "axy")
 	cm.AddCharHashsetMap(hsm)
@@ -589,7 +589,7 @@ func Test_CharCollectionMap_AddCharHashsetMap(t *testing.T) {
 
 // ── Resize / AddLength ────────────────────────────────────
 
-func Test_CharCollectionMap_Resize(t *testing.T) {
+func Test_CharCollectionMap_Resize_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"a1"})
 	cm.Resize(100)
 	if !cm.Has("a1") {
@@ -597,7 +597,7 @@ func Test_CharCollectionMap_Resize(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_Resize_NoShrink(t *testing.T) {
+func Test_CharCollectionMap_Resize_NoShrink_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"a1", "b1"})
 	cm.Resize(1) // smaller, should not shrink
 	if cm.Length() != 2 {
@@ -605,7 +605,7 @@ func Test_CharCollectionMap_Resize_NoShrink(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddLength(t *testing.T) {
+func Test_CharCollectionMap_AddLength_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"a1"})
 	cm.AddLength(10, 20)
 	if !cm.Has("a1") {
@@ -613,7 +613,7 @@ func Test_CharCollectionMap_AddLength(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AddLength_Empty(t *testing.T) {
+func Test_CharCollectionMap_AddLength_Empty_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"a1"})
 	cm.AddLength()
 	if !cm.Has("a1") {
@@ -623,7 +623,7 @@ func Test_CharCollectionMap_AddLength_Empty(t *testing.T) {
 
 // ── List / ListLock / SortedListAsc ───────────────────────
 
-func Test_CharCollectionMap_List(t *testing.T) {
+func Test_CharCollectionMap_List_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	list := cm.List()
 	if len(list) != 2 {
@@ -631,7 +631,7 @@ func Test_CharCollectionMap_List(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_List_Empty(t *testing.T) {
+func Test_CharCollectionMap_List_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	list := cm.List()
 	if len(list) != 0 {
@@ -639,7 +639,7 @@ func Test_CharCollectionMap_List_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_ListLock(t *testing.T) {
+func Test_CharCollectionMap_ListLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	list := cm.ListLock()
 	if len(list) != 1 {
@@ -647,7 +647,7 @@ func Test_CharCollectionMap_ListLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_SortedListAsc(t *testing.T) {
+func Test_CharCollectionMap_SortedListAsc_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"cherry", "apple", "banana"})
 	sorted := cm.SortedListAsc()
 	if len(sorted) < 3 {
@@ -658,7 +658,7 @@ func Test_CharCollectionMap_SortedListAsc(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_SortedListAsc_Empty(t *testing.T) {
+func Test_CharCollectionMap_SortedListAsc_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	sorted := cm.SortedListAsc()
 	if len(sorted) != 0 {
@@ -668,7 +668,7 @@ func Test_CharCollectionMap_SortedListAsc_Empty(t *testing.T) {
 
 // ── GetMap / GetCopyMapLock ───────────────────────────────
 
-func Test_CharCollectionMap_GetMap(t *testing.T) {
+func Test_CharCollectionMap_GetMap_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	m := cm.GetMap()
 	if m == nil {
@@ -676,7 +676,7 @@ func Test_CharCollectionMap_GetMap(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_GetCopyMapLock(t *testing.T) {
+func Test_CharCollectionMap_GetCopyMapLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	m := cm.GetCopyMapLock()
 	if m == nil || len(m) != 1 {
@@ -684,7 +684,7 @@ func Test_CharCollectionMap_GetCopyMapLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_GetCopyMapLock_Empty(t *testing.T) {
+func Test_CharCollectionMap_GetCopyMapLock_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	m := cm.GetCopyMapLock()
 	if len(m) != 0 {
@@ -694,7 +694,7 @@ func Test_CharCollectionMap_GetCopyMapLock_Empty(t *testing.T) {
 
 // ── String / SummaryString ────────────────────────────────
 
-func Test_CharCollectionMap_String(t *testing.T) {
+func Test_CharCollectionMap_String_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	s := cm.String()
 	if s == "" {
@@ -702,7 +702,7 @@ func Test_CharCollectionMap_String(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_SummaryString(t *testing.T) {
+func Test_CharCollectionMap_SummaryString_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	s := cm.SummaryString()
 	if s == "" {
@@ -710,7 +710,7 @@ func Test_CharCollectionMap_SummaryString(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_StringLock(t *testing.T) {
+func Test_CharCollectionMap_StringLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	s := cm.StringLock()
 	if s == "" {
@@ -718,7 +718,7 @@ func Test_CharCollectionMap_StringLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_SummaryStringLock(t *testing.T) {
+func Test_CharCollectionMap_SummaryStringLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	s := cm.SummaryStringLock()
 	if s == "" {
@@ -728,19 +728,19 @@ func Test_CharCollectionMap_SummaryStringLock(t *testing.T) {
 
 // ── Print ─────────────────────────────────────────────────
 
-func Test_CharCollectionMap_Print_Skip(t *testing.T) {
+func Test_CharCollectionMap_Print_Skip_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	cm.Print(false) // should not print
 }
 
-func Test_CharCollectionMap_PrintLock_Skip(t *testing.T) {
+func Test_CharCollectionMap_PrintLock_Skip_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	cm.PrintLock(false)
 }
 
 // ── Hashset conversions ───────────────────────────────────
 
-func Test_CharCollectionMap_HashsetByChar(t *testing.T) {
+func Test_CharCollectionMap_HashsetByChar_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "axy"})
 	hs := cm.HashsetByChar('a')
 	if hs == nil || hs.Length() != 2 {
@@ -753,7 +753,7 @@ func Test_CharCollectionMap_HashsetByChar(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetByCharLock(t *testing.T) {
+func Test_CharCollectionMap_HashsetByCharLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	hs := cm.HashsetByCharLock('a')
 	if hs == nil {
@@ -765,7 +765,7 @@ func Test_CharCollectionMap_HashsetByCharLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetByStringFirstChar(t *testing.T) {
+func Test_CharCollectionMap_HashsetByStringFirstChar_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	hs := cm.HashsetByStringFirstChar("abc")
 	if hs == nil {
@@ -773,7 +773,7 @@ func Test_CharCollectionMap_HashsetByStringFirstChar(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetByStringFirstCharLock(t *testing.T) {
+func Test_CharCollectionMap_HashsetByStringFirstCharLock_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	hs := cm.HashsetByStringFirstCharLock("abc")
 	if hs == nil {
@@ -781,7 +781,7 @@ func Test_CharCollectionMap_HashsetByStringFirstCharLock(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetsCollection(t *testing.T) {
+func Test_CharCollectionMap_HashsetsCollection_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	hsc := cm.HashsetsCollection()
 	if hsc == nil {
@@ -789,7 +789,7 @@ func Test_CharCollectionMap_HashsetsCollection(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetsCollection_Empty(t *testing.T) {
+func Test_CharCollectionMap_HashsetsCollection_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	hsc := cm.HashsetsCollection()
 	if hsc == nil {
@@ -797,7 +797,7 @@ func Test_CharCollectionMap_HashsetsCollection_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetsCollectionByChars(t *testing.T) {
+func Test_CharCollectionMap_HashsetsCollectionByChars_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	hsc := cm.HashsetsCollectionByChars('a', 'x')
 	if hsc == nil {
@@ -805,7 +805,7 @@ func Test_CharCollectionMap_HashsetsCollectionByChars(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetsCollectionByChars_Empty(t *testing.T) {
+func Test_CharCollectionMap_HashsetsCollectionByChars_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	hsc := cm.HashsetsCollectionByChars('a')
 	if hsc == nil {
@@ -813,7 +813,7 @@ func Test_CharCollectionMap_HashsetsCollectionByChars_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetsCollectionByStringFirstChar(t *testing.T) {
+func Test_CharCollectionMap_HashsetsCollectionByStringFirstChar_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	hsc := cm.HashsetsCollectionByStringFirstChar("abc", "xyz")
 	if hsc == nil {
@@ -821,7 +821,7 @@ func Test_CharCollectionMap_HashsetsCollectionByStringFirstChar(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_HashsetsCollectionByStringFirstChar_Empty(t *testing.T) {
+func Test_CharCollectionMap_HashsetsCollectionByStringFirstChar_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	hsc := cm.HashsetsCollectionByStringFirstChar("abc")
 	if hsc == nil {
@@ -831,7 +831,7 @@ func Test_CharCollectionMap_HashsetsCollectionByStringFirstChar_Empty(t *testing
 
 // ── JSON ──────────────────────────────────────────────────
 
-func Test_CharCollectionMap_JsonModel(t *testing.T) {
+func Test_CharCollectionMap_JsonModel_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	model := cm.JsonModel()
 	if model == nil {
@@ -839,7 +839,7 @@ func Test_CharCollectionMap_JsonModel(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_JsonModelAny(t *testing.T) {
+func Test_CharCollectionMap_JsonModelAny_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	any := cm.JsonModelAny()
 	if any == nil {
@@ -847,7 +847,7 @@ func Test_CharCollectionMap_JsonModelAny(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_MarshalUnmarshalJSON(t *testing.T) {
+func Test_CharCollectionMap_MarshalUnmarshalJSON_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "axy", "xyz"})
 	data, err := json.Marshal(cm)
 	if err != nil {
@@ -860,7 +860,7 @@ func Test_CharCollectionMap_MarshalUnmarshalJSON(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_Json(t *testing.T) {
+func Test_CharCollectionMap_Json_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	result := cm.Json()
 	if result.HasError() {
@@ -868,7 +868,7 @@ func Test_CharCollectionMap_Json(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_JsonPtr(t *testing.T) {
+func Test_CharCollectionMap_JsonPtr_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	result := cm.JsonPtr()
 	if result == nil || result.HasError() {
@@ -876,7 +876,7 @@ func Test_CharCollectionMap_JsonPtr(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_ParseInjectUsingJson(t *testing.T) {
+func Test_CharCollectionMap_ParseInjectUsingJson_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	jsonResult := cm.JsonPtr()
 	cm2 := New.CharCollectionMap.CapSelfCap(10, 5)
@@ -886,7 +886,7 @@ func Test_CharCollectionMap_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_CharCollectionMap_ParseInjectUsingJsonMust_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	jsonResult := cm.JsonPtr()
 	cm2 := New.CharCollectionMap.CapSelfCap(10, 5)
@@ -896,7 +896,7 @@ func Test_CharCollectionMap_ParseInjectUsingJsonMust(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_JsonParseSelfInject(t *testing.T) {
+func Test_CharCollectionMap_JsonParseSelfInject_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	jsonResult := cm.JsonPtr()
 	cm2 := New.CharCollectionMap.CapSelfCap(10, 5)
@@ -906,28 +906,28 @@ func Test_CharCollectionMap_JsonParseSelfInject(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_AsJsonContractsBinder(t *testing.T) {
+func Test_CharCollectionMap_AsJsonContractsBinder_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	if cm.AsJsonContractsBinder() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharCollectionMap_AsJsoner(t *testing.T) {
+func Test_CharCollectionMap_AsJsoner_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	if cm.AsJsoner() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharCollectionMap_AsJsonMarshaller(t *testing.T) {
+func Test_CharCollectionMap_AsJsonMarshaller_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	if cm.AsJsonMarshaller() == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
-func Test_CharCollectionMap_AsJsonParseSelfInjector(t *testing.T) {
+func Test_CharCollectionMap_AsJsonParseSelfInjector_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	if cm.AsJsonParseSelfInjector() == nil {
 		t.Fatal("expected non-nil")
@@ -936,7 +936,7 @@ func Test_CharCollectionMap_AsJsonParseSelfInjector(t *testing.T) {
 
 // ── Clear / Dispose ───────────────────────────────────────
 
-func Test_CharCollectionMap_Clear(t *testing.T) {
+func Test_CharCollectionMap_Clear_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc", "xyz"})
 	cm.Clear()
 	if cm.HasItems() {
@@ -944,7 +944,7 @@ func Test_CharCollectionMap_Clear(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_Clear_Empty(t *testing.T) {
+func Test_CharCollectionMap_Clear_Empty_C16(t *testing.T) {
 	cm := Empty.CharCollectionMap()
 	cm.Clear()
 	if cm.HasItems() {
@@ -952,7 +952,7 @@ func Test_CharCollectionMap_Clear_Empty(t *testing.T) {
 	}
 }
 
-func Test_CharCollectionMap_Dispose(t *testing.T) {
+func Test_CharCollectionMap_Dispose_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	cm.Dispose()
 	if cm.items != nil {
@@ -962,7 +962,7 @@ func Test_CharCollectionMap_Dispose(t *testing.T) {
 
 // ── DataModel ─────────────────────────────────────────────
 
-func Test_CharCollectionDataModel(t *testing.T) {
+func Test_CharCollectionDataModel_C16(t *testing.T) {
 	cm := New.CharCollectionMap.Items([]string{"abc"})
 	model := NewCharCollectionMapDataModelUsing(cm)
 	cm2 := NewCharCollectionMapUsingDataModel(model)

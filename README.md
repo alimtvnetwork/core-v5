@@ -36,10 +36,10 @@ If something doesn't feel right — if a pattern seems wrong, an API is confusin
 
 ### Prerequisites
 
-| Tool | Version |
-|------|---------|
+| Tool | Version                   |
+| ---- | ------------------------- |
 | Go   | **1.24+** (latest stable) |
-| Git  | ≥ 2.29 |
+| Git  | ≥ 2.29                    |
 
 ### Install
 
@@ -66,25 +66,25 @@ make run-sample       # run sample/demo
 
 ## What This Framework Provides
 
-| Category | Packages | What You Get |
-|----------|----------|-------------|
-| **Ternary helpers** | `conditional/` | Generic `If[T]`, `IfFunc[T]`, `IfSlice[T]` — replaces missing ternary operator |
-| **Data structures** | `coredata/corestr/` | `Collection`, `Hashmap`, `Hashset`, `LinkedList`, `SimpleSlice` |
-| **JSON** | `coredata/corejson/` | `Serialize.*`, `Deserialize.*` — full JSON pipeline |
-| **Payload system** | `coredata/corepayload/` | `PayloadWrapper`, `Attributes`, `PayloadsCollection` — structured data transport |
-| **Task info** | `coretaskinfo/` | `Info` — metadata container with name, URLs, examples, secure/plain text modes |
-| **Error building** | `errcore/` | Stack-traced errors, merge, expectations, Gherkins-style messages |
-| **File permissions** | `chmodhelper/` | Parse, verify, and apply chmod on files and directories |
-| **Interfaces** | `coreinterface/` | 100+ canonical interface contracts (`*Getter`, `*Checker`, `*Binder`) |
-| **Converters** | `converters/` | Type conversions: strings ↔ bytes, maps, pointers |
-| **Testing** | `coretests/` | Assertion helpers, `FuncWrap`, `CaseV1` for AAA-pattern tests |
-| **Regex** | `regexnew/` | `LazyRegex` — compiles only on first use, with optional locking |
-| **Validators** | `corevalidator/` | Line, slice, text, and range validators |
-| **Sorting** | `coresort/` | Quick sort for strings and integers |
-| **Math** | `coremath/` | Min/Max for all numeric types |
-| **Versioning** | `coreversion/` | Semantic version data type (major.minor.patch) |
-| **Constants** | `constants/` | OS line separators, empty values, capacity defaults |
-| **Generics** | `core.go`, `generic.go` | `EmptySlicePtr[T]`, `SlicePtrByCapacity[T]`, `EmptyMapPtr[K,V]` |
+| Category             | Packages                | What You Get                                                                     |
+| -------------------- | ----------------------- | -------------------------------------------------------------------------------- |
+| **Ternary helpers**  | `conditional/`          | Generic `If[T]`, `IfFunc[T]`, `IfSlice[T]` — replaces missing ternary operator   |
+| **Data structures**  | `coredata/corestr/`     | `Collection`, `Hashmap`, `Hashset`, `LinkedList`, `SimpleSlice`                  |
+| **JSON**             | `coredata/corejson/`    | `Serialize.*`, `Deserialize.*` — full JSON pipeline                              |
+| **Payload system**   | `coredata/corepayload/` | `PayloadWrapper`, `Attributes`, `PayloadsCollection` — structured data transport |
+| **Task info**        | `coretaskinfo/`         | `Info` — metadata container with name, URLs, examples, secure/plain text modes   |
+| **Error building**   | `errcore/`              | Stack-traced errors, merge, expectations, Gherkins-style messages                |
+| **File permissions** | `chmodhelper/`          | Parse, verify, and apply chmod on files and directories                          |
+| **Interfaces**       | `coreinterface/`        | 100+ canonical interface contracts (`*Getter`, `*Checker`, `*Binder`)            |
+| **Converters**       | `converters/`           | Type conversions: strings ↔ bytes, maps, pointers                                |
+| **Testing**          | `coretests/`            | Assertion helpers, `FuncWrap`, `CaseV1` for AAA-pattern tests                    |
+| **Regex**            | `regexnew/`             | `LazyRegex` — compiles only on first use, with optional locking                  |
+| **Validators**       | `corevalidator/`        | Line, slice, text, and range validators                                          |
+| **Sorting**          | `coresort/`             | Quick sort for strings and integers                                              |
+| **Math**             | `coremath/`             | Min/Max for all numeric types                                                    |
+| **Versioning**       | `coreversion/`          | Semantic version data type (major.minor.patch)                                   |
+| **Constants**        | `constants/`            | OS line separators, empty values, capacity defaults                              |
+| **Generics**         | `core.go`, `generic.go` | `EmptySlicePtr[T]`, `SlicePtrByCapacity[T]`, `EmptyMapPtr[K,V]`                  |
 
 ## Design Philosophy
 
@@ -462,16 +462,17 @@ strsort.QuickDsc(&fruits) // [mango banana apple]
 
 The [`issetter`](/issetter/) package provides a byte-backed boolean type with **6 states** for lazy evaluation, deferred decisions, and wildcard matching — going beyond Go's native `true`/`false`.
 
-| Constant | Byte Value | Meaning | Use Case |
-|----------|-----------|---------|----------|
-| `Uninitialized` | `0` | Not yet evaluated | Lazy fields, deferred config |
-| `True` | `1` | Positive / yes / on | Standard boolean true |
-| `False` | `2` | Negative / no / off | Standard boolean false |
-| `Unset` | `3` | Explicitly cleared | User removed a setting |
-| `Set` | `4` | Explicitly assigned | User confirmed a setting |
-| `Wildcard` | `5` | Match anything | Filters, search patterns |
+| Constant        | Byte Value | Meaning             | Use Case                     |
+| --------------- | ---------- | ------------------- | ---------------------------- |
+| `Uninitialized` | `0`        | Not yet evaluated   | Lazy fields, deferred config |
+| `True`          | `1`        | Positive / yes / on | Standard boolean true        |
+| `False`         | `2`        | Negative / no / off | Standard boolean false       |
+| `Unset`         | `3`        | Explicitly cleared  | User removed a setting       |
+| `Set`           | `4`        | Explicitly assigned | User confirmed a setting     |
+| `Wildcard`      | `5`        | Match anything      | Filters, search patterns     |
 
 **Logical grouping:**
+
 - **Positive** (`IsOn`/`IsAccept`/`IsSuccess`): `True`, `Set`
 - **Negative** (`IsOff`/`IsReject`/`IsFailed`): `False`, `Unset`
 - **Indeterminate** (`IsAsk`/`IsSkip`): `Uninitialized`, `Wildcard`
@@ -613,23 +614,23 @@ func Test_MyFunction_Verification(t *testing.T) {
 
 All interfaces in `coreinterface/` follow Go's `-er` suffix convention:
 
-| Pattern | Example | Purpose |
-|---------|---------|---------|
-| `*Getter` | `NameGetter`, `ValueGetter` | Read a single value |
-| `*Checker` | `HasErrorChecker`, `IsEmptyChecker` | Boolean state check |
-| `*Binder` | `ContractsBinder`, `AttributesBinder` | Compose multiple interfaces |
-| `*er` | `Csver`, `Serializer`, `Stringer` | Action performer |
+| Pattern    | Example                               | Purpose                     |
+| ---------- | ------------------------------------- | --------------------------- |
+| `*Getter`  | `NameGetter`, `ValueGetter`           | Read a single value         |
+| `*Checker` | `HasErrorChecker`, `IsEmptyChecker`   | Boolean state check         |
+| `*Binder`  | `ContractsBinder`, `AttributesBinder` | Compose multiple interfaces |
+| `*er`      | `Csver`, `Serializer`, `Stringer`     | Action performer            |
 
 ---
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `go get` fails with auth error | Add SSH key to GitLab or use access token: `git config url."https://oauth2:TOKEN@gitlab.com".insteadOf "https://gitlab.com"` |
-| `go mod tidy` reports version conflicts | Ensure `go.mod` specifies `go 1.24` and run `go mod tidy` |
-| Tests fail after clone | Run `make run-tests` — some tests require the full module graph |
-| Import path has typo | Known: `convertinteranl` → `convertinternal`, `refeflectcore` → `reflectcore` (being fixed) |
+| Problem                                 | Solution                                                                                                                     |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `go get` fails with auth error          | Add SSH key to GitLab or use access token: `git config url."https://oauth2:TOKEN@gitlab.com".insteadOf "https://gitlab.com"` |
+| `go mod tidy` reports version conflicts | Ensure `go.mod` specifies `go 1.24` and run `go mod tidy`                                                                    |
+| Tests fail after clone                  | Run `make run-tests` — some tests require the full module graph                                                              |
+| Import path has typo                    | Known: `convertinteranl` → `convertinternal`, `refeflectcore` → `reflectcore` (being fixed)                                  |
 
 ## Project Structure
 
@@ -700,75 +701,75 @@ Each major package has its own README with detailed type hierarchies, usage exam
 
 #### Data Structures & Serialization (`coredata/`)
 
-| Package | README |
-|---------|--------|
-| `coredata/` | [`README.md`](/coredata/README.md) — Umbrella index for all data sub-packages |
-| `coredata/coregeneric/` | [`README.md`](/coredata/coregeneric/README.md) — Generic Collection, Hashset, Hashmap, LinkedList |
-| `coredata/corestr/` | [`README.md`](/coredata/corestr/README.md) — String Collection, Hashmap, Hashset, ValidValue |
-| `coredata/corejson/` | [`README.md`](/coredata/corejson/README.md) — JSON serialization pipeline |
+| Package                 | README                                                                                                      |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `coredata/`             | [`README.md`](/coredata/README.md) — Umbrella index for all data sub-packages                               |
+| `coredata/coregeneric/` | [`README.md`](/coredata/coregeneric/README.md) — Generic Collection, Hashset, Hashmap, LinkedList           |
+| `coredata/corestr/`     | [`README.md`](/coredata/corestr/README.md) — String Collection, Hashmap, Hashset, ValidValue                |
+| `coredata/corejson/`    | [`README.md`](/coredata/corejson/README.md) — JSON serialization pipeline                                   |
 | `coredata/coredynamic/` | [`README.md`](/coredata/coredynamic/README.md) — Dynamic wrappers, Collection[T], TypedSimpleRequest/Result |
-| `coredata/corepayload/` | [`README.md`](/coredata/corepayload/README.md) — PayloadWrapper, TypedPayloadWrapper[T], Attributes |
-| `coredata/coreapi/` | [`README.md`](/coredata/coreapi/README.md) — Typed API request/response |
-| `coredata/coreonce/` | [`README.md`](/coredata/coreonce/README.md) — Lazy-evaluated cached values |
-| `coredata/corerange/` | [`README.md`](/coredata/corerange/README.md) — Range types (int, byte) |
-| `coredata/stringslice/` | [`README.md`](/coredata/stringslice/README.md) — Slice utilities for []string |
+| `coredata/corepayload/` | [`README.md`](/coredata/corepayload/README.md) — PayloadWrapper, TypedPayloadWrapper[T], Attributes         |
+| `coredata/coreapi/`     | [`README.md`](/coredata/coreapi/README.md) — Typed API request/response                                     |
+| `coredata/coreonce/`    | [`README.md`](/coredata/coreonce/README.md) — Lazy-evaluated cached values                                  |
+| `coredata/corerange/`   | [`README.md`](/coredata/corerange/README.md) — Range types (int, byte)                                      |
+| `coredata/stringslice/` | [`README.md`](/coredata/stringslice/README.md) — Slice utilities for []string                               |
 
 #### Interfaces & Contracts (`coreinterface/`)
 
-| Package | README |
-|---------|--------|
-| `coreinterface/` | [`README.md`](/coreinterface/README.md) — Shared interface contracts |
-| `coreinterface/enuminf/` | [`README.md`](/coreinterface/enuminf/README.md) — Enum interface contracts |
-| `coreinterface/errcoreinf/` | [`README.md`](/coreinterface/errcoreinf/README.md) — Error core interface contracts |
-| `coreinterface/loggerinf/` | [`README.md`](/coreinterface/loggerinf/README.md) — Logger interface contracts |
+| Package                        | README                                                                                 |
+| ------------------------------ | -------------------------------------------------------------------------------------- |
+| `coreinterface/`               | [`README.md`](/coreinterface/README.md) — Shared interface contracts                   |
+| `coreinterface/enuminf/`       | [`README.md`](/coreinterface/enuminf/README.md) — Enum interface contracts             |
+| `coreinterface/errcoreinf/`    | [`README.md`](/coreinterface/errcoreinf/README.md) — Error core interface contracts    |
+| `coreinterface/loggerinf/`     | [`README.md`](/coreinterface/loggerinf/README.md) — Logger interface contracts         |
 | `coreinterface/serializerinf/` | [`README.md`](/coreinterface/serializerinf/README.md) — Serializer interface contracts |
 
 #### Implementations (`coreimpl/`)
 
-| Package | README |
-|---------|--------|
+| Package     | README                                                               |
+| ----------- | -------------------------------------------------------------------- |
 | `coreimpl/` | [`README.md`](/coreimpl/README.md) — Core implementations (enumimpl) |
 
 #### Utilities & Helpers
 
-| Package | README |
-|---------|--------|
-| `conditional/` | [`README.md`](/conditional/README.md) — Generic ternary & nil-safe helpers |
-| `constants/` | [`README.md`](/constants/README.md) — Shared constants & capacity values |
-| `converters/` | [`README.md`](/converters/README.md) — Type conversion utilities |
-| `corefuncs/` | [`README.md`](/corefuncs/README.md) — Function type definitions & wrappers |
-| `coretaskinfo/` | [`README.md`](/coretaskinfo/README.md) — Task metadata container |
-| `corevalidator/` | [`README.md`](/corevalidator/README.md) — Text, line & slice validators |
-| `coremath/` | [`README.md`](/coremath/README.md) — Min/Max for all numeric types |
-| `coresort/` | [`README.md`](/coresort/README.md) — Quick sort for strings and integers |
+| Package          | README                                                                     |
+| ---------------- | -------------------------------------------------------------------------- |
+| `conditional/`   | [`README.md`](/conditional/README.md) — Generic ternary & nil-safe helpers |
+| `constants/`     | [`README.md`](/constants/README.md) — Shared constants & capacity values   |
+| `converters/`    | [`README.md`](/converters/README.md) — Type conversion utilities           |
+| `corefuncs/`     | [`README.md`](/corefuncs/README.md) — Function type definitions & wrappers |
+| `coretaskinfo/`  | [`README.md`](/coretaskinfo/README.md) — Task metadata container           |
+| `corevalidator/` | [`README.md`](/corevalidator/README.md) — Text, line & slice validators    |
+| `coremath/`      | [`README.md`](/coremath/README.md) — Min/Max for all numeric types         |
+| `coresort/`      | [`README.md`](/coresort/README.md) — Quick sort for strings and integers   |
 
 #### Error Handling & Comparison
 
-| Package | README |
-|---------|--------|
-| `errcore/` | [`README.md`](/errcore/README.md) — Error construction & formatting |
-| `anycmp/` | [`README.md`](/anycmp/README.md) — Any-type quick comparison |
-| `isany/` | [`README.md`](/isany/README.md) — Reflection-based type & null checking |
+| Package    | README                                                                  |
+| ---------- | ----------------------------------------------------------------------- |
+| `errcore/` | [`README.md`](/errcore/README.md) — Error construction & formatting     |
+| `anycmp/`  | [`README.md`](/anycmp/README.md) — Any-type quick comparison            |
+| `isany/`   | [`README.md`](/isany/README.md) — Reflection-based type & null checking |
 
 #### System & I/O
 
-| Package | README |
-|---------|--------|
+| Package        | README                                                             |
+| -------------- | ------------------------------------------------------------------ |
 | `chmodhelper/` | [`README.md`](/chmodhelper/README.md) — File permission management |
-| `regexnew/` | [`README.md`](/regexnew/README.md) — Lazy-compiled regex |
-| `issetter/` | [`README.md`](/issetter/README.md) — Multi-valued boolean enum |
+| `regexnew/`    | [`README.md`](/regexnew/README.md) — Lazy-compiled regex           |
+| `issetter/`    | [`README.md`](/issetter/README.md) — Multi-valued boolean enum     |
 
 #### Testing
 
-| Package | README |
-|---------|--------|
+| Package      | README                                                            |
+| ------------ | ----------------------------------------------------------------- |
 | `coretests/` | [`README.md`](/coretests/README.md) — Test utilities & assertions |
 
 #### CLI
 
-| Package | README |
-|---------|--------|
-| `cmd/` | [`README.md`](/cmd/README.md) — CLI entrypoints |
+| Package | README                                          |
+| ------- | ----------------------------------------------- |
+| `cmd/`  | [`README.md`](/cmd/README.md) — CLI entrypoints |
 
 For the complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/01-folder-map.md).
 
@@ -982,28 +983,28 @@ str := assert.ToString(result)          // any → string
 
 Detailed architecture and conventions documentation for AI agents and contributors:
 
-| Document | Path |
-|----------|------|
-| Repository Overview | [`/spec/01-app/00-repo-overview.md`](/spec/01-app/00-repo-overview.md) |
-| Folder Map | [`/spec/01-app/01-folder-map.md`](/spec/01-app/01-folder-map.md) |
-| Per-Folder Specs | [`/spec/01-app/folders/`](/spec/01-app/folders/) |
-| Module Splitting Decision | [`/spec/01-app/26-module-splitting-decision.md`](/spec/01-app/26-module-splitting-decision.md) |
-| Go Modernization Plan | [`/spec/01-app/11-go-modernization.md`](/spec/01-app/11-go-modernization.md) |
-| CMD Entrypoints | [`/spec/01-app/12-cmd-entrypoints.md`](/spec/01-app/12-cmd-entrypoints.md) |
-| Testing Patterns | [`/spec/01-app/13-testing-patterns.md`](/spec/01-app/13-testing-patterns.md) |
-| **newCreator Convention** | [`/spec/01-app/18-new-creator-convention.md`](/spec/01-app/18-new-creator-convention.md) |
-| Interface Conventions | [`/spec/01-app/14-core-interface-conventions.md`](/spec/01-app/14-core-interface-conventions.md) |
-| Code Review Report | [`/spec/01-app/15-code-review-report.md`](/spec/01-app/15-code-review-report.md) |
-| **Testing Guidelines** | [`/spec/01-app/16-testing-guidelines.md`](/spec/01-app/16-testing-guidelines.md) |
-| **Coding Guidelines** | [`/spec/01-app/17-coding-guidelines.md`](/spec/01-app/17-coding-guidelines.md) |
-| **Code Strengths Review** | [`/spec/01-app/19-code-strengths.md`](/spec/01-app/19-code-strengths.md) |
-| **Improvement Plan** | [`/spec/01-app/20-improvement-plan.md`](/spec/01-app/20-improvement-plan.md) |
-| **newCreator Pattern** | [`/spec/01-app/21-new-creator-pattern.md`](/spec/01-app/21-new-creator-pattern.md) |
-| **coregeneric Architecture** | [`/spec/01-app/22-coregeneric-architecture.md`](/spec/01-app/22-coregeneric-architecture.md) |
-| Known Issues | [`/spec/13-app-issues/`](/spec/13-app-issues/) |
+| Document                     | Path                                                                                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Repository Overview          | [`/spec/01-app/00-repo-overview.md`](/spec/01-app/00-repo-overview.md)                                                     |
+| Folder Map                   | [`/spec/01-app/01-folder-map.md`](/spec/01-app/01-folder-map.md)                                                           |
+| Per-Folder Specs             | [`/spec/01-app/folders/`](/spec/01-app/folders/)                                                                           |
+| Module Splitting Decision    | [`/spec/01-app/26-module-splitting-decision.md`](/spec/01-app/26-module-splitting-decision.md)                             |
+| Go Modernization Plan        | [`/spec/01-app/11-go-modernization.md`](/spec/01-app/11-go-modernization.md)                                               |
+| CMD Entrypoints              | [`/spec/01-app/12-cmd-entrypoints.md`](/spec/01-app/12-cmd-entrypoints.md)                                                 |
+| Testing Patterns             | [`/spec/01-app/13-testing-patterns.md`](/spec/01-app/13-testing-patterns.md)                                               |
+| **newCreator Convention**    | [`/spec/01-app/18-new-creator-convention.md`](/spec/01-app/18-new-creator-convention.md)                                   |
+| Interface Conventions        | [`/spec/01-app/14-core-interface-conventions.md`](/spec/01-app/14-core-interface-conventions.md)                           |
+| Code Review Report           | [`/spec/01-app/15-code-review-report.md`](/spec/01-app/15-code-review-report.md)                                           |
+| **Testing Guidelines**       | [`/spec/01-app/16-testing-guidelines.md`](/spec/01-app/16-testing-guidelines.md)                                           |
+| **Coding Guidelines**        | [`/spec/01-app/17-coding-guidelines.md`](/spec/01-app/17-coding-guidelines.md)                                             |
+| **Code Strengths Review**    | [`/spec/01-app/19-code-strengths.md`](/spec/01-app/19-code-strengths.md)                                                   |
+| **Improvement Plan**         | [`/spec/01-app/20-improvement-plan.md`](/spec/01-app/20-improvement-plan.md)                                               |
+| **newCreator Pattern**       | [`/spec/01-app/21-new-creator-pattern.md`](/spec/01-app/21-new-creator-pattern.md)                                         |
+| **coregeneric Architecture** | [`/spec/01-app/22-coregeneric-architecture.md`](/spec/01-app/22-coregeneric-architecture.md)                               |
+| Known Issues                 | [`/spec/13-app-issues/`](/spec/13-app-issues/)                                                                             |
 | **Edge-Case Coverage Audit** | [`/spec/13-app-issues/testing/02-edge-case-coverage-audit.md`](/spec/13-app-issues/testing/02-edge-case-coverage-audit.md) |
-| **Deep Coverage Scan** | [`/spec/13-app-issues/testing/03-deep-coverage-scan.md`](/spec/13-app-issues/testing/03-deep-coverage-scan.md) |
-| **GoConvey Migration Plan** | [`/spec/13-app-issues/testing/04-goconvey-migration-plan.md`](/spec/13-app-issues/testing/04-goconvey-migration-plan.md) |
+| **Deep Coverage Scan**       | [`/spec/13-app-issues/testing/03-deep-coverage-scan.md`](/spec/13-app-issues/testing/03-deep-coverage-scan.md)             |
+| **GoConvey Migration Plan**  | [`/spec/13-app-issues/testing/04-goconvey-migration-plan.md`](/spec/13-app-issues/testing/04-goconvey-migration-plan.md)   |
 
 ## Acknowledgement
 
@@ -1035,4 +1036,4 @@ External packages used:
 
 ## License
 
-MIT License — Copyright (c) 2020–2026. See [LICENSE](LICENSE).
+MIT License — Copyright (c) 2020–2026. See [LICENSE](LICENSE)...
