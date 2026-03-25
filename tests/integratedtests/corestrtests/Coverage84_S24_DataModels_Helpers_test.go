@@ -228,8 +228,8 @@ func Test_CovS24_14_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
 
 func Test_CovS24_15_AllIndividualsLengthOfSimpleSlices_Multiple(t *testing.T) {
 	// Arrange
-	ss1 := corestr.New.SimpleSlice.Strings("a", "b")
-	ss2 := corestr.New.SimpleSlice.Strings("c")
+	ss1 := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
+	ss2 := corestr.New.SimpleSlice.Strings([]string{"c"})
 
 	// Act
 	result := corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2)
