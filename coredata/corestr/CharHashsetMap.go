@@ -590,6 +590,9 @@ func (it *CharHashsetMap) AddLock(
 	char := it.GetChar(str)
 
 	it.Lock()
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
 	hashset, has := it.items[char]
 	it.Unlock()
 
