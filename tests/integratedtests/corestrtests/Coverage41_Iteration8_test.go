@@ -1222,8 +1222,10 @@ func Test_I8_AllIndividualStringsOfStringsLength(t *testing.T) {
 func Test_I8_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
 	s1 := corestr.New.SimpleSlice.SpreadStrings("a", "bb")
 	s2 := corestr.New.SimpleSlice.SpreadStrings("ccc")
+	// Fix: function counts items (3), not character lengths (6).
+	// See issues/corestrtests-allindividualslength-wrong-expectation.md
 	result := corestr.AllIndividualsLengthOfSimpleSlices(s1, s2)
-	if result != 6 { t.Fatalf("expected 6, got %d", result) }
+	if result != 3 { t.Fatalf("expected 3, got %d", result) }
 }
 
 // ==========================================================================

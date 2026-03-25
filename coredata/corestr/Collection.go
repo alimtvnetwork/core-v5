@@ -1801,7 +1801,13 @@ func (it *Collection) AddFuncResult(
 
 	items := it.items
 
+	// Fix: skip nil function pointers to prevent nil dereference panic.
+	// See issues/corestrtests-collection-addfuncresult-nil.md
 	for _, getterFunc := range getterFunctions {
+		if getterFunc == nil {
+			continue
+		}
+
 		item := getterFunc()
 
 		items = append(items, item)

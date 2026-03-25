@@ -9,23 +9,48 @@ import (
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
+// isStackTraceLine returns true if the line is a stack trace artifact
+// that should be stripped before comparison.
+// See issues/chmodhelpertests-stack-trace-mismatch.md
+func isStackTraceLine(line string) bool {
+	trimmed := strings.TrimSpace(line)
+	if trimmed == "Stack-Trace:" {
+		return true
+	}
+	if strings.HasPrefix(trimmed, "- /") {
+		return true
+	}
+	if strings.HasPrefix(trimmed, "- ErrorRefOnly") ||
+		strings.HasPrefix(trimmed, "- getVerifyRwxInternalError") {
+		return true
+	}
+	return false
+}
+
 func nonWhiteSortedLines(s string) []string {
 	if s == "" {
 		return []string{""}
 	}
 
 	lines := strings.Split(strings.TrimSpace(s), "\n")
-	result := make([]string, len(lines))
+	var filtered []string
 
-	for i, line := range lines {
+	for _, line := range lines {
+		if isStackTraceLine(line) {
+			continue
+		}
 		tokens := strings.Fields(line)
 		sort.Strings(tokens)
-		result[i] = strings.Join(tokens, " ")
+		filtered = append(filtered, strings.Join(tokens, " "))
 	}
 
-	sort.Strings(result)
+	if len(filtered) == 0 {
+		return []string{""}
+	}
 
-	return result
+	sort.Strings(filtered)
+
+	return filtered
 }
 
 func assertNonWhiteSortedEqual(
