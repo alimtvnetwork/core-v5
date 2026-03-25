@@ -498,7 +498,9 @@ func Test_Seg3_Collection_AddNonEmptyStrings(t *testing.T) {
 	c := corestr.New.Collection.Cap(10)
 	c.AddNonEmptyStrings("a", "", "b")
 	actual := args.Map{"len": c.Length()}
-	expected := args.Map{"len": 3} // AddNonEmptyStrings delegates to AddNonEmptyStringsSlice which adds all
+	// Fix: AddNonEmptyStrings filters empty strings, so "a","","b" → 2 items
+	// See issues/corestrtests-addnonemptystrings-wrong-expectation.md
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "AddNonEmptyStrings -- adds items", actual)
 }
 
