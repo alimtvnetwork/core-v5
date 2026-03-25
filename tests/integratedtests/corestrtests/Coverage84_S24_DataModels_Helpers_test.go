@@ -57,7 +57,7 @@ func Test_CovS24_03_NewHashsetUsingDataModel(t *testing.T) {
 
 func Test_CovS24_04_NewHashsetsDataModelUsing(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 
 	// Act
 	model := corestr.NewHashsetsDataModelUsing(hs)
@@ -74,7 +74,7 @@ func Test_CovS24_04_NewHashsetsDataModelUsing(t *testing.T) {
 
 func Test_CovS24_05_NewHashsetsCollectionUsingDataModel(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	model := &corestr.HashsetsCollectionDataModel{
 		Items: []*corestr.Hashset{hs},
 	}
@@ -90,7 +90,7 @@ func Test_CovS24_05_NewHashsetsCollectionUsingDataModel(t *testing.T) {
 
 func Test_CovS24_06_NewHashsetsCollectionDataModelUsing(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("a")
+	hs := corestr.New.Hashset.Strings([]string{"a"})
 	hc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs)
 
 	// Act
@@ -143,7 +143,7 @@ func Test_CovS24_08_NewCharCollectionMapDataModelUsing(t *testing.T) {
 
 func Test_CovS24_09_NewCharHashsetMapUsingDataModel(t *testing.T) {
 	// Arrange
-	hs := corestr.New.Hashset.Strings("abc")
+	hs := corestr.New.Hashset.Strings([]string{"abc"})
 	model := &corestr.CharHashsetDataModel{
 		Items:               map[byte]*corestr.Hashset{'a': hs},
 		EachHashsetCapacity: 10,
@@ -228,8 +228,8 @@ func Test_CovS24_14_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
 
 func Test_CovS24_15_AllIndividualsLengthOfSimpleSlices_Multiple(t *testing.T) {
 	// Arrange
-	ss1 := corestr.New.SimpleSlice.Strings("a", "b")
-	ss2 := corestr.New.SimpleSlice.Strings("c")
+	ss1 := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
+	ss2 := corestr.New.SimpleSlice.Strings([]string{"c"})
 
 	// Act
 	result := corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2)
