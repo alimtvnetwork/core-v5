@@ -446,7 +446,7 @@ func Test_Cov42_Collection_IsContainsAllSlice_Empty(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	tc := coretestcases.CaseV1{
 		Title:         "IsContainsAllSlice empty items",
-		ExpectedInput: true,
+		ExpectedInput: false,
 		ActualInput:   col.IsContainsAllSlice([]string{}),
 	}
 	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))

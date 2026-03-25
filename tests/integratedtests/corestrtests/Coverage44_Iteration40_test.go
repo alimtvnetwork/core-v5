@@ -343,7 +343,7 @@ func Test_Cov44_SSO_Boolean_ParseErr(t *testing.T) {
 
 func Test_Cov44_SSO_IsValueBool(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Uninitialized("true")
-	tc := caseV1Compat{Name: "IsValueBool", Expected: false, Actual: sso.IsValueBool()}
+	tc := caseV1Compat{Name: "IsValueBool", Expected: true, Actual: sso.IsValueBool()}
 	tc.ShouldBeEqual(t)
 }
 

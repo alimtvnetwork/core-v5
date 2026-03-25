@@ -77,9 +77,11 @@ func (it fileWriter) All(
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
+	// Create dir with permissive mode first so file write succeeds
+	// even when chmodDir is restrictive (e.g., 0200 lacks execute).
 	dirErr := internalDirCreator.If(
 		isCreateDirOnRequired,
-		chmodDir,
+		dirDefaultChmod,
 		parentDirPath,
 	)
 
@@ -116,16 +118,48 @@ func (it fileWriter) All(
 	isNotApplyChmod := !isApplyChmodMust
 
 	if isNotApplyChmod || osconstsinternal.IsWindows {
-		return nil
+		// Apply dir chmod even when file chmod is not required
+		return it.applyDirChmod(isCreateDirOnRequired, chmodDir, parentDirPath)
 	}
 
 	// unix, must chmod
 	if isApplyChmodOnMismatch && ChmodVerify.IsEqual(writingFilePath, chmodFile) {
-		return nil
+		return it.applyDirChmod(isCreateDirOnRequired, chmodDir, parentDirPath)
 	}
 
 	// not equal or apply anyway
-	return ChmodApply.Default(chmodFile, writingFilePath)
+	fileChmodErr := ChmodApply.Default(chmodFile, writingFilePath)
+	if fileChmodErr != nil {
+		return fileChmodErr
+	}
+
+	return it.applyDirChmod(isCreateDirOnRequired, chmodDir, parentDirPath)
+}
+
+// applyDirChmod applies the requested dir chmod after file operations are done.
+func (it fileWriter) applyDirChmod(
+	isCreateDirOnRequired bool,
+	chmodDir os.FileMode,
+	parentDirPath string,
+) error {
+	if !isCreateDirOnRequired {
+		return nil
+	}
+
+	if chmodDir == dirDefaultChmod {
+		return nil
+	}
+
+	chmodErr := os.Chmod(parentDirPath, chmodDir)
+	if chmodErr != nil {
+		return newError.chmodApplyFailed(
+			chmodDir,
+			parentDirPath,
+			chmodErr,
+		)
+	}
+
+	return nil
 }
 
 func (it fileWriter) Remove(removePath string) error {

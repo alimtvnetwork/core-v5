@@ -85,7 +85,7 @@ func (it newRwxWrapperCreator) InvalidPtr() *RwxWrapper {
 func (it newRwxWrapperCreator) UsingChmod(
 	fileMode os.FileMode,
 ) *RwxWrapper {
-	return it.UsingChmod(fileMode)
+	return it.UsingFileModePtr(fileMode)
 }
 
 // UsingFileModePtr

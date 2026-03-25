@@ -615,6 +615,10 @@ func (it *CharHashsetMap) AddLock(
 func (it *CharHashsetMap) Add(
 	str string,
 ) *CharHashsetMap {
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
+
 	char := it.GetChar(str)
 
 	if it.items == nil {
@@ -642,6 +646,10 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 ) *CharHashsetMap {
 	if len(allItemsWithSameChar) == 0 {
 		return it
+	}
+
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
 	}
 
 	length := len(allItemsWithSameChar)
@@ -1163,11 +1171,11 @@ func (it *CharHashsetMap) UnmarshalJSON(data []byte) error {
 }
 
 func (it CharHashsetMap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it CharHashsetMap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 // RemoveAll remove all existing items, deletes items using delete(*charCollectionMap.items, char), expensive operation

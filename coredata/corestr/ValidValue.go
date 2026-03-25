@@ -148,6 +148,8 @@ func (it *ValidValue) ValueDefInt() int {
 	return toInt
 }
 
+// ValueByte parses Value as byte, returning constants.Zero on parse error or negative.
+// See issues/corestrtests-validvalue-valuebyte-defval.md
 func (it *ValidValue) ValueByte(defVal byte) byte {
 	toInt, err := strconv.Atoi(it.Value)
 

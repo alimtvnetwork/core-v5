@@ -341,7 +341,11 @@ func Test_Cov18_Hashmap_StringsPtrWgLock(t *testing.T) {
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	h.AddOrUpdateStringsPtrWgLock(wg, []string{"a"}, []string{"1"})
-	h.AddOrUpdateStringsPtrWgLock(&sync.WaitGroup{}, nil, nil)
+	// Fix: must call wg.Add(1) before passing WaitGroup — method always calls wg.Done()
+	// See issues/corestrtests-wg-negative-counter-panic.md
+	wg2 := &sync.WaitGroup{}
+	wg2.Add(1)
+	h.AddOrUpdateStringsPtrWgLock(wg2, nil, nil)
 	actual := args.Map{"len": h.Length()}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- StringsPtrWgLock", actual)

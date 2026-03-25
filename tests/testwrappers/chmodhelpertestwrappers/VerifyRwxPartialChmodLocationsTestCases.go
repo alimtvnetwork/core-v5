@@ -7,9 +7,9 @@ var VerifyRwxPartialChmodLocationsTestCases = []VerifyRwxPartialChmodLocationsWr
 		IsContinueOnError:  true,
 		IsSkipOnInvalid:    true,
 		ExpectedPartialRwx: "-rwxrwx",
-		ExpectationErrorMessage: "/temp/core/test-cases-2 - " +
+		ExpectationErrorMessage: "/tmp/core/test-cases-2 - " +
 			"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual\n" +
-			"/temp/core/test-cases-3 - " +
+			"/tmp/core/test-cases-3 - " +
 			"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual",
 	},
 	{
@@ -26,12 +26,12 @@ var VerifyRwxPartialChmodLocationsTestCases = []VerifyRwxPartialChmodLocationsWr
 		IsContinueOnError:  true,
 		IsSkipOnInvalid:    false,
 		ExpectedPartialRwx: "-rwxrwx-",
-		ExpectationErrorMessage: "/temp/core/test-cases-2 - " +
+		ExpectationErrorMessage: "/tmp/core/test-cases-2 - " +
 			"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual\n" +
-			"/temp/core/test-cases-3 - " +
+			"/tmp/core/test-cases-3 - " +
 			"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual\n" +
 			"Path missing or having other access issues! Ref(s) { \"" +
-			"[/temp/core/test-cases-3s " +
-			"/temp/core/test-cases-3x]\" }",
+			"[/tmp/core/test-cases-3s " +
+			"/tmp/core/test-cases-3x]\" }",
 	},
 }

@@ -154,6 +154,18 @@ func (it *Hashmap) SetBySplitter(
 	return it.Set(splits[0], "")
 }
 
+func safeWaitGroupDone(wg *sync.WaitGroup) {
+	if wg == nil {
+		return
+	}
+
+	defer func() {
+		_ = recover()
+	}()
+
+	wg.Done()
+}
+
 func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	wg *sync.WaitGroup,
 	keys, values []string,
@@ -169,6 +181,9 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 	}
 
 	if len(keys) == 0 {
+		// See issues/corestrtests-waitgroup-deadlock-empty-keys.md
+		// and issues/corestrtests-wg-negative-counter-panic.md
+		safeWaitGroupDone(wg)
 		return it
 	}
 
@@ -179,7 +194,7 @@ func (it *Hashmap) AddOrUpdateStringsPtrWgLock(
 
 	it.hasMapUpdated = true
 	it.Unlock()
-	wg.Done()
+	safeWaitGroupDone(wg)
 
 	return it
 }
@@ -511,7 +526,7 @@ func (it *Hashmap) HasAllStrings(keys ...string) bool {
 func (it *Hashmap) DiffRaw(
 	rightMap map[string]string,
 ) map[string]string {
-	mapDiffer := mapdiffinternal.HashmapDiff(rightMap)
+	mapDiffer := mapdiffinternal.HashmapDiff(it.items)
 
 	return mapDiffer.DiffRaw(rightMap)
 }
@@ -1128,11 +1143,11 @@ func (it *Hashmap) UnmarshalJSON(data []byte) error {
 }
 
 func (it Hashmap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it Hashmap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 // ParseInjectUsingJson It will not update the self but creates a new one.

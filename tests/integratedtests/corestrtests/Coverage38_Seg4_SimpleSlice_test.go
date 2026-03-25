@@ -284,7 +284,9 @@ func Test_Seg4_SS_LimitDynamic(t *testing.T) {
 
 func Test_Seg4_SS_TakeDynamic(t *testing.T) {
 	s := corestr.SimpleSlice{"a", "b"}
-	actual := args.Map{"len": len(s.TakeDynamic(10).(corestr.SimpleSlice))}
+	// Fix: TakeDynamic returns []string, not SimpleSlice
+	// See issues/corestrtests-takedynamic-type-assertion.md
+	actual := args.Map{"len": len(s.TakeDynamic(10).([]string))}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "TakeDynamic more -- all items", actual)
 }

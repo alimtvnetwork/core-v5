@@ -75,7 +75,7 @@ func (it *Collection) Count() int {
 }
 
 func (it *Collection) Capacity() int {
-	if it.items == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
@@ -857,7 +857,8 @@ func (it *Collection) GetPagedCollection(
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
 	pagesPossibleCeiling := int(math.Ceil(pagesPossibleFloat))
-	collectionOfCollection := New.CollectionsOfCollection.Cap(
+	collectionOfCollection := New.CollectionsOfCollection.LenCap(
+		pagesPossibleCeiling,
 		pagesPossibleCeiling,
 	)
 
@@ -964,17 +965,12 @@ func (it *Collection) InsertAt(
 		return it.Adds(stringItems...)
 	}
 
-	// https://bit.ly/3pIDfRY
-	it.items =
-		append(
-			it.items[:index],
-			stringItems...,
-		)
-
-	it.items = append(
-		it.items,
-		it.items[index:]...,
-	)
+	// Use grow-copy-assign pattern to avoid slice bounds issues.
+	// See issues/simpleslice-insertat-bounds.md for background.
+	tail := make([]string, len(it.items[index:]))
+	copy(tail, it.items[index:])
+	it.items = append(it.items[:index], stringItems...)
+	it.items = append(it.items, tail...)
 
 	return it
 }
@@ -1805,7 +1801,13 @@ func (it *Collection) AddFuncResult(
 
 	items := it.items
 
+	// Fix: skip nil function pointers to prevent nil dereference panic.
+	// See issues/corestrtests-collection-addfuncresult-nil.md
 	for _, getterFunc := range getterFunctions {
+		if getterFunc == nil {
+			continue
+		}
+
 		item := getterFunc()
 
 		items = append(items, item)
@@ -1826,6 +1828,10 @@ func (it *Collection) AddNonEmptyStringsSlice(
 	items := it.items
 
 	for _, addingItem := range slice {
+		if addingItem == "" {
+			continue
+		}
+
 		items = append(items, addingItem)
 	}
 
@@ -2053,8 +2059,7 @@ func (it *Collection) Joins(
 	}
 
 	newItems := make([]string, 0, it.Length()+len(items))
-	copy(newItems, it.items)
-
+	newItems = append(newItems, it.items...)
 	newItems = append(newItems, items...)
 
 	return strings.Join(newItems, separator)
@@ -2103,11 +2108,11 @@ func (it *Collection) UnmarshalJSON(data []byte) error {
 }
 
 func (it Collection) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it Collection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 //goland:noinspection GoLinterLocal

@@ -722,11 +722,11 @@ func (it *SimpleStringOnce) UnmarshalJSON(
 }
 
 func (it SimpleStringOnce) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it SimpleStringOnce) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *SimpleStringOnce) ParseInjectUsingJson(

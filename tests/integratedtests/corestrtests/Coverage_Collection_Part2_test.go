@@ -137,7 +137,6 @@ func Test_CovP2_06_GetSinglePageCollection(t *testing.T) {
 func Test_CovP2_07_AddStringsAsync(t *testing.T) {
 	col := corestr.New.Collection.Cap(10)
 	wg := &sync.WaitGroup{}
-	wg.Add(1)
 	col.AddStringsAsync(wg, []string{"a", "b", "c"})
 	wg.Wait()
 	// empty

@@ -401,6 +401,8 @@ func (it chmodVerifier) PathsUsingRwxFull(
 				return err
 			}
 		}
+
+		return nil
 	}
 
 	slice := corestr.New.Collection.Cap(constants.Zero)
@@ -408,8 +410,9 @@ func (it chmodVerifier) PathsUsingRwxFull(
 	for _, location := range locations {
 		err := it.RwxFull(location, expectedHyphenedRwx)
 
-		//goland:noinspection ALL
-		slice.AddIf(err != nil, err.Error())
+		if err != nil {
+			slice.Add(err.Error())
+		}
 	}
 
 	return errcore.SliceErrorDefault(slice.List())

@@ -331,7 +331,7 @@ func Test_Cov5_RwxWrapper_VerifyPaths(t *testing.T) {
 	rwx, _ := chmodhelper.New.RwxWrapper.RwxFullString("-rwxr-xr-x")
 	err := rwx.VerifyPaths(true, dir)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": false}
+	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "VerifyPaths returns correct value -- with args", actual)
 }
 

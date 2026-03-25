@@ -1450,6 +1450,9 @@ func (it *Hashset) WrapSingleQuoteIfMissing() *Hashset {
 	return it.Transpile(StringUtils.WrapSingleIfMissing)
 }
 
+// Transpile applies fmtFunc to each key and returns a new Hashset.
+// Fix: build new map to avoid adding keys while iterating over old map.
+// See issues/corestrtests-hashset-transpile-mutation.md
 func (it *Hashset) Transpile(
 	fmtFunc func(s string) string,
 ) *Hashset {
@@ -1457,9 +1460,12 @@ func (it *Hashset) Transpile(
 		return Empty.Hashset()
 	}
 
+	newItems := make(map[string]bool, len(it.items))
 	for k, v := range it.items {
-		it.items[fmtFunc(k)] = v
+		newItems[fmtFunc(k)] = v
 	}
+
+	it.items = newItems
 
 	return it
 }

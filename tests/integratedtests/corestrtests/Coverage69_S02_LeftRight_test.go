@@ -148,9 +148,9 @@ func Test_Cov69_LeftRightTrimmedUsingSlice_One(t *testing.T) {
 	// Arrange & Act
 	lr := corestr.LeftRightTrimmedUsingSlice([]string{" only "})
 
-	// Assert — one element, not trimmed for left (line 56 uses slice[0] raw)
+	// Assert — single element IS trimmed (source line 56 calls strings.TrimSpace)
 	actual := args.Map{"isValid": lr.IsValid, "left": lr.Left}
-	expected := args.Map{"isValid": false, "left": " only "}
+	expected := args.Map{"isValid": false, "left": "only"}
 	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice returns invalid -- one element", actual)
 }
 

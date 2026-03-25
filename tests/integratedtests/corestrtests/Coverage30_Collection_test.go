@@ -919,7 +919,6 @@ func Test_C30_NCC_LenCap(t *testing.T) { _ = corestr.New.Collection.LenCap(0, 5)
 func Test_C30_Collection_AddStringsAsync(t *testing.T) {
 	c := corestr.New.Collection.Empty()
 	wg := &sync.WaitGroup{}
-	wg.Add(1)
 	c.AddStringsAsync(wg, []string{"a", "b"})
 	wg.Wait()
 	c.AddStringsAsync(wg, []string{})

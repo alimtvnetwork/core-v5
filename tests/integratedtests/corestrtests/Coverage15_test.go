@@ -127,7 +127,7 @@ func Test_Cov15_LeftRight_TrimmedUsingSlice_Nil(t *testing.T) {
 func Test_Cov15_LeftRight_TrimmedUsingSlice_One(t *testing.T) {
 	lr := corestr.LeftRightTrimmedUsingSlice([]string{" a "})
 	actual := args.Map{"left": lr.Left, "valid": lr.IsValid}
-	expected := args.Map{"left": " a ", "valid": false}
+	expected := args.Map{"left": "a", "valid": false}
 	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice returns correct value -- one", actual)
 }
 

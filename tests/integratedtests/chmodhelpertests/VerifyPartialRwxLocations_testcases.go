@@ -15,9 +15,9 @@ var verifyPartialRwxLocationsTestCases = []coretestcases.CaseV1{
 			ExpectedPartialRwx: "-rwxrwx",
 		},
 		ExpectedInput: []string{
-			"/temp/core/test-cases-2 - " +
+			"/tmp/core/test-cases-2 - " +
 				"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual",
-			"/temp/core/test-cases-3 - " +
+			"/tmp/core/test-cases-3 - " +
 				"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual",
 		},
 	},
@@ -40,13 +40,13 @@ var verifyPartialRwxLocationsTestCases = []coretestcases.CaseV1{
 			ExpectedPartialRwx: "-rwxrwx-",
 		},
 		ExpectedInput: []string{
-			"/temp/core/test-cases-2 - " +
+			"/tmp/core/test-cases-2 - " +
 				"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual",
-			"/temp/core/test-cases-3 - " +
+			"/tmp/core/test-cases-3 - " +
 				"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual",
 			"Path missing or having other access issues! Ref(s) { " +
-				"\"[/temp/core/test-cases-3s " +
-				"/temp/core/test-cases-3x]\" }",
+				"\"[/tmp/core/test-cases-3s " +
+				"/tmp/core/test-cases-3x]\" }",
 		},
 	},
 }
