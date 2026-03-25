@@ -358,8 +358,8 @@ func Test_CovS25_30_ExpectingLengthForLeftRight(t *testing.T) {
 
 func Test_CovS25_31_LeftRightExpectingLengthMessager(t *testing.T) {
 	// Arrange & Act & Assert
-	if corestr.LeftRightExpectingLengthMessager == "" {
-		t.Errorf("LeftRightExpectingLengthMessager should not be empty")
+	if corestr.LeftRightExpectingLengthMessager == nil {
+		t.Errorf("LeftRightExpectingLengthMessager should not be nil")
 	}
 }
 
