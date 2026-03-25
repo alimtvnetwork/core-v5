@@ -127,8 +127,8 @@ func Test_Cov6_Collection_JsonString(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	js := c.JsonString()
 	actual := args.Map{"hasContent": len(js) > 0}
-	expected := args.Map{"hasContent": false}
-	expected.ShouldBeEqual(t, 0, "Collection.JsonString returns empty -- value receiver loses unexported items", actual)
+	expected := args.Map{"hasContent": true}
+	expected.ShouldBeEqual(t, 0, "Collection.JsonString returns content -- pointer receiver serialization", actual)
 }
 
 func Test_Cov6_Collection_RemoveAt(t *testing.T) {
@@ -440,10 +440,10 @@ func Test_Cov6_Hashmap_Clone(t *testing.T) {
 		"sameVal": v == "v",
 	}
 	expected := args.Map{
-		"sameLen": false,
-		"sameVal": false,
+		"sameLen": true,
+		"sameVal": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap.Clone loses data -- value receiver JSON roundtrip", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap.Clone preserves data -- clone roundtrip", actual)
 }
 
 func Test_Cov6_Hashmap_IsEqual(t *testing.T) {

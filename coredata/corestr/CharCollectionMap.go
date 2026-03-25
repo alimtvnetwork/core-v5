@@ -509,6 +509,10 @@ func (it *CharCollectionMap) AddLock(
 func (it *CharCollectionMap) Add(
 	str string,
 ) *CharCollectionMap {
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, charCollectionDefaultCapacity)
+	}
+
 	char := it.GetChar(str)
 
 	collection, has := it.items[char]
@@ -1058,11 +1062,11 @@ func (it *CharCollectionMap) UnmarshalJSON(data []byte) error {
 }
 
 func (it CharCollectionMap) Json() corejson.Result {
-	return corejson.New(it)
+	return corejson.New(&it)
 }
 
 func (it CharCollectionMap) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
+	return corejson.NewPtr(&it)
 }
 
 func (it *CharCollectionMap) ParseInjectUsingJson(
