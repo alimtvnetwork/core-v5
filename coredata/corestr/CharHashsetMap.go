@@ -638,6 +638,10 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 		return it
 	}
 
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, defaultHashsetItems)
+	}
+
 	length := len(allItemsWithSameChar)
 
 	if length == 0 {
