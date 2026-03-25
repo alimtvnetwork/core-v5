@@ -1386,8 +1386,33 @@ function copyForAI(){
         }
 
         # ── Written Files Summary (console) ──
+        # Consolidate ALL build errors: blocked-package compile errors + coverage-run errors
         $buildErrorsFile = Join-Path $coverDir "build-errors.txt"
         $buildErrorsJsonFile = Join-Path $coverDir "build-errors.json"
+
+        # Merge blocked-package compile errors into buildErrorsByPackage
+        if ($blockedPkgs.Count -gt 0) {
+            foreach ($bp in ($blockedPkgs | Sort-Object)) {
+                if ($blockedErrors.ContainsKey($bp)) {
+                    $rawErrLines = $blockedErrors[$bp] -split "`n"
+                    $filteredErrLines = Extract-BuildErrorLines $rawErrLines
+                    if ($filteredErrLines.Count -eq 0) {
+                        $filteredErrLines = Extract-ExecutionFailureLines $rawErrLines
+                    }
+                    if ($filteredErrLines.Count -gt 0) {
+                        if (-not $buildErrorsByPackage.ContainsKey($bp)) {
+                            $buildErrorsByPackage[$bp] = [System.Collections.Generic.List[string]]::new()
+                        }
+                        foreach ($errLine in $filteredErrLines) {
+                            if (-not $buildErrorsByPackage[$bp].Contains($errLine)) {
+                                $buildErrorsByPackage[$bp].Add($errLine) | Out-Null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $buildErrorPkgs = @($buildErrorsByPackage.Keys | Sort-Object)
 
         $buildErrorLines = [System.Collections.Generic.List[string]]::new()
@@ -1403,7 +1428,9 @@ function copyForAI(){
         else {
             foreach ($pkgName in $buildErrorPkgs) {
                 $pkgLines = @($buildErrorsByPackage[$pkgName])
-                $buildErrorLines.Add("## $pkgName")
+                $isBlocked = $blockedPkgs.Contains($pkgName)
+                $sectionLabel = if ($isBlocked) { "## $pkgName [BLOCKED — compile failure]" } else { "## $pkgName [coverage-run error]" }
+                $buildErrorLines.Add($sectionLabel)
                 if ($pkgLines.Count -gt 0) {
                     $buildErrorLines.AddRange([string[]]$pkgLines)
                 }
@@ -1416,6 +1443,7 @@ function copyForAI(){
                     package    = $pkgName
                     errorCount = $pkgLines.Count
                     errors     = $pkgLines
+                    source     = if ($isBlocked) { "compile-check" } else { "coverage-run" }
                 }) | Out-Null
             }
         }
@@ -1424,6 +1452,7 @@ function copyForAI(){
         $buildErrorJsonObj = @{
             timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
             packageCount = $buildErrorPkgs.Count
+            blockedCount = $blockedPkgs.Count
             packages     = $buildErrorJsonItems.ToArray()
         }
         $buildErrorJsonObj | ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
