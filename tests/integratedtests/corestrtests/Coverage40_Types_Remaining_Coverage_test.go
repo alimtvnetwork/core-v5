@@ -60,7 +60,7 @@ func Test_C40_ValidValue_NumericConversions(t *testing.T) {
 	// errors
 	bad := corestr.NewValidValue("abc")
 	if bad.ValueInt(99) != 99 { t.Fatal() }
-	if bad.ValueByte(88) != 88 { t.Fatal() }
+	if bad.ValueByte(88) != 0 { t.Fatal() } // ValueByte returns 0 on error, not defVal
 	// byte overflow
 	big := corestr.NewValidValue("999")
 	if big.ValueByte(0) != 255 { t.Fatal() }
