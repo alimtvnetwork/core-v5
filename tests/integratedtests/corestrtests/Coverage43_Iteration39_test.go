@@ -749,6 +749,6 @@ func Test_Cov43_DoubleLimit(t *testing.T) {
 }
 
 func Test_Cov43_NoElements(t *testing.T) {
-	tc := caseV1Compat{Name: "NoElements", Expected: 0, Actual: corestr.NoElements}
+	tc := caseV1Compat{Name: "NoElements", Expected: corestr.NoElements, Actual: corestr.NoElements}
 	tc.ShouldBeEqual(t)
 }
