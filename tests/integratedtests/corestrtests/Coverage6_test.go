@@ -440,10 +440,10 @@ func Test_Cov6_Hashmap_Clone(t *testing.T) {
 		"sameVal": v == "v",
 	}
 	expected := args.Map{
-		"sameLen": false,
-		"sameVal": false,
+		"sameLen": true,
+		"sameVal": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap.Clone loses data -- value receiver JSON roundtrip", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap.Clone preserves data -- clone roundtrip", actual)
 }
 
 func Test_Cov6_Hashmap_IsEqual(t *testing.T) {
