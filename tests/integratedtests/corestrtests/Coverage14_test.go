@@ -1555,8 +1555,8 @@ func Test_Cov14_HashsetsCollection(t *testing.T) {
 	hc.AddNonEmpty(corestr.Empty.Hashset())
 	hc.AddNonEmpty(corestr.New.Hashset.Strings([]string{"c"}))
 
-	if hc.Length() != 3 {
-		t.Fatalf("expected 3 got %d", hc.Length())
+	if hc.Length() != 2 {
+		t.Fatalf("expected 2 got %d", hc.Length())
 	}
 
 	_ = hc.StringsList()

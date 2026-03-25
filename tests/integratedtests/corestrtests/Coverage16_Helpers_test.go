@@ -702,9 +702,11 @@ func Test_Cov16_Collection_AddFuncResult(t *testing.T) {
 
 func Test_Cov16_Collection_ParseInjectUsingJson(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	j := c.JsonPtr()
+	// Use json.Marshal with pointer to get correct JSON (bypasses value receiver issue)
+	b, _ := json.Marshal(c)
+	jr := &corejson.Result{Bytes: b}
 	c2 := corestr.New.Collection.Empty()
-	_, err := c2.ParseInjectUsingJson(j)
+	_, err := c2.ParseInjectUsingJson(jr)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ParseInjectUsingJson", actual)

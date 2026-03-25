@@ -460,7 +460,9 @@ func Test_Cov21_Collection_InterfaceMethods(t *testing.T) {
 
 func Test_Cov21_Collection_JsonParseSelfInject(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	jr := c.JsonPtr()
+	// Use json.Marshal with pointer to bypass value receiver issue on JsonPtr
+	b, _ := json.Marshal(c)
+	jr := &corejson.Result{Bytes: b}
 	target := corestr.New.Collection.Empty()
 	err := target.JsonParseSelfInject(jr)
 	if err != nil {

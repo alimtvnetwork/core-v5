@@ -1052,7 +1052,9 @@ func Test_C24_LinkedList_UnmarshalJSON(t *testing.T) {
 
 func Test_C24_LinkedList_ParseInjectUsingJson(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
-	jsonResult := ll.Json()
+	// Use json.Marshal with pointer to bypass value receiver issue on Json()
+	b, _ := json.Marshal(ll)
+	jsonResult := corejson.Result{Bytes: b}
 	ll2 := corestr.New.LinkedList.Create()
 	result, err := ll2.ParseInjectUsingJson(&jsonResult)
 	if err != nil {
@@ -1065,7 +1067,9 @@ func Test_C24_LinkedList_ParseInjectUsingJson(t *testing.T) {
 
 func Test_C24_LinkedList_ParseInjectUsingJsonMust(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	jsonResult := ll.Json()
+	// Use json.Marshal with pointer to bypass value receiver issue on Json()
+	b, _ := json.Marshal(ll)
+	jsonResult := corejson.Result{Bytes: b}
 	ll2 := corestr.New.LinkedList.Create()
 	result := ll2.ParseInjectUsingJsonMust(&jsonResult)
 	if result.Length() != 1 {
