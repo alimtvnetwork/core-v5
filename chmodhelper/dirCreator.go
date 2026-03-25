@@ -91,13 +91,7 @@ func (it dirCreator) ByChecking(
 	isDir := IsDirectory(dirPath)
 
 	if isExists && isDir {
-		curErr := os.Chmod(dirPath, applyChmod)
-
-		return newError.chmodApplyFailed(
-			applyChmod,
-			dirPath,
-			curErr,
-		)
+		return os.Chmod(dirPath, applyChmod)
 	}
 
 	if isExists && !isDir {
@@ -125,11 +119,15 @@ func (it dirCreator) ByChecking(
 		applyChmod,
 	)
 
-	return newError.chmodApplyFailed(
-		applyChmod,
-		dirPath,
-		chmodErr,
-	)
+	if chmodErr != nil {
+		return newError.chmodApplyFailed(
+			applyChmod,
+			dirPath,
+			chmodErr,
+		)
+	}
+
+	return nil
 }
 
 func (it dirCreator) DefaultLock(
