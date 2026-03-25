@@ -288,7 +288,7 @@ func Test_C37_Collection_SafeIndexAtUsingLength(t *testing.T) {
 func Test_C37_Collection_List_Items_ListStrings(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
 	if len(c.List()) != 1 { t.Fatal() }
-	if len(c.Items()) != 1 { t.Fatal() }
+	if len(c.Strings()) != 1 { t.Fatal() }
 	if len(c.ListStrings()) != 1 { t.Fatal() }
 	if len(c.ListStringsPtr()) != 1 { t.Fatal() }
 	if len(c.ListPtr()) != 1 { t.Fatal() }

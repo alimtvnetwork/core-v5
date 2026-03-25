@@ -36,7 +36,7 @@ func Test_I8_Collection_ListMethods(t *testing.T) {
 	_ = c.ListStrings()
 	_ = c.List()
 	_ = c.ListPtr()
-	_ = c.Items()
+	_ = c.Strings()
 }
 
 func Test_I8_Collection_AddVariants(t *testing.T) {
@@ -731,7 +731,7 @@ func Test_I8_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
 
 func Test_I8_Hashset_AddVariants(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.Add("a")
+	h.AddOrUpdate("a")
 	h.AddBool("b")
 	h.AddNonEmpty("")
 	h.AddNonEmpty("c")

@@ -1054,7 +1054,7 @@ func Test_C35_Collection_NonEmptyItemsOrNonWhitespacePtr(t *testing.T) {
 
 func Test_C35_Collection_Items(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	if len(c.Items()) != 1 {
+	if len(c.Strings()) != 1 {
 		t.Error("expected 1")
 	}
 }
