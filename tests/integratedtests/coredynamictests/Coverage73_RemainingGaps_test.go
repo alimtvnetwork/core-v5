@@ -141,7 +141,7 @@ func Test_Cov73_MapAnyItems_DiffChangedOnlyRaw_NoDiff(t *testing.T) {
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
 
 	// Act
-	diff := m.DiffChangedOnlyRaw(false, map[string]any{"a": 1})
+	diff := m.DiffRaw(false, map[string]any{"a": 1})
 
 	// Assert
 	actual := args.Map{"isEmpty": len(diff) == 0}
@@ -158,7 +158,7 @@ func Test_Cov73_MapAnyItems_ToMapResults_Valid(t *testing.T) {
 	})
 
 	// Act
-	mr, err := m.ToMapResults()
+	mr, err := m.JsonMapResults()
 
 	// Assert
 	actual := args.Map{
@@ -181,7 +181,7 @@ func Test_Cov73_MapAnyItems_CloneUsingJson(t *testing.T) {
 	})
 
 	// Act
-	cloned, err := m.CloneUsingJson()
+	cloned, err := m.ClonePtr()
 
 	// Assert
 	actual := args.Map{
@@ -398,7 +398,7 @@ func Test_Cov73_KeyVal_SetTo_Error(t *testing.T) {
 	var valOut int
 
 	// Act
-	err := kv.SetTo(&keyOut, &valOut)
+	err := kv.ReflectSetTo(&keyOut, &valOut)
 
 	// Assert
 	actual := args.Map{"hasErr": err != nil}
@@ -473,7 +473,7 @@ func Test_Cov73_KeyValCollection_ToMapResults(t *testing.T) {
 	kvc.AddKeyVal("a", 1)
 
 	// Act
-	mr, err := kvc.ToMapResults()
+	mr, err := kvc.JsonMapResults()
 
 	// Assert
 	actual := args.Map{
