@@ -1316,6 +1316,9 @@ func Test_Cov4_FwChmodApplier_OnAll(t *testing.T) {
 }
 
 func Test_Cov4_FwChmodVerifier_IsEqualFile(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod verification differs on Windows")
+	}
 	tmpDir := t.TempDir()
 	filePath := filepath.Join(tmpDir, "fw-verify.txt")
 	_ = os.WriteFile(filePath, []byte("x"), 0644)
