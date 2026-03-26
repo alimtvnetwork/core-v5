@@ -602,7 +602,9 @@ func Test_Cov73_SafeZeroSet_NonPointer(t *testing.T) {
 
 func Test_Cov73_AnyCollection_ParseInjectUsingJsonMust(t *testing.T) {
 	// Arrange
-	ac := coredynamic.NewAnyCollectionUsingItems([]any{1, 2})
+	ac := coredynamic.NewAnyCollection(2)
+	ac.Add(1)
+	ac.Add(2)
 	jsonResult := corejson.New(ac)
 
 	// Act
