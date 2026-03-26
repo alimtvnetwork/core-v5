@@ -1,4 +1,4 @@
-# Dead Code Analysis: Unreachable Coverage Lines
+# Dead Code Analysis: Unreachable Coverage Lines (Registry)
 
 ## Status: DOCUMENTED
 
