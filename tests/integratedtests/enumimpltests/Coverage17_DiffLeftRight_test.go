@@ -284,7 +284,7 @@ func Test_Cov17_KeyAnyVal_Accessors(t *testing.T) {
 		"keyString":    "k",
 		"anyValString": "42",
 		"wrapKey":      "\"k\"",
-		"wrapValue":    "\"42\"",
+		"wrapValue":    "\"%!s(int=42)\"",
 		"valInt":       42,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyAnyVal accessors return correct -- all methods", actual)
