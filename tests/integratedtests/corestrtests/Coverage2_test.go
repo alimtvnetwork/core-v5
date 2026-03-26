@@ -194,7 +194,7 @@ func Test_LinkedCollection_Empty_Cov2(t *testing.T) {
 func Test_CollectionsOfCollection_Cap_Cov2(t *testing.T) {
 	cc := corestr.New.CollectionsOfCollection.Cap(5)
 	actual := args.Map{"isNil": cc == nil, "isEmpty": cc.IsEmpty()}
-	expected := args.Map{"isNil": false, "isEmpty": false}
+	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection_Cap returns correct value -- with args", actual)
 }
 
