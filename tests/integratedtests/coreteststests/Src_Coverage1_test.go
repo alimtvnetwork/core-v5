@@ -81,9 +81,9 @@ func Test_Src_DraftType_PtrOrNonPtr_NilReceiver(t *testing.T) {
 	result := nilD.PtrOrNonPtr(true)
 
 	// Assert
-	if result != nil {
-		t.Fatal("nil receiver should return nil")
-	}
+	convey.Convey("PtrOrNonPtr returns nil -- nil receiver", t, func() {
+		convey.So(result, should.BeNil)
+	})
 }
 
 func Test_Src_DraftType_ClonePtr_Nil(t *testing.T) {
