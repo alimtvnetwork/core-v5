@@ -1047,6 +1047,9 @@ func (it *CharHashsetMap) AddHashsetLock(
 			it.eachHashsetCapacity,
 		)
 		it.Lock()
+		if it.items == nil {
+			it.items = make(map[byte]*Hashset, 4)
+		}
 		it.items[char] = newHashset
 		it.Unlock()
 
@@ -1055,6 +1058,9 @@ func (it *CharHashsetMap) AddHashsetLock(
 
 	// items exist or stringsWithSameStartChar exists
 	it.Lock()
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, 4)
+	}
 	it.items[char] =
 		stringsWithSameStartChar
 	it.Unlock()
