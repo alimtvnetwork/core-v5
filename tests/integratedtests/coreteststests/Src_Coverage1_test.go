@@ -255,18 +255,18 @@ func Test_Src_SimpleTestCase_ArrangeAndExpected(t *testing.T) {
 	expectedStr := stc.ExpectedString()
 
 	// Assert
-	if arrangeStr == "" {
-		t.Fatal("expected arrange string")
-	}
-	if inputVal != "arrange-val" {
-		t.Fatal("expected input")
-	}
-	if expectedVal != "expected-val" {
-		t.Fatal("expected expected")
-	}
-	if expectedStr == "" {
-		t.Fatal("expected expected string")
-	}
+	convey.Convey("ArrangeString returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(arrangeStr, should.NotBeEmpty)
+	})
+	convey.Convey("Input returns arrange-val -- SimpleTestCase", t, func() {
+		convey.So(inputVal, should.Equal, "arrange-val")
+	})
+	convey.Convey("Expected returns expected-val -- SimpleTestCase", t, func() {
+		convey.So(expectedVal, should.Equal, "expected-val")
+	})
+	convey.Convey("ExpectedString returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(expectedStr, should.NotBeEmpty)
+	})
 
 	// Act (setters)
 	stc.SetActual("actual-val")
@@ -275,14 +275,14 @@ func Test_Src_SimpleTestCase_ArrangeAndExpected(t *testing.T) {
 	linesStr := stc.LinesString(0)
 
 	// Assert
-	if actualStr == "" {
-		t.Fatal("expected actual string")
-	}
-	if str == "" {
-		t.Fatal("expected string repr")
-	}
-	if linesStr == "" {
-		t.Fatal("expected lines string")
-	}
+	convey.Convey("ActualString returns non-empty -- after SetActual", t, func() {
+		convey.So(actualStr, should.NotBeEmpty)
+	})
+	convey.Convey("String returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(str, should.NotBeEmpty)
+	})
+	convey.Convey("LinesString returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(linesStr, should.NotBeEmpty)
+	})
 	_ = stc.AsSimpleTestCaseWrapper()
 }
