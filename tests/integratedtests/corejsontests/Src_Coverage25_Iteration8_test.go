@@ -84,7 +84,7 @@ type mockSerializer struct {
 	err   error
 }
 
-func (m *mockSerializer) Serialize() ([]byte, error) {
+func (m *mockSerializer) corejson.Serialize() ([]byte, error) {
 	return m.bytes, m.err
 }
 

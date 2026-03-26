@@ -17,7 +17,7 @@ func TestResult_Map_Nil(t *testing.T) {
 func TestResult_Map_WithData(t *testing.T) {
 	r := &corejson.Result{
 		Bytes:    []byte(`"hello"`),
-		Error:    errors.corejson.New("test err"),
+		Error:    errors.New("test err"),
 		TypeName: "string",
 	}
 	m := r.Map()
@@ -166,7 +166,7 @@ func TestResult_PrettyJsonStringOrErrString_Nil(t *testing.T) {
 }
 
 func TestResult_PrettyJsonStringOrErrString_Error(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("oops")}
+	r := &corejson.Result{Error: errors.New("oops")}
 	s := r.PrettyJsonStringOrErrString()
 	if s == "" {
 		t.Fatal("expected error string")
@@ -189,7 +189,7 @@ func TestResult_Length_Nil(t *testing.T) {
 }
 
 func TestResult_HasError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	if !r.HasError() {
 		t.Fatal("expected error")
 	}
@@ -200,7 +200,7 @@ func TestResult_HasError(t *testing.T) {
 }
 
 func TestResult_ErrorString(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	if r.ErrorString() != "e" {
 		t.Fatal("expected e")
 	}
@@ -211,9 +211,9 @@ func TestResult_ErrorString(t *testing.T) {
 }
 
 func TestResult_IsErrorEqual(t *testing.T) {
-	e := errors.corejson.New("e")
+	e := errors.New("e")
 	r := &corejson.Result{Error: e}
-	if !r.IsErrorEqual(errors.corejson.New("e")) {
+	if !r.IsErrorEqual(errors.New("e")) {
 		t.Fatal("expected equal")
 	}
 	if r.IsErrorEqual(nil) {
@@ -237,7 +237,7 @@ func TestResult_String_Normal(t *testing.T) {
 }
 
 func TestResult_String_WithError(t *testing.T) {
-	r := corejson.Result{Bytes: []byte(`"x"`), Error: errors.corejson.New("e"), TypeName: "t"}
+	r := corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("e"), TypeName: "t"}
 	s := r.String()
 	if s == "" {
 		t.Fatal("expected non-empty")
@@ -249,7 +249,7 @@ func TestResult_SafeNonIssueBytes(t *testing.T) {
 	if len(r.SafeNonIssueBytes()) == 0 {
 		t.Fatal("expected bytes")
 	}
-	r2 := &corejson.Result{Error: errors.corejson.New("e")}
+	r2 := &corejson.Result{Error: errors.New("e")}
 	if len(r2.SafeNonIssueBytes()) != 0 {
 		t.Fatal("expected empty")
 	}
@@ -277,7 +277,7 @@ func TestResult_SafeValues_Nil(t *testing.T) {
 }
 
 func TestResult_SafeValuesPtr(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	if len(r.SafeValuesPtr()) != 0 {
 		t.Fatal("expected empty")
 	}
@@ -344,7 +344,7 @@ func TestResult_MeaningfulErrorMessage(t *testing.T) {
 	if r.MeaningfulErrorMessage() != "" {
 		t.Fatal("expected empty")
 	}
-	r2 := &corejson.Result{Error: errors.corejson.New("e")}
+	r2 := &corejson.Result{Error: errors.New("e")}
 	if r2.MeaningfulErrorMessage() == "" {
 		t.Fatal("expected error msg")
 	}
@@ -365,7 +365,7 @@ func TestResult_MeaningfulError_EmptyBytes(t *testing.T) {
 }
 
 func TestResult_MeaningfulError_WithError(t *testing.T) {
-	r := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.corejson.New("e")}
+	r := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("e")}
 	if r.MeaningfulError() == nil {
 		t.Fatal("expected error")
 	}
@@ -508,7 +508,7 @@ func TestResult_Unmarshal_Nil(t *testing.T) {
 }
 
 func TestResult_Unmarshal_WithExistingError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	err := r.Unmarshal(&struct{}{})
 	if err == nil {
 		t.Fatal("expected error")
@@ -524,7 +524,7 @@ func TestResult_Unmarshal_BadJSON(t *testing.T) {
 }
 
 func TestResult_SerializeSkipExistingIssues_Issues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	b, err := r.SerializeSkipExistingIssues()
 	if b != nil || err != nil {
 		t.Fatal("expected nil, nil")
@@ -540,7 +540,7 @@ func TestResult_Serialize_Nil(t *testing.T) {
 }
 
 func TestResult_Serialize_WithError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	_, err := r.Serialize()
 	if err == nil {
 		t.Fatal("expected error")
@@ -564,7 +564,7 @@ func TestResult_SerializeMust(t *testing.T) {
 }
 
 func TestResult_UnmarshalSkipExistingIssues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	err := r.UnmarshalSkipExistingIssues(&struct{}{})
 	if err != nil {
 		t.Fatal("expected nil for issues")
@@ -620,7 +620,7 @@ func TestResult_ParseInjectUsingJson(t *testing.T) {
 }
 
 func TestResult_CloneError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("e")}
+	r := &corejson.Result{Error: errors.New("e")}
 	if r.CloneError() == nil {
 		t.Fatal("expected error")
 	}
@@ -674,7 +674,7 @@ func TestResult_IsEqualPtr(t *testing.T) {
 	if r1.IsEqualPtr(r4) {
 		t.Fatal("expected not equal diff type")
 	}
-	r5 := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.corejson.New("e"), TypeName: "t"}
+	r5 := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("e"), TypeName: "t"}
 	if r1.IsEqualPtr(r5) {
 		t.Fatal("expected not equal diff err")
 	}
@@ -685,7 +685,7 @@ func TestResult_CombineErrorWithRefString(t *testing.T) {
 	if r.CombineErrorWithRefString("ref") != "" {
 		t.Fatal("expected empty")
 	}
-	r2 := &corejson.Result{Error: errors.corejson.New("e")}
+	r2 := &corejson.Result{Error: errors.New("e")}
 	if r2.CombineErrorWithRefString("ref") == "" {
 		t.Fatal("expected non-empty")
 	}
@@ -696,7 +696,7 @@ func TestResult_CombineErrorWithRefError(t *testing.T) {
 	if r.CombineErrorWithRefError("ref") != nil {
 		t.Fatal("expected nil")
 	}
-	r2 := &corejson.Result{Error: errors.corejson.New("e")}
+	r2 := &corejson.Result{Error: errors.New("e")}
 	if r2.CombineErrorWithRefError("ref") == nil {
 		t.Fatal("expected error")
 	}
@@ -726,7 +726,7 @@ func TestResult_BytesError_Normal(t *testing.T) {
 }
 
 func TestResult_Dispose(t *testing.T) {
-	r := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.corejson.New("e"), TypeName: "t"}
+	r := &corejson.Result{Bytes: []byte(`"x"`), Error: errors.New("e"), TypeName: "t"}
 	r.Dispose()
 	if r.Bytes != nil || r.Error != nil || r.TypeName != "" {
 		t.Fatal("expected disposed")

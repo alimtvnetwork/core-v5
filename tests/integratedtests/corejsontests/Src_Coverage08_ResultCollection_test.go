@@ -55,7 +55,7 @@ func TestResultsCollection_AddMethods(t *testing.T) {
 	if c.Length() != 1 { t.Fatal("expected 1") }
 
 	c.AddNonNilNonError(nil)
-	c.AddNonNilNonError(&corejson.Result{Error: errors.corejson.New("e")})
+	c.AddNonNilNonError(&corejson.Result{Error: errors.New("e")})
 	c.AddNonNilNonError(&corejson.Result{Bytes: []byte(`2`)})
 	if c.Length() != 2 { t.Fatal("expected 2") }
 
@@ -93,7 +93,7 @@ func TestResultsCollection_AddMethods(t *testing.T) {
 func TestResultsCollection_Errors(t *testing.T) {
 	c := corejson.NewResultsCollection.UsingCap(3)
 	c.Add(corejson.NewResult.Any("ok"))
-	c.Add(corejson.Result{Error: errors.corejson.New("e1")})
+	c.Add(corejson.Result{Error: errors.New("e1")})
 	if !c.HasError() { t.Fatal("expected error") }
 
 	errs, has := c.AllErrors()
@@ -118,7 +118,7 @@ func TestResultsCollection_UnmarshalIntoSameIndex(t *testing.T) {
 	c := corejson.NewResultsCollection.UsingCap(3)
 	c.Add(corejson.NewResult.Any("hello"))
 	c.Add(corejson.NewResult.Any(42))
-	c.Add(corejson.Result{Error: errors.corejson.New("e")})
+	c.Add(corejson.Result{Error: errors.New("e")})
 	var s string
 	var i int
 	errs, has := c.UnmarshalIntoSameIndex(&s, &i, nil)

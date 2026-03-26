@@ -64,7 +64,7 @@ func TestDeserializer_UsingError(t *testing.T) {
 	}
 
 	var out string
-	err2 := corejson.Deserialize.UsingError(errors.corejson.New(`"hello"`), &out)
+	err2 := corejson.Deserialize.UsingError(errors.New(`"hello"`), &out)
 	if err2 != nil {
 		t.Fatal(err2)
 	}

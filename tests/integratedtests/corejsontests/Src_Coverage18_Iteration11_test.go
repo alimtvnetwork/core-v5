@@ -11,7 +11,7 @@ type i11Serializer struct {
 	err   error
 }
 
-func (it i11Serializer) Serialize() ([]byte, error) {
+func (it i11Serializer) corejson.Serialize() ([]byte, error) {
 	return it.bytes, it.err
 }
 
@@ -19,7 +19,7 @@ type i11Deserializer struct {
 	err error
 }
 
-func (it i11Deserializer) Deserialize(toPtr any) error {
+func (it i11Deserializer) corejson.Deserialize(toPtr any) error {
 	if it.err != nil {
 		return it.err
 	}
@@ -103,16 +103,16 @@ func Test_I11_CJ_BytesAndEmptyCreators(t *testing.T) {
 		t.Fatal("expected empty pretty string")
 	}
 
-	if corejson.Empty.corejson.Result().HasAnyItem() {
+	if corejson.Empty.Result().HasAnyItem() {
 		t.Fatal("empty result should not have item")
 	}
 
-	errResult := corejson.Empty.ResultWithErr("T", errors.corejson.New("x"))
+	errResult := corejson.Empty.ResultWithErr("T", errors.New("x"))
 	if errResult.Error == nil || errResult.TypeName != "T" {
 		t.Fatal("expected populated empty result with error")
 	}
 
-	if corejson.Empty.ResultPtrWithErr("TP", errors.corejson.New("err")) == nil {
+	if corejson.Empty.ResultPtrWithErr("TP", errors.New("err")) == nil {
 		t.Fatal("expected non-nil ptr")
 	}
 
@@ -130,11 +130,11 @@ func Test_I11_CJ_NewCreators_Branches(t *testing.T) {
 		t.Fatal("expected empty bytes ptr result")
 	}
 
-	if corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.corejson.New("e"), "T").Error == nil {
+	if corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.New("e"), "T").Error == nil {
 		t.Fatal("expected error from UsingBytesPtrErrPtr")
 	}
 
-	if len(corejson.NewResult.UsingBytesErrPtr(nil, errors.corejson.New("e"), "T").Bytes) != 0 {
+	if len(corejson.NewResult.UsingBytesErrPtr(nil, errors.New("e"), "T").Bytes) != 0 {
 		t.Fatal("expected empty bytes for len==0 branch")
 	}
 
@@ -142,11 +142,11 @@ func Test_I11_CJ_NewCreators_Branches(t *testing.T) {
 		t.Fatal("expected nil string ptr error")
 	}
 
-	if corejson.NewResult.UsingErrorStringPtr(errors.corejson.New("seed"), nil, "S").Error == nil {
+	if corejson.NewResult.UsingErrorStringPtr(errors.New("seed"), nil, "S").Error == nil {
 		t.Fatal("expected nil string ptr error with seed")
 	}
 
-	if corejson.NewResult.PtrUsingBytesPtr(nil, errors.corejson.New("e"), "T").Error == nil {
+	if corejson.NewResult.PtrUsingBytesPtr(nil, errors.New("e"), "T").Error == nil {
 		t.Fatal("expected error branch")
 	}
 
@@ -264,7 +264,7 @@ func Test_I11_CJ_DeserializerLogic_Branches(t *testing.T) {
 		t.Fatal("expected nil error pass-through")
 	}
 
-	if err := corejson.Deserialize.UsingError(errors.corejson.New(`"ok"`), &out); err != nil || out != "ok" {
+	if err := corejson.Deserialize.UsingError(errors.New(`"ok"`), &out); err != nil || out != "ok" {
 		t.Fatal("expected error-string deserialization")
 	}
 
@@ -272,7 +272,7 @@ func Test_I11_CJ_DeserializerLogic_Branches(t *testing.T) {
 		t.Fatal("expected nil error pass-through for json-result error")
 	}
 
-	if err := corejson.Deserialize.UsingErrorWhichJsonResult(errors.corejson.New(`"ok2"`), &out); err != nil || out != "ok2" {
+	if err := corejson.Deserialize.UsingErrorWhichJsonResult(errors.New(`"ok2"`), &out); err != nil || out != "ok2" {
 		t.Fatal("expected json-result error deserialization")
 	}
 
@@ -348,11 +348,11 @@ func Test_I11_CJ_DeserializerAndSerializer_Wrappers(t *testing.T) {
 		_ = corejson.Deserialize.ResultTo.StringMust(&corejson.Result{})
 	})
 
-	if corejson.Serialize.FromString("v").corejson.JsonString() == "" {
+	if corejson.Serialize.FromString("v").JsonString() == "" {
 		t.Fatal("expected serialized string")
 	}
 
-	if corejson.Serialize.UsingAny(map[string]int{"a": 1}).corejson.JsonString() == "" {
+	if corejson.Serialize.UsingAny(map[string]int{"a": 1}).JsonString() == "" {
 		t.Fatal("expected using-any json")
 	}
 

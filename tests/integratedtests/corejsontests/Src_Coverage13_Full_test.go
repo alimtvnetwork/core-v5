@@ -331,7 +331,7 @@ func TestResultsCollection_AddSkipOnNil(t *testing.T) {
 func TestResultsCollection_AddNonNilNonError(t *testing.T) {
 	c := corejson.NewResultsCollection.Empty()
 	c.AddNonNilNonError(nil)
-	errR := corejson.NewResult.ErrorPtr(errors.corejson.New("fail"))
+	errR := corejson.NewResult.ErrorPtr(errors.New("fail"))
 	c.AddNonNilNonError(errR)
 	goodR := corejson.NewResult.AnyPtr("ok")
 	c.AddNonNilNonError(goodR)
@@ -340,7 +340,7 @@ func TestResultsCollection_AddNonNilNonError(t *testing.T) {
 
 func TestResultsCollection_AllErrors(t *testing.T) {
 	c := corejson.NewResultsCollection.Empty()
-	c.Items = append(c.Items, corejson.NewResult.Error(errors.corejson.New("e1")))
+	c.Items = append(c.Items, corejson.NewResult.Error(errors.New("e1")))
 	c.Items = append(c.Items, corejson.NewResult.Any("ok"))
 	errs, hasErr := c.AllErrors()
 	if !hasErr || len(errs) != 1 { t.Fatal("unexpected") }
@@ -348,7 +348,7 @@ func TestResultsCollection_AllErrors(t *testing.T) {
 
 func TestResultsCollection_GetErrorsStrings(t *testing.T) {
 	c := corejson.NewResultsCollection.Empty()
-	c.Items = append(c.Items, corejson.NewResult.Error(errors.corejson.New("e1")))
+	c.Items = append(c.Items, corejson.NewResult.Error(errors.New("e1")))
 	strs := c.GetErrorsStrings()
 	if len(strs) != 1 { t.Fatal("expected 1") }
 	sp := c.GetErrorsStringsPtr()
@@ -357,14 +357,14 @@ func TestResultsCollection_GetErrorsStrings(t *testing.T) {
 
 func TestResultsCollection_GetErrorsAsSingleString(t *testing.T) {
 	c := corejson.NewResultsCollection.Empty()
-	c.Items = append(c.Items, corejson.NewResult.Error(errors.corejson.New("e1")))
+	c.Items = append(c.Items, corejson.NewResult.Error(errors.New("e1")))
 	s := c.GetErrorsAsSingleString()
 	if s == "" { t.Fatal("expected non-empty") }
 }
 
 func TestResultsCollection_GetErrorsAsSingle(t *testing.T) {
 	c := corejson.NewResultsCollection.Empty()
-	c.Items = append(c.Items, corejson.NewResult.Error(errors.corejson.New("e1")))
+	c.Items = append(c.Items, corejson.NewResult.Error(errors.New("e1")))
 	e := c.GetErrorsAsSingle()
 	if e == nil { t.Fatal("expected error") }
 }
@@ -619,7 +619,7 @@ func TestResultsPtrCollection_AddSkipOnNil(t *testing.T) {
 func TestResultsPtrCollection_AddNonNilNonError(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.Empty()
 	c.AddNonNilNonError(nil)
-	errR := corejson.NewResult.ErrorPtr(errors.corejson.New("fail"))
+	errR := corejson.NewResult.ErrorPtr(errors.New("fail"))
 	c.AddNonNilNonError(errR)
 	goodR := corejson.NewResult.AnyPtr("ok")
 	c.AddNonNilNonError(goodR)
@@ -634,13 +634,13 @@ func TestResultsPtrCollection_GetAt(t *testing.T) {
 
 func TestResultsPtrCollection_HasError(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.Default()
-	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.corejson.New("e")))
+	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.New("e")))
 	if !c.HasError() { t.Fatal("expected true") }
 }
 
 func TestResultsPtrCollection_AllErrors(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.Default()
-	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.corejson.New("e1")))
+	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.New("e1")))
 	c.Items = append(c.Items, corejson.NewResult.AnyPtr("ok"))
 	errs, hasErr := c.AllErrors()
 	if !hasErr || len(errs) != 1 { t.Fatal("unexpected") }
@@ -648,7 +648,7 @@ func TestResultsPtrCollection_AllErrors(t *testing.T) {
 
 func TestResultsPtrCollection_GetErrorsStrings(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.Default()
-	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.corejson.New("e1")))
+	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.New("e1")))
 	strs := c.GetErrorsStrings()
 	if len(strs) != 1 { t.Fatal("expected 1") }
 	sp := c.GetErrorsStringsPtr()
@@ -657,7 +657,7 @@ func TestResultsPtrCollection_GetErrorsStrings(t *testing.T) {
 
 func TestResultsPtrCollection_GetErrorsAsSingleString(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.Default()
-	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.corejson.New("e")))
+	c.Items = append(c.Items, corejson.NewResult.ErrorPtr(errors.New("e")))
 	s := c.GetErrorsAsSingleString()
 	if s == "" { t.Fatal("expected non-empty") }
 	e := c.GetErrorsAsSingle()
@@ -802,7 +802,7 @@ func TestResultsPtrCollection_UnmarshalIntoSameIndex(t *testing.T) {
 
 func TestMapResults_GetErrorsStrings(t *testing.T) {
 	mr := corejson.NewMapResults.Empty()
-	mr.Items["k1"] = corejson.NewResult.Error(errors.corejson.New("e1"))
+	mr.Items["k1"] = corejson.NewResult.Error(errors.New("e1"))
 	mr.Items["k2"] = corejson.NewResult.Any("ok")
 	strs := mr.GetErrorsStrings()
 	if len(strs) != 1 { t.Fatal("expected 1") }
@@ -812,7 +812,7 @@ func TestMapResults_GetErrorsStrings(t *testing.T) {
 
 func TestMapResults_GetErrorsAsSingleString(t *testing.T) {
 	mr := corejson.NewMapResults.Empty()
-	mr.Items["k1"] = corejson.NewResult.Error(errors.corejson.New("e1"))
+	mr.Items["k1"] = corejson.NewResult.Error(errors.New("e1"))
 	s := mr.GetErrorsAsSingleString()
 	if s == "" { t.Fatal("expected non-empty") }
 	e := mr.GetErrorsAsSingle()
@@ -1112,7 +1112,7 @@ func TestResult_FieldsNames(t *testing.T) {
 }
 
 func TestResult_HandleErrorWithMsg(t *testing.T) {
-	r := corejson.NewResult.Error(errors.corejson.New("test error"))
+	r := corejson.NewResult.Error(errors.New("test error"))
 	r.HandleErrorWithMsg("context message")
 }
 
@@ -1194,7 +1194,7 @@ func TestNewResultCreator_Various(t *testing.T) {
 	_ = corejson.NewResult.PtrUsingStringPtr(&s, "t")
 	_ = corejson.NewResult.PtrUsingStringPtr(nil, "t")
 	_ = corejson.NewResult.UsingErrorStringPtr(nil, &s, "t")
-	_ = corejson.NewResult.UsingErrorStringPtr(errors.corejson.New("e"), nil, "t")
+	_ = corejson.NewResult.UsingErrorStringPtr(errors.New("e"), nil, "t")
 	_ = corejson.NewResult.Ptr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.UsingJsonBytesTypeError([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.UsingJsonBytesError([]byte(`"x"`), nil)
@@ -1208,12 +1208,12 @@ func TestNewResultCreator_Various(t *testing.T) {
 	_ = corejson.NewResult.CreatePtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.NonPtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.Create([]byte(`"x"`), nil, "t")
-	_ = corejson.NewResult.PtrUsingBytesPtr(nil, errors.corejson.New("e"), "t")
+	_ = corejson.NewResult.PtrUsingBytesPtr(nil, errors.New("e"), "t")
 	_ = corejson.NewResult.PtrUsingBytesPtr(nil, nil, "t")
 	_ = corejson.NewResult.PtrUsingBytesPtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.CastingAny("x")
-	_ = corejson.NewResult.Error(errors.corejson.New("e"))
-	_ = corejson.NewResult.ErrorPtr(errors.corejson.New("e"))
+	_ = corejson.NewResult.Error(errors.New("e"))
+	_ = corejson.NewResult.ErrorPtr(errors.New("e"))
 	_ = corejson.NewResult.Empty()
 	_ = corejson.NewResult.EmptyPtr()
 	_ = corejson.NewResult.TypeName("t")

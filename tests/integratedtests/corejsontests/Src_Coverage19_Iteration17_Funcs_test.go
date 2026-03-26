@@ -107,7 +107,7 @@ func Test_I17_JsonStringOrErrMsg_Error(t *testing.T) {
 
 // Covers: emptyCreator methods
 func Test_I17_EmptyCreator_All(t *testing.T) {
-	r := corejson.Empty.corejson.Result()
+	r := corejson.Empty.Result()
 	if r.HasAnyItem() {
 		t.Fatal("empty result should have no items")
 	}
@@ -117,12 +117,12 @@ func Test_I17_EmptyCreator_All(t *testing.T) {
 		t.Fatal("expected non-nil ptr")
 	}
 
-	errResult := corejson.Empty.ResultWithErr("TestType", errors.corejson.New("test"))
+	errResult := corejson.Empty.ResultWithErr("TestType", errors.New("test"))
 	if errResult.Error == nil || errResult.TypeName != "TestType" {
 		t.Fatal("expected error result")
 	}
 
-	errPtrResult := corejson.Empty.ResultPtrWithErr("TestType2", errors.corejson.New("test2"))
+	errPtrResult := corejson.Empty.ResultPtrWithErr("TestType2", errors.New("test2"))
 	if errPtrResult == nil || errPtrResult.Error == nil {
 		t.Fatal("expected error ptr result")
 	}

@@ -46,14 +46,14 @@ func Test_I17_AnyTo_SerializedJsonResult_String(t *testing.T) {
 }
 
 func Test_I17_AnyTo_SerializedJsonResult_Error(t *testing.T) {
-	r := corejson.AnyTo.SerializedJsonResult(errors.corejson.New("test error"))
+	r := corejson.AnyTo.SerializedJsonResult(errors.New("test error"))
 	if r == nil {
 		t.Fatal("expected non-nil")
 	}
 }
 
 func Test_I17_AnyTo_SerializedJsonResult_EmptyError(t *testing.T) {
-	r := corejson.AnyTo.SerializedJsonResult(errors.corejson.New(""))
+	r := corejson.AnyTo.SerializedJsonResult(errors.New(""))
 	if r == nil {
 		t.Fatal("expected non-nil for empty error")
 	}
@@ -164,7 +164,7 @@ func Test_I17_AnyTo_PrettyStringWithError_ResultPtr(t *testing.T) {
 
 func Test_I17_AnyTo_PrettyStringWithError_ResultWithErr(t *testing.T) {
 	r := corejson.New("hello")
-	r.Error = errors.corejson.New("test")
+	r.Error = errors.New("test")
 	s, err := corejson.AnyTo.PrettyStringWithError(r)
 	if err == nil || s == "" {
 		t.Fatal("expected error path")
@@ -173,7 +173,7 @@ func Test_I17_AnyTo_PrettyStringWithError_ResultWithErr(t *testing.T) {
 
 func Test_I17_AnyTo_PrettyStringWithError_ResultPtrWithErr(t *testing.T) {
 	r := corejson.NewPtr("hello")
-	r.Error = errors.corejson.New("test")
+	r.Error = errors.New("test")
 	s, err := corejson.AnyTo.PrettyStringWithError(r)
 	if err == nil || s == "" {
 		t.Fatal("expected error path")
@@ -223,35 +223,35 @@ func Test_I17_AnyTo_SafeJsonPrettyString_AnyItem(t *testing.T) {
 }
 
 func Test_I17_AnyTo_JsonString_String(t *testing.T) {
-	s := corejson.AnyTo.corejson.JsonString("hello")
+	s := corejson.AnyTo.JsonString("hello")
 	if s != "hello" {
 		t.Fatal("unexpected")
 	}
 }
 
 func Test_I17_AnyTo_JsonString_Bytes(t *testing.T) {
-	s := corejson.AnyTo.corejson.JsonString([]byte(`"hi"`))
+	s := corejson.AnyTo.JsonString([]byte(`"hi"`))
 	if s != `"hi"` {
 		t.Fatal("unexpected")
 	}
 }
 
 func Test_I17_AnyTo_JsonString_Result(t *testing.T) {
-	s := corejson.AnyTo.corejson.JsonString(corejson.New("hello"))
+	s := corejson.AnyTo.JsonString(corejson.New("hello"))
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
 func Test_I17_AnyTo_JsonString_ResultPtr(t *testing.T) {
-	s := corejson.AnyTo.corejson.JsonString(corejson.NewPtr("hello"))
+	s := corejson.AnyTo.JsonString(corejson.NewPtr("hello"))
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
 }
 
 func Test_I17_AnyTo_JsonString_AnyItem(t *testing.T) {
-	s := corejson.AnyTo.corejson.JsonString(42)
+	s := corejson.AnyTo.JsonString(42)
 	if s != "42" {
 		t.Fatalf("unexpected: %s", s)
 	}
@@ -280,7 +280,7 @@ func Test_I17_AnyTo_JsonStringWithErr_Result(t *testing.T) {
 
 func Test_I17_AnyTo_JsonStringWithErr_ResultWithErr(t *testing.T) {
 	r := corejson.New("hello")
-	r.Error = errors.corejson.New("test")
+	r.Error = errors.New("test")
 	s, err := corejson.AnyTo.JsonStringWithErr(r)
 	if err == nil || s == "" {
 		t.Fatal("expected error path")
@@ -296,7 +296,7 @@ func Test_I17_AnyTo_JsonStringWithErr_ResultPtr(t *testing.T) {
 
 func Test_I17_AnyTo_JsonStringWithErr_ResultPtrWithErr(t *testing.T) {
 	r := corejson.NewPtr("hello")
-	r.Error = errors.corejson.New("test")
+	r.Error = errors.New("test")
 	s, err := corejson.AnyTo.JsonStringWithErr(r)
 	if err == nil || s == "" {
 		t.Fatal("expected error path")
@@ -426,7 +426,7 @@ func Test_I17_CastAny_FromToOption_Serializer(t *testing.T) {
 }
 
 func Test_I17_CastAny_FromToOption_SerializerError(t *testing.T) {
-	s := testSerializer{err: errors.corejson.New("fail")}
+	s := testSerializer{err: errors.New("fail")}
 	var out string
 	err := corejson.CastAny.FromToOption(false, s, &out)
 	if err == nil {
@@ -444,7 +444,7 @@ func Test_I17_CastAny_FromToOption_SerializerFunc(t *testing.T) {
 }
 
 func Test_I17_CastAny_FromToOption_Error(t *testing.T) {
-	errInput := errors.corejson.New(`"hello"`)
+	errInput := errors.New(`"hello"`)
 	var out string
 	err := corejson.CastAny.FromToOption(false, errInput, &out)
 	if err != nil || out != "hello" {
@@ -453,7 +453,7 @@ func Test_I17_CastAny_FromToOption_Error(t *testing.T) {
 }
 
 func Test_I17_CastAny_FromToOption_ErrorParseFailure(t *testing.T) {
-	errInput := errors.corejson.New("not-json")
+	errInput := errors.New("not-json")
 	var out int
 	err := corejson.CastAny.FromToOption(false, errInput, &out)
 	if err == nil {

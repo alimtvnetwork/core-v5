@@ -36,7 +36,7 @@ func TestAnyTo_SerializedJsonResult_String(t *testing.T) {
 }
 
 func TestAnyTo_SerializedJsonResult_Error(t *testing.T) {
-	out := corejson.AnyTo.SerializedJsonResult(errors.corejson.New("oops"))
+	out := corejson.AnyTo.SerializedJsonResult(errors.New("oops"))
 	if out == nil { t.Fatal("expected non-nil") }
 }
 
@@ -85,10 +85,10 @@ func TestAnyTo_PrettyStringWithError(t *testing.T) {
 	rp := &corejson.Result{Bytes: []byte(`{"a":1}`)}
 	s4, err4 := corejson.AnyTo.PrettyStringWithError(rp)
 	if err4 != nil || s4 == "" { t.Fatal("unexpected") }
-	re := corejson.Result{Error: errors.corejson.New("e")}
+	re := corejson.Result{Error: errors.New("e")}
 	_, err5 := corejson.AnyTo.PrettyStringWithError(re)
 	if err5 == nil { t.Fatal("expected error") }
-	rep := &corejson.Result{Error: errors.corejson.New("e")}
+	rep := &corejson.Result{Error: errors.New("e")}
 	_, err6 := corejson.AnyTo.PrettyStringWithError(rep)
 	if err6 == nil { t.Fatal("expected error") }
 	s7, err7 := corejson.AnyTo.PrettyStringWithError(42)
@@ -104,11 +104,11 @@ func TestAnyTo_SafeJsonPrettyString(t *testing.T) {
 }
 
 func TestAnyTo_JsonString(t *testing.T) {
-	_ = corejson.AnyTo.corejson.JsonString("hello")
-	_ = corejson.AnyTo.corejson.JsonString([]byte(`"x"`))
-	_ = corejson.AnyTo.corejson.JsonString(corejson.Result{Bytes: []byte(`"x"`)})
-	_ = corejson.AnyTo.corejson.JsonString(&corejson.Result{Bytes: []byte(`"x"`)})
-	_ = corejson.AnyTo.corejson.JsonString(42)
+	_ = corejson.AnyTo.JsonString("hello")
+	_ = corejson.AnyTo.JsonString([]byte(`"x"`))
+	_ = corejson.AnyTo.JsonString(corejson.Result{Bytes: []byte(`"x"`)})
+	_ = corejson.AnyTo.JsonString(&corejson.Result{Bytes: []byte(`"x"`)})
+	_ = corejson.AnyTo.JsonString(42)
 }
 
 func TestAnyTo_JsonStringWithErr(t *testing.T) {
@@ -117,9 +117,9 @@ func TestAnyTo_JsonStringWithErr(t *testing.T) {
 	_, _ = corejson.AnyTo.JsonStringWithErr([]byte(`"x"`))
 	_, _ = corejson.AnyTo.JsonStringWithErr(corejson.Result{Bytes: []byte(`"x"`)})
 	_, _ = corejson.AnyTo.JsonStringWithErr(&corejson.Result{Bytes: []byte(`"x"`)})
-	_, err2 := corejson.AnyTo.JsonStringWithErr(corejson.Result{Error: errors.corejson.New("e")})
+	_, err2 := corejson.AnyTo.JsonStringWithErr(corejson.Result{Error: errors.New("e")})
 	if err2 == nil { t.Fatal("expected error") }
-	_, err3 := corejson.AnyTo.JsonStringWithErr(&corejson.Result{Error: errors.corejson.New("e")})
+	_, err3 := corejson.AnyTo.JsonStringWithErr(&corejson.Result{Error: errors.New("e")})
 	if err3 == nil { t.Fatal("expected error") }
 	_, _ = corejson.AnyTo.JsonStringWithErr(42)
 }
@@ -549,14 +549,14 @@ func TestNewResult_Various(t *testing.T) {
 	_ = corejson.NewResult.UsingTypeBytesPtr("t", []byte(`"x"`))
 	_ = corejson.NewResult.UsingBytesPtr(nil)
 	_ = corejson.NewResult.UsingBytesPtr([]byte(`"x"`))
-	_ = corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.corejson.New("e"), "t")
+	_ = corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.New("e"), "t")
 	_ = corejson.NewResult.UsingBytesPtrErrPtr([]byte(`"x"`), nil, "t")
-	_ = corejson.NewResult.UsingBytesErrPtr(nil, errors.corejson.New("e"), "t")
+	_ = corejson.NewResult.UsingBytesErrPtr(nil, errors.New("e"), "t")
 	_ = corejson.NewResult.UsingBytesErrPtr([]byte(`"x"`), nil, "t")
 	s := `"hello"`
 	_ = corejson.NewResult.PtrUsingStringPtr(&s, "t")
 	_ = corejson.NewResult.PtrUsingStringPtr(nil, "t")
-	_ = corejson.NewResult.UsingErrorStringPtr(errors.corejson.New("e"), nil, "t")
+	_ = corejson.NewResult.UsingErrorStringPtr(errors.New("e"), nil, "t")
 	_ = corejson.NewResult.UsingErrorStringPtr(nil, &s, "t")
 	_ = corejson.NewResult.Ptr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.UsingJsonBytesTypeError([]byte(`"x"`), nil, "t")
@@ -572,12 +572,12 @@ func TestNewResult_Various(t *testing.T) {
 	_ = corejson.NewResult.CreatePtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.NonPtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.Create([]byte(`"x"`), nil, "t")
-	_ = corejson.NewResult.PtrUsingBytesPtr(nil, errors.corejson.New("e"), "t")
+	_ = corejson.NewResult.PtrUsingBytesPtr(nil, errors.New("e"), "t")
 	_ = corejson.NewResult.PtrUsingBytesPtr(nil, nil, "t")
 	_ = corejson.NewResult.PtrUsingBytesPtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.CastingAny("hello")
-	_ = corejson.NewResult.Error(errors.corejson.New("e"))
-	_ = corejson.NewResult.ErrorPtr(errors.corejson.New("e"))
+	_ = corejson.NewResult.Error(errors.New("e"))
+	_ = corejson.NewResult.ErrorPtr(errors.New("e"))
 	_ = corejson.NewResult.Empty()
 	_ = corejson.NewResult.EmptyPtr()
 	_ = corejson.NewResult.TypeName("t")
@@ -596,10 +596,10 @@ func TestNewResult_Various(t *testing.T) {
 // ===================== emptyCreator =====================
 
 func TestEmpty_All(t *testing.T) {
-	_ = corejson.Empty.corejson.Result()
+	_ = corejson.Empty.Result()
 	_ = corejson.Empty.ResultPtr()
-	_ = corejson.Empty.ResultWithErr("t", errors.corejson.New("e"))
-	_ = corejson.Empty.ResultPtrWithErr("t", errors.corejson.New("e"))
+	_ = corejson.Empty.ResultWithErr("t", errors.New("e"))
+	_ = corejson.Empty.ResultPtrWithErr("t", errors.New("e"))
 	_ = corejson.Empty.BytesCollection()
 	_ = corejson.Empty.BytesCollectionPtr()
 	_ = corejson.Empty.ResultsCollection()

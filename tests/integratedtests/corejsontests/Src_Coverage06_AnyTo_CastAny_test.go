@@ -121,11 +121,11 @@ func TestAnyTo_SafeJsonPrettyString(t *testing.T) {
 }
 
 func TestAnyTo_JsonString(t *testing.T) {
-	_ = corejson.AnyTo.corejson.JsonString("hello")
-	_ = corejson.AnyTo.corejson.JsonString([]byte("test"))
-	_ = corejson.AnyTo.corejson.JsonString(corejson.NewResult.Any(1))
-	_ = corejson.AnyTo.corejson.JsonString(corejson.NewResult.AnyPtr(1))
-	_ = corejson.AnyTo.corejson.JsonString(42)
+	_ = corejson.AnyTo.JsonString("hello")
+	_ = corejson.AnyTo.JsonString([]byte("test"))
+	_ = corejson.AnyTo.JsonString(corejson.NewResult.Any(1))
+	_ = corejson.AnyTo.JsonString(corejson.NewResult.AnyPtr(1))
+	_ = corejson.AnyTo.JsonString(42)
 }
 
 func TestAnyTo_JsonStringWithErr(t *testing.T) {

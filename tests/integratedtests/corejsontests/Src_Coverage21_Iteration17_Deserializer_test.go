@@ -44,7 +44,7 @@ func Test_I17_Deserialize_UsingError_Nil(t *testing.T) {
 
 func Test_I17_Deserialize_UsingError_Valid(t *testing.T) {
 	var out string
-	err := corejson.Deserialize.UsingError(errors.corejson.New(`"hello"`), &out)
+	err := corejson.Deserialize.UsingError(errors.New(`"hello"`), &out)
 	if err != nil || out != "hello" {
 		t.Fatal("unexpected result")
 	}
@@ -62,7 +62,7 @@ func Test_I17_Deserialize_UsingErrorWhichJsonResult_Valid(t *testing.T) {
 	jsonResultBytes := corejson.Serialize.ToBytesMust(corejson.Result{Bytes: []byte(`"test"`)})
 	var out corejson.Result
 	err := corejson.Deserialize.UsingErrorWhichJsonResult(
-		errors.corejson.New(string(jsonResultBytes)), &out)
+		errors.New(string(jsonResultBytes)), &out)
 	// Even if it fails to parse, it should not panic
 	_ = err
 }
@@ -289,7 +289,7 @@ type testSerializer struct {
 	err  error
 }
 
-func (s testSerializer) Serialize() ([]byte, error) { return s.data, s.err }
+func (s testSerializer) corejson.Serialize() ([]byte, error) { return s.data, s.err }
 
 func Test_I17_Deserialize_UsingSerializerTo(t *testing.T) {
 	s := testSerializer{data: []byte(`"hello"`)}
@@ -313,7 +313,7 @@ type testDeserializer struct {
 	err error
 }
 
-func (d testDeserializer) Deserialize(toPtr any) error { return d.err }
+func (d testDeserializer) corejson.Deserialize(toPtr any) error { return d.err }
 
 func Test_I17_Deserialize_UsingDeserializerToOption_SkipNil(t *testing.T) {
 	err := corejson.Deserialize.UsingDeserializerToOption(true, nil, nil)
@@ -388,7 +388,7 @@ func Test_I17_Deserialize_UsingJsonerToAnyMust_NilError(t *testing.T) {
 
 func Test_I17_Deserialize_Result(t *testing.T) {
 	jsonBytes := corejson.Serialize.ToBytesMust(corejson.Result{Bytes: []byte(`"x"`)})
-	_, err := corejson.Deserialize.corejson.Result(jsonBytes)
+	_, err := corejson.Deserialize.Result(jsonBytes)
 	_ = err // just exercising the path
 }
 
@@ -764,7 +764,7 @@ func Test_I17_ResultTo_ResultsPtrCollectionMust(t *testing.T) {
 func Test_I17_ResultTo_Result(t *testing.T) {
 	inner := corejson.New("hello")
 	r := corejson.NewPtr(inner)
-	_, err := corejson.Deserialize.ResultTo.corejson.Result(r)
+	_, err := corejson.Deserialize.ResultTo.Result(r)
 	_ = err
 }
 

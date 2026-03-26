@@ -440,7 +440,7 @@ func TestResultsCollection_AddSkipOnNil(t *testing.T) {
 func TestResultsCollection_AddNonNilNonError(t *testing.T) {
 	rc := corejson.NewResultsCollection.UsingCap(5)
 	rc.AddNonNilNonError(nil)
-	errResult := &corejson.Result{Error: errors.corejson.New("fail")}
+	errResult := &corejson.Result{Error: errors.New("fail")}
 	rc.AddNonNilNonError(errResult)
 	if rc.Length() != 0 { t.Fatal("expected 0") }
 	good := corejson.NewResult.Any("hello")

@@ -81,7 +81,7 @@ func TestResult_PrettyJsonStringOrErrString_Nil(t *testing.T) {
 }
 
 func TestResult_PrettyJsonStringOrErrString_Error(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	s := r.PrettyJsonStringOrErrString()
 	if s == "" { t.Fatal("expected non-empty") }
 }
@@ -97,7 +97,7 @@ func TestResult_Length_Nil(t *testing.T) {
 }
 
 func TestResult_ErrorString(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	if r.ErrorString() != "test" { t.Fatal("unexpected") }
 }
 
@@ -107,8 +107,8 @@ func TestResult_ErrorString_NoError(t *testing.T) {
 }
 
 func TestResult_IsErrorEqual(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
-	if !r.IsErrorEqual(errors.corejson.New("test")) { t.Fatal("expected true") }
+	r := &corejson.Result{Error: errors.New("test")}
+	if !r.IsErrorEqual(errors.New("test")) { t.Fatal("expected true") }
 }
 
 func TestResult_IsErrorEqual_BothNil(t *testing.T) {
@@ -117,7 +117,7 @@ func TestResult_IsErrorEqual_BothNil(t *testing.T) {
 }
 
 func TestResult_IsErrorEqual_OneNil(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	if r.IsErrorEqual(nil) { t.Fatal("expected false") }
 }
 
@@ -128,7 +128,7 @@ func TestResult_String(t *testing.T) {
 }
 
 func TestResult_String_WithError(t *testing.T) {
-	r := corejson.Result{Error: errors.corejson.New("test"), Bytes: []byte(`"x"`), TypeName: "test"}
+	r := corejson.Result{Error: errors.New("test"), Bytes: []byte(`"x"`), TypeName: "test"}
 	s := r.String()
 	if s == "" { t.Fatal("expected non-empty") }
 }
@@ -139,7 +139,7 @@ func TestResult_SafeNonIssueBytes(t *testing.T) {
 }
 
 func TestResult_SafeNonIssueBytes_Issue(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	if len(r.SafeNonIssueBytes()) != 0 { t.Fatal("expected empty") }
 }
 
@@ -215,7 +215,7 @@ func TestResult_MeaningfulError_NoBytes(t *testing.T) {
 }
 
 func TestResult_MeaningfulError_WithError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("fail"), Bytes: []byte(`"x"`)}
+	r := &corejson.Result{Error: errors.New("fail"), Bytes: []byte(`"x"`)}
 	if r.MeaningfulError() == nil { t.Fatal("expected error") }
 }
 
@@ -240,7 +240,7 @@ func TestResult_IsAnyNull(t *testing.T) {
 }
 
 func TestResult_HasIssuesOrEmpty(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	if !r.HasIssuesOrEmpty() { t.Fatal("expected true") }
 }
 
@@ -304,14 +304,14 @@ func TestResult_Unmarshal_Nil(t *testing.T) {
 }
 
 func TestResult_Unmarshal_WithExistingError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("fail")}
+	r := &corejson.Result{Error: errors.New("fail")}
 	var target string
 	err := r.Unmarshal(&target)
 	if err == nil { t.Fatal("expected error") }
 }
 
 func TestResult_SerializeSkipExistingIssues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("fail")}
+	r := &corejson.Result{Error: errors.New("fail")}
 	b, err := r.SerializeSkipExistingIssues()
 	if b != nil || err != nil { t.Fatal("expected nil nil") }
 }
@@ -329,13 +329,13 @@ func TestResult_Serialize_Nil(t *testing.T) {
 }
 
 func TestResult_Serialize_WithError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("fail")}
+	r := &corejson.Result{Error: errors.New("fail")}
 	_, err := r.Serialize()
 	if err == nil { t.Fatal("expected error") }
 }
 
 func TestResult_UnmarshalSkipExistingIssues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("fail")}
+	r := &corejson.Result{Error: errors.New("fail")}
 	err := r.UnmarshalSkipExistingIssues(nil)
 	if err != nil { t.Fatal("expected nil") }
 }
@@ -372,13 +372,13 @@ func TestResult_JsonModelAny(t *testing.T) {
 
 func TestResult_HandleErrorWithMsg(t *testing.T) {
 	defer func() { recover() }()
-	r := &corejson.Result{Error: errors.corejson.New("fail")}
+	r := &corejson.Result{Error: errors.New("fail")}
 	r.HandleErrorWithMsg("test msg")
 }
 
 func TestResult_HandleError(t *testing.T) {
 	defer func() { recover() }()
-	r := &corejson.Result{Error: errors.corejson.New("fail")}
+	r := &corejson.Result{Error: errors.New("fail")}
 	r.HandleError()
 }
 
@@ -420,7 +420,7 @@ func TestResult_ParseInjectUsingJsonMust(t *testing.T) {
 }
 
 func TestResult_CloneError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	if r.CloneError() == nil { t.Fatal("expected error") }
 }
 
@@ -482,7 +482,7 @@ func TestResult_IsEqual(t *testing.T) {
 }
 
 func TestResult_CombineErrorWithRefString(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	s := r.CombineErrorWithRefString("ref1")
 	if s == "" { t.Fatal("expected non-empty") }
 }
@@ -494,7 +494,7 @@ func TestResult_CombineErrorWithRefString_NoError(t *testing.T) {
 }
 
 func TestResult_CombineErrorWithRefError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("test")}
+	r := &corejson.Result{Error: errors.New("test")}
 	err := r.CombineErrorWithRefError("ref1")
 	if err == nil { t.Fatal("expected error") }
 }
@@ -642,7 +642,7 @@ func TestDeserialize_UsingString(t *testing.T) {
 // ── AnyTo ──
 
 func TestAnyTo_JsonString(t *testing.T) {
-	s := corejson.AnyTo.corejson.JsonString("hello")
+	s := corejson.AnyTo.JsonString("hello")
 	if s == "" { t.Fatal("expected non-empty") }
 }
 

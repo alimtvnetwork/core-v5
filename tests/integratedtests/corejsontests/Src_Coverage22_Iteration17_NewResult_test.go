@@ -26,7 +26,7 @@ func Test_I17_NewResult_DeserializeUsingBytes_Invalid(t *testing.T) {
 }
 
 func Test_I17_NewResult_DeserializeUsingResult_WithIssues(t *testing.T) {
-	r := corejson.NewResult.DeserializeUsingResult(&corejson.Result{Error: errors.corejson.New("bad")})
+	r := corejson.NewResult.DeserializeUsingResult(&corejson.Result{Error: errors.New("bad")})
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}
@@ -81,7 +81,7 @@ func Test_I17_NewResult_UsingBytesPtr_Valid(t *testing.T) {
 }
 
 func Test_I17_NewResult_UsingBytesPtrErrPtr_Nil(t *testing.T) {
-	r := corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.corejson.New("e"), "T")
+	r := corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.New("e"), "T")
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}
@@ -95,7 +95,7 @@ func Test_I17_NewResult_UsingBytesPtrErrPtr_Valid(t *testing.T) {
 }
 
 func Test_I17_NewResult_UsingBytesErrPtr_Empty(t *testing.T) {
-	r := corejson.NewResult.UsingBytesErrPtr(nil, errors.corejson.New("e"), "T")
+	r := corejson.NewResult.UsingBytesErrPtr(nil, errors.New("e"), "T")
 	if r.Error == nil || len(r.Bytes) != 0 {
 		t.Fatal("unexpected")
 	}
@@ -124,7 +124,7 @@ func Test_I17_NewResult_PtrUsingStringPtr_Valid(t *testing.T) {
 }
 
 func Test_I17_NewResult_UsingErrorStringPtr_NilPtr(t *testing.T) {
-	r := corejson.NewResult.UsingErrorStringPtr(errors.corejson.New("e"), nil, "T")
+	r := corejson.NewResult.UsingErrorStringPtr(errors.New("e"), nil, "T")
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}
@@ -255,7 +255,7 @@ func Test_I17_NewResult_Create(t *testing.T) {
 }
 
 func Test_I17_NewResult_PtrUsingBytesPtr_WithErr(t *testing.T) {
-	r := corejson.NewResult.PtrUsingBytesPtr(nil, errors.corejson.New("e"), "T")
+	r := corejson.NewResult.PtrUsingBytesPtr(nil, errors.New("e"), "T")
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}
@@ -326,14 +326,14 @@ func Test_I17_NewResult_UsingBytesError_Valid(t *testing.T) {
 }
 
 func Test_I17_NewResult_Error(t *testing.T) {
-	r := corejson.NewResult.Error(errors.corejson.New("e"))
+	r := corejson.NewResult.Error(errors.New("e"))
 	if r.Error == nil {
 		t.Fatal("expected error")
 	}
 }
 
 func Test_I17_NewResult_ErrorPtr(t *testing.T) {
-	r := corejson.NewResult.ErrorPtr(errors.corejson.New("e"))
+	r := corejson.NewResult.ErrorPtr(errors.New("e"))
 	if r == nil || r.Error == nil {
 		t.Fatal("expected error ptr")
 	}

@@ -27,7 +27,7 @@ func Test_I17_NewBytesCollection_DeserializeUsingBytes_Invalid(t *testing.T) {
 }
 
 func Test_I17_NewBytesCollection_DeserializeUsingResult_Issues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("bad")}
+	r := &corejson.Result{Error: errors.New("bad")}
 	_, err := corejson.NewBytesCollection.DeserializeUsingResult(r)
 	if err == nil {
 		t.Fatal("expected error")
@@ -105,7 +105,7 @@ func Test_I17_NewResultsCollection_DeserializeUsingBytes_Invalid(t *testing.T) {
 }
 
 func Test_I17_NewResultsCollection_DeserializeUsingResult_Issues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("bad")}
+	r := &corejson.Result{Error: errors.New("bad")}
 	_, err := corejson.NewResultsCollection.DeserializeUsingResult(r)
 	if err == nil {
 		t.Fatal("expected error")
@@ -281,7 +281,7 @@ func Test_I17_NewResultsPtrCollection_DeserializeUsingBytes_Invalid(t *testing.T
 }
 
 func Test_I17_NewResultsPtrCollection_DeserializeUsingResult_Issues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("bad")}
+	r := &corejson.Result{Error: errors.New("bad")}
 	_, err := corejson.NewResultsPtrCollection.DeserializeUsingResult(r)
 	if err == nil {
 		t.Fatal("expected error")
@@ -389,7 +389,7 @@ func Test_I17_NewMapResults_DeserializeUsingBytes_Invalid(t *testing.T) {
 }
 
 func Test_I17_NewMapResults_DeserializeUsingResult_Issues(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("bad")}
+	r := &corejson.Result{Error: errors.New("bad")}
 	_, err := corejson.NewMapResults.DeserializeUsingResult(r)
 	if err == nil {
 		t.Fatal("expected error")

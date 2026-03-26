@@ -35,7 +35,7 @@ func TestDeserializer_UsingError_Nil(t *testing.T) {
 }
 
 func TestDeserializer_UsingError_Valid(t *testing.T) {
-	e := errors.corejson.New(`"hello"`)
+	e := errors.New(`"hello"`)
 	var s string
 	err := corejson.Deserialize.UsingError(e, &s)
 	if err != nil || s != "hello" { t.Fatal("unexpected") }
@@ -304,7 +304,7 @@ func TestResult_Unmarshal_Nil(t *testing.T) {
 }
 
 func TestResult_Unmarshal_WithExistingError(t *testing.T) {
-	r := &corejson.Result{Error: errors.corejson.New("existing")}
+	r := &corejson.Result{Error: errors.New("existing")}
 	var s string
 	err := r.Unmarshal(&s)
 	if err == nil { t.Fatal("expected error") }
@@ -343,7 +343,7 @@ func TestCastAny_FromToReflection(t *testing.T) {
 // ── AnyTo.SerializedJsonResult — error case ──
 
 func TestAnyTo_SerializedJsonResult_Error(t *testing.T) {
-	e := errors.corejson.New("test error message")
+	e := errors.New("test error message")
 	r := corejson.AnyTo.SerializedJsonResult(e)
 	if r == nil { t.Fatal("expected non-nil") }
 }
@@ -351,7 +351,7 @@ func TestAnyTo_SerializedJsonResult_Error(t *testing.T) {
 // ── AnyTo.SerializedJsonResult — empty error ──
 
 func TestAnyTo_SerializedJsonResult_EmptyError(t *testing.T) {
-	e := errors.corejson.New("")
+	e := errors.New("")
 	r := corejson.AnyTo.SerializedJsonResult(e)
 	if r == nil { t.Fatal("expected non-nil") }
 }

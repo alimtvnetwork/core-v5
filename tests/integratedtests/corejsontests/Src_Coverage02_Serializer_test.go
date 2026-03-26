@@ -7,7 +7,7 @@ import (
 
 func TestSerializer_Apply(t *testing.T) {
 	r := corejson.Serialize.Apply("hello")
-	if r.HasError() || r.corejson.JsonString() != `"hello"` {
+	if r.HasError() || r.JsonString() != `"hello"` {
 		t.Fatal("unexpected")
 	}
 }
@@ -63,7 +63,7 @@ func TestSerializer_FromInteger64(t *testing.T) {
 
 func TestSerializer_FromBool(t *testing.T) {
 	r := corejson.Serialize.FromBool(true)
-	if r.HasError() || r.corejson.JsonString() != "true" {
+	if r.HasError() || r.JsonString() != "true" {
 		t.Fatal("unexpected")
 	}
 }

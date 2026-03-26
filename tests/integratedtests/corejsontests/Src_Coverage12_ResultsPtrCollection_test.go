@@ -48,7 +48,7 @@ func TestResultsPtrCollection_AddMethods(t *testing.T) {
 	c.AddSkipOnNil(nil)
 	c.AddSkipOnNil(corejson.NewResult.AnyPtr("x"))
 	c.AddNonNilNonError(nil)
-	c.AddNonNilNonError(&corejson.Result{Error: errors.corejson.New("e")})
+	c.AddNonNilNonError(&corejson.Result{Error: errors.New("e")})
 	c.AddNonNilNonError(corejson.NewResult.AnyPtr("x"))
 	c.AddResult(corejson.NewResult.Any("x"))
 	c.Adds(nil, corejson.NewResult.AnyPtr("x"))
@@ -66,7 +66,7 @@ func TestResultsPtrCollection_AddMethods(t *testing.T) {
 func TestResultsPtrCollection_Errors(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.UsingCap(2)
 	c.Add(corejson.NewResult.AnyPtr("ok"))
-	c.Add(&corejson.Result{Error: errors.corejson.New("e")})
+	c.Add(&corejson.Result{Error: errors.New("e")})
 	if !c.HasError() { t.Fatal("expected error") }
 	errs, has := c.AllErrors()
 	if !has || len(errs) != 1 { t.Fatal("expected 1") }
@@ -90,7 +90,7 @@ func TestResultsPtrCollection_UnmarshalIntoSameIndex(t *testing.T) {
 	c := corejson.NewResultsPtrCollection.UsingCap(3)
 	c.Add(corejson.NewResult.AnyPtr("hello"))
 	c.Add(corejson.NewResult.AnyPtr(42))
-	c.Add(&corejson.Result{Error: errors.corejson.New("e")})
+	c.Add(&corejson.Result{Error: errors.New("e")})
 	var s string
 	var i int
 	errs, _ := c.UnmarshalIntoSameIndex(&s, &i, nil)

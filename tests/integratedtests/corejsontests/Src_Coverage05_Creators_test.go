@@ -7,10 +7,10 @@ import (
 )
 
 func TestEmptyCreator(t *testing.T) {
-	_ = corejson.Empty.corejson.Result()
+	_ = corejson.Empty.Result()
 	_ = corejson.Empty.ResultPtr()
-	_ = corejson.Empty.ResultWithErr("t", errors.corejson.New("e"))
-	_ = corejson.Empty.ResultPtrWithErr("t", errors.corejson.New("e"))
+	_ = corejson.Empty.ResultWithErr("t", errors.New("e"))
+	_ = corejson.Empty.ResultPtrWithErr("t", errors.New("e"))
 	_ = corejson.Empty.BytesCollection()
 	_ = corejson.Empty.BytesCollectionPtr()
 	_ = corejson.Empty.ResultsCollection()
@@ -25,7 +25,7 @@ func TestNewResultCreator(t *testing.T) {
 	_ = corejson.NewResult.UsingTypeBytesPtr("string", []byte(`"x"`))
 	_ = corejson.NewResult.UsingBytesPtr([]byte(`"x"`))
 	_ = corejson.NewResult.UsingBytesPtr(nil)
-	_ = corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.corejson.New("e"), "t")
+	_ = corejson.NewResult.UsingBytesPtrErrPtr(nil, errors.New("e"), "t")
 	_ = corejson.NewResult.UsingBytesPtrErrPtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.UsingBytesErrPtr([]byte{}, nil, "t")
 	_ = corejson.NewResult.UsingBytesErrPtr([]byte(`"x"`), nil, "t")
@@ -38,11 +38,11 @@ func TestNewResultCreator(t *testing.T) {
 	_ = corejson.NewResult.CreatePtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.NonPtr([]byte(`"x"`), nil, "t")
 	_ = corejson.NewResult.Create([]byte(`"x"`), nil, "t")
-	_ = corejson.NewResult.PtrUsingBytesPtr(nil, errors.corejson.New("e"), "t")
+	_ = corejson.NewResult.PtrUsingBytesPtr(nil, errors.New("e"), "t")
 	_ = corejson.NewResult.PtrUsingBytesPtr(nil, nil, "t")
 	_ = corejson.NewResult.PtrUsingBytesPtr([]byte(`"x"`), nil, "t")
-	_ = corejson.NewResult.Error(errors.corejson.New("e"))
-	_ = corejson.NewResult.ErrorPtr(errors.corejson.New("e"))
+	_ = corejson.NewResult.Error(errors.New("e"))
+	_ = corejson.NewResult.ErrorPtr(errors.New("e"))
 	_ = corejson.NewResult.Empty()
 	_ = corejson.NewResult.EmptyPtr()
 	_ = corejson.NewResult.TypeName("t")
@@ -80,8 +80,8 @@ func TestNewResultCreator_PtrUsingStringPtr(t *testing.T) {
 func TestNewResultCreator_UsingErrorStringPtr(t *testing.T) {
 	s := `"x"`
 	_ = corejson.NewResult.UsingErrorStringPtr(nil, &s, "t")
-	_ = corejson.NewResult.UsingErrorStringPtr(errors.corejson.New("e"), &s, "t")
-	_ = corejson.NewResult.UsingErrorStringPtr(errors.corejson.New("e"), nil, "t")
+	_ = corejson.NewResult.UsingErrorStringPtr(errors.New("e"), &s, "t")
+	_ = corejson.NewResult.UsingErrorStringPtr(errors.New("e"), nil, "t")
 }
 
 func TestNewResultCreator_UsingSerializer(t *testing.T) {

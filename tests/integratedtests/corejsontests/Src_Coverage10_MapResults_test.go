@@ -43,7 +43,7 @@ func TestMapResults_AddMethods(t *testing.T) {
 	m.AddAnyNonEmpty("g", nil)
 	m.AddAnyNonEmpty("g", "val")
 	m.AddNonEmptyNonErrorPtr("h", nil)
-	m.AddNonEmptyNonErrorPtr("h", &corejson.Result{Error: errors.corejson.New("e")})
+	m.AddNonEmptyNonErrorPtr("h", &corejson.Result{Error: errors.New("e")})
 	m.AddNonEmptyNonErrorPtr("h", &corejson.Result{Bytes: []byte(`"z"`)})
 
 	m.AddKeyWithResult(corejson.KeyWithResult{Key: "i", corejson.Result: corejson.NewResult.Any("v")})
@@ -73,7 +73,7 @@ func TestMapResults_AddMethods(t *testing.T) {
 func TestMapResults_Errors(t *testing.T) {
 	m := corejson.NewMapResults.UsingCap(3)
 	m.Add("ok", corejson.NewResult.Any("x"))
-	m.Add("err", corejson.Result{Error: errors.corejson.New("e1")})
+	m.Add("err", corejson.Result{Error: errors.New("e1")})
 	if !m.HasError() { t.Fatal("expected error") }
 	errs, has := m.AllErrors()
 	if !has || len(errs) != 1 { t.Fatal("expected 1") }
