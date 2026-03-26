@@ -311,7 +311,7 @@ func Test_Cov17_KeyValInteger_Accessors(t *testing.T) {
 	}
 	expected := args.Map{
 		"wrapKey":   "\"k\"",
-		"wrapValue": "\"10\"",
+		"wrapValue": "\"%!s(int=10)\"",
 		"isString":  false,
 		"kavKey":    "k",
 	}
