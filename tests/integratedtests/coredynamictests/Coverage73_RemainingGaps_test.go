@@ -199,7 +199,10 @@ func Test_Cov73_MapAnyItems_CloneUsingJson(t *testing.T) {
 
 func Test_Cov73_AnyCollection_JsonString(t *testing.T) {
 	// Arrange
-	ac := coredynamic.NewAnyCollectionUsingItems([]any{1, 2, 3})
+	ac := coredynamic.NewAnyCollection(3)
+	ac.Add(1)
+	ac.Add(2)
+	ac.Add(3)
 
 	// Act
 	str, err := ac.JsonString()
