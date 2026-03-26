@@ -499,6 +499,9 @@ func Test_Cov4_ChmodVerifier_PathIf_True(t *testing.T) {
 }
 
 func Test_Cov4_ChmodVerifier_Path(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod verification differs on Windows")
+	}
 	tmpDir := t.TempDir()
 	filePath := filepath.Join(tmpDir, "path.txt")
 	_ = os.WriteFile(filePath, []byte("x"), 0644)
