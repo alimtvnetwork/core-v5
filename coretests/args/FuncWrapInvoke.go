@@ -132,7 +132,7 @@ func (it *FuncWrap[T]) InvokeFirstAndError(
 	}
 
 	first := results[0]
-	second := results[1].(error)
+	second, _ := results[1].(error)
 
 	return first, second, processingErr
 }
