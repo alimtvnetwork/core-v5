@@ -890,11 +890,11 @@ func Test_SrcC10_AnyToString_Verification(t *testing.T) {
 
 	// Act
 	noPanic := !callPanicsSrcC10(func() {
-		_ = corestr.AnyToString(nil)
+		_ = corestr.AnyToString(false, nil)
 	})
 	actual := args.Map{
-		"intNonEmpty": corestr.AnyToString(42) != "",
-		"stringVal":   corestr.AnyToString("hello"),
+		"intNonEmpty": corestr.AnyToString(false, 42) != "",
+		"stringVal":   corestr.AnyToString(false, "hello"),
 		"noPanic":     noPanic,
 	}
 
