@@ -758,14 +758,14 @@ func (it *Collection) FirstOrDefault() string {
 func (it *Collection) Take(
 	take int,
 ) *Collection {
+	if take <= 0 {
+		return Empty.Collection()
+	}
+
 	length := it.Length()
 
 	if length <= take {
 		return it
-	}
-
-	if take == 0 {
-		return Empty.Collection()
 	}
 
 	list := it.items[:take]

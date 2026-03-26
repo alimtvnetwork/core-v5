@@ -331,7 +331,7 @@ func (it *SimpleSlice) Skip(skippingItemsCount int) []string {
 }
 
 func (it *SimpleSlice) TakeDynamic(takeDynamicItems int) any {
-	if it == nil {
+	if it == nil || takeDynamicItems < 0 {
 		return []string{}
 	}
 
