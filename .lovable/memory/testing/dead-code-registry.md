@@ -240,5 +240,46 @@
 | 22 | `coreversion` | Exhaustive nil combinations | ✅ Closed |
 | 23 | `keymk` | Dead code + redundant guards | ✅ Closed |
 
-**Total justified gaps**: ~115-135 lines across 23 packages.  
+### 24. `regexnew` ✅ Closed
+
+- **Affected** (28 stmts):
+  - `lazyRegexMap.IsEmpty`, `.IsEmptyLock`, `.HasAnyItem`, `.HasAnyItemLock`, `.Length` (nil branch), `.LengthLock`, `.Has`, `.HasLock` (21 stmts) — unexported methods never called from any production code; purely dead utility methods on an internal type
+  - `lazyRegexMap.CreateOrExistingLockIf` (4 stmts) — defined but never called; `NewLockIf` uses `NewLock`/`New` directly instead
+  - `lazyRegexMap.createLazyRegex` (1 stmt) — defined but never called; only `createDefaultLazyRegex` is used
+  - `prettyJson` nil/error paths (2 stmts) — called with `prettyJson(newMap)` where `newMap` is always a constructed `map[string]any`; nil impossible, `json.Marshal` cannot fail on valid map
+  - `regExMatchValidationError` regEx==nil branch (1 stmt) — `regexp.Compile` never returns nil without error
+- **Closed**: 2026-03-26
+
+---
+
+## Summary
+
+| # | Package | Gap Reason | Status |
+|---|---------|-----------|--------|
+| 1 | `issetter` | Empty collection guard | ✅ Closed |
+| 2 | `coremath` | Architecture-specific (32-bit) | ✅ Closed |
+| 3 | `corecmp` | Exhaustive comparator fallback | ✅ Closed |
+| 4 | `codestack` | `runtime.Caller` failure | ✅ Closed |
+| 5 | `stringutil` | Prior length guard | ✅ Closed |
+| 6 | `isany` | Exhaustive type-switch default | ✅ Closed |
+| 7 | `coretestcases` | Platform-dependent + internal | ✅ Closed |
+| 8 | `coregeneric` | Nil-receiver + iterator yield | ✅ Closed |
+| 9 | `coreonce` | Resolved (Issue 41) | ✅ Closed |
+| 10 | `errcore` | `os.Exit` + defensive nil | ✅ Closed |
+| 11 | `chmodhelper` | Platform-incompatible (Linux) | ✅ Closed |
+| 12 | `enumimpl` | Dead code + unexported interfaces | ✅ Closed |
+| 13 | `coretests` | Dead code + unexported + platform | ✅ Closed |
+| 14 | `coretests/results` | Defensive guards + unreachable cast | ✅ Closed |
+| 15 | `iserror` | Redundant nil check | ✅ Closed |
+| 16 | `coreonce` | Marshal error impossible | ✅ Closed |
+| 17 | `corerange` | Redundant unsigned/clamped | ✅ Closed |
+| 18 | `stringslice` | Redundant check + unreachable split | ✅ Closed |
+| 19 | `namevalue` | Value-receiver nil + marshal error | ✅ Closed |
+| 20 | `reqtype` | Callers guard first | ✅ Closed |
+| 21 | `coretaskinfo` | Value-receiver nil | ✅ Closed |
+| 22 | `coreversion` | Exhaustive nil combinations | ✅ Closed |
+| 23 | `keymk` | Dead code + redundant guards | ✅ Closed |
+| 24 | `regexnew` | Dead code + defensive guards | ✅ Closed |
+
+**Total justified gaps**: ~145-165 lines across 24 packages.  
 **All entries closed** — no further coverage work required for these packages.
