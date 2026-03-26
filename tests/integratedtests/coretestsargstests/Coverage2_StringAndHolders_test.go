@@ -542,7 +542,7 @@ func Test_Cov2_Dynamic_Methods(t *testing.T) {
 		"hasExpect":     true,
 		"expected":      "expected",
 		"hasFirst":      true,
-		"argsCount":     2,
+		"argsCount":     1,
 		"hasDefined":    true,
 		"has":           true,
 		"isKeyMissing":  true,
