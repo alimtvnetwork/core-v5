@@ -75,11 +75,11 @@ func Test_SrcC15_Types_Verification(t *testing.T) {
 
 	// Act
 	noPanic := !callPanicsSrcC15(func() {
-		_ = corestr.ValidValues{Values: []corestr.ValidValue{corestr.NewValidValue("a"), corestr.NewInvalidValue("b")}}
-		_ = corestr.ValueStatus{Value: "test", HasValue: true}
+		_ = corestr.NewValidValuesUsingValues(*corestr.NewValidValue("a"))
+		_ = corestr.InvalidValueStatus("test")
 		_ = corestr.TextWithLineNumber{Text: "hello", LineNumber: 1}
-		_ = corestr.LeftRight{Left: "a", Right: "b"}
-		_ = corestr.LeftMiddleRight{Left: "a", Middle: "b", Right: "c"}
+		_ = corestr.NewLeftRight("a", "b")
+		_ = corestr.NewLeftMiddleRight("a", "b", "c")
 		_ = corestr.KeyValuePair{Key: "k", Value: "v"}
 	})
 	actual := args.Map{
