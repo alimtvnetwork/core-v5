@@ -146,7 +146,7 @@ func Test_SrcC15_SimpleStringOnce_Verification(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"nonEmpty": !corestr.New.SimpleStringOnce.Value("test").IsEmpty(),
+		"nonEmpty": !corestr.New.SimpleStringOnce.Init("test").IsEmpty(),
 	}
 
 	// Assert

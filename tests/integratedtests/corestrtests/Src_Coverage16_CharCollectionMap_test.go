@@ -229,23 +229,23 @@ func Test_SrcC16_Ccm_AddColItemsHm_Verification(t *testing.T) {
 	cm2 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm2.AddCollectionItems(nil)
 	cm3 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
-	cm3.AddHashmapsValues(corestr.New.Hashmap.StringsKeyValue("k1", "alpha", "k2", "beta"))
+	cm3.AddHashmapsValues(corestr.New.Hashmap.KeyValuesStrings([]string{"k1", "k2"}, []string{"alpha", "beta"}))
 	cm4 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm4.AddHashmapsValues(nil)
 	cm5 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
-	cm5.AddHashmapsKeysValuesBoth(corestr.New.Hashmap.StringsKeyValue("k1", "v1"))
+	cm5.AddHashmapsKeysValuesBoth(corestr.New.Hashmap.KeyValuesStrings([]string{"k1"}, []string{"v1"}))
 	cm6 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm6.AddHashmapsKeysValuesBoth(nil)
 	cm7 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm7.AddHashmapsKeysOrValuesBothUsingFilter(func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Key, true, false
-	}, corestr.New.Hashmap.StringsKeyValue("k1", "v1", "k2", "v2"))
+	}, corestr.New.Hashmap.KeyValuesStrings([]string{"k1", "k2"}, []string{"v1", "v2"}))
 	cm8 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm8.AddHashmapsKeysOrValuesBothUsingFilter(nil, nil)
 	cm9 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm9.AddHashmapsKeysOrValuesBothUsingFilter(func(pair corestr.KeyValuePair) (string, bool, bool) {
 		return pair.Key, true, true
-	}, corestr.New.Hashmap.StringsKeyValue("k1", "v1", "k2", "v2"))
+	}, corestr.New.Hashmap.KeyValuesStrings([]string{"k1", "k2"}, []string{"v1", "v2"}))
 	cm10 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 	cm10.AddCharHashsetMap(corestr.New.CharHashsetMap.CapItems(10, 5, "abc", "axy"))
 	actual := args.Map{
