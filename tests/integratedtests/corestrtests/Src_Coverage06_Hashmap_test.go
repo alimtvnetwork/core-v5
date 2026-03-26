@@ -512,8 +512,9 @@ func Test_SrcC06_Hashmap_Clone_Verification(t *testing.T) {
 	var nilH *corestr.Hashmap
 
 	// Act
+	cloneVal := h.Clone()
 	actual := args.Map{
-		"cloneLen":    h.Clone().Length(),
+		"cloneLen":    (&cloneVal).Length(),
 		"clonePtrLen": h.ClonePtr().Length(),
 		"nilClone":    nilH.ClonePtr() == nil,
 	}

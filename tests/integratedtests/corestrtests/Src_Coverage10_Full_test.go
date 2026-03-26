@@ -924,7 +924,7 @@ func Test_SrcC10_AllIndividualsSimpleSlices_Verification(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"length": corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{ss1, ss2}),
+		"length": corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2),
 	}
 
 	// Assert
