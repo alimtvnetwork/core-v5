@@ -3,6 +3,7 @@ package errcoretests
 import (
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // ── Formatters (Coverage06 exported) ──
