@@ -235,7 +235,7 @@ func Test_SrcC15_CocJson_Verification(t *testing.T) {
 		coc2 := &corestr.CollectionsOfCollection{}
 		_ = coc2.UnmarshalJSON(b)
 		r := coc.Json()
-		_ = r.HasError()
+		_ = r.Error == nil
 		coc3 := &corestr.CollectionsOfCollection{}
 		_, _ = coc3.ParseInjectUsingJson(&r)
 		coc4 := &corestr.CollectionsOfCollection{}
