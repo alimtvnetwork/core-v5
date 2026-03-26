@@ -54,7 +54,9 @@ func Test_Cov13_MapStringStringOnce_JsonStringMust(t *testing.T) {
 func Test_Cov13_StringsOnce_JsonStringMust(t *testing.T) {
 	// Arrange
 	tc := cov13StringsOnceJsonStringMustTestCase
-	s := coreonce.NewStringsOnce([]string{"a", "b", "c"})
+	s := coreonce.NewStringsOnce(func() []string {
+		return []string{"a", "b", "c"}
+	})
 
 	// Act
 	noPanic := true
