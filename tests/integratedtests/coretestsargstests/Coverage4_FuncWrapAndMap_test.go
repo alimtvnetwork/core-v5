@@ -904,7 +904,7 @@ func Test_Cov4_FuncDetector_GetFuncWrap_Map(t *testing.T) {
 	m := args.Map{"func": helperAdd}
 
 	// Act
-	fw := args.FuncDetect.GetFuncWrap(m)
+	fw := args.FuncDetector.GetFuncWrap(m)
 
 	// Assert
 	actual := args.Map{"valid": fw.IsValid()}
@@ -917,7 +917,7 @@ func Test_Cov4_FuncDetector_GetFuncWrap_FuncWrapPtr(t *testing.T) {
 	fw := args.NewFuncWrap.Default(helperAdd)
 
 	// Act
-	result := args.FuncDetect.GetFuncWrap(fw)
+	result := args.FuncDetector.GetFuncWrap(fw)
 
 	// Assert
 	actual := args.Map{"same": result == fw}
