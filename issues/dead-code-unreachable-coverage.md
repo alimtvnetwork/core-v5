@@ -142,4 +142,26 @@ if err != nil || rawBytes == nil {
 
 ## Recommendation
 
+## 15. `coretests/messagePrinter.go` (printMessage type)
+
+```go
+type printMessage struct{}
+func (it printMessage) FailedExpected(...) { ... }
+func (it printMessage) NameValue(...) { ... }
+func (it printMessage) Value(...) { ... }
+```
+
+**Reason**: `printMessage` is an unexported type. Cannot be accessed from integrated tests. All 3 methods are dead from coverage perspective.
+
+## 16. `coretests/SkipOnUnix.go:13` and `coretests/SkipOnWindows.go:13`
+
+```go
+t.Skip(errcore.UnixIgnoreType)  // only on Unix
+t.Skip(errcore.WindowsIgnoreType)  // only on Windows
+```
+
+**Reason**: Platform-dependent. On any given OS, one of these is always dead code. Tests run on one platform only.
+
+## Recommendation
+
 These are defensive guards. They could be removed for cleanliness, but keeping them is harmless. Coverage for these packages is effectively 100% for all reachable code.
