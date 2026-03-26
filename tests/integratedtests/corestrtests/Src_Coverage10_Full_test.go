@@ -907,8 +907,9 @@ func Test_SrcC10_AllIndividualStringsLen_Verification(t *testing.T) {
 	tc := srcC10AllIndividualStringsLenTestCase
 
 	// Act
+	input := [][]string{{"a", "b"}, {"c"}}
 	actual := args.Map{
-		"length": corestr.AllIndividualStringsOfStringsLength([][]string{{"a", "b"}, {"c"}}),
+		"length": corestr.AllIndividualStringsOfStringsLength(&input),
 	}
 
 	// Assert
