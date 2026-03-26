@@ -853,6 +853,9 @@ func (it *CharHashsetMap) AddSameCharsCollection(
 		newHashset := New.Hashset.Cap(
 			it.eachHashsetCapacity,
 		)
+		if it.items == nil {
+			it.items = make(map[byte]*Hashset, 4)
+		}
 		it.items[char] = newHashset
 
 		return newHashset
@@ -861,6 +864,9 @@ func (it *CharHashsetMap) AddSameCharsCollection(
 	// items exist or stringsWithSameStartChar exists
 	//goland:noinspection GoNilness
 	toHashset := stringsWithSameStartChar.HashsetAsIs()
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, 4)
+	}
 	it.items[char] = toHashset
 
 	return toHashset
@@ -897,12 +903,18 @@ func (it *CharHashsetMap) AddSameCharsHashset(
 		newHashset := New.Hashset.Cap(
 			it.eachHashsetCapacity,
 		)
+		if it.items == nil {
+			it.items = make(map[byte]*Hashset, 4)
+		}
 		it.items[char] = newHashset
 
 		return newHashset
 	}
 
 	// items exist or stringsWithSameStartChar exists
+	if it.items == nil {
+		it.items = make(map[byte]*Hashset, 4)
+	}
 	it.items[char] =
 		stringsWithSameStartChar
 
