@@ -865,6 +865,9 @@ func (it *CharCollectionMap) AddSameCharsCollectionLock(
 		)
 
 		it.Lock()
+		if it.items == nil {
+			it.items = make(map[byte]*Collection, 4)
+		}
 
 		it.items[char] = newCollection
 
@@ -875,6 +878,9 @@ func (it *CharCollectionMap) AddSameCharsCollectionLock(
 
 	// items exist or stringsWithSameStartChar exists
 	it.Lock()
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, 4)
+	}
 	it.items[char] =
 		stringsWithSameStartChar
 	it.Unlock()
