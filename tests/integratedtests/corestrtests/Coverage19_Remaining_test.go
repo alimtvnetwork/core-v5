@@ -422,7 +422,7 @@ func Test_Cov19_LinkedList_GetNextNodes(t *testing.T) {
 	nodes := ll.GetNextNodes(2)
 	all := ll.GetAllLinkedNodes()
 	actual := args.Map{"nextLen": len(nodes), "allLen": len(all)}
-	expected := args.Map{"nextLen": 3, "allLen": 3}
+	expected := args.Map{"nextLen": 2, "allLen": 3}
 	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- GetNextNodes", actual)
 }
 

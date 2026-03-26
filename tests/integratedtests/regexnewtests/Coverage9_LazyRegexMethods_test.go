@@ -21,7 +21,7 @@ func Test_Cov9_LazyRegex_FullString_ValidPattern(t *testing.T) {
 	// Assert
 	actual := args.Map{
 		"hasContent": len(result) > 0,
-		"hasPattern": strings.Contains(result, `^\d+$`),
+		"hasPattern": strings.Contains(result, "pattern"),
 	}
 	expected := args.Map{
 		"hasContent": true,

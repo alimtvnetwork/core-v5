@@ -157,7 +157,7 @@ func Test_Cov47_BytesTo_ResultsPtrCollectionMust_Valid(t *testing.T) {
 
 func Test_Cov47_BytesTo_MapResults_Valid(t *testing.T) {
 	// Arrange
-	mr := corejson.NewMapResults.UsingAnyItems(map[string]any{
+	mr := corejson.NewMapResults.UsingMapAnyItems(map[string]any{
 		"key1": "val1",
 	})
 	jsonBytes, _ := corejson.Serialize.Raw(mr)
@@ -173,7 +173,7 @@ func Test_Cov47_BytesTo_MapResults_Valid(t *testing.T) {
 
 func Test_Cov47_BytesTo_MapResultsMust_Valid(t *testing.T) {
 	// Arrange
-	mr := corejson.NewMapResults.UsingAnyItems(map[string]any{
+	mr := corejson.NewMapResults.UsingMapAnyItems(map[string]any{
 		"k": "v",
 	})
 	jsonBytes, _ := corejson.Serialize.Raw(mr)
