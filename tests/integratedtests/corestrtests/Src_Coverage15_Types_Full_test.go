@@ -46,7 +46,7 @@ func Test_SrcC15_AnyToString_Verification(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"nonEmpty": corestr.AnyToString(42) != "",
+		"nonEmpty": corestr.AnyToString(false, 42) != "",
 	}
 
 	// Assert
