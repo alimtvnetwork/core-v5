@@ -108,5 +108,54 @@
 | 10 | `errcore` | `os.Exit` + defensive nil | ✅ Closed |
 | 11 | `chmodhelper` | Platform-incompatible (Linux) | ✅ Closed |
 
-**Total justified gaps**: ~30-45 lines across 11 packages.  
+### 12. `coreimpl/enumimpl` ✅ Closed
+
+- **Affected** (37 stmts):
+  - `BasicByte/Int16/Int32/Int8/String/UInt16.GetValueByName` wrapped-name fallback (6 stmts) — maps store both bare and double-quoted keys, making the secondary lookup unreachable
+  - `ConvEnumAnyValToInteger` type-switch cases (8 stmts) — branches match unexported interfaces (`valueByter`, `exactValueByter`, etc.) only implementable within the package
+  - `DynamicMap.Set`/`AddNewOnly` nil-receiver guards (2 stmts) — dereferencing `*it` panics before the guard executes
+  - `DynamicMap.isEqualSingle` (5 stmts) — method defined but never called from any code path
+  - `DynamicMap.diffRightSide:442-444` (1 stmt) — redundant re-check; `diffLeftSide` already evaluates the same key-value pair with the same checker
+  - `DynamicMap.KeyValueByte`/`KeyValueInt` valueByter/exactValueByter branches (4 stmts) — unexported interfaces
+  - `DynamicMap.InverseToStringMap:1363` (1 stmt) — `!isFound` impossible when iterating own keys
+  - `newBasicStringCreator` min comparisons (2 stmts) — `name < ""` impossible since `""` is Go's string zero value
+  - `newBasicStringCreator.sliceNamesToMap` (4 stmts) — defined but never called
+  - `numberEnumBase` nil nameRanges (1 stmt) — calls `errcore.MeaningfulErrorHandle` (Fatal)
+  - `toHashset` empty guard (1 stmt) — unexported, called only from constructors that always pass non-empty
+  - `toStringPrintableDynamicMap` empty guard (1 stmt) — unexported defensive guard
+  - `DiffLeftRight.FullString` json.Marshal error (1 stmt) — impossible with valid `DiffLeftRight` struct
+- **Closed**: 2026-03-26
+
+### 13. `coretests` ✅ Closed
+
+- **Affected** (17 stmts):
+  - `BaseTestCaseAssertions.ShouldBeExplicit:88-92` isFailed branch (2 stmts) — only exercised when test comparison fails; producing intentional failures would break test suite
+  - `SimpleTestCase.noPrintAssert` (4 stmts) — unexported method, never called from any public method on `SimpleTestCase`
+  - `DraftType.IsEqual:148-150` f1String comparison (1 stmt) — `f1String` is unexported with no setter; always zero-value, so comparison always passes
+  - `DraftType.JsonString`/`JsonBytes` panic branches (2 stmts) — `json.Marshal` cannot fail on valid `DraftType` struct
+  - `SkipOnUnix:12-14` (1 stmt) — platform-dependent; only reachable on Unix, CI/tests run on Windows
+  - `messagePrinter` methods (7 stmts) — unexported type with no public accessor; only used internally via unreachable code paths
+- **Closed**: 2026-03-26
+
+---
+
+## Summary
+
+| # | Package | Gap Reason | Status |
+|---|---------|-----------|--------|
+| 1 | `issetter` | Empty collection guard | ✅ Closed |
+| 2 | `coremath` | Architecture-specific (32-bit) | ✅ Closed |
+| 3 | `corecmp` | Exhaustive comparator fallback | ✅ Closed |
+| 4 | `codestack` | `runtime.Caller` failure | ✅ Closed |
+| 5 | `stringutil` | Prior length guard | ✅ Closed |
+| 6 | `isany` | Exhaustive type-switch default | ✅ Closed |
+| 7 | `coretestcases` | Platform-dependent + internal | ✅ Closed |
+| 8 | `coregeneric` | Nil-receiver + iterator yield | ✅ Closed |
+| 9 | `coreonce` | Resolved (Issue 41) | ✅ Closed |
+| 10 | `errcore` | `os.Exit` + defensive nil | ✅ Closed |
+| 11 | `chmodhelper` | Platform-incompatible (Linux) | ✅ Closed |
+| 12 | `enumimpl` | Dead code + unexported interfaces | ✅ Closed |
+| 13 | `coretests` | Dead code + unexported + platform | ✅ Closed |
+
+**Total justified gaps**: ~85-100 lines across 13 packages.  
 **All entries closed** — no further coverage work required for these packages.
