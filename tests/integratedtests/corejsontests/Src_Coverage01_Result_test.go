@@ -1,12 +1,13 @@
-package corejson
+package corejsontests
 
 import (
+	"github.com/alimtvnetwork/core/coredata/corejson"
 	"errors"
 	"testing"
 )
 
 func TestNew(t *testing.T) {
-	r := New("hello")
+	r := corejson.New("hello")
 	if r.HasError() {
 		t.Fatal("expected no error")
 	}
@@ -20,14 +21,14 @@ func TestNew(t *testing.T) {
 
 func TestNew_MarshalError(t *testing.T) {
 	ch := make(chan int)
-	r := New(ch)
+	r := corejson.New(ch)
 	if !r.HasError() {
 		t.Fatal("expected error for channel")
 	}
 }
 
 func TestNewPtr(t *testing.T) {
-	r := NewPtr(42)
+	r := corejson.NewPtr(42)
 	if r == nil {
 		t.Fatal("expected non-nil")
 	}
@@ -41,26 +42,26 @@ func TestNewPtr(t *testing.T) {
 
 func TestNewPtr_MarshalError(t *testing.T) {
 	ch := make(chan int)
-	r := NewPtr(ch)
+	r := corejson.NewPtr(ch)
 	if !r.HasError() {
 		t.Fatal("expected error for channel")
 	}
 }
 
 func TestResult_Map(t *testing.T) {
-	r := NewResult.Any("test")
+	r := corejson.NewResult.Any("test")
 	m := r.Map()
 	if _, ok := m[bytesFieldName]; !ok {
 		t.Fatal("expected bytes key")
 	}
 
-	rErr := NewResult.Error(errors.New("fail"))
+	rErr := corejson.NewResult.Error(errors.New("fail"))
 	m2 := rErr.Map()
 	if _, ok := m2[errorFieldName]; !ok {
 		t.Fatal("expected error key")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	m3 := nilR.Map()
 	if len(m3) != 0 {
 		t.Fatal("expected empty map for nil")
@@ -68,7 +69,7 @@ func TestResult_Map(t *testing.T) {
 }
 
 func TestResult_JsonStringPtr(t *testing.T) {
-	r := NewResult.Any("hello")
+	r := corejson.NewResult.Any("hello")
 	s1 := r.JsonStringPtr()
 	if s1 == nil || *s1 == "" {
 		t.Fatal("expected non-empty string")
@@ -79,13 +80,13 @@ func TestResult_JsonStringPtr(t *testing.T) {
 		t.Fatal("cache miss")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	s3 := nilR.JsonStringPtr()
 	if s3 == nil || *s3 != "" {
 		t.Fatal("expected empty string for nil")
 	}
 
-	emptyR := Result{}
+	emptyR := corejson.Result{}
 	s4 := emptyR.JsonStringPtr()
 	if s4 == nil {
 		t.Fatal("expected non-nil")
@@ -93,7 +94,7 @@ func TestResult_JsonStringPtr(t *testing.T) {
 }
 
 func TestResult_SafeString(t *testing.T) {
-	r := NewResult.Any(123)
+	r := corejson.NewResult.Any(123)
 	s := r.SafeString()
 	if s != "123" {
 		t.Fatal("unexpected safe string")
@@ -101,7 +102,7 @@ func TestResult_SafeString(t *testing.T) {
 }
 
 func TestResult_PrettyJsonBuffer(t *testing.T) {
-	r := NewResult.Any(map[string]int{"a": 1})
+	r := corejson.NewResult.Any(map[string]int{"a": 1})
 	buf, err := r.PrettyJsonBuffer("", "  ")
 	if err != nil {
 		t.Fatal(err)
@@ -110,7 +111,7 @@ func TestResult_PrettyJsonBuffer(t *testing.T) {
 		t.Fatal("expected non-empty buffer")
 	}
 
-	emptyR := Result{}
+	emptyR := corejson.Result{}
 	buf2, _ := emptyR.PrettyJsonBuffer("", "  ")
 	if buf2.Len() != 0 {
 		t.Fatal("expected empty buffer for empty result")
@@ -118,19 +119,19 @@ func TestResult_PrettyJsonBuffer(t *testing.T) {
 }
 
 func TestResult_PrettyJsonString(t *testing.T) {
-	r := NewResult.Any(map[string]int{"a": 1})
+	r := corejson.NewResult.Any(map[string]int{"a": 1})
 	s := r.PrettyJsonString()
 	if s == "" {
 		t.Fatal("expected non-empty pretty string")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	s2 := nilR.PrettyJsonString()
 	if s2 != "" {
 		t.Fatal("expected empty for nil")
 	}
 
-	emptyR := &Result{}
+	emptyR := &corejson.Result{}
 	s3 := emptyR.PrettyJsonString()
 	if s3 != "" {
 		t.Fatal("expected empty for empty")
@@ -138,19 +139,19 @@ func TestResult_PrettyJsonString(t *testing.T) {
 }
 
 func TestResult_PrettyJsonStringOrErrString(t *testing.T) {
-	r := NewResult.Any(42)
+	r := corejson.NewResult.Any(42)
 	s := r.PrettyJsonStringOrErrString()
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
 
-	rErr := NewResult.Error(errors.New("boom"))
+	rErr := corejson.NewResult.Error(errors.New("boom"))
 	s2 := rErr.PrettyJsonStringOrErrString()
 	if s2 == "" {
 		t.Fatal("expected error message")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	s3 := nilR.PrettyJsonStringOrErrString()
 	if s3 == "" {
 		t.Fatal("expected nil message")
@@ -158,19 +159,19 @@ func TestResult_PrettyJsonStringOrErrString(t *testing.T) {
 }
 
 func TestResult_Length(t *testing.T) {
-	r := NewResult.Any("hi")
+	r := corejson.NewResult.Any("hi")
 	if r.Length() == 0 {
 		t.Fatal("expected non-zero length")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	if nilR.Length() != 0 {
 		t.Fatal("expected zero for nil")
 	}
 }
 
 func TestResult_HasError_ErrorString(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if r.HasError() {
 		t.Fatal("should not have error")
 	}
@@ -178,7 +179,7 @@ func TestResult_HasError_ErrorString(t *testing.T) {
 		t.Fatal("expected empty error string")
 	}
 
-	rErr := NewResult.Error(errors.New("fail"))
+	rErr := corejson.NewResult.Error(errors.New("fail"))
 	if !rErr.HasError() {
 		t.Fatal("should have error")
 	}
@@ -188,12 +189,12 @@ func TestResult_HasError_ErrorString(t *testing.T) {
 }
 
 func TestResult_IsErrorEqual(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if !r.IsErrorEqual(nil) {
 		t.Fatal("both nil should be equal")
 	}
 
-	rErr := NewResult.Error(errors.New("boom"))
+	rErr := corejson.NewResult.Error(errors.New("boom"))
 	if rErr.IsErrorEqual(nil) {
 		t.Fatal("error vs nil should not be equal")
 	}
@@ -206,13 +207,13 @@ func TestResult_IsErrorEqual(t *testing.T) {
 }
 
 func TestResult_String(t *testing.T) {
-	r := NewResult.Any("hello")
+	r := corejson.NewResult.Any("hello")
 	s := r.String()
 	if s == "" {
 		t.Fatal("expected non-empty string")
 	}
 
-	rErr := NewResult.Error(errors.New("err"))
+	rErr := corejson.NewResult.Error(errors.New("err"))
 	s2 := rErr.String()
 	if s2 == "" {
 		t.Fatal("expected non-empty string")
@@ -220,13 +221,13 @@ func TestResult_String(t *testing.T) {
 }
 
 func TestResult_SafeNonIssueBytes(t *testing.T) {
-	r := NewResult.Any(42)
+	r := corejson.NewResult.Any(42)
 	b := r.SafeNonIssueBytes()
 	if len(b) == 0 {
 		t.Fatal("expected non-empty bytes")
 	}
 
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	b2 := rErr.SafeNonIssueBytes()
 	if len(b2) != 0 {
 		t.Fatal("expected empty bytes for error result")
@@ -234,7 +235,7 @@ func TestResult_SafeNonIssueBytes(t *testing.T) {
 }
 
 func TestResult_SafeBytes_Values_SafeValues(t *testing.T) {
-	r := NewResult.Any(1)
+	r := corejson.NewResult.Any(1)
 	if len(r.SafeBytes()) == 0 {
 		t.Fatal("expected bytes")
 	}
@@ -248,7 +249,7 @@ func TestResult_SafeBytes_Values_SafeValues(t *testing.T) {
 		t.Fatal("expected safe values ptr")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	if len(nilR.SafeBytes()) != 0 {
 		t.Fatal("expected empty for nil")
 	}
@@ -258,13 +259,13 @@ func TestResult_SafeBytes_Values_SafeValues(t *testing.T) {
 }
 
 func TestResult_Raw(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	b, err := r.Raw()
 	if err != nil || len(b) == 0 {
 		t.Fatal("expected raw bytes")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	_, err2 := nilR.Raw()
 	if err2 == nil {
 		t.Fatal("expected error for nil")
@@ -272,7 +273,7 @@ func TestResult_Raw(t *testing.T) {
 }
 
 func TestResult_RawMust(t *testing.T) {
-	r := NewResult.Any("y")
+	r := corejson.NewResult.Any("y")
 	b := r.RawMust()
 	if len(b) == 0 {
 		t.Fatal("expected bytes")
@@ -280,7 +281,7 @@ func TestResult_RawMust(t *testing.T) {
 }
 
 func TestResult_RawString(t *testing.T) {
-	r := NewResult.Any("z")
+	r := corejson.NewResult.Any("z")
 	s, err := r.RawString()
 	if err != nil || s == "" {
 		t.Fatal("expected raw string")
@@ -288,7 +289,7 @@ func TestResult_RawString(t *testing.T) {
 }
 
 func TestResult_RawStringMust(t *testing.T) {
-	r := NewResult.Any("a")
+	r := corejson.NewResult.Any("a")
 	s := r.RawStringMust()
 	if s == "" {
 		t.Fatal("expected string")
@@ -296,7 +297,7 @@ func TestResult_RawStringMust(t *testing.T) {
 }
 
 func TestResult_RawErrString(t *testing.T) {
-	r := NewResult.Any("b")
+	r := corejson.NewResult.Any("b")
 	b, errStr := r.RawErrString()
 	if len(b) == 0 {
 		t.Fatal("expected bytes")
@@ -305,7 +306,7 @@ func TestResult_RawErrString(t *testing.T) {
 }
 
 func TestResult_RawPrettyString(t *testing.T) {
-	r := NewResult.Any(map[string]int{"k": 1})
+	r := corejson.NewResult.Any(map[string]int{"k": 1})
 	s, err := r.RawPrettyString()
 	if err != nil || s == "" {
 		t.Fatal("expected pretty string")
@@ -313,24 +314,24 @@ func TestResult_RawPrettyString(t *testing.T) {
 }
 
 func TestResult_MeaningfulError(t *testing.T) {
-	var nilR *Result
+	var nilR *corejson.Result
 	err := nilR.MeaningfulError()
 	if err == nil {
 		t.Fatal("expected error for nil")
 	}
 
-	r := NewResult.Any("good")
+	r := corejson.NewResult.Any("good")
 	if r.MeaningfulError() != nil {
 		t.Fatal("expected nil error")
 	}
 
-	emptyR := &Result{}
+	emptyR := &corejson.Result{}
 	err2 := emptyR.MeaningfulError()
 	if err2 == nil {
 		t.Fatal("expected error for empty bytes")
 	}
 
-	rErr := NewResult.Error(errors.New("boom"))
+	rErr := corejson.NewResult.Error(errors.New("boom"))
 	err3 := rErr.MeaningfulError()
 	if err3 == nil {
 		t.Fatal("expected error")
@@ -338,74 +339,74 @@ func TestResult_MeaningfulError(t *testing.T) {
 }
 
 func TestResult_MeaningfulErrorMessage(t *testing.T) {
-	r := NewResult.Any("ok")
+	r := corejson.NewResult.Any("ok")
 	if r.MeaningfulErrorMessage() != "" {
 		t.Fatal("expected empty")
 	}
 
-	rErr := NewResult.Error(errors.New("x"))
+	rErr := corejson.NewResult.Error(errors.New("x"))
 	if rErr.MeaningfulErrorMessage() == "" {
 		t.Fatal("expected message")
 	}
 }
 
 func TestResult_IsEmptyError(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if !r.IsEmptyError() {
 		t.Fatal("expected empty error")
 	}
-	var nilR *Result
+	var nilR *corejson.Result
 	if !nilR.IsEmptyError() {
 		t.Fatal("expected empty error for nil")
 	}
 }
 
 func TestResult_HasSafeItems(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if !r.HasSafeItems() {
 		t.Fatal("expected safe items")
 	}
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	if rErr.HasSafeItems() {
 		t.Fatal("should not have safe items")
 	}
 }
 
 func TestResult_IsAnyNull(t *testing.T) {
-	var nilR *Result
+	var nilR *corejson.Result
 	if !nilR.IsAnyNull() {
 		t.Fatal("expected null for nil")
 	}
-	r := Result{}
+	r := corejson.Result{}
 	if !r.IsAnyNull() {
 		t.Fatal("expected null for empty bytes")
 	}
-	r2 := NewResult.Any(1)
+	r2 := corejson.NewResult.Any(1)
 	if r2.IsAnyNull() {
 		t.Fatal("should not be null")
 	}
 }
 
 func TestResult_HasIssuesOrEmpty(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if r.HasIssuesOrEmpty() {
 		t.Fatal("should not have issues")
 	}
-	r2 := NewResult.Error(errors.New("e"))
+	r2 := corejson.NewResult.Error(errors.New("e"))
 	if !r2.HasIssuesOrEmpty() {
 		t.Fatal("should have issues")
 	}
 }
 
 func TestResult_IsEmpty_HasAnyItem(t *testing.T) {
-	r := Result{}
+	r := corejson.Result{}
 	if !r.IsEmpty() {
 		t.Fatal("expected empty")
 	}
 	if r.HasAnyItem() {
 		t.Fatal("should not have items")
 	}
-	r2 := NewResult.Any("x")
+	r2 := corejson.NewResult.Any("x")
 	if r2.IsEmpty() {
 		t.Fatal("should not be empty")
 	}
@@ -415,7 +416,7 @@ func TestResult_IsEmpty_HasAnyItem(t *testing.T) {
 }
 
 func TestResult_IsEmptyJson_HasJson_HasBytes_HasJsonBytes(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if r.IsEmptyJson() {
 		t.Fatal("should not be empty json")
 	}
@@ -429,14 +430,14 @@ func TestResult_IsEmptyJson_HasJson_HasBytes_HasJsonBytes(t *testing.T) {
 		t.Fatal("should have json bytes")
 	}
 
-	empty := Result{Bytes: []byte("{}")}
+	empty := corejson.Result{Bytes: []byte("{}")}
 	if !empty.IsEmptyJsonBytes() {
 		t.Fatal("should be empty json for {}")
 	}
 }
 
 func TestResult_Deserialize_Unmarshal(t *testing.T) {
-	r := NewResult.Any(map[string]string{"k": "v"})
+	r := corejson.NewResult.Any(map[string]string{"k": "v"})
 	var out map[string]string
 	err := r.Deserialize(&out)
 	if err != nil {
@@ -448,13 +449,13 @@ func TestResult_Deserialize_Unmarshal(t *testing.T) {
 
 	r.DeserializeMust(&out)
 
-	var nilR *Result
+	var nilR *corejson.Result
 	err2 := nilR.Unmarshal(&out)
 	if err2 == nil {
 		t.Fatal("expected error for nil")
 	}
 
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	err3 := rErr.Unmarshal(&out)
 	if err3 == nil {
 		t.Fatal("expected error")
@@ -462,14 +463,14 @@ func TestResult_Deserialize_Unmarshal(t *testing.T) {
 }
 
 func TestResult_UnmarshalSkipExistingIssues(t *testing.T) {
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	var out string
 	err := rErr.UnmarshalSkipExistingIssues(&out)
 	if err != nil {
 		t.Fatal("should skip and return nil")
 	}
 
-	r := NewResult.Any("hello")
+	r := corejson.NewResult.Any("hello")
 	err2 := r.UnmarshalSkipExistingIssues(&out)
 	if err2 != nil {
 		t.Fatal(err2)
@@ -480,19 +481,19 @@ func TestResult_UnmarshalSkipExistingIssues(t *testing.T) {
 }
 
 func TestResult_Serialize(t *testing.T) {
-	r := NewResult.Any(42)
+	r := corejson.NewResult.Any(42)
 	b, err := r.Serialize()
 	if err != nil || len(b) == 0 {
 		t.Fatal("expected serialized bytes")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	_, err2 := nilR.Serialize()
 	if err2 == nil {
 		t.Fatal("expected error for nil")
 	}
 
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	_, err3 := rErr.Serialize()
 	if err3 == nil {
 		t.Fatal("expected error")
@@ -500,13 +501,13 @@ func TestResult_Serialize(t *testing.T) {
 }
 
 func TestResult_SerializeSkipExistingIssues(t *testing.T) {
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	b, err := rErr.SerializeSkipExistingIssues()
 	if b != nil || err != nil {
 		t.Fatal("should return nil,nil for issues")
 	}
 
-	r := NewResult.Any(42)
+	r := corejson.NewResult.Any(42)
 	b2, err2 := r.SerializeSkipExistingIssues()
 	if err2 != nil || len(b2) == 0 {
 		t.Fatal("expected bytes")
@@ -514,7 +515,7 @@ func TestResult_SerializeSkipExistingIssues(t *testing.T) {
 }
 
 func TestResult_SerializeMust(t *testing.T) {
-	r := NewResult.Any(42)
+	r := corejson.NewResult.Any(42)
 	b := r.SerializeMust()
 	if len(b) == 0 {
 		t.Fatal("expected bytes")
@@ -522,28 +523,28 @@ func TestResult_SerializeMust(t *testing.T) {
 }
 
 func TestResult_UnmarshalResult(t *testing.T) {
-	r := NewResult.Any(Result{Bytes: []byte(`"x"`), TypeName: "test"})
+	r := corejson.NewResult.Any(corejson.Result{Bytes: []byte(`"x"`), TypeName: "test"})
 	_, _ = r.UnmarshalResult()
 }
 
 func TestResult_JsonModel_JsonModelAny(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	m := r.JsonModel()
 	_ = m
 
-	var nilR *Result
+	var nilR *corejson.Result
 	m2 := nilR.JsonModel()
 	if m2.Error == nil {
 		t.Fatal("expected error for nil")
 	}
 
-	r2 := NewResult.Any("y")
+	r2 := corejson.NewResult.Any("y")
 	a := r2.JsonModelAny()
 	_ = a
 }
 
 func TestResult_Json_JsonPtr(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	j := r.Json()
 	if j.HasError() {
 		t.Fatal("expected no error")
@@ -555,25 +556,25 @@ func TestResult_Json_JsonPtr(t *testing.T) {
 }
 
 func TestResult_ParseInjectUsingJson(t *testing.T) {
-	r := NewResult.Any("x")
-	target := &Result{}
+	r := corejson.NewResult.Any("x")
+	target := &corejson.Result{}
 	_, err := target.ParseInjectUsingJson(r.Ptr())
 	_ = err
 }
 
 func TestResult_CloneError(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if r.CloneError() != nil {
 		t.Fatal("should be nil")
 	}
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	if rErr.CloneError() == nil {
 		t.Fatal("should have error")
 	}
 }
 
 func TestResult_Ptr_NonPtr_ToPtr_ToNonPtr(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	p := r.Ptr()
 	if p == nil {
 		t.Fatal("expected ptr")
@@ -581,13 +582,13 @@ func TestResult_Ptr_NonPtr_ToPtr_ToNonPtr(t *testing.T) {
 	np := p.NonPtr()
 	_ = np
 
-	var nilR *Result
+	var nilR *corejson.Result
 	np2 := nilR.NonPtr()
 	if np2.Error == nil {
 		t.Fatal("expected error")
 	}
 
-	r2 := NewResult.Any("y")
+	r2 := corejson.NewResult.Any("y")
 	tp := r2.ToPtr()
 	_ = tp
 	tnp := r2.ToNonPtr()
@@ -595,13 +596,13 @@ func TestResult_Ptr_NonPtr_ToPtr_ToNonPtr(t *testing.T) {
 }
 
 func TestResult_IsEqualPtr(t *testing.T) {
-	r1 := NewResult.AnyPtr("x")
-	r2 := NewResult.AnyPtr("x")
+	r1 := corejson.NewResult.AnyPtr("x")
+	r2 := corejson.NewResult.AnyPtr("x")
 	if !r1.IsEqualPtr(r2) {
 		t.Fatal("should be equal")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	if !nilR.IsEqualPtr(nil) {
 		t.Fatal("both nil should be equal")
 	}
@@ -612,32 +613,32 @@ func TestResult_IsEqualPtr(t *testing.T) {
 		t.Fatal("non-nil vs nil should not be equal")
 	}
 
-	r3 := NewResult.AnyPtr("y")
+	r3 := corejson.NewResult.AnyPtr("y")
 	if r1.IsEqualPtr(r3) {
 		t.Fatal("different should not be equal")
 	}
 }
 
 func TestResult_IsEqual(t *testing.T) {
-	r1 := NewResult.Any("x")
-	r2 := NewResult.Any("x")
+	r1 := corejson.NewResult.Any("x")
+	r2 := corejson.NewResult.Any("x")
 	if !r1.IsEqual(r2) {
 		t.Fatal("should be equal")
 	}
-	r3 := NewResult.Any("y")
+	r3 := corejson.NewResult.Any("y")
 	if r1.IsEqual(r3) {
 		t.Fatal("should not be equal")
 	}
 }
 
 func TestResult_CombineErrorWithRefString(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	s := r.CombineErrorWithRefString("ref1")
 	if s != "" {
 		t.Fatal("expected empty for no error")
 	}
 
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	s2 := rErr.CombineErrorWithRefString("ref1")
 	if s2 == "" {
 		t.Fatal("expected combined string")
@@ -645,13 +646,13 @@ func TestResult_CombineErrorWithRefString(t *testing.T) {
 }
 
 func TestResult_CombineErrorWithRefError(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	err := r.CombineErrorWithRefError("ref")
 	if err != nil {
 		t.Fatal("expected nil")
 	}
 
-	rErr := NewResult.Error(errors.New("e"))
+	rErr := corejson.NewResult.Error(errors.New("e"))
 	err2 := rErr.CombineErrorWithRefError("ref")
 	if err2 == nil {
 		t.Fatal("expected error")
@@ -659,13 +660,13 @@ func TestResult_CombineErrorWithRefError(t *testing.T) {
 }
 
 func TestResult_BytesError(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	be := r.BytesError()
 	if be == nil {
 		t.Fatal("expected non-nil")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	be2 := nilR.BytesError()
 	if be2 != nil {
 		t.Fatal("expected nil")
@@ -673,18 +674,18 @@ func TestResult_BytesError(t *testing.T) {
 }
 
 func TestResult_Dispose(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	r.Dispose()
 	if r.Bytes != nil {
 		t.Fatal("expected nil bytes after dispose")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	nilR.Dispose() // should not panic
 }
 
 func TestResult_Clone(t *testing.T) {
-	r := NewResult.Any("test")
+	r := corejson.NewResult.Any("test")
 	c := r.Clone(false)
 	if c.JsonString() != r.JsonString() {
 		t.Fatal("shallow clone mismatch")
@@ -695,13 +696,13 @@ func TestResult_Clone(t *testing.T) {
 		t.Fatal("deep clone mismatch")
 	}
 
-	empty := Result{}
+	empty := corejson.Result{}
 	c3 := empty.Clone(true)
 	_ = c3
 }
 
 func TestResult_CloneIf(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	c := r.CloneIf(true, false)
 	_ = c
 	c2 := r.CloneIf(false, false)
@@ -709,13 +710,13 @@ func TestResult_CloneIf(t *testing.T) {
 }
 
 func TestResult_ClonePtr(t *testing.T) {
-	r := NewResult.AnyPtr("x")
+	r := corejson.NewResult.AnyPtr("x")
 	c := r.ClonePtr(true)
 	if c == nil {
 		t.Fatal("expected non-nil clone")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	c2 := nilR.ClonePtr(true)
 	if c2 != nil {
 		t.Fatal("expected nil for nil")
@@ -723,13 +724,13 @@ func TestResult_ClonePtr(t *testing.T) {
 }
 
 func TestResult_InjectInto(t *testing.T) {
-	r := NewResult.Any("x")
-	target := &Result{}
+	r := corejson.NewResult.Any("x")
+	target := &corejson.Result{}
 	_ = r.InjectInto(target)
 }
 
 func TestResult_AsJsonContractsBinder(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	binder := r.AsJsonContractsBinder()
 	if binder == nil {
 		t.Fatal("expected non-nil")
@@ -737,7 +738,7 @@ func TestResult_AsJsonContractsBinder(t *testing.T) {
 }
 
 func TestResult_AsJsoner(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	jsoner := r.AsJsoner()
 	if jsoner == nil {
 		t.Fatal("expected non-nil")
@@ -745,13 +746,13 @@ func TestResult_AsJsoner(t *testing.T) {
 }
 
 func TestResult_JsonParseSelfInject(t *testing.T) {
-	r := NewResult.Any("x")
-	target := NewResult.Any("y")
+	r := corejson.NewResult.Any("x")
+	target := corejson.NewResult.Any("y")
 	_ = target.JsonParseSelfInject(r.Ptr())
 }
 
 func TestResult_AsJsonParseSelfInjector(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	inj := r.AsJsonParseSelfInjector()
 	if inj == nil {
 		t.Fatal("expected non-nil")
@@ -759,10 +760,10 @@ func TestResult_AsJsonParseSelfInjector(t *testing.T) {
 }
 
 func TestResult_DeserializedFieldsToMap(t *testing.T) {
-	r := NewResult.Any(map[string]int{"a": 1})
+	r := corejson.NewResult.Any(map[string]int{"a": 1})
 	_, _ = r.DeserializedFieldsToMap()
 
-	var nilR *Result
+	var nilR *corejson.Result
 	fm, err := nilR.DeserializedFieldsToMap()
 	if err != nil || len(fm) != 0 {
 		t.Fatal("expected empty for nil")
@@ -770,41 +771,41 @@ func TestResult_DeserializedFieldsToMap(t *testing.T) {
 }
 
 func TestResult_SafeDeserializedFieldsToMap(t *testing.T) {
-	r := NewResult.Any(map[string]int{"a": 1})
+	r := corejson.NewResult.Any(map[string]int{"a": 1})
 	_ = r.SafeDeserializedFieldsToMap()
 }
 
 func TestResult_FieldsNames(t *testing.T) {
-	r := NewResult.Any(map[string]int{"a": 1})
+	r := corejson.NewResult.Any(map[string]int{"a": 1})
 	names, _ := r.FieldsNames()
 	_ = names
 }
 
 func TestResult_SafeFieldsNames(t *testing.T) {
-	r := NewResult.Any(map[string]int{"a": 1})
+	r := corejson.NewResult.Any(map[string]int{"a": 1})
 	names := r.SafeFieldsNames()
 	_ = names
 }
 
 func TestResult_BytesTypeName(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if r.BytesTypeName() == "" {
 		t.Fatal("expected type name")
 	}
 
-	var nilR *Result
+	var nilR *corejson.Result
 	if nilR.BytesTypeName() != "" {
 		t.Fatal("expected empty for nil")
 	}
 }
 
 func TestResult_SafeBytesTypeName(t *testing.T) {
-	r := NewResult.Any("x")
+	r := corejson.NewResult.Any("x")
 	if r.SafeBytesTypeName() == "" {
 		t.Fatal("expected type name")
 	}
 
-	emptyR := &Result{}
+	emptyR := &corejson.Result{}
 	if emptyR.SafeBytesTypeName() != "" {
 		t.Fatal("expected empty for empty result")
 	}

@@ -1,6 +1,7 @@
-package corejson
+package corejsontests
 
 import (
+	"github.com/alimtvnetwork/core/coredata/corejson"
 	"errors"
 	"testing"
 	"time"
@@ -17,8 +18,8 @@ func TestResultsPtrCollection_Basic(t *testing.T) {
 }
 
 func TestResultsPtrCollection_AddAndAccess(t *testing.T) {
-	c := NewResultsPtrCollection.Default()
-	r := NewResult.AnyPtr("hello")
+	c := corejson.NewResultsPtrCollection.Default()
+	r := corejson.NewResult.AnyPtr("hello")
 	c.Add(r)
 	if c.Length() != 1 { t.Fatal("expected 1") }
 	if c.FirstOrDefault() == nil { t.Fatal("expected non-nil") }
@@ -27,45 +28,45 @@ func TestResultsPtrCollection_AddAndAccess(t *testing.T) {
 }
 
 func TestResultsPtrCollection_TakeSkipLimit(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(5)
+	c := corejson.NewResultsPtrCollection.UsingCap(5)
 	for i := 0; i < 5; i++ {
-		c.Add(NewResult.AnyPtr(i))
+		c.Add(corejson.NewResult.AnyPtr(i))
 	}
 	if c.Take(3).Length() != 3 { t.Fatal("expected 3") }
 	if c.Skip(2).Length() != 3 { t.Fatal("expected 3") }
 	if c.Limit(3).Length() != 3 { t.Fatal("expected 3") }
 	if c.Limit(-2).Length() != 5 { t.Fatal("expected all") }
 
-	empty := NewResultsPtrCollection.Empty()
+	empty := corejson.NewResultsPtrCollection.Empty()
 	if empty.Take(1).Length() != 0 { t.Fatal("expected 0") }
 	if empty.Skip(0).Length() != 0 { t.Fatal("expected 0") }
 	if empty.Limit(1).Length() != 0 { t.Fatal("expected 0") }
 }
 
 func TestResultsPtrCollection_AddMethods(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(10)
+	c := corejson.NewResultsPtrCollection.UsingCap(10)
 	c.AddSkipOnNil(nil)
-	c.AddSkipOnNil(NewResult.AnyPtr("x"))
+	c.AddSkipOnNil(corejson.NewResult.AnyPtr("x"))
 	c.AddNonNilNonError(nil)
-	c.AddNonNilNonError(&Result{Error: errors.New("e")})
-	c.AddNonNilNonError(NewResult.AnyPtr("x"))
-	c.AddResult(NewResult.Any("x"))
-	c.Adds(nil, NewResult.AnyPtr("x"))
+	c.AddNonNilNonError(&corejson.Result{Error: errors.New("e")})
+	c.AddNonNilNonError(corejson.NewResult.AnyPtr("x"))
+	c.AddResult(corejson.NewResult.Any("x"))
+	c.Adds(nil, corejson.NewResult.AnyPtr("x"))
 	c.AddAny(nil)
 	c.AddAny("x")
 	c.AddAnyItems(nil, "y")
 	c.AddResultsCollection(nil)
-	sub := NewResultsPtrCollection.UsingResults(NewResult.AnyPtr("sub"))
+	sub := corejson.NewResultsPtrCollection.UsingResults(corejson.NewResult.AnyPtr("sub"))
 	c.AddResultsCollection(sub)
 	c.AddNonNilItemsPtr(nil)
-	c.AddNonNilItemsPtr(nil, NewResult.AnyPtr("x"))
-	c.AddNonNilItems(nil, NewResult.AnyPtr("x"))
+	c.AddNonNilItemsPtr(nil, corejson.NewResult.AnyPtr("x"))
+	c.AddNonNilItems(nil, corejson.NewResult.AnyPtr("x"))
 }
 
 func TestResultsPtrCollection_Errors(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(2)
-	c.Add(NewResult.AnyPtr("ok"))
-	c.Add(&Result{Error: errors.New("e")})
+	c := corejson.NewResultsPtrCollection.UsingCap(2)
+	c.Add(corejson.NewResult.AnyPtr("ok"))
+	c.Add(&corejson.Result{Error: errors.New("e")})
 	if !c.HasError() { t.Fatal("expected error") }
 	errs, has := c.AllErrors()
 	if !has || len(errs) != 1 { t.Fatal("expected 1") }
@@ -77,8 +78,8 @@ func TestResultsPtrCollection_Errors(t *testing.T) {
 }
 
 func TestResultsPtrCollection_UnmarshalAt(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(2)
-	c.Add(NewResult.AnyPtr("hello"))
+	c := corejson.NewResultsPtrCollection.UsingCap(2)
+	c.Add(corejson.NewResult.AnyPtr("hello"))
 	c.Add(nil)
 	var s string
 	err := c.UnmarshalAt(0, &s)
@@ -86,21 +87,21 @@ func TestResultsPtrCollection_UnmarshalAt(t *testing.T) {
 }
 
 func TestResultsPtrCollection_UnmarshalIntoSameIndex(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(3)
-	c.Add(NewResult.AnyPtr("hello"))
-	c.Add(NewResult.AnyPtr(42))
-	c.Add(&Result{Error: errors.New("e")})
+	c := corejson.NewResultsPtrCollection.UsingCap(3)
+	c.Add(corejson.NewResult.AnyPtr("hello"))
+	c.Add(corejson.NewResult.AnyPtr(42))
+	c.Add(&corejson.Result{Error: errors.New("e")})
 	var s string
 	var i int
 	errs, _ := c.UnmarshalIntoSameIndex(&s, &i, nil)
 	if len(errs) != 3 { t.Fatal("expected 3") }
-	c2 := NewResultsPtrCollection.Empty()
+	c2 := corejson.NewResultsPtrCollection.Empty()
 	c2.UnmarshalIntoSameIndex(nil)
 }
 
 func TestResultsPtrCollection_GetAtSafe(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(1)
-	c.Add(NewResult.AnyPtr("x"))
+	c := corejson.NewResultsPtrCollection.UsingCap(1)
+	c.Add(corejson.NewResult.AnyPtr("x"))
 	if c.GetAtSafe(0) == nil { t.Fatal("expected non-nil") }
 	if c.GetAtSafe(-1) != nil { t.Fatal("expected nil") }
 	if c.GetAtSafe(5) != nil { t.Fatal("expected nil") }
@@ -108,7 +109,7 @@ func TestResultsPtrCollection_GetAtSafe(t *testing.T) {
 }
 
 func TestResultsPtrCollection_Serializers(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(2)
+	c := corejson.NewResultsPtrCollection.UsingCap(2)
 	c.AddSerializer(nil)
 	c.AddSerializers()
 	c.AddSerializerFunc(nil)
@@ -116,14 +117,14 @@ func TestResultsPtrCollection_Serializers(t *testing.T) {
 }
 
 func TestResultsPtrCollection_PtrNonPtr(t *testing.T) {
-	c := NewResultsPtrCollection.Default()
+	c := corejson.NewResultsPtrCollection.Default()
 	_ = c.NonPtr()
 	_ = c.Ptr()
 }
 
 func TestResultsPtrCollection_ClearDispose(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(2)
-	c.Add(NewResult.AnyPtr("x"))
+	c := corejson.NewResultsPtrCollection.UsingCap(2)
+	c.Add(corejson.NewResult.AnyPtr("x"))
 	c.Clear()
 	time.Sleep(10 * time.Millisecond)
 	if c.Length() != 0 { t.Fatal("expected 0") }
@@ -134,19 +135,19 @@ func TestResultsPtrCollection_ClearDispose(t *testing.T) {
 }
 
 func TestResultsPtrCollection_GetStrings(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(2)
-	c.Add(NewResult.AnyPtr("a"))
+	c := corejson.NewResultsPtrCollection.UsingCap(2)
+	c.Add(corejson.NewResult.AnyPtr("a"))
 	strs := c.GetStrings()
 	if len(strs) != 1 { t.Fatal("expected 1") }
 	_ = c.GetStringsPtr()
-	empty := NewResultsPtrCollection.Empty()
+	empty := corejson.NewResultsPtrCollection.Empty()
 	if len(empty.GetStrings()) != 0 { t.Fatal("expected 0") }
 }
 
 func TestResultsPtrCollection_Paging(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(10)
+	c := corejson.NewResultsPtrCollection.UsingCap(10)
 	for i := 0; i < 10; i++ {
-		c.Add(NewResult.AnyPtr(i))
+		c.Add(corejson.NewResult.AnyPtr(i))
 	}
 	if c.GetPagesSize(3) != 4 { t.Fatal("expected 4") }
 	if c.GetPagesSize(0) != 0 { t.Fatal("expected 0") }
@@ -155,13 +156,13 @@ func TestResultsPtrCollection_Paging(t *testing.T) {
 	single := c.GetSinglePageCollection(3, 1)
 	if single.Length() != 3 { t.Fatal("expected 3") }
 
-	small := NewResultsPtrCollection.UsingResults(NewResult.AnyPtr("x"))
+	small := corejson.NewResultsPtrCollection.UsingResults(corejson.NewResult.AnyPtr("x"))
 	if len(small.GetPagedCollection(5)) != 1 { t.Fatal("expected 1") }
 }
 
 func TestResultsPtrCollection_JsonMethods(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(1)
-	c.Add(NewResult.AnyPtr("x"))
+	c := corejson.NewResultsPtrCollection.UsingCap(1)
+	c.Add(corejson.NewResult.AnyPtr("x"))
 	_ = c.JsonModel()
 	_ = c.JsonModelAny()
 	_ = c.Json()
@@ -172,25 +173,25 @@ func TestResultsPtrCollection_JsonMethods(t *testing.T) {
 }
 
 func TestResultsPtrCollection_Clone(t *testing.T) {
-	c := NewResultsPtrCollection.UsingCap(2)
-	c.Add(NewResult.AnyPtr("x"))
+	c := corejson.NewResultsPtrCollection.UsingCap(2)
+	c.Add(corejson.NewResult.AnyPtr("x"))
 	cp := c.Clone(true)
 	if cp == nil || cp.Length() != 1 { t.Fatal("expected 1") }
 	var nilC *ResultsPtrCollection
 	if nilC.Clone(true) != nil { t.Fatal("expected nil") }
 
-	empty := NewResultsPtrCollection.Empty()
+	empty := corejson.NewResultsPtrCollection.Empty()
 	ec := empty.Clone(true)
 	if ec.Length() != 0 { t.Fatal("expected 0") }
 }
 
 func TestResultsPtrCollection_Creators(t *testing.T) {
-	_ = NewResultsPtrCollection.AnyItems("a", "b")
-	_ = NewResultsPtrCollection.AnyItemsPlusCap(5, "a")
-	_ = NewResultsPtrCollection.AnyItemsPlusCap(5)
-	_ = NewResultsPtrCollection.UsingResults(NewResult.AnyPtr("x"))
-	_ = NewResultsPtrCollection.UsingResultsPlusCap(5, NewResult.AnyPtr("x"))
-	_ = NewResultsPtrCollection.UsingResultsPlusCap(5)
-	_ = NewResultsPtrCollection.Serializers()
-	_, _ = NewResultsPtrCollection.UnmarshalUsingBytes([]byte(`{}`))
+	_ = corejson.NewResultsPtrCollection.AnyItems("a", "b")
+	_ = corejson.NewResultsPtrCollection.AnyItemsPlusCap(5, "a")
+	_ = corejson.NewResultsPtrCollection.AnyItemsPlusCap(5)
+	_ = corejson.NewResultsPtrCollection.UsingResults(corejson.NewResult.AnyPtr("x"))
+	_ = corejson.NewResultsPtrCollection.UsingResultsPlusCap(5, corejson.NewResult.AnyPtr("x"))
+	_ = corejson.NewResultsPtrCollection.UsingResultsPlusCap(5)
+	_ = corejson.NewResultsPtrCollection.Serializers()
+	_, _ = corejson.NewResultsPtrCollection.UnmarshalUsingBytes([]byte(`{}`))
 }

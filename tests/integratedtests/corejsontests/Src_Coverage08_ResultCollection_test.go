@@ -1,6 +1,7 @@
-package corejson
+package corejsontests
 
 import (
+	"github.com/alimtvnetwork/core/coredata/corejson"
 	"errors"
 	"testing"
 	"time"
@@ -17,8 +18,8 @@ func TestResultsCollection_Basic(t *testing.T) {
 }
 
 func TestResultsCollection_AddAndAccess(t *testing.T) {
-	c := NewResultsCollection.Default()
-	r := NewResult.Any("hello")
+	c := corejson.NewResultsCollection.Default()
+	r := corejson.NewResult.Any("hello")
 	c.Add(r)
 	if c.Length() != 1 { t.Fatal("expected 1") }
 	if c.FirstOrDefault() == nil { t.Fatal("expected non-nil") }
@@ -28,9 +29,9 @@ func TestResultsCollection_AddAndAccess(t *testing.T) {
 }
 
 func TestResultsCollection_TakeSkipLimit(t *testing.T) {
-	c := NewResultsCollection.UsingCap(5)
+	c := corejson.NewResultsCollection.UsingCap(5)
 	for i := 0; i < 5; i++ {
-		c.Add(NewResult.Any(i))
+		c.Add(corejson.NewResult.Any(i))
 	}
 	tk := c.Take(3)
 	if tk.Length() != 3 { t.Fatal("expected 3") }
@@ -41,32 +42,32 @@ func TestResultsCollection_TakeSkipLimit(t *testing.T) {
 	lm2 := c.Limit(-2) // TakeAllMinusOne
 	if lm2.Length() != 5 { t.Fatal("expected all") }
 
-	empty := NewResultsCollection.Empty()
+	empty := corejson.NewResultsCollection.Empty()
 	if empty.Take(1).Length() != 0 { t.Fatal("expected 0") }
 	if empty.Skip(0).Length() != 0 { t.Fatal("expected 0") }
 	if empty.Limit(1).Length() != 0 { t.Fatal("expected 0") }
 }
 
 func TestResultsCollection_AddMethods(t *testing.T) {
-	c := NewResultsCollection.UsingCap(5)
+	c := corejson.NewResultsCollection.UsingCap(5)
 	c.AddSkipOnNil(nil)
-	c.AddSkipOnNil(&Result{Bytes: []byte(`1`)})
+	c.AddSkipOnNil(&corejson.Result{Bytes: []byte(`1`)})
 	if c.Length() != 1 { t.Fatal("expected 1") }
 
 	c.AddNonNilNonError(nil)
-	c.AddNonNilNonError(&Result{Error: errors.New("e")})
-	c.AddNonNilNonError(&Result{Bytes: []byte(`2`)})
+	c.AddNonNilNonError(&corejson.Result{Error: errors.New("e")})
+	c.AddNonNilNonError(&corejson.Result{Bytes: []byte(`2`)})
 	if c.Length() != 2 { t.Fatal("expected 2") }
 
 	c.AddPtr(nil)
-	c.AddPtr(&Result{Bytes: []byte(`3`)})
+	c.AddPtr(&corejson.Result{Bytes: []byte(`3`)})
 	if c.Length() != 3 { t.Fatal("expected 3") }
 
-	c.Adds(NewResult.Any("a"), NewResult.Any("b"))
+	c.Adds(corejson.NewResult.Any("a"), corejson.NewResult.Any("b"))
 	if c.Length() != 5 { t.Fatal("expected 5") }
 	c.Adds()
 
-	c.AddsPtr(nil, &Result{Bytes: []byte(`4`)})
+	c.AddsPtr(nil, &corejson.Result{Bytes: []byte(`4`)})
 	if c.Length() != 6 { t.Fatal("expected 6") }
 
 	c.AddAny(nil)
@@ -81,18 +82,18 @@ func TestResultsCollection_AddMethods(t *testing.T) {
 	if c.Length() != 9 { t.Fatal("expected 9") }
 
 	c.AddResultsCollection(nil)
-	sub := NewResultsCollection.UsingResults(NewResult.Any("sub"))
+	sub := corejson.NewResultsCollection.UsingResults(corejson.NewResult.Any("sub"))
 	c.AddResultsCollection(sub)
 	if c.Length() != 10 { t.Fatal("expected 10") }
 
 	c.AddNonNilItemsPtr(nil)
-	c.AddNonNilItemsPtr(nil, &Result{Bytes: []byte(`5`)})
+	c.AddNonNilItemsPtr(nil, &corejson.Result{Bytes: []byte(`5`)})
 }
 
 func TestResultsCollection_Errors(t *testing.T) {
-	c := NewResultsCollection.UsingCap(3)
-	c.Add(NewResult.Any("ok"))
-	c.Add(Result{Error: errors.New("e1")})
+	c := corejson.NewResultsCollection.UsingCap(3)
+	c.Add(corejson.NewResult.Any("ok"))
+	c.Add(corejson.Result{Error: errors.New("e1")})
 	if !c.HasError() { t.Fatal("expected error") }
 
 	errs, has := c.AllErrors()
@@ -106,30 +107,30 @@ func TestResultsCollection_Errors(t *testing.T) {
 }
 
 func TestResultsCollection_UnmarshalAt(t *testing.T) {
-	c := NewResultsCollection.UsingCap(1)
-	c.Add(NewResult.Any("hello"))
+	c := corejson.NewResultsCollection.UsingCap(1)
+	c.Add(corejson.NewResult.Any("hello"))
 	var s string
 	err := c.UnmarshalAt(0, &s)
 	if err != nil || s != "hello" { t.Fatal("unexpected") }
 }
 
 func TestResultsCollection_UnmarshalIntoSameIndex(t *testing.T) {
-	c := NewResultsCollection.UsingCap(3)
-	c.Add(NewResult.Any("hello"))
-	c.Add(NewResult.Any(42))
-	c.Add(Result{Error: errors.New("e")})
+	c := corejson.NewResultsCollection.UsingCap(3)
+	c.Add(corejson.NewResult.Any("hello"))
+	c.Add(corejson.NewResult.Any(42))
+	c.Add(corejson.Result{Error: errors.New("e")})
 	var s string
 	var i int
 	errs, has := c.UnmarshalIntoSameIndex(&s, &i, nil)
 	if len(errs) != 3 { t.Fatal("expected 3") }
 	_ = has
-	c2 := NewResultsCollection.Empty()
+	c2 := corejson.NewResultsCollection.Empty()
 	c2.UnmarshalIntoSameIndex(nil)
 }
 
 func TestResultsCollection_GetAtSafe(t *testing.T) {
-	c := NewResultsCollection.UsingCap(1)
-	c.Add(NewResult.Any("x"))
+	c := corejson.NewResultsCollection.UsingCap(1)
+	c.Add(corejson.NewResult.Any("x"))
 	if c.GetAtSafe(0) == nil { t.Fatal("expected non-nil") }
 	if c.GetAtSafe(-1) != nil { t.Fatal("expected nil") }
 	if c.GetAtSafe(5) != nil { t.Fatal("expected nil") }
@@ -137,7 +138,7 @@ func TestResultsCollection_GetAtSafe(t *testing.T) {
 }
 
 func TestResultsCollection_Serializers(t *testing.T) {
-	c := NewResultsCollection.UsingCap(2)
+	c := corejson.NewResultsCollection.UsingCap(2)
 	c.AddSerializerFunc(nil)
 	c.AddSerializerFunctions(nil)
 	c.AddSerializer(nil)
@@ -145,22 +146,22 @@ func TestResultsCollection_Serializers(t *testing.T) {
 }
 
 func TestResultsCollection_MapResults(t *testing.T) {
-	c := NewResultsCollection.UsingCap(2)
-	mr := NewMapResults.Empty()
+	c := corejson.NewResultsCollection.UsingCap(2)
+	mr := corejson.NewMapResults.Empty()
 	c.AddMapResults(mr)
 	c.AddRawMapResults(nil)
-	c.AddRawMapResults(map[string]Result{"a": NewResult.Any("x")})
+	c.AddRawMapResults(map[string]corejson.Result{"a": corejson.NewResult.Any("x")})
 }
 
 func TestResultsCollection_PtrNonPtr(t *testing.T) {
-	c := NewResultsCollection.Default()
+	c := corejson.NewResultsCollection.Default()
 	_ = c.NonPtr()
 	_ = c.Ptr()
 }
 
 func TestResultsCollection_ClearDispose(t *testing.T) {
-	c := NewResultsCollection.UsingCap(2)
-	c.Add(NewResult.Any("x"))
+	c := corejson.NewResultsCollection.UsingCap(2)
+	c.Add(corejson.NewResult.Any("x"))
 	c.Clear()
 	time.Sleep(10 * time.Millisecond)
 	if c.Length() != 0 { t.Fatal("expected 0") }
@@ -171,19 +172,19 @@ func TestResultsCollection_ClearDispose(t *testing.T) {
 }
 
 func TestResultsCollection_GetStrings(t *testing.T) {
-	c := NewResultsCollection.UsingCap(2)
-	c.Add(NewResult.Any("a"))
+	c := corejson.NewResultsCollection.UsingCap(2)
+	c.Add(corejson.NewResult.Any("a"))
 	strs := c.GetStrings()
 	if len(strs) != 1 { t.Fatal("expected 1") }
 	_ = c.GetStringsPtr()
-	empty := NewResultsCollection.Empty()
+	empty := corejson.NewResultsCollection.Empty()
 	if len(empty.GetStrings()) != 0 { t.Fatal("expected 0") }
 }
 
 func TestResultsCollection_Paging(t *testing.T) {
-	c := NewResultsCollection.UsingCap(10)
+	c := corejson.NewResultsCollection.UsingCap(10)
 	for i := 0; i < 10; i++ {
-		c.Add(NewResult.Any(i))
+		c.Add(corejson.NewResult.Any(i))
 	}
 	pages := c.GetPagesSize(3)
 	if pages != 4 { t.Fatal("expected 4") }
@@ -198,7 +199,7 @@ func TestResultsCollection_Paging(t *testing.T) {
 	single2 := c.GetSinglePageCollection(3, 4)
 	if single2.Length() != 1 { t.Fatal("expected 1") }
 
-	small := NewResultsCollection.UsingResults(NewResult.Any("x"))
+	small := corejson.NewResultsCollection.UsingResults(corejson.NewResult.Any("x"))
 	smallPaged := small.GetPagedCollection(5)
 	if len(smallPaged) != 1 { t.Fatal("expected 1") }
 	smallSingle := small.GetSinglePageCollection(5, 1)
@@ -206,8 +207,8 @@ func TestResultsCollection_Paging(t *testing.T) {
 }
 
 func TestResultsCollection_JsonMethods(t *testing.T) {
-	c := NewResultsCollection.UsingCap(2)
-	c.Add(NewResult.Any("x"))
+	c := corejson.NewResultsCollection.UsingCap(2)
+	c.Add(corejson.NewResult.Any("x"))
 	_ = c.JsonModel()
 	_ = c.JsonModelAny()
 	_ = c.Json()
@@ -218,8 +219,8 @@ func TestResultsCollection_JsonMethods(t *testing.T) {
 }
 
 func TestResultsCollection_Clone(t *testing.T) {
-	c := NewResultsCollection.UsingCap(2)
-	c.Add(NewResult.Any("x"))
+	c := corejson.NewResultsCollection.UsingCap(2)
+	c.Add(corejson.NewResult.Any("x"))
 	sc := c.ShadowClone()
 	if sc.Length() != 1 { t.Fatal("expected 1") }
 	dc := c.Clone(true)
@@ -229,22 +230,22 @@ func TestResultsCollection_Clone(t *testing.T) {
 	var nilC *ResultsCollection
 	if nilC.ClonePtr(true) != nil { t.Fatal("expected nil") }
 
-	empty := NewResultsCollection.Empty()
+	empty := corejson.NewResultsCollection.Empty()
 	ec := empty.Clone(true)
 	if ec.Length() != 0 { t.Fatal("expected 0") }
 }
 
 func TestResultsCollection_Creators(t *testing.T) {
-	_ = NewResultsCollection.AnyItems("a", "b")
-	_ = NewResultsCollection.AnyItemsPlusCap(5, "a")
-	_ = NewResultsCollection.AnyItemsPlusCap(5)
-	_ = NewResultsCollection.UsingResultsPtr(nil, &Result{Bytes: []byte(`"x"`)})
-	_ = NewResultsCollection.UsingResultsPtrPlusCap(5, nil)
-	_ = NewResultsCollection.UsingResultsPlusCap(5, NewResult.Any("x"))
-	_ = NewResultsCollection.UsingResultsPlusCap(5)
-	_ = NewResultsCollection.UsingResults(NewResult.Any("x"))
-	_ = NewResultsCollection.Serializers()
-	_ = NewResultsCollection.SerializerFunctions()
-	_ = NewResultsCollection.UsingJsoners()
-	_ = NewResultsCollection.UsingJsonersNonNull(5)
+	_ = corejson.NewResultsCollection.AnyItems("a", "b")
+	_ = corejson.NewResultsCollection.AnyItemsPlusCap(5, "a")
+	_ = corejson.NewResultsCollection.AnyItemsPlusCap(5)
+	_ = corejson.NewResultsCollection.UsingResultsPtr(nil, &corejson.Result{Bytes: []byte(`"x"`)})
+	_ = corejson.NewResultsCollection.UsingResultsPtrPlusCap(5, nil)
+	_ = corejson.NewResultsCollection.UsingResultsPlusCap(5, corejson.NewResult.Any("x"))
+	_ = corejson.NewResultsCollection.UsingResultsPlusCap(5)
+	_ = corejson.NewResultsCollection.UsingResults(corejson.NewResult.Any("x"))
+	_ = corejson.NewResultsCollection.Serializers()
+	_ = corejson.NewResultsCollection.SerializerFunctions()
+	_ = corejson.NewResultsCollection.UsingJsoners()
+	_ = corejson.NewResultsCollection.UsingJsonersNonNull(5)
 }

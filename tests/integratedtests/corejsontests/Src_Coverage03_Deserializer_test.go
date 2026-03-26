@@ -1,18 +1,19 @@
-package corejson
+package corejsontests
 
 import (
+	"github.com/alimtvnetwork/core/coredata/corejson"
 	"errors"
 	"testing"
 )
 
 func TestDeserializer_UsingBytes(t *testing.T) {
 	var out string
-	err := Deserialize.UsingBytes([]byte(`"hello"`), &out)
+	err := corejson.Deserialize.UsingBytes([]byte(`"hello"`), &out)
 	if err != nil || out != "hello" {
 		t.Fatal("unexpected")
 	}
 
-	err2 := Deserialize.UsingBytes([]byte(`invalid`), &out)
+	err2 := corejson.Deserialize.UsingBytes([]byte(`invalid`), &out)
 	if err2 == nil {
 		t.Fatal("expected error")
 	}
@@ -20,7 +21,7 @@ func TestDeserializer_UsingBytes(t *testing.T) {
 
 func TestDeserializer_UsingString(t *testing.T) {
 	var out int
-	err := Deserialize.UsingString("42", &out)
+	err := corejson.Deserialize.UsingString("42", &out)
 	if err != nil || out != 42 {
 		t.Fatal("unexpected")
 	}
@@ -28,7 +29,7 @@ func TestDeserializer_UsingString(t *testing.T) {
 
 func TestDeserializer_FromString(t *testing.T) {
 	var out int
-	err := Deserialize.FromString("42", &out)
+	err := corejson.Deserialize.FromString("42", &out)
 	if err != nil || out != 42 {
 		t.Fatal("unexpected")
 	}
@@ -36,7 +37,7 @@ func TestDeserializer_FromString(t *testing.T) {
 
 func TestDeserializer_FromStringMust(t *testing.T) {
 	var out int
-	Deserialize.FromStringMust("42", &out)
+	corejson.Deserialize.FromStringMust("42", &out)
 	if out != 42 {
 		t.Fatal("unexpected")
 	}
@@ -45,25 +46,25 @@ func TestDeserializer_FromStringMust(t *testing.T) {
 func TestDeserializer_UsingStringPtr(t *testing.T) {
 	s := `"hello"`
 	var out string
-	err := Deserialize.UsingStringPtr(&s, &out)
+	err := corejson.Deserialize.UsingStringPtr(&s, &out)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err2 := Deserialize.UsingStringPtr(nil, &out)
+	err2 := corejson.Deserialize.UsingStringPtr(nil, &out)
 	if err2 == nil {
 		t.Fatal("expected error for nil")
 	}
 }
 
 func TestDeserializer_UsingError(t *testing.T) {
-	err := Deserialize.UsingError(nil, nil)
+	err := corejson.Deserialize.UsingError(nil, nil)
 	if err != nil {
 		t.Fatal("expected nil for nil error")
 	}
 
 	var out string
-	err2 := Deserialize.UsingError(errors.New(`"hello"`), &out)
+	err2 := corejson.Deserialize.UsingError(errors.New(`"hello"`), &out)
 	if err2 != nil {
 		t.Fatal(err2)
 	}
@@ -71,12 +72,12 @@ func TestDeserializer_UsingError(t *testing.T) {
 
 func TestDeserializer_UsingStringOption(t *testing.T) {
 	var out string
-	err := Deserialize.UsingStringOption(true, "", &out)
+	err := corejson.Deserialize.UsingStringOption(true, "", &out)
 	if err != nil {
 		t.Fatal("expected nil for empty string skip")
 	}
 
-	err2 := Deserialize.UsingStringOption(false, `"x"`, &out)
+	err2 := corejson.Deserialize.UsingStringOption(false, `"x"`, &out)
 	if err2 != nil {
 		t.Fatal(err2)
 	}
@@ -84,7 +85,7 @@ func TestDeserializer_UsingStringOption(t *testing.T) {
 
 func TestDeserializer_UsingStringIgnoreEmpty(t *testing.T) {
 	var out string
-	err := Deserialize.UsingStringIgnoreEmpty("", &out)
+	err := corejson.Deserialize.UsingStringIgnoreEmpty("", &out)
 	if err != nil {
 		t.Fatal("expected nil")
 	}
@@ -92,12 +93,12 @@ func TestDeserializer_UsingStringIgnoreEmpty(t *testing.T) {
 
 func TestDeserializer_UsingBytesPointer(t *testing.T) {
 	var out string
-	err := Deserialize.UsingBytesPointer(nil, &out)
+	err := corejson.Deserialize.UsingBytesPointer(nil, &out)
 	if err == nil {
 		t.Fatal("expected error for nil")
 	}
 
-	err2 := Deserialize.UsingBytesPointer([]byte(`"x"`), &out)
+	err2 := corejson.Deserialize.UsingBytesPointer([]byte(`"x"`), &out)
 	if err2 != nil {
 		t.Fatal(err2)
 	}
@@ -105,7 +106,7 @@ func TestDeserializer_UsingBytesPointer(t *testing.T) {
 
 func TestDeserializer_UsingBytesPointerMust(t *testing.T) {
 	var out string
-	Deserialize.UsingBytesPointerMust([]byte(`"x"`), &out)
+	corejson.Deserialize.UsingBytesPointerMust([]byte(`"x"`), &out)
 	if out != "x" {
 		t.Fatal("unexpected")
 	}
@@ -113,7 +114,7 @@ func TestDeserializer_UsingBytesPointerMust(t *testing.T) {
 
 func TestDeserializer_UsingBytesMust(t *testing.T) {
 	var out int
-	Deserialize.UsingBytesMust([]byte("42"), &out)
+	corejson.Deserialize.UsingBytesMust([]byte("42"), &out)
 	if out != 42 {
 		t.Fatal("unexpected")
 	}
@@ -121,9 +122,9 @@ func TestDeserializer_UsingBytesMust(t *testing.T) {
 
 func TestDeserializer_UsingSafeBytesMust(t *testing.T) {
 	var out int
-	Deserialize.UsingSafeBytesMust([]byte{}, &out)
+	corejson.Deserialize.UsingSafeBytesMust([]byte{}, &out)
 
-	Deserialize.UsingSafeBytesMust([]byte("42"), &out)
+	corejson.Deserialize.UsingSafeBytesMust([]byte("42"), &out)
 	if out != 42 {
 		t.Fatal("unexpected")
 	}
@@ -131,12 +132,12 @@ func TestDeserializer_UsingSafeBytesMust(t *testing.T) {
 
 func TestDeserializer_UsingBytesIf(t *testing.T) {
 	var out string
-	err := Deserialize.UsingBytesIf(false, []byte(`"x"`), &out)
+	err := corejson.Deserialize.UsingBytesIf(false, []byte(`"x"`), &out)
 	if err != nil {
 		t.Fatal("expected nil when skip")
 	}
 
-	err2 := Deserialize.UsingBytesIf(true, []byte(`"x"`), &out)
+	err2 := corejson.Deserialize.UsingBytesIf(true, []byte(`"x"`), &out)
 	if err2 != nil {
 		t.Fatal(err2)
 	}
@@ -144,34 +145,34 @@ func TestDeserializer_UsingBytesIf(t *testing.T) {
 
 func TestDeserializer_UsingBytesPointerIf(t *testing.T) {
 	var out string
-	err := Deserialize.UsingBytesPointerIf(false, []byte(`"x"`), &out)
+	err := corejson.Deserialize.UsingBytesPointerIf(false, []byte(`"x"`), &out)
 	if err != nil {
 		t.Fatal("expected nil when skip")
 	}
 }
 
 func TestDeserializer_Apply(t *testing.T) {
-	r := NewResult.Any("hello")
+	r := corejson.NewResult.Any("hello")
 	var out string
-	err := Deserialize.Apply(r.Ptr(), &out)
+	err := corejson.Deserialize.Apply(r.Ptr(), &out)
 	if err != nil || out != "hello" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ApplyMust(t *testing.T) {
-	r := NewResult.Any(42)
+	r := corejson.NewResult.Any(42)
 	var out int
-	Deserialize.ApplyMust(r.Ptr(), &out)
+	corejson.Deserialize.ApplyMust(r.Ptr(), &out)
 	if out != 42 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_UsingResult(t *testing.T) {
-	r := NewResult.Any("hi")
+	r := corejson.NewResult.Any("hi")
 	var out string
-	err := Deserialize.UsingResult(r.Ptr(), &out)
+	err := corejson.Deserialize.UsingResult(r.Ptr(), &out)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -180,146 +181,146 @@ func TestDeserializer_UsingResult(t *testing.T) {
 func TestDeserializer_MapAnyToPointer(t *testing.T) {
 	m := map[string]any{"key": "val"}
 	var out map[string]any
-	err := Deserialize.MapAnyToPointer(false, m, &out)
+	err := corejson.Deserialize.MapAnyToPointer(false, m, &out)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err2 := Deserialize.MapAnyToPointer(true, map[string]any{}, &out)
+	err2 := corejson.Deserialize.MapAnyToPointer(true, map[string]any{}, &out)
 	if err2 != nil {
 		t.Fatal("expected nil for empty skip")
 	}
 }
 
 func TestDeserializer_AnyToFieldsMap(t *testing.T) {
-	m, err := Deserialize.AnyToFieldsMap(map[string]int{"a": 1})
+	m, err := corejson.Deserialize.AnyToFieldsMap(map[string]int{"a": 1})
 	_ = m
 	_ = err
 }
 
 func TestDeserializer_BytesTo_Strings(t *testing.T) {
-	b, _ := Serialize.Raw([]string{"a", "b"})
-	lines, err := Deserialize.BytesTo.Strings(b)
+	b, _ := corejson.Serialize.Raw([]string{"a", "b"})
+	lines, err := corejson.Deserialize.BytesTo.Strings(b)
 	if err != nil || len(lines) != 2 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_StringsMust(t *testing.T) {
-	b, _ := Serialize.Raw([]string{"a"})
-	lines := Deserialize.BytesTo.StringsMust(b)
+	b, _ := corejson.Serialize.Raw([]string{"a"})
+	lines := corejson.Deserialize.BytesTo.StringsMust(b)
 	if len(lines) != 1 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_String(t *testing.T) {
-	b, _ := Serialize.Raw("hello")
-	s, err := Deserialize.BytesTo.String(b)
+	b, _ := corejson.Serialize.Raw("hello")
+	s, err := corejson.Deserialize.BytesTo.String(b)
 	if err != nil || s != "hello" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_StringMust(t *testing.T) {
-	b, _ := Serialize.Raw("x")
-	s := Deserialize.BytesTo.StringMust(b)
+	b, _ := corejson.Serialize.Raw("x")
+	s := corejson.Deserialize.BytesTo.StringMust(b)
 	if s != "x" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_Integer(t *testing.T) {
-	b, _ := Serialize.Raw(42)
-	i, err := Deserialize.BytesTo.Integer(b)
+	b, _ := corejson.Serialize.Raw(42)
+	i, err := corejson.Deserialize.BytesTo.Integer(b)
 	if err != nil || i != 42 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_IntegerMust(t *testing.T) {
-	b, _ := Serialize.Raw(42)
-	i := Deserialize.BytesTo.IntegerMust(b)
+	b, _ := corejson.Serialize.Raw(42)
+	i := corejson.Deserialize.BytesTo.IntegerMust(b)
 	if i != 42 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_Integer64(t *testing.T) {
-	b, _ := Serialize.Raw(64)
-	i, err := Deserialize.BytesTo.Integer64(b)
+	b, _ := corejson.Serialize.Raw(64)
+	i, err := corejson.Deserialize.BytesTo.Integer64(b)
 	if err != nil || i != 64 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_Integer64Must(t *testing.T) {
-	b, _ := Serialize.Raw(64)
-	i := Deserialize.BytesTo.Integer64Must(b)
+	b, _ := corejson.Serialize.Raw(64)
+	i := corejson.Deserialize.BytesTo.Integer64Must(b)
 	if i != 64 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_Integers(t *testing.T) {
-	b, _ := Serialize.Raw([]int{1, 2})
-	ints, err := Deserialize.BytesTo.Integers(b)
+	b, _ := corejson.Serialize.Raw([]int{1, 2})
+	ints, err := corejson.Deserialize.BytesTo.Integers(b)
 	if err != nil || len(ints) != 2 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_IntegersMust(t *testing.T) {
-	b, _ := Serialize.Raw([]int{1})
-	ints := Deserialize.BytesTo.IntegersMust(b)
+	b, _ := corejson.Serialize.Raw([]int{1})
+	ints := corejson.Deserialize.BytesTo.IntegersMust(b)
 	if len(ints) != 1 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_Bool(t *testing.T) {
-	b, _ := Serialize.Raw(true)
-	v, err := Deserialize.BytesTo.Bool(b)
+	b, _ := corejson.Serialize.Raw(true)
+	v, err := corejson.Deserialize.BytesTo.Bool(b)
 	if err != nil || !v {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_BoolMust(t *testing.T) {
-	b, _ := Serialize.Raw(false)
-	v := Deserialize.BytesTo.BoolMust(b)
+	b, _ := corejson.Serialize.Raw(false)
+	v := corejson.Deserialize.BytesTo.BoolMust(b)
 	if v {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_MapAnyItem(t *testing.T) {
-	b, _ := Serialize.Raw(map[string]any{"k": "v"})
-	m, err := Deserialize.BytesTo.MapAnyItem(b)
+	b, _ := corejson.Serialize.Raw(map[string]any{"k": "v"})
+	m, err := corejson.Deserialize.BytesTo.MapAnyItem(b)
 	if err != nil || len(m) == 0 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_MapAnyItemMust(t *testing.T) {
-	b, _ := Serialize.Raw(map[string]any{"k": "v"})
-	m := Deserialize.BytesTo.MapAnyItemMust(b)
+	b, _ := corejson.Serialize.Raw(map[string]any{"k": "v"})
+	m := corejson.Deserialize.BytesTo.MapAnyItemMust(b)
 	if len(m) == 0 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_MapStringString(t *testing.T) {
-	b, _ := Serialize.Raw(map[string]string{"k": "v"})
-	m, err := Deserialize.BytesTo.MapStringString(b)
+	b, _ := corejson.Serialize.Raw(map[string]string{"k": "v"})
+	m, err := corejson.Deserialize.BytesTo.MapStringString(b)
 	if err != nil || m["k"] != "v" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_BytesTo_MapStringStringMust(t *testing.T) {
-	b, _ := Serialize.Raw(map[string]string{"k": "v"})
-	m := Deserialize.BytesTo.MapStringStringMust(b)
+	b, _ := corejson.Serialize.Raw(map[string]string{"k": "v"})
+	m := corejson.Deserialize.BytesTo.MapStringStringMust(b)
 	if m["k"] != "v" {
 		t.Fatal("unexpected")
 	}
@@ -327,85 +328,85 @@ func TestDeserializer_BytesTo_MapStringStringMust(t *testing.T) {
 
 func TestDeserializer_BytesTo_Bytes(t *testing.T) {
 	input := []byte(`"aGVsbG8="`)
-	_, err := Deserialize.BytesTo.Bytes(input)
+	_, err := corejson.Deserialize.BytesTo.Bytes(input)
 	_ = err
 }
 
 func TestDeserializer_ResultTo_String(t *testing.T) {
-	r := NewResult.AnyPtr("hello")
-	s, err := Deserialize.ResultTo.String(r)
+	r := corejson.NewResult.AnyPtr("hello")
+	s, err := corejson.Deserialize.ResultTo.String(r)
 	if err != nil || s != "hello" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_StringMust(t *testing.T) {
-	r := NewResult.AnyPtr("x")
-	s := Deserialize.ResultTo.StringMust(r)
+	r := corejson.NewResult.AnyPtr("x")
+	s := corejson.Deserialize.ResultTo.StringMust(r)
 	if s != "x" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_Bool(t *testing.T) {
-	r := NewResult.AnyPtr(true)
-	v, err := Deserialize.ResultTo.Bool(r)
+	r := corejson.NewResult.AnyPtr(true)
+	v, err := corejson.Deserialize.ResultTo.Bool(r)
 	if err != nil || !v {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_BoolMust(t *testing.T) {
-	r := NewResult.AnyPtr(true)
-	v := Deserialize.ResultTo.BoolMust(r)
+	r := corejson.NewResult.AnyPtr(true)
+	v := corejson.Deserialize.ResultTo.BoolMust(r)
 	if !v {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_Byte(t *testing.T) {
-	r := NewResult.AnyPtr(byte(65))
-	_, err := Deserialize.ResultTo.Byte(r)
+	r := corejson.NewResult.AnyPtr(byte(65))
+	_, err := corejson.Deserialize.ResultTo.Byte(r)
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestDeserializer_ResultTo_MapAnyItem(t *testing.T) {
-	r := NewResult.AnyPtr(map[string]any{"k": "v"})
-	m, err := Deserialize.ResultTo.MapAnyItem(r)
+	r := corejson.NewResult.AnyPtr(map[string]any{"k": "v"})
+	m, err := corejson.Deserialize.ResultTo.MapAnyItem(r)
 	if err != nil || len(m) == 0 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_MapAnyItemMust(t *testing.T) {
-	r := NewResult.AnyPtr(map[string]any{"k": "v"})
-	m := Deserialize.ResultTo.MapAnyItemMust(r)
+	r := corejson.NewResult.AnyPtr(map[string]any{"k": "v"})
+	m := corejson.Deserialize.ResultTo.MapAnyItemMust(r)
 	if len(m) == 0 {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_MapStringString(t *testing.T) {
-	r := NewResult.AnyPtr(map[string]string{"k": "v"})
-	m, err := Deserialize.ResultTo.MapStringString(r)
+	r := corejson.NewResult.AnyPtr(map[string]string{"k": "v"})
+	m, err := corejson.Deserialize.ResultTo.MapStringString(r)
 	if err != nil || m["k"] != "v" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_MapStringStringMust(t *testing.T) {
-	r := NewResult.AnyPtr(map[string]string{"k": "v"})
-	m := Deserialize.ResultTo.MapStringStringMust(r)
+	r := corejson.NewResult.AnyPtr(map[string]string{"k": "v"})
+	m := corejson.Deserialize.ResultTo.MapStringStringMust(r)
 	if m["k"] != "v" {
 		t.Fatal("unexpected")
 	}
 }
 
 func TestDeserializer_ResultTo_StringsMust(t *testing.T) {
-	r := NewResult.AnyPtr([]string{"a", "b"})
-	lines := Deserialize.ResultTo.StringsMust(r)
+	r := corejson.NewResult.AnyPtr([]string{"a", "b"})
+	lines := corejson.Deserialize.ResultTo.StringsMust(r)
 	if len(lines) != 2 {
 		t.Fatal("unexpected")
 	}
