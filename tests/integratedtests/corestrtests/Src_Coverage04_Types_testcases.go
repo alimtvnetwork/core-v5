@@ -350,8 +350,6 @@ var srcC04LeftMiddleRightTestCase = coretestcases.CaseV1{
 		"toLrRight":       "c",
 		"invalidIsValid":  false,
 	},
-		"invalidIsValid":          false,
-	},
 }
 
 var srcC04LeftMiddleRightFromSplitTestCase = coretestcases.CaseV1{
