@@ -491,8 +491,9 @@ func Test_C76_SimpleSlice_IsEqualByFuncLinesSplit_Empty(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Empty()
 
 	// Act & Assert
-	if !ss.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
-		t.Error("expected true for empty")
+	// strings.Split("", ",") returns [""] (length 1), empty slice has length 0 → not equal
+	if ss.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
+		t.Error("expected false for empty vs single-element split")
 	}
 }
 

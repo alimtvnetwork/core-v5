@@ -567,8 +567,8 @@ func Test_CovS23_38_HashsetsCollection_Json(t *testing.T) {
 	jsonResult := hc.Json()
 
 	// Assert
-	if jsonResult.IsEmptyError() {
-		t.Errorf("Json should produce valid result")
+	if jsonResult.HasError() {
+		t.Errorf("Json should produce valid result, got error: %v", jsonResult.Error)
 	}
 }
 

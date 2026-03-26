@@ -717,6 +717,10 @@ func (it *CharCollectionMap) AddSameCharsCollection(
 
 	char := it.GetChar(str)
 
+	if it.items == nil {
+		it.items = make(map[byte]*Collection, 4)
+	}
+
 	if isNilOrEmptyCollectionGiven {
 		// create new
 		newCollection := New.Collection.Cap(

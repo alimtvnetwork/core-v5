@@ -681,8 +681,8 @@ func Test_S20_055_HashmapDiff_DiffRaw(t *testing.T) {
 	if diff == nil {
 		t.Fatal("DiffRaw returns non-nil -- has diff")
 	}
-	if diff["b"] != "3" {
-		t.Errorf("DiffRaw contains b=3 -- changed value, got %s", diff["b"])
+	if diff["b"] != "2" {
+		t.Errorf("DiffRaw contains b=2 -- left value for changed key, got %s", diff["b"])
 	}
 }
 

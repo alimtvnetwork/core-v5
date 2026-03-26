@@ -778,9 +778,9 @@ func Test_S22_094_NewLinkedCollection_Strings(t *testing.T) {
 	// Act
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 
-	// Assert
-	if lc.Length() != 2 {
-		t.Errorf("New.LinkedCollection.Strings returns 2, got %d", lc.Length())
+	// Assert — Strings bundles all items into a single collection node
+	if lc.Length() != 1 {
+		t.Errorf("New.LinkedCollection.Strings returns 1 node, got %d", lc.Length())
 	}
 }
 
