@@ -58,12 +58,11 @@ func Test_SrcC15_AllIndLenSlices_Verification(t *testing.T) {
 	tc := srcC15AllIndLenSlicesTestCase
 
 	// Act
+	ss1 := corestr.New.SimpleSlice.SpreadStrings("a", "b")
+	ss2 := corestr.New.SimpleSlice.SpreadStrings("c")
 	actual := args.Map{
-		"length": corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{
-			corestr.New.SimpleSlice.SpreadStrings("a", "b"),
-			corestr.New.SimpleSlice.SpreadStrings("c"),
-		}),
-		"nilLen": corestr.AllIndividualsLengthOfSimpleSlices(nil),
+		"length": corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2),
+		"nilLen": corestr.AllIndividualsLengthOfSimpleSlices(),
 	}
 
 	// Assert
