@@ -7,22 +7,24 @@ Updated: 2026-03-26
 **92 files** across **14 packages** need to move to `tests/integratedtests/{pkg}tests/`.
 Internal packages are excluded per rules.
 
-| Source Package | Files | Target Directory |
-|---|---|---|
-| `coredata/corejson/` | 25 | `tests/integratedtests/corejsontests/` |
-| `coredata/corestr/` | 20 | `tests/integratedtests/corestrtests/` |
-| `coredata/coredynamic/` | 11 | `tests/integratedtests/coredynamictests/` |
-| `errcore/` | 11 | `tests/integratedtests/errcoretests/` |
-| `codestack/` | 5 | `tests/integratedtests/codestacktests/` |
-| `coredata/corepayload/` | 5 | `tests/integratedtests/corepayloadtests/` |
-| `coretests/args/` | 3 | `tests/integratedtests/argstests/` |
-| `coredata/stringslice/` | 2 | `tests/integratedtests/stringslicetests/` |
-| `corecmp/` | 2 | `tests/integratedtests/corecmptests/` |
-| `chmodhelper/` | 2 | `tests/integratedtests/chmodhelpertests/` |
-| `regexnew/` | 2 | `tests/integratedtests/regexnewtests/` |
-| `reflectcore/reflectmodel/` | 1 (1 internal excluded) | `tests/integratedtests/reflectmodeltests/` |
-| `coretests/` | 1 | `tests/integratedtests/coreteststests/` |
-| `coreinstruction/` | 1 | `tests/integratedtests/coreinstructiontests/` |
+| Source Package | Files | Status | Notes |
+|---|---|---|---|
+| `coredata/corejson/` | 25 | ✅ DONE | Moved to `Src_*` in corejsontests, originals deleted |
+| `coredata/corestr/` | 20 | TODO | |
+| `coredata/coredynamic/` | 11 | TODO | |
+| `errcore/` | 11 | TODO | |
+| `codestack/` | 5 | TODO | |
+| `coredata/corepayload/` | 5 | TODO | |
+| `coretests/args/` | 3 | TODO | |
+| `coredata/stringslice/` | 2 | TODO | |
+| `corecmp/` | 2 | ✅ DONE | Already duplicated in integrated tests; source deleted |
+| `chmodhelper/` | 2 | ⏭️ SKIP | Uses unexported symbols; left in source per user decision |
+| `regexnew/` | 2 | ⏭️ SKIP | Uses unexported symbols; left in source per user decision |
+| `reflectcore/reflectmodel/` | 1 | ⏭️ SKIP | Internal test (`_internal_test.go`); left in source per user decision |
+| `coretests/` | 1 | TODO | |
+| `coreinstruction/` | 1 | ✅ DONE | Moved to `Src_*` in coreinstructiontests, original deleted |
+
+**Remaining to migrate: ~58 files across 7 packages**
 
 **Moving steps per file:**
 1. Change `package` declaration from source pkg to `{pkg}tests`
@@ -51,14 +53,16 @@ Many test cases have `args.Map{"key1": val1, "key2": val2}` on one line instead 
 ### Phase 1: Move In-Package Tests (Priority — blocks coverage measurement)
 Move files from source packages → integrated tests directory.
 Order by file count (largest first):
-1. `corejson` (25 files)
+1. ~~`corejson` (25 files)~~ ✅
 2. `corestr` (20 files)
 3. `coredynamic` (11 files)
 4. `errcore` (11 files)
 5. `codestack` (5 files)
 6. `corepayload` (5 files)
 7. `coretests/args` (3 files)
-8. Remaining small packages (2 files each): `stringslice`, `corecmp`, `chmodhelper`, `regexnew`, `reflectmodel`, `coretests`, `coreinstruction`
+8. ~~Small packages: `corecmp`, `coreinstruction`~~ ✅
+9. Remaining: `stringslice`, `coretests`
+10. Skipped (unexported/internal): `chmodhelper`, `regexnew`, `reflectmodel`
 
 ### Phase 2: Fix Assertion Style (t.Fatal → CaseV1/GoConvey)
 Convert raw assertions to framework style. This is the most labor-intensive phase.
