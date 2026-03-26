@@ -221,7 +221,8 @@ func Test_Cov73_AnyCollection_JsonString(t *testing.T) {
 
 func Test_Cov73_AnyCollection_JsonStringMust(t *testing.T) {
 	// Arrange
-	ac := coredynamic.NewAnyCollectionUsingItems([]any{"a"})
+	ac := coredynamic.NewAnyCollection(1)
+	ac.Add("a")
 
 	// Act
 	str := ac.JsonStringMust()
