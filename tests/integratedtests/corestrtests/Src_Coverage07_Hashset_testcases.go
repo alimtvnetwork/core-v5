@@ -175,7 +175,7 @@ var srcC07HashsetWgLockTestCase = coretestcases.CaseV1{
 var srcC07HashsetAddItemsMapTestCase = coretestcases.CaseV1{
 	Title: "Hashset AddItemsMap returns correct -- true values only",
 	ExpectedInput: args.Map{
-		"length":  1,
+		"length":  2, // "a" from AddItemsMap + "c" from AddItemsMapWgLock
 		"noPanic": true,
 	},
 }

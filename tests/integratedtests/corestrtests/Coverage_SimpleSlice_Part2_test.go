@@ -288,10 +288,10 @@ func Test_CovSS2_20_IsEqualByFuncLinesSplit(t *testing.T) {
 	if ss.IsEqualByFuncLinesSplit(false, ",", "a,c", func(i int, l, r string) bool { return l == r }) {
 		t.Fatal("expected false")
 	}
-	// empty
+	// empty — strings.Split("", ",") returns [""] (length 1) which != 0, so returns false
 	e := corestr.New.SimpleSlice.Strings([]string{})
-	if !e.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
-		t.Fatal("expected true")
+	if e.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
+		t.Fatal("expected false for empty vs split-empty mismatch")
 	}
 }
 

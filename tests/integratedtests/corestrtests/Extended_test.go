@@ -1110,9 +1110,10 @@ func Test_ExtCollection_JsonString_Verification(t *testing.T) {
 	// Act
 	result := col.JsonString()
 
-	// Assert — value receiver JsonPtr loses unexported items, returns empty
-	if result != "" {
-		t.Error("JsonString should be empty due to value receiver serialization")
+	// Assert — JsonPtr uses value receiver but slice is a reference type,
+	// so the copy retains the underlying items and serialization works.
+	if result == "" {
+		t.Error("JsonString should be non-empty for a populated collection")
 	}
 }
 

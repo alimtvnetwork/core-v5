@@ -1119,9 +1119,9 @@ func Test_S08b_78_Collection_AddNonEmptyStrings(t *testing.T) {
 	// Act
 	col.AddNonEmptyStrings("a", "", "b")
 
-	// Assert
-	if col.Length() != 3 { // AddNonEmptyStrings delegates to AddNonEmptyStringsSlice which appends all
-		t.Fatalf("expected 3, got %d", col.Length())
+	// Assert — AddNonEmptyStrings filters empty strings, so only "a" and "b" are added
+	if col.Length() != 2 {
+		t.Fatalf("expected 2, got %d", col.Length())
 	}
 }
 
