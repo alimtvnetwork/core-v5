@@ -352,8 +352,9 @@ func Test_SrcC08_LinkedListNode_Methods_Verification(t *testing.T) {
 func Test_SrcC08_LinkedListNode_EndOfChain_Verification(t *testing.T) {
 	// Arrange
 	tc := srcC08LinkedListEndOfChainTestCase
-	n1 := &corestr.LinkedListNode{Element: "a"}
-	n1.SetNext(&corestr.LinkedListNode{Element: "b"})
+	// Build chain via linked list to access chained nodes through public API
+	tmpLL := corestr.New.LinkedList.Strings([]string{"a", "b"})
+	n1 := tmpLL.Head()
 
 	// Act
 	end, length := n1.EndOfChain()
