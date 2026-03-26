@@ -68,6 +68,26 @@ if len(items) == 0 {
 
 **Reason**: `regexp.Split(content, -1)` always returns at least one element (even for empty string → `[""]`). The `len(items) == 0` check is unreachable.
 
+## 7. `iserror/Equal.go:8-10`
+
+```go
+if left == nil && right == nil {
+    return true
+}
+```
+
+**Reason**: Line 4 checks `left == right` which already returns `true` when both are nil. The explicit nil-nil check is redundant.
+
+## 8. `reqtype/start.go:8-10` and `reqtype/end.go:6-8`
+
+```go
+if len(reqs) == 0 {
+    return nil
+}
+```
+
+**Reason**: Both are unexported functions. All callers (`RangesNotMeet`, `GetStatusAnyOf`) guard against empty slices before calling `start`/`end`, making the internal empty check unreachable.
+
 ## Recommendation
 
 These are defensive guards. They could be removed for cleanliness, but keeping them is harmless. Coverage for these packages is effectively 100% for all reachable code.
