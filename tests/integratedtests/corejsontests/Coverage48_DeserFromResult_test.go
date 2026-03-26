@@ -173,7 +173,7 @@ func Test_Cov48_ResultTo_MapResults_Valid(t *testing.T) {
 
 func Test_Cov48_ResultTo_MapResultsMust_Valid(t *testing.T) {
 	// Arrange
-	mr := corejson.NewMapResults.UsingAnyItems(map[string]any{"k": "v"})
+	mr := corejson.NewMapResults.UsingMapAnyItems(map[string]any{"k": "v"})
 	jsonResult := corejson.Serialize.Apply(mr)
 
 	// Act
