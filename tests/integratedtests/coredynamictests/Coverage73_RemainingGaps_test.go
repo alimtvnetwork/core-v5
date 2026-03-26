@@ -393,7 +393,7 @@ func Test_Cov73_Dynamic_MarshalJSON(t *testing.T) {
 
 func Test_Cov73_KeyVal_SetTo_Error(t *testing.T) {
 	// Arrange
-	kv := coredynamic.NewKeyVal("key", "value")
+	kv := coredynamic.KeyVal{Key: "key", Value: "value"}
 	var keyOut int
 	var valOut int
 
@@ -408,7 +408,7 @@ func Test_Cov73_KeyVal_SetTo_Error(t *testing.T) {
 
 func Test_Cov73_KeyVal_Serialize(t *testing.T) {
 	// Arrange
-	kv := coredynamic.NewKeyVal("key", "value")
+	kv := coredynamic.KeyVal{Key: "key", Value: "value"}
 
 	// Act
 	bytes, err := kv.Serialize()
@@ -430,7 +430,7 @@ func Test_Cov73_KeyVal_Serialize(t *testing.T) {
 func Test_Cov73_KeyValCollection_Serialize(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 
 	// Act
 	bytes, err := kvc.Serialize()
@@ -450,7 +450,7 @@ func Test_Cov73_KeyValCollection_Serialize(t *testing.T) {
 func Test_Cov73_KeyValCollection_JsonString(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 
 	// Act
 	str, err := kvc.JsonString()
@@ -470,7 +470,7 @@ func Test_Cov73_KeyValCollection_JsonString(t *testing.T) {
 func Test_Cov73_KeyValCollection_ToMapResults(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 
 	// Act
 	mr, err := kvc.JsonMapResults()
@@ -615,7 +615,7 @@ func Test_Cov73_AnyCollection_ParseInjectUsingJsonMust(t *testing.T) {
 func Test_Cov73_KeyValCollection_ParseInjectUsingJsonMust(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 	jsonResult := corejson.New(kvc)
 
 	// Act
