@@ -498,8 +498,9 @@ func Test_SrcC11_AllIndStrLen_Verification(t *testing.T) {
 	tc := srcC11AllIndStrLenTestCase
 
 	// Act
+	input := [][]string{{"a", "b"}, {"c"}}
 	actual := args.Map{
-		"length": corestr.AllIndividualStringsOfStringsLength([][]string{{"a", "b"}, {"c"}}),
+		"length": corestr.AllIndividualStringsOfStringsLength(&input),
 		"nilLen": corestr.AllIndividualStringsOfStringsLength(nil),
 	}
 
