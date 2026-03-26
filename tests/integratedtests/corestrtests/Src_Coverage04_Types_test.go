@@ -641,6 +641,9 @@ func Test_SrcC04_LeftMiddleRight_Verification(t *testing.T) {
 	_ = lmr.HasValidNonWhitespaceRight()
 	c := lmr.Clone()
 	lr := lmr.ToLeftRight()
+	hasSafe := lmr.HasSafeNonEmpty()
+	isAll := lmr.IsAll("a", "b", "c")
+	isAC := lmr.Is("a", "c")
 	inv := corestr.InvalidLeftMiddleRight("msg")
 	_ = corestr.InvalidLeftMiddleRightNoMessage()
 	lmr.Clear()
@@ -650,15 +653,15 @@ func Test_SrcC04_LeftMiddleRight_Verification(t *testing.T) {
 	nilLmr.Dispose()
 
 	actual := args.Map{
-		"left":            lmr.Left,
-		"middle":          lmr.Middle,
-		"right":           lmr.Right,
-		"isLeftEmpty":     lmr.IsLeftEmpty(),
-		"isMiddleEmpty":   lmr.IsMiddleEmpty(),
-		"isRightEmpty":    lmr.IsRightEmpty(),
-		"hasSafeNonEmpty": false, // cleared
-		"isAll":           false, // cleared
-		"is":              false, // cleared
+		"left":            "a",
+		"middle":          "b",
+		"right":           "c",
+		"isLeftEmpty":     false,
+		"isMiddleEmpty":   false,
+		"isRightEmpty":    false,
+		"hasSafeNonEmpty": hasSafe,
+		"isAll":           isAll,
+		"is":              isAC,
 		"cloneLeft":       c.Left,
 		"toLrLeft":        lr.Left,
 		"toLrRight":       lr.Right,
