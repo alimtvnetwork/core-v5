@@ -34,11 +34,11 @@ func makeCollectionCov23() *corepayload.TypedPayloadCollection[testUserCov23] {
 
 func Test_Cov23_MapTypedPayloads(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	names := corepayload.MapTypedPayloads[testUser, string](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) string {
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string {
 			return item.Data().Name
 		},
 	)
@@ -51,11 +51,11 @@ func Test_Cov23_MapTypedPayloads(t *testing.T) {
 
 func Test_Cov23_MapTypedPayloads_Empty(t *testing.T) {
 	// Arrange
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
 	result := corepayload.MapTypedPayloads[testUser, string](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) string {
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string {
 			return item.Data().Name
 		},
 	)
@@ -70,7 +70,7 @@ func Test_Cov23_MapTypedPayloads_Empty(t *testing.T) {
 
 func Test_Cov23_MapTypedPayloadData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	emails := corepayload.MapTypedPayloadData[testUser, string](col,
@@ -87,11 +87,11 @@ func Test_Cov23_MapTypedPayloadData(t *testing.T) {
 
 func Test_Cov23_FlatMapTypedPayloads(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := corepayload.FlatMapTypedPayloads[testUser, string](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) []string {
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) []string {
 			return []string{item.Data().Name, item.Data().Email}
 		},
 	)
@@ -104,11 +104,11 @@ func Test_Cov23_FlatMapTypedPayloads(t *testing.T) {
 
 func Test_Cov23_FlatMapTypedPayloads_Empty(t *testing.T) {
 	// Arrange
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
 	result := corepayload.FlatMapTypedPayloads[testUser, string](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) []string {
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) []string {
 			return []string{item.Data().Name}
 		},
 	)
@@ -123,7 +123,7 @@ func Test_Cov23_FlatMapTypedPayloads_Empty(t *testing.T) {
 
 func Test_Cov23_FlatMapTypedPayloadData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := corepayload.FlatMapTypedPayloadData[testUser, string](col,
@@ -140,11 +140,11 @@ func Test_Cov23_FlatMapTypedPayloadData(t *testing.T) {
 
 func Test_Cov23_ReduceTypedPayloads(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	totalAge := corepayload.ReduceTypedPayloads[testUser, int](col, 0,
-		func(acc int, item *corepayload.TypedPayloadWrapper[testUser]) int {
+		func(acc int, item *corepayload.TypedPayloadWrapper[testUserCov23]) int {
 			return acc + item.Data().Age
 		},
 	)
@@ -157,11 +157,11 @@ func Test_Cov23_ReduceTypedPayloads(t *testing.T) {
 
 func Test_Cov23_ReduceTypedPayloads_Empty(t *testing.T) {
 	// Arrange
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
 	result := corepayload.ReduceTypedPayloads[testUser, int](col, 42,
-		func(acc int, item *corepayload.TypedPayloadWrapper[testUser]) int {
+		func(acc int, item *corepayload.TypedPayloadWrapper[testUserCov23]) int {
 			return acc + 1
 		},
 	)
@@ -176,7 +176,7 @@ func Test_Cov23_ReduceTypedPayloads_Empty(t *testing.T) {
 
 func Test_Cov23_ReduceTypedPayloadData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := corepayload.ReduceTypedPayloadData[testUser, int](col, 0,
@@ -193,11 +193,11 @@ func Test_Cov23_ReduceTypedPayloadData(t *testing.T) {
 
 func Test_Cov23_GroupTypedPayloads(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	groups := corepayload.GroupTypedPayloads[testUser, string](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) string {
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string {
 			if item.Data().Age >= 30 {
 				return "senior"
 			}
@@ -221,11 +221,11 @@ func Test_Cov23_GroupTypedPayloads(t *testing.T) {
 
 func Test_Cov23_GroupTypedPayloads_Empty(t *testing.T) {
 	// Arrange
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
 	groups := corepayload.GroupTypedPayloads[testUser, string](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) string { return "x" },
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string { return "x" },
 	)
 
 	// Assert
@@ -238,7 +238,7 @@ func Test_Cov23_GroupTypedPayloads_Empty(t *testing.T) {
 
 func Test_Cov23_GroupTypedPayloadData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	groups := corepayload.GroupTypedPayloadData[testUser, string](col,
@@ -260,11 +260,11 @@ func Test_Cov23_GroupTypedPayloadData(t *testing.T) {
 
 func Test_Cov23_PartitionTypedPayloads(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
-	matching, notMatching := corepayload.PartitionTypedPayloads[testUser](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	matching, notMatching := corepayload.PartitionTypedPayloads[testUserCov23](col,
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 			return item.Data().Age >= 30
 		},
 	)
@@ -283,11 +283,11 @@ func Test_Cov23_PartitionTypedPayloads(t *testing.T) {
 
 func Test_Cov23_PartitionTypedPayloads_Empty(t *testing.T) {
 	// Arrange
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
-	matching, notMatching := corepayload.PartitionTypedPayloads[testUser](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) bool { return true },
+	matching, notMatching := corepayload.PartitionTypedPayloads[testUserCov23](col,
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool { return true },
 	)
 
 	// Assert
@@ -306,11 +306,11 @@ func Test_Cov23_PartitionTypedPayloads_Empty(t *testing.T) {
 
 func Test_Cov23_AnyTypedPayload_True(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.AnyTypedPayload[testUser](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	result := corepayload.AnyTypedPayload[testUserCov23](col,
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 			return item.Data().Name == "Bob"
 		},
 	)
@@ -323,11 +323,11 @@ func Test_Cov23_AnyTypedPayload_True(t *testing.T) {
 
 func Test_Cov23_AnyTypedPayload_False(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.AnyTypedPayload[testUser](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	result := corepayload.AnyTypedPayload[testUserCov23](col,
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 			return item.Data().Name == "Nobody"
 		},
 	)
@@ -340,11 +340,11 @@ func Test_Cov23_AnyTypedPayload_False(t *testing.T) {
 
 func Test_Cov23_AllTypedPayloads_True(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.AllTypedPayloads[testUser](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	result := corepayload.AllTypedPayloads[testUserCov23](col,
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 			return item.Data().Age > 0
 		},
 	)
@@ -357,11 +357,11 @@ func Test_Cov23_AllTypedPayloads_True(t *testing.T) {
 
 func Test_Cov23_AllTypedPayloads_False(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.AllTypedPayloads[testUser](col,
-		func(item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	result := corepayload.AllTypedPayloads[testUserCov23](col,
+		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 			return item.Data().Age >= 30
 		},
 	)
@@ -379,7 +379,7 @@ func Test_Cov23_ConvertTypedPayloads_Valid(t *testing.T) {
 	type simpleUser struct {
 		Name string `json:"Name"`
 	}
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	converted, err := corepayload.ConvertTypedPayloads[testUser, simpleUser](col)
@@ -399,7 +399,7 @@ func Test_Cov23_ConvertTypedPayloads_Valid(t *testing.T) {
 func Test_Cov23_ConvertTypedPayloads_Empty(t *testing.T) {
 	// Arrange
 	type other struct{ X int }
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
 	converted, err := corepayload.ConvertTypedPayloads[testUser, other](col)
@@ -420,7 +420,7 @@ func Test_Cov23_ConvertTypedPayloads_Empty(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_ForEachData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 	var names []string
 
 	// Act
@@ -436,11 +436,11 @@ func Test_Cov23_TypedPayloadCollection_ForEachData(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_ForEachBreak(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 	count := 0
 
 	// Act
-	col.ForEachBreak(func(index int, item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	col.ForEachBreak(func(index int, item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 		count++
 		return index >= 1
 	})
@@ -453,7 +453,7 @@ func Test_Cov23_TypedPayloadCollection_ForEachBreak(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_FilterByData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.FilterByData(func(u testUser) bool {
@@ -468,7 +468,7 @@ func Test_Cov23_TypedPayloadCollection_FilterByData(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_FirstByData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.FirstByData(func(u testUser) bool {
@@ -489,7 +489,7 @@ func Test_Cov23_TypedPayloadCollection_FirstByData(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_FirstByName(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.FirstByName("user")
@@ -502,7 +502,7 @@ func Test_Cov23_TypedPayloadCollection_FirstByName(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_FirstById(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.FirstById("2")
@@ -521,10 +521,10 @@ func Test_Cov23_TypedPayloadCollection_FirstById(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_CountFunc(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
-	result := col.CountFunc(func(item *corepayload.TypedPayloadWrapper[testUser]) bool {
+	result := col.CountFunc(func(item *corepayload.TypedPayloadWrapper[testUserCov23]) bool {
 		return item.Data().Age >= 30
 	})
 
@@ -536,7 +536,7 @@ func Test_Cov23_TypedPayloadCollection_CountFunc(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_SkipTake(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	skipped := col.Skip(1)
@@ -556,7 +556,7 @@ func Test_Cov23_TypedPayloadCollection_SkipTake(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_AllData(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	data := col.AllData()
@@ -575,7 +575,7 @@ func Test_Cov23_TypedPayloadCollection_AllData(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_AllNames(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	names := col.AllNames()
@@ -588,7 +588,7 @@ func Test_Cov23_TypedPayloadCollection_AllNames(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_AllIdentifiers(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	ids := col.AllIdentifiers()
@@ -601,7 +601,7 @@ func Test_Cov23_TypedPayloadCollection_AllIdentifiers(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_ToPayloadsCollection(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	pc := col.ToPayloadsCollection()
@@ -614,7 +614,7 @@ func Test_Cov23_TypedPayloadCollection_ToPayloadsCollection(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_Clone(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	cloned, err := col.Clone()
@@ -633,7 +633,7 @@ func Test_Cov23_TypedPayloadCollection_Clone(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_CloneMust(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	cloned := col.CloneMust()
@@ -646,8 +646,8 @@ func Test_Cov23_TypedPayloadCollection_CloneMust(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_ConcatNew(t *testing.T) {
 	// Arrange
-	col := makeCollection()
-	extra := makeTypedWrapper("user", "4", testUser{Name: "Dave", Age: 40})
+	col := makeCollectionCov23()
+	extra := makeTypedWrapperCov23("user", "4", testUserCov23{Name: "Dave", Age: 40})
 
 	// Act
 	result, err := col.ConcatNew(extra)
@@ -666,7 +666,7 @@ func Test_Cov23_TypedPayloadCollection_ConcatNew(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_RemoveAt(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	ok := col.RemoveAt(1)
@@ -685,7 +685,7 @@ func Test_Cov23_TypedPayloadCollection_RemoveAt(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_RemoveAt_OutOfBounds(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	ok := col.RemoveAt(99)
@@ -700,7 +700,7 @@ func Test_Cov23_TypedPayloadCollection_RemoveAt_OutOfBounds(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_GetPagesSize(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	pages := col.GetPagesSize(2)
@@ -713,7 +713,7 @@ func Test_Cov23_TypedPayloadCollection_GetPagesSize(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_GetPagedCollection(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	pages := col.GetPagedCollection(2)
@@ -734,7 +734,7 @@ func Test_Cov23_TypedPayloadCollection_GetPagedCollection(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_GetPagedCollectionWithInfo(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	pages := col.GetPagedCollectionWithInfo(2)
@@ -759,7 +759,7 @@ func Test_Cov23_TypedPayloadCollection_GetPagedCollectionWithInfo(t *testing.T) 
 
 func Test_Cov23_TypedPayloadCollection_IsValid(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.IsValid()
@@ -772,7 +772,7 @@ func Test_Cov23_TypedPayloadCollection_IsValid(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_HasErrors(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.HasErrors()
@@ -785,7 +785,7 @@ func Test_Cov23_TypedPayloadCollection_HasErrors(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_Errors(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	errs := col.Errors()
@@ -798,7 +798,7 @@ func Test_Cov23_TypedPayloadCollection_Errors(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_FirstError(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.FirstError()
@@ -811,7 +811,7 @@ func Test_Cov23_TypedPayloadCollection_FirstError(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollection_MergedError(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.MergedError()
@@ -826,10 +826,10 @@ func Test_Cov23_TypedPayloadCollection_MergedError(t *testing.T) {
 
 func Test_Cov23_NewTypedPayloadCollectionSingle(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
-	col := corepayload.NewTypedPayloadCollectionSingle[testUser](tw)
+	col := corepayload.NewTypedPayloadCollectionSingle[testUserCov23](tw)
 
 	// Assert
 	actual := args.Map{"length": col.Length()}
@@ -839,7 +839,7 @@ func Test_Cov23_NewTypedPayloadCollectionSingle(t *testing.T) {
 
 func Test_Cov23_NewTypedPayloadCollectionSingle_Nil(t *testing.T) {
 	// Arrange & Act
-	col := corepayload.NewTypedPayloadCollectionSingle[testUser](nil)
+	col := corepayload.NewTypedPayloadCollectionSingle[testUserCov23](nil)
 
 	// Assert
 	actual := args.Map{"isEmpty": col.IsEmpty()}
@@ -849,13 +849,13 @@ func Test_Cov23_NewTypedPayloadCollectionSingle_Nil(t *testing.T) {
 
 func Test_Cov23_NewTypedPayloadCollectionFromData(t *testing.T) {
 	// Arrange
-	data := []testUser{
+	data := []testUserCov23{
 		{Name: "Alice"},
 		{Name: "Bob"},
 	}
 
 	// Act
-	col, err := corepayload.NewTypedPayloadCollectionFromData[testUser]("user", data)
+	col, err := corepayload.NewTypedPayloadCollectionFromData[testUserCov23]("user", data)
 
 	// Assert
 	actual := args.Map{
@@ -871,7 +871,7 @@ func Test_Cov23_NewTypedPayloadCollectionFromData(t *testing.T) {
 
 func Test_Cov23_NewTypedPayloadCollectionFromData_Empty(t *testing.T) {
 	// Arrange & Act
-	col, err := corepayload.NewTypedPayloadCollectionFromData[testUser]("user", []testUser{})
+	col, err := corepayload.NewTypedPayloadCollectionFromData[testUserCov23]("user", []testUserCov23{})
 
 	// Assert
 	actual := args.Map{
@@ -887,10 +887,10 @@ func Test_Cov23_NewTypedPayloadCollectionFromData_Empty(t *testing.T) {
 
 func Test_Cov23_NewTypedPayloadCollectionFromDataMust(t *testing.T) {
 	// Arrange
-	data := []testUser{{Name: "Alice"}}
+	data := []testUserCov23{{Name: "Alice"}}
 
 	// Act
-	col := corepayload.NewTypedPayloadCollectionFromDataMust[testUser]("user", data)
+	col := corepayload.NewTypedPayloadCollectionFromDataMust[testUserCov23]("user", data)
 
 	// Assert
 	actual := args.Map{"length": col.Length()}
@@ -902,9 +902,9 @@ func Test_Cov23_NewTypedPayloadCollectionFromDataMust(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperRecord(t *testing.T) {
 	// Arrange & Act
-	tw, err := corepayload.TypedPayloadWrapperRecord[testUser](
+	tw, err := corepayload.TypedPayloadWrapperRecord[testUserCov23](
 		"user-create", "usr-1", "task", "cat",
-		testUser{Name: "Alice"},
+		testUserCov23{Name: "Alice"},
 	)
 
 	// Assert
@@ -923,7 +923,7 @@ func Test_Cov23_TypedPayloadWrapperRecords(t *testing.T) {
 	// Arrange & Act
 	tw, err := corepayload.TypedPayloadWrapperRecords[[]testUser](
 		"users", "batch-1", "task", "cat",
-		[]testUser{{Name: "A"}, {Name: "B"}},
+		[]testUserCov23{{Name: "A"}, {Name: "B"}},
 	)
 
 	// Assert
@@ -940,8 +940,8 @@ func Test_Cov23_TypedPayloadWrapperRecords(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperNameIdRecord(t *testing.T) {
 	// Arrange & Act
-	tw, err := corepayload.TypedPayloadWrapperNameIdRecord[testUser](
-		"user", "1", testUser{Name: "Alice"},
+	tw, err := corepayload.TypedPayloadWrapperNameIdRecord[testUserCov23](
+		"user", "1", testUserCov23{Name: "Alice"},
 	)
 
 	// Assert
@@ -958,8 +958,8 @@ func Test_Cov23_TypedPayloadWrapperNameIdRecord(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperNameIdCategory(t *testing.T) {
 	// Arrange & Act
-	tw, err := corepayload.TypedPayloadWrapperNameIdCategory[testUser](
-		"user", "1", "cat", testUser{Name: "Alice"},
+	tw, err := corepayload.TypedPayloadWrapperNameIdCategory[testUserCov23](
+		"user", "1", "cat", testUserCov23{Name: "Alice"},
 	)
 
 	// Assert
@@ -976,9 +976,9 @@ func Test_Cov23_TypedPayloadWrapperNameIdCategory(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperAll(t *testing.T) {
 	// Arrange & Act
-	tw, err := corepayload.TypedPayloadWrapperAll[testUser](
+	tw, err := corepayload.TypedPayloadWrapperAll[testUserCov23](
 		"name", "id", "task", "entity", "cat", false,
-		testUser{Name: "Alice"}, nil,
+		testUserCov23{Name: "Alice"}, nil,
 	)
 
 	// Assert
@@ -995,11 +995,11 @@ func Test_Cov23_TypedPayloadWrapperAll(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperDeserialize(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 	jsonBytes := tw.SerializeMust()
 
 	// Act
-	result, err := corepayload.TypedPayloadWrapperDeserialize[testUser](jsonBytes)
+	result, err := corepayload.TypedPayloadWrapperDeserialize[testUserCov23](jsonBytes)
 
 	// Assert
 	actual := args.Map{
@@ -1015,11 +1015,11 @@ func Test_Cov23_TypedPayloadWrapperDeserialize(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperDeserializeUsingJsonResult(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 	jsonResult := tw.JsonPtr()
 
 	// Act
-	result, err := corepayload.TypedPayloadWrapperDeserializeUsingJsonResult[testUser](jsonResult)
+	result, err := corepayload.TypedPayloadWrapperDeserializeUsingJsonResult[testUserCov23](jsonResult)
 
 	// Assert
 	actual := args.Map{
@@ -1035,12 +1035,12 @@ func Test_Cov23_TypedPayloadWrapperDeserializeUsingJsonResult(t *testing.T) {
 
 func Test_Cov23_TypedPayloadCollectionDeserialize(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 	pc := col.ToPayloadsCollection()
 	jsonBytes, _ := corejson.Serialize.Raw(pc.Items)
 
 	// Act
-	result, err := corepayload.TypedPayloadCollectionDeserialize[testUser](jsonBytes)
+	result, err := corepayload.TypedPayloadCollectionDeserialize[testUserCov23](jsonBytes)
 
 	// Assert
 	actual := args.Map{

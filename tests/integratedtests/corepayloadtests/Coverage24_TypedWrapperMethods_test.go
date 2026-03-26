@@ -11,7 +11,7 @@ import (
 
 func Test_Cov24_TypedPayloadWrapper_SetName(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	tw.SetName("renamed")
@@ -24,7 +24,7 @@ func Test_Cov24_TypedPayloadWrapper_SetName(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_SetIdentifier(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	tw.SetIdentifier("new-id")
@@ -37,7 +37,7 @@ func Test_Cov24_TypedPayloadWrapper_SetIdentifier(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_SetEntityType(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	tw.SetEntityType("NewEntity")
@@ -50,7 +50,7 @@ func Test_Cov24_TypedPayloadWrapper_SetEntityType(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_SetCategoryName(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	tw.SetCategoryName("NewCat")
@@ -63,10 +63,10 @@ func Test_Cov24_TypedPayloadWrapper_SetCategoryName(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
-	err := tw.SetTypedData(testUser{Name: "Bob", Age: 30})
+	err := tw.SetTypedData(testUserCov23{Name: "Bob", Age: 30})
 
 	// Assert
 	actual := args.Map{
@@ -84,7 +84,7 @@ func Test_Cov24_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_SetTypedDataMust(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 	panicked := false
 
 	// Act
@@ -94,7 +94,7 @@ func Test_Cov24_TypedPayloadWrapper_SetTypedDataMust(t *testing.T) {
 				panicked = true
 			}
 		}()
-		tw.SetTypedDataMust(testUser{Name: "Charlie"})
+		tw.SetTypedDataMust(testUserCov23{Name: "Charlie"})
 	}()
 
 	// Assert
@@ -152,7 +152,7 @@ func Test_Cov24_TypedPayloadWrapper_GetAsBool(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_ValueString(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	result := tw.ValueString()
@@ -193,7 +193,7 @@ func Test_Cov24_TypedPayloadWrapper_ValueBool(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_Reparse(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	err := tw.Reparse()
@@ -212,7 +212,7 @@ func Test_Cov24_TypedPayloadWrapper_Reparse(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_ClonePtr(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	cloned, err := tw.ClonePtr(true)
@@ -231,7 +231,7 @@ func Test_Cov24_TypedPayloadWrapper_ClonePtr(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_Clone(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	cloned, err := tw.Clone(false)
@@ -250,7 +250,7 @@ func Test_Cov24_TypedPayloadWrapper_Clone(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_Clear(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	tw.Clear()
@@ -269,7 +269,7 @@ func Test_Cov24_TypedPayloadWrapper_Clear(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_Dispose(t *testing.T) {
 	// Arrange
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	tw.Dispose()
@@ -284,7 +284,7 @@ func Test_Cov24_TypedPayloadWrapper_Dispose(t *testing.T) {
 
 func Test_Cov24_TypedPayloadWrapper_NilReceiver(t *testing.T) {
 	// Arrange
-	var tw *corepayload.TypedPayloadWrapper[testUser]
+	var tw *corepayload.TypedPayloadWrapper[testUserCov23]
 
 	// Act & Assert
 	actual := args.Map{
@@ -362,8 +362,8 @@ func Test_Cov24_TypedPayloadCollection_IsEmptyLock(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_AddLock(t *testing.T) {
 	// Arrange
-	col := corepayload.EmptyTypedPayloadCollection[testUser]()
-	tw := makeTypedWrapper("user", "1", testUser{Name: "Alice"})
+	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
+	tw := makeTypedWrapperCov23("user", "1", testUserCov23{Name: "Alice"})
 
 	// Act
 	col.AddLock(tw)
@@ -377,8 +377,8 @@ func Test_Cov24_TypedPayloadCollection_AddLock(t *testing.T) {
 func Test_Cov24_TypedPayloadCollection_AddCollection(t *testing.T) {
 	// Arrange
 	col1 := makeCollection()
-	col2 := corepayload.NewTypedPayloadCollection[testUser](1)
-	col2.Add(makeTypedWrapper("user", "4", testUser{Name: "Dave"}))
+	col2 := corepayload.NewTypedPayloadCollection[testUserCov23](1)
+	col2.Add(makeTypedWrapperCov23("user", "4", testUserCov23{Name: "Dave"}))
 
 	// Act
 	col1.AddCollection(col2)
@@ -443,7 +443,7 @@ func Test_Cov24_TypedPayloadCollectionFromPayloads(t *testing.T) {
 	pc := col.ToPayloadsCollection()
 
 	// Act
-	result := corepayload.TypedPayloadCollectionFromPayloads[testUser](pc)
+	result := corepayload.TypedPayloadCollectionFromPayloads[testUserCov23](pc)
 
 	// Assert
 	actual := args.Map{"length": result.Length()}
@@ -453,7 +453,7 @@ func Test_Cov24_TypedPayloadCollectionFromPayloads(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollectionFromPayloads_Nil(t *testing.T) {
 	// Arrange & Act
-	result := corepayload.TypedPayloadCollectionFromPayloads[testUser](nil)
+	result := corepayload.TypedPayloadCollectionFromPayloads[testUserCov23](nil)
 
 	// Assert
 	actual := args.Map{"isEmpty": result.IsEmpty()}
