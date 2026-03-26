@@ -293,8 +293,8 @@ func Test_SrcC13_Hashmap_JoinJson_Verification(t *testing.T) {
 		"marshalOk":    mErr == nil && len(b) > 0,
 		"unmarshalLen": hmU.Length(),
 		"unmarshalErr": badErr != nil,
-		"jsonNoErr":    !hm.Json().HasError(),
-		"jsonPtrNoErr": !hm.JsonPtr().HasError(),
+		"jsonNoErr":    hm.Json().Error == nil,
+		"jsonPtrNoErr": hm.JsonPtr().HasError() == false,
 		"noPanic":      noPanic,
 	}
 	_ = uErr
