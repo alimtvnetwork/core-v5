@@ -5,10 +5,18 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corerange"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/corevalidator"
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
+
+func createSimpleSliceValidator(expectedLines []string) *corevalidator.SimpleSliceValidator {
+	return &corevalidator.SimpleSliceValidator{
+		Expected:  corestr.New.SimpleSlice.Direct(false, expectedLines),
+		CompareAs: stringcompareas.EqualText,
+	}
+}
 
 // ── NewSliceValidatorUsingErr ──
 
