@@ -137,6 +137,79 @@
   - `messagePrinter` methods (7 stmts) — unexported type with no public accessor; only used internally via unreachable code paths
 - **Closed**: 2026-03-26
 
+### 14. `coretests/results` ✅ Closed
+
+- **Affected** (4 stmts):
+  - `safeInterface:135-137` invalid `reflect.Value` guard (1 stmt) — `reflect.Value.Call()` always returns valid Values; `!rv.IsValid()` is unreachable
+  - `extractErrorFromValue:158-160` invalid `reflect.Value` guard (1 stmt) — same reason; last return value from `Call()` is always valid
+  - `extractErrorFromValue:176-178` `!ok` after `.(error)` cast (1 stmt) — if `rv.Type().Implements(errorType)` passes at line 162, the type assertion always succeeds
+  - `MethodName:33-35` `lastDot < 0` guard (1 stmt) — `runtime.FuncForPC().Name()` always returns fully qualified names containing dots
+- **Closed**: 2026-03-26
+
+### 15. `iserror` ✅ Closed
+
+- **Affected** (1 stmt):
+  - `Equal:8-10` `left == nil && right == nil` (1 stmt) — already handled by `left == right` at line 4; when both are nil, `nil == nil` is true and returns at line 5
+- **Closed**: 2026-03-26
+
+### 16. `coredata/coreonce` ✅ Closed
+
+- **Affected** (2 stmts):
+  - `MapStringStringOnce.JsonStringMust:309-314` — `json.Marshal` on `map[string]string` cannot fail
+  - `StringsOnce.JsonStringMust:251-256` — `json.Marshal` on `[]string` cannot fail
+- **Closed**: 2026-03-26
+
+### 17. `coredata/corerange` ✅ Closed
+
+- **Affected** (2 stmts):
+  - `MinMaxByte.DifferenceAbsolute:46-48` — `diff < 0` check on `byte` (uint8); unsigned types cannot be negative
+  - `within.StringRangeUint32:89` — `finalInt > MaxInt32` impossible; `StringRangeInteger` clamps to [0, MaxInt32]
+- **Closed**: 2026-03-26
+
+### 18. `coredata/stringslice` ✅ Closed
+
+- **Affected** (2 stmts):
+  - `MergeSlicesOfSlices:13-15` — `sliceLength == 0` redundant; identical check at line 7 already returns
+  - `RegexTrimmedSplitNonEmptyAll:17-19` — `regexp.Split` always returns at least one element (the input itself); empty result unreachable
+- **Closed**: 2026-03-26
+
+### 19. `namevalue` ✅ Closed
+
+- **Affected** (3 stmts):
+  - `Collection.JsonString:385-387` — `json.Marshal` error on valid struct; defensive guard
+  - `Instance.String:20-22` — `IsNull()` on value receiver; value receivers cannot be nil
+  - `Instance.JsonString:31-33` — same pattern
+- **Closed**: 2026-03-26
+
+### 20. `reqtype` ✅ Closed
+
+- **Affected** (2 stmts):
+  - `start:8-10` — empty slice guard; all callers (`RangesNotMeet`, `GetInBetweenStatus`) guard for empty before calling
+  - `end:6-8` — same pattern
+- **Closed**: 2026-03-26
+
+### 21. `coretaskinfo` ✅ Closed
+
+- **Affected** (1 stmt):
+  - `Info.JsonString:25-27` — `IsNull()` on value receiver `Info`; value receivers cannot be nil
+- **Closed**: 2026-03-26
+
+### 22. `coreversion` ✅ Closed
+
+- **Affected** (1 stmt):
+  - `hasDeductUsingNilNess:20-22` — `left == nil || right == nil` after exhaustive 4-combination nil checks (both-nil, left-only, right-only); remaining case is both non-nil
+- **Closed**: 2026-03-26
+
+### 23. `keymk` ✅ Closed
+
+- **Affected** (6 stmts):
+  - `compileSingleItem:142-147` (2 stmts) — defined but never called from any code path
+  - `compileCompleteAdditional:271-273` (1 stmt) — empty items guard; callers check `len(items) == 0` before calling
+  - `compileCompleteAdditionalStrings:285-287` (1 stmt) — same redundant guard pattern
+  - `appendStringsWithBaseAnyItems:13-14` (1 stmt) — `isSkipOnEmpty && item == ""` skip; `keyChains` never contain empty strings in practice
+  - `KeyCompiler:147` (1 stmt) — dead code (part of `compileSingleItem`)
+- **Closed**: 2026-03-26
+
 ---
 
 ## Summary
@@ -156,6 +229,16 @@
 | 11 | `chmodhelper` | Platform-incompatible (Linux) | ✅ Closed |
 | 12 | `enumimpl` | Dead code + unexported interfaces | ✅ Closed |
 | 13 | `coretests` | Dead code + unexported + platform | ✅ Closed |
+| 14 | `coretests/results` | Defensive guards + unreachable cast | ✅ Closed |
+| 15 | `iserror` | Redundant nil check | ✅ Closed |
+| 16 | `coreonce` | Marshal error impossible | ✅ Closed |
+| 17 | `corerange` | Unsigned negative + clamped overflow | ✅ Closed |
+| 18 | `stringslice` | Redundant check + unreachable split | ✅ Closed |
+| 19 | `namevalue` | Value-receiver nil + marshal error | ✅ Closed |
+| 20 | `reqtype` | Callers guard first | ✅ Closed |
+| 21 | `coretaskinfo` | Value-receiver nil | ✅ Closed |
+| 22 | `coreversion` | Exhaustive nil combinations | ✅ Closed |
+| 23 | `keymk` | Dead code + redundant guards | ✅ Closed |
 
-**Total justified gaps**: ~85-100 lines across 13 packages.  
+**Total justified gaps**: ~115-135 lines across 23 packages.  
 **All entries closed** — no further coverage work required for these packages.
