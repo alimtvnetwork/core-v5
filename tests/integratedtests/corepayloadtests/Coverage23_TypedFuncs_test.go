@@ -180,7 +180,7 @@ func Test_Cov23_ReduceTypedPayloadData(t *testing.T) {
 
 	// Act
 	result := corepayload.ReduceTypedPayloadData[testUserCov23, int](col, 0,
-		func(acc int, u testUser) int { return acc + u.Age },
+		func(acc int, u testUserCov23) int { return acc + u.Age },
 	)
 
 	// Assert

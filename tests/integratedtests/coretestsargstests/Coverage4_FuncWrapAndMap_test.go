@@ -30,7 +30,7 @@ func Test_Cov4_FuncWrap_IsEquals_DiffName(t *testing.T) {
 	fw2 := args.NewFuncWrap.Default(helperRetBool)
 
 	// Act
-	result := fw1.IsEquals(fw2)
+	result := fw1.IsEqual(fw2)
 
 	// Assert
 	actual := args.Map{"equal": result}
@@ -44,7 +44,7 @@ func Test_Cov4_FuncWrap_IsEquals_DiffValidity(t *testing.T) {
 	fw2 := args.NewFuncWrap.Invalid()
 
 	// Act
-	result := fw1.IsEquals(fw2)
+	result := fw1.IsEqual(fw2)
 
 	// Assert
 	actual := args.Map{"equal": result}
@@ -58,7 +58,7 @@ func Test_Cov4_FuncWrap_IsEquals_DiffArgsCount(t *testing.T) {
 	fw2 := args.NewFuncWrap.Default(helperRetBool)
 
 	// Act
-	result := fw1.IsEquals(fw2)
+	result := fw1.IsEqual(fw2)
 
 	// Assert
 	actual := args.Map{"equal": result}
@@ -72,7 +72,7 @@ func Test_Cov4_FuncWrap_IsEquals_DiffReturnLen(t *testing.T) {
 	fw2 := args.NewFuncWrap.Default(helperRetAnyErr)
 
 	// Act
-	result := fw1.IsEquals(fw2)
+	result := fw1.IsEqual(fw2)
 
 	// Assert
 	actual := args.Map{"equal": result}

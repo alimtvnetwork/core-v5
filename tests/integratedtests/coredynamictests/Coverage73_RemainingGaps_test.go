@@ -141,7 +141,7 @@ func Test_Cov73_MapAnyItems_DiffChangedOnlyRaw_NoDiff(t *testing.T) {
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
 
 	// Act
-	diff := m.DiffChangedOnlyRaw(false, map[string]any{"a": 1})
+	diff := m.DiffRaw(false, map[string]any{"a": 1})
 
 	// Assert
 	actual := args.Map{"isEmpty": len(diff) == 0}
@@ -158,7 +158,7 @@ func Test_Cov73_MapAnyItems_ToMapResults_Valid(t *testing.T) {
 	})
 
 	// Act
-	mr, err := m.ToMapResults()
+	mr, err := m.JsonMapResults()
 
 	// Assert
 	actual := args.Map{
@@ -181,7 +181,7 @@ func Test_Cov73_MapAnyItems_CloneUsingJson(t *testing.T) {
 	})
 
 	// Act
-	cloned, err := m.CloneUsingJson()
+	cloned, err := m.ClonePtr()
 
 	// Assert
 	actual := args.Map{
@@ -199,7 +199,10 @@ func Test_Cov73_MapAnyItems_CloneUsingJson(t *testing.T) {
 
 func Test_Cov73_AnyCollection_JsonString(t *testing.T) {
 	// Arrange
-	ac := coredynamic.NewAnyCollectionUsingItems([]any{1, 2, 3})
+	ac := coredynamic.NewAnyCollection(3)
+	ac.Add(1)
+	ac.Add(2)
+	ac.Add(3)
 
 	// Act
 	str, err := ac.JsonString()
@@ -218,7 +221,8 @@ func Test_Cov73_AnyCollection_JsonString(t *testing.T) {
 
 func Test_Cov73_AnyCollection_JsonStringMust(t *testing.T) {
 	// Arrange
-	ac := coredynamic.NewAnyCollectionUsingItems([]any{"a"})
+	ac := coredynamic.NewAnyCollection(1)
+	ac.Add("a")
 
 	// Act
 	str := ac.JsonStringMust()
@@ -234,7 +238,7 @@ func Test_Cov73_AnyCollection_JsonStringMust(t *testing.T) {
 func Test_Cov73_DynamicCollection_JsonString(t *testing.T) {
 	// Arrange
 	dc := coredynamic.NewDynamicCollection(2)
-	dc.AddAny("hello")
+	dc.AddAny("hello", true)
 
 	// Act
 	str, err := dc.JsonString()
@@ -254,7 +258,7 @@ func Test_Cov73_DynamicCollection_JsonString(t *testing.T) {
 func Test_Cov73_DynamicCollection_JsonStringMust(t *testing.T) {
 	// Arrange
 	dc := coredynamic.NewDynamicCollection(1)
-	dc.AddAny("test")
+	dc.AddAny("test", true)
 
 	// Act
 	str := dc.JsonStringMust()
@@ -321,7 +325,7 @@ func Test_Cov73_Collection_ItemsLock(t *testing.T) {
 
 func Test_Cov73_Dynamic_JsonString(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	str, err := d.JsonString()
@@ -340,7 +344,7 @@ func Test_Cov73_Dynamic_JsonString(t *testing.T) {
 
 func Test_Cov73_Dynamic_JsonStringMust(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	str := d.JsonStringMust()
@@ -353,7 +357,7 @@ func Test_Cov73_Dynamic_JsonStringMust(t *testing.T) {
 
 func Test_Cov73_Dynamic_JsonBytes(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	bytes, err := d.JsonBytes()
@@ -372,7 +376,7 @@ func Test_Cov73_Dynamic_JsonBytes(t *testing.T) {
 
 func Test_Cov73_Dynamic_MarshalJSON(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	bytes, err := d.MarshalJSON()
@@ -393,12 +397,12 @@ func Test_Cov73_Dynamic_MarshalJSON(t *testing.T) {
 
 func Test_Cov73_KeyVal_SetTo_Error(t *testing.T) {
 	// Arrange
-	kv := coredynamic.NewKeyVal("key", "value")
+	kv := coredynamic.KeyVal{Key: "key", Value: "value"}
 	var keyOut int
 	var valOut int
 
 	// Act
-	err := kv.SetTo(&keyOut, &valOut)
+	err := kv.ReflectSetTo(&keyOut, &valOut)
 
 	// Assert
 	actual := args.Map{"hasErr": err != nil}
@@ -408,7 +412,7 @@ func Test_Cov73_KeyVal_SetTo_Error(t *testing.T) {
 
 func Test_Cov73_KeyVal_Serialize(t *testing.T) {
 	// Arrange
-	kv := coredynamic.NewKeyVal("key", "value")
+	kv := coredynamic.KeyVal{Key: "key", Value: "value"}
 
 	// Act
 	bytes, err := kv.Serialize()
@@ -430,7 +434,7 @@ func Test_Cov73_KeyVal_Serialize(t *testing.T) {
 func Test_Cov73_KeyValCollection_Serialize(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 
 	// Act
 	bytes, err := kvc.Serialize()
@@ -450,7 +454,7 @@ func Test_Cov73_KeyValCollection_Serialize(t *testing.T) {
 func Test_Cov73_KeyValCollection_JsonString(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 
 	// Act
 	str, err := kvc.JsonString()
@@ -470,10 +474,10 @@ func Test_Cov73_KeyValCollection_JsonString(t *testing.T) {
 func Test_Cov73_KeyValCollection_ToMapResults(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 
 	// Act
-	mr, err := kvc.ToMapResults()
+	mr, err := kvc.JsonMapResults()
 
 	// Assert
 	actual := args.Map{
@@ -491,7 +495,7 @@ func Test_Cov73_KeyValCollection_ToMapResults(t *testing.T) {
 
 func Test_Cov73_TypedDynamic_JsonString(t *testing.T) {
 	// Arrange
-	td := coredynamic.NewTypedDynamic[map[string]any](map[string]any{"k": "v"})
+	td := coredynamic.NewTypedDynamic[map[string]any](map[string]any{"k": "v"}, true)
 
 	// Act
 	str, err := td.JsonString()
@@ -598,7 +602,9 @@ func Test_Cov73_SafeZeroSet_NonPointer(t *testing.T) {
 
 func Test_Cov73_AnyCollection_ParseInjectUsingJsonMust(t *testing.T) {
 	// Arrange
-	ac := coredynamic.NewAnyCollectionUsingItems([]any{1, 2})
+	ac := coredynamic.NewAnyCollection(2)
+	ac.Add(1)
+	ac.Add(2)
 	jsonResult := corejson.New(ac)
 
 	// Act
@@ -615,7 +621,7 @@ func Test_Cov73_AnyCollection_ParseInjectUsingJsonMust(t *testing.T) {
 func Test_Cov73_KeyValCollection_ParseInjectUsingJsonMust(t *testing.T) {
 	// Arrange
 	kvc := coredynamic.NewKeyValCollection(2)
-	kvc.AddKeyVal("a", 1)
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 	jsonResult := corejson.New(kvc)
 
 	// Act
