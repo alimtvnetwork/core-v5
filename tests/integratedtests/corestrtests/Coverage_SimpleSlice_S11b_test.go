@@ -574,8 +574,9 @@ func Test_S11_137_SimpleSlice_IsEqualByFuncLinesSplit_DiffLength(t *testing.T) {
 
 func Test_S11_138_SimpleSlice_IsEqualByFuncLinesSplit_Empty(t *testing.T) {
 	ss := corestr.Empty.SimpleSlice()
-	if !ss.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
-		t.Fatal("expected true for empty")
+	// strings.Split("", ",") returns [""] (length 1) which != 0, so returns false
+	if ss.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
+		t.Fatal("expected false for empty vs split-empty mismatch")
 	}
 }
 

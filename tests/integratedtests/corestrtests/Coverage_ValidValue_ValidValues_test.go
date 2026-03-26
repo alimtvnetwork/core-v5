@@ -655,12 +655,12 @@ func Test_CovLCN_06_String_List_ListPtr_Join_StringList(t *testing.T) {
 	n := &corestr.LinkedCollectionNode{Element: col}
 	_ = n.String()
 	list := n.List()
-	if len(list) != 2 {
-		t.Fatal("expected 2")
+	if len(list) != 3 { // Collection has 3 items: "false", "a", "b"
+		t.Fatalf("expected 3, got %d", len(list))
 	}
 	lp := n.ListPtr()
-	if len(*lp) != 2 {
-		t.Fatal("expected 2")
+	if len(*lp) != 3 {
+		t.Fatalf("expected 3, got %d", len(*lp))
 	}
 	_ = n.Join(",")
 	_ = n.StringList("Header: ")

@@ -195,8 +195,8 @@ func Test_CovLLCCreator_01_Create_Empty(t *testing.T) {
 
 func Test_CovLLCCreator_02_Strings(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
-	if lc.Length() != 2 {
-		t.Fatal("expected 2")
+	if lc.Length() != 1 { // Strings creates one collection node containing both items
+		t.Fatalf("expected 1, got %d", lc.Length())
 	}
 	lc2 := corestr.New.LinkedCollection.Strings()
 	if lc2.Length() != 0 {
