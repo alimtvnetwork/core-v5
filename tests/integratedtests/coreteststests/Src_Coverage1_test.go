@@ -153,8 +153,8 @@ func Test_Src_DraftType_IsEqual_Verification(t *testing.T) {
 
 func Test_Src_DraftType_VerifyNotEqual(t *testing.T) {
 	// Arrange
-	d1 := &coretests.DraftType{SampleString1: "a"}
-	d2 := &coretests.DraftType{SampleString1: "b"}
+	d1 := &coretests.DraftType{SampleString1: "a", Lines: []string{}, RawBytes: []byte{}}
+	d2 := &coretests.DraftType{SampleString1: "b", Lines: []string{}, RawBytes: []byte{}}
 
 	// Act
 	msg := d1.VerifyAllNotEqualMessage(d2)
@@ -162,15 +162,15 @@ func Test_Src_DraftType_VerifyNotEqual(t *testing.T) {
 	err2 := d1.VerifyNotEqualExcludingInnerFieldsErr(d2)
 
 	// Assert
-	if msg == "" {
-		t.Fatal("expected not-equal message")
-	}
-	if err == nil {
-		t.Fatal("expected not-equal error")
-	}
-	if err2 == nil {
-		t.Fatal("expected not-equal excluding-inner error")
-	}
+	convey.Convey("VerifyAllNotEqualMessage returns non-empty -- different drafts", t, func() {
+		convey.So(msg, should.NotBeEmpty)
+	})
+	convey.Convey("VerifyAllNotEqualErr returns error -- different drafts", t, func() {
+		convey.So(err, should.NotBeNil)
+	})
+	convey.Convey("VerifyNotEqualExcludingInnerFieldsErr returns error -- different drafts", t, func() {
+		convey.So(err2, should.NotBeNil)
+	})
 
 	// Arrange (equal case)
 	d3 := d1.ClonePtr()
@@ -179,9 +179,9 @@ func Test_Src_DraftType_VerifyNotEqual(t *testing.T) {
 	err3 := d1.VerifyAllNotEqualErr(d3)
 
 	// Assert
-	if err3 != nil {
-		t.Fatal("expected nil for equal drafts")
-	}
+	convey.Convey("VerifyAllNotEqualErr returns nil -- equal drafts", t, func() {
+		convey.So(err3, should.BeNil)
+	})
 }
 
 func Test_Src_DraftType_JsonAndSetters(t *testing.T) {
