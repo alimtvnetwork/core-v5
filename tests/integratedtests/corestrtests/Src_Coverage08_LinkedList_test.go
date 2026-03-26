@@ -306,12 +306,13 @@ func Test_SrcC08_LinkedList_AppendNode_Verification(t *testing.T) {
 func Test_SrcC08_LinkedList_AppendChain_Verification(t *testing.T) {
 	// Arrange
 	tc := srcC08LinkedListAppendChainTestCase
+	// Build chain using a temporary linked list, then get head node
+	tmpLL := corestr.New.LinkedList.Strings([]string{"a", "b"})
+	chainHead := tmpLL.Head()
 	ll := corestr.New.LinkedList.Create()
 
 	// Act
-	n1 := &corestr.LinkedListNode{Element: "a"}
-	n1.SetNext(&corestr.LinkedListNode{Element: "b"})
-	ll.AppendChainOfNodes(n1)
+	ll.AppendChainOfNodes(chainHead)
 	actual := args.Map{
 		"length": ll.Length(),
 	}
