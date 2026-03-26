@@ -37,7 +37,7 @@ func Test_Cov23_MapTypedPayloads(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	names := corepayload.MapTypedPayloads[testUser, string](col,
+	names := corepayload.MapTypedPayloads[testUserCov23, string](col,
 		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string {
 			return item.Data().Name
 		},
@@ -54,7 +54,7 @@ func Test_Cov23_MapTypedPayloads_Empty(t *testing.T) {
 	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
-	result := corepayload.MapTypedPayloads[testUser, string](col,
+	result := corepayload.MapTypedPayloads[testUserCov23, string](col,
 		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string {
 			return item.Data().Name
 		},
@@ -73,8 +73,8 @@ func Test_Cov23_MapTypedPayloadData(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	emails := corepayload.MapTypedPayloadData[testUser, string](col,
-		func(u testUser) string { return u.Email },
+	emails := corepayload.MapTypedPayloadData[testUserCov23, string](col,
+		func(u testUserCov23) string { return u.Email },
 	)
 
 	// Assert
@@ -90,7 +90,7 @@ func Test_Cov23_FlatMapTypedPayloads(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.FlatMapTypedPayloads[testUser, string](col,
+	result := corepayload.FlatMapTypedPayloads[testUserCov23, string](col,
 		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) []string {
 			return []string{item.Data().Name, item.Data().Email}
 		},
@@ -107,7 +107,7 @@ func Test_Cov23_FlatMapTypedPayloads_Empty(t *testing.T) {
 	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
-	result := corepayload.FlatMapTypedPayloads[testUser, string](col,
+	result := corepayload.FlatMapTypedPayloads[testUserCov23, string](col,
 		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) []string {
 			return []string{item.Data().Name}
 		},
@@ -126,8 +126,8 @@ func Test_Cov23_FlatMapTypedPayloadData(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.FlatMapTypedPayloadData[testUser, string](col,
-		func(u testUser) []string { return []string{u.Name} },
+	result := corepayload.FlatMapTypedPayloadData[testUserCov23, string](col,
+		func(u testUserCov23) []string { return []string{u.Name} },
 	)
 
 	// Assert
@@ -143,7 +143,7 @@ func Test_Cov23_ReduceTypedPayloads(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	totalAge := corepayload.ReduceTypedPayloads[testUser, int](col, 0,
+	totalAge := corepayload.ReduceTypedPayloads[testUserCov23, int](col, 0,
 		func(acc int, item *corepayload.TypedPayloadWrapper[testUserCov23]) int {
 			return acc + item.Data().Age
 		},
@@ -160,7 +160,7 @@ func Test_Cov23_ReduceTypedPayloads_Empty(t *testing.T) {
 	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
-	result := corepayload.ReduceTypedPayloads[testUser, int](col, 42,
+	result := corepayload.ReduceTypedPayloads[testUserCov23, int](col, 42,
 		func(acc int, item *corepayload.TypedPayloadWrapper[testUserCov23]) int {
 			return acc + 1
 		},
@@ -179,7 +179,7 @@ func Test_Cov23_ReduceTypedPayloadData(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	result := corepayload.ReduceTypedPayloadData[testUser, int](col, 0,
+	result := corepayload.ReduceTypedPayloadData[testUserCov23, int](col, 0,
 		func(acc int, u testUser) int { return acc + u.Age },
 	)
 
@@ -196,7 +196,7 @@ func Test_Cov23_GroupTypedPayloads(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	groups := corepayload.GroupTypedPayloads[testUser, string](col,
+	groups := corepayload.GroupTypedPayloads[testUserCov23, string](col,
 		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string {
 			if item.Data().Age >= 30 {
 				return "senior"
@@ -224,7 +224,7 @@ func Test_Cov23_GroupTypedPayloads_Empty(t *testing.T) {
 	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
-	groups := corepayload.GroupTypedPayloads[testUser, string](col,
+	groups := corepayload.GroupTypedPayloads[testUserCov23, string](col,
 		func(item *corepayload.TypedPayloadWrapper[testUserCov23]) string { return "x" },
 	)
 
@@ -241,8 +241,8 @@ func Test_Cov23_GroupTypedPayloadData(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	groups := corepayload.GroupTypedPayloadData[testUser, string](col,
-		func(u testUser) string {
+	groups := corepayload.GroupTypedPayloadData[testUserCov23, string](col,
+		func(u testUserCov23) string {
 			if u.Age >= 30 {
 				return "old"
 			}
@@ -382,7 +382,7 @@ func Test_Cov23_ConvertTypedPayloads_Valid(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	converted, err := corepayload.ConvertTypedPayloads[testUser, simpleUser](col)
+	converted, err := corepayload.ConvertTypedPayloads[testUserCov23, simpleUser](col)
 
 	// Assert
 	actual := args.Map{
@@ -402,7 +402,7 @@ func Test_Cov23_ConvertTypedPayloads_Empty(t *testing.T) {
 	col := corepayload.EmptyTypedPayloadCollection[testUserCov23]()
 
 	// Act
-	converted, err := corepayload.ConvertTypedPayloads[testUser, other](col)
+	converted, err := corepayload.ConvertTypedPayloads[testUserCov23, other](col)
 
 	// Assert
 	actual := args.Map{
@@ -424,7 +424,7 @@ func Test_Cov23_TypedPayloadCollection_ForEachData(t *testing.T) {
 	var names []string
 
 	// Act
-	col.ForEachData(func(index int, data testUser) {
+	col.ForEachData(func(index int, data testUserCov23) {
 		names = append(names, data.Name)
 	})
 
@@ -456,7 +456,7 @@ func Test_Cov23_TypedPayloadCollection_FilterByData(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	result := col.FilterByData(func(u testUser) bool {
+	result := col.FilterByData(func(u testUserCov23) bool {
 		return u.Age >= 30
 	})
 
@@ -471,7 +471,7 @@ func Test_Cov23_TypedPayloadCollection_FirstByData(t *testing.T) {
 	col := makeCollectionCov23()
 
 	// Act
-	result := col.FirstByData(func(u testUser) bool {
+	result := col.FirstByData(func(u testUserCov23) bool {
 		return u.Name == "Bob"
 	})
 
@@ -921,7 +921,7 @@ func Test_Cov23_TypedPayloadWrapperRecord(t *testing.T) {
 
 func Test_Cov23_TypedPayloadWrapperRecords(t *testing.T) {
 	// Arrange & Act
-	tw, err := corepayload.TypedPayloadWrapperRecords[[]testUser](
+	tw, err := corepayload.TypedPayloadWrapperRecords[[]testUserCov23](
 		"users", "batch-1", "task", "cat",
 		[]testUserCov23{{Name: "A"}, {Name: "B"}},
 	)

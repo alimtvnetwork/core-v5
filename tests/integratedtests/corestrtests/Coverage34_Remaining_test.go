@@ -700,8 +700,17 @@ func Test_C34_COC_List(t *testing.T) {
 }
 
 func Test_C34_COC_ToCollection(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Strings([]string{"a"})
-	_ = coc.ToCollection()
+	// Arrange — use Empty+Adds to avoid Cap() nil-prefill bug
+	coc := corestr.New.CollectionsOfCollection.Empty()
+	coc.Adds(*corestr.New.Collection.Strings([]string{"a"}))
+
+	// Act
+	result := coc.ToCollection()
+
+	// Assert
+	actual := args.Map{"hasItems": result.HasItems()}
+	expected := args.Map{"hasItems": true}
+	expected.ShouldBeEqual(t, 0, "ToCollection returns collection -- from COC", actual)
 }
 
 func Test_C34_COC_String(t *testing.T) {

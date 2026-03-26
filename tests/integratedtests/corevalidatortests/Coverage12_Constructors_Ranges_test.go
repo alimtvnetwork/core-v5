@@ -178,6 +178,7 @@ func Test_Cov12_SimpleSliceValidator_VerifyUpto(t *testing.T) {
 	sv := createSimpleSliceValidator(
 		[]string{"a", "b", "c"},
 	)
+	sv.SetActual([]string{"a", "b", "c"})
 	params := &corevalidator.Parameter{
 		CaseIndex:       0,
 		IsCaseSensitive: true,
@@ -197,6 +198,7 @@ func Test_Cov12_SimpleSliceValidator_VerifyFirst(t *testing.T) {
 	sv := createSimpleSliceValidator(
 		[]string{"hello", "world"},
 	)
+	sv.SetActual([]string{"hello", "world"})
 	params := &corevalidator.Parameter{
 		CaseIndex:       0,
 		IsCaseSensitive: true,

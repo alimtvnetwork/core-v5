@@ -336,7 +336,7 @@ func Test_Cov24_TypedPayloadWrapper_NilReceiver(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_LengthLock(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.LengthLock()
@@ -349,7 +349,7 @@ func Test_Cov24_TypedPayloadCollection_LengthLock(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_IsEmptyLock(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	result := col.IsEmptyLock()
@@ -376,7 +376,7 @@ func Test_Cov24_TypedPayloadCollection_AddLock(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_AddCollection(t *testing.T) {
 	// Arrange
-	col1 := makeCollection()
+	col1 := makeCollectionCov23()
 	col2 := corepayload.NewTypedPayloadCollection[testUserCov23](1)
 	col2.Add(makeTypedWrapperCov23("user", "4", testUserCov23{Name: "Dave"}))
 
@@ -391,7 +391,7 @@ func Test_Cov24_TypedPayloadCollection_AddCollection(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_SafeAt(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	valid := col.SafeAt(1)
@@ -411,7 +411,7 @@ func Test_Cov24_TypedPayloadCollection_SafeAt(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_ClearDispose(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	col.Clear()
@@ -424,7 +424,7 @@ func Test_Cov24_TypedPayloadCollection_ClearDispose(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollection_Dispose(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 
 	// Act
 	col.Dispose()
@@ -439,7 +439,7 @@ func Test_Cov24_TypedPayloadCollection_Dispose(t *testing.T) {
 
 func Test_Cov24_TypedPayloadCollectionFromPayloads(t *testing.T) {
 	// Arrange
-	col := makeCollection()
+	col := makeCollectionCov23()
 	pc := col.ToPayloadsCollection()
 
 	// Act
