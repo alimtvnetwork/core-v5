@@ -14,7 +14,7 @@ import (
 func createSimpleSliceValidator(expectedLines []string) *corevalidator.SimpleSliceValidator {
 	return &corevalidator.SimpleSliceValidator{
 		Expected:  corestr.New.SimpleSlice.Direct(false, expectedLines),
-		CompareAs: stringcompareas.EqualText,
+		CompareAs: stringcompareas.Equal,
 	}
 }
 
@@ -27,7 +27,7 @@ func Test_Cov12_NewSliceValidatorUsingErr_Valid(t *testing.T) {
 
 	// Act
 	sv := corevalidator.NewSliceValidatorUsingErr(
-		err, expected, false, false, false, stringcompareas.EqualText,
+		err, expected, false, false, false, stringcompareas.Equal,
 	)
 
 	// Assert
@@ -45,7 +45,7 @@ func Test_Cov12_NewSliceValidatorUsingErr_Valid(t *testing.T) {
 func Test_Cov12_NewSliceValidatorUsingErr_NilErr(t *testing.T) {
 	// Arrange & Act
 	sv := corevalidator.NewSliceValidatorUsingErr(
-		nil, "", false, false, false, stringcompareas.EqualText,
+		nil, "", false, false, false, stringcompareas.Equal,
 	)
 
 	// Assert
@@ -59,7 +59,7 @@ func Test_Cov12_NewSliceValidatorUsingErr_NilErr(t *testing.T) {
 func Test_Cov12_NewSliceValidatorUsingAny_Valid(t *testing.T) {
 	// Arrange & Act
 	sv := corevalidator.NewSliceValidatorUsingAny(
-		"hello\nworld", "hello\nworld", false, false, false, stringcompareas.EqualText,
+		"hello\nworld", "hello\nworld", false, false, false, stringcompareas.Equal,
 	)
 
 	// Assert
@@ -84,7 +84,7 @@ func Test_Cov12_RangeSegmentsValidator_VerifySimple(t *testing.T) {
 			{
 				RangeInt:      corerange.RangeInt{Start: 0, End: 2},
 				ExpectedLines: []string{"a", "b"},
-				CompareAs:     stringcompareas.EqualText,
+				CompareAs:     stringcompareas.Equal,
 			},
 		},
 	}
@@ -111,7 +111,7 @@ func Test_Cov12_RangeSegmentsValidator_VerifyFirstDefault(t *testing.T) {
 			{
 				RangeInt:      corerange.RangeInt{Start: 0, End: 1},
 				ExpectedLines: []string{"x"},
-				CompareAs:     stringcompareas.EqualText,
+				CompareAs:     stringcompareas.Equal,
 			},
 		},
 	}
@@ -137,7 +137,7 @@ func Test_Cov12_RangeSegmentsValidator_VerifyUptoDefault(t *testing.T) {
 			{
 				RangeInt:      corerange.RangeInt{Start: 0, End: 2},
 				ExpectedLines: []string{"a", "b"},
-				CompareAs:     stringcompareas.EqualText,
+				CompareAs:     stringcompareas.Equal,
 			},
 		},
 	}

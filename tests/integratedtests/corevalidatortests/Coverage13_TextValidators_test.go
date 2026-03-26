@@ -104,7 +104,7 @@ func Test_Cov13_TextValidators_AddSimpleAllTrue(t *testing.T) {
 	tv := corevalidator.NewTextValidators(1)
 
 	// Act
-	tv.AddSimpleAllTrue("test", stringcompareas.EqualText)
+	tv.AddSimpleAllTrue("test", stringcompareas.Equal)
 
 	// Assert
 	actual := args.Map{"length": tv.Length()}
@@ -347,7 +347,7 @@ func Test_Cov13_SliceValidator_AllVerifyErrorExceptLast(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"a", "b", "DIFFERENT"},
 		ExpectedLines: []string{"a", "b", "c"},
-		CompareAs:     stringcompareas.EqualText,
+		CompareAs:     stringcompareas.Equal,
 	}
 	params := &corevalidator.Parameter{
 		CaseIndex:       0,
@@ -370,7 +370,7 @@ func Test_Cov13_SliceValidator_AllVerifyErrorTestCase_Match(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"hello"},
 		ExpectedLines: []string{"hello"},
-		CompareAs:     stringcompareas.EqualText,
+		CompareAs:     stringcompareas.Equal,
 	}
 
 	// Act
