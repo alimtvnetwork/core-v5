@@ -8,7 +8,7 @@ import (
 )
 
 // ══════════════════════════════════════════════════════════════════════════════
-// Result — FieldsNames non-empty, safeJsonStringInternal nil, MeaningfulError
+// Result — FieldsNames non-empty, SafeString nil-ptr, MeaningfulError
 // Covers Result.go L85-94, L376-381, L385-387, L639-646
 // ══════════════════════════════════════════════════════════════════════════════
 
