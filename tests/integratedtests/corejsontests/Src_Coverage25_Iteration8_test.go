@@ -61,16 +61,19 @@ func Test_Cov25_Result_Serialize(t *testing.T) {
 // Covers Result.go L827-829, L872-874
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_Cov25_Result_IsEqual_JsonStringCached(t *testing.T) {
-	// Create two results sharing the same jsonString pointer
-	sharedStr := `{"x":1}`
-	r1 := corejson.Result{Bytes: []byte(sharedStr), jsonString: &sharedStr}
-	r2 := corejson.Result{Bytes: []byte(sharedStr), jsonString: &sharedStr}
+func Test_Cov25_Result_IsEqual_SameContent(t *testing.T) {
+	// Create two results with identical bytes content
+	r1 := corejson.NewResult.Any(map[string]int{"x": 1})
+	r2 := corejson.NewResult.Any(map[string]int{"x": 1})
 
-	// IsEqual should use the cached jsonString pointer equality
+	// Trigger caching by calling JsonString
+	_ = r1.JsonString()
+	_ = r2.JsonString()
+
+	// IsEqual should match based on content
 	result := r1.IsEqual(r2)
 	if !result {
-		t.Error("expected IsEqual=true for same jsonString pointer")
+		t.Error("expected IsEqual=true for same content")
 	}
 }
 
