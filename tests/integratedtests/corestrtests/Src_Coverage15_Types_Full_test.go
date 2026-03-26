@@ -145,8 +145,9 @@ func Test_SrcC15_SimpleStringOnce_Verification(t *testing.T) {
 	tc := srcC15SimpleStringOnceTestCase
 
 	// Act
+	sso := corestr.New.SimpleStringOnce.Init("test")
 	actual := args.Map{
-		"nonEmpty": !corestr.New.SimpleStringOnce.Init("test").IsEmpty(),
+		"nonEmpty": !sso.IsEmpty(),
 	}
 
 	// Assert

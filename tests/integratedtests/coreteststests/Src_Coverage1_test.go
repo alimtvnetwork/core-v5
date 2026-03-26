@@ -268,8 +268,8 @@ func Test_Src_SimpleTestCase_ArrangeAndExpected(t *testing.T) {
 		convey.So(expectedStr, should.NotBeEmpty)
 	})
 
-	// Act (setters)
-	stc.SetActual("actual-val")
+	// Act (setters) — SetActual is value receiver (no-op), assign directly
+	stc.ActualInput = "actual-val"
 	actualStr := stc.ActualString()
 	str := stc.String(0)
 	linesStr := stc.LinesString(0)

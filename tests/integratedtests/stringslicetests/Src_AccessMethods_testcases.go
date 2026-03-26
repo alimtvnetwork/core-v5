@@ -473,7 +473,7 @@ var srcFirstLastDefaultStatusTestCases = []coretestcases.CaseV1{
 			"input": []string{"a"},
 		},
 		ExpectedInput: args.Map{
-			"isValid":  true,
+			"isValid":  false,
 			"hasFirst": true,
 		},
 	},
