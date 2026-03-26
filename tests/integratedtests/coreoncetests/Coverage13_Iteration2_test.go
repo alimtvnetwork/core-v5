@@ -17,8 +17,10 @@ import (
 func Test_Cov13_MapStringStringOnce_JsonStringMust(t *testing.T) {
 	// Arrange
 	tc := cov13MapStringStringOnceJsonStringMustTestCase
-	m := coreonce.NewMapStringStringOnce(map[string]string{
-		"key1": "val1",
+	m := coreonce.NewMapStringStringOnce(func() map[string]string {
+		return map[string]string{
+			"key1": "val1",
+		}
 	})
 
 	// Act
