@@ -639,7 +639,7 @@ func Test_Cov16_Collection_AddNonEmptyStringsSlice(t *testing.T) {
 	c := corestr.New.Collection.Empty()
 	c.AddNonEmptyStringsSlice([]string{"a", "", "b"})
 	actual := args.Map{"len": c.Length()}
-	expected := args.Map{"len": 3}
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection returns correct -- AddNonEmptyStringsSlice", actual)
 }
 

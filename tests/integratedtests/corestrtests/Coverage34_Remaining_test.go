@@ -694,7 +694,8 @@ func Test_C34_COC_AddCollections(t *testing.T) {
 }
 
 func Test_C34_COC_List(t *testing.T) {
-	coc := corestr.New.CollectionsOfCollection.Strings([]string{"a"})
+	coc := corestr.New.CollectionsOfCollection.Empty()
+	coc.Adds(*corestr.New.Collection.Strings([]string{"a"}))
 	_ = coc.List(0)
 }
 
