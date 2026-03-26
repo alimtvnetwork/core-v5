@@ -25,9 +25,9 @@ func Test_Cov25_Result_FieldsNames_NonEmpty(t *testing.T) {
 	}
 }
 
-func Test_Cov25_Result_SafeJsonStringInternal_Nil(t *testing.T) {
+func Test_Cov25_Result_SafeString_NilPtr(t *testing.T) {
 	var r *corejson.Result
-	result := r.safeJsonStringInternal()
+	result := r.SafeString()
 	if result != "" {
 		t.Errorf("expected empty string, got %q", result)
 	}
