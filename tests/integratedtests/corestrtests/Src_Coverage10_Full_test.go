@@ -498,10 +498,11 @@ func Test_SrcC10_Hashmap_EqualClone_Verification(t *testing.T) {
 	hm2.AddOrUpdate("a", "1")
 
 	// Act
+	cloneVal := hm1.Clone()
 	actual := args.Map{
 		"isEqual":     hm1.IsEqual(*hm2),
 		"isEqualLock": hm1.IsEqualPtrLock(hm2),
-		"cloneLen":    hm1.Clone().Length(),
+		"cloneLen":    (&cloneVal).Length(),
 	}
 
 	// Assert
@@ -889,11 +890,11 @@ func Test_SrcC10_AnyToString_Verification(t *testing.T) {
 
 	// Act
 	noPanic := !callPanicsSrcC10(func() {
-		_ = corestr.AnyToString(nil)
+		_ = corestr.AnyToString(false, nil)
 	})
 	actual := args.Map{
-		"intNonEmpty": corestr.AnyToString(42) != "",
-		"stringVal":   corestr.AnyToString("hello"),
+		"intNonEmpty": corestr.AnyToString(false, 42) != "",
+		"stringVal":   corestr.AnyToString(false, "hello"),
 		"noPanic":     noPanic,
 	}
 
@@ -906,8 +907,9 @@ func Test_SrcC10_AllIndividualStringsLen_Verification(t *testing.T) {
 	tc := srcC10AllIndividualStringsLenTestCase
 
 	// Act
+	input := [][]string{{"a", "b"}, {"c"}}
 	actual := args.Map{
-		"length": corestr.AllIndividualStringsOfStringsLength([][]string{{"a", "b"}, {"c"}}),
+		"length": corestr.AllIndividualStringsOfStringsLength(&input),
 	}
 
 	// Assert
@@ -922,7 +924,7 @@ func Test_SrcC10_AllIndividualsSimpleSlices_Verification(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"length": corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{ss1, ss2}),
+		"length": corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2),
 	}
 
 	// Assert

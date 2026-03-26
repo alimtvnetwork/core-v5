@@ -293,8 +293,8 @@ func Test_SrcC13_Hashmap_JoinJson_Verification(t *testing.T) {
 		"marshalOk":    mErr == nil && len(b) > 0,
 		"unmarshalLen": hmU.Length(),
 		"unmarshalErr": badErr != nil,
-		"jsonNoErr":    !hm.Json().HasError(),
-		"jsonPtrNoErr": !hm.JsonPtr().HasError(),
+		"jsonNoErr":    hm.Json().Error == nil,
+		"jsonPtrNoErr": hm.JsonPtr().HasError() == false,
 		"noPanic":      noPanic,
 	}
 	_ = uErr
@@ -374,11 +374,12 @@ func Test_SrcC13_Hashmap_Clone_Verification(t *testing.T) {
 	// Act
 	cloned := hm.Clone()
 	hm.Set("b", "2")
+	cloneEmpty := corestr.New.Hashmap.Cap(0).Clone()
 	actual := args.Map{
 		"cloneLen":    hm.ClonePtr().Length(),
 		"cloneNilNil": nilHm.ClonePtr() == nil,
-		"cloneIndep":  !cloned.Has("b"),
-		"cloneEmpty":  corestr.New.Hashmap.Cap(0).Clone().Length(),
+		"cloneIndep":  !(&cloned).Has("b"),
+		"cloneEmpty":  (&cloneEmpty).Length(),
 	}
 
 	// Assert

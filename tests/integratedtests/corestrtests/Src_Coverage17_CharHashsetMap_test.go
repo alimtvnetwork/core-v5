@@ -372,7 +372,7 @@ func Test_SrcC17_Json_Verification(t *testing.T) {
 		hsm2 := corestr.New.CharHashsetMap.Cap(10, 5)
 		_ = json.Unmarshal(data, hsm2)
 		r := hsm.Json()
-		_ = r.HasError()
+		_ = r.Error == nil
 		jr := hsm.JsonPtr()
 		hsm3 := corestr.New.CharHashsetMap.Cap(10, 5)
 		_, _ = hsm3.ParseInjectUsingJson(jr)

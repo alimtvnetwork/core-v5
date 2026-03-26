@@ -46,7 +46,7 @@ func Test_SrcC15_AnyToString_Verification(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"nonEmpty": corestr.AnyToString(42) != "",
+		"nonEmpty": corestr.AnyToString(false, 42) != "",
 	}
 
 	// Assert
@@ -58,12 +58,11 @@ func Test_SrcC15_AllIndLenSlices_Verification(t *testing.T) {
 	tc := srcC15AllIndLenSlicesTestCase
 
 	// Act
+	ss1 := corestr.New.SimpleSlice.SpreadStrings("a", "b")
+	ss2 := corestr.New.SimpleSlice.SpreadStrings("c")
 	actual := args.Map{
-		"length": corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{
-			corestr.New.SimpleSlice.SpreadStrings("a", "b"),
-			corestr.New.SimpleSlice.SpreadStrings("c"),
-		}),
-		"nilLen": corestr.AllIndividualsLengthOfSimpleSlices(nil),
+		"length": corestr.AllIndividualsLengthOfSimpleSlices(ss1, ss2),
+		"nilLen": corestr.AllIndividualsLengthOfSimpleSlices(),
 	}
 
 	// Assert
@@ -76,11 +75,11 @@ func Test_SrcC15_Types_Verification(t *testing.T) {
 
 	// Act
 	noPanic := !callPanicsSrcC15(func() {
-		_ = corestr.ValidValues{Values: []corestr.ValidValue{corestr.NewValidValue("a"), corestr.NewInvalidValue("b")}}
-		_ = corestr.ValueStatus{Value: "test", HasValue: true}
+		_ = corestr.NewValidValuesUsingValues(*corestr.NewValidValue("a"))
+		_ = corestr.InvalidValueStatus("test")
 		_ = corestr.TextWithLineNumber{Text: "hello", LineNumber: 1}
-		_ = corestr.LeftRight{Left: "a", Right: "b"}
-		_ = corestr.LeftMiddleRight{Left: "a", Middle: "b", Right: "c"}
+		_ = corestr.NewLeftRight("a", "b")
+		_ = corestr.NewLeftMiddleRight("a", "b", "c")
 		_ = corestr.KeyValuePair{Key: "k", Value: "v"}
 	})
 	actual := args.Map{
@@ -147,7 +146,7 @@ func Test_SrcC15_SimpleStringOnce_Verification(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"nonEmpty": !corestr.New.SimpleStringOnce.Value("test").IsEmpty(),
+		"nonEmpty": !corestr.New.SimpleStringOnce.Init("test").IsEmpty(),
 	}
 
 	// Assert
@@ -236,7 +235,7 @@ func Test_SrcC15_CocJson_Verification(t *testing.T) {
 		coc2 := &corestr.CollectionsOfCollection{}
 		_ = coc2.UnmarshalJSON(b)
 		r := coc.Json()
-		_ = r.HasError()
+		_ = r.Error == nil
 		coc3 := &corestr.CollectionsOfCollection{}
 		_, _ = coc3.ParseInjectUsingJson(&r)
 		coc4 := &corestr.CollectionsOfCollection{}

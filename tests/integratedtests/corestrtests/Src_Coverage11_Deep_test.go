@@ -382,7 +382,7 @@ func Test_SrcC11_ValidValue_Verification(t *testing.T) {
 
 	// Act
 	vv := corestr.NewValidValue("hello")
-	iv := corestr.NewInvalidValue("x")
+	iv := corestr.InvalidValidValue("x")
 	actual := args.Map{
 		"validIsValid":   vv.IsValid,
 		"validValue":     vv.Value,
@@ -398,9 +398,9 @@ func Test_SrcC11_LeftRight_Verification(t *testing.T) {
 	tc := srcC11LeftRightTestCase
 
 	// Act
-	lr := corestr.NewLeftRightFromSplit("key=val", "=")
-	lrNo := corestr.NewLeftRightFromSplit("nosplit", "=")
-	lmr := corestr.NewLeftMiddleRightFromSplit("a:b:c", ":")
+	lr := corestr.NewLeftRight("key", "val")
+	lrNo := corestr.NewLeftRight("nosplit", "")
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
 	actual := args.Map{
 		"lrLeft":    lr.Left,
 		"lrRight":   lr.Right,
@@ -498,8 +498,9 @@ func Test_SrcC11_AllIndStrLen_Verification(t *testing.T) {
 	tc := srcC11AllIndStrLenTestCase
 
 	// Act
+	input := [][]string{{"a", "b"}, {"c"}}
 	actual := args.Map{
-		"length": corestr.AllIndividualStringsOfStringsLength([][]string{{"a", "b"}, {"c"}}),
+		"length": corestr.AllIndividualStringsOfStringsLength(&input),
 		"nilLen": corestr.AllIndividualStringsOfStringsLength(nil),
 	}
 

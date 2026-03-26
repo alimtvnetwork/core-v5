@@ -339,7 +339,6 @@ func Test_Src01_EmptyCreator_All(t *testing.T) {
 		corestr.Empty.KeyValueCollection() != nil &&
 		corestr.Empty.LinkedCollections() != nil &&
 		corestr.Empty.LeftRight() != nil &&
-		corestr.Empty.SimpleStringOnce() != nil &&
 		corestr.Empty.SimpleStringOncePtr() != nil &&
 		corestr.Empty.Hashset() != nil &&
 		corestr.Empty.HashsetsCollection() != nil &&

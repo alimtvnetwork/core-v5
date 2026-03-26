@@ -5,6 +5,8 @@ import (
 
 	"github.com/alimtvnetwork/core/coretests"
 	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/smarty/assertions/should"
+	"github.com/smartystreets/goconvey/convey"
 )
 
 func Test_Src_AnyToBytes_Verification(t *testing.T) {
@@ -79,9 +81,9 @@ func Test_Src_DraftType_PtrOrNonPtr_NilReceiver(t *testing.T) {
 	result := nilD.PtrOrNonPtr(true)
 
 	// Assert
-	if result != nil {
-		t.Fatal("nil receiver should return nil")
-	}
+	convey.Convey("PtrOrNonPtr returns nil -- nil receiver", t, func() {
+		convey.So(result, should.BeNil)
+	})
 }
 
 func Test_Src_DraftType_ClonePtr_Nil(t *testing.T) {
@@ -153,8 +155,8 @@ func Test_Src_DraftType_IsEqual_Verification(t *testing.T) {
 
 func Test_Src_DraftType_VerifyNotEqual(t *testing.T) {
 	// Arrange
-	d1 := &coretests.DraftType{SampleString1: "a"}
-	d2 := &coretests.DraftType{SampleString1: "b"}
+	d1 := &coretests.DraftType{SampleString1: "a", Lines: []string{}, RawBytes: []byte{}}
+	d2 := &coretests.DraftType{SampleString1: "b", Lines: []string{}, RawBytes: []byte{}}
 
 	// Act
 	msg := d1.VerifyAllNotEqualMessage(d2)
@@ -162,15 +164,15 @@ func Test_Src_DraftType_VerifyNotEqual(t *testing.T) {
 	err2 := d1.VerifyNotEqualExcludingInnerFieldsErr(d2)
 
 	// Assert
-	if msg == "" {
-		t.Fatal("expected not-equal message")
-	}
-	if err == nil {
-		t.Fatal("expected not-equal error")
-	}
-	if err2 == nil {
-		t.Fatal("expected not-equal excluding-inner error")
-	}
+	convey.Convey("VerifyAllNotEqualMessage returns non-empty -- different drafts", t, func() {
+		convey.So(msg, should.NotBeEmpty)
+	})
+	convey.Convey("VerifyAllNotEqualErr returns error -- different drafts", t, func() {
+		convey.So(err, should.NotBeNil)
+	})
+	convey.Convey("VerifyNotEqualExcludingInnerFieldsErr returns error -- different drafts", t, func() {
+		convey.So(err2, should.NotBeNil)
+	})
 
 	// Arrange (equal case)
 	d3 := d1.ClonePtr()
@@ -179,9 +181,9 @@ func Test_Src_DraftType_VerifyNotEqual(t *testing.T) {
 	err3 := d1.VerifyAllNotEqualErr(d3)
 
 	// Assert
-	if err3 != nil {
-		t.Fatal("expected nil for equal drafts")
-	}
+	convey.Convey("VerifyAllNotEqualErr returns nil -- equal drafts", t, func() {
+		convey.So(err3, should.BeNil)
+	})
 }
 
 func Test_Src_DraftType_JsonAndSetters(t *testing.T) {
@@ -194,26 +196,26 @@ func Test_Src_DraftType_JsonAndSetters(t *testing.T) {
 	b2 := d.JsonBytesPtr()
 
 	// Assert
-	if s == "" {
-		t.Fatal("expected json string")
-	}
-	if len(b) == 0 {
-		t.Fatal("expected json bytes")
-	}
-	if len(b2) == 0 {
-		t.Fatal("expected json bytes ptr")
-	}
+	convey.Convey("JsonString returns non-empty -- DraftType", t, func() {
+		convey.So(s, should.NotBeEmpty)
+	})
+	convey.Convey("JsonBytes returns non-empty -- DraftType", t, func() {
+		convey.So(len(b), should.BeGreaterThan, 0)
+	})
+	convey.Convey("JsonBytesPtr returns non-empty -- DraftType", t, func() {
+		convey.So(len(b2), should.BeGreaterThan, 0)
+	})
 
 	// Arrange + Act (setters)
 	d.SetF2Integer(42)
 
 	// Assert
-	if d.F2Integer() != 42 {
-		t.Fatal("expected f2=42")
-	}
-	if d.F1String() != "" {
-		t.Fatal("expected empty f1")
-	}
+	convey.Convey("SetF2Integer sets value -- DraftType", t, func() {
+		convey.So(d.F2Integer(), should.Equal, 42)
+	})
+	convey.Convey("F1String returns empty -- DraftType default", t, func() {
+		convey.So(d.F1String(), should.BeEmpty)
+	})
 	_ = d.NonPtr()
 }
 
@@ -253,18 +255,18 @@ func Test_Src_SimpleTestCase_ArrangeAndExpected(t *testing.T) {
 	expectedStr := stc.ExpectedString()
 
 	// Assert
-	if arrangeStr == "" {
-		t.Fatal("expected arrange string")
-	}
-	if inputVal != "arrange-val" {
-		t.Fatal("expected input")
-	}
-	if expectedVal != "expected-val" {
-		t.Fatal("expected expected")
-	}
-	if expectedStr == "" {
-		t.Fatal("expected expected string")
-	}
+	convey.Convey("ArrangeString returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(arrangeStr, should.NotBeEmpty)
+	})
+	convey.Convey("Input returns arrange-val -- SimpleTestCase", t, func() {
+		convey.So(inputVal, should.Equal, "arrange-val")
+	})
+	convey.Convey("Expected returns expected-val -- SimpleTestCase", t, func() {
+		convey.So(expectedVal, should.Equal, "expected-val")
+	})
+	convey.Convey("ExpectedString returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(expectedStr, should.NotBeEmpty)
+	})
 
 	// Act (setters)
 	stc.SetActual("actual-val")
@@ -273,14 +275,14 @@ func Test_Src_SimpleTestCase_ArrangeAndExpected(t *testing.T) {
 	linesStr := stc.LinesString(0)
 
 	// Assert
-	if actualStr == "" {
-		t.Fatal("expected actual string")
-	}
-	if str == "" {
-		t.Fatal("expected string repr")
-	}
-	if linesStr == "" {
-		t.Fatal("expected lines string")
-	}
+	convey.Convey("ActualString returns non-empty -- after SetActual", t, func() {
+		convey.So(actualStr, should.NotBeEmpty)
+	})
+	convey.Convey("String returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(str, should.NotBeEmpty)
+	})
+	convey.Convey("LinesString returns non-empty -- SimpleTestCase", t, func() {
+		convey.So(linesStr, should.NotBeEmpty)
+	})
 	_ = stc.AsSimpleTestCaseWrapper()
 }
