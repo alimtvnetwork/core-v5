@@ -398,11 +398,10 @@ func Test_Cov73_Dynamic_MarshalJSON(t *testing.T) {
 func Test_Cov73_KeyVal_SetTo_Error(t *testing.T) {
 	// Arrange
 	kv := coredynamic.KeyVal{Key: "key", Value: "value"}
-	var keyOut int
-	var valOut int
+	var wrongType int
 
 	// Act
-	err := kv.ReflectSetTo(&keyOut, &valOut)
+	err := kv.ReflectSetTo(&wrongType)
 
 	// Assert
 	actual := args.Map{"hasErr": err != nil}
