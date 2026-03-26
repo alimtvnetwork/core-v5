@@ -20,7 +20,7 @@ Internal packages are excluded per rules.
 | `corecmp/` | 2 | `tests/integratedtests/corecmptests/` |
 | `chmodhelper/` | 2 | `tests/integratedtests/chmodhelpertests/` |
 | `regexnew/` | 2 | `tests/integratedtests/regexnewtests/` |
-| `reflectcore/reflectmodel/` | 2 | `tests/integratedtests/reflectmodeltests/` |
+| `reflectcore/reflectmodel/` | 1 (1 internal excluded) | `tests/integratedtests/reflectmodeltests/` |
 | `coretests/` | 1 | `tests/integratedtests/coreteststests/` |
 | `coreinstruction/` | 1 | `tests/integratedtests/coreinstructiontests/` |
 
