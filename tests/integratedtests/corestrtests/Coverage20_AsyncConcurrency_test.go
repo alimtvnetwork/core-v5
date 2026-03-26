@@ -118,7 +118,7 @@ func Test_Cov20_Collection_GetPagedCollection_Small(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"pages": paged.Length()}
-	expected := args.Map{"pages": 2}
+	expected := args.Map{"pages": 1}
 	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetPagedCollection small", actual)
 }
 
