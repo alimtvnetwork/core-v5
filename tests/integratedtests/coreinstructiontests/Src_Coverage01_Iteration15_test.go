@@ -1,6 +1,7 @@
-package coreinstruction
+package coreinstructiontests
 
 import (
+	"github.com/alimtvnetwork/core/coreinstruction"
 	"regexp"
 	"testing"
 )
@@ -10,21 +11,21 @@ import (
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I15_BaseIsContinueOnError_IsExitOnError_Nil(t *testing.T) {
-	var b *BaseIsContinueOnError
+	var b *coreinstruction.BaseIsContinueOnError
 	if b.IsExitOnError() {
 		t.Fatal("expected false for nil receiver")
 	}
 }
 
 func Test_I15_BaseIsContinueOnError_IsExitOnError_ContinueTrue(t *testing.T) {
-	b := &BaseIsContinueOnError{IsContinueOnError: true}
+	b := &coreinstruction.BaseIsContinueOnError{IsContinueOnError: true}
 	if b.IsExitOnError() {
 		t.Fatal("expected false when IsContinueOnError is true")
 	}
 }
 
 func Test_I15_BaseIsContinueOnError_IsExitOnError_ContinueFalse(t *testing.T) {
-	b := &BaseIsContinueOnError{IsContinueOnError: false}
+	b := &coreinstruction.BaseIsContinueOnError{IsContinueOnError: false}
 	if !b.IsExitOnError() {
 		t.Fatal("expected true when IsContinueOnError is false")
 	}
@@ -35,7 +36,7 @@ func Test_I15_BaseIsContinueOnError_IsExitOnError_ContinueFalse(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I15_BaseIsSecure_NewSecure(t *testing.T) {
-	s := NewSecure()
+	s := coreinstruction.NewSecure()
 	if !s.IsSecure {
 		t.Fatal("expected secure")
 	}
@@ -48,7 +49,7 @@ func Test_I15_BaseIsSecure_NewSecure(t *testing.T) {
 }
 
 func Test_I15_BaseIsSecure_NewPlain(t *testing.T) {
-	s := NewPlain()
+	s := coreinstruction.NewPlain()
 	if s.IsSecure {
 		t.Fatal("expected not secure")
 	}
@@ -61,7 +62,7 @@ func Test_I15_BaseIsSecure_NewPlain(t *testing.T) {
 }
 
 func Test_I15_BaseIsSecure_NilReceiver(t *testing.T) {
-	var s *BaseIsSecure
+	var s *coreinstruction.BaseIsSecure
 	if !s.IsPlainText() {
 		t.Fatal("expected plain text for nil")
 	}
@@ -75,7 +76,7 @@ func Test_I15_BaseIsSecure_NilReceiver(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I15_BaseTags_NewTagsPtr_Empty(t *testing.T) {
-	bt := NewTagsPtr([]string{})
+	bt := coreinstruction.NewTagsPtr([]string{})
 	if bt == nil {
 		t.Fatal("expected non-nil")
 	}
@@ -85,21 +86,21 @@ func Test_I15_BaseTags_NewTagsPtr_Empty(t *testing.T) {
 }
 
 func Test_I15_BaseTags_NewTagsPtr_NonEmpty(t *testing.T) {
-	bt := NewTagsPtr([]string{"a", "b"})
+	bt := coreinstruction.NewTagsPtr([]string{"a", "b"})
 	if bt.TagsLength() != 2 {
 		t.Fatal("expected 2 tags")
 	}
 }
 
 func Test_I15_BaseTags_TagsLength_NilTags(t *testing.T) {
-	bt := BaseTags{Tags: nil}
+	bt := coreinstruction.BaseTags{Tags: nil}
 	if bt.TagsLength() != 0 {
 		t.Fatal("expected 0")
 	}
 }
 
 func Test_I15_BaseTags_TagsHashset_Cached(t *testing.T) {
-	bt := NewTags([]string{"x", "y"})
+	bt := coreinstruction.NewTags([]string{"x", "y"})
 	h1 := bt.TagsHashset()
 	h2 := bt.TagsHashset()
 	if h1 != h2 {
@@ -108,7 +109,7 @@ func Test_I15_BaseTags_TagsHashset_Cached(t *testing.T) {
 }
 
 func Test_I15_BaseTags_HasAllTags(t *testing.T) {
-	bt := NewTags([]string{"a", "b", "c"})
+	bt := coreinstruction.NewTags([]string{"a", "b", "c"})
 	if !bt.HasAllTags("a", "b") {
 		t.Fatal("expected true")
 	}
@@ -122,7 +123,7 @@ func Test_I15_BaseTags_HasAllTags(t *testing.T) {
 }
 
 func Test_I15_BaseTags_HasAnyTags(t *testing.T) {
-	bt := NewTags([]string{"a", "b"})
+	bt := coreinstruction.NewTags([]string{"a", "b"})
 	if !bt.HasAnyTags("a", "z") {
 		t.Fatal("expected true")
 	}
@@ -132,7 +133,7 @@ func Test_I15_BaseTags_HasAnyTags(t *testing.T) {
 }
 
 func Test_I15_BaseTags_IsAnyTagMatchesRegex_Empty(t *testing.T) {
-	bt := NewTags([]string{})
+	bt := coreinstruction.NewTags([]string{})
 	r := regexp.MustCompile(`.*`)
 	if bt.IsAnyTagMatchesRegex(r) {
 		t.Fatal("expected false for empty tags")
@@ -140,7 +141,7 @@ func Test_I15_BaseTags_IsAnyTagMatchesRegex_Empty(t *testing.T) {
 }
 
 func Test_I15_BaseTags_IsAnyTagMatchesRegex_Match(t *testing.T) {
-	bt := NewTags([]string{"hello-world", "foo"})
+	bt := coreinstruction.NewTags([]string{"hello-world", "foo"})
 	r := regexp.MustCompile(`^hello`)
 	if !bt.IsAnyTagMatchesRegex(r) {
 		t.Fatal("expected match")
@@ -148,7 +149,7 @@ func Test_I15_BaseTags_IsAnyTagMatchesRegex_Match(t *testing.T) {
 }
 
 func Test_I15_BaseTags_IsAnyTagMatchesRegex_NoMatch(t *testing.T) {
-	bt := NewTags([]string{"foo", "bar"})
+	bt := coreinstruction.NewTags([]string{"foo", "bar"})
 	r := regexp.MustCompile(`^hello`)
 	if bt.IsAnyTagMatchesRegex(r) {
 		t.Fatal("expected no match")
