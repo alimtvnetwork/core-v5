@@ -137,6 +137,21 @@
   - `messagePrinter` methods (7 stmts) — unexported type with no public accessor; only used internally via unreachable code paths
 - **Closed**: 2026-03-26
 
+### 14. `coretests/results` ✅ Closed
+
+- **Affected** (4 stmts):
+  - `safeInterface:135-137` invalid `reflect.Value` guard (1 stmt) — `reflect.Value.Call()` always returns valid Values; `!rv.IsValid()` is unreachable
+  - `extractErrorFromValue:158-160` invalid `reflect.Value` guard (1 stmt) — same reason; last return value from `Call()` is always valid
+  - `extractErrorFromValue:176-178` `!ok` after `.(error)` cast (1 stmt) — if `rv.Type().Implements(errorType)` passes at line 162, the type assertion always succeeds
+  - `MethodName:33-35` `lastDot < 0` guard (1 stmt) — `runtime.FuncForPC().Name()` always returns fully qualified names containing dots
+- **Closed**: 2026-03-26
+
+### 15. `iserror` ✅ Closed
+
+- **Affected** (1 stmt):
+  - `Equal:8-10` `left == nil && right == nil` (1 stmt) — already handled by `left == right` at line 4; when both are nil, `nil == nil` is true and returns at line 5
+- **Closed**: 2026-03-26
+
 ---
 
 ## Summary
@@ -156,6 +171,8 @@
 | 11 | `chmodhelper` | Platform-incompatible (Linux) | ✅ Closed |
 | 12 | `enumimpl` | Dead code + unexported interfaces | ✅ Closed |
 | 13 | `coretests` | Dead code + unexported + platform | ✅ Closed |
+| 14 | `coretests/results` | Defensive guards + unreachable cast | ✅ Closed |
+| 15 | `iserror` | Redundant nil check | ✅ Closed |
 
-**Total justified gaps**: ~85-100 lines across 13 packages.  
+**Total justified gaps**: ~90-110 lines across 15 packages.  
 **All entries closed** — no further coverage work required for these packages.
