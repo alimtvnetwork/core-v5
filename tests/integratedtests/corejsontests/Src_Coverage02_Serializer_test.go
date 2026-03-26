@@ -1,0 +1,194 @@
+package corejsontests
+
+import (
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"testing"
+)
+
+func TestSerializer_Apply(t *testing.T) {
+	r := corejson.Serialize.Apply("hello")
+	if r.HasError() || r.corejson.JsonString() != `"hello"` {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_StringsApply(t *testing.T) {
+	r := corejson.Serialize.StringsApply([]string{"a", "b"})
+	if r.HasError() {
+		t.Fatal("unexpected error")
+	}
+}
+
+func TestSerializer_FromBytes(t *testing.T) {
+	r := corejson.Serialize.FromBytes([]byte(`"test"`))
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_FromStrings(t *testing.T) {
+	r := corejson.Serialize.FromStrings([]string{"a"})
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_FromStringsSpread(t *testing.T) {
+	r := corejson.Serialize.FromStringsSpread("a", "b")
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_FromString(t *testing.T) {
+	r := corejson.Serialize.FromString("hello")
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_FromInteger(t *testing.T) {
+	r := corejson.Serialize.FromInteger(42)
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_FromInteger64(t *testing.T) {
+	r := corejson.Serialize.FromInteger64(64)
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_FromBool(t *testing.T) {
+	r := corejson.Serialize.FromBool(true)
+	if r.HasError() || r.corejson.JsonString() != "true" {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_FromIntegers(t *testing.T) {
+	r := corejson.Serialize.FromIntegers([]int{1, 2, 3})
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_UsingAnyPtr(t *testing.T) {
+	r := corejson.Serialize.UsingAnyPtr("x")
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+
+	ch := make(chan int)
+	r2 := corejson.Serialize.UsingAnyPtr(ch)
+	if !r2.HasError() {
+		t.Fatal("expected error")
+	}
+}
+
+func TestSerializer_UsingAny(t *testing.T) {
+	r := corejson.Serialize.UsingAny("x")
+	if r.HasError() {
+		t.Fatal(r.Error)
+	}
+}
+
+func TestSerializer_Raw(t *testing.T) {
+	b, err := corejson.Serialize.Raw("x")
+	if err != nil || len(b) == 0 {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_Marshal(t *testing.T) {
+	b, err := corejson.Serialize.Marshal("x")
+	if err != nil || len(b) == 0 {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_ToBytesErr(t *testing.T) {
+	b, err := corejson.Serialize.ToBytesErr("x")
+	if err != nil || len(b) == 0 {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_ToBytesMust(t *testing.T) {
+	b := corejson.Serialize.ToBytesMust("x")
+	if len(b) == 0 {
+		t.Fatal("expected bytes")
+	}
+}
+
+func TestSerializer_ToSafeBytesMust(t *testing.T) {
+	b := corejson.Serialize.ToSafeBytesMust("x")
+	if len(b) == 0 {
+		t.Fatal("expected bytes")
+	}
+}
+
+func TestSerializer_ToSafeBytesSwallowErr(t *testing.T) {
+	b := corejson.Serialize.ToSafeBytesSwallowErr("x")
+	if len(b) == 0 {
+		t.Fatal("expected bytes")
+	}
+}
+
+func TestSerializer_ToBytesSwallowErr(t *testing.T) {
+	b := corejson.Serialize.ToBytesSwallowErr("x")
+	if len(b) == 0 {
+		t.Fatal("expected bytes")
+	}
+}
+
+func TestSerializer_ToString(t *testing.T) {
+	s := corejson.Serialize.ToString("hello")
+	if s != `"hello"` {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_ToStringMust(t *testing.T) {
+	s := corejson.Serialize.ToStringMust("x")
+	if s == "" {
+		t.Fatal("expected string")
+	}
+}
+
+func TestSerializer_ToStringErr(t *testing.T) {
+	s, err := corejson.Serialize.ToStringErr("x")
+	if err != nil || s == "" {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_ToPrettyStringErr(t *testing.T) {
+	s, err := corejson.Serialize.ToPrettyStringErr(map[string]int{"a": 1})
+	if err != nil || s == "" {
+		t.Fatal("unexpected")
+	}
+}
+
+func TestSerializer_ToPrettyStringIncludingErr(t *testing.T) {
+	s := corejson.Serialize.ToPrettyStringIncludingErr(map[string]int{"a": 1})
+	if s == "" {
+		t.Fatal("expected string")
+	}
+}
+
+func TestSerializer_Pretty(t *testing.T) {
+	s := corejson.Serialize.Pretty(map[string]int{"a": 1})
+	if s == "" {
+		t.Fatal("expected string")
+	}
+}
+
+func TestSerializer_ApplyMust(t *testing.T) {
+	r := corejson.Serialize.ApplyMust("x")
+	if r.HasError() {
+		t.Fatal("unexpected error")
+	}
+}
