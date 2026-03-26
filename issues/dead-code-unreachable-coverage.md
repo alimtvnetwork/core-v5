@@ -88,6 +88,58 @@ if len(reqs) == 0 {
 
 **Reason**: Both are unexported functions. All callers (`RangesNotMeet`, `GetStatusAnyOf`) guard against empty slices before calling `start`/`end`, making the internal empty check unreachable.
 
+## 9. `errcore/RawErrCollection.go:454-455, 463-464` (LogFatal, LogFatalWithTraces)
+
+```go
+slog.Error("fatal: raw error collection", "errors", it.String())
+os.Exit(1)
+```
+
+**Reason**: `os.Exit(1)` terminates the process. Cannot be tested without killing the test runner. The `IsEmpty()` early-return paths ARE covered; only the fatal exit paths are not.
+
+## 10. `errcore/RawErrCollection.go:469` (LogIf)
+
+```go
+func (it *RawErrCollection) LogIf(isLog bool) {
+    if isLog {
+        it.LogFatal() // delegates to os.Exit
+    }
+}
+```
+
+**Reason**: Delegates to `LogFatal` which calls `os.Exit(1)`. Untestable.
+
+## 11. `errcore/CompiledError.go:30-31` (CompiledErrorString)
+
+```go
+if compiled == nil {
+    return ""
+}
+```
+
+**Reason**: `CompiledError(mainErr, msg)` never returns nil when `mainErr != nil` — it either returns `mainErr` (when `msg == ""`) or a wrapped error. Since line 25 already guards `mainErr == nil`, `compiled` is guaranteed non-nil.
+
+## 12. `namevalue/Instance.go:20-21` (Instance.String value receiver nil check)
+
+```go
+func (it Instance[K, V]) String() string {
+    if it.IsNull() { // IsNull checks it == nil, but value receiver copy is never nil
+```
+
+**Reason**: Value receiver — `it` is a stack copy, never nil. Same pattern as Item #4.
+
+## 13. `namevalue/Instance.go:31-32` (Instance.JsonString value receiver nil check)
+
+Same pattern as #12 — value receiver nil check is unreachable.
+
+## 14. `namevalue/Instance.go:37` and `namevalue/Collection.go:385`
+
+```go
+if err != nil || rawBytes == nil {
+```
+
+**Reason**: `json.Marshal` on a valid struct never returns `(nil, nil)`. If no error, bytes are always non-nil.
+
 ## Recommendation
 
 These are defensive guards. They could be removed for cleanliness, but keeping them is harmless. Coverage for these packages is effectively 100% for all reachable code.
