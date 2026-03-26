@@ -234,7 +234,7 @@ func Test_Cov73_AnyCollection_JsonStringMust(t *testing.T) {
 func Test_Cov73_DynamicCollection_JsonString(t *testing.T) {
 	// Arrange
 	dc := coredynamic.NewDynamicCollection(2)
-	dc.AddAny("hello")
+	dc.AddAny("hello", true)
 
 	// Act
 	str, err := dc.JsonString()
@@ -254,7 +254,7 @@ func Test_Cov73_DynamicCollection_JsonString(t *testing.T) {
 func Test_Cov73_DynamicCollection_JsonStringMust(t *testing.T) {
 	// Arrange
 	dc := coredynamic.NewDynamicCollection(1)
-	dc.AddAny("test")
+	dc.AddAny("test", true)
 
 	// Act
 	str := dc.JsonStringMust()
@@ -321,7 +321,7 @@ func Test_Cov73_Collection_ItemsLock(t *testing.T) {
 
 func Test_Cov73_Dynamic_JsonString(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	str, err := d.JsonString()
@@ -340,7 +340,7 @@ func Test_Cov73_Dynamic_JsonString(t *testing.T) {
 
 func Test_Cov73_Dynamic_JsonStringMust(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	str := d.JsonStringMust()
@@ -353,7 +353,7 @@ func Test_Cov73_Dynamic_JsonStringMust(t *testing.T) {
 
 func Test_Cov73_Dynamic_JsonBytes(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	bytes, err := d.JsonBytes()
@@ -372,7 +372,7 @@ func Test_Cov73_Dynamic_JsonBytes(t *testing.T) {
 
 func Test_Cov73_Dynamic_MarshalJSON(t *testing.T) {
 	// Arrange
-	d := coredynamic.NewDynamic(map[string]any{"k": "v"})
+	d := coredynamic.NewDynamic(map[string]any{"k": "v"}, true)
 
 	// Act
 	bytes, err := d.MarshalJSON()
@@ -491,7 +491,7 @@ func Test_Cov73_KeyValCollection_ToMapResults(t *testing.T) {
 
 func Test_Cov73_TypedDynamic_JsonString(t *testing.T) {
 	// Arrange
-	td := coredynamic.NewTypedDynamic[map[string]any](map[string]any{"k": "v"})
+	td := coredynamic.NewTypedDynamic[map[string]any](map[string]any{"k": "v"}, true)
 
 	// Act
 	str, err := td.JsonString()
