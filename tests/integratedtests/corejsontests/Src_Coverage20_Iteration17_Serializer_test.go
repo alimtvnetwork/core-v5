@@ -74,12 +74,12 @@ func Test_I17_Serialize_FromIntegers(t *testing.T) {
 	}
 }
 
-type testStringer struct{ val string }
+type srcTestStringer struct{ val string }
 
-func (s testStringer) String() string { return s.val }
+func (s srcTestStringer) String() string { return s.val }
 
 func Test_I17_Serialize_FromStringer(t *testing.T) {
-	r := corejson.Serialize.FromStringer(testStringer{val: "test"})
+	r := corejson.Serialize.FromStringer(srcTestStringer{val: "test"})
 	if string(r.Bytes) != `"test"` {
 		t.Fatalf("unexpected: %s", string(r.Bytes))
 	}
@@ -228,4 +228,4 @@ func Test_I17_Serialize_Apply_Error(t *testing.T) {
 }
 
 // Covers fmt.Stringer interface usage
-var _ fmt.Stringer = testStringer{}
+var _ fmt.Stringer = srcTestStringer{}

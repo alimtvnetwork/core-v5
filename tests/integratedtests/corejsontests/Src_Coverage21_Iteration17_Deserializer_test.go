@@ -284,15 +284,15 @@ func Test_I17_Deserialize_AnyToFieldsMap(t *testing.T) {
 	}
 }
 
-type testSerializer struct {
+type srcTestSerializer struct {
 	data []byte
 	err  error
 }
 
-func (s testSerializer) corejson.Serialize() ([]byte, error) { return s.data, s.err }
+func (s srcTestSerializer) Serialize() ([]byte, error) { return s.data, s.err }
 
 func Test_I17_Deserialize_UsingSerializerTo(t *testing.T) {
-	s := testSerializer{data: []byte(`"hello"`)}
+	s := srcTestSerializer{data: []byte(`"hello"`)}
 	var out string
 	err := corejson.Deserialize.UsingSerializerTo(s, &out)
 	if err != nil || out != "hello" {
@@ -309,11 +309,11 @@ func Test_I17_Deserialize_UsingSerializerFuncTo(t *testing.T) {
 	}
 }
 
-type testDeserializer struct {
+type srcTestDeserializer struct {
 	err error
 }
 
-func (d testDeserializer) corejson.Deserialize(toPtr any) error { return d.err }
+func (d srcTestDeserializer) Deserialize(toPtr any) error { return d.err }
 
 func Test_I17_Deserialize_UsingDeserializerToOption_SkipNil(t *testing.T) {
 	err := corejson.Deserialize.UsingDeserializerToOption(true, nil, nil)
@@ -330,7 +330,7 @@ func Test_I17_Deserialize_UsingDeserializerToOption_NilError(t *testing.T) {
 }
 
 func Test_I17_Deserialize_UsingDeserializerToOption_Valid(t *testing.T) {
-	err := corejson.Deserialize.UsingDeserializerToOption(false, testDeserializer{}, nil)
+	err := corejson.Deserialize.UsingDeserializerToOption(false, srcTestDeserializer{}, nil)
 	if err != nil {
 		t.Fatal("unexpected error")
 	}

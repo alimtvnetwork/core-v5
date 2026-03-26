@@ -82,18 +82,18 @@ func Test_Cov25_Result_IsEqual_SameContent(t *testing.T) {
 // Covers BytesCollection.go L192-195, L205-209, L647-653
 // ══════════════════════════════════════════════════════════════════════════════
 
-type mockSerializer struct {
+type srcMockSerializer struct {
 	bytes []byte
 	err   error
 }
 
-func (m *mockSerializer) corejson.Serialize() ([]byte, error) {
+func (m *srcMockSerializer) Serialize() ([]byte, error) {
 	return m.bytes, m.err
 }
 
 func Test_Cov25_BytesCollection_AddSerializer(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(2)
-	s := &mockSerializer{bytes: []byte(`{"a":1}`)}
+	s := &srcMockSerializer{bytes: []byte(`{"a":1}`)}
 	bc.AddSerializer(s)
 	if bc.Length() != 1 {
 		t.Errorf("expected length 1, got %d", bc.Length())
@@ -102,8 +102,8 @@ func Test_Cov25_BytesCollection_AddSerializer(t *testing.T) {
 
 func Test_Cov25_BytesCollection_AddSerializers(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(2)
-	s1 := &mockSerializer{bytes: []byte(`{"a":1}`)}
-	s2 := &mockSerializer{bytes: []byte(`{"b":2}`)}
+	s1 := &srcMockSerializer{bytes: []byte(`{"a":1}`)}
+	s2 := &srcMockSerializer{bytes: []byte(`{"b":2}`)}
 	bc.AddSerializers(s1, s2)
 	if bc.Length() != 2 {
 		t.Errorf("expected length 2, got %d", bc.Length())
@@ -202,7 +202,7 @@ func Test_Cov25_MapResults_GetSinglePageCollection_NegativeIndex(t *testing.T) {
 
 func Test_Cov25_ResultsCollection_AddSerializer(t *testing.T) {
 	rc := corejson.NewResultsCollection.UsingCap(2)
-	s := &mockSerializer{bytes: []byte(`{"c":3}`)}
+	s := &srcMockSerializer{bytes: []byte(`{"c":3}`)}
 	rc.AddSerializer(s)
 	if rc.Length() != 1 {
 		t.Errorf("expected length 1, got %d", rc.Length())
@@ -211,8 +211,8 @@ func Test_Cov25_ResultsCollection_AddSerializer(t *testing.T) {
 
 func Test_Cov25_ResultsCollection_AddSerializers(t *testing.T) {
 	rc := corejson.NewResultsCollection.UsingCap(2)
-	s1 := &mockSerializer{bytes: []byte(`{"c":3}`)}
-	s2 := &mockSerializer{bytes: []byte(`{"d":4}`)}
+	s1 := &srcMockSerializer{bytes: []byte(`{"c":3}`)}
+	s2 := &srcMockSerializer{bytes: []byte(`{"d":4}`)}
 	rc.AddSerializers(s1, s2)
 	if rc.Length() != 2 {
 		t.Errorf("expected length 2, got %d", rc.Length())

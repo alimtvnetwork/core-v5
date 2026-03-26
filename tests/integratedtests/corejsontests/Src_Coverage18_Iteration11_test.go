@@ -11,7 +11,7 @@ type i11Serializer struct {
 	err   error
 }
 
-func (it i11Serializer) corejson.Serialize() ([]byte, error) {
+func (it i11Serializer) Serialize() ([]byte, error) {
 	return it.bytes, it.err
 }
 
@@ -19,7 +19,7 @@ type i11Deserializer struct {
 	err error
 }
 
-func (it i11Deserializer) corejson.Deserialize(toPtr any) error {
+func (it i11Deserializer) Deserialize(toPtr any) error {
 	if it.err != nil {
 		return it.err
 	}

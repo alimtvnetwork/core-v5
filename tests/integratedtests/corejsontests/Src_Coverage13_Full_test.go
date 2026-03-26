@@ -1098,7 +1098,7 @@ func TestMapResults_AddJsoner(t *testing.T) {
 	mr := corejson.NewMapResults.Empty()
 	type simple struct{ X int }
 	s := simple{X: 1}
-	mr.AddJsoner("key", &simpleJsoner{val: s})
+	mr.AddJsoner("key", &srcSimpleJsoner{val: s})
 	if mr.Length() != 1 { t.Fatal("expected 1") }
 }
 
@@ -1140,7 +1140,7 @@ func TestResult_ParseInjectUsingJsonMust(t *testing.T) {
 // ── Serializer extended ──
 
 func TestSerializer_FromStringer(t *testing.T) {
-	r := corejson.Serialize.FromStringer(simpleStringer{"test"})
+	r := corejson.Serialize.FromStringer(srcSimpleStringer{"test"})
 	if r.HasError() { t.Fatal(r.Error) }
 }
 
@@ -1405,8 +1405,8 @@ func TestNewMapResultsCreator_UsingKeyWithResults(t *testing.T) {
 
 // ── Helper types for tests ──
 
-type simpleJsoner struct{ val any }
-func (s *simpleJsoner) Json() *corejson.Result { return corejson.NewResult.AnyPtr(s.val) }
+type srcSimpleJsoner struct{ val any }
+func (s *srcSimpleJsoner) Json() *corejson.Result { return corejson.NewResult.AnyPtr(s.val) }
 
-type simpleStringer struct{ s string }
-func (s simpleStringer) String() string { return s.s }
+type srcSimpleStringer struct{ s string }
+func (s srcSimpleStringer) String() string { return s.s }
