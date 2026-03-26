@@ -465,7 +465,7 @@ func Test_SrcC19_Json_Verification(t *testing.T) {
 		lc2 := corestr.New.LinkedCollection.Create()
 		_ = json.Unmarshal(data, lc2)
 		r := lc.Json()
-		_ = r.HasError()
+		_ = r.Error == nil
 		jr := lc.JsonPtr()
 		lc3 := corestr.New.LinkedCollection.Create()
 		_, _ = lc3.ParseInjectUsingJson(jr)

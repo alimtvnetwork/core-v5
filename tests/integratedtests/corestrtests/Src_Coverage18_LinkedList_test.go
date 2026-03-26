@@ -469,7 +469,7 @@ func Test_SrcC18_Json_Verification(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Create()
 		_ = json.Unmarshal(data, ll2)
 		r := ll.Json()
-		_ = r.HasError()
+		_ = r.Error == nil
 		jr := ll.JsonPtr()
 		ll3 := corestr.New.LinkedList.Create()
 		_, _ = ll3.ParseInjectUsingJson(jr)

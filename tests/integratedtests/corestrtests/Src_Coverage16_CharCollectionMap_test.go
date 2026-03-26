@@ -356,7 +356,7 @@ func Test_SrcC16_Ccm_Json_Verification(t *testing.T) {
 		cm2 := corestr.Empty.CharCollectionMap()
 		_ = json.Unmarshal(data, cm2)
 		r := cm.Json()
-		_ = r.HasError()
+		_ = r.Error == nil
 		_ = cm.JsonPtr()
 		cm3 := corestr.New.CharCollectionMap.CapSelfCap(10, 5)
 		jr := cm.JsonPtr()
