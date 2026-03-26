@@ -498,10 +498,11 @@ func Test_SrcC10_Hashmap_EqualClone_Verification(t *testing.T) {
 	hm2.AddOrUpdate("a", "1")
 
 	// Act
+	cloneVal := hm1.Clone()
 	actual := args.Map{
 		"isEqual":     hm1.IsEqual(*hm2),
 		"isEqualLock": hm1.IsEqualPtrLock(hm2),
-		"cloneLen":    hm1.Clone().Length(),
+		"cloneLen":    (&cloneVal).Length(),
 	}
 
 	// Assert
