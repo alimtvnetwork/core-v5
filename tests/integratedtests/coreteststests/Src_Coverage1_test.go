@@ -196,26 +196,26 @@ func Test_Src_DraftType_JsonAndSetters(t *testing.T) {
 	b2 := d.JsonBytesPtr()
 
 	// Assert
-	if s == "" {
-		t.Fatal("expected json string")
-	}
-	if len(b) == 0 {
-		t.Fatal("expected json bytes")
-	}
-	if len(b2) == 0 {
-		t.Fatal("expected json bytes ptr")
-	}
+	convey.Convey("JsonString returns non-empty -- DraftType", t, func() {
+		convey.So(s, should.NotBeEmpty)
+	})
+	convey.Convey("JsonBytes returns non-empty -- DraftType", t, func() {
+		convey.So(len(b), should.BeGreaterThan, 0)
+	})
+	convey.Convey("JsonBytesPtr returns non-empty -- DraftType", t, func() {
+		convey.So(len(b2), should.BeGreaterThan, 0)
+	})
 
 	// Arrange + Act (setters)
 	d.SetF2Integer(42)
 
 	// Assert
-	if d.F2Integer() != 42 {
-		t.Fatal("expected f2=42")
-	}
-	if d.F1String() != "" {
-		t.Fatal("expected empty f1")
-	}
+	convey.Convey("SetF2Integer sets value -- DraftType", t, func() {
+		convey.So(d.F2Integer(), should.Equal, 42)
+	})
+	convey.Convey("F1String returns empty -- DraftType default", t, func() {
+		convey.So(d.F1String(), should.BeEmpty)
+	})
 	_ = d.NonPtr()
 }
 
