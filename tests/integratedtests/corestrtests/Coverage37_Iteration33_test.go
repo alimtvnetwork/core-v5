@@ -2228,5 +2228,3 @@ func Test_Cov37_JoinLineEofLine_AlreadySuffixed(t *testing.T) {
 
 // Ensure the unused import is used
 var _ = corejson.Result{}
-	})
-}
