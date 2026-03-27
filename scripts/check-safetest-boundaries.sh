@@ -38,8 +38,8 @@ path = sys.argv[1]
 lines = open(path, encoding="utf-8").read().splitlines()
 
 control_re = re.compile(r'^\t\t(?:if|for|switch|select|else)\b')
-func_open_re = re.compile(r'^\t\t(?!if\b|for\b|switch\b|select\b|else\b).*(?:\bfunc\(|\(func\().*\{\s*$')
-block_open_re = re.compile(r'^\t\t.*\{\s*$')
+func_open_re = re.compile(r'^\t\t[^\t](?!if\b|for\b|switch\b|select\b|else\b).*(?:\bfunc\(|\(func\().*\{\s*$')
+block_open_re = re.compile(r'^\t\t[^\t].*\{\s*$')
 
 for i, line in enumerate(lines):
     if line.rstrip() != '\t\t}':
