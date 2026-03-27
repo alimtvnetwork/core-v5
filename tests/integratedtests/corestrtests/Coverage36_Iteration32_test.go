@@ -1030,42 +1030,52 @@ func Test_I32_Collection_UnmarshalJSON_Err(t *testing.T) {
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns error -- UnmarshalJSON err", actual)
 	})
-}
+	})
 
+}
 func Test_I32_Collection_Json(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Json", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		j := c.Json()
 		actual := args.Map{"notNil": j.Bytes != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Json", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_JsonPtr(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_JsonPtr", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		jp := c.JsonPtr()
 		actual := args.Map{"notNil": jp != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- JsonPtr", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_Serialize(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Serialize", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		b, err := c.Serialize()
 		actual := args.Map{"noErr": err == nil, "notEmpty": len(b) > 0}
 		expected := args.Map{"noErr": true, "notEmpty": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Serialize", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_Deserialize(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Deserialize", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		var target []string
 		err := c.Deserialize(&target)
 		actual := args.Map{"noErr": err == nil, "len": len(target)}
 		expected := args.Map{"noErr": true, "len": 1}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Deserialize", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_ParseInjectUsingJson(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_ParseInjectUsingJson", func() {
 		src := corestr.New.Collection.Strings([]string{"a", "b"})
 		jr := src.JsonPtr()
 		target := corestr.New.Collection.Cap(5)
@@ -1073,9 +1083,11 @@ func Test_I32_Collection_ParseInjectUsingJson(t *testing.T) {
 		actual := args.Map{"noErr": err == nil, "len": result.Length()}
 		expected := args.Map{"noErr": true, "len": 2}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ParseInjectUsingJson", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_JsonParseSelfInject(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_JsonParseSelfInject", func() {
 		src := corestr.New.Collection.Strings([]string{"a"})
 		jr := src.JsonPtr()
 		target := corestr.New.Collection.Cap(5)
@@ -1083,58 +1095,71 @@ func Test_I32_Collection_JsonParseSelfInject(t *testing.T) {
 		actual := args.Map{"noErr": err == nil, "len": target.Length()}
 		expected := args.Map{"noErr": true, "len": 1}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- JsonParseSelfInject", actual)
-	}
+	})
+}
 
 	// ══════════════════════════════════════════════════════════════════════════════
 	// Collection pt2 — AsJsonMarshaller / AsJsonContractsBinder
 	// ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I32_Collection_AsJsonMarshaller(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_AsJsonMarshaller", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		actual := args.Map{"notNil": c.AsJsonMarshaller() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AsJsonMarshaller", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_AsJsonContractsBinder(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_AsJsonContractsBinder", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		actual := args.Map{"notNil": c.AsJsonContractsBinder() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AsJsonContractsBinder", actual)
-	}
+	})
+}
 
 	// ══════════════════════════════════════════════════════════════════════════════
 	// Collection pt2 — Clear / Dispose
 	// ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I32_Collection_Clear(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Clear", func() {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		c.Clear()
 		actual := args.Map{"empty": c.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Clear", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_Clear_Nil(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Clear_Nil", func() {
 		var c *corestr.Collection
 		result := c.Clear()
 		actual := args.Map{"nil": result == nil}
 		expected := args.Map{"nil": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns nil -- Clear nil", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_Dispose(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Dispose", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		c.Dispose()
 		actual := args.Map{"ok": true}
 		expected := args.Map{"ok": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Dispose", actual)
-	}
+	})
+}
 
 func Test_I32_Collection_Dispose_Nil(t *testing.T) {
+	safeTest(t, "Test_I32_Collection_Dispose_Nil", func() {
 		var c *corestr.Collection
 		c.Dispose() // should not panic
 		actual := args.Map{"ok": true}
 		expected := args.Map{"ok": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns nil -- Dispose nil", actual)
-	}
+	})
+}

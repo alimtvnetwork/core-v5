@@ -528,26 +528,32 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if err2 != nil { t.Fatal(err2) }
 		err3 := ss2.UnmarshalJSON([]byte(`{bad`))
 		if err3 == nil { t.Fatal() }
-	}
+	})
 
+}
 func Test_C39_SimpleSlice_ParseInjectUsingJson(t *testing.T) {
+	safeTest(t, "Test_C39_SimpleSlice_ParseInjectUsingJson", func() {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		jr := ss.JsonPtr()
 		ss2 := corestr.New.SimpleSlice.Empty()
 		result, err := ss2.ParseInjectUsingJson(jr)
 		if err != nil { t.Fatal(err) }
 		if result.Length() != 1 { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SimpleSlice_InterfaceCasts(t *testing.T) {
+	safeTest(t, "Test_C39_SimpleSlice_InterfaceCasts", func() {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		if ss.AsJsonContractsBinder() == nil { t.Fatal() }
 		if ss.AsJsoner() == nil { t.Fatal() }
 		if ss.AsJsonParseSelfInjector() == nil { t.Fatal() }
 		if ss.AsJsonMarshaller() == nil { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SimpleSlice_Clear_Dispose(t *testing.T) {
+	safeTest(t, "Test_C39_SimpleSlice_Clear_Dispose", func() {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		ss.Clear()
 		if ss.Length() != 0 { t.Fatal() }
@@ -556,9 +562,11 @@ func Test_C39_SimpleSlice_Clear_Dispose(t *testing.T) {
 		var nilSS *corestr.SimpleSlice
 		if nilSS.Clear() != nil { t.Fatal() }
 		nilSS.Dispose()
-	}
+	})
+}
 
 func Test_C39_SimpleSlice_Serialize_Deserialize(t *testing.T) {
+	safeTest(t, "Test_C39_SimpleSlice_Serialize_Deserialize", func() {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		b, err := ss.Serialize()
 		if err != nil { t.Fatal(err) }
@@ -566,11 +574,13 @@ func Test_C39_SimpleSlice_Serialize_Deserialize(t *testing.T) {
 		var target []string
 		err2 := ss.Deserialize(&target)
 		if err2 != nil { t.Fatal(err2) }
-	}
+	})
+}
 
 	// ── newSimpleSliceCreator ──
 
 func Test_C39_NewSimpleSliceCreator(t *testing.T) {
+	safeTest(t, "Test_C39_NewSimpleSliceCreator", func() {
 		s1 := corestr.New.SimpleSlice.Cap(5)
 		if s1.Length() != 0 { t.Fatal() }
 		s2 := corestr.New.SimpleSlice.Cap(-1)
@@ -621,65 +631,81 @@ func Test_C39_NewSimpleSliceCreator(t *testing.T) {
 		if s24.Length() != 1 { t.Fatal() }
 		s25 := corestr.New.SimpleSlice.ByLen([]string{"a", "b"})
 		if s25 == nil { t.Fatal() }
-	}
+	})
+}
 
 	// ═══ SimpleStringOnce ═══
 
 func Test_C39_SSO_SetGet(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_SetGet", func() {
 		sso := corestr.New.SimpleStringOnce.Create("hello", true)
 		if sso.Value() != "hello" { t.Fatal() }
 		if !sso.IsInitialized() { t.Fatal() }
 		if !sso.IsDefined() { t.Fatal() }
 		if sso.IsUninitialized() { t.Fatal() }
 		if sso.IsInvalid() { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_SetOnUninitialized(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_SetOnUninitialized", func() {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		err := sso.SetOnUninitialized("val")
 		if err != nil { t.Fatal(err) }
 		err2 := sso.SetOnUninitialized("val2")
 		if err2 == nil { t.Fatal("expected error") }
-	}
+	})
+}
 
 func Test_C39_SSO_GetSetOnce(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_GetSetOnce", func() {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		v := sso.GetSetOnce("first")
 		if v != "first" { t.Fatal() }
 		v2 := sso.GetSetOnce("second")
 		if v2 != "first" { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_GetOnce(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_GetOnce", func() {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		v := sso.GetOnce()
 		if v != "" { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_GetOnceFunc(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_GetOnceFunc", func() {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		v := sso.GetOnceFunc(func() string { return "computed" })
 		if v != "computed" { t.Fatal() }
 		v2 := sso.GetOnceFunc(func() string { return "other" })
 		if v2 != "computed" { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_SetOnceIfUninitialized(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_SetOnceIfUninitialized", func() {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		if !sso.SetOnceIfUninitialized("v") { t.Fatal() }
 		if sso.SetOnceIfUninitialized("v2") { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Invalidate_Reset(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Invalidate_Reset", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		sso.Invalidate()
 		if sso.IsInitialized() { t.Fatal() }
 		sso2 := corestr.New.SimpleStringOnce.Init("world")
 		sso2.Reset()
 		if sso2.IsInitialized() { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_NumericConversions(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_NumericConversions", func() {
 		sso := corestr.New.SimpleStringOnce.Init("42")
 		if sso.Int() != 42 { t.Fatal() }
 		if sso.ValueDefInt() != 42 { t.Fatal() }
@@ -699,17 +725,21 @@ func Test_C39_SSO_NumericConversions(t *testing.T) {
 		if bad.Byte() != 0 { t.Fatal() }
 		if bad.Int16() != 0 { t.Fatal() }
 		if bad.Int32() != 0 { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Float64(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Float64", func() {
 		sso := corestr.New.SimpleStringOnce.Init("3.14")
 		if sso.ValueFloat64(0) == 0 { t.Fatal() }
 		if sso.ValueDefFloat64() == 0 { t.Fatal() }
 		bad := corestr.New.SimpleStringOnce.Init("abc")
 		if bad.ValueFloat64(1.0) != 1.0 { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Boolean(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Boolean", func() {
 		sso := corestr.New.SimpleStringOnce.Init("yes")
 		if !sso.Boolean(false) { t.Fatal() }
 		if !sso.BooleanDefault() { t.Fatal() }
@@ -720,9 +750,11 @@ func Test_C39_SSO_Boolean(t *testing.T) {
 		if bad.Boolean(false) { t.Fatal() }
 		uninit := corestr.New.SimpleStringOnce.Empty()
 		if uninit.Boolean(true) { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_IsSetter(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_IsSetter", func() {
 		sso := corestr.New.SimpleStringOnce.Init("yes")
 		if !sso.IsSetter(false).IsTrue() { t.Fatal() }
 		uninit := corestr.New.SimpleStringOnce.Empty()
@@ -731,9 +763,11 @@ func Test_C39_SSO_IsSetter(t *testing.T) {
 		_ = bad.IsSetter(false)
 		ssoTrue := corestr.New.SimpleStringOnce.Init("true")
 		if !ssoTrue.IsSetter(false).IsTrue() { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_WithinRange(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_WithinRange", func() {
 		sso := corestr.New.SimpleStringOnce.Init("50")
 		v, ok := sso.WithinRange(true, 0, 100)
 		if !ok || v != 50 { t.Fatal() }
@@ -747,9 +781,11 @@ func Test_C39_SSO_WithinRange(t *testing.T) {
 		if ok4 || v4 != 50 { t.Fatal() }
 		_, ok5 := sso.WithinRangeDefault(0, 100)
 		if !ok5 { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_StringMethods(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_StringMethods", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		if sso.String() == "" { t.Fatal() }
 		if sso.StringPtr() == nil { t.Fatal() }
@@ -776,27 +812,35 @@ func Test_C39_SSO_StringMethods(t *testing.T) {
 		// IsAnyOf empty
 		if !sso.IsAnyOf() { t.Fatal() }
 		if !sso.IsAnyContains() { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_ValueBytes(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_ValueBytes", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		if len(sso.ValueBytes()) != 2 { t.Fatal() }
 		if len(sso.ValueBytesPtr()) != 2 { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_ConcatNew(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_ConcatNew", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		cn := sso.ConcatNew(" world")
 		if cn.Value() != "hello world" { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_ConcatNewUsingStrings(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_ConcatNewUsingStrings", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		cn := sso.ConcatNewUsingStrings(",", "world")
 		if cn.Value() == "" { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Clone(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Clone", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		c := sso.Clone()
 		if c.Value() != "hello" { t.Fatal() }
@@ -806,23 +850,29 @@ func Test_C39_SSO_Clone(t *testing.T) {
 		if cu.Value() != "world" { t.Fatal() }
 		var nilSSO *corestr.SimpleStringOnce
 		if nilSSO.ClonePtr() != nil { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_NonPtr_Ptr(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_NonPtr_Ptr", func() {
 		sso := corestr.New.SimpleStringOnce.Init("h")
 		_ = sso.NonPtr()
 		_ = sso.Ptr()
-	}
+	})
+}
 
 func Test_C39_SSO_SetInit_SetUnInit(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_SetInit_SetUnInit", func() {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		sso.SetInitialize()
 		if !sso.IsInitialized() { t.Fatal() }
 		sso.SetUnInit()
 		if sso.IsInitialized() { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Split(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Split", func() {
 		sso := corestr.New.SimpleStringOnce.Init("a,b,c")
 		if len(sso.Split(",")) != 3 { t.Fatal() }
 		l, r := sso.SplitLeftRight(",")
@@ -833,17 +883,21 @@ func Test_C39_SSO_Split(t *testing.T) {
 		_ = sso.SplitTrimNonWhitespace(",")
 		_ = sso.LinesSimpleSlice()
 		_ = sso.SimpleSlice(",")
-	}
+	})
+}
 
 func Test_C39_SSO_SplitLeftRight_SingleItem(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_SplitLeftRight_SingleItem", func() {
 		sso := corestr.New.SimpleStringOnce.Init("nosep")
 		l, r := sso.SplitLeftRight(",")
 		if l != "nosep" || r != "" { t.Fatal() }
 		l2, r2 := sso.SplitLeftRightTrim(",")
 		if l2 != "nosep" || r2 != "" { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Regex(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Regex", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hello123")
 		if sso.IsRegexMatches(nil) { t.Fatal() }
 		if sso.RegexFindString(nil) != "" { t.Fatal() }
@@ -851,16 +905,20 @@ func Test_C39_SSO_Regex(t *testing.T) {
 		if ok || len(r) != 0 { t.Fatal() }
 		r2 := sso.RegexFindAllStrings(nil, -1)
 		if len(r2) != 0 { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Dispose(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Dispose", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		sso.Dispose()
 		var nilSSO *corestr.SimpleStringOnce
 		nilSSO.Dispose()
-	}
+	})
+}
 
 func Test_C39_SSO_JSON(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_JSON", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		j := sso.Json()
 		if j.HasError() { t.Fatal(j.Error) }
@@ -872,26 +930,32 @@ func Test_C39_SSO_JSON(t *testing.T) {
 		sso2 := corestr.New.SimpleStringOnce.Empty()
 		err2 := sso2.UnmarshalJSON(b)
 		if err2 != nil { t.Fatal(err2) }
-	}
+	})
+}
 
 func Test_C39_SSO_InterfaceCasts(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_InterfaceCasts", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		if sso.AsJsonContractsBinder() == nil { t.Fatal() }
 		if sso.AsJsoner() == nil { t.Fatal() }
 		if sso.AsJsonParseSelfInjector() == nil { t.Fatal() }
 		if sso.AsJsonMarshaller() == nil { t.Fatal() }
-	}
+	})
+}
 
 func Test_C39_SSO_Serialize_Deserialize(t *testing.T) {
+	safeTest(t, "Test_C39_SSO_Serialize_Deserialize", func() {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		b, err := sso.Serialize()
 		if err != nil { t.Fatal(err) }
 		if len(b) == 0 { t.Fatal() }
-	}
+	})
+}
 
 	// ── newSimpleStringOnceCreator ──
 
 func Test_C39_NewSSOCreator(t *testing.T) {
+	safeTest(t, "Test_C39_NewSSOCreator", func() {
 		s1 := corestr.New.SimpleStringOnce.Init("hi")
 		if s1.Value() != "hi" { t.Fatal() }
 		s2 := corestr.New.SimpleStringOnce.InitPtr("hi")
@@ -906,6 +970,7 @@ func Test_C39_NewSSOCreator(t *testing.T) {
 		if s6.IsInitialized() { t.Fatal() }
 		s7 := corestr.New.SimpleStringOnce.Any(false, 42, true)
 		if s7.Value() == "" { t.Fatal() }
-	}
+	})
+}
 	})
 }

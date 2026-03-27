@@ -15,7 +15,6 @@ func Test_C36_Hashmap_IsEmpty(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		if !h.IsEmpty() {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -25,7 +24,6 @@ func Test_C36_Hashmap_HasItems(t *testing.T) {
 		h.AddOrUpdate("k", "v")
 		if !h.HasItems() {
 			t.Error("expected has items")
-		}
 	})
 }
 
@@ -36,7 +34,6 @@ func Test_C36_Hashmap_Collection(t *testing.T) {
 		c := h.Collection()
 		if c.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -45,7 +42,6 @@ func Test_C36_Hashmap_IsEmptyLock(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		if !h.IsEmptyLock() {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -58,7 +54,6 @@ func Test_C36_Hashmap_AddOrUpdateWithWgLock(t *testing.T) {
 		wg.Wait()
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -69,7 +64,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyStrValInt(t *testing.T) {
 		v, _ := h.Get("k")
 		if v != "42" {
 			t.Error("expected 42")
-		}
 	})
 }
 
@@ -79,7 +73,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyStrValFloat(t *testing.T) {
 		h.AddOrUpdateKeyStrValFloat("k", 3.14)
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -89,7 +82,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyStrValFloat64(t *testing.T) {
 		h.AddOrUpdateKeyStrValFloat64("k", 2.71)
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -99,7 +91,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyStrValAny(t *testing.T) {
 		h.AddOrUpdateKeyStrValAny("k", "hello")
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -109,7 +100,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 		h.AddOrUpdateKeyValueAny(corestr.KeyAnyValuePair{Key: "k", Value: "v"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -123,7 +113,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyVal(t *testing.T) {
 		isNew2 := h.AddOrUpdateKeyVal(corestr.KeyValuePair{Key: "k", Value: "v2"})
 		if isNew2 {
 			t.Error("expected not new")
-		}
 	})
 }
 
@@ -133,7 +122,6 @@ func Test_C36_Hashmap_AddOrUpdate(t *testing.T) {
 		isNew := h.AddOrUpdate("k", "v")
 		if !isNew {
 			t.Error("expected new")
-		}
 	})
 }
 
@@ -143,7 +131,6 @@ func Test_C36_Hashmap_Set(t *testing.T) {
 		h.Set("k", "v")
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -154,7 +141,6 @@ func Test_C36_Hashmap_SetTrim(t *testing.T) {
 		_, found := h.Get("k")
 		if !found {
 			t.Error("expected found")
-		}
 	})
 }
 
@@ -171,7 +157,6 @@ func Test_C36_Hashmap_SetBySplitter(t *testing.T) {
 		v2, _ := h.Get("onlykey")
 		if v2 != "" {
 			t.Error("expected empty value")
-		}
 	})
 }
 
@@ -184,7 +169,6 @@ func Test_C36_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 		wg.Wait()
 		if h.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -229,7 +213,6 @@ func Test_C36_Hashmap_AddsOrUpdates(t *testing.T) {
 		h.AddsOrUpdates(corestr.KeyValuePair{Key: "a", Value: "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -250,7 +233,6 @@ func Test_C36_Hashmap_AddOrUpdateKeyValues(t *testing.T) {
 		h.AddOrUpdateKeyValues(corestr.KeyValuePair{Key: "k", Value: "v"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -272,7 +254,6 @@ func Test_C36_Hashmap_AddOrUpdateCollection(t *testing.T) {
 		h2.AddOrUpdateCollection(keys2, vals2)
 		if h2.Length() != 0 {
 			t.Error("expected 0 for mismatch")
-		}
 	})
 }
 
@@ -287,7 +268,6 @@ func Test_C36_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		)
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -303,7 +283,6 @@ func Test_C36_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		)
 		if h.Length() != 1 {
 			t.Error("expected 1 due to break")
-		}
 	})
 }
 
@@ -318,7 +297,6 @@ func Test_C36_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		)
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -333,7 +311,6 @@ func Test_C36_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 		)
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -351,7 +328,6 @@ func Test_C36_Hashmap_ConcatNew(t *testing.T) {
 		clone := h.ConcatNew(true)
 		if clone.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -367,7 +343,6 @@ func Test_C36_Hashmap_ConcatNewUsingMaps(t *testing.T) {
 		clone := h.ConcatNewUsingMaps(true)
 		if clone.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -377,7 +352,6 @@ func Test_C36_Hashmap_AddOrUpdateLock(t *testing.T) {
 		h.AddOrUpdateLock("k", "v")
 		if h.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -405,7 +379,6 @@ func Test_C36_Hashmap_Has_Contains_IsKeyMissing(t *testing.T) {
 		}
 		if !h.HasLock("k") {
 			t.Error("expected has lock")
-		}
 	})
 }
 
@@ -419,7 +392,6 @@ func Test_C36_Hashmap_HasAllStrings(t *testing.T) {
 		}
 		if h.HasAllStrings("a", "z") {
 			t.Error("expected false")
-		}
 	})
 }
 
@@ -433,7 +405,6 @@ func Test_C36_Hashmap_HasAllCollectionItems(t *testing.T) {
 		}
 		if h.HasAllCollectionItems(nil) {
 			t.Error("expected false for nil")
-		}
 	})
 }
 
@@ -443,7 +414,6 @@ func Test_C36_Hashmap_HasAll(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if !h.HasAll("a") {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -456,7 +426,6 @@ func Test_C36_Hashmap_HasAnyItem(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if !h.HasAnyItem() {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -469,7 +438,6 @@ func Test_C36_Hashmap_HasAny(t *testing.T) {
 		}
 		if h.HasAny("z") {
 			t.Error("expected false")
-		}
 	})
 }
 
@@ -479,7 +447,6 @@ func Test_C36_Hashmap_HasWithLock(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if !h.HasWithLock("a") {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -492,7 +459,6 @@ func Test_C36_Hashmap_GetKeysFilteredItems(t *testing.T) {
 		})
 		if len(items) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -505,7 +471,6 @@ func Test_C36_Hashmap_GetKeysFilteredCollection(t *testing.T) {
 		})
 		if c.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -522,7 +487,6 @@ func Test_C36_Hashmap_Items_SafeItems(t *testing.T) {
 		var nilH *corestr.Hashmap
 		if nilH.SafeItems() != nil {
 			t.Error("expected nil")
-		}
 	})
 }
 
@@ -533,7 +497,6 @@ func Test_C36_Hashmap_ItemsCopyLock(t *testing.T) {
 		cp := h.ItemsCopyLock()
 		if len(*cp) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -543,7 +506,6 @@ func Test_C36_Hashmap_ValuesCollection(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if h.ValuesCollection().Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -553,7 +515,6 @@ func Test_C36_Hashmap_ValuesHashset(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if h.ValuesHashset().Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -563,7 +524,6 @@ func Test_C36_Hashmap_ValuesCollectionLock(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if h.ValuesCollectionLock().Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -573,7 +533,6 @@ func Test_C36_Hashmap_ValuesHashsetLock(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if h.ValuesHashsetLock().Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -583,7 +542,6 @@ func Test_C36_Hashmap_ValuesList(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if len(h.ValuesList()) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -594,7 +552,6 @@ func Test_C36_Hashmap_KeysValuesCollection(t *testing.T) {
 		keys, values := h.KeysValuesCollection()
 		if keys.Length() != 1 || values.Length() != 1 {
 			t.Error("expected 1 each")
-		}
 	})
 }
 
@@ -605,7 +562,6 @@ func Test_C36_Hashmap_KeysValuesList(t *testing.T) {
 		keys, values := h.KeysValuesList()
 		if len(keys) != 1 || len(values) != 1 {
 			t.Error("expected 1 each")
-		}
 	})
 }
 
@@ -616,7 +572,6 @@ func Test_C36_Hashmap_KeysValuePairs(t *testing.T) {
 		pairs := h.KeysValuePairs()
 		if len(pairs) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -627,7 +582,6 @@ func Test_C36_Hashmap_KeysValuePairsCollection(t *testing.T) {
 		c := h.KeysValuePairsCollection()
 		if c.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -638,7 +592,6 @@ func Test_C36_Hashmap_KeysValuesListLock(t *testing.T) {
 		keys, values := h.KeysValuesListLock()
 		if len(keys) != 1 || len(values) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -657,7 +610,6 @@ func Test_C36_Hashmap_AllKeys_Keys_KeysCollection_KeysLock(t *testing.T) {
 		}
 		if len(h.KeysLock()) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -667,7 +619,6 @@ func Test_C36_Hashmap_ValuesListCopyLock(t *testing.T) {
 		h.AddOrUpdate("a", "1")
 		if len(h.ValuesListCopyLock()) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -679,7 +630,6 @@ func Test_C36_Hashmap_KeysToLower(t *testing.T) {
 		_, found := lower.Get("key")
 		if !found {
 			t.Error("expected lowercase key")
-		}
 	})
 }
 
@@ -690,7 +640,6 @@ func Test_C36_Hashmap_ValuesToLower(t *testing.T) {
 		lower := h.ValuesToLower()
 		if lower.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -706,7 +655,6 @@ func Test_C36_Hashmap_Length_LengthLock(t *testing.T) {
 		var nilH *corestr.Hashmap
 		if nilH.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -748,7 +696,6 @@ func Test_C36_Hashmap_IsEqual_IsEqualPtr(t *testing.T) {
 		}
 		if nilH.IsEqualPtr(a) {
 			t.Error("nil vs non-nil")
-		}
 	})
 }
 
@@ -764,7 +711,6 @@ func Test_C36_Hashmap_Remove_RemoveWithLock(t *testing.T) {
 		h.RemoveWithLock("b")
 		if h.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -780,7 +726,6 @@ func Test_C36_Hashmap_String_StringLock(t *testing.T) {
 		}
 		if h.StringLock() == "" {
 			t.Error("expected non-empty lock")
-		}
 	})
 }
 
@@ -797,7 +742,6 @@ func Test_C36_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
 		all := h.GetValuesExceptKeysInHashset(nil)
 		if len(all) != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -812,7 +756,6 @@ func Test_C36_Hashmap_GetValuesKeysExcept(t *testing.T) {
 		all := h.GetValuesKeysExcept(nil)
 		if len(all) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -828,7 +771,6 @@ func Test_C36_Hashmap_GetAllExceptCollection(t *testing.T) {
 		all := h.GetAllExceptCollection(nil)
 		if len(all) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -841,7 +783,6 @@ func Test_C36_Hashmap_Join_JoinKeys(t *testing.T) {
 		}
 		if h.JoinKeys(",") == "" {
 			t.Error("expected non-empty")
-		}
 	})
 }
 
@@ -883,7 +824,6 @@ func Test_C36_Hashmap_JsonModel_MarshalJSON_UnmarshalJSON(t *testing.T) {
 		}
 		if h2.UnmarshalJSON([]byte("invalid")) == nil {
 			t.Error("expected error")
-		}
 	})
 }
 
@@ -898,7 +838,6 @@ func Test_C36_Hashmap_Json_JsonPtr(t *testing.T) {
 		rp := h.JsonPtr()
 		if rp == nil {
 			t.Error("expected non-nil")
-		}
 	})
 }
 
@@ -917,9 +856,11 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		if err2 == nil {
 			t.Error("expected error")
 		}
-	}
+	})
 
+}
 func Test_C36_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_ParseInjectUsingJsonMust", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		jr := h.JsonPtr()
@@ -928,9 +869,11 @@ func Test_C36_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
 		if result.Length() == 0 {
 			t.Error("expected non-empty")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_ToError_ToDefaultError(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_ToError_ToDefaultError", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		if h.ToError(",") == nil {
@@ -939,18 +882,22 @@ func Test_C36_Hashmap_ToError_ToDefaultError(t *testing.T) {
 		if h.ToDefaultError() == nil {
 			t.Error("expected error")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_KeyValStringLines(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_KeyValStringLines", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		lines := h.KeyValStringLines()
 		if len(lines) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_Clear_Dispose(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_Clear_Dispose", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		h.Clear()
@@ -965,9 +912,11 @@ func Test_C36_Hashmap_Clear_Dispose(t *testing.T) {
 		h2.Dispose()
 		var nilH2 *corestr.Hashmap
 		nilH2.Dispose()
-	}
+	})
+}
 
 func Test_C36_Hashmap_ToStringsUsingCompiler(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_ToStringsUsingCompiler", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		lines := h.ToStringsUsingCompiler(func(k, v string) string {
@@ -976,9 +925,11 @@ func Test_C36_Hashmap_ToStringsUsingCompiler(t *testing.T) {
 		if len(lines) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_AsJsoner_JsonParseSelfInject_AsJsonContractsBinder(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_AsJsoner_JsonParseSelfInject_AsJsonContractsBinder", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		if h.AsJsoner() == nil {
@@ -998,9 +949,11 @@ func Test_C36_Hashmap_AsJsoner_JsonParseSelfInject_AsJsonContractsBinder(t *test
 		if h.AsJsonMarshaller() == nil {
 			t.Error("expected non-nil")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_Clone_ClonePtr(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_Clone_ClonePtr", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		cloned := h.Clone()
@@ -1021,9 +974,11 @@ func Test_C36_Hashmap_Clone_ClonePtr(t *testing.T) {
 		if ec.Length() != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_Get_GetValue(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_Get_GetValue", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		v, found := h.Get("k")
@@ -1034,9 +989,11 @@ func Test_C36_Hashmap_Get_GetValue(t *testing.T) {
 		if !found2 || v2 != "v" {
 			t.Error("expected v")
 		}
-	}
+	})
+}
 
 func Test_C36_Hashmap_Serialize_Deserialize(t *testing.T) {
+	safeTest(t, "Test_C36_Hashmap_Serialize_Deserialize", func() {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		data, err := h.Serialize()
@@ -1047,11 +1004,13 @@ func Test_C36_Hashmap_Serialize_Deserialize(t *testing.T) {
 		if h.Deserialize(&target) != nil {
 			t.Error("expected success")
 		}
-	}
+	})
+}
 
 	// ===== newHashmapCreator =====
 
 func Test_C36_NewHashmap_KeyAnyValues(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_KeyAnyValues", func() {
 		h := corestr.New.Hashmap.KeyAnyValues(corestr.KeyAnyValuePair{Key: "k", Value: "v"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1060,16 +1019,20 @@ func Test_C36_NewHashmap_KeyAnyValues(t *testing.T) {
 		if empty == nil {
 			t.Error("expected non-nil")
 		}
-	}
+	})
+}
 
 func Test_C36_NewHashmap_KeyValues(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_KeyValues", func() {
 		h := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k", Value: "v"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_NewHashmap_KeyValuesCollection(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_KeyValuesCollection", func() {
 		keys := corestr.New.Collection.Strings([]string{"a"})
 		vals := corestr.New.Collection.Strings([]string{"1"})
 		h := corestr.New.Hashmap.KeyValuesCollection(keys, vals)
@@ -1080,9 +1043,11 @@ func Test_C36_NewHashmap_KeyValuesCollection(t *testing.T) {
 		if e.Length() != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_NewHashmap_KeyValuesStrings(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_KeyValuesStrings", func() {
 		h := corestr.New.Hashmap.KeyValuesStrings([]string{"a"}, []string{"1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1091,16 +1056,20 @@ func Test_C36_NewHashmap_KeyValuesStrings(t *testing.T) {
 		if e.Length() != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_NewHashmap_UsingMap(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_UsingMap", func() {
 		h := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_NewHashmap_UsingMapOptions(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_UsingMapOptions", func() {
 		h := corestr.New.Hashmap.UsingMapOptions(true, 5, map[string]string{"a": "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1113,9 +1082,11 @@ func Test_C36_NewHashmap_UsingMapOptions(t *testing.T) {
 		if noClone.Length() != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_NewHashmap_MapWithCap(t *testing.T) {
+	safeTest(t, "Test_C36_NewHashmap_MapWithCap", func() {
 		h := corestr.New.Hashmap.MapWithCap(5, map[string]string{"a": "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1128,11 +1099,13 @@ func Test_C36_NewHashmap_MapWithCap(t *testing.T) {
 		if noCap.Length() != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 	// ===== HashmapDiff =====
 
 func Test_C36_HashmapDiff_Length(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_Length", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if d.Length() != 1 {
 			t.Error("expected 1")
@@ -1141,9 +1114,11 @@ func Test_C36_HashmapDiff_Length(t *testing.T) {
 		if nilD.Length() != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_IsEmpty_HasAnyItem(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_IsEmpty_HasAnyItem", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if d.IsEmpty() {
 			t.Error("expected not empty")
@@ -1151,24 +1126,30 @@ func Test_C36_HashmapDiff_IsEmpty_HasAnyItem(t *testing.T) {
 		if !d.HasAnyItem() {
 			t.Error("expected has any item")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_LastIndex(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_LastIndex", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if d.LastIndex() != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_AllKeysSorted(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_AllKeysSorted", func() {
 		d := corestr.HashmapDiff(map[string]string{"b": "2", "a": "1"})
 		keys := d.AllKeysSorted()
 		if len(keys) != 2 || keys[0] != "a" {
 			t.Error("expected sorted keys")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_MapAnyItems(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_MapAnyItems", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		m := d.MapAnyItems()
 		if len(m) != 1 {
@@ -1179,65 +1160,83 @@ func Test_C36_HashmapDiff_MapAnyItems(t *testing.T) {
 		if len(m2) != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_HasAnyChanges(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_HasAnyChanges", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if !d.HasAnyChanges(map[string]string{"a": "2"}) {
 			t.Error("expected has changes")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_IsRawEqual(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_IsRawEqual", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if !d.IsRawEqual(map[string]string{"a": "1"}) {
 			t.Error("expected equal")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_HashmapDiffUsingRaw(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_HashmapDiffUsingRaw", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		result := d.HashmapDiffUsingRaw(map[string]string{"a": "1"})
 		if len(result) != 0 {
 			t.Error("expected empty diff")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_DiffRaw(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_DiffRaw", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		_ = d.DiffRaw(map[string]string{"a": "2"})
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_DiffJsonMessage(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_DiffJsonMessage", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		msg := d.DiffJsonMessage(map[string]string{"a": "2"})
 		if msg == "" {
 			t.Error("expected non-empty")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_ToStringsSliceOfDiffMap(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_ToStringsSliceOfDiffMap", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		diffMap := map[string]string{"a": "changed"}
 		slice := d.ToStringsSliceOfDiffMap(diffMap)
 		_ = slice
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_ShouldDiffMessage(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_ShouldDiffMessage", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		msg := d.ShouldDiffMessage("test", map[string]string{"a": "2"})
 		if msg == "" {
 			t.Error("expected non-empty")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_LogShouldDiffMessage(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_LogShouldDiffMessage", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		msg := d.LogShouldDiffMessage("test", map[string]string{"a": "2"})
 		_ = msg
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_Raw(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_Raw", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		raw := d.Raw()
 		if len(raw) != 1 {
@@ -1247,17 +1246,21 @@ func Test_C36_HashmapDiff_Raw(t *testing.T) {
 		if len(nilD.Raw()) != 0 {
 			t.Error("expected 0")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_RawMapStringAnyDiff(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_RawMapStringAnyDiff", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		m := d.RawMapStringAnyDiff()
 		if len(m) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_HashmapDiff_Serialize_Deserialize(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDiff_Serialize_Deserialize", func() {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		data, err := d.Serialize()
 		if err != nil || len(data) == 0 {
@@ -1267,11 +1270,13 @@ func Test_C36_HashmapDiff_Serialize_Deserialize(t *testing.T) {
 		if d.Deserialize(&target) != nil {
 			t.Error("expected success")
 		}
-	}
+	})
+}
 
 	// ===== HashmapDataModel / HashsetDataModel =====
 
 func Test_C36_HashmapDataModel(t *testing.T) {
+	safeTest(t, "Test_C36_HashmapDataModel", func() {
 		dm := &corestr.HashmapDataModel{Items: map[string]string{"k": "v"}}
 		h := corestr.NewHashmapUsingDataModel(dm)
 		if h.Length() != 1 {
@@ -1281,9 +1286,11 @@ func Test_C36_HashmapDataModel(t *testing.T) {
 		if len(dm2.Items) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_HashsetDataModel(t *testing.T) {
+	safeTest(t, "Test_C36_HashsetDataModel", func() {
 		dm := &corestr.HashsetDataModel{Items: map[string]bool{"k": true}}
 		h := corestr.NewHashsetUsingDataModel(dm)
 		if h.Length() != 1 {
@@ -1293,9 +1300,11 @@ func Test_C36_HashsetDataModel(t *testing.T) {
 		if len(dm2.Items) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_CharCollectionDataModel(t *testing.T) {
+	safeTest(t, "Test_C36_CharCollectionDataModel", func() {
 		items := map[byte]*corestr.Collection{
 			'a': corestr.New.Collection.Strings([]string{"apple"}),
 		}
@@ -1308,9 +1317,11 @@ func Test_C36_CharCollectionDataModel(t *testing.T) {
 		if len(dm2.Items) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 
 func Test_C36_CharHashsetDataModel(t *testing.T) {
+	safeTest(t, "Test_C36_CharHashsetDataModel", func() {
 		items := map[byte]*corestr.Hashset{
 			'a': corestr.New.Hashset.Strings([]string{"apple"}),
 		}
@@ -1323,6 +1334,7 @@ func Test_C36_CharHashsetDataModel(t *testing.T) {
 		if len(dm2.Items) != 1 {
 			t.Error("expected 1")
 		}
-	}
+	})
+}
 	})
 }
