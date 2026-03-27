@@ -27,7 +27,7 @@ foreach ($file in $files) {
                 $prev -notmatch '^\t\t\t\s*\}\s*$' -and
                 $prev -notmatch '^\t\t\t\s*//'
             ) {
-                Write-Host "  $rel:$($i + 1): missing closing } before %})"
+                Write-Host "  ${rel}:$($i + 1): missing closing } before %})"
                 $issues = 1
             }
         }
