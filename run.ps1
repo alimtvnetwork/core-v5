@@ -1608,6 +1608,18 @@ function Invoke-PackageTestCoverage {
         Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
     }
 
+    # ── safeTest boundary + empty-if lint check ────────────────────
+    $boundaryScript = Join-Path $PSScriptRoot "scripts" "check-safetest-boundaries.ps1"
+    if (Test-Path $boundaryScript) {
+        Write-Host ""
+        Write-Host "  Running safeTest boundary + empty-if lint check..." -ForegroundColor Yellow
+        & $boundaryScript
+        if ($LASTEXITCODE -ne 0) {
+            Write-Fail "safeTest boundary check failed. Fix reported issues before TCP."
+            exit 1
+        }
+    }
+
     # Build check from tests/ dir
     Push-Location tests
     try { if (-not (Invoke-BuildCheck "./integratedtests/$pkg/...")) { return } }
