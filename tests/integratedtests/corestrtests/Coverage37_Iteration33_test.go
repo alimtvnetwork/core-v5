@@ -19,6 +19,7 @@ func Test_Cov37_Add(t *testing.T) {
 		s.Add("b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2, got %d", s.Length())
+		}
 	})
 }
 
@@ -28,6 +29,7 @@ func Test_Cov37_AddSplit(t *testing.T) {
 		s.AddSplit("a,b,c", ",")
 		if s.Length() != 3 {
 			t.Errorf("expected 3, got %d", s.Length())
+		}
 	})
 }
 
@@ -37,6 +39,7 @@ func Test_Cov37_AddIf_True(t *testing.T) {
 		s.AddIf(true, "yes")
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -46,6 +49,7 @@ func Test_Cov37_AddIf_False(t *testing.T) {
 		s.AddIf(false, "no")
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -55,6 +59,7 @@ func Test_Cov37_Adds(t *testing.T) {
 		s.Adds("a", "b", "c")
 		if s.Length() != 3 {
 			t.Errorf("expected 3, got %d", s.Length())
+		}
 	})
 }
 
@@ -64,6 +69,7 @@ func Test_Cov37_Adds_Empty(t *testing.T) {
 		s.Adds()
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -73,6 +79,7 @@ func Test_Cov37_Append(t *testing.T) {
 		s.Append("a", "b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2, got %d", s.Length())
+		}
 	})
 }
 
@@ -82,6 +89,7 @@ func Test_Cov37_Append_Empty(t *testing.T) {
 		s.Append()
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -91,6 +99,7 @@ func Test_Cov37_AddsIf_True(t *testing.T) {
 		s.AddsIf(true, "a", "b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2, got %d", s.Length())
+		}
 	})
 }
 
@@ -100,6 +109,7 @@ func Test_Cov37_AddsIf_False(t *testing.T) {
 		s.AddsIf(false, "a", "b")
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -111,6 +121,7 @@ func Test_Cov37_AppendFmt(t *testing.T) {
 		s.AppendFmt("hello %s", "world")
 		if s.First() != "hello world" {
 			t.Errorf("unexpected: %s", s.First())
+		}
 	})
 }
 
@@ -122,6 +133,7 @@ func Test_Cov37_AppendFmt_EmptySkip(t *testing.T) {
 		// Actually the code checks: format == "" && len(v) == 0 → skip
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -131,6 +143,7 @@ func Test_Cov37_AppendFmtIf_True(t *testing.T) {
 		s.AppendFmtIf(true, "val=%d", 42)
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -140,6 +153,7 @@ func Test_Cov37_AppendFmtIf_False(t *testing.T) {
 		s.AppendFmtIf(false, "val=%d", 42)
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -149,6 +163,7 @@ func Test_Cov37_AppendFmtIf_EmptyFormat(t *testing.T) {
 		s.AppendFmtIf(true, "")
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -160,6 +175,7 @@ func Test_Cov37_AddAsTitleValue(t *testing.T) {
 		s.AddAsTitleValue("Key", "Val")
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -169,6 +185,7 @@ func Test_Cov37_AddAsTitleValueIf_True(t *testing.T) {
 		s.AddAsTitleValueIf(true, "K", "V")
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -178,6 +195,7 @@ func Test_Cov37_AddAsTitleValueIf_False(t *testing.T) {
 		s.AddAsTitleValueIf(false, "K", "V")
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -187,6 +205,7 @@ func Test_Cov37_AddAsCurlyTitleWrap(t *testing.T) {
 		s.AddAsCurlyTitleWrap("K", "V")
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -196,6 +215,7 @@ func Test_Cov37_AddAsCurlyTitleWrapIf_True(t *testing.T) {
 		s.AddAsCurlyTitleWrapIf(true, "K", "V")
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -205,6 +225,7 @@ func Test_Cov37_AddAsCurlyTitleWrapIf_False(t *testing.T) {
 		s.AddAsCurlyTitleWrapIf(false, "K", "V")
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -216,6 +237,7 @@ func Test_Cov37_InsertAt_Middle(t *testing.T) {
 		s.InsertAt(1, "b")
 		if s.Length() != 3 || (*s)[1] != "b" {
 			t.Errorf("unexpected: %v", *s)
+		}
 	})
 }
 
@@ -229,6 +251,7 @@ func Test_Cov37_InsertAt_OutOfRange(t *testing.T) {
 		s.InsertAt(99, "x")
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -238,6 +261,7 @@ func Test_Cov37_InsertAt_End(t *testing.T) {
 		s.InsertAt(2, "c")
 		if s.Length() != 3 || s.Last() != "c" {
 			t.Errorf("unexpected: %v", *s)
+		}
 	})
 }
 
@@ -249,6 +273,7 @@ func Test_Cov37_AddStruct(t *testing.T) {
 		s.AddStruct(true, struct{ Name string }{Name: "test"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -258,6 +283,7 @@ func Test_Cov37_AddStruct_Nil(t *testing.T) {
 		s.AddStruct(true, nil)
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -267,6 +293,7 @@ func Test_Cov37_AddPointer_Nil(t *testing.T) {
 		s.AddPointer(true, nil)
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -285,6 +312,7 @@ func Test_Cov37_AddError_Nil(t *testing.T) {
 		s.AddError(nil)
 		if s.Length() != 0 {
 			t.Errorf("expected 0, got %d", s.Length())
+		}
 	})
 }
 
@@ -296,6 +324,7 @@ func Test_Cov37_AsError_NonEmpty(t *testing.T) {
 		err := s.AsError("; ")
 		if err == nil || !strings.Contains(err.Error(), "err1") {
 			t.Errorf("unexpected error: %v", err)
+		}
 	})
 }
 
@@ -304,6 +333,7 @@ func Test_Cov37_AsError_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.AsError("; ") != nil {
 			t.Error("expected nil")
+		}
 	})
 }
 
@@ -313,6 +343,7 @@ func Test_Cov37_AsDefaultError(t *testing.T) {
 		err := s.AsDefaultError()
 		if err == nil {
 			t.Error("expected error")
+		}
 	})
 }
 
@@ -323,6 +354,7 @@ func Test_Cov37_First(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.First() != "a" {
 			t.Errorf("expected a")
+		}
 	})
 }
 
@@ -331,6 +363,7 @@ func Test_Cov37_Last(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.Last() != "b" {
 			t.Errorf("expected b")
+		}
 	})
 }
 
@@ -340,6 +373,7 @@ func Test_Cov37_FirstDynamic(t *testing.T) {
 		val := s.FirstDynamic()
 		if val != "x" {
 			t.Errorf("unexpected: %v", val)
+		}
 	})
 }
 
@@ -349,6 +383,7 @@ func Test_Cov37_LastDynamic(t *testing.T) {
 		val := s.LastDynamic()
 		if val != "y" {
 			t.Errorf("unexpected: %v", val)
+		}
 	})
 }
 
@@ -357,6 +392,7 @@ func Test_Cov37_FirstOrDefault_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.FirstOrDefault() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -365,6 +401,7 @@ func Test_Cov37_FirstOrDefault_NonEmpty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a")
 		if s.FirstOrDefault() != "a" {
 			t.Error("expected a")
+		}
 	})
 }
 
@@ -373,6 +410,7 @@ func Test_Cov37_FirstOrDefaultDynamic(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.FirstOrDefaultDynamic() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -381,6 +419,7 @@ func Test_Cov37_LastOrDefault_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.LastOrDefault() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -389,6 +428,7 @@ func Test_Cov37_LastOrDefault_NonEmpty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.LastOrDefault() != "b" {
 			t.Error("expected b")
+		}
 	})
 }
 
@@ -397,6 +437,7 @@ func Test_Cov37_LastOrDefaultDynamic(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.LastOrDefaultDynamic() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -408,6 +449,7 @@ func Test_Cov37_Skip(t *testing.T) {
 		result := s.Skip(1)
 		if len(result) != 2 {
 			t.Errorf("expected 2, got %d", len(result))
+		}
 	})
 }
 
@@ -417,6 +459,7 @@ func Test_Cov37_Skip_ExceedsLen(t *testing.T) {
 		result := s.Skip(5)
 		if len(result) != 0 {
 			t.Errorf("expected 0, got %d", len(result))
+		}
 	})
 }
 
@@ -426,6 +469,7 @@ func Test_Cov37_SkipDynamic(t *testing.T) {
 		result := s.SkipDynamic(1)
 		if result == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -436,6 +480,7 @@ func Test_Cov37_SkipDynamic_ExceedsLen(t *testing.T) {
 		slice, ok := result.([]string)
 		if !ok || len(slice) != 0 {
 			t.Errorf("expected empty slice")
+		}
 	})
 }
 
@@ -445,6 +490,7 @@ func Test_Cov37_Take(t *testing.T) {
 		result := s.Take(2)
 		if len(result) != 2 {
 			t.Errorf("expected 2, got %d", len(result))
+		}
 	})
 }
 
@@ -454,6 +500,7 @@ func Test_Cov37_Take_ExceedsLen(t *testing.T) {
 		result := s.Take(5)
 		if len(result) != 1 {
 			t.Errorf("expected 1, got %d", len(result))
+		}
 	})
 }
 
@@ -463,6 +510,7 @@ func Test_Cov37_TakeDynamic(t *testing.T) {
 		result := s.TakeDynamic(1)
 		if result == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -472,6 +520,7 @@ func Test_Cov37_Limit(t *testing.T) {
 		result := s.Limit(2)
 		if len(result) != 2 {
 			t.Errorf("expected 2, got %d", len(result))
+		}
 	})
 }
 
@@ -481,6 +530,7 @@ func Test_Cov37_LimitDynamic(t *testing.T) {
 		result := s.LimitDynamic(1)
 		if result == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -491,6 +541,7 @@ func Test_Cov37_Length_Nil(t *testing.T) {
 		var s *corestr.SimpleSlice
 		if s.Length() != 0 {
 			t.Errorf("expected 0")
+		}
 	})
 }
 
@@ -499,6 +550,7 @@ func Test_Cov37_Count(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.Count() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -510,6 +562,7 @@ func Test_Cov37_CountFunc(t *testing.T) {
 		})
 		if count != 2 {
 			t.Errorf("expected 2, got %d", count)
+		}
 	})
 }
 
@@ -519,6 +572,7 @@ func Test_Cov37_CountFunc_Empty(t *testing.T) {
 		count := s.CountFunc(func(i int, item string) bool { return true })
 		if count != 0 {
 			t.Errorf("expected 0, got %d", count)
+		}
 	})
 }
 
@@ -527,6 +581,7 @@ func Test_Cov37_IsEmpty_True(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -535,6 +590,7 @@ func Test_Cov37_HasAnyItem(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a")
 		if !s.HasAnyItem() {
 			t.Error("expected HasAnyItem")
+		}
 	})
 }
 
@@ -543,6 +599,7 @@ func Test_Cov37_LastIndex(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.LastIndex() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -557,6 +614,7 @@ func Test_Cov37_HasIndex(t *testing.T) {
 		}
 		if s.HasIndex(-1) {
 			t.Error("expected false for negative")
+		}
 	})
 }
 
@@ -570,6 +628,7 @@ func Test_Cov37_IsContains(t *testing.T) {
 		}
 		if s.IsContains("z") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -578,6 +637,7 @@ func Test_Cov37_IsContains_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.IsContains("a") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -589,6 +649,7 @@ func Test_Cov37_IsContainsFunc(t *testing.T) {
 		})
 		if !found {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -598,6 +659,7 @@ func Test_Cov37_IsContainsFunc_Empty(t *testing.T) {
 		found := s.IsContainsFunc("x", func(item, searching string) bool { return true })
 		if found {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -609,6 +671,7 @@ func Test_Cov37_IndexOf(t *testing.T) {
 		}
 		if s.IndexOf("z") != -1 {
 			t.Errorf("expected -1")
+		}
 	})
 }
 
@@ -617,6 +680,7 @@ func Test_Cov37_IndexOf_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.IndexOf("x") != -1 {
 			t.Errorf("expected -1")
+		}
 	})
 }
 
@@ -628,6 +692,7 @@ func Test_Cov37_IndexOfFunc(t *testing.T) {
 		})
 		if idx != 1 {
 			t.Errorf("expected 1, got %d", idx)
+		}
 	})
 }
 
@@ -637,6 +702,7 @@ func Test_Cov37_IndexOfFunc_Empty(t *testing.T) {
 		idx := s.IndexOfFunc("x", func(item, searching string) bool { return true })
 		if idx != -1 {
 			t.Errorf("expected -1")
+		}
 	})
 }
 
@@ -647,6 +713,7 @@ func Test_Cov37_Strings(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if len(s.Strings()) != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -655,6 +722,7 @@ func Test_Cov37_List(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a")
 		if len(s.List()) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -664,6 +732,7 @@ func Test_Cov37_Hashset(t *testing.T) {
 		hs := s.Hashset()
 		if hs.Length() != 2 {
 			t.Errorf("expected 2 unique, got %d", hs.Length())
+		}
 	})
 }
 
@@ -675,6 +744,7 @@ func Test_Cov37_WrapDoubleQuote(t *testing.T) {
 		result := s.WrapDoubleQuote()
 		if !strings.Contains(result.First(), "\"") {
 			t.Errorf("expected double quotes")
+		}
 	})
 }
 
@@ -684,6 +754,7 @@ func Test_Cov37_WrapSingleQuote(t *testing.T) {
 		result := s.WrapSingleQuote()
 		if !strings.Contains(result.First(), "'") {
 			t.Errorf("expected single quotes")
+		}
 	})
 }
 
@@ -693,6 +764,7 @@ func Test_Cov37_WrapTildaQuote(t *testing.T) {
 		result := s.WrapTildaQuote()
 		if result.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -702,6 +774,7 @@ func Test_Cov37_WrapDoubleQuoteIfMissing(t *testing.T) {
 		result := s.WrapDoubleQuoteIfMissing()
 		if result.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -711,6 +784,7 @@ func Test_Cov37_WrapSingleQuoteIfMissing(t *testing.T) {
 		result := s.WrapSingleQuoteIfMissing()
 		if result.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -722,6 +796,7 @@ func Test_Cov37_Transpile(t *testing.T) {
 		result := s.Transpile(strings.ToUpper)
 		if result.First() != "A" {
 			t.Errorf("expected A, got %s", result.First())
+		}
 	})
 }
 
@@ -731,6 +806,7 @@ func Test_Cov37_Transpile_Empty(t *testing.T) {
 		result := s.Transpile(strings.ToUpper)
 		if !result.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -740,6 +816,7 @@ func Test_Cov37_TranspileJoin(t *testing.T) {
 		result := s.TranspileJoin(strings.ToUpper, ",")
 		if result != "A,B" {
 			t.Errorf("expected A,B, got %s", result)
+		}
 	})
 }
 
@@ -750,6 +827,7 @@ func Test_Cov37_Join(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.Join(",") != "a,b" {
 			t.Errorf("unexpected")
+		}
 	})
 }
 
@@ -758,6 +836,7 @@ func Test_Cov37_Join_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.Join(",") != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -767,6 +846,7 @@ func Test_Cov37_JoinLine(t *testing.T) {
 		result := s.JoinLine()
 		if result == "" {
 			t.Error("expected non-empty")
+		}
 	})
 }
 
@@ -775,6 +855,7 @@ func Test_Cov37_JoinLine_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.JoinLine() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -784,6 +865,7 @@ func Test_Cov37_JoinLineEofLine_NoSuffix(t *testing.T) {
 		result := s.JoinLineEofLine()
 		if !strings.HasSuffix(result, "\n") {
 			t.Error("expected newline suffix")
+		}
 	})
 }
 
@@ -792,6 +874,7 @@ func Test_Cov37_JoinLineEofLine_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.JoinLineEofLine() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -800,6 +883,7 @@ func Test_Cov37_JoinSpace(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.JoinSpace() != "a b" {
 			t.Errorf("unexpected: %s", s.JoinSpace())
+		}
 	})
 }
 
@@ -808,6 +892,7 @@ func Test_Cov37_JoinComma(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.JoinComma() != "a,b" {
 			t.Errorf("unexpected")
+		}
 	})
 }
 
@@ -817,6 +902,7 @@ func Test_Cov37_JoinCsv(t *testing.T) {
 		result := s.JoinCsv()
 		if !strings.Contains(result, "\"a\"") {
 			t.Errorf("expected quoted, got %s", result)
+		}
 	})
 }
 
@@ -826,6 +912,7 @@ func Test_Cov37_JoinCsvLine(t *testing.T) {
 		result := s.JoinCsvLine()
 		if result == "" {
 			t.Error("expected non-empty")
+		}
 	})
 }
 
@@ -835,6 +922,7 @@ func Test_Cov37_JoinCsvString(t *testing.T) {
 		result := s.JoinCsvString(",")
 		if !strings.Contains(result, "\"a\"") {
 			t.Errorf("expected quoted, got %s", result)
+		}
 	})
 }
 
@@ -843,6 +931,7 @@ func Test_Cov37_JoinCsvString_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.JoinCsvString(",") != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -852,6 +941,7 @@ func Test_Cov37_JoinWith(t *testing.T) {
 		result := s.JoinWith(", ")
 		if !strings.HasPrefix(result, ", ") {
 			t.Errorf("expected prefix, got %s", result)
+		}
 	})
 }
 
@@ -860,6 +950,7 @@ func Test_Cov37_JoinWith_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.JoinWith(",") != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -871,6 +962,7 @@ func Test_Cov37_EachItemSplitBy(t *testing.T) {
 		result := s.EachItemSplitBy(",")
 		if result.Length() != 4 {
 			t.Errorf("expected 4, got %d", result.Length())
+		}
 	})
 }
 
@@ -882,6 +974,7 @@ func Test_Cov37_PrependJoin(t *testing.T) {
 		result := s.PrependJoin(",", "a")
 		if result != "a,b,c" {
 			t.Errorf("expected a,b,c, got %s", result)
+		}
 	})
 }
 
@@ -891,6 +984,7 @@ func Test_Cov37_AppendJoin(t *testing.T) {
 		result := s.AppendJoin(",", "c")
 		if result != "a,b,c" {
 			t.Errorf("expected a,b,c, got %s", result)
+		}
 	})
 }
 
@@ -900,6 +994,7 @@ func Test_Cov37_PrependAppend(t *testing.T) {
 		s.PrependAppend([]string{"a"}, []string{"c"})
 		if s.Length() != 3 {
 			t.Errorf("expected 3, got %d", s.Length())
+		}
 	})
 }
 
@@ -909,6 +1004,7 @@ func Test_Cov37_PrependAppend_Empty(t *testing.T) {
 		s.PrependAppend(nil, nil)
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 
@@ -920,6 +1016,7 @@ func Test_Cov37_IsEqual_Same(t *testing.T) {
 		b := corestr.New.SimpleSlice.Lines("a", "b")
 		if !a.IsEqual(b) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -928,6 +1025,7 @@ func Test_Cov37_IsEqual_BothNil(t *testing.T) {
 		var a, b *corestr.SimpleSlice
 		if !a.IsEqual(b) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -936,6 +1034,7 @@ func Test_Cov37_IsEqual_OneNil(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqual(nil) {
 			t.Error("expected not equal")
+		}
 	})
 }
 
@@ -945,6 +1044,7 @@ func Test_Cov37_IsEqual_DiffLen(t *testing.T) {
 		b := corestr.New.SimpleSlice.Lines("a", "b")
 		if a.IsEqual(b) {
 			t.Error("expected not equal")
+		}
 	})
 }
 
@@ -954,6 +1054,7 @@ func Test_Cov37_IsEqual_BothEmpty(t *testing.T) {
 		b := corestr.New.SimpleSlice.Empty()
 		if !a.IsEqual(b) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -962,6 +1063,7 @@ func Test_Cov37_IsEqualLines_Mismatch(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a", "b")
 		if a.IsEqualLines([]string{"a", "c"}) {
 			t.Error("expected not equal")
+		}
 	})
 }
 
@@ -970,6 +1072,7 @@ func Test_Cov37_IsEqualUnorderedLines(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("b", "a")
 		if !a.IsEqualUnorderedLines([]string{"a", "b"}) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -978,6 +1081,7 @@ func Test_Cov37_IsEqualUnorderedLines_DiffLen(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqualUnorderedLines([]string{"a", "b"}) {
 			t.Error("expected not equal")
+		}
 	})
 }
 
@@ -986,6 +1090,7 @@ func Test_Cov37_IsEqualUnorderedLines_BothNil(t *testing.T) {
 		var a *corestr.SimpleSlice
 		if !a.IsEqualUnorderedLines(nil) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -994,6 +1099,7 @@ func Test_Cov37_IsEqualUnorderedLinesClone(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("b", "a")
 		if !a.IsEqualUnorderedLinesClone([]string{"a", "b"}) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -1002,6 +1108,7 @@ func Test_Cov37_IsEqualUnorderedLinesClone_DiffLen(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqualUnorderedLinesClone([]string{"a", "b"}) {
 			t.Error("expected not equal")
+		}
 	})
 }
 
@@ -1010,6 +1117,7 @@ func Test_Cov37_IsEqualUnorderedLinesClone_BothNil(t *testing.T) {
 		var a *corestr.SimpleSlice
 		if !a.IsEqualUnorderedLinesClone(nil) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -1018,6 +1126,7 @@ func Test_Cov37_IsEqualUnorderedLinesClone_BothEmpty(t *testing.T) {
 		a := corestr.New.SimpleSlice.Empty()
 		if !a.IsEqualUnorderedLinesClone([]string{}) {
 			t.Error("expected equal")
+		}
 	})
 }
 
@@ -1031,6 +1140,7 @@ func Test_Cov37_IsEqualByFunc_Match(t *testing.T) {
 		}, "A", "B")
 		if !result {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1039,6 +1149,7 @@ func Test_Cov37_IsEqualByFunc_DiffLen(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqualByFunc(func(i int, l, r string) bool { return true }, "a", "b") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -1047,6 +1158,7 @@ func Test_Cov37_IsEqualByFunc_Empty(t *testing.T) {
 		a := corestr.New.SimpleSlice.Empty()
 		if !a.IsEqualByFunc(func(i int, l, r string) bool { return true }) {
 			t.Error("expected true for both empty")
+		}
 	})
 }
 
@@ -1055,6 +1167,7 @@ func Test_Cov37_IsEqualByFunc_Mismatch(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a", "b")
 		if a.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "X") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -1066,6 +1179,7 @@ func Test_Cov37_IsEqualByFuncLinesSplit_Match(t *testing.T) {
 		})
 		if !result {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1077,6 +1191,7 @@ func Test_Cov37_IsEqualByFuncLinesSplit_Trim(t *testing.T) {
 		})
 		if !result {
 			t.Error("expected true with trim")
+		}
 	})
 }
 
@@ -1085,6 +1200,7 @@ func Test_Cov37_IsEqualByFuncLinesSplit_DiffLen(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqualByFuncLinesSplit(false, ",", "a,b", func(i int, l, r string) bool { return true }) {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -1105,6 +1221,7 @@ func Test_Cov37_Collection(t *testing.T) {
 		col := s.Collection(false)
 		if col.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1114,6 +1231,7 @@ func Test_Cov37_ToCollection(t *testing.T) {
 		col := s.ToCollection(true)
 		if col.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1123,6 +1241,7 @@ func Test_Cov37_NonPtr(t *testing.T) {
 		np := s.NonPtr()
 		if np.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1132,6 +1251,7 @@ func Test_Cov37_Ptr(t *testing.T) {
 		p := s.Ptr()
 		if p.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1141,6 +1261,7 @@ func Test_Cov37_ToPtr(t *testing.T) {
 		p := s.ToPtr()
 		if p == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1150,6 +1271,7 @@ func Test_Cov37_ToNonPtr(t *testing.T) {
 		np := s.ToNonPtr()
 		if np.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1160,6 +1282,7 @@ func Test_Cov37_String(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if !strings.Contains(s.String(), "a") {
 			t.Error("expected a")
+		}
 	})
 }
 
@@ -1168,6 +1291,7 @@ func Test_Cov37_String_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.String() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1179,6 +1303,7 @@ func Test_Cov37_ConcatNew(t *testing.T) {
 		result := s.ConcatNew("b", "c")
 		if result.Length() != 3 {
 			t.Errorf("expected 3, got %d", result.Length())
+		}
 	})
 }
 
@@ -1188,6 +1313,7 @@ func Test_Cov37_ConcatNewStrings(t *testing.T) {
 		result := s.ConcatNewStrings("b")
 		if len(result) != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1197,6 +1323,7 @@ func Test_Cov37_ConcatNewStrings_Nil(t *testing.T) {
 		result := s.ConcatNewStrings("a")
 		if len(result) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1207,6 +1334,7 @@ func Test_Cov37_ConcatNewSimpleSlices(t *testing.T) {
 		result := s1.ConcatNewSimpleSlices(s2)
 		if result.Length() != 2 {
 			t.Errorf("expected 2, got %d", result.Length())
+		}
 	})
 }
 
@@ -1218,6 +1346,7 @@ func Test_Cov37_CsvStrings(t *testing.T) {
 		csv := s.CsvStrings()
 		if len(csv) != 1 || !strings.Contains(csv[0], "\"") {
 			t.Errorf("expected quoted")
+		}
 	})
 }
 
@@ -1227,6 +1356,7 @@ func Test_Cov37_CsvStrings_Empty(t *testing.T) {
 		csv := s.CsvStrings()
 		if len(csv) != 0 {
 			t.Errorf("expected 0")
+		}
 	})
 }
 
@@ -1238,6 +1368,7 @@ func Test_Cov37_Sort(t *testing.T) {
 		s.Sort()
 		if s.First() != "a" {
 			t.Errorf("expected a first")
+		}
 	})
 }
 
@@ -1247,6 +1378,7 @@ func Test_Cov37_Reverse(t *testing.T) {
 		s.Reverse()
 		if s.First() != "c" || s.Last() != "a" {
 			t.Errorf("unexpected: %v", *s)
+		}
 	})
 }
 
@@ -1256,6 +1388,7 @@ func Test_Cov37_Reverse_Two(t *testing.T) {
 		s.Reverse()
 		if s.First() != "b" {
 			t.Errorf("expected b first")
+		}
 	})
 }
 
@@ -1265,6 +1398,7 @@ func Test_Cov37_Reverse_Single(t *testing.T) {
 		s.Reverse()
 		if s.First() != "a" {
 			t.Errorf("expected a")
+		}
 	})
 }
 
@@ -1279,6 +1413,7 @@ func Test_Cov37_MarshalJSON(t *testing.T) {
 		}
 		if !strings.Contains(string(data), "\"a\"") {
 			t.Errorf("unexpected: %s", data)
+		}
 	})
 }
 
@@ -1291,6 +1426,7 @@ func Test_Cov37_UnmarshalJSON(t *testing.T) {
 		}
 		if s.Length() != 2 {
 			t.Errorf("expected 2, got %d", s.Length())
+		}
 	})
 }
 
@@ -1300,6 +1436,7 @@ func Test_Cov37_UnmarshalJSON_Invalid(t *testing.T) {
 		err := json.Unmarshal([]byte(`not-json`), s)
 		if err == nil {
 			t.Error("expected error")
+		}
 	})
 }
 
@@ -1309,6 +1446,7 @@ func Test_Cov37_JsonModel(t *testing.T) {
 		model := s.JsonModel()
 		if len(model) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1318,6 +1456,7 @@ func Test_Cov37_JsonModelAny(t *testing.T) {
 		model := s.JsonModelAny()
 		if model == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1327,6 +1466,7 @@ func Test_Cov37_Json(t *testing.T) {
 		result := s.Json()
 		if result.HasError() {
 			t.Errorf("unexpected error: %v", result.Error)
+		}
 	})
 }
 
@@ -1336,6 +1476,7 @@ func Test_Cov37_JsonPtr(t *testing.T) {
 		result := s.JsonPtr()
 		if result == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1348,6 +1489,7 @@ func Test_Cov37_Serialize(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Error("expected non-empty bytes")
+		}
 	})
 }
 
@@ -1361,6 +1503,7 @@ func Test_Cov37_Deserialize(t *testing.T) {
 		}
 		if len(target) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1375,6 +1518,7 @@ func Test_Cov37_ParseInjectUsingJson(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1386,6 +1530,7 @@ func Test_Cov37_ParseInjectUsingJsonMust(t *testing.T) {
 		result := s.ParseInjectUsingJsonMust(jsonResult)
 		if result.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1396,6 +1541,7 @@ func Test_Cov37_JsonParseSelfInject(t *testing.T) {
 		err := s.JsonParseSelfInject(src.JsonPtr())
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -1407,6 +1553,7 @@ func Test_Cov37_AsJsoner(t *testing.T) {
 		j := s.AsJsoner()
 		if j == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1416,6 +1563,7 @@ func Test_Cov37_AsJsonContractsBinder(t *testing.T) {
 		j := s.AsJsonContractsBinder()
 		if j == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1425,6 +1573,7 @@ func Test_Cov37_AsJsonParseSelfInjector(t *testing.T) {
 		j := s.AsJsonParseSelfInjector()
 		if j == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1434,6 +1583,7 @@ func Test_Cov37_AsJsonMarshaller(t *testing.T) {
 		j := s.AsJsonMarshaller()
 		if j == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1445,6 +1595,7 @@ func Test_Cov37_Clear(t *testing.T) {
 		s.Clear()
 		if s.Length() != 0 {
 			t.Errorf("expected 0")
+		}
 	})
 }
 
@@ -1454,6 +1605,7 @@ func Test_Cov37_Clear_Nil(t *testing.T) {
 		result := s.Clear()
 		if result != nil {
 			t.Error("expected nil")
+		}
 	})
 }
 
@@ -1463,6 +1615,7 @@ func Test_Cov37_Dispose(t *testing.T) {
 		s.Dispose()
 		if s.Length() != 0 {
 			t.Errorf("expected 0 after dispose")
+		}
 	})
 }
 
@@ -1481,6 +1634,7 @@ func Test_Cov37_Clone_Deep(t *testing.T) {
 		cloned := s.Clone(true)
 		if cloned.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1490,6 +1644,7 @@ func Test_Cov37_Clone_Shallow(t *testing.T) {
 		cloned := s.Clone(false)
 		if cloned.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1499,6 +1654,7 @@ func Test_Cov37_ClonePtr(t *testing.T) {
 		cloned := s.ClonePtr(true)
 		if cloned == nil || cloned.Length() != 1 {
 			t.Errorf("unexpected")
+		}
 	})
 }
 
@@ -1507,6 +1663,7 @@ func Test_Cov37_ClonePtr_Nil(t *testing.T) {
 		var s *corestr.SimpleSlice
 		if s.ClonePtr(true) != nil {
 			t.Error("expected nil")
+		}
 	})
 }
 
@@ -1516,6 +1673,7 @@ func Test_Cov37_DeepClone(t *testing.T) {
 		cloned := s.DeepClone()
 		if cloned.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1525,6 +1683,7 @@ func Test_Cov37_ShadowClone(t *testing.T) {
 		cloned := s.ShadowClone()
 		if cloned.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1535,6 +1694,7 @@ func Test_Cov37_IsDistinctEqualRaw(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b", "a")
 		if !s.IsDistinctEqualRaw("a", "b") {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1544,6 +1704,7 @@ func Test_Cov37_IsDistinctEqual(t *testing.T) {
 		b := corestr.New.SimpleSlice.Lines("b", "a")
 		if !a.IsDistinctEqual(b) {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1554,6 +1715,7 @@ func Test_Cov37_IsUnorderedEqualRaw_Clone(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("b", "a")
 		if !s.IsUnorderedEqualRaw(true, "a", "b") {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1562,6 +1724,7 @@ func Test_Cov37_IsUnorderedEqualRaw_NoClone(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("b", "a")
 		if !s.IsUnorderedEqualRaw(false, "a", "b") {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1570,6 +1733,7 @@ func Test_Cov37_IsUnorderedEqualRaw_DiffLen(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a")
 		if s.IsUnorderedEqualRaw(true, "a", "b") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -1578,6 +1742,7 @@ func Test_Cov37_IsUnorderedEqualRaw_BothEmpty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if !s.IsUnorderedEqualRaw(true) {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1587,6 +1752,7 @@ func Test_Cov37_IsUnorderedEqual_BothEmpty(t *testing.T) {
 		b := corestr.New.SimpleSlice.Empty()
 		if !a.IsUnorderedEqual(true, b) {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -1595,6 +1761,7 @@ func Test_Cov37_IsUnorderedEqual_RightNil(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsUnorderedEqual(true, nil) {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -1606,6 +1773,7 @@ func Test_Cov37_DistinctDiffRaw_BothNil(t *testing.T) {
 		result := s.DistinctDiffRaw()
 		if len(result) != 0 {
 			t.Errorf("expected empty")
+		}
 	})
 }
 
@@ -1615,6 +1783,7 @@ func Test_Cov37_DistinctDiffRaw_LeftNilRightNot(t *testing.T) {
 		result := s.DistinctDiffRaw("a")
 		if len(result) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1624,6 +1793,7 @@ func Test_Cov37_DistinctDiffRaw_RightNil(t *testing.T) {
 		result := s.DistinctDiffRaw()
 		if len(result) == 0 {
 			t.Errorf("expected non-empty")
+		}
 	})
 }
 
@@ -1633,6 +1803,7 @@ func Test_Cov37_DistinctDiff_BothNil(t *testing.T) {
 		result := a.DistinctDiff(nil)
 		if len(result) != 0 {
 			t.Errorf("expected empty")
+		}
 	})
 }
 
@@ -1643,6 +1814,7 @@ func Test_Cov37_DistinctDiff_LeftNil(t *testing.T) {
 		result := a.DistinctDiff(b)
 		if len(result) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1652,6 +1824,7 @@ func Test_Cov37_DistinctDiff_RightNil(t *testing.T) {
 		result := a.DistinctDiff(nil)
 		if len(result) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1666,6 +1839,7 @@ func Test_Cov37_AddedRemovedLinesDiff(t *testing.T) {
 		}
 		if len(removed) == 0 {
 			t.Error("expected removed items")
+		}
 	})
 }
 
@@ -1675,6 +1849,7 @@ func Test_Cov37_AddedRemovedLinesDiff_BothNil(t *testing.T) {
 		added, removed := s.AddedRemovedLinesDiff()
 		if added != nil || removed != nil {
 			t.Error("expected both nil")
+		}
 	})
 }
 
@@ -1689,6 +1864,7 @@ func Test_Cov37_RemoveIndexes(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Errorf("expected 2, got %d", result.Length())
+		}
 	})
 }
 
@@ -1698,6 +1874,7 @@ func Test_Cov37_RemoveIndexes_Empty(t *testing.T) {
 		_, err := s.RemoveIndexes(0)
 		if err == nil {
 			t.Error("expected error")
+		}
 	})
 }
 
@@ -1707,6 +1884,7 @@ func Test_Cov37_RemoveIndexes_InvalidIndex(t *testing.T) {
 		_, err := s.RemoveIndexes(5)
 		if err == nil {
 			t.Error("expected error for invalid index")
+		}
 	})
 }
 
@@ -1717,6 +1895,7 @@ func Test_Cov37_SafeStrings(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a")
 		if len(s.SafeStrings()) != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1725,6 +1904,7 @@ func Test_Cov37_SafeStrings_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if len(s.SafeStrings()) != 0 {
 			t.Errorf("expected 0")
+		}
 	})
 }
 
@@ -1735,6 +1915,7 @@ func Test_Cov37_Creator_Cap(t *testing.T) {
 		s := corestr.New.SimpleSlice.Cap(5)
 		if s.Length() != 0 {
 			t.Errorf("expected 0")
+		}
 	})
 }
 
@@ -1743,6 +1924,7 @@ func Test_Cov37_Creator_Cap_Zero(t *testing.T) {
 		s := corestr.New.SimpleSlice.Cap(0)
 		if s == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1751,6 +1933,7 @@ func Test_Cov37_Creator_Default(t *testing.T) {
 		s := corestr.New.SimpleSlice.Default()
 		if s == nil || s.Length() != 0 {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1759,6 +1942,7 @@ func Test_Cov37_Creator_Lines(t *testing.T) {
 		s := corestr.New.SimpleSlice.Lines("a", "b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1767,6 +1951,7 @@ func Test_Cov37_Creator_Split(t *testing.T) {
 		s := corestr.New.SimpleSlice.Split("a,b", ",")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1775,6 +1960,7 @@ func Test_Cov37_Creator_SplitLines(t *testing.T) {
 		s := corestr.New.SimpleSlice.SplitLines("a\nb")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1783,6 +1969,7 @@ func Test_Cov37_Creator_SpreadStrings(t *testing.T) {
 		s := corestr.New.SimpleSlice.SpreadStrings("a", "b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1792,6 +1979,7 @@ func Test_Cov37_Creator_Hashset(t *testing.T) {
 		s := corestr.New.SimpleSlice.Hashset(hs)
 		if s.Length() != 2 {
 			t.Errorf("expected 2, got %d", s.Length())
+		}
 	})
 }
 
@@ -1801,6 +1989,7 @@ func Test_Cov37_Creator_Hashset_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Hashset(hs)
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1809,6 +1998,7 @@ func Test_Cov37_Creator_Create(t *testing.T) {
 		s := corestr.New.SimpleSlice.Create([]string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1817,6 +2007,7 @@ func Test_Cov37_Creator_Strings(t *testing.T) {
 		s := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1825,6 +2016,7 @@ func Test_Cov37_Creator_StringsPtr(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsPtr([]string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1833,6 +2025,7 @@ func Test_Cov37_Creator_StringsPtr_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsPtr([]string{})
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1841,6 +2034,7 @@ func Test_Cov37_Creator_StringsOptions_Clone(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsOptions(true, []string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1849,6 +2043,7 @@ func Test_Cov37_Creator_StringsOptions_NoClone(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsOptions(false, []string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1857,6 +2052,7 @@ func Test_Cov37_Creator_StringsOptions_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsOptions(false, []string{})
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1865,6 +2061,7 @@ func Test_Cov37_Creator_StringsClone(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsClone([]string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1873,6 +2070,7 @@ func Test_Cov37_Creator_StringsClone_Nil(t *testing.T) {
 		s := corestr.New.SimpleSlice.StringsClone(nil)
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1881,6 +2079,7 @@ func Test_Cov37_Creator_Direct_Clone(t *testing.T) {
 		s := corestr.New.SimpleSlice.Direct(true, []string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1889,6 +2088,7 @@ func Test_Cov37_Creator_Direct_NoClone(t *testing.T) {
 		s := corestr.New.SimpleSlice.Direct(false, []string{"a"})
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1897,6 +2097,7 @@ func Test_Cov37_Creator_Direct_Nil(t *testing.T) {
 		s := corestr.New.SimpleSlice.Direct(true, nil)
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1905,6 +2106,7 @@ func Test_Cov37_Creator_UsingLines_Clone(t *testing.T) {
 		s := corestr.New.SimpleSlice.UsingLines(true, "a", "b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1913,6 +2115,7 @@ func Test_Cov37_Creator_UsingLines_NoClone(t *testing.T) {
 		s := corestr.New.SimpleSlice.UsingLines(false, "a")
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1921,6 +2124,7 @@ func Test_Cov37_Creator_UsingSeparatorLine(t *testing.T) {
 		s := corestr.New.SimpleSlice.UsingSeparatorLine(",", "a,b")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1929,6 +2133,7 @@ func Test_Cov37_Creator_UsingLine(t *testing.T) {
 		s := corestr.New.SimpleSlice.UsingLine("a\nb")
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1937,6 +2142,7 @@ func Test_Cov37_Creator_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if !s.IsEmpty() {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1949,6 +2155,7 @@ func Test_Cov37_Creator_Deserialize(t *testing.T) {
 		}
 		if s.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -1957,6 +2164,7 @@ func Test_Cov37_Creator_Deserialize_Invalid(t *testing.T) {
 		_, err := corestr.New.SimpleSlice.Deserialize([]byte("bad"))
 		if err == nil {
 			t.Error("expected error")
+		}
 	})
 }
 
@@ -1970,6 +2178,7 @@ func Test_Cov37_Creator_DeserializeJsoner(t *testing.T) {
 		}
 		if s.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -1979,6 +2188,7 @@ func Test_Cov37_Creator_Map(t *testing.T) {
 		s := corestr.New.SimpleSlice.Map(m)
 		if s.Length() != 2 {
 			t.Errorf("expected 2, got %d", s.Length())
+		}
 	})
 }
 
@@ -1987,6 +2197,7 @@ func Test_Cov37_Creator_ByLen(t *testing.T) {
 		s := corestr.New.SimpleSlice.ByLen([]string{"a", "b", "c"})
 		if s == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -1998,6 +2209,7 @@ func Test_Cov37_AddError_WithError(t *testing.T) {
 		s.AddError(err)
 		if s.Length() != 1 {
 			t.Errorf("expected 1, got %d", s.Length())
+		}
 	})
 }
 

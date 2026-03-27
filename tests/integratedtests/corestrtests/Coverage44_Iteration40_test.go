@@ -409,6 +409,7 @@ func Test_Cov44_SSO_Boolean_YesValues(t *testing.T) {
 			sso := corestr.New.SimpleStringOnce.Init(val)
 			tc := caseV1Compat{Name: "Boolean " + val, Expected: true, Actual: sso.Boolean(false)}
 			tc.ShouldBeEqual(t)
+		}
 	})
 }
 

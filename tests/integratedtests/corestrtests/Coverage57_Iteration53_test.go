@@ -173,6 +173,7 @@ func Test_Cov57_HashsetsCollection_ListDirectPtr(t *testing.T) {
 		convey.Convey("ListDirectPtr", t, func() {
 			convey.So(result, convey.ShouldNotBeNil)
 			convey.So(len(*result), convey.ShouldEqual, 1)
+		}
 	})
 }
 
@@ -302,6 +303,7 @@ func Test_Cov57_HashsetsCollection_IsEqual_Val(t *testing.T) {
 		hc2.Add(corestr.New.Hashset.Strings([]string{"a"}))
 		convey.Convey("IsEqual val", t, func() {
 			convey.So(hc1.IsEqual(*hc2), convey.ShouldBeTrue)
+		}
 	})
 }
 
@@ -325,6 +327,7 @@ func Test_Cov57_HashsetsCollection_String(t *testing.T) {
 		hc := corestr.New.HashsetsCollection.Empty()
 		convey.Convey("String empty", t, func() {
 			convey.So(hc.String(), convey.ShouldContainSubstring, "No Element")
+		}
 	})
 }
 
@@ -334,6 +337,7 @@ func Test_Cov57_HashsetsCollection_String_NonEmpty(t *testing.T) {
 		hc.Add(corestr.New.Hashset.Strings([]string{"a"}))
 		convey.Convey("String non-empty", t, func() {
 			convey.So(hc.String(), convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -343,6 +347,7 @@ func Test_Cov57_HashsetsCollection_Join(t *testing.T) {
 		hc.Add(corestr.New.Hashset.Strings([]string{"a"}))
 		convey.Convey("Join", t, func() {
 			convey.So(hc.Join(","), convey.ShouldEqual, "a")
+		}
 	})
 }
 
@@ -354,6 +359,7 @@ func Test_Cov57_HashsetsCollection_Serialize(t *testing.T) {
 		convey.Convey("Serialize", t, func() {
 			convey.So(err, convey.ShouldBeNil)
 			convey.So(bytes, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -365,6 +371,7 @@ func Test_Cov57_HashsetsCollection_Deserialize(t *testing.T) {
 		err := hc.Deserialize(&target)
 		convey.Convey("Deserialize", t, func() {
 			convey.So(err, convey.ShouldBeNil)
+		}
 	})
 }
 
@@ -376,6 +383,7 @@ func Test_Cov57_HashsetsCollection_Interfaces(t *testing.T) {
 			convey.So(hc.AsJsoner(), convey.ShouldNotBeNil)
 			convey.So(hc.AsJsonParseSelfInjector(), convey.ShouldNotBeNil)
 			convey.So(hc.AsJsonMarshaller(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -385,6 +393,7 @@ func Test_Cov57_HashsetsCollection_IndexOf(t *testing.T) {
 		hc.Add(corestr.New.Hashset.Strings([]string{"a"}))
 		convey.Convey("IndexOf", t, func() {
 			convey.So(hc.IndexOf(0), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -394,6 +403,7 @@ func Test_Cov57_HashsetsCollection_ListPtr(t *testing.T) {
 		convey.Convey("ListPtr", t, func() {
 			convey.So(hc.ListPtr(), convey.ShouldNotBeNil)
 			convey.So(hc.List(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -426,6 +436,7 @@ func Test_Cov57_KeyValuePair_Basics(t *testing.T) {
 			"HasValue":     kv.HasValue(),
 			"IsKeyEmpty":   kv.IsKeyEmpty(),
 			"IsValueEmpty": kv.IsValueEmpty(),
+		}
 	})
 }
 
@@ -448,6 +459,7 @@ func Test_Cov57_KeyValuePair_ValueConversions(t *testing.T) {
 			"DefByte":   kv.ValueDefByte(),
 			"Float":     kv.ValueFloat64(0),
 			"DefFloat":  kv.ValueDefFloat64(),
+		}
 	})
 }
 
@@ -523,6 +535,7 @@ func Test_Cov57_KeyValuePair_String(t *testing.T) {
 		kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 		convey.Convey("KVP String", t, func() {
 			convey.So(kv.String(), convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -612,6 +625,7 @@ func Test_Cov57_KeyValuePair_Json(t *testing.T) {
 		kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 		convey.Convey("KVP Json", t, func() {
 			convey.So(kv.JsonPtr(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -622,6 +636,7 @@ func Test_Cov57_KeyValuePair_Serialize(t *testing.T) {
 		convey.Convey("KVP Serialize", t, func() {
 			convey.So(err, convey.ShouldBeNil)
 			convey.So(bytes, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -630,6 +645,7 @@ func Test_Cov57_KeyValuePair_SerializeMust(t *testing.T) {
 		kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 		convey.Convey("KVP SerializeMust", t, func() {
 			convey.So(kv.SerializeMust(), convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -638,6 +654,7 @@ func Test_Cov57_KeyValuePair_Compile(t *testing.T) {
 		kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 		convey.Convey("KVP Compile", t, func() {
 			convey.So(kv.Compile(), convey.ShouldEqual, kv.String())
+		}
 	})
 }
 
@@ -674,6 +691,7 @@ func Test_Cov57_KeyValueCollection_Basics(t *testing.T) {
 			"Count":  kvc.Count(),
 			"HasAny": kvc.HasAnyItem(),
 			"HasKey": kvc.HasKey("k1"),
+		}
 	})
 }
 
@@ -704,6 +722,7 @@ func Test_Cov57_KeyValueCollection_FirstLast(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"FirstKey": kvc.First().Key,
 			"LastKey":  kvc.Last().Key,
+		}
 	})
 }
 
@@ -713,6 +732,7 @@ func Test_Cov57_KeyValueCollection_FirstOrDefault_Empty(t *testing.T) {
 		convey.Convey("FirstOrDefault empty", t, func() {
 			convey.So(kvc.FirstOrDefault(), convey.ShouldBeNil)
 			convey.So(kvc.LastOrDefault(), convey.ShouldBeNil)
+		}
 	})
 }
 
@@ -802,6 +822,7 @@ func Test_Cov57_KeyValueCollection_JoinMethods(t *testing.T) {
 			convey.So(kvc.Join(","), convey.ShouldNotBeEmpty)
 			convey.So(kvc.JoinKeys(","), convey.ShouldEqual, "k")
 			convey.So(kvc.JoinValues(","), convey.ShouldEqual, "v")
+		}
 	})
 }
 
@@ -1064,6 +1085,7 @@ func Test_Cov57_KeyValueCollection_Serialize(t *testing.T) {
 		convey.Convey("KVC Serialize", t, func() {
 			convey.So(err, convey.ShouldBeNil)
 			convey.So(bytes, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1073,6 +1095,7 @@ func Test_Cov57_KeyValueCollection_SerializeMust(t *testing.T) {
 		kvc.Add("k", "v")
 		convey.Convey("KVC SerializeMust", t, func() {
 			convey.So(kvc.SerializeMust(), convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1083,6 +1106,7 @@ func Test_Cov57_KeyValueCollection_String(t *testing.T) {
 		convey.Convey("KVC String", t, func() {
 			convey.So(kvc.String(), convey.ShouldNotBeEmpty)
 			convey.So(kvc.Compile(), convey.ShouldEqual, kvc.String())
+		}
 	})
 }
 
@@ -1101,6 +1125,7 @@ func Test_Cov57_LeftRight_New(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lr.Left, "Right": lr.Right, "IsValid": lr.IsValid,
+		}
 	})
 }
 
@@ -1132,6 +1157,7 @@ func Test_Cov57_LeftRight_Bytes(t *testing.T) {
 		convey.Convey("LR Bytes", t, func() {
 			convey.So(lr.LeftBytes(), convey.ShouldResemble, []byte("a"))
 			convey.So(lr.RightBytes(), convey.ShouldResemble, []byte("b"))
+		}
 	})
 }
 
@@ -1159,6 +1185,7 @@ func Test_Cov57_LeftRight_EmptyChecks(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"LeftEmpty":  lr.IsLeftEmpty(),
 			"RightEmpty": lr.IsRightEmpty(),
+		}
 	})
 }
 
@@ -1175,6 +1202,7 @@ func Test_Cov57_LeftRight_WhitespaceChecks(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"LeftWS":  lr.IsLeftWhitespace(),
 			"RightWS": lr.IsRightWhitespace(),
+		}
 	})
 }
 
@@ -1189,6 +1217,7 @@ func Test_Cov57_LeftRight_ValidNonEmpty(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lr.HasValidNonEmptyLeft(), "Right": lr.HasValidNonEmptyRight(), "Safe": lr.HasSafeNonEmpty(),
+		}
 	})
 }
 
@@ -1201,6 +1230,7 @@ func Test_Cov57_LeftRight_ValidNonWhitespace(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lr.HasValidNonWhitespaceLeft(), "Right": lr.HasValidNonWhitespaceRight(),
+		}
 	})
 }
 
@@ -1215,6 +1245,7 @@ func Test_Cov57_LeftRight_Is(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Is": lr.Is("a", "b"), "IsLeft": lr.IsLeft("a"), "IsRight": lr.IsRight("b"),
+		}
 	})
 }
 
@@ -1248,6 +1279,7 @@ func Test_Cov57_LeftRight_NonPtr(t *testing.T) {
 		convey.Convey("NonPtr", t, func() {
 			convey.So(lr.NonPtr().Left, convey.ShouldEqual, "a")
 			convey.So(lr.Ptr(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -1261,6 +1293,7 @@ func Test_Cov57_LeftRight_RegexMatch(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"LeftMatch": lr.IsLeftRegexMatch(re), "RightMatch": lr.IsRightRegexMatch(re),
+		}
 	})
 }
 
@@ -1273,6 +1306,7 @@ func Test_Cov57_LeftRight_RegexMatch_Nil(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lr.IsLeftRegexMatch(nil), "Right": lr.IsRightRegexMatch(nil),
+		}
 	})
 }
 
@@ -1453,6 +1487,7 @@ func Test_Cov57_LeftMiddleRight_Bytes(t *testing.T) {
 			convey.So(lmr.LeftBytes(), convey.ShouldResemble, []byte("a"))
 			convey.So(lmr.MiddleBytes(), convey.ShouldResemble, []byte("b"))
 			convey.So(lmr.RightBytes(), convey.ShouldResemble, []byte("c"))
+		}
 	})
 }
 
@@ -1478,6 +1513,7 @@ func Test_Cov57_LeftMiddleRight_EmptyChecks(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"LeftEmpty": lmr.IsLeftEmpty(), "MidEmpty": lmr.IsMiddleEmpty(), "RightEmpty": lmr.IsRightEmpty(),
+		}
 	})
 }
 
@@ -1492,6 +1528,7 @@ func Test_Cov57_LeftMiddleRight_WhitespaceChecks(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"LeftWS": lmr.IsLeftWhitespace(), "MidWS": lmr.IsMiddleWhitespace(), "RightWS": lmr.IsRightWhitespace(),
+		}
 	})
 }
 
@@ -1507,6 +1544,7 @@ func Test_Cov57_LeftMiddleRight_ValidNonEmpty(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lmr.HasValidNonEmptyLeft(), "Mid": lmr.HasValidNonEmptyMiddle(),
 			"Right": lmr.HasValidNonEmptyRight(), "Safe": lmr.HasSafeNonEmpty(),
+		}
 	})
 }
 
@@ -1520,6 +1558,7 @@ func Test_Cov57_LeftMiddleRight_ValidNonWhitespace(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lmr.HasValidNonWhitespaceLeft(), "Mid": lmr.HasValidNonWhitespaceMiddle(),
 			"Right": lmr.HasValidNonWhitespaceRight(),
+		}
 	})
 }
 
@@ -1674,6 +1713,7 @@ func Test_Cov57_ValidValue_Conversions(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Int": vv.ValueInt(0), "DefInt": vv.ValueDefInt(),
 			"Byte": vv.ValueByte(0), "Float": vv.ValueFloat64(0),
+		}
 	})
 }
 
@@ -1710,6 +1750,7 @@ func Test_Cov57_ValidValue_WhitespaceChecks(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"IsWS": vv.IsWhitespace(), "HasValidNonWS": vv.HasValidNonWhitespace(), "Trim": vv.Trim(),
+		}
 	})
 }
 
@@ -1744,6 +1785,7 @@ func Test_Cov57_ValidValue_IsAnyOf(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Found": vv.IsAnyOf("a", "b"), "NotFound": vv.IsAnyOf("c"), "Empty": vv.IsAnyOf(),
+		}
 	})
 }
 
@@ -1769,6 +1811,7 @@ func Test_Cov57_ValidValue_IsAnyContains(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Found": vv.IsAnyContains("world"), "NotFound": vv.IsAnyContains("xyz"), "Empty": vv.IsAnyContains(),
+		}
 	})
 }
 
@@ -1795,6 +1838,7 @@ func Test_Cov57_ValidValue_Regex(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Matches": vv.IsRegexMatches(re), "FindStr": vv.RegexFindString(re),
+		}
 	})
 }
 
@@ -1807,6 +1851,7 @@ func Test_Cov57_ValidValue_Regex_Nil(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Matches": vv.IsRegexMatches(nil), "FindStr": vv.RegexFindString(nil),
+		}
 	})
 }
 
@@ -1900,6 +1945,7 @@ func Test_Cov57_ValidValue_FullString(t *testing.T) {
 		vv := corestr.NewValidValue("a")
 		convey.Convey("VV FullString", t, func() {
 			convey.So(vv.FullString(), convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1923,6 +1969,7 @@ func Test_Cov57_ValidValue_ValueBytesOnce(t *testing.T) {
 		convey.Convey("VV ValueBytesOnce", t, func() {
 			convey.So(bytes1, convey.ShouldResemble, []byte("abc"))
 			convey.So(bytes2, convey.ShouldResemble, bytes1)
+		}
 	})
 }
 
@@ -1931,6 +1978,7 @@ func Test_Cov57_ValidValue_ValueBytesOncePtr(t *testing.T) {
 		vv := corestr.NewValidValue("abc")
 		convey.Convey("VV ValueBytesOncePtr", t, func() {
 			convey.So(vv.ValueBytesOncePtr(), convey.ShouldResemble, []byte("abc"))
+		}
 	})
 }
 
@@ -1941,6 +1989,7 @@ func Test_Cov57_ValidValue_Serialize(t *testing.T) {
 		convey.Convey("VV Serialize", t, func() {
 			convey.So(err, convey.ShouldBeNil)
 			convey.So(bytes, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1960,6 +2009,7 @@ func Test_Cov57_ValidValue_DefByte_Overflow(t *testing.T) {
 		vv := corestr.NewValidValue("999")
 		convey.Convey("VV DefByte overflow", t, func() {
 			convey.So(vv.ValueDefByte(), convey.ShouldBeGreaterThan, 0)
+		}
 	})
 }
 
@@ -1990,6 +2040,7 @@ func Test_Cov57_ValidValues_Basics(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Length": vvs.Length(), "Count": vvs.Count(), "HasAny": vvs.HasAnyItem(), "IsEmpty": vvs.IsEmpty(),
+		}
 	})
 }
 
@@ -2073,6 +2124,7 @@ func Test_Cov57_ValidValues_FullStrings(t *testing.T) {
 		vvs.Add("a")
 		convey.Convey("VVs FullStrings", t, func() {
 			convey.So(len(vvs.FullStrings()), convey.ShouldEqual, 1)
+		}
 	})
 }
 
@@ -2082,6 +2134,7 @@ func Test_Cov57_ValidValues_String(t *testing.T) {
 		vvs.Add("a")
 		convey.Convey("VVs String", t, func() {
 			convey.So(vvs.String(), convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -2135,6 +2188,7 @@ func Test_Cov57_ValidValues_ConcatNew_NoClone(t *testing.T) {
 		result := vvs.ConcatNew(false)
 		convey.Convey("VVs ConcatNew noClone returns self", t, func() {
 			convey.So(result, convey.ShouldEqual, vvs)
+		}
 	})
 }
 
@@ -2285,6 +2339,7 @@ func Test_Cov57_ValueStatus_Invalid(t *testing.T) {
 		vs := corestr.InvalidValueStatus("err")
 		convey.Convey("VS Invalid", t, func() {
 			convey.So(vs.ValueValid.IsValid, convey.ShouldBeFalse)
+		}
 	})
 }
 
@@ -2293,6 +2348,7 @@ func Test_Cov57_ValueStatus_InvalidNoMessage(t *testing.T) {
 		vs := corestr.InvalidValueStatusNoMessage()
 		convey.Convey("VS InvalidNoMessage", t, func() {
 			convey.So(vs.ValueValid.IsValid, convey.ShouldBeFalse)
+		}
 	})
 }
 
@@ -2302,6 +2358,7 @@ func Test_Cov57_ValueStatus_Clone(t *testing.T) {
 		cloned := vs.Clone()
 		convey.Convey("VS Clone", t, func() {
 			convey.So(cloned.Index, convey.ShouldEqual, vs.Index)
+		}
 	})
 }
 
@@ -2321,6 +2378,7 @@ func Test_Cov57_TextWithLineNumber(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"HasLine": twl.HasLineNumber(), "IsInvalid": twl.IsInvalidLineNumber(),
 			"Length": twl.Length(), "IsEmpty": twl.IsEmpty(), "IsEmptyText": twl.IsEmptyText(),
+		}
 	})
 }
 
@@ -2335,6 +2393,7 @@ func Test_Cov57_TextWithLineNumber_Empty(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"IsEmpty": twl.IsEmpty(), "IsEmptyBoth": twl.IsEmptyTextLineBoth(),
+		}
 	})
 }
 
@@ -2353,6 +2412,7 @@ func Test_Cov57_NonChainedLinkedListNodes(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"IsEmpty": nodes.IsEmpty(), "Length": nodes.Length(), "IsChainingApplied": nodes.IsChainingApplied(),
+		}
 	})
 }
 
@@ -2379,6 +2439,7 @@ func Test_Cov57_NonChainedLinkedListNodes_FirstLast(t *testing.T) {
 			convey.So(nodes.Last(), convey.ShouldNotBeNil)
 			convey.So(nodes.FirstOrDefault(), convey.ShouldNotBeNil)
 			convey.So(nodes.LastOrDefault(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -2388,6 +2449,7 @@ func Test_Cov57_NonChainedLinkedListNodes_FirstOrDefault_Empty(t *testing.T) {
 		convey.Convey("NCLLN FirstOrDefault empty", t, func() {
 			convey.So(nodes.FirstOrDefault(), convey.ShouldBeNil)
 			convey.So(nodes.LastOrDefault(), convey.ShouldBeNil)
+		}
 	})
 }
 
@@ -2410,6 +2472,7 @@ func Test_Cov57_NonChainedLinkedListNodes_Items(t *testing.T) {
 		nodes := corestr.NewNonChainedLinkedListNodes(2)
 		convey.Convey("NCLLN Items", t, func() {
 			convey.So(nodes.Items(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -2428,6 +2491,7 @@ func Test_Cov57_NonChainedLinkedCollectionNodes(t *testing.T) {
 		}
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"IsEmpty": nodes.IsEmpty(), "Length": nodes.Length(), "IsChainingApplied": nodes.IsChainingApplied(),
+		}
 	})
 }
 
@@ -2437,6 +2501,7 @@ func Test_Cov57_NonChainedLinkedCollectionNodes_FirstOrDefault_Empty(t *testing.
 		convey.Convey("NCLCN FirstOrDefault empty", t, func() {
 			convey.So(nodes.FirstOrDefault(), convey.ShouldBeNil)
 			convey.So(nodes.LastOrDefault(), convey.ShouldBeNil)
+		}
 	})
 }
 
@@ -2445,6 +2510,7 @@ func Test_Cov57_NonChainedLinkedCollectionNodes_Items(t *testing.T) {
 		nodes := corestr.NewNonChainedLinkedCollectionNodes(2)
 		convey.Convey("NCLCN Items", t, func() {
 			convey.So(nodes.Items(), convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -2516,6 +2582,7 @@ func Test_Cov57_AnyToString(t *testing.T) {
 		result := corestr.AnyToString(false, "hello")
 		convey.Convey("AnyToString", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -2524,6 +2591,7 @@ func Test_Cov57_AnyToString_WithFieldName(t *testing.T) {
 		result := corestr.AnyToString(true, "hello")
 		convey.Convey("AnyToString with field name", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 

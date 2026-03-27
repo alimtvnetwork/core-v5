@@ -664,6 +664,7 @@ func Test_C31_Hashmap_IsEquals(t *testing.T) {
 		b.AddOrUpdate("k", "v")
 		if !a.IsEqualPtr(b) {
 			t.Fatal("expected true")
+		}
 	})
 }
 

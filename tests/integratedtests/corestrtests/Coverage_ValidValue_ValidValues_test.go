@@ -28,6 +28,7 @@ func Test_CovVV_01_Constructors(t *testing.T) {
 		ivn := corestr.InvalidValidValueNoMessage()
 		if ivn.IsValid || ivn.Message != "" {
 			t.Fatal("expected invalid no msg")
+		}
 	})
 }
 
@@ -36,6 +37,7 @@ func Test_CovVV_02_NewValidValueUsingAny(t *testing.T) {
 		vv := corestr.NewValidValueUsingAny(false, true, "test")
 		if !vv.IsValid {
 			t.Fatal("expected valid")
+		}
 	})
 }
 
@@ -62,6 +64,7 @@ func Test_CovVV_04_ValueBytesOnce(t *testing.T) {
 		b3 := vv.ValueBytesOncePtr()
 		if len(b3) != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -77,6 +80,7 @@ func Test_CovVV_05_IsEmpty_IsWhitespace(t *testing.T) {
 		vv2 := corestr.NewValidValue("hi")
 		if vv2.IsEmpty() {
 			t.Fatal("expected not empty")
+		}
 	})
 }
 
@@ -85,6 +89,7 @@ func Test_CovVV_06_Trim(t *testing.T) {
 		vv := corestr.NewValidValue("  hi  ")
 		if vv.Trim() != "hi" {
 			t.Fatal("expected hi")
+		}
 	})
 }
 
@@ -103,6 +108,7 @@ func Test_CovVV_07_HasValidNonEmpty_HasValidNonWhitespace_HasSafeNonEmpty(t *tes
 		iv := corestr.InvalidValidValue("")
 		if iv.HasValidNonEmpty() {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -119,6 +125,7 @@ func Test_CovVV_08_ValueBool(t *testing.T) {
 		vv3 := corestr.NewValidValue("abc")
 		if vv3.ValueBool() {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -134,6 +141,7 @@ func Test_CovVV_09_ValueInt_ValueDefInt(t *testing.T) {
 		vv2 := corestr.NewValidValue("abc")
 		if vv2.ValueInt(99) != 99 {
 			t.Fatal("expected 99")
+		}
 	})
 }
 
@@ -160,6 +168,7 @@ func Test_CovVV_10_ValueByte_ValueDefByte(t *testing.T) {
 		vv4 := corestr.NewValidValue("abc")
 		if vv4.ValueByte(7) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -175,6 +184,7 @@ func Test_CovVV_11_ValueFloat64_ValueDefFloat64(t *testing.T) {
 		vv2 := corestr.NewValidValue("abc")
 		if vv2.ValueFloat64(1.5) != 1.5 {
 			t.Fatal("expected 1.5")
+		}
 	})
 }
 
@@ -195,6 +205,7 @@ func Test_CovVV_12_Is_IsAnyOf(t *testing.T) {
 		}
 		if !vv.IsAnyOf() {
 			t.Fatal("expected true for empty")
+		}
 	})
 }
 
@@ -212,6 +223,7 @@ func Test_CovVV_13_IsContains_IsAnyContains(t *testing.T) {
 		}
 		if !vv.IsAnyContains() {
 			t.Fatal("expected true for empty")
+		}
 	})
 }
 
@@ -220,6 +232,7 @@ func Test_CovVV_14_IsEqualNonSensitive(t *testing.T) {
 		vv := corestr.NewValidValue("Hello")
 		if !vv.IsEqualNonSensitive("hello") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -253,6 +266,7 @@ func Test_CovVV_15_Regex(t *testing.T) {
 		_, has2 := vv.RegexFindAllStringsWithFlag(nil, -1)
 		if has2 {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -283,6 +297,7 @@ func Test_CovVV_17_Clone(t *testing.T) {
 		var nilVV *corestr.ValidValue
 		if nilVV.Clone() != nil {
 			t.Fatal("expected nil")
+		}
 	})
 }
 
@@ -300,6 +315,7 @@ func Test_CovVV_18_String_FullString(t *testing.T) {
 		}
 		if nilVV.FullString() != "" {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -337,6 +353,7 @@ func Test_CovVV_20_Json_ParseInject_Serialize(t *testing.T) {
 		err3 := vv.Deserialize(target)
 		if err3 != nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -364,6 +381,7 @@ func Test_CovVVs_01_Constructors(t *testing.T) {
 		vvs4 := corestr.NewValidValuesUsingValues()
 		if vvs4.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -391,6 +409,7 @@ func Test_CovVVs_02_Count_HasAnyItem_LastIndex_HasIndex(t *testing.T) {
 		}
 		if vvs.HasIndex(1) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -404,6 +423,7 @@ func Test_CovVVs_03_Add_AddFull(t *testing.T) {
 		vvs.AddFull(false, "b", "msg")
 		if vvs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -426,6 +446,7 @@ func Test_CovVVs_04_Adds_AddsPtr(t *testing.T) {
 		vvs.AddsPtr()
 		if vvs.Length() != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -446,6 +467,7 @@ func Test_CovVVs_05_AddValidValues(t *testing.T) {
 		vvs.AddValidValues(corestr.EmptyValidValues())
 		if vvs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -486,6 +508,7 @@ func Test_CovVVs_07_ConcatNew(t *testing.T) {
 		c3 := vvs.ConcatNew(true, vvs2)
 		if c3.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -521,6 +544,7 @@ func Test_CovVVs_08_Find(t *testing.T) {
 		})
 		if len(r4) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -563,6 +587,7 @@ func Test_CovVVs_09_SafeValueAt_SafeValidValueAt_SafeIndexes(t *testing.T) {
 		vals4 := vvs.SafeValidValuesAtIndexes()
 		if len(vals4) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -601,6 +626,7 @@ func Test_CovVVs_11_Hashmap_Map(t *testing.T) {
 		m := vvs.Map()
 		if len(m) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -613,6 +639,7 @@ func Test_CovVVs_12_IsEmpty(t *testing.T) {
 		vvs.Add("a")
 		if vvs.IsEmpty() {
 			t.Fatal("expected not empty")
+		}
 	})
 }
 
@@ -631,6 +658,7 @@ func Test_CovLCN_01_IsEmpty_HasElement_HasNext(t *testing.T) {
 		}
 		if node.HasNext() {
 			t.Fatal("expected no next")
+		}
 	})
 }
 
@@ -640,6 +668,7 @@ func Test_CovLCN_02_EndOfChain(t *testing.T) {
 		end, length := node.EndOfChain()
 		if end != node || length != 1 {
 			t.Fatal("expected self, length 1")
+		}
 	})
 }
 
@@ -649,6 +678,7 @@ func Test_CovLCN_03_Clone(t *testing.T) {
 		c := node.Clone()
 		if c.HasNext() {
 			t.Fatal("expected no next")
+		}
 	})
 }
 
@@ -677,6 +707,7 @@ func Test_CovLCN_04_IsEqual_IsChainEqual(t *testing.T) {
 		}
 		if n1.IsChainEqual(nil) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -689,6 +720,7 @@ func Test_CovLCN_05_IsEqualValue(t *testing.T) {
 		}
 		if n.IsEqualValue(nil) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -717,6 +749,7 @@ func Test_CovLCN_07_CreateLinkedList(t *testing.T) {
 		ll := n.CreateLinkedList()
 		if ll.Length() != 1 {
 			t.Fatalf("expected 1, got %d", ll.Length())
+		}
 	})
 }
 
@@ -736,6 +769,7 @@ func Test_CovNCLCN_01_Basic(t *testing.T) {
 		}
 		if nc.IsChainingApplied() {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -759,6 +793,7 @@ func Test_CovNCLCN_02_Adds_First_Last(t *testing.T) {
 		nc.Adds(nil)
 		if nc.Items() == nil {
 			t.Fatal("expected non-nil items")
+		}
 	})
 }
 
@@ -778,6 +813,7 @@ func Test_CovNCLCN_03_FirstOrDefault_LastOrDefault(t *testing.T) {
 		}
 		if nc.LastOrDefault() != n {
 			t.Fatal("expected n")
+		}
 	})
 }
 
@@ -819,5 +855,6 @@ func Test_CovNCLCN_05_ToChainedNodes(t *testing.T) {
 		cn2 := nc.ToChainedNodes()
 		if cn2 == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }

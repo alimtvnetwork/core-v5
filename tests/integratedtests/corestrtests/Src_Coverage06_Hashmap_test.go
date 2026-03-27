@@ -282,6 +282,7 @@ func Test_SrcC06_Hashmap_AddsFilter_Verification(t *testing.T) {
 		// Assert
 		if h.Length() < 1 {
 			t.Fatal("expected items added via filter")
+		}
 	})
 }
 
@@ -552,6 +553,7 @@ func Test_SrcC06_Hashmap_ClearDispose_Verification(t *testing.T) {
 		// Assert
 		if clearedLen != 0 {
 			t.Fatal("expected 0 after clear")
+		}
 	})
 }
 
@@ -605,6 +607,7 @@ func Test_SrcC06_Hashmap_EmptyString_Verification(t *testing.T) {
 		}
 		if h.StringLock() == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 

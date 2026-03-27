@@ -27,6 +27,7 @@ func Test_C75_SimpleSlice_Transpile(t *testing.T) {
 		}
 		if result.First() != "A" {
 			t.Errorf("expected 'A', got '%s'", result.First())
+		}
 	})
 }
 
@@ -41,6 +42,7 @@ func Test_C75_SimpleSlice_Transpile_Empty(t *testing.T) {
 		// Assert
 		if result.Length() != 0 {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -55,6 +57,7 @@ func Test_C75_SimpleSlice_TranspileJoin(t *testing.T) {
 		// Assert
 		if result != "A,B" {
 			t.Errorf("expected 'A,B', got '%s'", result)
+		}
 	})
 }
 
@@ -69,6 +72,7 @@ func Test_C75_SimpleSlice_Hashset(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Errorf("expected 2 distinct, got %d", hs.Length())
+		}
 	})
 }
 
@@ -83,6 +87,7 @@ func Test_C75_SimpleSlice_Join(t *testing.T) {
 		// Assert
 		if result != "a,b,c" {
 			t.Errorf("expected 'a,b,c', got '%s'", result)
+		}
 	})
 }
 
@@ -97,6 +102,7 @@ func Test_C75_SimpleSlice_Join_Empty(t *testing.T) {
 		// Assert
 		if result != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -111,6 +117,7 @@ func Test_C75_SimpleSlice_JoinLine(t *testing.T) {
 		// Assert
 		if !strings.Contains(result, "x") || !strings.Contains(result, "y") {
 			t.Errorf("expected joined lines, got '%s'", result)
+		}
 	})
 }
 
@@ -122,6 +129,7 @@ func Test_C75_SimpleSlice_JoinLine_Empty(t *testing.T) {
 		// Act & Assert
 		if ss.JoinLine() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -139,6 +147,7 @@ func Test_C75_SimpleSlice_JoinLineEofLine(t *testing.T) {
 		}
 		if !strings.HasSuffix(result, "\n") {
 			t.Error("expected trailing newline")
+		}
 	})
 }
 
@@ -150,6 +159,7 @@ func Test_C75_SimpleSlice_JoinLineEofLine_Empty(t *testing.T) {
 		// Act & Assert
 		if ss.JoinLineEofLine() != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -164,6 +174,7 @@ func Test_C75_SimpleSlice_JoinLineEofLine_AlreadyHasSuffix(t *testing.T) {
 		// Assert — should not double-add newline
 		if strings.HasSuffix(result, "\n\n") {
 			t.Error("should not double newline")
+		}
 	})
 }
 
@@ -178,6 +189,7 @@ func Test_C75_SimpleSlice_JoinSpace(t *testing.T) {
 		// Assert
 		if result != "hello world" {
 			t.Errorf("expected 'hello world', got '%s'", result)
+		}
 	})
 }
 
@@ -192,6 +204,7 @@ func Test_C75_SimpleSlice_JoinComma(t *testing.T) {
 		// Assert
 		if result != "a,b" {
 			t.Errorf("expected 'a,b', got '%s'", result)
+		}
 	})
 }
 
@@ -206,6 +219,7 @@ func Test_C75_SimpleSlice_JoinCsv(t *testing.T) {
 		// Assert
 		if !strings.Contains(result, "\"a\"") {
 			t.Errorf("expected quoted csv, got '%s'", result)
+		}
 	})
 }
 
@@ -220,6 +234,7 @@ func Test_C75_SimpleSlice_JoinCsvLine(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Error("expected non-empty")
+		}
 	})
 }
 
@@ -234,6 +249,7 @@ func Test_C75_SimpleSlice_CsvStrings(t *testing.T) {
 		// Assert
 		if len(result) != 2 {
 			t.Errorf("expected 2, got %d", len(result))
+		}
 	})
 }
 
@@ -248,6 +264,7 @@ func Test_C75_SimpleSlice_CsvStrings_Empty(t *testing.T) {
 		// Assert
 		if len(result) != 0 {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -262,6 +279,7 @@ func Test_C75_SimpleSlice_JoinCsvString(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Error("expected non-empty")
+		}
 	})
 }
 
@@ -273,6 +291,7 @@ func Test_C75_SimpleSlice_JoinCsvString_Empty(t *testing.T) {
 		// Act & Assert
 		if ss.JoinCsvString(",") != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -287,6 +306,7 @@ func Test_C75_SimpleSlice_JoinWith(t *testing.T) {
 		// Assert
 		if result != " - a - b" {
 			t.Errorf("expected ' - a - b', got '%s'", result)
+		}
 	})
 }
 
@@ -298,6 +318,7 @@ func Test_C75_SimpleSlice_JoinWith_Empty(t *testing.T) {
 		// Act & Assert
 		if ss.JoinWith(",") != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -312,6 +333,7 @@ func Test_C75_SimpleSlice_EachItemSplitBy(t *testing.T) {
 		// Assert
 		if result.Length() != 4 {
 			t.Errorf("expected 4, got %d", result.Length())
+		}
 	})
 }
 
@@ -326,6 +348,7 @@ func Test_C75_SimpleSlice_PrependJoin(t *testing.T) {
 		// Assert
 		if result != "a,b,c,d" {
 			t.Errorf("expected 'a,b,c,d', got '%s'", result)
+		}
 	})
 }
 
@@ -340,6 +363,7 @@ func Test_C75_SimpleSlice_AppendJoin(t *testing.T) {
 		// Assert
 		if result != "a,b,c,d" {
 			t.Errorf("expected 'a,b,c,d', got '%s'", result)
+		}
 	})
 }
 
@@ -357,6 +381,7 @@ func Test_C75_SimpleSlice_PrependAppend(t *testing.T) {
 		}
 		if result.First() != "a" || result.Last() != "c" {
 			t.Errorf("expected [a,b,c], got %v", result.Strings())
+		}
 	})
 }
 
@@ -371,6 +396,7 @@ func Test_C75_SimpleSlice_PrependAppend_EmptyPrepend(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Errorf("expected 2, got %d", ss.Length())
+		}
 	})
 }
 
@@ -385,6 +411,7 @@ func Test_C75_SimpleSlice_PrependAppend_EmptyAppend(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Errorf("expected 2, got %d", ss.Length())
+		}
 	})
 }
 
@@ -399,6 +426,7 @@ func Test_C75_SimpleSlice_Collection(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Errorf("expected 2, got %d", col.Length())
+		}
 	})
 }
 
@@ -413,6 +441,7 @@ func Test_C75_SimpleSlice_ToCollection(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -431,6 +460,7 @@ func Test_C75_SimpleSlice_NonPtr_Ptr(t *testing.T) {
 		}
 		if ptr.Length() != 1 {
 			t.Error("ptr mismatch")
+		}
 	})
 }
 
@@ -445,6 +475,7 @@ func Test_C75_SimpleSlice_String(t *testing.T) {
 		// Assert
 		if !strings.Contains(result, "a") {
 			t.Error("expected to contain 'a'")
+		}
 	})
 }
 
@@ -456,6 +487,7 @@ func Test_C75_SimpleSlice_String_Empty(t *testing.T) {
 		// Act & Assert
 		if ss.String() != "" {
 			t.Error("expected empty string")
+		}
 	})
 }
 
@@ -471,6 +503,7 @@ func Test_C75_SimpleSlice_ConcatNewSimpleSlices(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Errorf("expected 2, got %d", result.Length())
+		}
 	})
 }
 
@@ -485,6 +518,7 @@ func Test_C75_SimpleSlice_ConcatNewStrings(t *testing.T) {
 		// Assert
 		if len(result) != 3 {
 			t.Errorf("expected 3, got %d", len(result))
+		}
 	})
 }
 
@@ -499,6 +533,7 @@ func Test_C75_SimpleSlice_ConcatNewStrings_NilReceiver(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Errorf("expected 1, got %d", len(result))
+		}
 	})
 }
 
@@ -513,6 +548,7 @@ func Test_C75_SimpleSlice_ConcatNew(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Errorf("expected 2, got %d", result.Length())
+		}
 	})
 }
 
@@ -527,6 +563,7 @@ func Test_C75_SimpleSlice_Sort(t *testing.T) {
 		// Assert
 		if ss.First() != "a" {
 			t.Errorf("expected first 'a', got '%s'", ss.First())
+		}
 	})
 }
 
@@ -541,6 +578,7 @@ func Test_C75_SimpleSlice_Reverse_3Items(t *testing.T) {
 		// Assert
 		if ss.First() != "c" || ss.Last() != "a" {
 			t.Errorf("expected reversed, got %v", ss.Strings())
+		}
 	})
 }
 
@@ -555,6 +593,7 @@ func Test_C75_SimpleSlice_Reverse_2Items(t *testing.T) {
 		// Assert
 		if ss.First() != "b" || ss.Last() != "a" {
 			t.Errorf("expected reversed")
+		}
 	})
 }
 
@@ -569,6 +608,7 @@ func Test_C75_SimpleSlice_Reverse_1Item(t *testing.T) {
 		// Assert
 		if ss.First() != "a" {
 			t.Error("expected same")
+		}
 	})
 }
 
@@ -583,6 +623,7 @@ func Test_C75_SimpleSlice_Reverse_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -597,6 +638,7 @@ func Test_C75_SimpleSlice_JsonModel(t *testing.T) {
 		// Assert
 		if len(model) != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -611,6 +653,7 @@ func Test_C75_SimpleSlice_JsonModelAny(t *testing.T) {
 		// Assert
 		if modelAny == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -634,6 +677,7 @@ func Test_C75_SimpleSlice_MarshalUnmarshalJSON(t *testing.T) {
 		}
 		if target.Length() != 2 {
 			t.Errorf("expected 2, got %d", target.Length())
+		}
 	})
 }
 
@@ -652,6 +696,7 @@ func Test_C75_SimpleSlice_Json_JsonPtr(t *testing.T) {
 		}
 		if jsonPtrResult.HasError() {
 			t.Error("jsonPtr error")
+		}
 	})
 }
 
@@ -671,6 +716,7 @@ func Test_C75_SimpleSlice_ParseInjectUsingJson(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Errorf("expected 2, got %d", result.Length())
+		}
 	})
 }
 
@@ -687,6 +733,7 @@ func Test_C75_SimpleSlice_ParseInjectUsingJsonMust(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -698,6 +745,7 @@ func Test_C75_SimpleSlice_AsJsonContractsBinder(t *testing.T) {
 		// Act & Assert
 		if ss.AsJsonContractsBinder() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -709,6 +757,7 @@ func Test_C75_SimpleSlice_AsJsoner(t *testing.T) {
 		// Act & Assert
 		if ss.AsJsoner() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -727,6 +776,7 @@ func Test_C75_SimpleSlice_ToPtr_ToNonPtr(t *testing.T) {
 		}
 		if nonPtr.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -743,6 +793,7 @@ func Test_C75_SimpleSlice_JsonParseSelfInject(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -754,6 +805,7 @@ func Test_C75_SimpleSlice_AsJsonParseSelfInjector(t *testing.T) {
 		// Act & Assert
 		if ss.AsJsonParseSelfInjector() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -765,6 +817,7 @@ func Test_C75_SimpleSlice_AsJsonMarshaller(t *testing.T) {
 		// Act & Assert
 		if ss.AsJsonMarshaller() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -779,6 +832,7 @@ func Test_C75_SimpleSlice_Clear(t *testing.T) {
 		// Assert
 		if result.Length() != 0 {
 			t.Error("expected empty after clear")
+		}
 	})
 }
 
@@ -793,6 +847,7 @@ func Test_C75_SimpleSlice_Clear_Nil(t *testing.T) {
 		// Assert
 		if result != nil {
 			t.Error("expected nil")
+		}
 	})
 }
 
@@ -807,6 +862,7 @@ func Test_C75_SimpleSlice_Dispose(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected empty after dispose")
+		}
 	})
 }
 
@@ -834,6 +890,7 @@ func Test_C75_SimpleSlice_Serialize(t *testing.T) {
 		}
 		if len(bytes) == 0 {
 			t.Error("expected non-empty bytes")
+		}
 	})
 }
 
@@ -852,6 +909,7 @@ func Test_C75_SimpleSlice_Deserialize(t *testing.T) {
 		}
 		if len(target) != 2 {
 			t.Errorf("expected 2, got %d", len(target))
+		}
 	})
 }
 
@@ -867,6 +925,7 @@ func Test_C75_SimpleSlice_SafeStrings(t *testing.T) {
 		}
 		if len(empty.SafeStrings()) != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -880,6 +939,7 @@ func Test_C75_NewSimpleSlice_Cap(t *testing.T) {
 		// Assert
 		if ss == nil || ss.Length() != 0 {
 			t.Error("expected empty with capacity")
+		}
 	})
 }
 
@@ -891,6 +951,7 @@ func Test_C75_NewSimpleSlice_Cap_Negative(t *testing.T) {
 		// Assert
 		if ss == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -902,6 +963,7 @@ func Test_C75_NewSimpleSlice_Default(t *testing.T) {
 		// Assert
 		if ss == nil || ss.Length() != 0 {
 			t.Error("expected empty default")
+		}
 	})
 }
 
@@ -919,6 +981,7 @@ func Test_C75_NewSimpleSlice_Deserialize(t *testing.T) {
 		}
 		if ss.Length() != 2 {
 			t.Errorf("expected 2, got %d", ss.Length())
+		}
 	})
 }
 
@@ -936,6 +999,7 @@ func Test_C75_NewSimpleSlice_Deserialize_Invalid(t *testing.T) {
 		}
 		if ss.Length() != 0 {
 			t.Error("expected empty on error")
+		}
 	})
 }
 
@@ -947,6 +1011,7 @@ func Test_C75_NewSimpleSlice_UsingLines_Clone(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Errorf("expected 2")
+		}
 	})
 }
 
@@ -958,6 +1023,7 @@ func Test_C75_NewSimpleSlice_UsingLines_NoClone(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Errorf("expected 1")
+		}
 	})
 }
 
@@ -969,6 +1035,7 @@ func Test_C75_NewSimpleSlice_UsingLines_Nil(t *testing.T) {
 		// Assert — nil variadic returns empty
 		if ss.Length() != 0 {
 			t.Errorf("expected 0, got %d", ss.Length())
+		}
 	})
 }
 
@@ -980,6 +1047,7 @@ func Test_C75_NewSimpleSlice_Lines(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -991,6 +1059,7 @@ func Test_C75_NewSimpleSlice_Split(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 {
 			t.Errorf("expected 3, got %d", ss.Length())
+		}
 	})
 }
 
@@ -1002,6 +1071,7 @@ func Test_C75_NewSimpleSlice_SplitLines(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 {
 			t.Errorf("expected 3, got %d", ss.Length())
+		}
 	})
 }
 
@@ -1013,6 +1083,7 @@ func Test_C75_NewSimpleSlice_SpreadStrings(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -1027,6 +1098,7 @@ func Test_C75_NewSimpleSlice_Hashset(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Errorf("expected 2, got %d", ss.Length())
+		}
 	})
 }
 
@@ -1041,6 +1113,7 @@ func Test_C75_NewSimpleSlice_Hashset_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -1052,6 +1125,7 @@ func Test_C75_NewSimpleSlice_Create(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1063,6 +1137,7 @@ func Test_C75_NewSimpleSlice_StringsPtr(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1074,6 +1149,7 @@ func Test_C75_NewSimpleSlice_StringsPtr_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -1085,6 +1161,7 @@ func Test_C75_NewSimpleSlice_StringsOptions_Clone(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -1096,6 +1173,7 @@ func Test_C75_NewSimpleSlice_StringsOptions_NoClone(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1107,6 +1185,7 @@ func Test_C75_NewSimpleSlice_StringsOptions_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -1118,6 +1197,7 @@ func Test_C75_NewSimpleSlice_StringsClone(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -1129,6 +1209,7 @@ func Test_C75_NewSimpleSlice_StringsClone_Nil(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -1140,6 +1221,7 @@ func Test_C75_NewSimpleSlice_Direct_Clone(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -1151,6 +1233,7 @@ func Test_C75_NewSimpleSlice_Direct_NoClone(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1162,6 +1245,7 @@ func Test_C75_NewSimpleSlice_Direct_Nil(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -1173,6 +1257,7 @@ func Test_C75_NewSimpleSlice_UsingSeparatorLine(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 {
 			t.Errorf("expected 3, got %d", ss.Length())
+		}
 	})
 }
 
@@ -1184,6 +1269,7 @@ func Test_C75_NewSimpleSlice_UsingLine(t *testing.T) {
 		// Assert
 		if ss.Length() < 2 {
 			t.Errorf("expected at least 2, got %d", ss.Length())
+		}
 	})
 }
 
@@ -1198,5 +1284,6 @@ func Test_C75_NewSimpleSlice_ByLen(t *testing.T) {
 		// Assert
 		if ss == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }

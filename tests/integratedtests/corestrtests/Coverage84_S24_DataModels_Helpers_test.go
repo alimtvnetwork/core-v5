@@ -21,6 +21,7 @@ func Test_CovS24_01_NewHashmapUsingDataModel(t *testing.T) {
 		// Assert
 		if hm == nil || hm.Length() != 1 {
 			t.Errorf("NewHashmapUsingDataModel should create hashmap with 1 item")
+		}
 	})
 }
 
@@ -35,6 +36,7 @@ func Test_CovS24_02_NewHashmapsDataModelUsing(t *testing.T) {
 		// Assert
 		if model == nil || len(model.Items) != 2 {
 			t.Errorf("NewHashmapsDataModelUsing should produce model with 2 items")
+		}
 	})
 }
 
@@ -55,6 +57,7 @@ func Test_CovS24_03_NewHashsetUsingDataModel(t *testing.T) {
 		// Assert
 		if hs == nil || hs.Length() != 2 {
 			t.Errorf("NewHashsetUsingDataModel should create hashset with 2 items")
+		}
 	})
 }
 
@@ -69,6 +72,7 @@ func Test_CovS24_04_NewHashsetsDataModelUsing(t *testing.T) {
 		// Assert
 		if model == nil || len(model.Items) != 2 {
 			t.Errorf("NewHashsetsDataModelUsing should produce model with 2 items")
+		}
 	})
 }
 
@@ -90,6 +94,7 @@ func Test_CovS24_05_NewHashsetsCollectionUsingDataModel(t *testing.T) {
 		// Assert
 		if hc == nil || hc.Length() != 1 {
 			t.Errorf("NewHashsetsCollectionUsingDataModel should create collection with 1 item")
+		}
 	})
 }
 
@@ -105,6 +110,7 @@ func Test_CovS24_06_NewHashsetsCollectionDataModelUsing(t *testing.T) {
 		// Assert
 		if model == nil || len(model.Items) != 1 {
 			t.Errorf("NewHashsetsCollectionDataModelUsing should produce model with 1 item")
+		}
 	})
 }
 
@@ -127,6 +133,7 @@ func Test_CovS24_07_NewCharCollectionMapUsingDataModel(t *testing.T) {
 		// Assert
 		if ccm == nil || ccm.Length() != 1 {
 			t.Errorf("NewCharCollectionMapUsingDataModel should create map with 1 entry")
+		}
 	})
 }
 
@@ -142,6 +149,7 @@ func Test_CovS24_08_NewCharCollectionMapDataModelUsing(t *testing.T) {
 		// Assert
 		if model == nil {
 			t.Errorf("NewCharCollectionMapDataModelUsing should produce model")
+		}
 	})
 }
 
@@ -164,6 +172,7 @@ func Test_CovS24_09_NewCharHashsetMapUsingDataModel(t *testing.T) {
 		// Assert
 		if chm == nil || chm.Length() != 1 {
 			t.Errorf("NewCharHashsetMapUsingDataModel should create map with 1 entry")
+		}
 	})
 }
 
@@ -179,6 +188,7 @@ func Test_CovS24_10_NewCharHashsetMapDataModelUsing(t *testing.T) {
 		// Assert
 		if model == nil {
 			t.Errorf("NewCharHashsetMapDataModelUsing should produce model")
+		}
 	})
 }
 
@@ -194,6 +204,7 @@ func Test_CovS24_11_AllIndividualStringsOfStringsLength_Nil(t *testing.T) {
 		// Assert
 		if result != 0 {
 			t.Errorf("Expected 0 for nil, got %d", result)
+		}
 	})
 }
 
@@ -208,6 +219,7 @@ func Test_CovS24_12_AllIndividualStringsOfStringsLength_Empty(t *testing.T) {
 		// Assert
 		if result != 0 {
 			t.Errorf("Expected 0 for empty, got %d", result)
+		}
 	})
 }
 
@@ -222,6 +234,7 @@ func Test_CovS24_13_AllIndividualStringsOfStringsLength_Multiple(t *testing.T) {
 		// Assert
 		if result != 6 {
 			t.Errorf("Expected 6, got %d", result)
+		}
 	})
 }
 
@@ -237,6 +250,7 @@ func Test_CovS24_14_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
 		// Assert
 		if result != 0 {
 			t.Errorf("Expected 0 for nil, got %d", result)
+		}
 	})
 }
 
@@ -252,6 +266,7 @@ func Test_CovS24_15_AllIndividualsLengthOfSimpleSlices_Multiple(t *testing.T) {
 		// Assert
 		if result != 3 {
 			t.Errorf("Expected 3, got %d", result)
+		}
 	})
 }
 
@@ -267,6 +282,7 @@ func Test_CovS24_16_AnyToString_EmptyString(t *testing.T) {
 		// Assert
 		if result != "" {
 			t.Errorf("AnyToString empty string should return empty, got '%s'", result)
+		}
 	})
 }
 
@@ -278,6 +294,7 @@ func Test_CovS24_17_AnyToString_WithFieldName(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("AnyToString with field name should return non-empty")
+		}
 	})
 }
 
@@ -289,6 +306,7 @@ func Test_CovS24_18_AnyToString_WithoutFieldName(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("AnyToString without field name should return non-empty")
+		}
 	})
 }
 
@@ -303,6 +321,7 @@ func Test_CovS24_19_AnyToString_Pointer(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("AnyToString with pointer should return non-empty")
+		}
 	})
 }
 
@@ -334,6 +353,7 @@ func Test_CovS24_21_AnyToString_Struct(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("AnyToString with struct should return non-empty")
+		}
 	})
 }
 
@@ -349,6 +369,7 @@ func Test_CovS24_22_AnyToString_StructPointer(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("AnyToString with struct pointer should return non-empty")
+		}
 	})
 }
 
@@ -367,6 +388,7 @@ func Test_CovS24_23_CollectionsOfCollectionModel_Fields(t *testing.T) {
 		// Assert
 		if len(model.Items) != 1 {
 			t.Errorf("Model should have 1 item, got %d", len(model.Items))
+		}
 	})
 }
 
@@ -385,6 +407,7 @@ func Test_CovS24_24_SimpleStringOnceModel_Fields(t *testing.T) {
 		// Assert
 		if model.Value != "hello" || !model.IsInitialize {
 			t.Errorf("Model fields mismatch")
+		}
 	})
 }
 

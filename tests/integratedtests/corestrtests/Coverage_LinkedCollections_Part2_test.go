@@ -24,6 +24,7 @@ func Test_CovLC2_01_AddCollectionsToNodeAsync(t *testing.T) {
 		wg.Wait()
 		if lc.Length() < 2 {
 			t.Fatal("expected at least 2")
+		}
 	})
 }
 
@@ -72,6 +73,7 @@ func Test_CovLC2_04_AddAfterNode(t *testing.T) {
 		lc.AddAfterNode(lc.Head(), corestr.New.Collection.Strings([]string{"b"}))
 		if lc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -85,6 +87,7 @@ func Test_CovLC2_05_AddAfterNodeAsync(t *testing.T) {
 		wg.Wait()
 		if lc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -109,6 +112,7 @@ func Test_CovLC2_06_ConcatNew(t *testing.T) {
 		merged := a.ConcatNew(false, b)
 		if merged.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -183,6 +187,7 @@ func Test_CovLC2_10_IndexAt(t *testing.T) {
 		nn := lc.IndexAt(-1)
 		if nn != nil {
 			t.Fatal("expected nil for negative")
+		}
 	})
 }
 
@@ -197,6 +202,7 @@ func Test_CovLC2_11_SafePointerIndexAt(t *testing.T) {
 		nilCol := lc.SafePointerIndexAt(99)
 		if nilCol != nil {
 			t.Fatal("expected nil")
+		}
 	})
 }
 
@@ -219,6 +225,7 @@ func Test_CovLC2_12_SafeIndexAt(t *testing.T) {
 		}
 		if lc.SafeIndexAt(99) != nil {
 			t.Fatal("expected nil")
+		}
 	})
 }
 
@@ -247,6 +254,7 @@ func Test_CovLC2_14_AddCollection(t *testing.T) {
 		lc.AddCollection(nil)
 		if lc.Length() != 1 {
 			t.Fatal("expected still 1")
+		}
 	})
 }
 
@@ -278,6 +286,7 @@ func Test_CovLC2_16_ToStringsPtr_ToStrings(t *testing.T) {
 		strs := lc.ToStrings()
 		if len(strs) != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -297,6 +306,7 @@ func Test_CovLC2_17_ToCollectionSimple_ToCollection(t *testing.T) {
 		e := corestr.Empty.LinkedCollections()
 		if e.ToCollection(0).Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -313,6 +323,7 @@ func Test_CovLC2_18_ToCollectionsOfCollection(t *testing.T) {
 		e := corestr.Empty.LinkedCollections()
 		if e.ToCollectionsOfCollection(0).Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -329,6 +340,7 @@ func Test_CovLC2_19_ItemsOfItems(t *testing.T) {
 		e := corestr.Empty.LinkedCollections()
 		if len(e.ItemsOfItems()) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -344,6 +356,7 @@ func Test_CovLC2_20_ItemsOfItemsCollection(t *testing.T) {
 		e := corestr.Empty.LinkedCollections()
 		if len(e.ItemsOfItemsCollection()) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -354,6 +367,7 @@ func Test_CovLC2_21_SimpleSlice(t *testing.T) {
 		ss := lc.SimpleSlice()
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -373,6 +387,7 @@ func Test_CovLC2_22_ListPtr_List(t *testing.T) {
 		e := corestr.Empty.LinkedCollections()
 		if len(e.List()) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -410,6 +425,7 @@ func Test_CovLC2_25_Join(t *testing.T) {
 		s := lc.Join(",")
 		if s != "a" {
 			t.Fatalf("expected 'a', got '%s'", s)
+		}
 	})
 }
 
@@ -450,6 +466,7 @@ func Test_CovLC2_28_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Fatal("expected data")
+		}
 	})
 }
 
@@ -467,6 +484,7 @@ func Test_CovLC2_29_UnmarshalJSON(t *testing.T) {
 		err2 := lc.UnmarshalJSON([]byte(`invalid`))
 		if err2 == nil {
 			t.Fatal("expected error")
+		}
 	})
 }
 
@@ -526,6 +544,7 @@ func Test_CovLC2_34_GetCompareSummary(t *testing.T) {
 		s := a.GetCompareSummary(b, "left", "right")
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -538,6 +557,7 @@ func Test_CovLC2_35_JsonParseSelfInject(t *testing.T) {
 		err := lc2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -558,6 +578,7 @@ func Test_CovLC2_37_AddCollectionToNode(t *testing.T) {
 		lc.AddCollectionToNode(true, lc.Head(), corestr.New.Collection.Strings([]string{"x"}))
 		if lc.Length() < 2 {
 			t.Fatal("expected at least 2")
+		}
 	})
 }
 
@@ -577,5 +598,6 @@ func Test_CovLC2_38_AttachWithNode(t *testing.T) {
 		err2 := lc.AttachWithNode(head, addingNode)
 		if err2 != nil {
 			t.Fatal("unexpected error:", err2)
+		}
 	})
 }

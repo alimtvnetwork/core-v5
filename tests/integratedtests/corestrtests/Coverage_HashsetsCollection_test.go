@@ -40,6 +40,7 @@ func Test_CovHSC_01_IsEmpty_HasItems_Length(t *testing.T) {
 		}
 		if hsc.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -48,6 +49,7 @@ func Test_CovHSC_02_LastIndex(t *testing.T) {
 		hsc := newHSC([]string{"a"}, []string{"b"})
 		if hsc.LastIndex() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -77,6 +79,7 @@ func Test_CovHSC_04_List_ListPtr_ListDirectPtr(t *testing.T) {
 		dp := hsc.ListDirectPtr()
 		if len(*dp) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -90,6 +93,7 @@ func Test_CovHSC_05_StringsList(t *testing.T) {
 		sl := hsc.StringsList()
 		if len(sl) != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -105,6 +109,7 @@ func Test_CovHSC_06_HasAll(t *testing.T) {
 		}
 		if hsc.HasAll("x") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -126,6 +131,7 @@ func Test_CovHSC_07_Add_AddNonNil_AddNonEmpty(t *testing.T) {
 		hsc.AddNonEmpty(corestr.New.Hashset.Strings([]string{"b"}))
 		if hsc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -140,6 +146,7 @@ func Test_CovHSC_08_Adds(t *testing.T) {
 		hsc.Adds(corestr.New.Hashset.Empty())
 		if hsc.Length() != 1 {
 			t.Fatal("expected 1, empty skipped")
+		}
 	})
 }
 
@@ -154,6 +161,7 @@ func Test_CovHSC_09_AddHashsetsCollection(t *testing.T) {
 		hsc.AddHashsetsCollection(hsc2)
 		if hsc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -170,6 +178,7 @@ func Test_CovHSC_10_ConcatNew(t *testing.T) {
 		c2 := hsc.ConcatNew(hsc2)
 		if c2.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -211,6 +220,7 @@ func Test_CovHSC_11_IsEqual_IsEqualPtr(t *testing.T) {
 		// one empty, one not
 		if e1.IsEqualPtr(hsc1) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -242,6 +252,7 @@ func Test_CovHSC_13_JsonModel_MarshalUnmarshal(t *testing.T) {
 		err3 := hsc2.UnmarshalJSON([]byte("bad"))
 		if err3 == nil {
 			t.Fatal("expected error")
+		}
 	})
 }
 
@@ -254,6 +265,7 @@ func Test_CovHSC_14_Json_ParseInject(t *testing.T) {
 		r, err := hsc2.ParseInjectUsingJson(jr)
 		if err != nil || r == nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -265,6 +277,7 @@ func Test_CovHSC_15_ParseInjectMust(t *testing.T) {
 		r := hsc2.ParseInjectUsingJsonMust(jr)
 		if r == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -295,6 +308,7 @@ func Test_CovHSC_17_Serialize_Deserialize(t *testing.T) {
 		err2 := hsc.Deserialize(target)
 		if err2 != nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -305,6 +319,7 @@ func Test_CovHSC_18_DataModel(t *testing.T) {
 		hsc2 := corestr.NewHashsetsCollectionUsingDataModel(dm)
 		if hsc2.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -346,5 +361,6 @@ func Test_CovHSC_19_Creators(t *testing.T) {
 		cp := corestr.New.HashsetsCollection.Cap(5)
 		if cp.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }

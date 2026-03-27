@@ -23,6 +23,7 @@ func Test_C78_SSO_LinesSimpleSlice(t *testing.T) {
 		// Assert
 		if result.Length() != 3 {
 			t.Errorf("expected 3, got %d", result.Length())
+		}
 	})
 }
 
@@ -37,6 +38,7 @@ func Test_C78_SSO_SimpleSlice(t *testing.T) {
 		// Assert
 		if result.Length() != 3 {
 			t.Errorf("expected 3, got %d", result.Length())
+		}
 	})
 }
 
@@ -51,6 +53,7 @@ func Test_C78_SSO_Split(t *testing.T) {
 		// Assert
 		if len(result) != 3 {
 			t.Errorf("expected 3, got %d", len(result))
+		}
 	})
 }
 
@@ -65,6 +68,7 @@ func Test_C78_SSO_SplitLeftRight(t *testing.T) {
 		// Assert
 		if left != "key" || right != "value" {
 			t.Errorf("expected key/value, got %s/%s", left, right)
+		}
 	})
 }
 
@@ -79,6 +83,7 @@ func Test_C78_SSO_SplitLeftRight_NoSep(t *testing.T) {
 		// Assert
 		if left != "noseparator" || right != "" {
 			t.Errorf("expected noseparator/'', got %s/%s", left, right)
+		}
 	})
 }
 
@@ -93,6 +98,7 @@ func Test_C78_SSO_SplitLeftRightTrim(t *testing.T) {
 		// Assert
 		if left != "key" || right != "value" {
 			t.Errorf("expected key/value, got '%s'/'%s'", left, right)
+		}
 	})
 }
 
@@ -107,6 +113,7 @@ func Test_C78_SSO_SplitLeftRightTrim_NoSep(t *testing.T) {
 		// Assert
 		if left != "nosep" || right != "" {
 			t.Errorf("expected nosep/'', got '%s'/'%s'", left, right)
+		}
 	})
 }
 
@@ -121,6 +128,7 @@ func Test_C78_SSO_SplitNonEmpty(t *testing.T) {
 		// Assert
 		if len(result) < 3 {
 			t.Errorf("expected at least 3, got %d", len(result))
+		}
 	})
 }
 
@@ -135,6 +143,7 @@ func Test_C78_SSO_SplitTrimNonWhitespace(t *testing.T) {
 		// Assert
 		if len(result) < 2 {
 			t.Errorf("expected at least 2 non-whitespace items, got %d", len(result))
+		}
 	})
 }
 
@@ -149,6 +158,7 @@ func Test_C78_SSO_ClonePtr(t *testing.T) {
 		// Assert
 		if cloned == nil || cloned.Value() != "hello" {
 			t.Error("clone mismatch")
+		}
 	})
 }
 
@@ -163,6 +173,7 @@ func Test_C78_SSO_ClonePtr_Nil(t *testing.T) {
 		// Assert
 		if cloned != nil {
 			t.Error("expected nil")
+		}
 	})
 }
 
@@ -177,6 +188,7 @@ func Test_C78_SSO_Clone(t *testing.T) {
 		// Assert
 		if cloned.Value() != "x" {
 			t.Error("clone mismatch")
+		}
 	})
 }
 
@@ -194,6 +206,7 @@ func Test_C78_SSO_CloneUsingNewVal(t *testing.T) {
 		}
 		if !cloned.IsInitialized() {
 			t.Error("expected initialized from source")
+		}
 	})
 }
 
@@ -208,6 +221,7 @@ func Test_C78_SSO_Dispose(t *testing.T) {
 		// Assert
 		if sso.Value() != "" {
 			t.Error("expected empty after dispose")
+		}
 	})
 }
 
@@ -229,6 +243,7 @@ func Test_C78_SSO_String(t *testing.T) {
 		// Act & Assert
 		if sso.String() != "hello" {
 			t.Error("String mismatch")
+		}
 	})
 }
 
@@ -240,6 +255,7 @@ func Test_C78_SSO_String_Nil(t *testing.T) {
 		// Act & Assert
 		if sso.String() != "" {
 			t.Error("expected empty for nil")
+		}
 	})
 }
 
@@ -254,6 +270,7 @@ func Test_C78_SSO_StringPtr(t *testing.T) {
 		// Assert
 		if result == nil || *result != "val" {
 			t.Error("StringPtr mismatch")
+		}
 	})
 }
 
@@ -268,6 +285,7 @@ func Test_C78_SSO_StringPtr_Nil(t *testing.T) {
 		// Assert
 		if result == nil || *result != "" {
 			t.Error("expected empty string ptr for nil")
+		}
 	})
 }
 
@@ -282,6 +300,7 @@ func Test_C78_SSO_JsonModel(t *testing.T) {
 		// Assert
 		if model.Value != "test" || !model.IsInitialize {
 			t.Error("model mismatch")
+		}
 	})
 }
 
@@ -293,6 +312,7 @@ func Test_C78_SSO_JsonModelAny(t *testing.T) {
 		// Act & Assert
 		if sso.JsonModelAny() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -316,6 +336,7 @@ func Test_C78_SSO_MarshalUnmarshalJSON(t *testing.T) {
 		}
 		if target.Value() != "hello" {
 			t.Errorf("expected 'hello', got '%s'", target.Value())
+		}
 	})
 }
 
@@ -334,6 +355,7 @@ func Test_C78_SSO_Json_JsonPtr(t *testing.T) {
 		}
 		if jsonPtrResult.HasError() {
 			t.Error("jsonPtr error")
+		}
 	})
 }
 
@@ -353,6 +375,7 @@ func Test_C78_SSO_ParseInjectUsingJson(t *testing.T) {
 		}
 		if result.Value() != "hello" {
 			t.Error("value mismatch")
+		}
 	})
 }
 
@@ -369,6 +392,7 @@ func Test_C78_SSO_ParseInjectUsingJsonMust(t *testing.T) {
 		// Assert
 		if result.Value() != "test" {
 			t.Error("value mismatch")
+		}
 	})
 }
 
@@ -380,6 +404,7 @@ func Test_C78_SSO_AsJsonContractsBinder(t *testing.T) {
 		// Act & Assert
 		if sso.AsJsonContractsBinder() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -391,6 +416,7 @@ func Test_C78_SSO_AsJsoner(t *testing.T) {
 		// Act & Assert
 		if sso.AsJsoner() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -407,6 +433,7 @@ func Test_C78_SSO_JsonParseSelfInject(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -418,6 +445,7 @@ func Test_C78_SSO_AsJsonParseSelfInjector(t *testing.T) {
 		// Act & Assert
 		if sso.AsJsonParseSelfInjector() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -429,6 +457,7 @@ func Test_C78_SSO_AsJsonMarshaller(t *testing.T) {
 		// Act & Assert
 		if sso.AsJsonMarshaller() == nil {
 			t.Error("expected non-nil")
+		}
 	})
 }
 
@@ -446,6 +475,7 @@ func Test_C78_SSO_Serialize(t *testing.T) {
 		}
 		if len(bytes) == 0 {
 			t.Error("expected non-empty bytes")
+		}
 	})
 }
 
@@ -461,6 +491,7 @@ func Test_C78_SSO_Deserialize(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -477,6 +508,7 @@ func Test_C78_NewSSO_Any(t *testing.T) {
 		}
 		if !sso.IsInitialized() {
 			t.Error("expected initialized")
+		}
 	})
 }
 
@@ -491,6 +523,7 @@ func Test_C78_NewSSO_Uninitialized(t *testing.T) {
 		}
 		if sso.IsInitialized() {
 			t.Error("expected uninitialized")
+		}
 	})
 }
 
@@ -502,6 +535,7 @@ func Test_C78_NewSSO_Init(t *testing.T) {
 		// Assert
 		if sso.Value() != "x" || !sso.IsInitialized() {
 			t.Error("Init mismatch")
+		}
 	})
 }
 
@@ -513,6 +547,7 @@ func Test_C78_NewSSO_InitPtr(t *testing.T) {
 		// Assert
 		if sso == nil || sso.Value() != "x" {
 			t.Error("InitPtr mismatch")
+		}
 	})
 }
 
@@ -524,6 +559,7 @@ func Test_C78_NewSSO_Create(t *testing.T) {
 		// Assert
 		if sso.Value() != "val" || !sso.IsInitialized() {
 			t.Error("Create mismatch")
+		}
 	})
 }
 
@@ -535,6 +571,7 @@ func Test_C78_NewSSO_CreatePtr(t *testing.T) {
 		// Assert
 		if sso == nil || sso.Value() != "val" || sso.IsInitialized() {
 			t.Error("CreatePtr mismatch")
+		}
 	})
 }
 
@@ -546,5 +583,6 @@ func Test_C78_NewSSO_Empty(t *testing.T) {
 		// Assert
 		if sso.Value() != "" || sso.IsInitialized() {
 			t.Error("Empty mismatch")
+		}
 	})
 }

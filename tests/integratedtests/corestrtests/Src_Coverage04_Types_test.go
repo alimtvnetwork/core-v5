@@ -210,6 +210,7 @@ func Test_SrcC04_ValidValue_Clone_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -312,6 +313,7 @@ func Test_SrcC04_ValidValue_OverflowByte_Verification(t *testing.T) {
 		vf := &corestr.ValidValue{Value: "3.14", IsValid: true}
 		if vf.ValueFloat64(0) == 0 || vf.ValueDefFloat64() == 0 {
 			t.Fatal("expected non-zero float")
+		}
 	})
 }
 
@@ -548,6 +550,7 @@ func Test_SrcC04_KeyValuePair_ClearDispose_Verification(t *testing.T) {
 		// Assert
 		if !noPanic {
 			t.Fatal("expected no panic")
+		}
 	})
 }
 

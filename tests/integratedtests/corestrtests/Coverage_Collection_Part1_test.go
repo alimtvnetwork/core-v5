@@ -19,6 +19,7 @@ func Test_CovP1_01_JsonString(t *testing.T) {
 		s := col.JsonString()
 		if s == "" {
 			t.Fatal("expected non-empty JSON string")
+		}
 	})
 }
 
@@ -28,6 +29,7 @@ func Test_CovP1_02_JsonStringMust(t *testing.T) {
 		s := col.JsonStringMust()
 		if s == "" {
 			t.Fatal("expected non-empty JSON string")
+		}
 	})
 }
 
@@ -40,6 +42,7 @@ func Test_CovP1_03_HasAnyItem(t *testing.T) {
 		empty := corestr.Empty.Collection()
 		if empty.HasAnyItem() {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -48,6 +51,7 @@ func Test_CovP1_04_LastIndex(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		if col.LastIndex() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -65,6 +69,7 @@ func Test_CovP1_05_HasIndex(t *testing.T) {
 		}
 		if col.HasIndex(-1) {
 			t.Fatal("expected false for -1")
+		}
 	})
 }
 
@@ -73,6 +78,7 @@ func Test_CovP1_06_ListStringsPtr(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a"})
 		if len(col.ListStringsPtr()) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -81,6 +87,7 @@ func Test_CovP1_07_ListStrings(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"x", "y"})
 		if len(col.ListStrings()) != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -89,6 +96,7 @@ func Test_CovP1_08_StringJSON(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a"})
 		if col.StringJSON() == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -110,6 +118,7 @@ func Test_CovP1_09_RemoveAt(t *testing.T) {
 		ok = col.RemoveAt(100)
 		if ok {
 			t.Fatal("expected false for 100")
+		}
 	})
 }
 
@@ -118,6 +127,7 @@ func Test_CovP1_10_Count(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a"})
 		if col.Count() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -137,6 +147,7 @@ func Test_CovP1_12_Length(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b"})
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -145,6 +156,7 @@ func Test_CovP1_13_LengthLock(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a"})
 		if col.LengthLock() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -179,6 +191,7 @@ func Test_CovP1_14_IsCollectionPrecheckEqual_AllPaths(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if a.IsEquals(c) {
 			t.Fatal("expected not equal for diff length")
+		}
 	})
 }
 
@@ -204,6 +217,7 @@ func Test_CovP1_15_IsEqualsWithSensitive_CaseInsensitive(t *testing.T) {
 		d := corestr.New.Collection.Strings([]string{"Hello", "other"})
 		if a.IsEqualsWithSensitive(true, d) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -216,6 +230,7 @@ func Test_CovP1_16_IsEmptyLock(t *testing.T) {
 		empty := corestr.Empty.Collection()
 		if !empty.IsEmptyLock() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -227,6 +242,7 @@ func Test_CovP1_17_IsEmpty_HasItems(t *testing.T) {
 		}
 		if !col.HasItems() {
 			t.Fatal("expected has items")
+		}
 	})
 }
 
@@ -237,6 +253,7 @@ func Test_CovP1_18_AddLock(t *testing.T) {
 		col.AddLock("b")
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -250,6 +267,7 @@ func Test_CovP1_19_AddNonEmpty(t *testing.T) {
 		col.AddNonEmpty("a")
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -263,6 +281,7 @@ func Test_CovP1_20_AddNonEmptyWhitespace(t *testing.T) {
 		col.AddNonEmptyWhitespace("a")
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -276,6 +295,7 @@ func Test_CovP1_21_AddError(t *testing.T) {
 		col.AddError(errors.New("test"))
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -285,6 +305,7 @@ func Test_CovP1_22_AsDefaultError(t *testing.T) {
 		err := col.AsDefaultError()
 		if err == nil {
 			t.Fatal("expected non-nil error")
+		}
 	})
 }
 
@@ -297,6 +318,7 @@ func Test_CovP1_23_AsError(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a"})
 		if col.AsError(",") == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -310,6 +332,7 @@ func Test_CovP1_24_AddIf(t *testing.T) {
 		col.AddIf(true, "keep")
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -319,6 +342,7 @@ func Test_CovP1_25_EachItemSplitBy(t *testing.T) {
 		result := col.EachItemSplitBy(",")
 		if len(result) != 4 {
 			t.Fatalf("expected 4, got %d", len(result))
+		}
 	})
 }
 
@@ -334,6 +358,7 @@ func Test_CovP1_26_ConcatNew(t *testing.T) {
 		newCol2 := col.ConcatNew(0, "c", "d")
 		if newCol2.Length() != 4 {
 			t.Fatal("expected 4")
+		}
 	})
 }
 
@@ -362,6 +387,7 @@ func Test_CovP1_29_AddIfMany(t *testing.T) {
 		col.AddIfMany(true, "a", "b")
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -371,6 +397,7 @@ func Test_CovP1_30_AddFunc(t *testing.T) {
 		col.AddFunc(func() string { return "computed" })
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -396,6 +423,7 @@ func Test_CovP1_31_AddFuncErr(t *testing.T) {
 		}
 		if col.Length() != 1 {
 			t.Fatal("expected still 1")
+		}
 	})
 }
 
@@ -405,6 +433,7 @@ func Test_CovP1_32_AddsLock(t *testing.T) {
 		col.AddsLock("a", "b")
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -414,6 +443,7 @@ func Test_CovP1_33_Adds(t *testing.T) {
 		col.Adds("a", "b", "c")
 		if col.Length() != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -423,6 +453,7 @@ func Test_CovP1_34_AddStrings(t *testing.T) {
 		col.AddStrings([]string{"x", "y"})
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -438,6 +469,7 @@ func Test_CovP1_35_AddCollection(t *testing.T) {
 		a.AddCollection(corestr.Empty.Collection())
 		if a.Length() != 3 {
 			t.Fatal("expected still 3")
+		}
 	})
 }
 
@@ -449,6 +481,7 @@ func Test_CovP1_36_AddCollections(t *testing.T) {
 		col.AddCollections(c1, c2, corestr.Empty.Collection())
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -459,6 +492,7 @@ func Test_CovP1_37_AddPointerCollectionsLock(t *testing.T) {
 		col.AddPointerCollectionsLock(c1)
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -561,6 +595,7 @@ func Test_CovP1_42_AddWithWgLock(t *testing.T) {
 		wg.Wait()
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -569,6 +604,7 @@ func Test_CovP1_43_IndexAt(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b"})
 		if col.IndexAt(0) != "a" {
 			t.Fatal("expected a")
+		}
 	})
 }
 
@@ -580,6 +616,7 @@ func Test_CovP1_44_SafeIndexAtUsingLength(t *testing.T) {
 		}
 		if col.SafeIndexAtUsingLength("def", 2, 5) != "def" {
 			t.Fatal("expected default")
+		}
 	})
 }
 
@@ -588,6 +625,7 @@ func Test_CovP1_45_First(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"first", "second"})
 		if col.First() != "first" {
 			t.Fatal("expected first")
+		}
 	})
 }
 
@@ -610,6 +648,7 @@ func Test_CovP1_47_Last(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b", "last"})
 		if col.Last() != "last" {
 			t.Fatal("expected last")
+		}
 	})
 }
 
@@ -622,6 +661,7 @@ func Test_CovP1_48_LastOrDefault(t *testing.T) {
 		empty := corestr.Empty.Collection()
 		if empty.LastOrDefault() != "" {
 			t.Fatal("expected empty string")
+		}
 	})
 }
 
@@ -634,6 +674,7 @@ func Test_CovP1_49_FirstOrDefault(t *testing.T) {
 		empty := corestr.Empty.Collection()
 		if empty.FirstOrDefault() != "" {
 			t.Fatal("expected empty string")
+		}
 	})
 }
 
@@ -648,5 +689,6 @@ func Test_CovP1_50_ResizeForItems_LargeResize(t *testing.T) {
 		col.AddStrings(items)
 		if col.Length() != 300 {
 			t.Fatal("expected 300")
+		}
 	})
 }
