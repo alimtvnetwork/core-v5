@@ -27,7 +27,7 @@ foreach ($file in $files) {
                 $prev -notmatch '^\t\t\t\s*\}\s*$' -and
                 $prev -notmatch '^\t\t\t\s*//'
             ) {
-                Write-Host "  $rel:$($i + 1): missing closing } before %})"
+                Write-Host "  ${rel}:$($i + 1): missing closing } before %})"
                 $issues = 1
             }
         }
@@ -71,7 +71,7 @@ foreach ($file in $files) {
                         $depth--
                     }
                     else {
-                        Write-Host "  $rel:$($i + 1): closure } missing )"
+                        Write-Host "  ${rel}:$($i + 1): closure } missing )"
                         $issues = 1
                     }
                 }
@@ -81,11 +81,36 @@ foreach ($file in $files) {
     }
 }
 
+# ── Check 3: empty if blocks (comment-only body with no actual statement) ──
+foreach ($file in $files) {
+    $lines = Get-Content -LiteralPath $file.FullName
+    $rel = $file.FullName.Replace($repoRoot, "").TrimStart('\\', '/') -replace '\\', '/'
+
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -notmatch '^(\t+)if\b.*\{\s*$') { continue }
+        $indent = $Matches[1]
+        $close = "$indent}"
+        $hasStmt = $false
+        for ($j = $i + 1; $j -lt [Math]::Min($i + 20, $lines.Count); $j++) {
+            $body = $lines[$j]
+            $stripped = $body.Trim()
+            if ($body.TrimEnd() -eq $close -or $body.TrimEnd() -eq "$close)") { break }
+            if ($stripped -eq '' -or $stripped.StartsWith('//')) { continue }
+            $hasStmt = $true
+            break
+        }
+        if (-not $hasStmt) {
+            Write-Host "  ${rel}:$($i + 1): empty if block (no statements)"
+            $issues = 1
+        }
+    }
+}
+
 if ($issues -ne 0) {
     Write-Host ""
-    Write-Host "✗ Malformed safeTest boundaries detected. Fix missing closing braces."
+    Write-Host "✗ Malformed safeTest boundaries or empty if blocks detected."
     exit 1
 }
 
-Write-Host "✓ All safeTest boundaries are clean."
+Write-Host "✓ All safeTest boundaries and if blocks are clean."
 exit 0
