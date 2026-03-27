@@ -48,12 +48,6 @@ func Test_I30_Hashset_LengthLock(t *testing.T) {
 		actual := args.Map{"len": hs.LengthLock()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- LengthLock", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — Add variants
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -350,12 +344,6 @@ func Test_I30_Hashset_AddSimpleSlice(t *testing.T) {
 		actual := args.Map{"len": hs.Length()}
 		expected := args.Map{"len": 2}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddSimpleSlice", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — Has / Contains / Missing
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -420,12 +408,6 @@ func Test_I30_Hashset_HasAllCollectionItems(t *testing.T) {
 		actual := args.Map{"has": hs.HasAllCollectionItems(coll), "nil": hs.HasAllCollectionItems(nil)}
 		expected := args.Map{"has": true, "nil": false}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- HasAllCollectionItems", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — List / Items / Collection / Sorted
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -590,12 +572,6 @@ func Test_I30_Hashset_MapStringAnyDiff(t *testing.T) {
 		actual := args.Map{"notNil": d != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- MapStringAnyDiff", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — Resize / AddCapacities
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -676,12 +652,6 @@ func Test_I30_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
 		actual := args.Map{"has": hs.Has("a")}
 		expected := args.Map{"has": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns empty -- AddCapacitiesLock empty", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — ConcatNew
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -723,12 +693,6 @@ func Test_I30_Hashset_ConcatNewStrings_WithArgs(t *testing.T) {
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 3}
 		expected.ShouldBeEqual(t, 0, "Hashset returns non-empty -- ConcatNewStrings with args", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — Filter / GetFiltered / GetAllExcept
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -881,12 +845,6 @@ func Test_I30_Hashset_GetAllExceptCollection_Nil(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns nil -- GetAllExceptCollection nil", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — AddsUsingFilter variants
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -967,12 +925,6 @@ func Test_I30_Hashset_AddsAnyUsingFilterLock_Break(t *testing.T) {
 		actual := args.Map{"len": hs.Length()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddsAnyUsingFilterLock break", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — Remove / Clear / Dispose
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -1044,12 +996,6 @@ func Test_I30_Hashset_Dispose_Nil(t *testing.T) {
 		actual := args.Map{"ok": true}
 		expected := args.Map{"ok": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns nil -- Dispose nil", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — IsEquals / ToLowerSet
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -1136,12 +1082,6 @@ func Test_I30_Hashset_ToLowerSet(t *testing.T) {
 		actual := args.Map{"has": lower.Has("abc")}
 		expected := args.Map{"has": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ToLowerSet", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — String / Join
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -1232,12 +1172,6 @@ func Test_I30_Hashset_NonWhitespaceJoins(t *testing.T) {
 		actual := args.Map{"notEmpty": hs.NonWhitespaceJoins(",") != ""}
 		expected := args.Map{"notEmpty": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- NonWhitespaceJoins", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Hashset — JSON / Serialize
-// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -1409,12 +1343,6 @@ func Test_I30_Hashset_AsJsonMarshaller(t *testing.T) {
 		actual := args.Map{"notNil": hs.AsJsonMarshaller() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonMarshaller", actual)
-}
-
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashset — DistinctDiff
-	// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -1506,12 +1434,6 @@ func Test_I30_Hashset_DistinctDiffHashset(t *testing.T) {
 		actual := args.Map{"hasItems": len(result) > 0}
 		expected := args.Map{"hasItems": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffHashset", actual)
-}
-
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashset — Wrap / Transpile
-	// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 
@@ -1562,12 +1484,6 @@ func Test_I30_Hashset_Transpile_Empty(t *testing.T) {
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns empty -- Transpile empty", actual)
-}
-
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashset — WgLock variants
-	// ══════════════════════════════════════════════════════════════════════════════
-
 	})
 }
 

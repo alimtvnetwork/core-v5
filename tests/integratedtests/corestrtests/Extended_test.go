@@ -27,7 +27,6 @@ func Test_ExtCollection_Add_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.Length()))
-		}
 	})
 }
 
@@ -50,7 +49,6 @@ func Test_ExtCollection_Join_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqual(t, caseIndex, result)
-		}
 	})
 }
 
@@ -72,7 +70,6 @@ func Test_ExtCollection_AddNonEmpty_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Errorf("AddNonEmpty expected 2 items, got %d", col.Length())
-		}
 	})
 }
 
@@ -89,7 +86,6 @@ func Test_ExtCollection_AddNonEmptyWhitespace_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Errorf("AddNonEmptyWhitespace expected 1, got %d", col.Length())
-		}
 	})
 }
 
@@ -109,7 +105,6 @@ func Test_ExtCollection_AddIf_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Errorf("AddIf expected 1, got %d", col.Length())
-		}
 	})
 }
 
@@ -125,7 +120,6 @@ func Test_ExtCollection_AddIfMany_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Errorf("AddIfMany expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -144,7 +138,6 @@ func Test_ExtCollection_AddFunc_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Errorf("AddFunc expected 1, got %d", col.Length())
-		}
 	})
 }
 
@@ -160,7 +153,6 @@ func Test_ExtCollection_AddError_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Errorf("AddError expected 1, got %d", col.Length())
-		}
 	})
 }
 
@@ -184,7 +176,6 @@ func Test_ExtCollection_IsEquals_Verification(t *testing.T) {
 		}
 		if !col1.IsEqualsWithSensitive(false, col3) {
 			t.Error("Case-insensitive should match")
-		}
 	})
 }
 
@@ -206,7 +197,6 @@ func Test_ExtCollection_NilReceiver_Verification(t *testing.T) {
 		}
 		if col.HasItems() {
 			t.Error("nil.HasItems() should be false")
-		}
 	})
 }
 
@@ -241,7 +231,6 @@ func Test_ExtCollection_RemoveAt_Verification(t *testing.T) {
 		// Assert
 		if ok3 {
 			t.Error("RemoveAt(-1) should return false")
-		}
 	})
 }
 
@@ -268,7 +257,6 @@ func Test_ExtCollection_ConcatNew_Verification(t *testing.T) {
 		// Assert
 		if result2.Length() != 1 {
 			t.Errorf("ConcatNew empty expected 1, got %d", result2.Length())
-		}
 	})
 }
 
@@ -296,7 +284,6 @@ func Test_ExtCollection_AsError_Verification(t *testing.T) {
 		// Assert
 		if err2 != nil {
 			t.Error("AsDefaultError on empty should return nil")
-		}
 	})
 }
 
@@ -315,7 +302,6 @@ func Test_ExtCollection_EachItemSplitBy_Verification(t *testing.T) {
 		// Assert
 		if len(result) != 4 {
 			t.Errorf("EachItemSplitBy expected 4, got %d", len(result))
-		}
 	})
 }
 
@@ -343,7 +329,6 @@ func Test_ExtCollection_HasIndex_Verification(t *testing.T) {
 		}
 		if !col.HasAnyItem() {
 			t.Error("HasAnyItem should be true")
-		}
 	})
 }
 
@@ -363,7 +348,6 @@ func Test_ExtCollection_AddCollection_Verification(t *testing.T) {
 		// Assert
 		if col1.Length() != 3 {
 			t.Errorf("AddCollection expected 3, got %d", col1.Length())
-		}
 	})
 }
 
@@ -380,7 +364,6 @@ func Test_ExtCollection_AddCollections_Verification(t *testing.T) {
 		// Assert
 		if col1.Length() != 3 {
 			t.Errorf("AddCollections expected 3, got %d", col1.Length())
-		}
 	})
 }
 
@@ -401,7 +384,6 @@ func Test_ExtSimpleSlice_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", ss.Length()))
-		}
 	})
 }
 
@@ -417,7 +399,6 @@ func Test_ExtSimpleSlice_AddIf_Verification(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Errorf("AddIf expected 1, got %d", ss.Length())
-		}
 	})
 }
 
@@ -438,7 +419,6 @@ func Test_ExtSimpleSlice_FirstLast_Verification(t *testing.T) {
 		}
 		if ss.LastOrDefault() != "c" {
 			t.Errorf("LastOrDefault expected 'c', got '%s'", ss.LastOrDefault())
-		}
 	})
 }
 
@@ -459,7 +439,6 @@ func Test_ExtSimpleSlice_EmptyDefaults_Verification(t *testing.T) {
 		}
 		if ss.Length() != 0 {
 			t.Error("nil.Length() should be 0")
-		}
 	})
 }
 
@@ -478,7 +457,6 @@ func Test_ExtSimpleSlice_SkipTake_Verification(t *testing.T) {
 		}
 		if len(taken) != 2 || taken[0] != "a" {
 			t.Errorf("Take(2) expected [a,b], got %v", taken)
-		}
 	})
 }
 
@@ -493,7 +471,6 @@ func Test_ExtSimpleSlice_IsContains_Verification(t *testing.T) {
 		}
 		if ss.IsContains("missing") {
 			t.Error("IsContains should not find 'missing'")
-		}
 	})
 }
 
@@ -508,7 +485,6 @@ func Test_ExtSimpleSlice_IndexOf_Verification(t *testing.T) {
 		}
 		if ss.IndexOf("z") != -1 {
 			t.Errorf("IndexOf('z') expected -1, got %d", ss.IndexOf("z"))
-		}
 	})
 }
 
@@ -523,7 +499,6 @@ func Test_ExtSimpleSlice_InsertAt_Verification(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 || (*ss)[1] != "b" {
 			t.Errorf("InsertAt expected [a,b,c], got %v", *ss)
-		}
 	})
 }
 
@@ -539,7 +514,6 @@ func Test_ExtSimpleSlice_AddError_Verification(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Errorf("AddError expected 1, got %d", ss.Length())
-		}
 	})
 }
 
@@ -563,7 +537,6 @@ func Test_ExtSimpleSlice_AsError_Verification(t *testing.T) {
 		// Assert
 		if err2 != nil {
 			t.Error("nil.AsError should return nil")
-		}
 	})
 }
 
@@ -581,7 +554,6 @@ func Test_ExtSimpleSlice_AppendFmt_Verification(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Errorf("AppendFmt expected 2 items, got %d", ss.Length())
-		}
 	})
 }
 
@@ -598,7 +570,6 @@ func Test_ExtSimpleSlice_CountFunc_Verification(t *testing.T) {
 		// Assert
 		if count != 2 {
 			t.Errorf("CountFunc expected 2, got %d", count)
-		}
 	})
 }
 
@@ -632,7 +603,6 @@ func Test_ExtLeftRight_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -662,7 +632,6 @@ func Test_ExtLeftRight_Methods_Verification(t *testing.T) {
 		}
 		if string(lr.RightBytes()) != " world " {
 			t.Errorf("RightBytes mismatch")
-		}
 	})
 }
 
@@ -688,7 +657,6 @@ func Test_ExtLeftRight_IsEqual_Verification(t *testing.T) {
 		}
 		if lr1.IsEqual(nil) {
 			t.Error("non-nil.IsEqual(nil) should be false")
-		}
 	})
 }
 
@@ -703,7 +671,6 @@ func Test_ExtLeftRight_Clone_Verification(t *testing.T) {
 		// Assert
 		if cloned.Left != "a" || cloned.Right != "b" {
 			t.Error("Clone should copy values")
-		}
 	})
 }
 
@@ -722,7 +689,6 @@ func Test_ExtLeftRight_RegexMatch_Verification(t *testing.T) {
 		}
 		if lr.IsLeftRegexMatch(nil) {
 			t.Error("nil regex should return false")
-		}
 	})
 }
 
@@ -740,7 +706,6 @@ func Test_ExtLeftRight_Is_Verification(t *testing.T) {
 		}
 		if !lr.Is("a", "b") {
 			t.Error("Is should be true")
-		}
 	})
 }
 
@@ -757,7 +722,6 @@ func Test_ExtLeftRight_InvalidCreation_Verification(t *testing.T) {
 		}
 		if lr2.IsValid || lr2.Message == "" {
 			t.Error("InvalidLeftRight should be invalid with message")
-		}
 	})
 }
 
@@ -772,7 +736,6 @@ func Test_ExtLeftRight_Dispose_Verification(t *testing.T) {
 		// Assert
 		if lr.Left != "" || lr.Right != "" {
 			t.Error("Dispose should clear values")
-		}
 	})
 }
 
@@ -802,7 +765,6 @@ func Test_ExtLeftMiddleRight_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -835,7 +797,6 @@ func Test_ExtLeftMiddleRight_Methods_Verification(t *testing.T) {
 		}
 		if !lmr.IsAll(" L ", " M ", " R ") {
 			t.Error("IsAll should be true")
-		}
 	})
 }
 
@@ -850,7 +811,6 @@ func Test_ExtLeftMiddleRight_ToLeftRight_Verification(t *testing.T) {
 		// Assert
 		if lr.Left != "L" || lr.Right != "R" {
 			t.Errorf("ToLeftRight expected L/R, got %s/%s", lr.Left, lr.Right)
-		}
 	})
 }
 
@@ -865,7 +825,6 @@ func Test_ExtLeftMiddleRight_Clone_Verification(t *testing.T) {
 		// Assert
 		if cloned.Left != "L" || cloned.Middle != "M" || cloned.Right != "R" {
 			t.Error("Clone should copy all values")
-		}
 	})
 }
 
@@ -882,7 +841,6 @@ func Test_ExtLeftMiddleRight_Invalid_Verification(t *testing.T) {
 		}
 		if lmr2.IsValid || lmr2.Message == "" {
 			t.Error("InvalidLeftMiddleRight should be invalid with message")
-		}
 	})
 }
 
@@ -897,7 +855,6 @@ func Test_ExtLeftMiddleRight_Dispose_Verification(t *testing.T) {
 		// Assert
 		if lmr.Left != "" || lmr.Middle != "" || lmr.Right != "" {
 			t.Error("Dispose should clear all values")
-		}
 	})
 }
 
@@ -923,7 +880,6 @@ func Test_ExtHashset_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -951,7 +907,6 @@ func Test_ExtHashset_AddRemove_Verification(t *testing.T) {
 		}
 		if hs.Has("b") {
 			t.Error("Should not have 'b' after remove")
-		}
 	})
 }
 
@@ -967,7 +922,6 @@ func Test_ExtHashset_AddNonEmpty_Verification(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Errorf("AddNonEmpty expected 1, got %d", hs.Length())
-		}
 	})
 }
 
@@ -983,7 +937,6 @@ func Test_ExtHashset_AddNonEmptyWhitespace_Verification(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Errorf("AddNonEmptyWhitespace expected 1, got %d", hs.Length())
-		}
 	})
 }
 
@@ -999,7 +952,6 @@ func Test_ExtHashset_AddIf_Verification(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Errorf("AddIf expected 1, got %d", hs.Length())
-		}
 	})
 }
 
@@ -1014,7 +966,6 @@ func Test_ExtHashset_List_Verification(t *testing.T) {
 		// Assert
 		if len(list) != 3 {
 			t.Errorf("List expected 3 items, got %d", len(list))
-		}
 	})
 }
 
@@ -1029,7 +980,6 @@ func Test_ExtHashset_SortedList_Verification(t *testing.T) {
 		// Assert
 		if len(sorted) != 3 || sorted[0] != "a" || sorted[1] != "b" || sorted[2] != "c" {
 			t.Errorf("SortedList expected [a,b,c], got %v", sorted)
-		}
 	})
 }
 
@@ -1050,7 +1000,6 @@ func Test_ExtHashset_HasAll_HasAny_Verification(t *testing.T) {
 		}
 		if hs.HasAny("x", "y") {
 			t.Error("HasAny should be false")
-		}
 	})
 }
 
@@ -1065,7 +1014,6 @@ func Test_ExtHashset_NilReceiver_Verification(t *testing.T) {
 		}
 		if hs.HasItems() {
 			t.Error("nil.HasItems() should be false")
-		}
 	})
 }
 
@@ -1081,7 +1029,6 @@ func Test_ExtHashset_AddCollection_Verification(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Errorf("AddCollection expected 2, got %d", hs.Length())
-		}
 	})
 }
 
@@ -1097,7 +1044,6 @@ func Test_ExtHashset_AddHashsetItems_Verification(t *testing.T) {
 		// Assert
 		if hs1.Length() != 3 {
 			t.Errorf("AddHashsetItems expected 3, got %d", hs1.Length())
-		}
 	})
 }
 
@@ -1117,7 +1063,6 @@ func Test_ExtHashset_ConcatNewHashsets_Verification(t *testing.T) {
 		// Assert
 		if result.Length() < 2 {
 			t.Errorf("ConcatNewHashsets expected >= 2, got %d", result.Length())
-		}
 	})
 }
 
@@ -1132,7 +1077,6 @@ func Test_ExtHashset_ConcatNewStrings_Verification(t *testing.T) {
 		// Assert
 		if result.Length() < 2 {
 			t.Errorf("ConcatNewStrings expected >= 2, got %d", result.Length())
-		}
 	})
 }
 
@@ -1153,7 +1097,6 @@ func Test_ExtHashset_IsEqual_Verification(t *testing.T) {
 		}
 		if hs1.IsEqual(hs3) {
 			t.Error("Different content should not be equal")
-		}
 	})
 }
 
@@ -1185,7 +1128,6 @@ func Test_ExtValidValue_Verification(t *testing.T) {
 
 			// Assert
 			testCase.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -1202,7 +1144,6 @@ func Test_ExtLeftRightFromSplit_Verification(t *testing.T) {
 		// Assert
 		if lr.Left != "key" || lr.Right != "value" {
 			t.Errorf("LeftRightFromSplit expected key/value, got %s/%s", lr.Left, lr.Right)
-		}
 	})
 }
 
@@ -1215,7 +1156,6 @@ func Test_ExtLeftMiddleRightFromSplit_Verification(t *testing.T) {
 		// Assert
 		if lmr.Left != "a" || lmr.Right != "c" {
 			t.Errorf("LeftMiddleRightFromSplit expected a/c, got %s/%s", lmr.Left, lmr.Right)
-		}
 	})
 }
 
@@ -1235,7 +1175,6 @@ func Test_ExtCollection_JsonString_Verification(t *testing.T) {
 		// so the copy retains the underlying items and serialization works.
 		if result == "" {
 			t.Error("JsonString should be non-empty for a populated collection")
-		}
 	})
 }
 
@@ -1276,7 +1215,6 @@ func Test_ExtLeftRightTrimmedUsingSlice_Verification(t *testing.T) {
 		// Assert
 		if lr4.IsValid {
 			t.Error("nil slice should not be valid")
-		}
 	})
 }
 
@@ -1297,7 +1235,6 @@ func Test_ExtHashset_Filter_Verification(t *testing.T) {
 		// Assert
 		if filtered.Length() != 2 {
 			t.Errorf("Filter expected 2 items starting with 'a', got %d", filtered.Length())
-		}
 	})
 }
 
@@ -1317,7 +1254,6 @@ func Test_ExtCollection_AddLock_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 3 {
 			t.Errorf("AddLock/AddsLock expected 3, got %d", col.Length())
-		}
 	})
 }
 
@@ -1342,6 +1278,5 @@ func Test_ExtEmptyCreator_Verification(t *testing.T) {
 		}
 		if !hm.IsEmpty() {
 			t.Error("Empty.Hashmap should be empty")
-		}
 	})
 }

@@ -27,7 +27,6 @@ func Test_Src02_Collection_Basic(t *testing.T) {
 			"lastIndex": c.LastIndex(),
 			"cap":       c.Capacity(),
 			"hasIndex0": c.HasIndex(0),
-		})
 	})
 }
 
@@ -45,7 +44,6 @@ func Test_Src02_Collection_NilReceiver(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len":     length,
 			"isEmpty": isEmpty,
-		})
 	})
 }
 
@@ -64,7 +62,6 @@ func Test_Src02_Collection_Add(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len":    c.Length(),
 			"capGe2": c.Capacity() >= 2,
-		})
 	})
 }
 
@@ -81,7 +78,6 @@ func Test_Src02_Collection_AddNonEmpty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -98,7 +94,6 @@ func Test_Src02_Collection_AddNonEmptyWhitespace(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -115,7 +110,6 @@ func Test_Src02_Collection_AddError(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -132,7 +126,6 @@ func Test_Src02_Collection_AddIf(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -149,7 +142,6 @@ func Test_Src02_Collection_AddIfMany(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -165,7 +157,6 @@ func Test_Src02_Collection_Adds(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -181,7 +172,6 @@ func Test_Src02_Collection_AddStrings(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -197,7 +187,6 @@ func Test_Src02_Collection_AddFunc(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -216,7 +205,6 @@ func Test_Src02_Collection_AddFuncErr_NoErr(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -237,7 +225,6 @@ func Test_Src02_Collection_AddFuncErr_WithErr(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len":    c.Length(),
 			"called": called,
-		})
 	})
 }
 
@@ -253,7 +240,6 @@ func Test_Src02_Collection_AddLock(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -269,7 +255,6 @@ func Test_Src02_Collection_AddsLock(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -291,7 +276,6 @@ func Test_Src02_Collection_AddCollection(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len":         lenAfterMerge,
 			"lenAfterAdd": c1.Length(),
-		})
 	})
 }
 
@@ -311,7 +295,6 @@ func Test_Src02_Collection_AddCollections(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -332,7 +315,6 @@ func Test_Src02_Collection_RemoveAt(t *testing.T) {
 			"len":      c.Length(),
 			"failNeg":  c.RemoveAt(-1),
 			"failHigh": c.RemoveAt(100),
-		})
 	})
 }
 
@@ -350,7 +332,6 @@ func Test_Src02_Collection_ListStrings(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"lenList":    len(c.ListStrings()),
 			"lenListPtr": len(c.ListStringsPtr()),
-		})
 	})
 }
 
@@ -365,7 +346,6 @@ func Test_Src02_Collection_LengthLock(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.LengthLock(),
-		})
 	})
 }
 
@@ -380,7 +360,6 @@ func Test_Src02_Collection_IsEmptyLock(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"isEmpty": c.IsEmptyLock(),
-		})
 	})
 }
 
@@ -398,7 +377,6 @@ func Test_Src02_Collection_HasIndex(t *testing.T) {
 			"has1":    c.HasIndex(1),
 			"has2":    c.HasIndex(2),
 			"hasNeg1": c.HasIndex(-1),
-		})
 	})
 }
 
@@ -420,7 +398,6 @@ func Test_Src02_Collection_AsError(t *testing.T) {
 			"defaultNilEmpty": defaultNilEmpty,
 			"asErrorNilEmpty": asErrorNilEmpty,
 			"defaultNonNil":   c.AsDefaultError() != nil,
-		})
 	})
 }
 
@@ -440,7 +417,6 @@ func Test_Src02_Collection_ToError(t *testing.T) {
 			"toErrorNilEmpty":   toErrorNilEmpty,
 			"toDefaultNilEmpty": toDefaultNilEmpty,
 			"toErrorNonNil":     c.ToError(",") != nil,
-		})
 	})
 }
 
@@ -458,7 +434,6 @@ func Test_Src02_Collection_EachItemSplitBy(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": len(result),
-		})
 	})
 }
 
@@ -474,7 +449,6 @@ func Test_Src02_Collection_ConcatNew_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": newC.Length(),
-		})
 	})
 }
 
@@ -490,7 +464,6 @@ func Test_Src02_Collection_ConcatNew_WithItems(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": newC.Length(),
-		})
 	})
 }
 
@@ -506,7 +479,6 @@ func Test_Src02_Collection_IsEquals(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"equal": a.IsEquals(b),
-		})
 	})
 }
 
@@ -523,7 +495,6 @@ func Test_Src02_Collection_IsEqualsWithSensitive(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"insensitiveEqual": a.IsEqualsWithSensitive(false, b),
 			"sensitiveEqual":   a.IsEqualsWithSensitive(true, b),
-		})
 	})
 }
 
@@ -540,7 +511,6 @@ func Test_Src02_Collection_JsonString(t *testing.T) {
 			"jsonNonEmpty":     c.JsonString() != "",
 			"jsonMustNonEmpty": c.JsonStringMust() != "",
 			"stringJSON":       c.StringJSON() != "",
-		})
 	})
 }
 
@@ -562,7 +532,6 @@ func Test_Src02_Collection_AddHashmapsValues(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -581,7 +550,6 @@ func Test_Src02_Collection_AddHashmapsKeys(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }
 
@@ -598,6 +566,5 @@ func Test_Src02_Collection_AddPointerCollectionsLock(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		})
 	})
 }

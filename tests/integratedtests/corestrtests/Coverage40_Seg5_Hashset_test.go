@@ -120,6 +120,8 @@ type testErr struct{}
 
 func (e *testErr) Error() string { return "test" }
 
+	})
+}
 func Test_Seg5_HS_Adds(t *testing.T) {
 	safeTest(t, "Test_Seg5_HS_Adds", func() {
 		h := corestr.New.Hashset.Cap(4)

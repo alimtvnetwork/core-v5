@@ -38,7 +38,6 @@ func Test_CovSSO_01_Value_IsInitialized_IsDefined(t *testing.T) {
 		}
 		if !sso.IsDefined() {
 			t.Fatal("expected defined")
-		}
 	})
 }
 
@@ -48,7 +47,6 @@ func Test_CovSSO_02_SetOnUninitialized_AlreadyInit(t *testing.T) {
 		err := sso.SetOnUninitialized("second")
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -63,7 +61,6 @@ func Test_CovSSO_03_GetSetOnce(t *testing.T) {
 		v2 := sso.GetSetOnce("world")
 		if v2 != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -78,7 +75,6 @@ func Test_CovSSO_04_GetOnce(t *testing.T) {
 		v2 := sso.GetOnce()
 		if v2 != "" {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -93,7 +89,6 @@ func Test_CovSSO_05_GetOnceFunc(t *testing.T) {
 		v2 := sso.GetOnceFunc(func() string { return "other" })
 		if v2 != "computed" {
 			t.Fatal("expected computed")
-		}
 	})
 }
 
@@ -107,7 +102,6 @@ func Test_CovSSO_06_SetOnceIfUninitialized(t *testing.T) {
 		ok2 := sso.SetOnceIfUninitialized("world")
 		if ok2 {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -122,7 +116,6 @@ func Test_CovSSO_07_Invalidate_Reset(t *testing.T) {
 		sso.Reset()
 		if sso.IsInitialized() {
 			t.Fatal("expected uninitialized")
-		}
 	})
 }
 
@@ -136,7 +129,6 @@ func Test_CovSSO_08_SetInitialize_SetUnInit(t *testing.T) {
 		sso.SetUnInit()
 		if sso.IsInitialized() {
 			t.Fatal("expected uninitialized")
-		}
 	})
 }
 
@@ -153,7 +145,6 @@ func Test_CovSSO_09_IsInvalid(t *testing.T) {
 		sso2 := newSSO("hello")
 		if sso2.IsInvalid() {
 			t.Fatal("expected valid")
-		}
 	})
 }
 
@@ -169,7 +160,6 @@ func Test_CovSSO_10_IsEmpty_IsWhitespace(t *testing.T) {
 		sso2 := newSSO("hello")
 		if sso2.IsEmpty() {
 			t.Fatal("expected not empty")
-		}
 	})
 }
 
@@ -178,7 +168,6 @@ func Test_CovSSO_11_Trim(t *testing.T) {
 		sso := newSSO("  hello  ")
 		if sso.Trim() != "hello" {
 			t.Fatal("expected trimmed")
-		}
 	})
 }
 
@@ -203,7 +192,6 @@ func Test_CovSSO_12_HasValidNonEmpty_HasValidNonWhitespace_HasSafeNonEmpty(t *te
 		}
 		if !sso2.HasSafeNonEmpty() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -216,7 +204,6 @@ func Test_CovSSO_13_SafeValue(t *testing.T) {
 		sso2 := newSSO("hello")
 		if sso2.SafeValue() != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -228,7 +215,6 @@ func Test_CovSSO_14_ValueBytes_ValueBytesPtr(t *testing.T) {
 		}
 		if len(sso.ValueBytesPtr()) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -254,7 +240,6 @@ func Test_CovSSO_15_Int_ValueInt_ValueDefInt(t *testing.T) {
 		}
 		if sso2.ValueDefInt() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -285,7 +270,6 @@ func Test_CovSSO_16_Byte_ValueByte_ValueDefByte(t *testing.T) {
 		}
 		if sso3.ValueByte(7) != 7 {
 			t.Fatal("expected 7")
-		}
 	})
 }
 
@@ -310,7 +294,6 @@ func Test_CovSSO_17_Int16_Int32(t *testing.T) {
 		}
 		if sso3.Int32() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -324,7 +307,6 @@ func Test_CovSSO_18_Uint16_Uint32(t *testing.T) {
 		v32, ok32 := sso.Uint32()
 		if v32 != 100 || !ok32 {
 			t.Fatal("expected 100 in range")
-		}
 	})
 }
 
@@ -361,7 +343,6 @@ func Test_CovSSO_19_WithinRange_WithinRangeDefault(t *testing.T) {
 		v6, ok6 := sso.WithinRangeDefault(0, 100)
 		if v6 != 50 || !ok6 {
 			t.Fatal("expected 50")
-		}
 	})
 }
 
@@ -378,7 +359,6 @@ func Test_CovSSO_20_ValueFloat64_ValueDefFloat64(t *testing.T) {
 		sso2 := newSSO("abc")
 		if sso2.ValueFloat64(1.5) != 1.5 {
 			t.Fatal("expected 1.5")
-		}
 	})
 }
 
@@ -410,7 +390,6 @@ func Test_CovSSO_21_Boolean_BooleanDefault_IsValueBool(t *testing.T) {
 		// IsValueBool
 		if !sso.IsValueBool() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -438,7 +417,6 @@ func Test_CovSSO_22_IsSetter(t *testing.T) {
 		v4 := sso3.IsSetter(false)
 		if v4.String() != "False" {
 			t.Fatal("expected False")
-		}
 	})
 }
 
@@ -460,7 +438,6 @@ func Test_CovSSO_23_Is_IsAnyOf(t *testing.T) {
 		// empty values → true
 		if !sso.IsAnyOf() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -478,7 +455,6 @@ func Test_CovSSO_24_IsContains_IsAnyContains(t *testing.T) {
 		}
 		if !sso.IsAnyContains() {
 			t.Fatal("expected true for empty")
-		}
 	})
 }
 
@@ -487,7 +463,6 @@ func Test_CovSSO_25_IsEqualNonSensitive(t *testing.T) {
 		sso := newSSO("Hello")
 		if !sso.IsEqualNonSensitive("hello") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -522,7 +497,6 @@ func Test_CovSSO_26_IsRegexMatches_RegexFind(t *testing.T) {
 		_, has2 := sso.RegexFindAllStringsWithFlag(nil, -1)
 		if has2 {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -554,7 +528,6 @@ func Test_CovSSO_27_Split_SplitLeftRight_SplitLeftRightTrim(t *testing.T) {
 		l4, r4 := sso4.SplitLeftRightTrim("=")
 		if l4 != "onlykey" || r4 != "" {
 			t.Fatal("expected onlykey,empty")
-		}
 	})
 }
 
@@ -569,7 +542,6 @@ func Test_CovSSO_28_SplitNonEmpty_SplitTrimNonWhitespace(t *testing.T) {
 		parts2 := sso2.SplitTrimNonWhitespace(",")
 		if len(parts2) < 2 {
 			t.Fatal("expected at least 2")
-		}
 	})
 }
 
@@ -583,7 +555,6 @@ func Test_CovSSO_29_LinesSimpleSlice_SimpleSlice(t *testing.T) {
 		ss2 := sso.SimpleSlice(",")
 		if ss2.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -597,7 +568,6 @@ func Test_CovSSO_30_ConcatNew_ConcatNewUsingStrings(t *testing.T) {
 		c2 := sso.ConcatNewUsingStrings("-", "a", "b")
 		if c2.Value() != "hello-a-b" {
 			t.Fatalf("expected 'hello-a-b', got '%s'", c2.Value())
-		}
 	})
 }
 
@@ -611,7 +581,6 @@ func Test_CovSSO_31_NonPtr_Ptr(t *testing.T) {
 		p := sso.Ptr()
 		if p.Value() != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -629,7 +598,6 @@ func Test_CovSSO_32_Clone_ClonePtr_CloneUsingNewVal(t *testing.T) {
 		cv := sso.CloneUsingNewVal("new")
 		if cv.Value() != "new" {
 			t.Fatal("expected new")
-		}
 	})
 }
 
@@ -642,7 +610,6 @@ func Test_CovSSO_33_String_StringPtr(t *testing.T) {
 		sp := sso.StringPtr()
 		if *sp != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -671,7 +638,6 @@ func Test_CovSSO_35_JsonModel_MarshalUnmarshal(t *testing.T) {
 		err3 := sso2.UnmarshalJSON([]byte("bad"))
 		if err3 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -684,7 +650,6 @@ func Test_CovSSO_36_Json_JsonPtr_ParseInject(t *testing.T) {
 		r, err := sso2.ParseInjectUsingJson(jr)
 		if err != nil || r == nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -696,7 +661,6 @@ func Test_CovSSO_37_ParseInjectUsingJsonMust(t *testing.T) {
 		r := sso2.ParseInjectUsingJsonMust(jr)
 		if r == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -708,7 +672,6 @@ func Test_CovSSO_38_JsonParseSelfInject(t *testing.T) {
 		err := sso2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -733,6 +696,5 @@ func Test_CovSSO_40_Serialize_Deserialize(t *testing.T) {
 		err2 := sso.Deserialize(target)
 		if err2 != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }

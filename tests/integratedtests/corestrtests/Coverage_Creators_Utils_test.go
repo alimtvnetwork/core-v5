@@ -45,7 +45,6 @@ func Test_CovSSOCreator_01_Init_InitPtr(t *testing.T) {
 		ssoP := corestr.New.SimpleStringOnce.InitPtr("hello")
 		if ssoP.Value() != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -54,7 +53,6 @@ func Test_CovSSOCreator_02_Uninitialized(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Uninitialized("hello")
 		if sso.IsInitialized() {
 			t.Fatal("expected uninitialized")
-		}
 	})
 }
 
@@ -67,7 +65,6 @@ func Test_CovSSOCreator_03_Create_CreatePtr(t *testing.T) {
 		ssoP := corestr.New.SimpleStringOnce.CreatePtr("v", true)
 		if ssoP.Value() != "v" {
 			t.Fatal("expected v")
-		}
 	})
 }
 
@@ -76,7 +73,6 @@ func Test_CovSSOCreator_04_Any(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Any(false, "test", true)
 		if !sso.IsInitialized() {
 			t.Fatal("expected initialized")
-		}
 	})
 }
 
@@ -85,7 +81,6 @@ func Test_CovSSOCreator_05_Empty(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		if sso.IsInitialized() {
 			t.Fatal("expected uninitialized")
-		}
 	})
 }
 
@@ -100,7 +95,6 @@ func Test_CovKVCreator_01_Cap_Empty(t *testing.T) {
 		kv2 := corestr.New.KeyValues.Empty()
 		if kv2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -113,7 +107,6 @@ func Test_CovKVCreator_02_UsingMap(t *testing.T) {
 		kv2 := corestr.New.KeyValues.UsingMap(map[string]string{})
 		if kv2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -128,7 +121,6 @@ func Test_CovKVCreator_03_UsingKeyValuePairs(t *testing.T) {
 		kv2 := corestr.New.KeyValues.UsingKeyValuePairs()
 		if kv2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -143,7 +135,6 @@ func Test_CovKVCreator_04_UsingKeyValueStrings(t *testing.T) {
 		kv2 := corestr.New.KeyValues.UsingKeyValueStrings([]string{}, []string{})
 		if kv2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -158,7 +149,6 @@ func Test_CovLLCreator_01_Create_Empty(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Empty()
 		if ll2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -171,7 +161,6 @@ func Test_CovLLCreator_02_Strings(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Strings([]string{})
 		if ll2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -184,7 +173,6 @@ func Test_CovLLCreator_03_SpreadStrings(t *testing.T) {
 		ll2 := corestr.New.LinkedList.SpreadStrings()
 		if ll2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -197,7 +185,6 @@ func Test_CovLLCreator_04_UsingMap(t *testing.T) {
 		ll2 := corestr.New.LinkedList.UsingMap(nil)
 		if ll2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -206,7 +193,6 @@ func Test_CovLLCreator_05_PointerStringsPtr(t *testing.T) {
 		ll := corestr.New.LinkedList.PointerStringsPtr(nil)
 		if ll.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -221,7 +207,6 @@ func Test_CovLLCCreator_01_Create_Empty(t *testing.T) {
 		lc2 := corestr.New.LinkedCollection.Empty()
 		if lc2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -234,7 +219,6 @@ func Test_CovLLCCreator_02_Strings(t *testing.T) {
 		lc2 := corestr.New.LinkedCollection.Strings()
 		if lc2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -255,7 +239,6 @@ func Test_CovLLCCreator_04_PointerStringsPtr(t *testing.T) {
 		lc := corestr.New.LinkedCollection.PointerStringsPtr(nil)
 		if lc.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -278,7 +261,6 @@ func Test_CovSSCreator_01_Cap_Default_Empty(t *testing.T) {
 		ss4 := corestr.New.SimpleSlice.Empty()
 		if ss4.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -299,7 +281,6 @@ func Test_CovSSCreator_02_Strings_Create_Lines(t *testing.T) {
 		ss4 := corestr.New.SimpleSlice.SpreadStrings("a")
 		if ss4.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -332,7 +313,6 @@ func Test_CovSSCreator_03_StringsPtr_StringsOptions_StringsClone(t *testing.T) {
 		ss7 := corestr.New.SimpleSlice.StringsClone(nil)
 		if ss7.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -361,7 +341,6 @@ func Test_CovSSCreator_04_Direct_UsingLines(t *testing.T) {
 		ss6 := corestr.New.SimpleSlice.UsingLines(true)
 		if ss6.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -389,7 +368,6 @@ func Test_CovSSCreator_06_ByLen(t *testing.T) {
 		ss := corestr.New.SimpleSlice.ByLen([]string{"a", "b"})
 		if ss.Length() != 0 {
 			t.Fatal("expected 0 length, just capacity")
-		}
 	})
 }
 
@@ -409,7 +387,6 @@ func Test_CovSSCreator_07_Hashset_Map(t *testing.T) {
 		ssM2 := corestr.New.SimpleSlice.Map(nil)
 		if ssM2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -424,7 +401,6 @@ func Test_CovSSCreator_08_Deserialize(t *testing.T) {
 		_, err2 := corestr.New.SimpleSlice.Deserialize([]byte("bad"))
 		if err2 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -444,7 +420,6 @@ func Test_CovUtils_01_WrapDoubleIfMissing(t *testing.T) {
 		}
 		if u.WrapDoubleIfMissing(`""`) != `""` {
 			t.Fatal("expected empty quotes")
-		}
 	})
 }
 
@@ -462,7 +437,6 @@ func Test_CovUtils_02_WrapSingleIfMissing(t *testing.T) {
 		}
 		if u.WrapSingleIfMissing("''") != "''" {
 			t.Fatal("expected empty quotes")
-		}
 	})
 }
 
@@ -477,6 +451,5 @@ func Test_CovUtils_03_WrapDouble_WrapSingle_WrapTilda(t *testing.T) {
 		}
 		if u.WrapTilda("hello") != "`hello`" {
 			t.Fatal("expected wrapped")
-		}
 	})
 }

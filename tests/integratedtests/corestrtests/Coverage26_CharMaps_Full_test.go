@@ -20,7 +20,6 @@ func Test_C26_CharCollectionMap_Empty(t *testing.T) {
 		}
 		if ccm.Length() != 0 {
 			t.Errorf("expected 0 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -29,7 +28,6 @@ func Test_C26_CharCollectionMap_CapSelfCap(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.CapSelfCap(20, 15)
 		if ccm == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -38,7 +36,6 @@ func Test_C26_CharCollectionMap_Items(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"apple", "banana", "avocado"})
 		if ccm.Length() != 2 { // 'a' and 'b'
 			t.Errorf("expected 2 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -47,7 +44,6 @@ func Test_C26_CharCollectionMap_Items_Empty(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items(nil)
 		if ccm.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -56,7 +52,6 @@ func Test_C26_CharCollectionMap_ItemsPtrWithCap(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 10, []string{"abc", "aef"})
 		if ccm.Length() != 1 {
 			t.Errorf("expected 1 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -65,7 +60,6 @@ func Test_C26_CharCollectionMap_ItemsPtrWithCap_Empty(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 10, nil)
 		if ccm == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -79,7 +73,6 @@ func Test_C26_CharCollectionMap_GetChar(t *testing.T) {
 		ch = ccm.GetChar("")
 		if ch != 0 {
 			t.Errorf("expected 0 got %d", ch)
-		}
 	})
 }
 
@@ -91,7 +84,6 @@ func Test_C26_CharCollectionMap_Add(t *testing.T) {
 		ccm.Add("banana")
 		if ccm.Length() != 2 {
 			t.Errorf("expected 2 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -101,7 +93,6 @@ func Test_C26_CharCollectionMap_AddLock(t *testing.T) {
 		ccm.AddLock("apple")
 		if ccm.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -111,7 +102,6 @@ func Test_C26_CharCollectionMap_AddStrings(t *testing.T) {
 		ccm.AddStrings("apple", "banana", "cherry")
 		if ccm.Length() != 3 {
 			t.Errorf("expected 3 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -126,7 +116,6 @@ func Test_C26_CharCollectionMap_AddSameStartingCharItems(t *testing.T) {
 		ccm.AddSameStartingCharItems('a', []string{"apricot"}, false)
 		if ccm.LengthOf('a') != 3 {
 			t.Errorf("expected 3 got %d", ccm.LengthOf('a'))
-		}
 	})
 }
 
@@ -138,7 +127,6 @@ func Test_C26_CharCollectionMap_Has(t *testing.T) {
 		}
 		if ccm.Has("cherry") {
 			t.Error("should not have cherry")
-		}
 	})
 }
 
@@ -152,7 +140,6 @@ func Test_C26_CharCollectionMap_HasWithCollection(t *testing.T) {
 		has, _ = ccm.HasWithCollection("xyz")
 		if has {
 			t.Error("should not find xyz")
-		}
 	})
 }
 
@@ -162,7 +149,6 @@ func Test_C26_CharCollectionMap_HasWithCollectionLock(t *testing.T) {
 		has, col := ccm.HasWithCollectionLock("apple")
 		if !has || col == nil {
 			t.Error("should find apple")
-		}
 	})
 }
 
@@ -174,7 +160,6 @@ func Test_C26_CharCollectionMap_LengthOf(t *testing.T) {
 		}
 		if ccm.LengthOf('z') != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -183,7 +168,6 @@ func Test_C26_CharCollectionMap_LengthOfLock(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if ccm.LengthOfLock('a') != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -195,7 +179,6 @@ func Test_C26_CharCollectionMap_LengthOfCollectionFromFirstChar(t *testing.T) {
 		}
 		if ccm.LengthOfCollectionFromFirstChar("xyz") != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -204,7 +187,6 @@ func Test_C26_CharCollectionMap_AllLengthsSum(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"apple", "avocado", "banana"})
 		if ccm.AllLengthsSum() != 3 {
 			t.Errorf("expected 3 got %d", ccm.AllLengthsSum())
-		}
 	})
 }
 
@@ -213,7 +195,6 @@ func Test_C26_CharCollectionMap_AllLengthsSumLock(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if ccm.AllLengthsSumLock() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -222,7 +203,6 @@ func Test_C26_CharCollectionMap_LengthLock(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if ccm.LengthLock() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -231,7 +211,6 @@ func Test_C26_CharCollectionMap_IsEmptyLock(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Empty()
 		if !ccm.IsEmptyLock() {
 			// items map is non-nil but empty, so IsEmpty checks len
-		}
 	})
 }
 
@@ -240,7 +219,6 @@ func Test_C26_CharCollectionMap_HasItems(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !ccm.HasItems() {
 			t.Error("should have items")
-		}
 	})
 }
 
@@ -250,7 +228,6 @@ func Test_C26_CharCollectionMap_IsEquals(t *testing.T) {
 		ccm2 := corestr.New.CharCollectionMap.Items([]string{"apple", "banana"})
 		if !ccm1.IsEquals(ccm2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -260,7 +237,6 @@ func Test_C26_CharCollectionMap_IsEqualsLock(t *testing.T) {
 		ccm2 := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !ccm1.IsEqualsLock(ccm2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -270,7 +246,6 @@ func Test_C26_CharCollectionMap_IsEqualsCaseSensitive(t *testing.T) {
 		ccm2 := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if ccm1.IsEqualsCaseSensitive(true, ccm2) {
 			t.Error("should not be equal case-sensitive (different first chars)")
-		}
 	})
 }
 
@@ -280,7 +255,6 @@ func Test_C26_CharCollectionMap_IsEqualsCaseSensitiveLock(t *testing.T) {
 		ccm2 := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !ccm1.IsEqualsCaseSensitiveLock(true, ccm2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -289,7 +263,6 @@ func Test_C26_CharCollectionMap_IsEquals_Nil(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"a"})
 		if ccm.IsEquals(nil) {
 			t.Error("should not equal nil")
-		}
 	})
 }
 
@@ -299,7 +272,6 @@ func Test_C26_CharCollectionMap_GetMap(t *testing.T) {
 		m := ccm.GetMap()
 		if m == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -309,7 +281,6 @@ func Test_C26_CharCollectionMap_GetCopyMapLock(t *testing.T) {
 		m := ccm.GetCopyMapLock()
 		if m == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -327,7 +298,6 @@ func Test_C26_CharCollectionMap_GetCollection(t *testing.T) {
 		col3 := ccm.GetCollection("zzz", false)
 		if col3 != nil {
 			t.Error("should not create")
-		}
 	})
 }
 
@@ -337,7 +307,6 @@ func Test_C26_CharCollectionMap_GetCollectionLock(t *testing.T) {
 		col := ccm.GetCollectionLock("abc", false)
 		if col == nil {
 			t.Error("should find")
-		}
 	})
 }
 
@@ -347,7 +316,6 @@ func Test_C26_CharCollectionMap_GetCollectionByChar(t *testing.T) {
 		col := ccm.GetCollectionByChar('a')
 		if col == nil {
 			t.Error("should find")
-		}
 	})
 }
 
@@ -358,7 +326,6 @@ func Test_C26_CharCollectionMap_AddCollectionItems(t *testing.T) {
 		ccm.AddCollectionItems(col)
 		if ccm.Length() != 2 {
 			t.Errorf("expected 2 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -368,7 +335,6 @@ func Test_C26_CharCollectionMap_AddCollectionItems_Nil(t *testing.T) {
 		ccm.AddCollectionItems(nil)
 		if ccm.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -381,7 +347,6 @@ func Test_C26_CharCollectionMap_AddHashmapsValues(t *testing.T) {
 		ccm.AddHashmapsValues(hm)
 		if ccm.Length() != 2 {
 			t.Errorf("expected 2 got %d", ccm.Length())
-		}
 	})
 }
 
@@ -393,7 +358,6 @@ func Test_C26_CharCollectionMap_AddHashmapsKeysValuesBoth(t *testing.T) {
 		ccm.AddHashmapsKeysValuesBoth(hm)
 		if ccm.Length() < 1 {
 			t.Error("should have items")
-		}
 	})
 }
 
@@ -410,7 +374,6 @@ func Test_C26_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter(t *testin
 		)
 		if ccm.Length() < 1 {
 			t.Error("should have items")
-		}
 	})
 }
 
@@ -421,7 +384,6 @@ func Test_C26_CharCollectionMap_AddCharHashsetMap(t *testing.T) {
 		ccm.AddCharHashsetMap(chm)
 		if ccm.AllLengthsSum() != 2 {
 			t.Errorf("expected 2 got %d", ccm.AllLengthsSum())
-		}
 	})
 }
 
@@ -432,7 +394,6 @@ func Test_C26_CharCollectionMap_AddSameCharsCollection(t *testing.T) {
 		result := ccm.AddSameCharsCollection("abc", col)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -443,7 +404,6 @@ func Test_C26_CharCollectionMap_AddSameCharsCollection_Existing(t *testing.T) {
 		result := ccm.AddSameCharsCollection("abc", col)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -453,7 +413,6 @@ func Test_C26_CharCollectionMap_AddSameCharsCollection_NilCol(t *testing.T) {
 		result := ccm.AddSameCharsCollection("abc", nil)
 		if result == nil {
 			t.Error("should create new empty collection")
-		}
 	})
 }
 
@@ -464,7 +423,6 @@ func Test_C26_CharCollectionMap_AddSameCharsCollectionLock(t *testing.T) {
 		result := ccm.AddSameCharsCollectionLock("abc", col)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -474,7 +432,6 @@ func Test_C26_CharCollectionMap_Resize(t *testing.T) {
 		ccm.Resize(100)
 		if ccm.Length() != 1 {
 			t.Error("should keep items")
-		}
 	})
 }
 
@@ -492,7 +449,6 @@ func Test_C26_CharCollectionMap_List(t *testing.T) {
 		list := ccm.List()
 		if len(list) != 2 {
 			t.Errorf("expected 2 got %d", len(list))
-		}
 	})
 }
 
@@ -502,7 +458,6 @@ func Test_C26_CharCollectionMap_ListLock(t *testing.T) {
 		list := ccm.ListLock()
 		if len(list) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -512,7 +467,6 @@ func Test_C26_CharCollectionMap_SortedListAsc(t *testing.T) {
 		list := ccm.SortedListAsc()
 		if len(list) != 3 {
 			t.Errorf("expected 3 got %d", len(list))
-		}
 	})
 }
 
@@ -522,7 +476,6 @@ func Test_C26_CharCollectionMap_GetCharsGroups(t *testing.T) {
 		result := ccm.GetCharsGroups([]string{"apple", "banana"})
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -532,7 +485,6 @@ func Test_C26_CharCollectionMap_HashsetByChar(t *testing.T) {
 		hs := ccm.HashsetByChar('a')
 		if hs == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -542,7 +494,6 @@ func Test_C26_CharCollectionMap_HashsetByCharLock(t *testing.T) {
 		hs := ccm.HashsetByCharLock('a')
 		if hs == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -552,7 +503,6 @@ func Test_C26_CharCollectionMap_HashsetByStringFirstChar(t *testing.T) {
 		hs := ccm.HashsetByStringFirstChar("abc")
 		if hs == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -562,7 +512,6 @@ func Test_C26_CharCollectionMap_HashsetByStringFirstCharLock(t *testing.T) {
 		hs := ccm.HashsetByStringFirstCharLock("abc")
 		if hs == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -572,7 +521,6 @@ func Test_C26_CharCollectionMap_HashsetsCollection(t *testing.T) {
 		hsc := ccm.HashsetsCollection()
 		if hsc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -582,7 +530,6 @@ func Test_C26_CharCollectionMap_HashsetsCollectionByChars(t *testing.T) {
 		hsc := ccm.HashsetsCollectionByChars('a', 'b')
 		if hsc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -592,7 +539,6 @@ func Test_C26_CharCollectionMap_HashsetsCollectionByStringFirstChar(t *testing.T
 		hsc := ccm.HashsetsCollectionByStringFirstChar("abc", "bcd")
 		if hsc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -602,7 +548,6 @@ func Test_C26_CharCollectionMap_SummaryString(t *testing.T) {
 		s := ccm.SummaryString()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -612,7 +557,6 @@ func Test_C26_CharCollectionMap_SummaryStringLock(t *testing.T) {
 		s := ccm.SummaryStringLock()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -622,7 +566,6 @@ func Test_C26_CharCollectionMap_String(t *testing.T) {
 		s := ccm.String()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -632,7 +575,6 @@ func Test_C26_CharCollectionMap_StringLock(t *testing.T) {
 		s := ccm.StringLock()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -658,7 +600,6 @@ func Test_C26_CharCollectionMap_JsonModel(t *testing.T) {
 		model := ccm.JsonModel()
 		if model == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -667,7 +608,6 @@ func Test_C26_CharCollectionMap_JsonModelAny(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Items([]string{"a"})
 		if ccm.JsonModelAny() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -680,7 +620,6 @@ func Test_C26_CharCollectionMap_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Error("should have data")
-		}
 	})
 }
 
@@ -692,7 +631,6 @@ func Test_C26_CharCollectionMap_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal(data, ccm2)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -702,7 +640,6 @@ func Test_C26_CharCollectionMap_Json(t *testing.T) {
 		result := ccm.Json()
 		if result.HasError() {
 			t.Error("should not error")
-		}
 	})
 }
 
@@ -712,7 +649,6 @@ func Test_C26_CharCollectionMap_JsonPtr(t *testing.T) {
 		ptr := ccm.JsonPtr()
 		if ptr == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -724,7 +660,6 @@ func Test_C26_CharCollectionMap_ParseInjectUsingJson(t *testing.T) {
 		_, err := ccm2.ParseInjectUsingJson(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -736,7 +671,6 @@ func Test_C26_CharCollectionMap_ParseInjectUsingJsonMust(t *testing.T) {
 		result := ccm2.ParseInjectUsingJsonMust(&jsonResult)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -748,7 +682,6 @@ func Test_C26_CharCollectionMap_JsonParseSelfInject(t *testing.T) {
 		err := ccm2.JsonParseSelfInject(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -766,7 +699,6 @@ func Test_C26_CharCollectionMap_AsJsonInterfaces(t *testing.T) {
 		}
 		if ccm.AsJsonParseSelfInjector() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -776,7 +708,6 @@ func Test_C26_CharCollectionMap_Clear(t *testing.T) {
 		ccm.Clear()
 		if ccm.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -797,7 +728,6 @@ func Test_C26_CharCollectionMap_DataModel(t *testing.T) {
 		ccm2 := corestr.NewCharCollectionMapUsingDataModel(dm)
 		if ccm2 == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -810,7 +740,6 @@ func Test_C26_CharHashsetMap_Cap(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.Cap(20, 10)
 		if chm == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -819,7 +748,6 @@ func Test_C26_CharHashsetMap_CapItems(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple", "banana")
 		if chm.Length() != 2 {
 			t.Errorf("expected 2 got %d", chm.Length())
-		}
 	})
 }
 
@@ -828,7 +756,6 @@ func Test_C26_CharHashsetMap_Strings(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.Strings(10, []string{"apple", "banana", "avocado"})
 		if chm.AllLengthsSum() != 3 {
 			t.Errorf("expected 3 got %d", chm.AllLengthsSum())
-		}
 	})
 }
 
@@ -837,7 +764,6 @@ func Test_C26_CharHashsetMap_Strings_Nil(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.Strings(10, nil)
 		if chm == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -849,7 +775,6 @@ func Test_C26_CharHashsetMap_GetChar(t *testing.T) {
 		}
 		if chm.GetChar("") != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -861,7 +786,6 @@ func Test_C26_CharHashsetMap_GetCharOf(t *testing.T) {
 		}
 		if chm.GetCharOf("") != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -873,7 +797,6 @@ func Test_C26_CharHashsetMap_Add(t *testing.T) {
 		chm.Add("banana")
 		if chm.Length() != 2 {
 			t.Errorf("expected 2 got %d", chm.Length())
-		}
 	})
 }
 
@@ -883,7 +806,6 @@ func Test_C26_CharHashsetMap_AddLock(t *testing.T) {
 		chm.AddLock("apple")
 		if chm.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -893,7 +815,6 @@ func Test_C26_CharHashsetMap_AddStrings(t *testing.T) {
 		chm.AddStrings("apple", "banana")
 		if chm.AllLengthsSum() != 2 {
 			t.Errorf("expected 2 got %d", chm.AllLengthsSum())
-		}
 	})
 }
 
@@ -903,7 +824,6 @@ func Test_C26_CharHashsetMap_AddStringsLock(t *testing.T) {
 		chm.AddStringsLock("apple", "banana")
 		if chm.AllLengthsSum() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -918,7 +838,6 @@ func Test_C26_CharHashsetMap_AddSameStartingCharItems(t *testing.T) {
 		chm.AddSameStartingCharItems('a', []string{"apricot"})
 		if chm.LengthOf('a') != 3 {
 			t.Errorf("expected 3 got %d", chm.LengthOf('a'))
-		}
 	})
 }
 
@@ -930,7 +849,6 @@ func Test_C26_CharHashsetMap_Has(t *testing.T) {
 		}
 		if chm.Has("cherry") {
 			t.Error("should not have cherry")
-		}
 	})
 }
 
@@ -944,7 +862,6 @@ func Test_C26_CharHashsetMap_HasWithHashset(t *testing.T) {
 		has, _ = chm.HasWithHashset("xyz")
 		if has {
 			t.Error("should not find xyz")
-		}
 	})
 }
 
@@ -954,7 +871,6 @@ func Test_C26_CharHashsetMap_HasWithHashsetLock(t *testing.T) {
 		has, hs := chm.HasWithHashsetLock("apple")
 		if !has || hs == nil {
 			t.Error("should find apple")
-		}
 	})
 }
 
@@ -963,7 +879,6 @@ func Test_C26_CharHashsetMap_LengthOf(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple", "avocado")
 		if chm.LengthOf('a') != 2 {
 			t.Errorf("expected 2 got %d", chm.LengthOf('a'))
-		}
 	})
 }
 
@@ -972,7 +887,6 @@ func Test_C26_CharHashsetMap_LengthOfLock(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if chm.LengthOfLock('a') != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -981,7 +895,6 @@ func Test_C26_CharHashsetMap_LengthOfHashsetFromFirstChar(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple", "avocado")
 		if chm.LengthOfHashsetFromFirstChar("abc") != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -990,7 +903,6 @@ func Test_C26_CharHashsetMap_AllLengthsSum(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple", "banana")
 		if chm.AllLengthsSum() != 2 {
 			t.Errorf("expected 2 got %d", chm.AllLengthsSum())
-		}
 	})
 }
 
@@ -999,7 +911,6 @@ func Test_C26_CharHashsetMap_AllLengthsSumLock(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if chm.AllLengthsSumLock() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1008,7 +919,6 @@ func Test_C26_CharHashsetMap_LengthLock(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if chm.LengthLock() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1017,7 +927,6 @@ func Test_C26_CharHashsetMap_IsEmptyLock(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.Cap(10, 10)
 		if !chm.IsEmptyLock() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1026,7 +935,6 @@ func Test_C26_CharHashsetMap_HasItems(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if !chm.HasItems() {
 			t.Error("should have items")
-		}
 	})
 }
 
@@ -1036,7 +944,6 @@ func Test_C26_CharHashsetMap_IsEquals(t *testing.T) {
 		chm2 := corestr.New.CharHashsetMap.CapItems(10, 10, "apple", "banana")
 		if !chm1.IsEquals(chm2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -1046,7 +953,6 @@ func Test_C26_CharHashsetMap_IsEqualsLock(t *testing.T) {
 		chm2 := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if !chm1.IsEqualsLock(chm2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -1055,7 +961,6 @@ func Test_C26_CharHashsetMap_IsEquals_Nil(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "a")
 		if chm.IsEquals(nil) {
 			t.Error("should not equal nil")
-		}
 	})
 }
 
@@ -1064,7 +969,6 @@ func Test_C26_CharHashsetMap_GetMap(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if chm.GetMap() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1073,7 +977,6 @@ func Test_C26_CharHashsetMap_GetCopyMapLock(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if chm.GetCopyMapLock() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1087,7 +990,6 @@ func Test_C26_CharHashsetMap_GetHashset(t *testing.T) {
 		hs2 := chm.GetHashset("xyz", true)
 		if hs2 == nil {
 			t.Error("should create on empty")
-		}
 	})
 }
 
@@ -1097,7 +999,6 @@ func Test_C26_CharHashsetMap_GetHashsetLock(t *testing.T) {
 		hs := chm.GetHashsetLock(false, "abc")
 		if hs == nil {
 			t.Error("should find")
-		}
 	})
 }
 
@@ -1107,7 +1008,6 @@ func Test_C26_CharHashsetMap_GetHashsetByChar(t *testing.T) {
 		hs := chm.GetHashsetByChar('a')
 		if hs == nil {
 			t.Error("should find")
-		}
 	})
 }
 
@@ -1117,7 +1017,6 @@ func Test_C26_CharHashsetMap_HashsetByChar(t *testing.T) {
 		hs := chm.HashsetByChar('a')
 		if hs == nil {
 			t.Error("should find")
-		}
 	})
 }
 
@@ -1131,7 +1030,6 @@ func Test_C26_CharHashsetMap_HashsetByCharLock(t *testing.T) {
 		hs2 := chm.HashsetByCharLock('z')
 		if hs2 == nil {
 			t.Error("should return empty, not nil")
-		}
 	})
 }
 
@@ -1141,7 +1039,6 @@ func Test_C26_CharHashsetMap_HashsetByStringFirstChar(t *testing.T) {
 		hs := chm.HashsetByStringFirstChar("abc")
 		if hs == nil {
 			t.Error("should find")
-		}
 	})
 }
 
@@ -1151,7 +1048,6 @@ func Test_C26_CharHashsetMap_HashsetByStringFirstCharLock(t *testing.T) {
 		hs := chm.HashsetByStringFirstCharLock("abc")
 		if hs == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1162,7 +1058,6 @@ func Test_C26_CharHashsetMap_AddCollectionItems(t *testing.T) {
 		chm.AddCollectionItems(col)
 		if chm.AllLengthsSum() != 2 {
 			t.Errorf("expected 2 got %d", chm.AllLengthsSum())
-		}
 	})
 }
 
@@ -1172,7 +1067,6 @@ func Test_C26_CharHashsetMap_AddCollectionItems_Nil(t *testing.T) {
 		chm.AddCollectionItems(nil)
 		if chm.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1183,7 +1077,6 @@ func Test_C26_CharHashsetMap_AddCharCollectionMapItems(t *testing.T) {
 		chm.AddCharCollectionMapItems(ccm)
 		if chm.AllLengthsSum() != 2 {
 			t.Errorf("expected 2 got %d", chm.AllLengthsSum())
-		}
 	})
 }
 
@@ -1194,7 +1087,6 @@ func Test_C26_CharHashsetMap_AddHashsetItems(t *testing.T) {
 		chm.AddHashsetItems(hs)
 		if chm.AllLengthsSum() != 2 {
 			t.Errorf("expected 2 got %d", chm.AllLengthsSum())
-		}
 	})
 }
 
@@ -1205,7 +1097,6 @@ func Test_C26_CharHashsetMap_AddSameCharsCollection(t *testing.T) {
 		result := chm.AddSameCharsCollection("abc", col)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1216,7 +1107,6 @@ func Test_C26_CharHashsetMap_AddSameCharsHashset(t *testing.T) {
 		result := chm.AddSameCharsHashset("abc", hs)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1227,7 +1117,6 @@ func Test_C26_CharHashsetMap_AddHashsetLock(t *testing.T) {
 		result := chm.AddHashsetLock("abc", hs)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1238,7 +1127,6 @@ func Test_C26_CharHashsetMap_AddSameCharsCollectionLock(t *testing.T) {
 		result := chm.AddSameCharsCollectionLock("abc", col)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1248,7 +1136,6 @@ func Test_C26_CharHashsetMap_HashsetsCollection(t *testing.T) {
 		hsc := chm.HashsetsCollection()
 		if hsc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1258,7 +1145,6 @@ func Test_C26_CharHashsetMap_HashsetsCollectionByChars(t *testing.T) {
 		hsc := chm.HashsetsCollectionByChars('a', 'b')
 		if hsc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1268,7 +1154,6 @@ func Test_C26_CharHashsetMap_HashsetsCollectionByStringsFirstChar(t *testing.T) 
 		hsc := chm.HashsetsCollectionByStringsFirstChar("abc", "bcd")
 		if hsc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1278,7 +1163,6 @@ func Test_C26_CharHashsetMap_GetCharsGroups(t *testing.T) {
 		result := chm.GetCharsGroups("apple", "banana")
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1288,7 +1172,6 @@ func Test_C26_CharHashsetMap_List(t *testing.T) {
 		list := chm.List()
 		if len(list) != 2 {
 			t.Errorf("expected 2 got %d", len(list))
-		}
 	})
 }
 
@@ -1301,7 +1184,6 @@ func Test_C26_CharHashsetMap_SortedListAsc(t *testing.T) {
 		}
 		if list[0] != "apple" {
 			t.Errorf("first should be apple got %s", list[0])
-		}
 	})
 }
 
@@ -1314,7 +1196,6 @@ func Test_C26_CharHashsetMap_SortedListDsc(t *testing.T) {
 		}
 		if list[0] != "cherry" {
 			t.Errorf("first should be cherry got %s", list[0])
-		}
 	})
 }
 
@@ -1324,7 +1205,6 @@ func Test_C26_CharHashsetMap_SummaryString(t *testing.T) {
 		s := chm.SummaryString()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1334,7 +1214,6 @@ func Test_C26_CharHashsetMap_SummaryStringLock(t *testing.T) {
 		s := chm.SummaryStringLock()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1344,7 +1223,6 @@ func Test_C26_CharHashsetMap_String(t *testing.T) {
 		s := chm.String()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1354,7 +1232,6 @@ func Test_C26_CharHashsetMap_StringLock(t *testing.T) {
 		s := chm.StringLock()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1380,7 +1257,6 @@ func Test_C26_CharHashsetMap_JsonModel(t *testing.T) {
 		model := chm.JsonModel()
 		if model == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1389,7 +1265,6 @@ func Test_C26_CharHashsetMap_JsonModelAny(t *testing.T) {
 		chm := corestr.New.CharHashsetMap.CapItems(10, 10, "a")
 		if chm.JsonModelAny() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1402,7 +1277,6 @@ func Test_C26_CharHashsetMap_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Error("should have data")
-		}
 	})
 }
 
@@ -1414,7 +1288,6 @@ func Test_C26_CharHashsetMap_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal(data, chm2)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -1424,7 +1297,6 @@ func Test_C26_CharHashsetMap_Json(t *testing.T) {
 		result := chm.Json()
 		if result.HasError() {
 			t.Error("should not error")
-		}
 	})
 }
 
@@ -1434,7 +1306,6 @@ func Test_C26_CharHashsetMap_JsonPtr(t *testing.T) {
 		ptr := chm.JsonPtr()
 		if ptr == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1446,7 +1317,6 @@ func Test_C26_CharHashsetMap_ParseInjectUsingJson(t *testing.T) {
 		_, err := chm2.ParseInjectUsingJson(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -1458,7 +1328,6 @@ func Test_C26_CharHashsetMap_ParseInjectUsingJsonMust(t *testing.T) {
 		result := chm2.ParseInjectUsingJsonMust(&jsonResult)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1470,7 +1339,6 @@ func Test_C26_CharHashsetMap_JsonParseSelfInject(t *testing.T) {
 		err := chm2.JsonParseSelfInject(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -1488,7 +1356,6 @@ func Test_C26_CharHashsetMap_AsJsonInterfaces(t *testing.T) {
 		}
 		if chm.AsJsonParseSelfInjector() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1499,7 +1366,6 @@ func Test_C26_CharHashsetMap_RemoveAll(t *testing.T) {
 		time.Sleep(10 * time.Millisecond) // allow goroutine cleanup
 		if chm.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1510,7 +1376,6 @@ func Test_C26_CharHashsetMap_Clear(t *testing.T) {
 		time.Sleep(10 * time.Millisecond)
 		if chm.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1524,7 +1389,6 @@ func Test_C26_CharHashsetMap_DataModel(t *testing.T) {
 		chm2 := corestr.NewCharHashsetMapUsingDataModel(dm)
 		if chm2 == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1540,7 +1404,6 @@ func Test_C26_CharHashsetMap_AddCollectionItemsAsyncLock(t *testing.T) {
 		case <-done:
 		case <-time.After(2 * time.Second):
 			t.Error("timeout")
-		}
 	})
 }
 
@@ -1556,6 +1419,5 @@ func Test_C26_CharHashsetMap_AddHashsetItemsAsyncLock(t *testing.T) {
 		case <-done:
 		case <-time.After(2 * time.Second):
 			t.Error("timeout")
-		}
 	})
 }

@@ -603,7 +603,6 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		err3 := h2.UnmarshalJSON([]byte(`{invalid`))
 		if err3 == nil { t.Fatal() }
 	})
-
 }
 
 func Test_C38_Hashmap_ParseInjectUsingJson(t *testing.T) {
@@ -1164,8 +1163,6 @@ func Test_C38_Hashset_JSON(t *testing.T) {
 		if err3 == nil { t.Fatal() }
 		// empty json model
 		_ = corestr.Empty.Hashset().JsonModel()
-	}
-
 	})
 }
 func Test_C38_Hashset_ParseInjectUsingJson(t *testing.T) {

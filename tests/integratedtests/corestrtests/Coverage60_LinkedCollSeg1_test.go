@@ -1685,6 +1685,8 @@ func Test_Cov60_LC_ParseInjectUsingJson(t *testing.T) {
 
 var errLinkedTest = errors.New("test error")
 
+	})
+}
 func Test_Cov60_LC_ParseInjectUsingJson_Error(t *testing.T) {
 	safeTest(t, "Test_Cov60_LC_ParseInjectUsingJson_Error", func() {
 		lc := &corestr.LinkedCollections{}

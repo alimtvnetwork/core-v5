@@ -42,7 +42,6 @@ func Test_CovS07_CharHashsetDataModel_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -71,7 +70,6 @@ func Test_CovS07_GetChar_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -104,7 +102,6 @@ func Test_CovS07_Basic_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -133,7 +130,6 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -166,7 +162,6 @@ func Test_CovS07_HasWithHashset_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -202,7 +197,6 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -242,7 +236,6 @@ func Test_CovS07_Add_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -266,7 +259,6 @@ func Test_CovS07_AddSameCharItems_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -309,7 +301,6 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -333,7 +324,6 @@ func Test_CovS07_GetHashset_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -363,7 +353,6 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -404,7 +393,6 @@ func Test_CovS07_List_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -439,7 +427,6 @@ func Test_CovS07_Json_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -481,7 +468,6 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -523,7 +509,6 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -565,7 +550,6 @@ func Test_CovS07_AddFromSource_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -594,7 +578,6 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -630,7 +613,6 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -658,7 +640,6 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -678,7 +659,6 @@ func Test_CovS07_PrintSkip(t *testing.T) {
 		// Assert — no panic
 		if m.IsEmpty() {
 			t.Error("unexpected empty after print skip")
-		}
 	})
 }
 
@@ -716,7 +696,6 @@ func Test_CovS07_LockVariants(t *testing.T) {
 		}
 		if !isEqLock {
 			t.Error("IsEqualsLock(self) should be true")
-		}
 	})
 }
 
@@ -738,7 +717,6 @@ func Test_CovS07_HasWithHashsetLock(t *testing.T) {
 		}
 		if hs == nil {
 			t.Error("HasWithHashsetLock should return non-nil hashset")
-		}
 	})
 }
 
@@ -758,7 +736,6 @@ func Test_CovS07_AddLock(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() != 2 {
 			t.Errorf("AddLock: expected 2 items, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -777,7 +754,6 @@ func Test_CovS07_AddStringsLock(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() != 3 {
 			t.Errorf("AddStringsLock: expected 3, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -816,7 +792,6 @@ func Test_CovS07_HashsetByChar(t *testing.T) {
 		}
 		if hsMissing == nil {
 			t.Error("HashsetByCharLock('z') should return empty hashset, not nil")
-		}
 	})
 }
 
@@ -839,7 +814,6 @@ func Test_CovS07_HashsetsCollByCharsAndStr(t *testing.T) {
 		}
 		if hsByStr == nil || hsByStr.Length() == 0 {
 			t.Error("HashsetsCollectionByStringsFirstChar should return non-empty")
-		}
 	})
 }
 
@@ -858,7 +832,6 @@ func Test_CovS07_GetMap(t *testing.T) {
 		// Assert
 		if rawMap == nil {
 			t.Error("GetMap should return non-nil")
-		}
 	})
 }
 
@@ -882,7 +855,6 @@ func Test_CovS07_InterfaceAdapters(t *testing.T) {
 		// Assert
 		if binder == nil || jsoner == nil || marshaller == nil || injector == nil {
 			t.Error("Interface adapters should return non-nil")
-		}
 	})
 }
 
@@ -906,7 +878,6 @@ func Test_CovS07_MarshalUnmarshal(t *testing.T) {
 		}
 		if err2 != nil {
 			t.Errorf("UnmarshalJSON failed: %v", err2)
-		}
 	})
 }
 
@@ -927,7 +898,6 @@ func Test_CovS07_JsonParseSelfInject(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("JsonParseSelfInject should not error: %v", err)
-		}
 	})
 }
 
@@ -948,7 +918,6 @@ func Test_CovS07_ParseInjectMust_Valid(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("ParseInjectUsingJsonMust should return non-nil")
-		}
 	})
 }
 
@@ -967,7 +936,6 @@ func Test_CovS07_JsonPtr(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("JsonPtr should return non-nil")
-		}
 	})
 }
 
@@ -990,7 +958,6 @@ func Test_CovS07_AddSameCharsCollLock(t *testing.T) {
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -1009,7 +976,6 @@ func Test_CovS07_AddSameCharsCollLock_NilColl_NewChar(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("should return non-nil hashset")
-		}
 	})
 }
 
@@ -1032,7 +998,6 @@ func Test_CovS07_AddSameCharsCollLock_NewChar_WithData(t *testing.T) {
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -1052,7 +1017,6 @@ func Test_CovS07_AddHashsetLock(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("AddHashsetLock should return non-nil")
-		}
 	})
 }
 
@@ -1071,7 +1035,6 @@ func Test_CovS07_AddHashsetLock_NilHashset_NewChar(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("should return non-nil hashset")
-		}
 	})
 }
 
@@ -1094,7 +1057,6 @@ func Test_CovS07_AddHashsetLock_NewChar_WithData(t *testing.T) {
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -1117,7 +1079,6 @@ func Test_CovS07_GetHashsetLock(t *testing.T) {
 		}
 		if hsMissing != nil {
 			t.Error("GetHashsetLock should return nil for missing char with isAddNew=false")
-		}
 	})
 }
 
@@ -1161,7 +1122,6 @@ func Test_CovS07_NewCreator_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -1190,7 +1150,6 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() < 2 {
 			// async may not have completed, but at least no panic
-		}
 	})
 }
 
@@ -1209,7 +1168,6 @@ func Test_CovS07_AddCollectionItemsAsyncLock_Nil(t *testing.T) {
 		// Assert — no panic
 		if m.AllLengthsSum() != 0 {
 			t.Error("should remain empty")
-		}
 	})
 }
 
@@ -1228,7 +1186,6 @@ func Test_CovS07_AddHashsetItemsAsyncLock_Nil(t *testing.T) {
 		// Assert — no panic
 		if m.AllLengthsSum() != 0 {
 			t.Error("should remain empty")
-		}
 	})
 }
 
@@ -1247,7 +1204,6 @@ func Test_CovS07_AddStringsAsyncLock_Empty(t *testing.T) {
 		// Assert — no panic
 		if m.AllLengthsSum() != 0 {
 			t.Error("should remain empty")
-		}
 	})
 }
 
@@ -1275,6 +1231,5 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() < 3 {
 			// may be async
-		}
 	})
 }

@@ -32,7 +32,6 @@ func Test_CovLL1_01_IsEmpty_HasItems_Length(t *testing.T) {
 		}
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -51,7 +50,6 @@ func Test_CovLL1_02_IsEmptyLock_LengthLock(t *testing.T) {
 		}
 		if ll.LengthLock() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -77,7 +75,6 @@ func Test_CovLL1_03_Head_Tail(t *testing.T) {
 		}
 		if ll.Tail().Element != "b" {
 			t.Fatal("expected b")
-		}
 	})
 }
 
@@ -91,7 +88,6 @@ func Test_CovLL1_04_Add_Multiple(t *testing.T) {
 		items := ll.List()
 		if items[0] != "a" || items[1] != "b" || items[2] != "c" {
 			t.Fatal("unexpected order")
-		}
 	})
 }
 
@@ -101,7 +97,6 @@ func Test_CovLL1_05_AddLock(t *testing.T) {
 		ll.AddLock("a")
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -137,7 +132,6 @@ func Test_CovLL1_07_AddFront_PushFront(t *testing.T) {
 		ll2.PushFront("y")
 		if ll2.Head().Element != "y" {
 			t.Fatal("expected y")
-		}
 	})
 }
 
@@ -148,7 +142,6 @@ func Test_CovLL1_08_Push_PushBack(t *testing.T) {
 		ll.PushBack("b")
 		if ll.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -162,7 +155,6 @@ func Test_CovLL1_09_AddNonEmpty(t *testing.T) {
 		ll.AddNonEmpty("a")
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -176,7 +168,6 @@ func Test_CovLL1_10_AddNonEmptyWhitespace(t *testing.T) {
 		ll.AddNonEmptyWhitespace("a")
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -190,7 +181,6 @@ func Test_CovLL1_11_AddIf(t *testing.T) {
 		ll.AddIf(true, "a")
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -204,7 +194,6 @@ func Test_CovLL1_12_AddsIf(t *testing.T) {
 		ll.AddsIf(true, "a", "b")
 		if ll.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -214,7 +203,6 @@ func Test_CovLL1_13_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "hello" })
 		if ll.Length() != 1 || ll.Head().Element != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -236,7 +224,6 @@ func Test_CovLL1_14_AddFuncErr(t *testing.T) {
 		)
 		if ll.Length() != 1 {
 			t.Fatal("expected still 1")
-		}
 	})
 }
 
@@ -263,7 +250,6 @@ func Test_CovLL1_16_AddsLock(t *testing.T) {
 		ll.AddsLock("a", "b")
 		if ll.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -280,7 +266,6 @@ func Test_CovLL1_17_InsertAt(t *testing.T) {
 		ll.InsertAt(-1, "z")
 		if ll.Head().Element != "z" {
 			t.Fatal("expected z at front")
-		}
 	})
 }
 
@@ -297,7 +282,6 @@ func Test_CovLL1_18_AppendNode_AddBackNode(t *testing.T) {
 		ll.AddBackNode(node2)
 		if ll.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -317,7 +301,6 @@ func Test_CovLL1_19_AppendChainOfNodes(t *testing.T) {
 		ll.AppendChainOfNodes(chain2.Head())
 		if ll.Length() != 5 {
 			t.Fatal("expected 5")
-		}
 	})
 }
 
@@ -328,7 +311,6 @@ func Test_CovLL1_20_AddPointerStringsPtr(t *testing.T) {
 		ll.AddPointerStringsPtr([]*string{&a, nil})
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -343,7 +325,6 @@ func Test_CovLL1_21_AddCollection(t *testing.T) {
 		ll.AddCollection(col)
 		if ll.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -366,7 +347,6 @@ func Test_CovLL1_22_AttachWithNode(t *testing.T) {
 		err3 := ll.AttachWithNode(node, addNode)
 		if err3 == nil {
 			t.Fatal("expected error for non-nil next")
-		}
 	})
 }
 
@@ -409,7 +389,6 @@ func Test_CovLL1_25_AddCollectionToNode(t *testing.T) {
 		ll.AddCollectionToNode(true, ll.Head(), col)
 		if ll.Length() < 3 {
 			t.Fatal("expected at least 3")
-		}
 	})
 }
 
@@ -452,7 +431,6 @@ func Test_CovLL1_26_Loop(t *testing.T) {
 		})
 		if count != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -494,7 +472,6 @@ func Test_CovLL1_27_Filter(t *testing.T) {
 		})
 		if len(r5) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -519,7 +496,6 @@ func Test_CovLL1_28_RemoveNodeByElementValue(t *testing.T) {
 		ll2.RemoveNodeByElementValue("y", true, false)
 		if ll2.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -543,7 +519,6 @@ func Test_CovLL1_29_RemoveNodeByIndex(t *testing.T) {
 		ll2.RemoveNodeByIndex(1)
 		if ll2.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -582,7 +557,6 @@ func Test_CovLL1_31_RemoveNode(t *testing.T) {
 		ll.RemoveNode(node)
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -595,7 +569,6 @@ func Test_CovLL1_32_GetCompareSummary(t *testing.T) {
 		s := a.GetCompareSummary(b, "left", "right")
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -615,7 +588,6 @@ func Test_CovLL1_33_IndexAt(t *testing.T) {
 		n := ll.IndexAt(-1)
 		if n != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -654,7 +626,6 @@ func Test_CovLL1_34_SafeIndexAt_SafePointerIndexAt(t *testing.T) {
 		p2 := ll.SafePointerIndexAt(-1)
 		if p2 != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -669,7 +640,6 @@ func Test_CovLL1_35_SafePointerIndexAtUsingDefault(t *testing.T) {
 		v2 := ll.SafePointerIndexAtUsingDefault(99, "def")
 		if v2 != "def" {
 			t.Fatal("expected def")
-		}
 	})
 }
 
@@ -684,7 +654,6 @@ func Test_CovLL1_36_SafeIndexAtLock_SafePointerIndexAtUsingDefaultLock(t *testin
 		v := ll.SafePointerIndexAtUsingDefaultLock(0, "def")
 		if v != "a" {
 			t.Fatal("expected a")
-		}
 	})
 }
 
@@ -699,6 +668,5 @@ func Test_CovLL1_37_GetNextNodes_GetAllLinkedNodes(t *testing.T) {
 		all := ll.GetAllLinkedNodes()
 		if len(all) != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }

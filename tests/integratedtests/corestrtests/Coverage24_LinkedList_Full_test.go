@@ -18,7 +18,6 @@ func Test_C24_LinkedListNode_HasNext_NoNext(t *testing.T) {
 		node := &corestr.LinkedListNode{Element: "a"}
 		if node.HasNext() {
 			t.Error("expected HasNext false")
-		}
 	})
 }
 
@@ -28,7 +27,6 @@ func Test_C24_LinkedListNode_EndOfChain_Single(t *testing.T) {
 		end, length := ll.Head().EndOfChain()
 		if length != 1 || end.Element != "a" {
 			t.Errorf("expected length 1 got %d", length)
-		}
 	})
 }
 
@@ -41,7 +39,6 @@ func Test_C24_LinkedListNode_EndOfChain_Multi(t *testing.T) {
 		}
 		if end.Element != "c" {
 			t.Errorf("expected c got %s", end.Element)
-		}
 	})
 }
 
@@ -54,7 +51,6 @@ func Test_C24_LinkedListNode_Clone(t *testing.T) {
 		}
 		if cloned.Element != "a" {
 			t.Errorf("expected a got %s", cloned.Element)
-		}
 	})
 }
 
@@ -74,7 +70,6 @@ func Test_C24_LinkedListNode_LoopEndOfChain(t *testing.T) {
 		}
 		if len(collected) != 3 {
 			t.Errorf("expected 3 collected got %d", len(collected))
-		}
 	})
 }
 
@@ -89,7 +84,6 @@ func Test_C24_LinkedListNode_LoopEndOfChain_Break(t *testing.T) {
 		}
 		if end.Element != "a" {
 			t.Errorf("expected a got %s", end.Element)
-		}
 	})
 }
 
@@ -103,7 +97,6 @@ func Test_C24_LinkedListNode_AddNext(t *testing.T) {
 		}
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -114,7 +107,6 @@ func Test_C24_LinkedListNode_AddStringsToNode(t *testing.T) {
 		node.AddStringsToNode(ll, false, []string{"b", "c"})
 		if ll.Length() < 3 {
 			t.Errorf("expected at least 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -125,7 +117,6 @@ func Test_C24_LinkedListNode_AddStringsPtrToNode_Nil(t *testing.T) {
 		result := node.AddStringsPtrToNode(ll, true, nil)
 		if result.Length() != 1 {
 			t.Errorf("expected 1 got %d", result.Length())
-		}
 	})
 }
 
@@ -137,7 +128,6 @@ func Test_C24_LinkedListNode_AddCollectionToNode(t *testing.T) {
 		node.AddCollectionToNode(ll, false, col)
 		if ll.Length() < 2 {
 			t.Errorf("expected at least 2, got %d", ll.Length())
-		}
 	})
 }
 
@@ -148,7 +138,6 @@ func Test_C24_LinkedListNode_AddNextNode(t *testing.T) {
 		ll.Head().AddNextNode(ll, nextNode)
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -157,7 +146,6 @@ func Test_C24_LinkedListNode_IsEqual_Same(t *testing.T) {
 		ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if !ll.Head().IsEqual(ll.Head()) {
 			t.Error("same node should be equal")
-		}
 	})
 }
 
@@ -167,7 +155,6 @@ func Test_C24_LinkedListNode_IsChainEqual(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if !ll1.Head().IsChainEqual(ll2.Head(), true) {
 			t.Error("chains should be equal")
-		}
 	})
 }
 
@@ -177,7 +164,6 @@ func Test_C24_LinkedListNode_IsChainEqual_CaseInsensitive(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if !ll1.Head().IsChainEqual(ll2.Head(), false) {
 			t.Error("chains should be equal case insensitive")
-		}
 	})
 }
 
@@ -190,7 +176,6 @@ func Test_C24_LinkedListNode_IsEqualSensitive(t *testing.T) {
 		}
 		if !ll1.Head().IsEqualSensitive(ll2.Head(), false) {
 			t.Error("should be equal case insensitive")
-		}
 	})
 }
 
@@ -199,7 +184,6 @@ func Test_C24_LinkedListNode_IsEqualValue(t *testing.T) {
 		node := &corestr.LinkedListNode{Element: "hello"}
 		if !node.IsEqualValue("hello") {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -208,7 +192,6 @@ func Test_C24_LinkedListNode_IsEqualValueSensitive(t *testing.T) {
 		node := &corestr.LinkedListNode{Element: "Hello"}
 		if !node.IsEqualValueSensitive("hello", false) {
 			t.Error("should be equal case insensitive")
-		}
 	})
 }
 
@@ -218,7 +201,6 @@ func Test_C24_LinkedListNode_CreateLinkedList(t *testing.T) {
 		newLL := ll.Head().CreateLinkedList()
 		if newLL.Length() != 2 {
 			t.Errorf("expected 2 got %d", newLL.Length())
-		}
 	})
 }
 
@@ -228,7 +210,6 @@ func Test_C24_LinkedListNode_List(t *testing.T) {
 		list := ll.Head().List()
 		if len(list) != 3 {
 			t.Errorf("expected 3 got %d", len(list))
-		}
 	})
 }
 
@@ -238,7 +219,6 @@ func Test_C24_LinkedListNode_ListPtr(t *testing.T) {
 		list := ll.Head().ListPtr()
 		if len(list) != 1 {
 			t.Errorf("expected 1 got %d", len(list))
-		}
 	})
 }
 
@@ -248,7 +228,6 @@ func Test_C24_LinkedListNode_Join(t *testing.T) {
 		result := ll.Head().Join(",")
 		if result != "a,b" {
 			t.Errorf("expected a,b got %s", result)
-		}
 	})
 }
 
@@ -258,7 +237,6 @@ func Test_C24_LinkedListNode_StringList(t *testing.T) {
 		result := ll.Head().StringList("Header:")
 		if result == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -274,7 +252,6 @@ func Test_C24_LinkedListNode_String(t *testing.T) {
 		node := &corestr.LinkedListNode{Element: "test"}
 		if node.String() != "test" {
 			t.Errorf("expected test got %s", node.String())
-		}
 	})
 }
 
@@ -293,7 +270,6 @@ func Test_C24_LinkedList_Empty(t *testing.T) {
 		}
 		if ll.Length() != 0 {
 			t.Errorf("expected 0 got %d", ll.Length())
-		}
 	})
 }
 
@@ -309,7 +285,6 @@ func Test_C24_LinkedList_Add_Single(t *testing.T) {
 		}
 		if ll.Tail().Element != "a" {
 			t.Error("tail should be a")
-		}
 	})
 }
 
@@ -325,7 +300,6 @@ func Test_C24_LinkedList_Add_Multi(t *testing.T) {
 		}
 		if ll.Tail().Element != "c" {
 			t.Error("tail should be c")
-		}
 	})
 }
 
@@ -338,7 +312,6 @@ func Test_C24_LinkedList_AddFront(t *testing.T) {
 		}
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -348,7 +321,6 @@ func Test_C24_LinkedList_AddFront_Empty(t *testing.T) {
 		ll.AddFront("a")
 		if ll.Length() != 1 {
 			t.Errorf("expected 1 got %d", ll.Length())
-		}
 	})
 }
 
@@ -362,7 +334,6 @@ func Test_C24_LinkedList_AddNonEmpty(t *testing.T) {
 		ll.AddNonEmpty("a")
 		if ll.Length() != 1 {
 			t.Error("should add non-empty")
-		}
 	})
 }
 
@@ -376,7 +347,6 @@ func Test_C24_LinkedList_AddNonEmptyWhitespace(t *testing.T) {
 		ll.AddNonEmptyWhitespace("a")
 		if ll.Length() != 1 {
 			t.Error("should add non-whitespace")
-		}
 	})
 }
 
@@ -390,7 +360,6 @@ func Test_C24_LinkedList_AddIf(t *testing.T) {
 		ll.AddIf(true, "keep")
 		if ll.Length() != 1 {
 			t.Error("should add")
-		}
 	})
 }
 
@@ -404,7 +373,6 @@ func Test_C24_LinkedList_AddsIf(t *testing.T) {
 		ll.AddsIf(true, "a", "b")
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -414,7 +382,6 @@ func Test_C24_LinkedList_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "computed" })
 		if ll.Length() != 1 || ll.Head().Element != "computed" {
 			t.Error("AddFunc failed")
-		}
 	})
 }
 
@@ -427,7 +394,6 @@ func Test_C24_LinkedList_AddFuncErr_Success(t *testing.T) {
 		)
 		if ll.Length() != 1 {
 			t.Error("should have added")
-		}
 	})
 }
 
@@ -437,7 +403,6 @@ func Test_C24_LinkedList_AddLock(t *testing.T) {
 		ll.AddLock("a")
 		if ll.Length() != 1 {
 			t.Error("should have 1")
-		}
 	})
 }
 
@@ -452,7 +417,6 @@ func Test_C24_LinkedList_Push_PushFront_PushBack(t *testing.T) {
 		}
 		if ll.Head().Element != "front" {
 			t.Error("head should be front")
-		}
 	})
 }
 
@@ -463,7 +427,6 @@ func Test_C24_LinkedList_AddItemsMap(t *testing.T) {
 		ll.AddItemsMap(m)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -474,7 +437,6 @@ func Test_C24_LinkedList_AddBackNode(t *testing.T) {
 		ll.AddBackNode(node)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -485,7 +447,6 @@ func Test_C24_LinkedList_AppendNode_Empty(t *testing.T) {
 		ll.AppendNode(node)
 		if ll.Length() != 1 {
 			t.Error("should have 1")
-		}
 	})
 }
 
@@ -496,7 +457,6 @@ func Test_C24_LinkedList_AppendChainOfNodes(t *testing.T) {
 		ll.AppendChainOfNodes(chain.Head())
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -507,7 +467,6 @@ func Test_C24_LinkedList_AppendChainOfNodes_NonEmpty(t *testing.T) {
 		ll.AppendChainOfNodes(chain.Head())
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -518,7 +477,6 @@ func Test_C24_LinkedList_InsertAt(t *testing.T) {
 		list := ll.List()
 		if len(list) != 3 {
 			t.Errorf("expected 3 got %d", len(list))
-		}
 	})
 }
 
@@ -528,7 +486,6 @@ func Test_C24_LinkedList_InsertAt_Front(t *testing.T) {
 		ll.InsertAt(0, "a")
 		if ll.Head().Element != "a" {
 			t.Error("head should be a")
-		}
 	})
 }
 
@@ -540,7 +497,6 @@ func Test_C24_LinkedList_AttachWithNode(t *testing.T) {
 		err := ll.AttachWithNode(node, addNode)
 		if err != nil {
 			t.Errorf("unexpected error: %v", err)
-		}
 	})
 }
 
@@ -551,7 +507,6 @@ func Test_C24_LinkedList_AttachWithNode_NilCurrent(t *testing.T) {
 		err := ll.AttachWithNode(nil, addNode)
 		if err == nil {
 			t.Error("expected error for nil current")
-		}
 	})
 }
 
@@ -561,7 +516,6 @@ func Test_C24_LinkedList_Adds(t *testing.T) {
 		ll.Adds("a", "b", "c")
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -571,7 +525,6 @@ func Test_C24_LinkedList_AddStrings(t *testing.T) {
 		ll.AddStrings([]string{"a", "b"})
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -581,7 +534,6 @@ func Test_C24_LinkedList_AddsLock(t *testing.T) {
 		ll.AddsLock("a", "b")
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -592,7 +544,6 @@ func Test_C24_LinkedList_AddCollection(t *testing.T) {
 		ll.AddCollection(col)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -602,7 +553,6 @@ func Test_C24_LinkedList_AddCollection_Nil(t *testing.T) {
 		ll.AddCollection(nil)
 		if ll.Length() != 0 {
 			t.Error("should remain empty")
-		}
 	})
 }
 
@@ -613,7 +563,6 @@ func Test_C24_LinkedList_AddPointerStringsPtr(t *testing.T) {
 		ll.AddPointerStringsPtr([]*string{&a, nil, &b})
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -623,7 +572,6 @@ func Test_C24_LinkedList_IndexAt(t *testing.T) {
 		node := ll.IndexAt(1)
 		if node.Element != "b" {
 			t.Errorf("expected b got %s", node.Element)
-		}
 	})
 }
 
@@ -633,7 +581,6 @@ func Test_C24_LinkedList_IndexAt_Head(t *testing.T) {
 		node := ll.IndexAt(0)
 		if node.Element != "a" {
 			t.Errorf("expected a got %s", node.Element)
-		}
 	})
 }
 
@@ -643,7 +590,6 @@ func Test_C24_LinkedList_SafeIndexAt(t *testing.T) {
 		node := ll.SafeIndexAt(1)
 		if node == nil || node.Element != "b" {
 			t.Error("expected b")
-		}
 	})
 }
 
@@ -655,7 +601,6 @@ func Test_C24_LinkedList_SafeIndexAt_OutOfRange(t *testing.T) {
 		}
 		if ll.SafeIndexAt(-1) != nil {
 			t.Error("expected nil for negative")
-		}
 	})
 }
 
@@ -665,7 +610,6 @@ func Test_C24_LinkedList_SafeIndexAtLock(t *testing.T) {
 		node := ll.SafeIndexAtLock(0)
 		if node == nil || node.Element != "a" {
 			t.Error("expected a")
-		}
 	})
 }
 
@@ -678,7 +622,6 @@ func Test_C24_LinkedList_SafePointerIndexAt(t *testing.T) {
 		}
 		if ll.SafePointerIndexAt(5) != nil {
 			t.Error("expected nil")
-		}
 	})
 }
 
@@ -692,7 +635,6 @@ func Test_C24_LinkedList_SafePointerIndexAtUsingDefault(t *testing.T) {
 		val = ll.SafePointerIndexAtUsingDefault(5, "default")
 		if val != "default" {
 			t.Errorf("expected default got %s", val)
-		}
 	})
 }
 
@@ -702,7 +644,6 @@ func Test_C24_LinkedList_SafePointerIndexAtUsingDefaultLock(t *testing.T) {
 		val := ll.SafePointerIndexAtUsingDefaultLock(0, "default")
 		if val != "hello" {
 			t.Errorf("expected hello got %s", val)
-		}
 	})
 }
 
@@ -711,7 +652,6 @@ func Test_C24_LinkedList_LengthLock(t *testing.T) {
 		ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if ll.LengthLock() != 2 {
 			t.Errorf("expected 2 got %d", ll.LengthLock())
-		}
 	})
 }
 
@@ -720,7 +660,6 @@ func Test_C24_LinkedList_IsEmptyLock(t *testing.T) {
 		ll := corestr.New.LinkedList.Create()
 		if !ll.IsEmptyLock() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -730,7 +669,6 @@ func Test_C24_LinkedList_IsEquals(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if !ll1.IsEquals(ll2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -743,7 +681,6 @@ func Test_C24_LinkedList_IsEqualsWithSensitive(t *testing.T) {
 		}
 		if !ll1.IsEqualsWithSensitive(ll2, false) {
 			t.Error("should be equal case insensitive")
-		}
 	})
 }
 
@@ -753,7 +690,6 @@ func Test_C24_LinkedList_IsEquals_BothEmpty(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Create()
 		if !ll1.IsEquals(ll2) {
 			t.Error("both empty should be equal")
-		}
 	})
 }
 
@@ -763,7 +699,6 @@ func Test_C24_LinkedList_IsEquals_DiffLength(t *testing.T) {
 		ll2 := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if ll1.IsEquals(ll2) {
 			t.Error("diff lengths should not be equal")
-		}
 	})
 }
 
@@ -777,7 +712,6 @@ func Test_C24_LinkedList_Loop(t *testing.T) {
 		})
 		if count != 3 {
 			t.Errorf("expected 3 got %d", count)
-		}
 	})
 }
 
@@ -787,7 +721,6 @@ func Test_C24_LinkedList_Loop_Empty(t *testing.T) {
 		ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
 			t.Error("should not be called")
 			return false
-		})
 	})
 }
 
@@ -801,7 +734,6 @@ func Test_C24_LinkedList_Loop_Break(t *testing.T) {
 		})
 		if count != 2 {
 			t.Errorf("expected 2 got %d", count)
-		}
 	})
 }
 
@@ -816,7 +748,6 @@ func Test_C24_LinkedList_Filter(t *testing.T) {
 		})
 		if len(results) != 2 {
 			t.Errorf("expected 2 got %d", len(results))
-		}
 	})
 }
 
@@ -828,7 +759,6 @@ func Test_C24_LinkedList_Filter_Empty(t *testing.T) {
 		})
 		if len(results) != 0 {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -844,7 +774,6 @@ func Test_C24_LinkedList_Filter_Break(t *testing.T) {
 		})
 		if len(results) != 1 {
 			t.Errorf("expected 1 got %d", len(results))
-		}
 	})
 }
 
@@ -854,7 +783,6 @@ func Test_C24_LinkedList_GetNextNodes(t *testing.T) {
 		nodes := ll.GetNextNodes(2)
 		if len(nodes) != 2 {
 			t.Errorf("expected 2 got %d", len(nodes))
-		}
 	})
 }
 
@@ -864,7 +792,6 @@ func Test_C24_LinkedList_GetAllLinkedNodes(t *testing.T) {
 		nodes := ll.GetAllLinkedNodes()
 		if len(nodes) != 3 {
 			t.Errorf("expected 3 got %d", len(nodes))
-		}
 	})
 }
 
@@ -874,7 +801,6 @@ func Test_C24_LinkedList_RemoveNodeByElementValue(t *testing.T) {
 		ll.RemoveNodeByElementValue("b", true, false)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -887,7 +813,6 @@ func Test_C24_LinkedList_RemoveNodeByElementValue_First(t *testing.T) {
 		}
 		if ll.Head().Element != "b" {
 			t.Error("head should be b")
-		}
 	})
 }
 
@@ -897,7 +822,6 @@ func Test_C24_LinkedList_RemoveNodeByElementValue_CaseInsensitive(t *testing.T) 
 		ll.RemoveNodeByElementValue("a", false, false)
 		if ll.Length() != 1 {
 			t.Errorf("expected 1 got %d", ll.Length())
-		}
 	})
 }
 
@@ -907,7 +831,6 @@ func Test_C24_LinkedList_RemoveNodeByIndex(t *testing.T) {
 		ll.RemoveNodeByIndex(1)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -917,7 +840,6 @@ func Test_C24_LinkedList_RemoveNodeByIndex_First(t *testing.T) {
 		ll.RemoveNodeByIndex(0)
 		if ll.Length() != 1 {
 			t.Errorf("expected 1 got %d", ll.Length())
-		}
 	})
 }
 
@@ -927,7 +849,6 @@ func Test_C24_LinkedList_RemoveNodeByIndex_Last(t *testing.T) {
 		ll.RemoveNodeByIndex(1)
 		if ll.Length() != 1 {
 			t.Errorf("expected 1 got %d", ll.Length())
-		}
 	})
 }
 
@@ -937,7 +858,6 @@ func Test_C24_LinkedList_RemoveNodeByIndexes(t *testing.T) {
 		ll.RemoveNodeByIndexes(false, 1, 3)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -947,7 +867,6 @@ func Test_C24_LinkedList_RemoveNodeByIndexes_Empty(t *testing.T) {
 		ll.RemoveNodeByIndexes(false)
 		if ll.Length() != 1 {
 			t.Error("should remain 1")
-		}
 	})
 }
 
@@ -958,7 +877,6 @@ func Test_C24_LinkedList_RemoveNode(t *testing.T) {
 		ll.RemoveNode(node)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -968,7 +886,6 @@ func Test_C24_LinkedList_RemoveNode_Nil(t *testing.T) {
 		ll.RemoveNode(nil)
 		if ll.Length() != 1 {
 			t.Error("should remain 1")
-		}
 	})
 }
 
@@ -978,7 +895,6 @@ func Test_C24_LinkedList_RemoveNode_First(t *testing.T) {
 		ll.RemoveNode(ll.Head())
 		if ll.Length() != 1 {
 			t.Errorf("expected 1 got %d", ll.Length())
-		}
 	})
 }
 
@@ -989,7 +905,6 @@ func Test_C24_LinkedList_AddStringsToNode(t *testing.T) {
 		ll.AddStringsToNode(false, node, []string{"b", "c"})
 		if ll.Length() < 3 {
 			t.Errorf("expected at least 3, got %d", ll.Length())
-		}
 	})
 }
 
@@ -1000,7 +915,6 @@ func Test_C24_LinkedList_AddStringsToNode_Single(t *testing.T) {
 		ll.AddStringsToNode(false, node, []string{"b"})
 		if ll.Length() != 3 {
 			t.Errorf("expected 3, got %d", ll.Length())
-		}
 	})
 }
 
@@ -1010,7 +924,6 @@ func Test_C24_LinkedList_AddStringsToNode_NilSkip(t *testing.T) {
 		ll.AddStringsToNode(true, nil, []string{"b"})
 		if ll.Length() != 1 {
 			t.Error("should skip nil node")
-		}
 	})
 }
 
@@ -1020,7 +933,6 @@ func Test_C24_LinkedList_AddStringsPtrToNode_NilItems(t *testing.T) {
 		ll.AddStringsPtrToNode(true, ll.Head(), nil)
 		if ll.Length() != 1 {
 			t.Error("should not change")
-		}
 	})
 }
 
@@ -1031,7 +943,6 @@ func Test_C24_LinkedList_AddCollectionToNode(t *testing.T) {
 		ll.AddCollectionToNode(true, ll.Head(), col)
 		if ll.Length() < 2 {
 			t.Error("should have added")
-		}
 	})
 }
 
@@ -1042,7 +953,6 @@ func Test_C24_LinkedList_AddAfterNode(t *testing.T) {
 		newNode := ll.AddAfterNode(node, "b")
 		if newNode.Element != "b" {
 			t.Error("expected b")
-		}
 	})
 }
 
@@ -1052,7 +962,6 @@ func Test_C24_LinkedList_ToCollection(t *testing.T) {
 		col := ll.ToCollection(0)
 		if col.Length() != 2 {
 			t.Errorf("expected 2 got %d", col.Length())
-		}
 	})
 }
 
@@ -1062,7 +971,6 @@ func Test_C24_LinkedList_ToCollection_Empty(t *testing.T) {
 		col := ll.ToCollection(0)
 		if col.Length() != 0 {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1072,7 +980,6 @@ func Test_C24_LinkedList_List(t *testing.T) {
 		list := ll.List()
 		if len(list) != 2 {
 			t.Errorf("expected 2 got %d", len(list))
-		}
 	})
 }
 
@@ -1082,7 +989,6 @@ func Test_C24_LinkedList_ListPtr(t *testing.T) {
 		list := ll.ListPtr()
 		if len(list) != 1 {
 			t.Errorf("expected 1 got %d", len(list))
-		}
 	})
 }
 
@@ -1092,7 +998,6 @@ func Test_C24_LinkedList_ListLock(t *testing.T) {
 		list := ll.ListLock()
 		if len(list) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1102,7 +1007,6 @@ func Test_C24_LinkedList_ListPtrLock(t *testing.T) {
 		list := ll.ListPtrLock()
 		if len(list) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1112,7 +1016,6 @@ func Test_C24_LinkedList_String(t *testing.T) {
 		s := ll.String()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1122,7 +1025,6 @@ func Test_C24_LinkedList_String_Empty(t *testing.T) {
 		s := ll.String()
 		if s == "" {
 			t.Error("should have no elements text")
-		}
 	})
 }
 
@@ -1132,7 +1034,6 @@ func Test_C24_LinkedList_StringLock(t *testing.T) {
 		s := ll.StringLock()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1142,7 +1043,6 @@ func Test_C24_LinkedList_StringLock_Empty(t *testing.T) {
 		s := ll.StringLock()
 		if s == "" {
 			t.Error("should have no elements text")
-		}
 	})
 }
 
@@ -1152,7 +1052,6 @@ func Test_C24_LinkedList_Join(t *testing.T) {
 		result := ll.Join(",")
 		if result != "a,b" {
 			t.Errorf("expected a,b got %s", result)
-		}
 	})
 }
 
@@ -1162,7 +1061,6 @@ func Test_C24_LinkedList_JoinLock(t *testing.T) {
 		result := ll.JoinLock(",")
 		if result != "a,b" {
 			t.Errorf("expected a,b got %s", result)
-		}
 	})
 }
 
@@ -1172,7 +1070,6 @@ func Test_C24_LinkedList_Joins(t *testing.T) {
 		result := ll.Joins(",", "b", "c")
 		if result == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1183,7 +1080,6 @@ func Test_C24_LinkedList_GetCompareSummary(t *testing.T) {
 		summary := ll1.GetCompareSummary(ll2, "left", "right")
 		if summary == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1193,7 +1089,6 @@ func Test_C24_LinkedList_Clear(t *testing.T) {
 		ll.Clear()
 		if ll.Length() != 0 {
 			t.Error("should be 0 after clear")
-		}
 	})
 }
 
@@ -1203,7 +1098,6 @@ func Test_C24_LinkedList_RemoveAll(t *testing.T) {
 		ll.RemoveAll()
 		if ll.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1213,7 +1107,6 @@ func Test_C24_LinkedList_Json(t *testing.T) {
 		result := ll.Json()
 		if result.HasError() {
 			t.Error("should not error")
-		}
 	})
 }
 
@@ -1223,7 +1116,6 @@ func Test_C24_LinkedList_JsonPtr(t *testing.T) {
 		result := ll.JsonPtr()
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1233,7 +1125,6 @@ func Test_C24_LinkedList_JsonModel(t *testing.T) {
 		model := ll.JsonModel()
 		if len(model) != 2 {
 			t.Errorf("expected 2 got %d", len(model))
-		}
 	})
 }
 
@@ -1243,7 +1134,6 @@ func Test_C24_LinkedList_JsonModelAny(t *testing.T) {
 		model := ll.JsonModelAny()
 		if model == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1256,7 +1146,6 @@ func Test_C24_LinkedList_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Error("should have data")
-		}
 	})
 }
 
@@ -1271,7 +1160,6 @@ func Test_C24_LinkedList_UnmarshalJSON(t *testing.T) {
 		}
 		if ll2.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll2.Length())
-		}
 	})
 }
 
@@ -1288,7 +1176,6 @@ func Test_C24_LinkedList_ParseInjectUsingJson(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Errorf("expected 2 got %d", result.Length())
-		}
 	})
 }
 
@@ -1302,7 +1189,6 @@ func Test_C24_LinkedList_ParseInjectUsingJsonMust(t *testing.T) {
 		result := ll2.ParseInjectUsingJsonMust(&jsonResult)
 		if result.Length() != 1 {
 			t.Errorf("expected 1 got %d", result.Length())
-		}
 	})
 }
 
@@ -1325,7 +1211,6 @@ func Test_C24_LinkedList_AsJsonMarshaller(t *testing.T) {
 		m := ll.AsJsonMarshaller()
 		if m == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1344,7 +1229,6 @@ func Test_C24_NonChainedLinkedListNodes_Empty(t *testing.T) {
 		}
 		if nc.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1363,7 +1247,6 @@ func Test_C24_NonChainedLinkedListNodes_Adds(t *testing.T) {
 		}
 		if nc.Last().Element != "b" {
 			t.Error("last should be b")
-		}
 	})
 }
 
@@ -1372,7 +1255,6 @@ func Test_C24_NonChainedLinkedListNodes_FirstOrDefault_Empty(t *testing.T) {
 		nc := corestr.NewNonChainedLinkedListNodes(0)
 		if nc.FirstOrDefault() != nil {
 			t.Error("should be nil")
-		}
 	})
 }
 
@@ -1381,7 +1263,6 @@ func Test_C24_NonChainedLinkedListNodes_LastOrDefault_Empty(t *testing.T) {
 		nc := corestr.NewNonChainedLinkedListNodes(0)
 		if nc.LastOrDefault() != nil {
 			t.Error("should be nil")
-		}
 	})
 }
 
@@ -1399,7 +1280,6 @@ func Test_C24_NonChainedLinkedListNodes_ApplyChaining(t *testing.T) {
 		}
 		if !nc.First().HasNext() {
 			t.Error("first should have next after chaining")
-		}
 	})
 }
 
@@ -1409,7 +1289,6 @@ func Test_C24_NonChainedLinkedListNodes_ApplyChaining_Empty(t *testing.T) {
 		nc.ApplyChaining()
 		if nc.IsChainingApplied() {
 			t.Error("should not apply to empty")
-		}
 	})
 }
 
@@ -1423,7 +1302,6 @@ func Test_C24_NonChainedLinkedListNodes_ToChainedNodes(t *testing.T) {
 		chained := nc.ToChainedNodes()
 		if chained == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1444,7 +1322,6 @@ func Test_C24_NewLinkedList_Create(t *testing.T) {
 		ll := corestr.New.LinkedList.Create()
 		if ll == nil || !ll.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1453,7 +1330,6 @@ func Test_C24_NewLinkedList_Empty(t *testing.T) {
 		ll := corestr.New.LinkedList.Empty()
 		if ll == nil || !ll.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1462,7 +1338,6 @@ func Test_C24_NewLinkedList_Strings(t *testing.T) {
 		ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -1471,7 +1346,6 @@ func Test_C24_NewLinkedList_Strings_Empty(t *testing.T) {
 		ll := corestr.New.LinkedList.Strings(nil)
 		if !ll.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1480,7 +1354,6 @@ func Test_C24_NewLinkedList_SpreadStrings(t *testing.T) {
 		ll := corestr.New.LinkedList.SpreadStrings("a", "b", "c")
 		if ll.Length() != 3 {
 			t.Errorf("expected 3 got %d", ll.Length())
-		}
 	})
 }
 
@@ -1489,7 +1362,6 @@ func Test_C24_NewLinkedList_SpreadStrings_Empty(t *testing.T) {
 		ll := corestr.New.LinkedList.SpreadStrings()
 		if !ll.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1500,7 +1372,6 @@ func Test_C24_NewLinkedList_PointerStringsPtr(t *testing.T) {
 		ll := corestr.New.LinkedList.PointerStringsPtr(&items)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -1509,7 +1380,6 @@ func Test_C24_NewLinkedList_PointerStringsPtr_Nil(t *testing.T) {
 		ll := corestr.New.LinkedList.PointerStringsPtr(nil)
 		if !ll.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1519,7 +1389,6 @@ func Test_C24_NewLinkedList_UsingMap(t *testing.T) {
 		ll := corestr.New.LinkedList.UsingMap(m)
 		if ll.Length() != 2 {
 			t.Errorf("expected 2 got %d", ll.Length())
-		}
 	})
 }
 
@@ -1528,7 +1397,6 @@ func Test_C24_NewLinkedList_UsingMap_Nil(t *testing.T) {
 		ll := corestr.New.LinkedList.UsingMap(nil)
 		if !ll.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1550,6 +1418,5 @@ func Test_C24_LinkedList_ConcurrentAddsLock(t *testing.T) {
 		wg.Wait()
 		if ll.Length() != 10 {
 			t.Errorf("expected 10 got %d", ll.Length())
-		}
 	})
 }

@@ -18,7 +18,6 @@ func Test_I8_SS01_Add(t *testing.T) {
 		ss.Add("b")
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -28,7 +27,6 @@ func Test_I8_SS02_AddSplit(t *testing.T) {
 		ss.AddSplit("a.b.c", ".")
 		if ss.Length() != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -42,7 +40,6 @@ func Test_I8_SS03_AddIf(t *testing.T) {
 		ss.AddIf(true, "keep")
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -52,7 +49,6 @@ func Test_I8_SS04_Adds(t *testing.T) {
 		ss.Adds("a", "b")
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -62,7 +58,6 @@ func Test_I8_SS05_Append(t *testing.T) {
 		ss.Append("a", "b")
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -77,7 +72,6 @@ func Test_I8_SS06_AppendFmt(t *testing.T) {
 		ss.AppendFmt("")
 		if ss.Length() != 1 {
 			t.Fatal("expected still 1")
-		}
 	})
 }
 
@@ -91,7 +85,6 @@ func Test_I8_SS07_AppendFmtIf(t *testing.T) {
 		ss.AppendFmtIf(true, "keep %s", "x")
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -101,7 +94,6 @@ func Test_I8_SS08_AddAsTitleValue(t *testing.T) {
 		ss.AddAsTitleValue("Title", "Val")
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -111,7 +103,6 @@ func Test_I8_SS09_AddAsCurlyTitleWrap(t *testing.T) {
 		ss.AddAsCurlyTitleWrap("Title", "Val")
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -125,7 +116,6 @@ func Test_I8_SS10_AddAsCurlyTitleWrapIf(t *testing.T) {
 		ss.AddAsCurlyTitleWrapIf(true, "T", "V")
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -139,7 +129,6 @@ func Test_I8_SS11_AddAsTitleValueIf(t *testing.T) {
 		ss.AddAsTitleValueIf(true, "T", "V")
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -154,7 +143,6 @@ func Test_I8_SS12_InsertAt(t *testing.T) {
 		ss.InsertAt(-1, "x")
 		if ss.Length() != 3 {
 			t.Fatal("expected still 3")
-		}
 	})
 }
 
@@ -170,7 +158,6 @@ func Test_I8_SS13_AddStruct(t *testing.T) {
 		ss.AddStruct(true, nil)
 		if ss.Length() != 1 {
 			t.Fatal("expected still 1")
-		}
 	})
 }
 
@@ -185,7 +172,6 @@ func Test_I8_SS14_AddPointer(t *testing.T) {
 		ss.AddPointer(true, nil)
 		if ss.Length() != 1 {
 			t.Fatal("expected still 1")
-		}
 	})
 }
 
@@ -199,7 +185,6 @@ func Test_I8_SS15_AddsIf(t *testing.T) {
 		ss.AddsIf(true, "a", "b")
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -213,7 +198,6 @@ func Test_I8_SS16_AddError(t *testing.T) {
 		ss.AddError(nil)
 		if ss.Length() != 1 {
 			t.Fatal("expected still 1")
-		}
 	})
 }
 
@@ -223,7 +207,6 @@ func Test_I8_SS17_AsDefaultError(t *testing.T) {
 		err := ss.AsDefaultError()
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -233,7 +216,6 @@ func Test_I8_SS18_AsError_Empty(t *testing.T) {
 		err := ss.AsError(",")
 		if err != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -246,7 +228,6 @@ func Test_I8_SS19_First(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a", "b")
 		if ss.First() != "a" {
 			t.Fatal("expected 'a'")
-		}
 	})
 }
 
@@ -255,7 +236,6 @@ func Test_I8_SS20_Last(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a", "b")
 		if ss.Last() != "b" {
 			t.Fatal("expected 'b'")
-		}
 	})
 }
 
@@ -268,7 +248,6 @@ func Test_I8_SS21_FirstOrDefault(t *testing.T) {
 		empty := corestr.New.SimpleSlice.Cap(0)
 		if empty.FirstOrDefault() != "" {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -281,7 +260,6 @@ func Test_I8_SS22_LastOrDefault(t *testing.T) {
 		empty := corestr.New.SimpleSlice.Cap(0)
 		if empty.LastOrDefault() != "" {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -290,7 +268,6 @@ func Test_I8_SS23_FirstDynamic(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		if ss.FirstDynamic() != "a" {
 			t.Fatal("expected 'a'")
-		}
 	})
 }
 
@@ -299,7 +276,6 @@ func Test_I8_SS24_LastDynamic(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		if ss.LastDynamic() != "a" {
 			t.Fatal("expected 'a'")
-		}
 	})
 }
 
@@ -328,7 +304,6 @@ func Test_I8_SS27_Skip(t *testing.T) {
 		result2 := ss.Skip(10)
 		if len(result2) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -351,7 +326,6 @@ func Test_I8_SS29_Take(t *testing.T) {
 		result2 := ss.Take(10)
 		if len(result2) != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -369,7 +343,6 @@ func Test_I8_SS31_Limit(t *testing.T) {
 		result := ss.Limit(1)
 		if len(result) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -385,7 +358,6 @@ func Test_I8_SS33_Count(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a", "b")
 		if ss.Count() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -395,7 +367,6 @@ func Test_I8_SS34_CountFunc(t *testing.T) {
 		c := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
 		if c != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -407,7 +378,6 @@ func Test_I8_SS35_IsContains(t *testing.T) {
 		}
 		if ss.IsContains("z") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -421,7 +391,6 @@ func Test_I8_SS36_Json(t *testing.T) {
 		j := ss.Json()
 		if j.JsonString() == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -433,7 +402,6 @@ func Test_I8_SS37_ParseInjectUsingJson(t *testing.T) {
 		_, err := ss2.ParseInjectUsingJson(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -444,7 +412,6 @@ func Test_I8_SS38_ParseInjectUsingJson_Error(t *testing.T) {
 		_, err := ss.ParseInjectUsingJson(bad)
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -453,7 +420,6 @@ func Test_I8_SS39_String(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		if ss.String() == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -462,7 +428,6 @@ func Test_I8_SS40_Join(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a", "b")
 		if ss.Join(",") != "a,b" {
 			t.Fatal("expected 'a,b'")
-		}
 	})
 }
 
@@ -471,7 +436,6 @@ func Test_I8_SS41_List(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		if len(ss.List()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -484,7 +448,6 @@ func Test_I8_SS42_RemoveIndexes(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -494,7 +457,6 @@ func Test_I8_SS43_MarshalJSON(t *testing.T) {
 		data, err := ss.MarshalJSON()
 		if err != nil || len(data) == 0 {
 			t.Fatal("expected marshal")
-		}
 	})
 }
 
@@ -507,7 +469,6 @@ func Test_I8_SS44_UnmarshalJSON(t *testing.T) {
 		}
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -517,7 +478,6 @@ func Test_I8_SS45_SafeStrings(t *testing.T) {
 		result := ss.SafeStrings()
 		if len(result) != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -527,6 +487,5 @@ func Test_I8_SS46_Serialize(t *testing.T) {
 		bytes, err := ss.Serialize()
 		if err != nil || len(bytes) == 0 {
 			t.Fatal("expected serialization")
-		}
 	})
 }

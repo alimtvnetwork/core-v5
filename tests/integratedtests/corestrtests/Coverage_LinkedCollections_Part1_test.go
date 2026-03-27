@@ -21,7 +21,6 @@ func Test_CovLC1_01_Tail_Head(t *testing.T) {
 		}
 		if lc.Head() == nil {
 			t.Fatal("expected non-nil head")
-		}
 	})
 }
 
@@ -38,7 +37,6 @@ func Test_CovLC1_02_First_Single_Last(t *testing.T) {
 		}
 		if lc.Last().Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -58,7 +56,6 @@ func Test_CovLC1_03_LastOrDefault_FirstOrDefault(t *testing.T) {
 		}
 		if lc.FirstOrDefault().Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -71,7 +68,6 @@ func Test_CovLC1_04_Length(t *testing.T) {
 		lc.Add(corestr.New.Collection.Strings([]string{"a"}))
 		if lc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -82,7 +78,6 @@ func Test_CovLC1_05_AllIndividualItemsLength(t *testing.T) {
 		lc.Add(corestr.New.Collection.Strings([]string{"c"}))
 		if lc.AllIndividualItemsLength() != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -92,7 +87,6 @@ func Test_CovLC1_06_LengthLock(t *testing.T) {
 		lc.Add(corestr.New.Collection.Strings([]string{"a"}))
 		if lc.LengthLock() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -128,7 +122,6 @@ func Test_CovLC1_07_IsEqualsPtr(t *testing.T) {
 		// same content different structure
 		if a.IsEqualsPtr(b) != true {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -150,7 +143,6 @@ func Test_CovLC1_08_IsEmptyLock_IsEmpty_HasItems(t *testing.T) {
 		}
 		if !lc.HasItems() {
 			t.Fatal("expected has items")
-		}
 	})
 }
 
@@ -168,7 +160,6 @@ func Test_CovLC1_09_InsertAt(t *testing.T) {
 		lc.InsertAt(1, corestr.New.Collection.Strings([]string{"mid"}))
 		if lc.Length() != 4 {
 			t.Fatal("expected 4")
-		}
 	})
 }
 
@@ -181,7 +172,6 @@ func Test_CovLC1_10_AddAsync(t *testing.T) {
 		wg.Wait()
 		if lc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -197,7 +187,6 @@ func Test_CovLC1_11_AddsAsyncOnComplete(t *testing.T) {
 		<-done
 		if lc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -266,7 +255,6 @@ func Test_CovLC1_14_AddLock(t *testing.T) {
 		lc.AddLock(corestr.New.Collection.Strings([]string{"a"}))
 		if lc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -279,7 +267,6 @@ func Test_CovLC1_15_Add(t *testing.T) {
 		lc.Add(corestr.New.Collection.Strings([]string{"b"}))
 		if lc.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -319,7 +306,6 @@ func Test_CovLC1_18_AddBackNode_AppendNode(t *testing.T) {
 		lc.AppendNode(node2)
 		if lc.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -337,7 +323,6 @@ func Test_CovLC1_19_AppendChainOfNodes(t *testing.T) {
 		lc.AppendChainOfNodes(node2)
 		if lc.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -351,7 +336,6 @@ func Test_CovLC1_20_AppendChainOfNodesAsync(t *testing.T) {
 		wg.Wait()
 		if lc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -364,7 +348,6 @@ func Test_CovLC1_21_PushBackLock_PushBack_Push_PushFront(t *testing.T) {
 		lc.PushFront(corestr.New.Collection.Strings([]string{"front"}))
 		if lc.Length() != 4 {
 			t.Fatal("expected 4")
-		}
 	})
 }
 
@@ -380,7 +363,6 @@ func Test_CovLC1_22_AddFrontLock_AddFront(t *testing.T) {
 		lc.AddFrontLock(corestr.New.Collection.Strings([]string{"front"}))
 		if lc.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -411,7 +393,6 @@ func Test_CovLC1_24_GetNextNodes(t *testing.T) {
 		nodes := lc.GetNextNodes(2)
 		if len(nodes) != 2 {
 			t.Fatalf("expected 2, got %d", len(nodes))
-		}
 	})
 }
 
@@ -423,7 +404,6 @@ func Test_CovLC1_25_GetAllLinkedNodes(t *testing.T) {
 		nodes := lc.GetAllLinkedNodes()
 		if len(nodes) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -456,7 +436,6 @@ func Test_CovLC1_26_Loop(t *testing.T) {
 		})
 		if breakCount != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -489,7 +468,6 @@ func Test_CovLC1_27_Filter(t *testing.T) {
 		})
 		if len(r2) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -510,7 +488,6 @@ func Test_CovLC1_28_FilterAsCollection(t *testing.T) {
 		}, 0)
 		if col2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -524,7 +501,6 @@ func Test_CovLC1_29_FilterAsCollections(t *testing.T) {
 		})
 		if len(cols) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -552,7 +528,6 @@ func Test_CovLC1_30_RemoveNodeByIndex(t *testing.T) {
 		lc2.RemoveNodeByIndex(1)
 		if lc2.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -591,7 +566,6 @@ func Test_CovLC1_32_RemoveNode(t *testing.T) {
 		lc2.RemoveNode(tail)
 		if lc2.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 

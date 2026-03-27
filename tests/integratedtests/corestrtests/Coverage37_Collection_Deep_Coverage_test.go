@@ -1245,7 +1245,6 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 		err2 := c.UnmarshalJSON([]byte(`{invalid`))
 		if err2 == nil { t.Fatal("expected error") }
 	})
-
 }
 
 func Test_C37_Collection_ParseInjectUsingJson(t *testing.T) {

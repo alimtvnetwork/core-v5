@@ -124,7 +124,6 @@ func Test_CovS06_AnyToString_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -156,7 +155,6 @@ func Test_CovS06_CharCollDataModel_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -183,7 +181,6 @@ func Test_CovS06_CloneSlice_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -205,7 +202,6 @@ func Test_CovS06_CloneSliceIf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -241,7 +237,6 @@ func Test_CovS06_Utils_Wrap_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -264,7 +259,6 @@ func Test_CovS06_CharCollMap_GetChar_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -293,7 +287,6 @@ func Test_CovS06_CharCollMap_GetCharsGroups_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -326,7 +319,6 @@ func Test_CovS06_CharCollMap_Basic_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -374,7 +366,6 @@ func Test_CovS06_CharCollMap_AddHas_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -403,7 +394,6 @@ func Test_CovS06_CharCollMap_LengthOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -446,7 +436,6 @@ func Test_CovS06_CharCollMap_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -479,7 +468,6 @@ func Test_CovS06_CharCollMap_HasWithCollection_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -503,7 +491,6 @@ func Test_CovS06_CharCollMap_GetCollection_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -548,7 +535,6 @@ func Test_CovS06_CharCollMap_List_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -583,7 +569,6 @@ func Test_CovS06_CharCollMap_Json_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -608,7 +593,6 @@ func Test_CovS06_CharCollMap_AddSameCharItems_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -635,7 +619,6 @@ func Test_CovS06_CharCollMap_Resize_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -664,7 +647,6 @@ func Test_CovS06_CharCollMap_ClearDispose_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -687,7 +669,6 @@ func Test_CovS06_CharCollMap_HashsetByChar_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -716,7 +697,6 @@ func Test_CovS06_CharCollMap_HashsetsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -750,7 +730,6 @@ func Test_CovS06_CharCollMap_AddHashmaps_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -778,7 +757,6 @@ func Test_CovS06_CharCollMap_AddCollectionItems_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -806,7 +784,6 @@ func Test_CovS06_CharCollMap_StringOutput_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -828,7 +805,6 @@ func Test_CovS06_CharCollMap_PrintSkip(t *testing.T) {
 		expected := args.Map{"skipped": true}
 		if actual["skipped"] != expected["skipped"] {
 			t.Errorf("Print skip test failed")
-		}
 	})
 }
 
@@ -856,7 +832,6 @@ func Test_CovS06_CharCollMap_InterfaceAdapters_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -886,7 +861,6 @@ func Test_CovS06_CharCollMap_MarshalUnmarshal(t *testing.T) {
 		}
 		if actual["marshalOk"] != expected["marshalOk"] || actual["unmarshalOk"] != expected["unmarshalOk"] {
 			t.Errorf("MarshalJSON/UnmarshalJSON failed: %v", actual)
-		}
 	})
 }
 
@@ -915,7 +889,6 @@ func Test_CovS06_CharCollMap_AddCharHashsetMap_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -957,7 +930,6 @@ func Test_CovS06_CharCollMap_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -1003,8 +975,6 @@ func Test_CovS06_CharCollMap_LockVariants(t *testing.T) {
 		for k, v := range expected {
 			if actual[k] != v {
 				t.Errorf("LockVariants %s: got %v, want %v", k, actual[k], v)
-			}
-		}
 	})
 }
 
@@ -1026,7 +996,6 @@ func Test_CovS06_CharCollMap_HasWithCollectionLock(t *testing.T) {
 		}
 		if coll == nil {
 			t.Error("HasWithCollectionLock should return non-nil collection")
-		}
 	})
 }
 
@@ -1057,7 +1026,6 @@ func Test_CovS06_CharCollMap_HashsetVariants(t *testing.T) {
 		}
 		if hs4 == nil || !hs4.IsEmpty() {
 			// missing char returns Empty hashset
-		}
 	})
 }
 
@@ -1080,7 +1048,6 @@ func Test_CovS06_CharCollMap_HashsetsCollByCharsAndStr(t *testing.T) {
 		}
 		if hsByStr == nil || hsByStr.Length() == 0 {
 			t.Error("HashsetsCollectionByStringFirstChar should return non-empty")
-		}
 	})
 }
 
@@ -1100,7 +1067,6 @@ func Test_CovS06_CharCollMap_AddLock(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() != 2 {
 			t.Errorf("AddLock: expected 2 items, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -1123,7 +1089,6 @@ func Test_CovS06_CharCollMap_AddSameCharsCollLock(t *testing.T) {
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -1142,7 +1107,6 @@ func Test_CovS06_CharCollMap_GetCollectionByChar(t *testing.T) {
 		// Assert
 		if coll == nil {
 			t.Error("GetCollectionByChar('a') should return non-nil")
-		}
 	})
 }
 
@@ -1163,7 +1127,6 @@ func Test_CovS06_CharCollMap_JsonParseSelfInject(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("JsonParseSelfInject should not error: %v", err)
-		}
 	})
 }
 
@@ -1184,7 +1147,6 @@ func Test_CovS06_CharCollMap_ParseInjectMust_Valid(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("ParseInjectUsingJsonMust should return non-nil")
-		}
 	})
 }
 
@@ -1212,7 +1174,6 @@ func Test_CovS06_CharCollMap_AddHashmapsFilter(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() != 2 {
 			t.Errorf("Expected 2 items from filter, got %d", m.AllLengthsSum())
-		}
 	})
 }
 
@@ -1243,7 +1204,6 @@ func Test_CovS06_CharCollMap_AddHashmapsFilter_Break(t *testing.T) {
 		// Assert — should have stopped early
 		if m.AllLengthsSum() > 3 {
 			t.Errorf("Break filter should have limited additions")
-		}
 	})
 }
 
@@ -1287,7 +1247,6 @@ func Test_CovS06_CharCollMap_NewCreator_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-		}
 	})
 }
 
@@ -1306,7 +1265,6 @@ func Test_CovS06_CharCollMap_GetMap(t *testing.T) {
 		// Assert
 		if rawMap == nil {
 			t.Error("GetMap should return non-nil")
-		}
 	})
 }
 
@@ -1325,7 +1283,6 @@ func Test_CovS06_CharCollMap_JsonPtr(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Error("JsonPtr should return non-nil")
-		}
 	})
 }
 
@@ -1345,7 +1302,6 @@ func Test_CovS06_CharCollMap_IsEquals_LenMismatch(t *testing.T) {
 		// Assert
 		if result {
 			t.Error("IsEquals should return false for different lengths")
-		}
 	})
 }
 
@@ -1365,7 +1321,6 @@ func Test_CovS06_CharCollMap_IsEquals_OneEmpty(t *testing.T) {
 		// Assert
 		if result {
 			t.Error("IsEquals should return false when one is empty")
-		}
 	})
 }
 
@@ -1395,4 +1350,5 @@ func Test_CovS06_CharCollMap_IsEquals_KeyMissing(t *testing.T) {
 
 func init() {
 	_ = sort.Strings
+	})
 }
