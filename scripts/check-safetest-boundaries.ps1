@@ -84,7 +84,7 @@ foreach ($file in $files) {
 # ── Check 3: empty if blocks (comment-only body with no actual statement) ──
 foreach ($file in $files) {
     $lines = Get-Content -LiteralPath $file.FullName
-    $rel = $file.FullName.Replace($repoRoot, "").TrimStart('\\', '/') -replace '\\', '/'
+    $rel = $file.FullName.Replace($repoRoot, "").TrimStart([char]'\', [char]'/') -replace '\\', '/'
 
     for ($i = 0; $i -lt $lines.Count; $i++) {
         if ($lines[$i] -notmatch '^(\t+)if\b.*\{\s*$') { continue }
