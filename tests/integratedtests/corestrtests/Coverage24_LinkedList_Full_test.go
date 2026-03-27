@@ -789,7 +789,7 @@ func Test_C24_LinkedList_Loop_Empty(t *testing.T) {
 			return false
 		}
 	})
-}
+		})
 
 func Test_C24_LinkedList_Loop_Break(t *testing.T) {
 	safeTest(t, "Test_C24_LinkedList_Loop_Break", func() {
