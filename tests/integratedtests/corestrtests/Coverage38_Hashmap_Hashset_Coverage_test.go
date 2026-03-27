@@ -1167,6 +1167,7 @@ func Test_C38_Hashset_JSON(t *testing.T) {
 	}
 
 	})
+}
 func Test_C38_Hashset_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C38_Hashset_ParseInjectUsingJson", func() {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")

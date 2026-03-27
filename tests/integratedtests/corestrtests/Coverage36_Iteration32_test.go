@@ -1030,7 +1030,7 @@ func Test_I32_Collection_UnmarshalJSON_Err(t *testing.T) {
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Collection returns error -- UnmarshalJSON err", actual)
 	})
-	})
+}
 
 func Test_I32_Collection_Json(t *testing.T) {
 	safeTest(t, "Test_I32_Collection_Json", func() {

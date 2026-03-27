@@ -54,6 +54,7 @@ func Test_I30_Hashset_LengthLock(t *testing.T) {
 // Hashset — Add variants
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_Add(t *testing.T) {
@@ -355,6 +356,7 @@ func Test_I30_Hashset_AddSimpleSlice(t *testing.T) {
 // Hashset — Has / Contains / Missing
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_Has_Contains(t *testing.T) {
@@ -424,6 +426,7 @@ func Test_I30_Hashset_HasAllCollectionItems(t *testing.T) {
 // Hashset — List / Items / Collection / Sorted
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_List(t *testing.T) {
@@ -593,6 +596,7 @@ func Test_I30_Hashset_MapStringAnyDiff(t *testing.T) {
 // Hashset — Resize / AddCapacities
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_Resize(t *testing.T) {
@@ -678,6 +682,7 @@ func Test_I30_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
 // Hashset — ConcatNew
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_ConcatNewHashsets_NoArgs(t *testing.T) {
@@ -724,6 +729,7 @@ func Test_I30_Hashset_ConcatNewStrings_WithArgs(t *testing.T) {
 // Hashset — Filter / GetFiltered / GetAllExcept
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_Filter(t *testing.T) {
@@ -881,6 +887,7 @@ func Test_I30_Hashset_GetAllExceptCollection_Nil(t *testing.T) {
 // Hashset — AddsUsingFilter variants
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_AddsUsingFilter(t *testing.T) {
@@ -966,6 +973,7 @@ func Test_I30_Hashset_AddsAnyUsingFilterLock_Break(t *testing.T) {
 // Hashset — Remove / Clear / Dispose
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_Remove(t *testing.T) {
@@ -1042,6 +1050,7 @@ func Test_I30_Hashset_Dispose_Nil(t *testing.T) {
 // Hashset — IsEquals / ToLowerSet
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_IsEquals_Same(t *testing.T) {
@@ -1133,6 +1142,7 @@ func Test_I30_Hashset_ToLowerSet(t *testing.T) {
 // Hashset — String / Join
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_String_Empty(t *testing.T) {
@@ -1228,6 +1238,7 @@ func Test_I30_Hashset_NonWhitespaceJoins(t *testing.T) {
 // Hashset — JSON / Serialize
 // ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_JsonModel(t *testing.T) {
@@ -1287,7 +1298,7 @@ func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns error -- UnmarshalJSON err", actual)
 	})
-	})
+}
 
 func Test_I30_Hashset_Json(t *testing.T) {
 	safeTest(t, "Test_I30_Hashset_Json", func() {
@@ -1404,6 +1415,7 @@ func Test_I30_Hashset_AsJsonMarshaller(t *testing.T) {
 	// Hashset — DistinctDiff
 	// ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_BothEmpty(t *testing.T) {
@@ -1500,6 +1512,7 @@ func Test_I30_Hashset_DistinctDiffHashset(t *testing.T) {
 	// Hashset — Wrap / Transpile
 	// ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_WrapDoubleQuote(t *testing.T) {
@@ -1555,6 +1568,7 @@ func Test_I30_Hashset_Transpile_Empty(t *testing.T) {
 	// Hashset — WgLock variants
 	// ══════════════════════════════════════════════════════════════════════════════
 
+	})
 }
 
 func Test_I30_Hashset_AddStringsPtrWgLock(t *testing.T) {
