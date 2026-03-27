@@ -46,6 +46,7 @@ func Test_Hashset_AddNonEmpty_Regression(t *testing.T) {
 				"containsItem3": fmt.Sprintf("%v", hs.Has("c")),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
+		}
 	})
 }
 
