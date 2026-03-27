@@ -1275,9 +1275,10 @@ func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"hasErr": err != nil}
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns error -- UnmarshalJSON err", actual)
-	}
+	})
+}
 
-	func Test_I30_Hashset_Json(t *testing.T) {
+func Test_I30_Hashset_Json(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		j := hs.Json()
 		actual := args.Map{"hasBytes": j.HasBytes()}
@@ -1544,5 +1545,3 @@ func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddItemsMapWgLock nil", actual)
 	}
-	})
-}
