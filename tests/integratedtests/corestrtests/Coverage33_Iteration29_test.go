@@ -999,36 +999,44 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"hasErr": err != nil}
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns error -- UnmarshalJSON err", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_Json(t *testing.T) {
+func Test_I29_Hashmap_Json(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_Json", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		j := hm.Json()
 		actual := args.Map{"hasBytes": j.HasBytes()}
 		expected := args.Map{"hasBytes": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Json", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_JsonPtr(t *testing.T) {
+func Test_I29_Hashmap_JsonPtr(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_JsonPtr", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		jp := hm.JsonPtr()
 		actual := args.Map{"notNil": jp != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JsonPtr", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_Serialize(t *testing.T) {
+func Test_I29_Hashmap_Serialize(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_Serialize", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		b, err := hm.Serialize()
 		actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
 		expected := args.Map{"noErr": true, "hasBytes": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Serialize", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_Deserialize(t *testing.T) {
+func Test_I29_Hashmap_Deserialize(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_Deserialize", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		target := map[string]string{}
@@ -1036,9 +1044,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"noErr": err == nil}
 		expected := args.Map{"noErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Deserialize", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_ParseInjectUsingJson(t *testing.T) {
+func Test_I29_Hashmap_ParseInjectUsingJson(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_ParseInjectUsingJson", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		jr := hm.JsonPtr()
@@ -1047,18 +1057,22 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"noErr": err == nil, "has": result.Has("a")}
 		expected := args.Map{"noErr": true, "has": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- ParseInjectUsingJson", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_ParseInjectUsingJson_Err(t *testing.T) {
+func Test_I29_Hashmap_ParseInjectUsingJson_Err(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_ParseInjectUsingJson_Err", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		badJson := corejson.NewPtr(42) // not a map
 		_, err := hm.ParseInjectUsingJson(badJson)
 		actual := args.Map{"hasErr": err != nil}
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns error -- ParseInjectUsingJson err", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_JsonParseSelfInject(t *testing.T) {
+func Test_I29_Hashmap_JsonParseSelfInject(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_JsonParseSelfInject", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		jr := hm.JsonPtr()
@@ -1067,80 +1081,98 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"noErr": err == nil}
 		expected := args.Map{"noErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JsonParseSelfInject", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AsJsoner(t *testing.T) {
+func Test_I29_Hashmap_AsJsoner(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AsJsoner", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		actual := args.Map{"notNil": hm.AsJsoner() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsoner", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AsJsonContractsBinder(t *testing.T) {
+func Test_I29_Hashmap_AsJsonContractsBinder(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AsJsonContractsBinder", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		actual := args.Map{"notNil": hm.AsJsonContractsBinder() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsonContractsBinder", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AsJsonParseSelfInjector(t *testing.T) {
+func Test_I29_Hashmap_AsJsonParseSelfInjector(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AsJsonParseSelfInjector", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		actual := args.Map{"notNil": hm.AsJsonParseSelfInjector() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsonParseSelfInjector", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AsJsonMarshaller(t *testing.T) {
+func Test_I29_Hashmap_AsJsonMarshaller(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AsJsonMarshaller", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		actual := args.Map{"notNil": hm.AsJsonMarshaller() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsonMarshaller", actual)
-	}
+	})
+}
 
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashmap — ToError / KeyValStringLines / ToStringsUsingCompiler
-	// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// Hashmap — ToError / KeyValStringLines / ToStringsUsingCompiler
+// ══════════════════════════════════════════════════════════════════════════════
 
-	func Test_I29_Hashmap_ToError(t *testing.T) {
+func Test_I29_Hashmap_ToError(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_ToError", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		err := hm.ToError(", ")
 		actual := args.Map{"hasErr": err != nil}
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns error -- ToError", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_ToDefaultError(t *testing.T) {
+func Test_I29_Hashmap_ToDefaultError(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_ToDefaultError", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		err := hm.ToDefaultError()
 		actual := args.Map{"hasErr": err != nil}
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns error -- ToDefaultError", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_KeyValStringLines(t *testing.T) {
+func Test_I29_Hashmap_KeyValStringLines(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_KeyValStringLines", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		lines := hm.KeyValStringLines()
 		actual := args.Map{"len": len(lines)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeyValStringLines", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
+func Test_I29_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_ToStringsUsingCompiler_Empty", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.ToStringsUsingCompiler(func(k, v string) string { return k + v })
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 0}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- ToStringsUsingCompiler empty", actual)
-	}
+	})
+}
 
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashmap — GetValuesExcept / GetAllExcept / Filter
-	// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// Hashmap — GetValuesExcept / GetAllExcept / Filter
+// ══════════════════════════════════════════════════════════════════════════════
 
-	func Test_I29_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
+func Test_I29_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetValuesExceptKeysInHashset", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		hm.AddOrUpdate("b", "2")
@@ -1149,18 +1181,22 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- GetValuesExceptKeysInHashset", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetValuesExceptKeysInHashset_Nil(t *testing.T) {
+func Test_I29_Hashmap_GetValuesExceptKeysInHashset_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetValuesExceptKeysInHashset_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		result := hm.GetValuesExceptKeysInHashset(nil)
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- GetValuesExceptKeysInHashset nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetValuesKeysExcept(t *testing.T) {
+func Test_I29_Hashmap_GetValuesKeysExcept(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetValuesKeysExcept", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		hm.AddOrUpdate("b", "2")
@@ -1168,18 +1204,22 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- GetValuesKeysExcept", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
+func Test_I29_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetValuesKeysExcept_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		result := hm.GetValuesKeysExcept(nil)
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- GetValuesKeysExcept nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetAllExceptCollection(t *testing.T) {
+func Test_I29_Hashmap_GetAllExceptCollection(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetAllExceptCollection", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		hm.AddOrUpdate("b", "2")
@@ -1188,18 +1228,22 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetAllExceptCollection", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
+func Test_I29_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetAllExceptCollection_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		result := hm.GetAllExceptCollection(nil)
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- GetAllExceptCollection nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetKeysFilteredItems(t *testing.T) {
+func Test_I29_Hashmap_GetKeysFilteredItems(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetKeysFilteredItems", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("abc", "1")
 		hm.AddOrUpdate("xyz", "2")
@@ -1209,9 +1253,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 2}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredItems", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
+func Test_I29_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetKeysFilteredItems_Empty", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.GetKeysFilteredItems(func(s string, i int) (string, bool, bool) {
 			return s, true, false
@@ -1219,9 +1265,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 0}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- GetKeysFilteredItems empty", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetKeysFilteredCollection(t *testing.T) {
+func Test_I29_Hashmap_GetKeysFilteredCollection(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetKeysFilteredCollection", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		coll := hm.GetKeysFilteredCollection(func(s string, i int) (string, bool, bool) {
@@ -1230,9 +1278,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": coll.Length()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredCollection", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
+func Test_I29_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetKeysFilteredCollection_Empty", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		coll := hm.GetKeysFilteredCollection(func(s string, i int) (string, bool, bool) {
 			return s, true, false
@@ -1240,21 +1290,25 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"empty": coll.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- GetKeysFilteredCollection empty", actual)
-	}
+	})
+}
 
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashmap — AddOrUpdateCollection / AddOrUpdateStringsPtrWgLock
-	// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// Hashmap — AddOrUpdateCollection / AddOrUpdateStringsPtrWgLock
+// ══════════════════════════════════════════════════════════════════════════════
 
-	func Test_I29_Hashmap_AddOrUpdateCollection_Nil(t *testing.T) {
+func Test_I29_Hashmap_AddOrUpdateCollection_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddOrUpdateCollection_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.AddOrUpdateCollection(nil, nil)
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddOrUpdateCollection nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddOrUpdateCollection_Mismatch(t *testing.T) {
+func Test_I29_Hashmap_AddOrUpdateCollection_Mismatch(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddOrUpdateCollection_Mismatch", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		keys := corestr.New.Collection.Strings([]string{"a", "b"})
 		vals := corestr.New.Collection.Strings([]string{"1"})
@@ -1262,9 +1316,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateCollection mismatch", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddOrUpdateCollection(t *testing.T) {
+func Test_I29_Hashmap_AddOrUpdateCollection(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddOrUpdateCollection", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		keys := corestr.New.Collection.Strings([]string{"a"})
 		vals := corestr.New.Collection.Strings([]string{"1"})
@@ -1273,9 +1329,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"val": v}
 		expected := args.Map{"val": "1"}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateCollection", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
+func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock", func() {
 		hm := corestr.New.Hashmap.Cap(10)
 		wg := &sync.WaitGroup{}
 		wg.Add(1)
@@ -1284,29 +1342,35 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": hm.Length()}
 		expected := args.Map{"len": 2}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateStringsPtrWgLock", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
+func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock_Empty", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.AddOrUpdateStringsPtrWgLock(&sync.WaitGroup{}, []string{}, []string{})
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- AddOrUpdateStringsPtrWgLock empty", actual)
-	}
+	})
+}
 
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashmap — Filter variants
-	// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// Hashmap — Filter variants
+// ══════════════════════════════════════════════════════════════════════════════
 
-	func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Nil(t *testing.T) {
+func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.AddsOrUpdatesAnyUsingFilter(nil, nil...)
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdatesAnyUsingFilter nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
+func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Break", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return p.ValueString(), true, true
@@ -1318,17 +1382,21 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": hm.Length()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdatesAnyUsingFilter break", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil(t *testing.T) {
+func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.AddsOrUpdatesAnyUsingFilterLock(nil, nil...)
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdatesAnyUsingFilterLock nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
+func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return p.ValueString(), true, true
@@ -1340,17 +1408,21 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": hm.Length()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdatesAnyUsingFilterLock break", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Nil(t *testing.T) {
+func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Nil(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Nil", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		result := hm.AddsOrUpdatesUsingFilter(nil, nil...)
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdatesUsingFilter nil", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
+func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Break", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(p corestr.KeyValuePair) (string, bool, bool) {
 			return p.Value, true, true
@@ -1362,13 +1434,15 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": hm.Length()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdatesUsingFilter break", actual)
-	}
+	})
+}
 
-	// ══════════════════════════════════════════════════════════════════════════════
-	// Hashmap — GetKeysFilteredItems/Collection with break
-	// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// Hashmap — GetKeysFilteredItems/Collection with break
+// ══════════════════════════════════════════════════════════════════════════════
 
-	func Test_I29_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
+func Test_I29_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetKeysFilteredItems_Break", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		hm.AddOrUpdate("b", "2")
@@ -1378,9 +1452,11 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredItems break", actual)
-	}
+	})
+}
 
-	func Test_I29_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
+func Test_I29_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
+	safeTest(t, "Test_I29_Hashmap_GetKeysFilteredCollection_Break", func() {
 		hm := corestr.New.Hashmap.Cap(5)
 		hm.AddOrUpdate("a", "1")
 		hm.AddOrUpdate("b", "2")
@@ -1390,26 +1466,29 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 		actual := args.Map{"len": coll.Length()}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredCollection break", actual)
-	}
+	})
+}
 
-	// ══════════════════════════════════════════════════════════════════════════════
-	// HashsetDataModel
-	// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// HashsetDataModel
+// ══════════════════════════════════════════════════════════════════════════════
 
-	func Test_I29_HashsetDataModel_NewUsing(t *testing.T) {
+func Test_I29_HashsetDataModel_NewUsing(t *testing.T) {
+	safeTest(t, "Test_I29_HashsetDataModel_NewUsing", func() {
 		dm := &corestr.HashsetDataModel{Items: map[string]bool{"a": true}}
 		hs := corestr.NewHashsetUsingDataModel(dm)
 		actual := args.Map{"has": hs.Has("a")}
 		expected := args.Map{"has": true}
 		expected.ShouldBeEqual(t, 0, "HashsetDataModel returns correct value -- NewUsing", actual)
-	}
+	})
+}
 
-	func Test_I29_HashsetDataModel_NewFromCollection(t *testing.T) {
+func Test_I29_HashsetDataModel_NewFromCollection(t *testing.T) {
+	safeTest(t, "Test_I29_HashsetDataModel_NewFromCollection", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		dm := corestr.NewHashsetsDataModelUsing(hs)
 		actual := args.Map{"notNil": dm != nil, "len": len(dm.Items)}
 		expected := args.Map{"notNil": true, "len": 2}
 		expected.ShouldBeEqual(t, 0, "HashsetDataModel returns correct value -- NewFromCollection", actual)
-	}
 	})
 }
