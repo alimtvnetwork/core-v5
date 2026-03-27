@@ -357,7 +357,7 @@ func Test_Cov14_Hashmap_ToStringsUsingCompiler(t *testing.T) {
 		lines := h.ToStringsUsingCompiler(func(k, v string) string { return k + "=" + v })
 		if len(lines) != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -445,7 +445,7 @@ func Test_Cov14_Hashmap_AddsOrUpdatesFilter(t *testing.T) {
 
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 
 		h.AddsOrUpdatesUsingFilter(nil)
 	})
@@ -461,7 +461,7 @@ func Test_Cov14_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -566,7 +566,7 @@ func Test_Cov14_Hashset_AddVariants(t *testing.T) {
 
 		if h.Length() != 8 {
 			t.Fatalf("expected 8 got %d", h.Length())
-		})
+		}
 	})
 }
 
@@ -576,7 +576,7 @@ func Test_Cov14_Hashset_AddFuncErr(t *testing.T) {
 		h.AddFuncErr(func() (string, error) { return "ok", nil }, func(e error) {})
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -715,7 +715,7 @@ func Test_Cov14_Hashset_Filter(t *testing.T) {
 		result := h.Filter(func(s string) bool { return s == "ab" })
 		if result.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -823,7 +823,7 @@ func Test_Cov14_Hashset_Transpile(t *testing.T) {
 
 		if result.Length() < 1 {
 			t.Fatal("expected at least 1")
-		})
+		}
 
 		// Empty
 		empty := corestr.Empty.Hashset()
@@ -953,7 +953,7 @@ func Test_Cov14_LinkedList_AddVariants(t *testing.T) {
 
 		if ll.Length() < 7 {
 			t.Fatal("expected at least 7")
-		})
+		}
 	})
 }
 
@@ -1490,12 +1490,12 @@ func Test_Cov14_SimpleStringOnce_GetOnceFunc(t *testing.T) {
 
 		if val != "computed" {
 			t.Fatal("expected computed")
-		})
+		}
 
 		val2 := s.GetOnceFunc(func() string { return "other" })
 		if val2 != "computed" {
 			t.Fatal("expected computed (cached)")
-		})
+		}
 	})
 }
 

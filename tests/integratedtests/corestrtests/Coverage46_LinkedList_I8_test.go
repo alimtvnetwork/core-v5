@@ -472,7 +472,7 @@ func Test_C46_LinkedList_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "generated" })
 		if ll.Length() != 1 || ll.Head().Element != "generated" {
 			t.Fatal("add func failed")
-		})
+		}
 	})
 }
 
@@ -482,7 +482,7 @@ func Test_C46_LinkedList_AddFuncErr_Success(t *testing.T) {
 		ll.AddFuncErr(func() (string, error) { return "ok", nil }, func(e error) { t.Fatal("no err expected") })
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 

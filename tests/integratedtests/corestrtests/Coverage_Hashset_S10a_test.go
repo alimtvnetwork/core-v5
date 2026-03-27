@@ -453,7 +453,7 @@ func Test_S10_28_Hashset_AddFunc(t *testing.T) {
 		// Assert
 		if !hs.Has("func-val") {
 			t.Fatal("expected has func-val")
-		})
+		}
 	})
 }
 

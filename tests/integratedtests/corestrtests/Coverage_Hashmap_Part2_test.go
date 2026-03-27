@@ -434,12 +434,12 @@ func Test_CovHM2_29_ToStringsUsingCompiler(t *testing.T) {
 		r := hm.ToStringsUsingCompiler(func(k, v string) string { return k + "=" + v })
 		if len(r) != 0 {
 			t.Fatal("expected 0")
-		})
+		}
 		hm.AddOrUpdate("a", "1")
 		r2 := hm.ToStringsUsingCompiler(func(k, v string) string { return k + "=" + v })
 		if len(r2) != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 

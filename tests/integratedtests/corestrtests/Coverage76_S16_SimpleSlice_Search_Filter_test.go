@@ -479,7 +479,7 @@ func Test_C76_SimpleSlice_IsEqualByFunc(t *testing.T) {
 		// Assert
 		if !result {
 			t.Error("expected true for case-insensitive match")
-		})
+		}
 	})
 }
 
@@ -496,7 +496,7 @@ func Test_C76_SimpleSlice_IsEqualByFunc_Mismatch(t *testing.T) {
 		// Assert
 		if result {
 			t.Error("expected false for mismatch")
-		})
+		}
 	})
 }
 
@@ -508,7 +508,7 @@ func Test_C76_SimpleSlice_IsEqualByFunc_DiffLength(t *testing.T) {
 		// Act & Assert
 		if ss.IsEqualByFunc(func(i int, l, r string) bool { return true }, "a", "b") {
 			t.Error("expected false for diff length")
-		})
+		}
 	})
 }
 
@@ -520,7 +520,7 @@ func Test_C76_SimpleSlice_IsEqualByFunc_BothEmpty(t *testing.T) {
 		// Act & Assert
 		if !ss.IsEqualByFunc(func(i int, l, r string) bool { return true }) {
 			t.Error("expected true for both empty")
-		})
+		}
 	})
 }
 
@@ -566,7 +566,7 @@ func Test_C76_SimpleSlice_IsEqualByFuncLinesSplit_DiffLength(t *testing.T) {
 		// Act & Assert
 		if ss.IsEqualByFuncLinesSplit(false, ",", "a,b", func(i int, l, r string) bool { return true }) {
 			t.Error("expected false for diff length")
-		})
+		}
 	})
 }
 
@@ -579,7 +579,7 @@ func Test_C76_SimpleSlice_IsEqualByFuncLinesSplit_Empty(t *testing.T) {
 		// strings.Split("", ",") returns [""] (length 1), empty slice has length 0 → not equal
 		if ss.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
 			t.Error("expected false for empty vs single-element split")
-		})
+		}
 	})
 }
 
@@ -1232,7 +1232,7 @@ func Test_C76_SimpleSlice_CountFunc_Empty(t *testing.T) {
 		// Assert
 		if count != 0 {
 			t.Error("expected 0")
-		})
+		}
 	})
 }
 
@@ -1288,7 +1288,7 @@ func Test_C76_SimpleSlice_IsContainsFunc_Empty(t *testing.T) {
 		// Act & Assert
 		if ss.IsContainsFunc("a", func(i, s string) bool { return true }) {
 			t.Error("expected false for empty")
-		})
+		}
 	})
 }
 

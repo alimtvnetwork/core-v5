@@ -609,6 +609,6 @@ func Test_CovHS2_38_Transpile_Empty(t *testing.T) {
 		r := hs.Transpile(func(s string) string { return s })
 		if r.Length() != 0 {
 			t.Fatal("expected 0")
-		})
+		}
 	})
 }

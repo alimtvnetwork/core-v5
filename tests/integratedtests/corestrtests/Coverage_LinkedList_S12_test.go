@@ -154,7 +154,7 @@ func Test_S12_13_LinkedList_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "val" })
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -164,7 +164,7 @@ func Test_S12_14_LinkedList_AddFuncErr_NoError(t *testing.T) {
 		ll.AddFuncErr(func() (string, error) { return "ok", nil }, func(err error) { t.Fatal("no err expected") })
 		if ll.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -175,7 +175,7 @@ func Test_S12_15_LinkedList_AddFuncErr_WithError(t *testing.T) {
 		ll.AddFuncErr(func() (string, error) { return "", &testErr{} }, func(err error) { called = true })
 		if !called {
 			t.Fatal("expected err handler called")
-		})
+		}
 	})
 }
 

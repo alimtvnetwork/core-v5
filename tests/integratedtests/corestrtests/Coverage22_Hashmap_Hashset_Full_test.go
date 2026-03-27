@@ -394,7 +394,7 @@ func Test_Cov22_Hashmap_ToStringsUsingCompiler(t *testing.T) {
 		strs := h.ToStringsUsingCompiler(func(k, v string) string { return k + "=" + v })
 		if len(strs) != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -510,7 +510,7 @@ func Test_Cov22_Hashset_Filter(t *testing.T) {
 		filtered := h.Filter(func(s string) bool { return s == "abc" })
 		if filtered.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 		items := h.GetFilteredItems(func(s string, i int) (string, bool, bool) {
 			return s, s == "abc", false
 		})
@@ -843,6 +843,6 @@ func Test_Cov22_Hashset_Transpile(t *testing.T) {
 		result := h.Transpile(func(s string) string { return s + "!" })
 		if !result.Has("a!") {
 			t.Fatal("expected transpiled")
-		})
+		}
 	})
 }

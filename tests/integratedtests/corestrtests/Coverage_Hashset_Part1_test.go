@@ -270,7 +270,7 @@ func Test_CovHS1_18_AddFunc(t *testing.T) {
 		hs.AddFunc(func() string { return "generated" })
 		if !hs.Has("generated") {
 			t.Fatal("expected has generated")
-		})
+		}
 	})
 }
 
