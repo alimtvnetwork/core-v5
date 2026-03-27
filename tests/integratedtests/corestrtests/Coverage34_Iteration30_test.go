@@ -1288,31 +1288,38 @@ func Test_I30_Hashset_Json(t *testing.T) {
 }
 
 func Test_I30_Hashset_JsonPtr(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_JsonPtr", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		jp := hs.JsonPtr()
 		actual := args.Map{"notNil": jp != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JsonPtr", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_Serialize(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_Serialize", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		b, err := hs.Serialize()
 		actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
 		expected := args.Map{"noErr": true, "hasBytes": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Serialize", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_Deserialize(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_Deserialize", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		target := map[string]bool{}
 		err := hs.Deserialize(&target)
 		actual := args.Map{"noErr": err == nil}
 		expected := args.Map{"noErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- Deserialize", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_ParseInjectUsingJson(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_ParseInjectUsingJson", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		jr := hs.JsonPtr()
 		hs2 := corestr.New.Hashset.Cap(5)
@@ -1320,18 +1327,22 @@ func Test_I30_Hashset_ParseInjectUsingJson(t *testing.T) {
 		actual := args.Map{"noErr": err == nil, "has": result.Has("a")}
 		expected := args.Map{"noErr": true, "has": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- ParseInjectUsingJson", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_ParseInjectUsingJson_Err(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_ParseInjectUsingJson_Err", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		badJson := corejson.NewPtr(42)
 		_, err := hs.ParseInjectUsingJson(badJson)
 		actual := args.Map{"hasErr": err != nil}
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns error -- ParseInjectUsingJson err", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_JsonParseSelfInject(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_JsonParseSelfInject", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		jr := hs.JsonPtr()
 		hs2 := corestr.New.Hashset.Cap(5)
@@ -1339,162 +1350,200 @@ func Test_I30_Hashset_JsonParseSelfInject(t *testing.T) {
 		actual := args.Map{"noErr": err == nil}
 		expected := args.Map{"noErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- JsonParseSelfInject", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AsJsoner(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AsJsoner", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		actual := args.Map{"notNil": hs.AsJsoner() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsoner", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AsJsonContractsBinder(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AsJsonContractsBinder", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		actual := args.Map{"notNil": hs.AsJsonContractsBinder() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonContractsBinder", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AsJsonParseSelfInjector(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AsJsonParseSelfInjector", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		actual := args.Map{"notNil": hs.AsJsonParseSelfInjector() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonParseSelfInjector", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AsJsonMarshaller(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AsJsonMarshaller", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		actual := args.Map{"notNil": hs.AsJsonMarshaller() != nil}
 		expected := args.Map{"notNil": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AsJsonMarshaller", actual)
-	}
+	})
+}
 
 	// ══════════════════════════════════════════════════════════════════════════════
 	// Hashset — DistinctDiff
 	// ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_BothEmpty(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLinesRaw_BothEmpty", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		result := hs.DistinctDiffLinesRaw()
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 0}
 		expected.ShouldBeEqual(t, 0, "Hashset returns empty -- DistinctDiffLinesRaw both empty", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_LeftOnly(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLinesRaw_LeftOnly", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		result := hs.DistinctDiffLinesRaw()
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLinesRaw left only", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_RightOnly(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLinesRaw_RightOnly", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		result := hs.DistinctDiffLinesRaw("a")
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLinesRaw right only", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLinesRaw_Both(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLinesRaw_Both", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		result := hs.DistinctDiffLinesRaw("b", "c")
 		actual := args.Map{"hasItems": len(result) > 0}
 		expected := args.Map{"hasItems": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLinesRaw both", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLines_BothEmpty(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLines_BothEmpty", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		result := hs.DistinctDiffLines()
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 0}
 		expected.ShouldBeEqual(t, 0, "Hashset returns empty -- DistinctDiffLines both empty", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLines_LeftOnly(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLines_LeftOnly", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		result := hs.DistinctDiffLines()
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLines left only", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLines_RightOnly(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLines_RightOnly", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		result := hs.DistinctDiffLines("a")
 		actual := args.Map{"len": len(result)}
 		expected := args.Map{"len": 1}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLines right only", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffLines_Both(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffLines_Both", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		result := hs.DistinctDiffLines("b", "c")
 		actual := args.Map{"hasItems": len(result) > 0}
 		expected := args.Map{"hasItems": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffLines both", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_DistinctDiffHashset(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_DistinctDiffHashset", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		other := corestr.New.Hashset.Strings([]string{"b", "c"})
 		result := hs.DistinctDiffHashset(other)
 		actual := args.Map{"hasItems": len(result) > 0}
 		expected := args.Map{"hasItems": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- DistinctDiffHashset", actual)
-	}
+	})
+}
 
 	// ══════════════════════════════════════════════════════════════════════════════
 	// Hashset — Wrap / Transpile
 	// ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I30_Hashset_WrapDoubleQuote(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_WrapDoubleQuote", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		result := hs.WrapDoubleQuote()
 		actual := args.Map{"hasAny": result.HasAnyItem()}
 		expected := args.Map{"hasAny": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapDoubleQuote", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_WrapDoubleQuoteIfMissing(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_WrapDoubleQuoteIfMissing", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		result := hs.WrapDoubleQuoteIfMissing()
 		actual := args.Map{"hasAny": result.HasAnyItem()}
 		expected := args.Map{"hasAny": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapDoubleQuoteIfMissing", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_WrapSingleQuote(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_WrapSingleQuote", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		result := hs.WrapSingleQuote()
 		actual := args.Map{"hasAny": result.HasAnyItem()}
 		expected := args.Map{"hasAny": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapSingleQuote", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_WrapSingleQuoteIfMissing(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_WrapSingleQuoteIfMissing", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		result := hs.WrapSingleQuoteIfMissing()
 		actual := args.Map{"hasAny": result.HasAnyItem()}
 		expected := args.Map{"hasAny": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- WrapSingleQuoteIfMissing", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_Transpile_Empty(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_Transpile_Empty", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		result := hs.Transpile(func(s string) string { return s })
 		actual := args.Map{"empty": result.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns empty -- Transpile empty", actual)
-	}
+	})
+}
 
 	// ══════════════════════════════════════════════════════════════════════════════
 	// Hashset — WgLock variants
 	// ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I30_Hashset_AddStringsPtrWgLock(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AddStringsPtrWgLock", func() {
 		hs := corestr.New.Hashset.Cap(200)
 		wg := &sync.WaitGroup{}
 		wg.Add(1)
@@ -1503,9 +1552,11 @@ func Test_I30_Hashset_AddStringsPtrWgLock(t *testing.T) {
 		actual := args.Map{"len": hs.Length()}
 		expected := args.Map{"len": 2}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddStringsPtrWgLock", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AddHashsetWgLock(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AddHashsetWgLock", func() {
 		hs := corestr.New.Hashset.Cap(200)
 		other := corestr.New.Hashset.Strings([]string{"a"})
 		wg := &sync.WaitGroup{}
@@ -1515,18 +1566,22 @@ func Test_I30_Hashset_AddHashsetWgLock(t *testing.T) {
 		actual := args.Map{"has": hs.Has("a")}
 		expected := args.Map{"has": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddHashsetWgLock", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AddHashsetWgLock_Nil(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AddHashsetWgLock_Nil", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		wg := &sync.WaitGroup{}
 		hs.AddHashsetWgLock(nil, wg)
 		actual := args.Map{"empty": hs.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddHashsetWgLock nil", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AddItemsMapWgLock(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AddItemsMapWgLock", func() {
 		hs := corestr.New.Hashset.Cap(200)
 		m := map[string]bool{"a": true, "b": false}
 		wg := &sync.WaitGroup{}
@@ -1536,13 +1591,16 @@ func Test_I30_Hashset_AddItemsMapWgLock(t *testing.T) {
 		actual := args.Map{"hasA": hs.Has("a"), "hasB": hs.Has("b")}
 		expected := args.Map{"hasA": true, "hasB": false}
 		expected.ShouldBeEqual(t, 0, "Hashset returns correct value -- AddItemsMapWgLock", actual)
-	}
+	})
+}
 
 func Test_I30_Hashset_AddItemsMapWgLock_Nil(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_AddItemsMapWgLock_Nil", func() {
 		hs := corestr.New.Hashset.Cap(5)
 		wg := &sync.WaitGroup{}
 		hs.AddItemsMapWgLock(nil, wg)
 		actual := args.Map{"empty": hs.IsEmpty()}
 		expected := args.Map{"empty": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns nil -- AddItemsMapWgLock nil", actual)
-	}
+	})
+}
