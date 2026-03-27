@@ -1375,7 +1375,7 @@ func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return p.ValueString(), true, true
-		})
+		}
 		hm.AddsOrUpdatesAnyUsingFilter(filter,
 			corestr.KeyAnyValuePair{Key: "a", Value: "1"},
 			corestr.KeyAnyValuePair{Key: "b", Value: "2"},
@@ -1401,7 +1401,7 @@ func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return p.ValueString(), true, true
-		})
+		}
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter,
 			corestr.KeyAnyValuePair{Key: "a", Value: "1"},
 			corestr.KeyAnyValuePair{Key: "b", Value: "2"},
@@ -1427,7 +1427,7 @@ func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(p corestr.KeyValuePair) (string, bool, bool) {
 			return p.Value, true, true
-		})
+		}
 		hm.AddsOrUpdatesUsingFilter(filter,
 			corestr.KeyValuePair{Key: "a", Value: "1"},
 			corestr.KeyValuePair{Key: "b", Value: "2"},
