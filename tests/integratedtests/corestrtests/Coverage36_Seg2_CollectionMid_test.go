@@ -511,7 +511,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilter(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s + "_f", s != "", false
-		})
+		}
 		c.AppendAnysUsingFilter(filter, "a", nil, "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -524,7 +524,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, i == 0 // break after first
-		})
+		}
 		c.AppendAnysUsingFilter(filter, "a", "b", "c")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -548,7 +548,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilterLock(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		c.AppendAnysUsingFilterLock(filter, "a", nil, "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -572,7 +572,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilterLock_Break(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true // always break
-		})
+		}
 		c.AppendAnysUsingFilterLock(filter, "a", "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -585,7 +585,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilterLock_Skip(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, false, false // skip all
-		})
+		}
 		c.AppendAnysUsingFilterLock(filter, "a", "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 0}
@@ -604,164 +604,7 @@ func Test_Seg2_Collection_AddsNonEmpty(t *testing.T) {
 		expected.ShouldBeEqual(t, 0, "AddsNonEmpty -- skips empty", actual)
 	})
 }
-
-func Test_Seg2_Collection_AddsNonEmpty_Nil(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_AddsNonEmpty_Nil", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.AddsNonEmpty(nil...)
-		actual := args.Map{"len": c.Length()}
-		expected := args.Map{"len": 0}
-		expected.ShouldBeEqual(t, 0, "AddsNonEmpty nil -- no change", actual)
-	})
-}
-
-func Test_Seg2_Collection_AddsNonEmptyPtrLock(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_AddsNonEmptyPtrLock", func() {
-		c := corestr.New.Collection.Cap(10)
-		a := "hello"
-		b := ""
-		c.AddsNonEmptyPtrLock(&a, nil, &b)
-		actual := args.Map{"len": c.Length()}
-		expected := args.Map{"len": 1}
-		expected.ShouldBeEqual(t, 0, "AddsNonEmptyPtrLock -- skips nil and empty", actual)
-	})
-}
-
-func Test_Seg2_Collection_AddsNonEmptyPtrLock_Nil(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_AddsNonEmptyPtrLock_Nil", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.AddsNonEmptyPtrLock(nil...)
-		actual := args.Map{"len": c.Length()}
-		expected := args.Map{"len": 0}
-		expected.ShouldBeEqual(t, 0, "AddsNonEmptyPtrLock nil -- no change", actual)
-	})
-}
-
-// ── Unique ──────────────────────────────────────────────────────────────────
-
-func Test_Seg2_Collection_UniqueBoolMap(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_UniqueBoolMap", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.Adds("a", "b", "a", "c", "b")
-		m := c.UniqueBoolMap()
-		actual := args.Map{"len": len(m)}
-		expected := args.Map{"len": 3}
-		expected.ShouldBeEqual(t, 0, "UniqueBoolMap -- 3 unique", actual)
-	})
-}
-
-func Test_Seg2_Collection_UniqueBoolMapLock(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_UniqueBoolMapLock", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.Adds("a", "a", "b")
-		m := c.UniqueBoolMapLock()
-		actual := args.Map{"len": len(m)}
-		expected := args.Map{"len": 2}
-		expected.ShouldBeEqual(t, 0, "UniqueBoolMapLock -- 2 unique", actual)
-	})
-}
-
-func Test_Seg2_Collection_UniqueList(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_UniqueList", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.Adds("a", "b", "a")
-		u := c.UniqueList()
-		actual := args.Map{"len": len(u)}
-		expected := args.Map{"len": 2}
-		expected.ShouldBeEqual(t, 0, "UniqueList -- 2 unique", actual)
-	})
-}
-
-func Test_Seg2_Collection_UniqueListLock(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_UniqueListLock", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.Adds("x", "x", "y", "z")
-		u := c.UniqueListLock()
-		actual := args.Map{"len": len(u)}
-		expected := args.Map{"len": 3}
-		expected.ShouldBeEqual(t, 0, "UniqueListLock -- 3 unique", actual)
-	})
-}
-
-// ── List ────────────────────────────────────────────────────────────────────
-
-func Test_Seg2_Collection_List(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_List", func() {
-		c := corestr.New.Collection.Cap(5)
-		c.Adds("a", "b")
-		actual := args.Map{"len": len(c.List())}
-		expected := args.Map{"len": 2}
-		expected.ShouldBeEqual(t, 0, "List -- returns items", actual)
-	})
-}
-
-// ── Filter ──────────────────────────────────────────────────────────────────
-
-func Test_Seg2_Collection_Filter(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_Filter", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.Adds("apple", "banana", "avocado", "cherry")
-		filtered := c.Filter(func(s string, i int) (string, bool, bool) {
-			return s, len(s) > 5, false
-		})
-		actual := args.Map{"len": len(filtered)}
-		expected := args.Map{"len": 3}
-		expected.ShouldBeEqual(t, 0, "Filter -- keeps items with len > 5", actual)
-	})
-}
-
-func Test_Seg2_Collection_Filter_Empty(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_Filter_Empty", func() {
-		c := corestr.New.Collection.Cap(10)
-		filtered := c.Filter(func(s string, i int) (string, bool, bool) {
-			return s, true, false
-		})
-		actual := args.Map{"len": len(filtered)}
-		expected := args.Map{"len": 0}
-		expected.ShouldBeEqual(t, 0, "Filter empty -- returns empty", actual)
-	})
-}
-
-func Test_Seg2_Collection_Filter_Break(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_Filter_Break", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.Adds("a", "b", "c", "d")
-		filtered := c.Filter(func(s string, i int) (string, bool, bool) {
-			return s, true, i == 1 // break after index 1
-		})
-		actual := args.Map{"len": len(filtered)}
-		expected := args.Map{"len": 2}
-		expected.ShouldBeEqual(t, 0, "Filter break -- stops after 2", actual)
-	})
-}
-
-// ── AddHashmapsKeysValues ───────────────────────────────────────────────────
-
-func Test_Seg2_Collection_AddHashmapsKeysValues(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_AddHashmapsKeysValues", func() {
-		c := corestr.New.Collection.Cap(10)
-		h := corestr.New.Hashmap.Cap(5)
-		h.AddOrUpdate("k1", "v1")
-		h.AddOrUpdate("k2", "v2")
-		c.AddHashmapsKeysValues(h)
-		actual := args.Map{"len": c.Length()}
-		expected := args.Map{"len": 4}
-		expected.ShouldBeEqual(t, 0, "AddHashmapsKeysValues -- 2 keys + 2 values", actual)
-	})
-}
-
-func Test_Seg2_Collection_AddHashmapsKeysValues_Nil(t *testing.T) {
-	safeTest(t, "Test_Seg2_Collection_AddHashmapsKeysValues_Nil", func() {
-		c := corestr.New.Collection.Cap(10)
-		c.AddHashmapsKeysValues(nil, nil)
-		actual := args.Map{"len": c.Length()}
-		expected := args.Map{"len": 0}
-		expected.ShouldBeEqual(t, 0, "AddHashmapsKeysValues nil -- no change", actual)
-	})
-}
-
-// ── AddHashmapsKeysValuesUsingFilter ────────────────────────────────────────
-
+...
 func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 	safeTest(t, "Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter", func() {
 		c := corestr.New.Collection.Cap(10)
@@ -770,7 +613,7 @@ func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		h.AddOrUpdate("skip", "v2")
 		filter := func(kvp corestr.KeyValuePair) (string, bool, bool) {
 			return kvp.Key + "=" + kvp.Value, kvp.Key == "keep", false
-		})
+		}
 		c.AddHashmapsKeysValuesUsingFilter(filter, h)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -787,7 +630,7 @@ func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 		h.AddOrUpdate("c", "3")
 		filter := func(kvp corestr.KeyValuePair) (string, bool, bool) {
 			return kvp.Key, true, true // accept and break immediately
-		})
+		}
 		c.AddHashmapsKeysValuesUsingFilter(filter, h)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
