@@ -604,7 +604,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if err3 == nil { t.Fatal() }
 	}
 
-	func Test_C38_Hashmap_ParseInjectUsingJson(t *testing.T) {
+func Test_C38_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(2)
 		h.AddOrUpdate("a", "1")
 		jr := h.JsonPtr()
@@ -614,7 +614,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if result.Length() < 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashmap_Serialize_Deserialize(t *testing.T) {
+func Test_C38_Hashmap_Serialize_Deserialize(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(2)
 		h.AddOrUpdate("a", "1")
 		b, err := h.Serialize()
@@ -625,7 +625,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if err2 != nil { t.Fatal(err2) }
 	}
 
-	func Test_C38_Hashmap_Get_GetValue(t *testing.T) {
+func Test_C38_Hashmap_Get_GetValue(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(2)
 		h.AddOrUpdate("a", "1")
 		v, ok := h.Get("a")
@@ -634,7 +634,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if !ok2 || v2 != "1" { t.Fatal() }
 	}
 
-	func Test_C38_Hashmap_InterfaceCasts(t *testing.T) {
+func Test_C38_Hashmap_InterfaceCasts(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(2)
 		if h.AsJsoner() == nil { t.Fatal() }
 		if h.AsJsonContractsBinder() == nil { t.Fatal() }
@@ -642,7 +642,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if h.AsJsonMarshaller() == nil { t.Fatal() }
 	}
 
-	func Test_C38_Hashmap_JsonParseSelfInject(t *testing.T) {
+func Test_C38_Hashmap_JsonParseSelfInject(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(2)
 		h.AddOrUpdate("a", "1")
 		jr := h.JsonPtr()
@@ -653,7 +653,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 
 	// ── newHashmapCreator ──
 
-	func Test_C38_NewHashmapCreator_Methods(t *testing.T) {
+func Test_C38_NewHashmapCreator_Methods(t *testing.T) {
 		h1 := corestr.New.Hashmap.Empty()
 		if h1.Length() != 0 { t.Fatal() }
 		h2 := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "1"})
@@ -692,7 +692,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 
 	// ═══ Hashset (comprehensive) ═══
 
-	func Test_C38_Hashset_CRUD(t *testing.T) {
+func Test_C38_Hashset_CRUD(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs.Add("a")
 		hs.AddNonEmpty("")
@@ -706,7 +706,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if !hs.IsMissing("z") { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddIf_AddIfMany(t *testing.T) {
+func Test_C38_Hashset_AddIf_AddIfMany(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(3)
 		hs.AddIf(false, "skip")
 		hs.AddIf(true, "keep")
@@ -715,7 +715,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if hs.Length() != 3 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddFunc_AddFuncErr(t *testing.T) {
+func Test_C38_Hashset_AddFunc_AddFuncErr(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(2)
 		hs.AddFunc(func() string { return "fn" })
 		if !hs.Has("fn") { t.Fatal() }
@@ -724,7 +724,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.AddFuncErr(func() (string, error) { return "", errForTest }, func(e error) {})
 	}
 
-	func Test_C38_Hashset_AddBool(t *testing.T) {
+func Test_C38_Hashset_AddBool(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(2)
 		existed := hs.AddBool("a")
 		if existed { t.Fatal("expected false") }
@@ -732,7 +732,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if !existed2 { t.Fatal("expected true") }
 	}
 
-	func Test_C38_Hashset_Adds_AddStrings(t *testing.T) {
+func Test_C38_Hashset_Adds_AddStrings(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs.Adds("a", "b")
 		hs.AddStrings([]string{"c"})
@@ -741,7 +741,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.AddStrings(nil)
 	}
 
-	func Test_C38_Hashset_AddCollection(t *testing.T) {
+func Test_C38_Hashset_AddCollection(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		hs.AddCollection(c)
@@ -749,7 +749,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.AddCollection(nil)
 	}
 
-	func Test_C38_Hashset_AddCollections(t *testing.T) {
+func Test_C38_Hashset_AddCollections(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		c1 := corestr.New.Collection.Strings([]string{"a"})
 		c2 := corestr.New.Collection.Strings([]string{"b"})
@@ -757,7 +757,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if hs.Length() != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddHashsetItems(t *testing.T) {
+func Test_C38_Hashset_AddHashsetItems(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs2 := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		hs.AddHashsetItems(hs2)
@@ -765,14 +765,14 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.AddHashsetItems(nil)
 	}
 
-	func Test_C38_Hashset_AddItemsMap(t *testing.T) {
+func Test_C38_Hashset_AddItemsMap(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs.AddItemsMap(map[string]bool{"a": true, "b": false})
 		if hs.Length() != 1 { t.Fatal("expected 1, false items skipped") }
 		hs.AddItemsMap(nil)
 	}
 
-	func Test_C38_Hashset_Lock_Methods(t *testing.T) {
+func Test_C38_Hashset_Lock_Methods(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		hs.AddLock("b")
 		if !hs.HasLock("a") { t.Fatal() }
@@ -782,7 +782,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if !hs.HasWithLock("a") { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddPtr_AddPtrLock(t *testing.T) {
+func Test_C38_Hashset_AddPtr_AddPtrLock(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(2)
 		s := "ptr"
 		hs.AddPtr(&s)
@@ -792,21 +792,21 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if !hs.Has("lock") { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddStringsLock(t *testing.T) {
+func Test_C38_Hashset_AddStringsLock(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs.AddStringsLock([]string{"a", "b"})
 		if hs.Length() != 2 { t.Fatal() }
 		hs.AddStringsLock(nil)
 	}
 
-	func Test_C38_Hashset_AddSimpleSlice(t *testing.T) {
+func Test_C38_Hashset_AddSimpleSlice(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		ss := corestr.New.SimpleSlice.Lines("a", "b")
 		hs.AddSimpleSlice(ss)
 		if hs.Length() != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_HasAll_HasAny_IsAllMissing(t *testing.T) {
+func Test_C38_Hashset_HasAll_HasAny_IsAllMissing(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		if !hs.HasAll("a", "b") { t.Fatal() }
 		if hs.HasAll("a", "z") { t.Fatal() }
@@ -816,19 +816,19 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if hs.IsAllMissing("a") { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_HasAllStrings(t *testing.T) {
+func Test_C38_Hashset_HasAllStrings(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		if !hs.HasAllStrings([]string{"a"}) { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_HasAllCollectionItems(t *testing.T) {
+func Test_C38_Hashset_HasAllCollectionItems(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if !hs.HasAllCollectionItems(c) { t.Fatal() }
 		if hs.HasAllCollectionItems(nil) { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_IsEquals(t *testing.T) {
+func Test_C38_Hashset_IsEquals(t *testing.T) {
 		a := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		b := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		if !a.IsEquals(b) { t.Fatal() }
@@ -836,7 +836,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if !a.IsEqual(b) { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_ConcatNew(t *testing.T) {
+func Test_C38_Hashset_ConcatNew(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		hs2 := corestr.New.Hashset.StringsSpreadItems("b")
 		cn := hs.ConcatNewHashsets(true, hs2)
@@ -845,7 +845,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if cn2.Length() != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_ConcatNewStrings(t *testing.T) {
+func Test_C38_Hashset_ConcatNewStrings(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		cn := hs.ConcatNewStrings(true, []string{"b"})
 		if cn.Length() != 2 { t.Fatal() }
@@ -853,7 +853,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if cn2.Length() != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_Resize(t *testing.T) {
+func Test_C38_Hashset_Resize(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(2)
 		hs.Add("a")
 		hs.Resize(100)
@@ -861,14 +861,14 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.Resize(1) // no-op
 	}
 
-	func Test_C38_Hashset_ResizeLock(t *testing.T) {
+func Test_C38_Hashset_ResizeLock(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(2)
 		hs.Add("a")
 		hs.ResizeLock(100)
 		if !hs.Has("a") { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddCapacities(t *testing.T) {
+func Test_C38_Hashset_AddCapacities(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(2)
 		hs.AddCapacities(10, 20)
 		hs.AddCapacities()
@@ -876,13 +876,13 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.AddCapacitiesLock()
 	}
 
-	func Test_C38_Hashset_Filter(t *testing.T) {
+func Test_C38_Hashset_Filter(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("abc", "xyz")
 		filtered := hs.Filter(func(s string) bool { return s == "abc" })
 		if filtered.Length() != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_GetFilteredItems(t *testing.T) {
+func Test_C38_Hashset_GetFilteredItems(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "bb")
 		r := hs.GetFilteredItems(func(s string, i int) (string, bool, bool) { return s, len(s) > 1, false })
 		if len(r) != 1 { t.Fatal() }
@@ -890,25 +890,25 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if len(r2) != 0 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_GetFilteredCollection(t *testing.T) {
+func Test_C38_Hashset_GetFilteredCollection(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		fc := hs.GetFilteredCollection(func(s string, i int) (string, bool, bool) { return s, true, false })
 		if fc.Length() != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddsUsingFilter(t *testing.T) {
+func Test_C38_Hashset_AddsUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs.AddsUsingFilter(func(s string, i int) (string, bool, bool) { return s, true, false }, "a", "b")
 		if hs.Length() != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_AddsAnyUsingFilter(t *testing.T) {
+func Test_C38_Hashset_AddsAnyUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		hs.AddsAnyUsingFilter(func(s string, i int) (string, bool, bool) { return s, true, false }, 42, nil)
 		if hs.Length() != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_Remove_SafeRemove(t *testing.T) {
+func Test_C38_Hashset_Remove_SafeRemove(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		hs.Remove("a")
 		if hs.Length() != 1 { t.Fatal() }
@@ -917,13 +917,13 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		hs.SafeRemove("z") // no-op
 	}
 
-	func Test_C38_Hashset_RemoveWithLock(t *testing.T) {
+func Test_C38_Hashset_RemoveWithLock(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		hs.RemoveWithLock("a")
 		if hs.Length() != 0 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_List_OrderedList_SortedList(t *testing.T) {
+func Test_C38_Hashset_List_OrderedList_SortedList(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("b", "a")
 		if len(hs.List()) != 2 { t.Fatal() }
 		if len(hs.OrderedList()) != 2 { t.Fatal() }
@@ -936,21 +936,21 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if len(hs.ListCopyLock()) != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_Collection_SimpleSlice(t *testing.T) {
+func Test_C38_Hashset_Collection_SimpleSlice(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		if hs.Collection().Length() != 1 { t.Fatal() }
 		if hs.SimpleSlice().Length() != 1 { t.Fatal() }
 		if corestr.Empty.Hashset().SimpleSlice().Length() != 0 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_String_StringLock(t *testing.T) {
+func Test_C38_Hashset_String_StringLock(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		if hs.String() == "" { t.Fatal() }
 		if hs.StringLock() == "" { t.Fatal() }
 		if corestr.Empty.Hashset().String() == "" { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_Join_JoinSorted_JoinLine(t *testing.T) {
+func Test_C38_Hashset_Join_JoinSorted_JoinLine(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		_ = hs.Join(",")
 		_ = hs.JoinSorted(",")
@@ -960,7 +960,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		_ = corestr.Empty.Hashset().JoinSorted(",")
 	}
 
-	func Test_C38_Hashset_GetAllExcept(t *testing.T) {
+func Test_C38_Hashset_GetAllExcept(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		r := hs.GetAllExcept([]string{"a"})
 		if len(r) != 1 { t.Fatal() }
@@ -968,25 +968,25 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if len(r2) != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_GetAllExceptSpread(t *testing.T) {
+func Test_C38_Hashset_GetAllExceptSpread(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		r := hs.GetAllExceptSpread("a")
 		if len(r) != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_GetAllExceptCollection(t *testing.T) {
+func Test_C38_Hashset_GetAllExceptCollection(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		r := hs.GetAllExceptCollection(nil)
 		if len(r) != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_GetAllExceptHashset(t *testing.T) {
+func Test_C38_Hashset_GetAllExceptHashset(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		r := hs.GetAllExceptHashset(nil)
 		if len(r) != 2 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_MapStringAny(t *testing.T) {
+func Test_C38_Hashset_MapStringAny(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		m := hs.MapStringAny()
 		if len(m) != 1 { t.Fatal() }
@@ -994,7 +994,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		_ = hs.MapStringAnyDiff()
 	}
 
-	func Test_C38_Hashset_DistinctDiff(t *testing.T) {
+func Test_C38_Hashset_DistinctDiff(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 		r := hs.DistinctDiffLinesRaw("b", "c")
 		if len(r) < 1 { t.Fatal() }
@@ -1007,7 +1007,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if len(r4) != 0 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_DistinctDiffLines(t *testing.T) {
+func Test_C38_Hashset_DistinctDiffLines(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		r := hs.DistinctDiffLines("b")
 		if len(r) < 1 { t.Fatal() }
@@ -1019,13 +1019,13 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if len(r3) != 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_ToLowerSet(t *testing.T) {
+func Test_C38_Hashset_ToLowerSet(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("ABC")
 		lower := hs.ToLowerSet()
 		if !lower.Has("abc") { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_WrapQuotes(t *testing.T) {
+func Test_C38_Hashset_WrapQuotes(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		_ = hs.WrapDoubleQuote()
 		hs2 := corestr.New.Hashset.StringsSpreadItems("a")
@@ -1038,7 +1038,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		_ = corestr.Empty.Hashset().WrapDoubleQuote()
 	}
 
-	func Test_C38_Hashset_Clear_Dispose(t *testing.T) {
+func Test_C38_Hashset_Clear_Dispose(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		hs.Clear()
 		if hs.Length() != 0 { t.Fatal() }
@@ -1047,7 +1047,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		nilH.Dispose()
 	}
 
-	func Test_C38_Hashset_JSON(t *testing.T) {
+func Test_C38_Hashset_JSON(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		j := hs.Json()
 		if j.HasError() { t.Fatal(j.Error) }
@@ -1065,7 +1065,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		_ = corestr.Empty.Hashset().JsonModel()
 	}
 
-	func Test_C38_Hashset_ParseInjectUsingJson(t *testing.T) {
+func Test_C38_Hashset_ParseInjectUsingJson(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		jr := hs.JsonPtr()
 		hs2 := &corestr.Hashset{}
@@ -1074,7 +1074,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if result.Length() < 1 { t.Fatal() }
 	}
 
-	func Test_C38_Hashset_Serialize_Deserialize(t *testing.T) {
+func Test_C38_Hashset_Serialize_Deserialize(t *testing.T) {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
 		b, err := hs.Serialize()
 		if err != nil { t.Fatal(err) }
@@ -1084,7 +1084,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if err2 != nil { t.Fatal(err2) }
 	}
 
-	func Test_C38_Hashset_InterfaceCasts(t *testing.T) {
+func Test_C38_Hashset_InterfaceCasts(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(1)
 		if hs.AsJsoner() == nil { t.Fatal() }
 		if hs.AsJsonContractsBinder() == nil { t.Fatal() }
@@ -1094,7 +1094,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 		if err != nil { t.Fatal(err) }
 	}
 
-	func Test_C38_Hashset_Wg_Methods(t *testing.T) {
+func Test_C38_Hashset_Wg_Methods(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		wg := sync.WaitGroup{}
 		wg.Add(1)
@@ -1118,7 +1118,7 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 
 	// ── newHashsetCreator ──
 
-	func Test_C38_NewHashsetCreator_Methods(t *testing.T) {
+func Test_C38_NewHashsetCreator_Methods(t *testing.T) {
 		h1 := corestr.New.Hashset.Empty()
 		if h1.Length() != 0 { t.Fatal() }
 		h2 := corestr.New.Hashset.Strings([]string{"a"})
