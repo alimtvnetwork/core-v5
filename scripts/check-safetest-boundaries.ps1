@@ -71,7 +71,7 @@ foreach ($file in $files) {
                         $depth--
                     }
                     else {
-                        Write-Host "  $rel:$($i + 1): closure } missing )"
+                        Write-Host "  ${rel}:$($i + 1): closure } missing )"
                         $issues = 1
                     }
                 }
