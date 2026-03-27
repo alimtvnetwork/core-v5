@@ -165,7 +165,7 @@ func Test_I8_HS13_AddFunc(t *testing.T) {
 		h.AddFunc(func() string { return "x" })
 		if !h.Has("x") {
 			t.Fatal("expected 'x'")
-		})
+		}
 	})
 }
 
@@ -175,7 +175,7 @@ func Test_I8_HS14_AddFuncErr(t *testing.T) {
 		h.AddFuncErr(func() (string, error) { return "ok", nil }, func(e error) {})
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -650,7 +650,7 @@ func Test_I8_HS58_Filter(t *testing.T) {
 		filtered := h.Filter(func(s string) bool { return len(s) > 1 })
 		if filtered.Length() != 2 {
 			t.Fatal("expected 2")
-		})
+		}
 	})
 }
 
@@ -662,7 +662,7 @@ func Test_I8_HS59_AddsUsingFilter(t *testing.T) {
 		}, "a", "bb", "ccc")
 		if h.Length() != 2 {
 			t.Fatal("expected 2")
-		})
+		}
 	})
 }
 
@@ -674,7 +674,7 @@ func Test_I8_HS60_AddsAnyUsingFilter(t *testing.T) {
 		}, "hello", 42, nil)
 		if h.Length() != 2 {
 			t.Fatal("expected 2 (nil skipped)")
-		})
+		}
 	})
 }
 

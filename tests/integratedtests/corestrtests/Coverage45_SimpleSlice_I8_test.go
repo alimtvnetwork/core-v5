@@ -395,7 +395,7 @@ func Test_I8_SS34_CountFunc(t *testing.T) {
 		c := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
 		if c != 2 {
 			t.Fatal("expected 2")
-		})
+		}
 	})
 }
 

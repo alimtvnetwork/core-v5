@@ -81,7 +81,7 @@ func Test_Cov13_Collection_AddVariants(t *testing.T) {
 
 		if c.Length() != 7 {
 			t.Fatalf("expected 7 got %d", c.Length())
-		})
+		}
 	})
 }
 
@@ -93,13 +93,13 @@ func Test_Cov13_Collection_AddFuncErr(t *testing.T) {
 		c.AddFuncErr(func() (string, error) { return "ok", nil }, func(e error) {})
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 
 		// With error
 		c.AddFuncErr(func() (string, error) { return "", errors.New("fail") }, func(e error) {})
 		if c.Length() != 1 {
 			t.Fatal("expected still 1")
-		})
+		}
 	})
 }
 
@@ -682,7 +682,7 @@ func Test_Cov13_Collection_AddFuncResult(t *testing.T) {
 
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -1131,13 +1131,13 @@ func Test_Cov13_SimpleSlice_Transpile(t *testing.T) {
 
 		if (*result)[0] != "a!" {
 			t.Fatal("expected a!")
-		})
+		}
 
 		// TranspileJoin
 		joined := s.TranspileJoin(func(s string) string { return s }, ",")
 		if joined != "a,b" {
 			t.Fatal("expected a,b")
-		})
+		}
 	})
 }
 
@@ -1396,7 +1396,7 @@ func Test_Cov13_SimpleSlice_IsEqualByFunc(t *testing.T) {
 
 		if !ok {
 			t.Fatal("expected true")
-		})
+		}
 	})
 }
 

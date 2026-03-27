@@ -397,7 +397,7 @@ func Test_CovP1_30_AddFunc(t *testing.T) {
 		col.AddFunc(func() string { return "computed" })
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 

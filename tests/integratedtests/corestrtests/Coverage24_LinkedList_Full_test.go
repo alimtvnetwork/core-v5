@@ -414,7 +414,7 @@ func Test_C24_LinkedList_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "computed" })
 		if ll.Length() != 1 || ll.Head().Element != "computed" {
 			t.Error("AddFunc failed")
-		})
+		}
 	})
 }
 

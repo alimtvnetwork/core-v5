@@ -658,7 +658,7 @@ func Test_S08_42_Collection_AddFunc(t *testing.T) {
 		// Assert
 		if col.Length() != 1 || col.First() != "generated" {
 			t.Fatal("expected 'generated'")
-		})
+		}
 	})
 }
 

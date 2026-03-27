@@ -582,7 +582,7 @@ func Test_I8_HM49_AddsOrUpdatesUsingFilter(t *testing.T) {
 		}, corestr.KeyValuePair{Key: "a", Value: "1"})
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 
@@ -594,7 +594,7 @@ func Test_I8_HM50_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		}, corestr.KeyAnyValuePair{Key: "a", Value: 42})
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 	})
 }
 

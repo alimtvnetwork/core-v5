@@ -437,7 +437,7 @@ func Test_C35_Collection_AddFunc(t *testing.T) {
 		c.AddFunc(func() string { return "hello" })
 		if c.Length() != 1 || c.First() != "hello" {
 			t.Error("expected hello")
-		})
+		}
 	})
 }
 
@@ -1493,7 +1493,7 @@ func Test_C35_Collection_AddFuncResult(t *testing.T) {
 		c.AddFuncResult(func() string { return "a" }, func() string { return "b" })
 		if c.Length() != 2 {
 			t.Error("expected 2")
-		})
+		}
 		c.AddFuncResult()
 		if c.Length() != 2 {
 			t.Error("expected 2 (nil)")

@@ -1488,11 +1488,11 @@ func Test_C49_SimpleStringOnce_GetOnceFunc(t *testing.T) {
 		v := sso.GetOnceFunc(func() string { return "computed" })
 		if v != "computed" {
 			t.Fatal("expected computed")
-		})
+		}
 		v2 := sso.GetOnceFunc(func() string { return "other" })
 		if v2 != "computed" {
 			t.Fatal("should return first value")
-		})
+		}
 	})
 }
 

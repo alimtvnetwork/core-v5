@@ -144,7 +144,7 @@ func Test_ExtCollection_AddFunc_Verification(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Errorf("AddFunc expected 1, got %d", col.Length())
-		})
+		}
 	})
 }
 

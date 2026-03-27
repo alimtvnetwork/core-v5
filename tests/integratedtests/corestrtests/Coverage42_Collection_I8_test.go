@@ -393,7 +393,7 @@ func Test_I8_C34_Collection_AddFunc(t *testing.T) {
 		c.AddFunc(func() string { return "hello" })
 		if c.Length() != 1 || c.First() != "hello" {
 			t.Fatal("expected 'hello'")
-		})
+		}
 	})
 }
 
@@ -404,12 +404,12 @@ func Test_I8_C35_Collection_AddFuncErr(t *testing.T) {
 		c.AddFuncErr(func() (string, error) { return "ok", nil }, func(e error) {})
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		})
+		}
 		// error
 		c.AddFuncErr(func() (string, error) { return "", errors.New("fail") }, func(e error) {})
 		if c.Length() != 1 {
 			t.Fatal("expected still 1")
-		})
+		}
 	})
 }
 
