@@ -1032,7 +1032,6 @@ func Test_I32_Collection_UnmarshalJSON_Err(t *testing.T) {
 	})
 	})
 
-}
 func Test_I32_Collection_Json(t *testing.T) {
 	safeTest(t, "Test_I32_Collection_Json", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})

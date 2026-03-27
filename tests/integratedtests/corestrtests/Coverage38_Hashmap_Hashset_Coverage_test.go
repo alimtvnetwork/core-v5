@@ -605,7 +605,6 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 	})
 
 }
-}
 
 func Test_C38_Hashmap_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C38_Hashmap_ParseInjectUsingJson", func() {
@@ -1168,7 +1167,6 @@ func Test_C38_Hashset_JSON(t *testing.T) {
 	}
 
 	})
-}
 func Test_C38_Hashset_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C38_Hashset_ParseInjectUsingJson", func() {
 		hs := corestr.New.Hashset.StringsSpreadItems("a")
@@ -1263,7 +1261,5 @@ func Test_C38_NewHashsetCreator_Methods(t *testing.T) {
 		if h14.Length() != 1 { t.Fatal() }
 		h15 := corestr.New.Hashset.SimpleSlice(corestr.Empty.SimpleSlice())
 		if h15.Length() != 0 { t.Fatal() }
-	})
-}
 	})
 }

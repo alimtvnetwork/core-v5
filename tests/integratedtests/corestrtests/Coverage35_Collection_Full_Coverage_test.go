@@ -2249,5 +2249,3 @@ func Test_C35_CloneSlice(t *testing.T) {
 		}
 	})
 }
-	})
-}

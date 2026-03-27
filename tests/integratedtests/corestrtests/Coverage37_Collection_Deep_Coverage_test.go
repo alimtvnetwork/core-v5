@@ -1247,7 +1247,6 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 	})
 
 }
-}
 
 func Test_C37_Collection_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C37_Collection_ParseInjectUsingJson", func() {
@@ -1442,7 +1441,5 @@ func Test_C37_EmptyCreator_All(t *testing.T) {
 		if corestr.Empty.KeyValuesCollection().Length() != 0 { t.Fatal() }
 		if corestr.Empty.CollectionsOfCollection().Length() != 0 { t.Fatal() }
 		if corestr.Empty.CharHashsetMap().Length() != 0 { t.Fatal() }
-	})
-}
 	})
 }

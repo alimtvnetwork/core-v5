@@ -1458,5 +1458,3 @@ func Test_C36_CharHashsetDataModel(t *testing.T) {
 		}
 	})
 }
-	})
-}

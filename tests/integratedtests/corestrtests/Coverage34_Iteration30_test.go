@@ -1289,7 +1289,6 @@ func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
 	})
 	})
 
-}
 func Test_I30_Hashset_Json(t *testing.T) {
 	safeTest(t, "Test_I30_Hashset_Json", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
