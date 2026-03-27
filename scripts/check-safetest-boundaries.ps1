@@ -15,7 +15,7 @@ $files = Get-ChildItem -LiteralPath $dir -Filter "*_test.go" -File | Sort-Object
 
 foreach ($file in $files) {
     $lines = Get-Content -LiteralPath $file.FullName
-    $rel = $file.FullName.Replace($repoRoot, "").TrimStart('\\', '/') -replace '\\', '/'
+    $rel = $file.FullName.Replace($repoRoot, "").TrimStart([char]'\', [char]'/') -replace '\\', '/'
 
     # Check 1: malformed safeTest boundary (missing inner `}` before `\t})`)
     for ($i = 1; $i -lt $lines.Count; $i++) {
