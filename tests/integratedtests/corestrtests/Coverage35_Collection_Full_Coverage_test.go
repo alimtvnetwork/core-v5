@@ -1823,7 +1823,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_C35_Collection_ParseInjectUsingJsonMust(t *testing.T) {
 		orig := corestr.New.Collection.Strings([]string{"a"})
 		jsonR := orig.JsonPtr()
 		target := &corestr.Collection{}
@@ -1833,7 +1833,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_JsonParseSelfInject(t *testing.T) {
+func Test_C35_Collection_JsonParseSelfInject(t *testing.T) {
 		orig := corestr.New.Collection.Strings([]string{"a"})
 		jsonR := orig.JsonPtr()
 		target := &corestr.Collection{}
@@ -1843,7 +1843,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_Clear(t *testing.T) {
+func Test_C35_Collection_Clear(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		c.Clear()
 		if c.Length() != 0 {
@@ -1855,28 +1855,28 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_Dispose(t *testing.T) {
+func Test_C35_Collection_Dispose(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		c.Dispose()
 		var nilC *corestr.Collection
 		nilC.Dispose() // should not panic
 	}
 
-	func Test_C35_Collection_AsJsonMarshaller(t *testing.T) {
+func Test_C35_Collection_AsJsonMarshaller(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if c.AsJsonMarshaller() == nil {
 			t.Error("expected non-nil")
 		}
 	}
 
-	func Test_C35_Collection_AsJsonContractsBinder(t *testing.T) {
+func Test_C35_Collection_AsJsonContractsBinder(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if c.AsJsonContractsBinder() == nil {
 			t.Error("expected non-nil")
 		}
 	}
 
-	func Test_C35_Collection_Serialize(t *testing.T) {
+func Test_C35_Collection_Serialize(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		data, err := c.Serialize()
 		if err != nil || len(data) == 0 {
@@ -1884,7 +1884,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_Deserialize(t *testing.T) {
+func Test_C35_Collection_Deserialize(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		var target []string
 		err := c.Deserialize(&target)
@@ -1893,7 +1893,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_Join(t *testing.T) {
+func Test_C35_Collection_Join(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		if c.Join(",") != "a,b" {
 			t.Error("expected a,b")
@@ -1904,7 +1904,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_JoinLine(t *testing.T) {
+func Test_C35_Collection_JoinLine(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		result := c.JoinLine()
 		if result == "" {
@@ -1916,7 +1916,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_Collection_List(t *testing.T) {
+func Test_C35_Collection_List(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if len(c.List()) != 1 {
 			t.Error("expected 1")
@@ -1925,63 +1925,63 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 
 	// ===== newCollectionCreator =====
 
-	func Test_C35_NewCollection_Empty(t *testing.T) {
+func Test_C35_NewCollection_Empty(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		if c.Length() != 0 {
 			t.Error("expected empty")
 		}
 	}
 
-	func Test_C35_NewCollection_Cap(t *testing.T) {
+func Test_C35_NewCollection_Cap(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		if c.Length() != 0 {
 			t.Error("expected 0 length")
 		}
 	}
 
-	func Test_C35_NewCollection_CloneStrings(t *testing.T) {
+func Test_C35_NewCollection_CloneStrings(t *testing.T) {
 		c := corestr.New.Collection.CloneStrings([]string{"a", "b"})
 		if c.Length() != 2 {
 			t.Error("expected 2")
 		}
 	}
 
-	func Test_C35_NewCollection_Create(t *testing.T) {
+func Test_C35_NewCollection_Create(t *testing.T) {
 		c := corestr.New.Collection.Create([]string{"a"})
 		if c.Length() != 1 {
 			t.Error("expected 1")
 		}
 	}
 
-	func Test_C35_NewCollection_StringsOptions_Clone(t *testing.T) {
+func Test_C35_NewCollection_StringsOptions_Clone(t *testing.T) {
 		c := corestr.New.Collection.StringsOptions(true, []string{"a"})
 		if c.Length() != 1 {
 			t.Error("expected 1")
 		}
 	}
 
-	func Test_C35_NewCollection_StringsOptions_NoClone_Empty(t *testing.T) {
+func Test_C35_NewCollection_StringsOptions_NoClone_Empty(t *testing.T) {
 		c := corestr.New.Collection.StringsOptions(false, []string{})
 		if c.Length() != 0 {
 			t.Error("expected 0")
 		}
 	}
 
-	func Test_C35_NewCollection_LineUsingSep(t *testing.T) {
+func Test_C35_NewCollection_LineUsingSep(t *testing.T) {
 		c := corestr.New.Collection.LineUsingSep(",", "a,b,c")
 		if c.Length() != 3 {
 			t.Error("expected 3")
 		}
 	}
 
-	func Test_C35_NewCollection_LineDefault(t *testing.T) {
+func Test_C35_NewCollection_LineDefault(t *testing.T) {
 		c := corestr.New.Collection.LineDefault("a\nb")
 		if c.Length() != 2 {
 			t.Error("expected 2")
 		}
 	}
 
-	func Test_C35_NewCollection_StringsPlusCap(t *testing.T) {
+func Test_C35_NewCollection_StringsPlusCap(t *testing.T) {
 		c := corestr.New.Collection.StringsPlusCap(5, []string{"a"})
 		if c.Length() != 1 {
 			t.Error("expected 1")
@@ -1992,7 +1992,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_NewCollection_CapStrings(t *testing.T) {
+func Test_C35_NewCollection_CapStrings(t *testing.T) {
 		c := corestr.New.Collection.CapStrings(5, []string{"a"})
 		if c.Length() != 1 {
 			t.Error("expected 1")
@@ -2003,7 +2003,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_NewCollection_LenCap(t *testing.T) {
+func Test_C35_NewCollection_LenCap(t *testing.T) {
 		c := corestr.New.Collection.LenCap(3, 10)
 		if c.Length() != 3 {
 			t.Error("expected 3")
@@ -2012,7 +2012,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 
 	// ===== Helpers =====
 
-	func Test_C35_AllIndividualStringsOfStringsLength(t *testing.T) {
+func Test_C35_AllIndividualStringsOfStringsLength(t *testing.T) {
 		items := [][]string{{"a", "b"}, {"c"}}
 		if corestr.AllIndividualStringsOfStringsLength(&items) != 3 {
 			t.Error("expected 3")
@@ -2022,7 +2022,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_AnyToString(t *testing.T) {
+func Test_C35_AnyToString(t *testing.T) {
 		result := corestr.AnyToString(false, 42)
 		if result == "" {
 			t.Error("expected non-empty")
@@ -2036,7 +2036,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C35_CloneSlice(t *testing.T) {
+func Test_C35_CloneSlice(t *testing.T) {
 		orig := []string{"a", "b"}
 		cloned := corestr.CloneSlice(orig)
 		if len(cloned) != 2 {

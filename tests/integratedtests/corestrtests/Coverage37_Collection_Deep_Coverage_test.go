@@ -1246,7 +1246,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 		if err2 == nil { t.Fatal("expected error") }
 	}
 
-	func Test_C37_Collection_ParseInjectUsingJson(t *testing.T) {
+func Test_C37_Collection_ParseInjectUsingJson(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		jr := c.JsonPtr()
 		c2 := &corestr.Collection{}
@@ -1255,7 +1255,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 		if result.Length() != 1 { t.Fatal("expected 1") }
 	}
 
-	func Test_C37_Collection_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_C37_Collection_ParseInjectUsingJsonMust(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		jr := c.JsonPtr()
 		c2 := &corestr.Collection{}
@@ -1263,7 +1263,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 		if result.Length() != 1 { t.Fatal("expected 1") }
 	}
 
-	func Test_C37_Collection_JsonParseSelfInject(t *testing.T) {
+func Test_C37_Collection_JsonParseSelfInject(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		jr := c.JsonPtr()
 		c2 := &corestr.Collection{}
@@ -1271,14 +1271,14 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 		if err != nil { t.Fatal(err) }
 	}
 
-	func Test_C37_Collection_Serialize(t *testing.T) {
+func Test_C37_Collection_Serialize(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		b, err := c.Serialize()
 		if err != nil { t.Fatal(err) }
 		if len(b) == 0 { t.Fatal("expected bytes") }
 	}
 
-	func Test_C37_Collection_Deserialize(t *testing.T) {
+func Test_C37_Collection_Deserialize(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		var target []string
 		err := c.Deserialize(&target)
@@ -1287,26 +1287,26 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 
 	// ── Collection interface casts ──
 
-	func Test_C37_Collection_AsJsonMarshaller(t *testing.T) {
+func Test_C37_Collection_AsJsonMarshaller(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if c.AsJsonMarshaller() == nil { t.Fatal() }
 	}
 
-	func Test_C37_Collection_AsJsonContractsBinder(t *testing.T) {
+func Test_C37_Collection_AsJsonContractsBinder(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if c.AsJsonContractsBinder() == nil { t.Fatal() }
 	}
 
 	// ── Collection resize/capacity ──
 
-	func Test_C37_Collection_AddCapacity(t *testing.T) {
+func Test_C37_Collection_AddCapacity(t *testing.T) {
 		c := corestr.New.Collection.Cap(2)
 		c.AddCapacity(10)
 		if c.Capacity() < 12 { t.Fatal("expected >= 12") }
 		c.AddCapacity()
 	}
 
-	func Test_C37_Collection_Resize(t *testing.T) {
+func Test_C37_Collection_Resize(t *testing.T) {
 		c := corestr.New.Collection.Cap(2)
 		c.Resize(100)
 		if c.Capacity() < 100 { t.Fatal() }
@@ -1315,7 +1315,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 
 	// ── Collection clear/dispose ──
 
-	func Test_C37_Collection_Clear(t *testing.T) {
+func Test_C37_Collection_Clear(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		c.Clear()
 		if c.Length() != 0 { t.Fatal("expected 0") }
@@ -1323,7 +1323,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 		if nilC.Clear() != nil { t.Fatal("expected nil") }
 	}
 
-	func Test_C37_Collection_Dispose(t *testing.T) {
+func Test_C37_Collection_Dispose(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		c.Dispose()
 		if c.Length() != 0 { t.Fatal("expected 0") }
@@ -1333,7 +1333,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 
 	// ── Collection Hashmap filter ──
 
-	func Test_C37_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
+func Test_C37_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		h := corestr.New.Hashmap.Cap(2)
 		h.AddOrUpdate("k", "v")
@@ -1352,7 +1352,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 
 	// ── newCollectionCreator ──
 
-	func Test_C37_NewCollectionCreator_Methods(t *testing.T) {
+func Test_C37_NewCollectionCreator_Methods(t *testing.T) {
 		// Cap
 		c1 := corestr.New.Collection.Cap(5)
 		if c1.Capacity() < 5 { t.Fatal() }
@@ -1394,7 +1394,7 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 
 	// ── emptyCreator ──
 
-	func Test_C37_EmptyCreator_All(t *testing.T) {
+func Test_C37_EmptyCreator_All(t *testing.T) {
 		if corestr.Empty.Collection().Length() != 0 { t.Fatal() }
 		if corestr.Empty.LinkedList().Length() != 0 { t.Fatal() }
 		if corestr.Empty.SimpleSlice().Length() != 0 { t.Fatal() }

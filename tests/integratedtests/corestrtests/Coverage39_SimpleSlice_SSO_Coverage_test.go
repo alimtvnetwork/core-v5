@@ -530,7 +530,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if err3 == nil { t.Fatal() }
 	}
 
-	func Test_C39_SimpleSlice_ParseInjectUsingJson(t *testing.T) {
+func Test_C39_SimpleSlice_ParseInjectUsingJson(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		jr := ss.JsonPtr()
 		ss2 := corestr.New.SimpleSlice.Empty()
@@ -539,7 +539,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if result.Length() != 1 { t.Fatal() }
 	}
 
-	func Test_C39_SimpleSlice_InterfaceCasts(t *testing.T) {
+func Test_C39_SimpleSlice_InterfaceCasts(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		if ss.AsJsonContractsBinder() == nil { t.Fatal() }
 		if ss.AsJsoner() == nil { t.Fatal() }
@@ -547,7 +547,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if ss.AsJsonMarshaller() == nil { t.Fatal() }
 	}
 
-	func Test_C39_SimpleSlice_Clear_Dispose(t *testing.T) {
+func Test_C39_SimpleSlice_Clear_Dispose(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		ss.Clear()
 		if ss.Length() != 0 { t.Fatal() }
@@ -558,7 +558,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		nilSS.Dispose()
 	}
 
-	func Test_C39_SimpleSlice_Serialize_Deserialize(t *testing.T) {
+func Test_C39_SimpleSlice_Serialize_Deserialize(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a")
 		b, err := ss.Serialize()
 		if err != nil { t.Fatal(err) }
@@ -570,7 +570,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 
 	// ── newSimpleSliceCreator ──
 
-	func Test_C39_NewSimpleSliceCreator(t *testing.T) {
+func Test_C39_NewSimpleSliceCreator(t *testing.T) {
 		s1 := corestr.New.SimpleSlice.Cap(5)
 		if s1.Length() != 0 { t.Fatal() }
 		s2 := corestr.New.SimpleSlice.Cap(-1)
@@ -625,7 +625,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 
 	// ═══ SimpleStringOnce ═══
 
-	func Test_C39_SSO_SetGet(t *testing.T) {
+func Test_C39_SSO_SetGet(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Create("hello", true)
 		if sso.Value() != "hello" { t.Fatal() }
 		if !sso.IsInitialized() { t.Fatal() }
@@ -634,7 +634,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if sso.IsInvalid() { t.Fatal() }
 	}
 
-	func Test_C39_SSO_SetOnUninitialized(t *testing.T) {
+func Test_C39_SSO_SetOnUninitialized(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		err := sso.SetOnUninitialized("val")
 		if err != nil { t.Fatal(err) }
@@ -642,7 +642,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if err2 == nil { t.Fatal("expected error") }
 	}
 
-	func Test_C39_SSO_GetSetOnce(t *testing.T) {
+func Test_C39_SSO_GetSetOnce(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		v := sso.GetSetOnce("first")
 		if v != "first" { t.Fatal() }
@@ -650,13 +650,13 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if v2 != "first" { t.Fatal() }
 	}
 
-	func Test_C39_SSO_GetOnce(t *testing.T) {
+func Test_C39_SSO_GetOnce(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		v := sso.GetOnce()
 		if v != "" { t.Fatal() }
 	}
 
-	func Test_C39_SSO_GetOnceFunc(t *testing.T) {
+func Test_C39_SSO_GetOnceFunc(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		v := sso.GetOnceFunc(func() string { return "computed" })
 		if v != "computed" { t.Fatal() }
@@ -664,13 +664,13 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if v2 != "computed" { t.Fatal() }
 	}
 
-	func Test_C39_SSO_SetOnceIfUninitialized(t *testing.T) {
+func Test_C39_SSO_SetOnceIfUninitialized(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		if !sso.SetOnceIfUninitialized("v") { t.Fatal() }
 		if sso.SetOnceIfUninitialized("v2") { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Invalidate_Reset(t *testing.T) {
+func Test_C39_SSO_Invalidate_Reset(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		sso.Invalidate()
 		if sso.IsInitialized() { t.Fatal() }
@@ -679,7 +679,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if sso2.IsInitialized() { t.Fatal() }
 	}
 
-	func Test_C39_SSO_NumericConversions(t *testing.T) {
+func Test_C39_SSO_NumericConversions(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("42")
 		if sso.Int() != 42 { t.Fatal() }
 		if sso.ValueDefInt() != 42 { t.Fatal() }
@@ -701,7 +701,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if bad.Int32() != 0 { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Float64(t *testing.T) {
+func Test_C39_SSO_Float64(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("3.14")
 		if sso.ValueFloat64(0) == 0 { t.Fatal() }
 		if sso.ValueDefFloat64() == 0 { t.Fatal() }
@@ -709,7 +709,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if bad.ValueFloat64(1.0) != 1.0 { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Boolean(t *testing.T) {
+func Test_C39_SSO_Boolean(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("yes")
 		if !sso.Boolean(false) { t.Fatal() }
 		if !sso.BooleanDefault() { t.Fatal() }
@@ -722,7 +722,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if uninit.Boolean(true) { t.Fatal() }
 	}
 
-	func Test_C39_SSO_IsSetter(t *testing.T) {
+func Test_C39_SSO_IsSetter(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("yes")
 		if !sso.IsSetter(false).IsTrue() { t.Fatal() }
 		uninit := corestr.New.SimpleStringOnce.Empty()
@@ -733,7 +733,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if !ssoTrue.IsSetter(false).IsTrue() { t.Fatal() }
 	}
 
-	func Test_C39_SSO_WithinRange(t *testing.T) {
+func Test_C39_SSO_WithinRange(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("50")
 		v, ok := sso.WithinRange(true, 0, 100)
 		if !ok || v != 50 { t.Fatal() }
@@ -749,7 +749,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if !ok5 { t.Fatal() }
 	}
 
-	func Test_C39_SSO_StringMethods(t *testing.T) {
+func Test_C39_SSO_StringMethods(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		if sso.String() == "" { t.Fatal() }
 		if sso.StringPtr() == nil { t.Fatal() }
@@ -778,25 +778,25 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if !sso.IsAnyContains() { t.Fatal() }
 	}
 
-	func Test_C39_SSO_ValueBytes(t *testing.T) {
+func Test_C39_SSO_ValueBytes(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		if len(sso.ValueBytes()) != 2 { t.Fatal() }
 		if len(sso.ValueBytesPtr()) != 2 { t.Fatal() }
 	}
 
-	func Test_C39_SSO_ConcatNew(t *testing.T) {
+func Test_C39_SSO_ConcatNew(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		cn := sso.ConcatNew(" world")
 		if cn.Value() != "hello world" { t.Fatal() }
 	}
 
-	func Test_C39_SSO_ConcatNewUsingStrings(t *testing.T) {
+func Test_C39_SSO_ConcatNewUsingStrings(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		cn := sso.ConcatNewUsingStrings(",", "world")
 		if cn.Value() == "" { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Clone(t *testing.T) {
+func Test_C39_SSO_Clone(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hello")
 		c := sso.Clone()
 		if c.Value() != "hello" { t.Fatal() }
@@ -808,13 +808,13 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if nilSSO.ClonePtr() != nil { t.Fatal() }
 	}
 
-	func Test_C39_SSO_NonPtr_Ptr(t *testing.T) {
+func Test_C39_SSO_NonPtr_Ptr(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("h")
 		_ = sso.NonPtr()
 		_ = sso.Ptr()
 	}
 
-	func Test_C39_SSO_SetInit_SetUnInit(t *testing.T) {
+func Test_C39_SSO_SetInit_SetUnInit(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Empty()
 		sso.SetInitialize()
 		if !sso.IsInitialized() { t.Fatal() }
@@ -822,7 +822,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if sso.IsInitialized() { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Split(t *testing.T) {
+func Test_C39_SSO_Split(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("a,b,c")
 		if len(sso.Split(",")) != 3 { t.Fatal() }
 		l, r := sso.SplitLeftRight(",")
@@ -835,7 +835,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		_ = sso.SimpleSlice(",")
 	}
 
-	func Test_C39_SSO_SplitLeftRight_SingleItem(t *testing.T) {
+func Test_C39_SSO_SplitLeftRight_SingleItem(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("nosep")
 		l, r := sso.SplitLeftRight(",")
 		if l != "nosep" || r != "" { t.Fatal() }
@@ -843,7 +843,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if l2 != "nosep" || r2 != "" { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Regex(t *testing.T) {
+func Test_C39_SSO_Regex(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hello123")
 		if sso.IsRegexMatches(nil) { t.Fatal() }
 		if sso.RegexFindString(nil) != "" { t.Fatal() }
@@ -853,14 +853,14 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if len(r2) != 0 { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Dispose(t *testing.T) {
+func Test_C39_SSO_Dispose(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		sso.Dispose()
 		var nilSSO *corestr.SimpleStringOnce
 		nilSSO.Dispose()
 	}
 
-	func Test_C39_SSO_JSON(t *testing.T) {
+func Test_C39_SSO_JSON(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		j := sso.Json()
 		if j.HasError() { t.Fatal(j.Error) }
@@ -874,7 +874,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if err2 != nil { t.Fatal(err2) }
 	}
 
-	func Test_C39_SSO_InterfaceCasts(t *testing.T) {
+func Test_C39_SSO_InterfaceCasts(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		if sso.AsJsonContractsBinder() == nil { t.Fatal() }
 		if sso.AsJsoner() == nil { t.Fatal() }
@@ -882,7 +882,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		if sso.AsJsonMarshaller() == nil { t.Fatal() }
 	}
 
-	func Test_C39_SSO_Serialize_Deserialize(t *testing.T) {
+func Test_C39_SSO_Serialize_Deserialize(t *testing.T) {
 		sso := corestr.New.SimpleStringOnce.Init("hi")
 		b, err := sso.Serialize()
 		if err != nil { t.Fatal(err) }
@@ -891,7 +891,7 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 
 	// ── newSimpleStringOnceCreator ──
 
-	func Test_C39_NewSSOCreator(t *testing.T) {
+func Test_C39_NewSSOCreator(t *testing.T) {
 		s1 := corestr.New.SimpleStringOnce.Init("hi")
 		if s1.Value() != "hi" { t.Fatal() }
 		s2 := corestr.New.SimpleStringOnce.InitPtr("hi")

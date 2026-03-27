@@ -919,7 +919,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_C36_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		jr := h.JsonPtr()
@@ -930,7 +930,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_ToError_ToDefaultError(t *testing.T) {
+func Test_C36_Hashmap_ToError_ToDefaultError(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		if h.ToError(",") == nil {
@@ -941,7 +941,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_KeyValStringLines(t *testing.T) {
+func Test_C36_Hashmap_KeyValStringLines(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		lines := h.KeyValStringLines()
@@ -950,7 +950,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_Clear_Dispose(t *testing.T) {
+func Test_C36_Hashmap_Clear_Dispose(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		h.Clear()
@@ -967,7 +967,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		nilH2.Dispose()
 	}
 
-	func Test_C36_Hashmap_ToStringsUsingCompiler(t *testing.T) {
+func Test_C36_Hashmap_ToStringsUsingCompiler(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		lines := h.ToStringsUsingCompiler(func(k, v string) string {
@@ -978,7 +978,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_AsJsoner_JsonParseSelfInject_AsJsonContractsBinder(t *testing.T) {
+func Test_C36_Hashmap_AsJsoner_JsonParseSelfInject_AsJsonContractsBinder(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		if h.AsJsoner() == nil {
@@ -1000,7 +1000,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_Clone_ClonePtr(t *testing.T) {
+func Test_C36_Hashmap_Clone_ClonePtr(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		cloned := h.Clone()
@@ -1023,7 +1023,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_Get_GetValue(t *testing.T) {
+func Test_C36_Hashmap_Get_GetValue(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		v, found := h.Get("k")
@@ -1036,7 +1036,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_Hashmap_Serialize_Deserialize(t *testing.T) {
+func Test_C36_Hashmap_Serialize_Deserialize(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		h.AddOrUpdate("k", "v")
 		data, err := h.Serialize()
@@ -1051,7 +1051,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 
 	// ===== newHashmapCreator =====
 
-	func Test_C36_NewHashmap_KeyAnyValues(t *testing.T) {
+func Test_C36_NewHashmap_KeyAnyValues(t *testing.T) {
 		h := corestr.New.Hashmap.KeyAnyValues(corestr.KeyAnyValuePair{Key: "k", Value: "v"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1062,14 +1062,14 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_NewHashmap_KeyValues(t *testing.T) {
+func Test_C36_NewHashmap_KeyValues(t *testing.T) {
 		h := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k", Value: "v"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
 		}
 	}
 
-	func Test_C36_NewHashmap_KeyValuesCollection(t *testing.T) {
+func Test_C36_NewHashmap_KeyValuesCollection(t *testing.T) {
 		keys := corestr.New.Collection.Strings([]string{"a"})
 		vals := corestr.New.Collection.Strings([]string{"1"})
 		h := corestr.New.Hashmap.KeyValuesCollection(keys, vals)
@@ -1082,7 +1082,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_NewHashmap_KeyValuesStrings(t *testing.T) {
+func Test_C36_NewHashmap_KeyValuesStrings(t *testing.T) {
 		h := corestr.New.Hashmap.KeyValuesStrings([]string{"a"}, []string{"1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1093,14 +1093,14 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_NewHashmap_UsingMap(t *testing.T) {
+func Test_C36_NewHashmap_UsingMap(t *testing.T) {
 		h := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
 		}
 	}
 
-	func Test_C36_NewHashmap_UsingMapOptions(t *testing.T) {
+func Test_C36_NewHashmap_UsingMapOptions(t *testing.T) {
 		h := corestr.New.Hashmap.UsingMapOptions(true, 5, map[string]string{"a": "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1115,7 +1115,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_NewHashmap_MapWithCap(t *testing.T) {
+func Test_C36_NewHashmap_MapWithCap(t *testing.T) {
 		h := corestr.New.Hashmap.MapWithCap(5, map[string]string{"a": "1"})
 		if h.Length() != 1 {
 			t.Error("expected 1")
@@ -1132,7 +1132,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 
 	// ===== HashmapDiff =====
 
-	func Test_C36_HashmapDiff_Length(t *testing.T) {
+func Test_C36_HashmapDiff_Length(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if d.Length() != 1 {
 			t.Error("expected 1")
@@ -1143,7 +1143,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_IsEmpty_HasAnyItem(t *testing.T) {
+func Test_C36_HashmapDiff_IsEmpty_HasAnyItem(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if d.IsEmpty() {
 			t.Error("expected not empty")
@@ -1153,14 +1153,14 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_LastIndex(t *testing.T) {
+func Test_C36_HashmapDiff_LastIndex(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if d.LastIndex() != 0 {
 			t.Error("expected 0")
 		}
 	}
 
-	func Test_C36_HashmapDiff_AllKeysSorted(t *testing.T) {
+func Test_C36_HashmapDiff_AllKeysSorted(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"b": "2", "a": "1"})
 		keys := d.AllKeysSorted()
 		if len(keys) != 2 || keys[0] != "a" {
@@ -1168,7 +1168,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_MapAnyItems(t *testing.T) {
+func Test_C36_HashmapDiff_MapAnyItems(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		m := d.MapAnyItems()
 		if len(m) != 1 {
@@ -1181,21 +1181,21 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_HasAnyChanges(t *testing.T) {
+func Test_C36_HashmapDiff_HasAnyChanges(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if !d.HasAnyChanges(map[string]string{"a": "2"}) {
 			t.Error("expected has changes")
 		}
 	}
 
-	func Test_C36_HashmapDiff_IsRawEqual(t *testing.T) {
+func Test_C36_HashmapDiff_IsRawEqual(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		if !d.IsRawEqual(map[string]string{"a": "1"}) {
 			t.Error("expected equal")
 		}
 	}
 
-	func Test_C36_HashmapDiff_HashmapDiffUsingRaw(t *testing.T) {
+func Test_C36_HashmapDiff_HashmapDiffUsingRaw(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		result := d.HashmapDiffUsingRaw(map[string]string{"a": "1"})
 		if len(result) != 0 {
@@ -1203,12 +1203,12 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_DiffRaw(t *testing.T) {
+func Test_C36_HashmapDiff_DiffRaw(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		_ = d.DiffRaw(map[string]string{"a": "2"})
 	}
 
-	func Test_C36_HashmapDiff_DiffJsonMessage(t *testing.T) {
+func Test_C36_HashmapDiff_DiffJsonMessage(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		msg := d.DiffJsonMessage(map[string]string{"a": "2"})
 		if msg == "" {
@@ -1216,14 +1216,14 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_ToStringsSliceOfDiffMap(t *testing.T) {
+func Test_C36_HashmapDiff_ToStringsSliceOfDiffMap(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		diffMap := map[string]string{"a": "changed"}
 		slice := d.ToStringsSliceOfDiffMap(diffMap)
 		_ = slice
 	}
 
-	func Test_C36_HashmapDiff_ShouldDiffMessage(t *testing.T) {
+func Test_C36_HashmapDiff_ShouldDiffMessage(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		msg := d.ShouldDiffMessage("test", map[string]string{"a": "2"})
 		if msg == "" {
@@ -1231,13 +1231,13 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_LogShouldDiffMessage(t *testing.T) {
+func Test_C36_HashmapDiff_LogShouldDiffMessage(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		msg := d.LogShouldDiffMessage("test", map[string]string{"a": "2"})
 		_ = msg
 	}
 
-	func Test_C36_HashmapDiff_Raw(t *testing.T) {
+func Test_C36_HashmapDiff_Raw(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		raw := d.Raw()
 		if len(raw) != 1 {
@@ -1249,7 +1249,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_RawMapStringAnyDiff(t *testing.T) {
+func Test_C36_HashmapDiff_RawMapStringAnyDiff(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		m := d.RawMapStringAnyDiff()
 		if len(m) != 1 {
@@ -1257,7 +1257,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashmapDiff_Serialize_Deserialize(t *testing.T) {
+func Test_C36_HashmapDiff_Serialize_Deserialize(t *testing.T) {
 		d := corestr.HashmapDiff(map[string]string{"a": "1"})
 		data, err := d.Serialize()
 		if err != nil || len(data) == 0 {
@@ -1271,7 +1271,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 
 	// ===== HashmapDataModel / HashsetDataModel =====
 
-	func Test_C36_HashmapDataModel(t *testing.T) {
+func Test_C36_HashmapDataModel(t *testing.T) {
 		dm := &corestr.HashmapDataModel{Items: map[string]string{"k": "v"}}
 		h := corestr.NewHashmapUsingDataModel(dm)
 		if h.Length() != 1 {
@@ -1283,7 +1283,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_HashsetDataModel(t *testing.T) {
+func Test_C36_HashsetDataModel(t *testing.T) {
 		dm := &corestr.HashsetDataModel{Items: map[string]bool{"k": true}}
 		h := corestr.NewHashsetUsingDataModel(dm)
 		if h.Length() != 1 {
@@ -1295,7 +1295,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_CharCollectionDataModel(t *testing.T) {
+func Test_C36_CharCollectionDataModel(t *testing.T) {
 		items := map[byte]*corestr.Collection{
 			'a': corestr.New.Collection.Strings([]string{"apple"}),
 		}
@@ -1310,7 +1310,7 @@ func Test_C36_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		}
 	}
 
-	func Test_C36_CharHashsetDataModel(t *testing.T) {
+func Test_C36_CharHashsetDataModel(t *testing.T) {
 		items := map[byte]*corestr.Hashset{
 			'a': corestr.New.Hashset.Strings([]string{"apple"}),
 		}
