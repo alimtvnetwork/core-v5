@@ -18,6 +18,7 @@ func Test_StrHashmap_Empty(t *testing.T) {
 		}
 		if hm.Length() != 0 {
 			t.Errorf("Empty hashmap length: expected 0, got %d", hm.Length())
+		}
 	})
 }
 
@@ -26,6 +27,7 @@ func Test_StrHashmap_Cap(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(50)
 		if !hm.IsEmpty() {
 			t.Error("Cap hashmap should be empty initially")
+		}
 	})
 }
 
@@ -35,6 +37,7 @@ func Test_StrHashmap_UsingMap(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(m)
 		if hm.Length() != 2 {
 			t.Errorf("UsingMap: expected 2, got %d", hm.Length())
+		}
 	})
 }
 
@@ -50,6 +53,7 @@ func Test_StrHashmap_KeyValuesStrings(t *testing.T) {
 		val, found := hm.Get("a")
 		if !found || val != "1" {
 			t.Errorf("Get('a'): expected '1', got '%s' (found=%v)", val, found)
+		}
 	})
 }
 
@@ -58,6 +62,7 @@ func Test_StrHashmap_KeyValuesStrings_EmptyKeys(t *testing.T) {
 		hm := corestr.New.Hashmap.KeyValuesStrings([]string{}, []string{})
 		if !hm.IsEmpty() {
 			t.Error("KeyValuesStrings with empty keys should be empty")
+		}
 	})
 }
 
@@ -74,6 +79,7 @@ func Test_StrHashmap_Set_NewKey(t *testing.T) {
 		}
 		if hm.Length() != 1 {
 			t.Errorf("After Set: expected 1, got %d", hm.Length())
+		}
 	})
 }
 
@@ -88,6 +94,7 @@ func Test_StrHashmap_Set_ExistingKey(t *testing.T) {
 		val, _ := hm.Get("key")
 		if val != "val2" {
 			t.Errorf("Set should overwrite: expected 'val2', got '%s'", val)
+		}
 	})
 }
 
@@ -97,6 +104,7 @@ func Test_StrHashmap_AddOrUpdate_NewKey(t *testing.T) {
 		isNew := hm.AddOrUpdate("k", "v")
 		if !isNew {
 			t.Error("AddOrUpdate on new key should return true")
+		}
 	})
 }
 
@@ -107,6 +115,7 @@ func Test_StrHashmap_AddOrUpdate_ExistingKey(t *testing.T) {
 		isNew := hm.AddOrUpdate("k", "v2")
 		if isNew {
 			t.Error("AddOrUpdate on existing key should return false")
+		}
 	})
 }
 
@@ -117,6 +126,7 @@ func Test_StrHashmap_SetTrim(t *testing.T) {
 		val, found := hm.Get("key")
 		if !found || val != "val" {
 			t.Errorf("SetTrim: expected trimmed key/val, got '%s' (found=%v)", val, found)
+		}
 	})
 }
 
@@ -131,6 +141,7 @@ func Test_StrHashmap_AddOrUpdateHashmap(t *testing.T) {
 		val, _ := hm1.Get("a")
 		if val != "override" {
 			t.Errorf("Merge should overwrite: expected 'override', got '%s'", val)
+		}
 	})
 }
 
@@ -140,6 +151,7 @@ func Test_StrHashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
 		result := hm.AddOrUpdateHashmap(nil)
 		if result != hm || hm.Length() != 1 {
 			t.Error("AddOrUpdateHashmap(nil) should be no-op")
+		}
 	})
 }
 
@@ -149,6 +161,7 @@ func Test_StrHashmap_AddOrUpdateMap(t *testing.T) {
 		hm.AddOrUpdateMap(map[string]string{"x": "1", "y": "2"})
 		if hm.Length() != 2 {
 			t.Errorf("AddOrUpdateMap: expected 2, got %d", hm.Length())
+		}
 	})
 }
 
@@ -158,6 +171,7 @@ func Test_StrHashmap_AddOrUpdateMap_Empty(t *testing.T) {
 		hm.AddOrUpdateMap(map[string]string{})
 		if hm.Length() != 1 {
 			t.Errorf("AddOrUpdateMap empty: expected 1, got %d", hm.Length())
+		}
 	})
 }
 
@@ -170,6 +184,7 @@ func Test_StrHashmap_Has_Existing(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 		if !hm.Has("k") {
 			t.Error("Has should find existing key")
+		}
 	})
 }
 
@@ -178,6 +193,7 @@ func Test_StrHashmap_Has_Missing(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 		if hm.Has("missing") {
 			t.Error("Has should not find missing key")
+		}
 	})
 }
 
@@ -186,6 +202,7 @@ func Test_StrHashmap_Contains_AliasForHas(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 		if hm.Contains("k") != hm.Has("k") {
 			t.Error("Contains should match Has")
+		}
 	})
 }
 
@@ -197,6 +214,7 @@ func Test_StrHashmap_IsKeyMissing(t *testing.T) {
 		}
 		if !hm.IsKeyMissing("z") {
 			t.Error("IsKeyMissing should return true for missing key")
+		}
 	})
 }
 
@@ -208,6 +226,7 @@ func Test_StrHashmap_HasAllStrings(t *testing.T) {
 		}
 		if hm.HasAllStrings("a", "z") {
 			t.Error("HasAllStrings should return false when one missing")
+		}
 	})
 }
 
@@ -219,6 +238,7 @@ func Test_StrHashmap_HasAll(t *testing.T) {
 		}
 		if hm.HasAll("a", "x") {
 			t.Error("HasAll should return false when one missing")
+		}
 	})
 }
 
@@ -227,6 +247,7 @@ func Test_StrHashmap_HasAny_OnePresent(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
 		if !hm.HasAny("z", "a") {
 			t.Error("HasAny should return true when at least one present")
+		}
 	})
 }
 
@@ -235,6 +256,7 @@ func Test_StrHashmap_HasAny_NonePresent(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
 		if hm.HasAny("x", "y") {
 			t.Error("HasAny should return false when none present")
+		}
 	})
 }
 
@@ -251,6 +273,7 @@ func Test_StrHashmap_Get_Existing(t *testing.T) {
 		}
 		if val != "v" {
 			t.Errorf("Get: expected 'v', got '%s'", val)
+		}
 	})
 }
 
@@ -263,6 +286,7 @@ func Test_StrHashmap_Get_Missing(t *testing.T) {
 		}
 		if val != "" {
 			t.Errorf("Get missing: expected empty string, got '%s'", val)
+		}
 	})
 }
 
@@ -279,6 +303,7 @@ func Test_StrHashmap_Remove(t *testing.T) {
 		}
 		if hm.Length() != 1 {
 			t.Errorf("After remove: expected 1, got %d", hm.Length())
+		}
 	})
 }
 
@@ -288,6 +313,7 @@ func Test_StrHashmap_Remove_Missing_NoEffect(t *testing.T) {
 		hm.Remove("z")
 		if hm.Length() != 1 {
 			t.Errorf("Remove missing: expected 1, got %d", hm.Length())
+		}
 	})
 }
 
@@ -301,6 +327,7 @@ func Test_StrHashmap_Clear(t *testing.T) {
 		hm.Clear()
 		if !hm.IsEmpty() {
 			t.Error("Clear should make hashmap empty")
+		}
 	})
 }
 
@@ -310,6 +337,7 @@ func Test_StrHashmap_Clear_NilReceiver(t *testing.T) {
 		result := hm.Clear()
 		if result != nil {
 			t.Error("Clear on nil should return nil")
+		}
 	})
 }
 
@@ -319,6 +347,7 @@ func Test_StrHashmap_Dispose(t *testing.T) {
 		hm.Dispose()
 		if hm.Length() != 0 {
 			t.Errorf("After Dispose: expected 0, got %d", hm.Length())
+		}
 	})
 }
 
@@ -331,6 +360,7 @@ func Test_StrHashmap_IsEqualPtr_BothNil(t *testing.T) {
 		var a, b *corestr.Hashmap
 		if !a.IsEqualPtr(b) {
 			t.Error("Two nil hashmaps should be equal")
+		}
 	})
 }
 
@@ -340,6 +370,7 @@ func Test_StrHashmap_IsEqualPtr_OneNil(t *testing.T) {
 		var nilHm *corestr.Hashmap
 		if hm.IsEqualPtr(nilHm) {
 			t.Error("Non-nil vs nil should not be equal")
+		}
 	})
 }
 
@@ -348,6 +379,7 @@ func Test_StrHashmap_IsEqualPtr_SamePointer(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
 		if !hm.IsEqualPtr(hm) {
 			t.Error("Same pointer should be equal")
+		}
 	})
 }
 
@@ -357,6 +389,7 @@ func Test_StrHashmap_IsEqualPtr_SameContent(t *testing.T) {
 		b := corestr.New.Hashmap.UsingMap(map[string]string{"b": "2", "a": "1"})
 		if !a.IsEqualPtr(b) {
 			t.Error("Same content should be equal")
+		}
 	})
 }
 
@@ -366,6 +399,7 @@ func Test_StrHashmap_IsEqualPtr_DifferentValues(t *testing.T) {
 		b := corestr.New.Hashmap.UsingMap(map[string]string{"a": "2"})
 		if a.IsEqualPtr(b) {
 			t.Error("Different values should not be equal")
+		}
 	})
 }
 
@@ -375,6 +409,7 @@ func Test_StrHashmap_IsEqualPtr_DifferentKeys(t *testing.T) {
 		b := corestr.New.Hashmap.UsingMap(map[string]string{"b": "1"})
 		if a.IsEqualPtr(b) {
 			t.Error("Different keys should not be equal")
+		}
 	})
 }
 
@@ -384,6 +419,7 @@ func Test_StrHashmap_IsEqualPtr_DifferentLength(t *testing.T) {
 		b := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1", "b": "2"})
 		if a.IsEqualPtr(b) {
 			t.Error("Different length should not be equal")
+		}
 	})
 }
 
@@ -393,6 +429,7 @@ func Test_StrHashmap_IsEqualPtr_BothEmpty(t *testing.T) {
 		b := corestr.New.Hashmap.Empty()
 		if !a.IsEqualPtr(b) {
 			t.Error("Two empty hashmaps should be equal")
+		}
 	})
 }
 
@@ -413,6 +450,7 @@ func Test_StrHashmap_KeysToLower(t *testing.T) {
 		val, _ := lower.Get("abc")
 		if val != "val1" {
 			t.Errorf("KeysToLower should preserve values: expected 'val1', got '%s'", val)
+		}
 	})
 }
 
@@ -422,6 +460,7 @@ func Test_StrHashmap_ValuesToLower_Deprecated_DelegatesToKeysToLower(t *testing.
 		result := hm.ValuesToLower()
 		if !result.Has("key") {
 			t.Error("Deprecated ValuesToLower should delegate to KeysToLower")
+		}
 	})
 }
 
@@ -441,6 +480,7 @@ func Test_StrHashmap_ValuesList_CacheInvalidatedAfterSet(t *testing.T) {
 		list2 := hm.ValuesList()
 		if len(list2) != 2 {
 			t.Errorf("After Set, ValuesList should reflect new item: expected 2, got %d", len(list2))
+		}
 	})
 }
 
@@ -452,6 +492,7 @@ func Test_StrHashmap_ValuesList_CacheInvalidatedAfterRemove(t *testing.T) {
 		list := hm.ValuesList()
 		if len(list) != 1 {
 			t.Errorf("After Remove, ValuesList should reflect removal: expected 1, got %d", len(list))
+		}
 	})
 }
 
@@ -465,6 +506,7 @@ func Test_StrHashmap_Keys(t *testing.T) {
 		keys := hm.Keys()
 		if len(keys) != 2 {
 			t.Errorf("Keys: expected 2, got %d", len(keys))
+		}
 	})
 }
 
@@ -475,6 +517,7 @@ func Test_StrHashmap_Items(t *testing.T) {
 		items := hm.Items()
 		if len(items) != 1 {
 			t.Errorf("Items: expected 1, got %d", len(items))
+		}
 	})
 }
 
@@ -487,6 +530,7 @@ func Test_StrHashmap_NilReceiver_IsEmpty(t *testing.T) {
 		var hm *corestr.Hashmap
 		if !hm.IsEmpty() {
 			t.Error("nil.IsEmpty() should return true")
+		}
 	})
 }
 
@@ -495,6 +539,7 @@ func Test_StrHashmap_NilReceiver_Length(t *testing.T) {
 		var hm *corestr.Hashmap
 		if hm.Length() != 0 {
 			t.Error("nil.Length() should return 0")
+		}
 	})
 }
 
@@ -503,6 +548,7 @@ func Test_StrHashmap_NilReceiver_HasItems(t *testing.T) {
 		var hm *corestr.Hashmap
 		if hm.HasItems() {
 			t.Error("nil.HasItems() should return false")
+		}
 	})
 }
 
@@ -511,6 +557,7 @@ func Test_StrHashmap_NilReceiver_HasAnyItem(t *testing.T) {
 		var hm *corestr.Hashmap
 		if hm.HasAnyItem() {
 			t.Error("nil.HasAnyItem() should return false")
+		}
 	})
 }
 
@@ -524,6 +571,7 @@ func Test_StrHashmap_ClonePtr_NilReceiver(t *testing.T) {
 		result := hm.ClonePtr()
 		if result != nil {
 			t.Error("ClonePtr on nil should return nil")
+		}
 	})
 }
 
@@ -534,6 +582,7 @@ func Test_StrHashmap_ClonePtr_Independence(t *testing.T) {
 		cloned.Set("b", "2")
 		if hm.Has("b") {
 			t.Error("Clone should be independent from original")
+		}
 	})
 }
 
@@ -552,6 +601,7 @@ func Test_StrHashmap_ConcatNew(t *testing.T) {
 		// original should not be mutated
 		if hm1.Length() != 1 {
 			t.Error("ConcatNew should not mutate original")
+		}
 	})
 }
 
@@ -561,5 +611,6 @@ func Test_StrHashmap_ConcatNew_EmptyArgs(t *testing.T) {
 		result := hm.ConcatNew(true)
 		if result.Length() != 1 {
 			t.Errorf("ConcatNew empty: expected 1, got %d", result.Length())
+		}
 	})
 }

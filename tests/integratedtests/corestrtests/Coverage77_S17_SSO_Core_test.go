@@ -25,6 +25,7 @@ func Test_C77_SSO_Value_IsInitialized(t *testing.T) {
 		}
 		if !sso.IsInitialized() {
 			t.Error("expected initialized")
+		}
 	})
 }
 
@@ -36,6 +37,7 @@ func Test_C77_SSO_IsDefined(t *testing.T) {
 		// Act & Assert
 		if !sso.IsDefined() {
 			t.Error("expected defined")
+		}
 	})
 }
 
@@ -47,6 +49,7 @@ func Test_C77_SSO_IsUninitialized(t *testing.T) {
 		// Act & Assert
 		if !sso.IsUninitialized() {
 			t.Error("expected uninitialized")
+		}
 	})
 }
 
@@ -61,6 +64,7 @@ func Test_C77_SSO_Invalidate(t *testing.T) {
 		// Assert
 		if sso.IsInitialized() || sso.Value() != "" {
 			t.Error("expected invalidated")
+		}
 	})
 }
 
@@ -75,6 +79,7 @@ func Test_C77_SSO_Reset(t *testing.T) {
 		// Assert
 		if sso.IsInitialized() {
 			t.Error("expected reset")
+		}
 	})
 }
 
@@ -94,6 +99,7 @@ func Test_C77_SSO_IsInvalid(t *testing.T) {
 		}
 		if valid.IsInvalid() {
 			t.Error("expected valid")
+		}
 	})
 }
 
@@ -105,6 +111,7 @@ func Test_C77_SSO_IsInvalid_Nil(t *testing.T) {
 		// Act & Assert
 		if !sso.IsInvalid() {
 			t.Error("expected invalid for nil")
+		}
 	})
 }
 
@@ -119,6 +126,7 @@ func Test_C77_SSO_ValueBytes(t *testing.T) {
 		// Assert
 		if string(result) != "abc" {
 			t.Error("bytes mismatch")
+		}
 	})
 }
 
@@ -133,6 +141,7 @@ func Test_C77_SSO_ValueBytesPtr(t *testing.T) {
 		// Assert
 		if string(result) != "xyz" {
 			t.Error("bytes mismatch")
+		}
 	})
 }
 
@@ -150,6 +159,7 @@ func Test_C77_SSO_SetOnUninitialized(t *testing.T) {
 		}
 		if sso.Value() != "val" {
 			t.Error("value not set")
+		}
 	})
 }
 
@@ -167,6 +177,7 @@ func Test_C77_SSO_SetOnUninitialized_AlreadyInit(t *testing.T) {
 		}
 		if sso.Value() != "existing" {
 			t.Error("value should not change")
+		}
 	})
 }
 
@@ -181,6 +192,7 @@ func Test_C77_SSO_GetSetOnce_Uninitialized(t *testing.T) {
 		// Assert
 		if result != "first" {
 			t.Errorf("expected 'first', got '%s'", result)
+		}
 	})
 }
 
@@ -195,6 +207,7 @@ func Test_C77_SSO_GetSetOnce_AlreadyInit(t *testing.T) {
 		// Assert
 		if result != "existing" {
 			t.Errorf("expected 'existing', got '%s'", result)
+		}
 	})
 }
 
@@ -212,6 +225,7 @@ func Test_C77_SSO_GetOnce_Uninitialized(t *testing.T) {
 		}
 		if !sso.IsInitialized() {
 			t.Error("should be initialized after GetOnce")
+		}
 	})
 }
 
@@ -226,6 +240,7 @@ func Test_C77_SSO_GetOnce_AlreadyInit(t *testing.T) {
 		// Assert
 		if result != "val" {
 			t.Errorf("expected 'val'")
+		}
 	})
 }
 
@@ -240,6 +255,7 @@ func Test_C77_SSO_GetOnceFunc(t *testing.T) {
 		// Assert
 		if result != "computed" {
 			t.Errorf("expected 'computed', got '%s'", result)
+		}
 	})
 }
 
@@ -254,6 +270,7 @@ func Test_C77_SSO_GetOnceFunc_AlreadyInit(t *testing.T) {
 		// Assert
 		if result != "existing" {
 			t.Errorf("expected 'existing'")
+		}
 	})
 }
 
@@ -268,6 +285,7 @@ func Test_C77_SSO_SetOnceIfUninitialized(t *testing.T) {
 		// Assert
 		if !isSet {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -282,6 +300,7 @@ func Test_C77_SSO_SetOnceIfUninitialized_AlreadyInit(t *testing.T) {
 		// Assert
 		if isSet {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -304,6 +323,7 @@ func Test_C77_SSO_SetInitialize_SetUnInit(t *testing.T) {
 		// Assert
 		if sso.IsInitialized() {
 			t.Error("expected uninitialized")
+		}
 	})
 }
 
@@ -318,6 +338,7 @@ func Test_C77_SSO_ConcatNew(t *testing.T) {
 		// Assert
 		if result.Value() != "hello world" {
 			t.Errorf("expected 'hello world', got '%s'", result.Value())
+		}
 	})
 }
 
@@ -332,6 +353,7 @@ func Test_C77_SSO_ConcatNewUsingStrings(t *testing.T) {
 		// Assert
 		if result.Value() != "a-b-c" {
 			t.Errorf("expected 'a-b-c', got '%s'", result.Value())
+		}
 	})
 }
 
@@ -351,6 +373,7 @@ func Test_C77_SSO_IsEmpty_IsWhitespace(t *testing.T) {
 		}
 		if val.IsEmpty() {
 			t.Error("expected not empty")
+		}
 	})
 }
 
@@ -362,6 +385,7 @@ func Test_C77_SSO_Trim(t *testing.T) {
 		// Act & Assert
 		if sso.Trim() != "hello" {
 			t.Error("trim mismatch")
+		}
 	})
 }
 
@@ -377,6 +401,7 @@ func Test_C77_SSO_HasValidNonEmpty(t *testing.T) {
 		}
 		if empty.HasValidNonEmpty() {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -392,6 +417,7 @@ func Test_C77_SSO_HasValidNonWhitespace(t *testing.T) {
 		}
 		if ws.HasValidNonWhitespace() {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -407,6 +433,7 @@ func Test_C77_SSO_IsValueBool(t *testing.T) {
 		}
 		if !ssoTrue.IsValueBool() {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -422,6 +449,7 @@ func Test_C77_SSO_SafeValue(t *testing.T) {
 		}
 		if uninit.SafeValue() != "" {
 			t.Error("expected empty for uninitialized")
+		}
 	})
 }
 
@@ -437,6 +465,7 @@ func Test_C77_SSO_Int(t *testing.T) {
 		}
 		if invalid.Int() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -456,6 +485,7 @@ func Test_C77_SSO_Byte(t *testing.T) {
 		}
 		if invalid.Byte() != 0 {
 			t.Error("expected 0 for invalid")
+		}
 	})
 }
 
@@ -475,6 +505,7 @@ func Test_C77_SSO_Int16(t *testing.T) {
 		}
 		if invalid.Int16() != 0 {
 			t.Error("expected 0 for invalid")
+		}
 	})
 }
 
@@ -490,6 +521,7 @@ func Test_C77_SSO_Int32(t *testing.T) {
 		}
 		if invalid.Int32() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -504,6 +536,7 @@ func Test_C77_SSO_Uint16(t *testing.T) {
 		// Assert
 		if !inRange || val != 500 {
 			t.Errorf("expected 500 in range, got %d, %v", val, inRange)
+		}
 	})
 }
 
@@ -518,6 +551,7 @@ func Test_C77_SSO_Uint32(t *testing.T) {
 		// Assert
 		if !inRange || val != 100000 {
 			t.Errorf("expected 100000, got %d", val)
+		}
 	})
 }
 
@@ -532,6 +566,7 @@ func Test_C77_SSO_WithinRange_InRange(t *testing.T) {
 		// Assert
 		if !inRange || val != 50 {
 			t.Error("expected 50 in range")
+		}
 	})
 }
 
@@ -549,6 +584,7 @@ func Test_C77_SSO_WithinRange_BelowMin_WithBoundary(t *testing.T) {
 		}
 		if val != 0 {
 			t.Errorf("expected boundary min 0, got %d", val)
+		}
 	})
 }
 
@@ -566,6 +602,7 @@ func Test_C77_SSO_WithinRange_AboveMax_WithBoundary(t *testing.T) {
 		}
 		if val != 100 {
 			t.Errorf("expected boundary max 100, got %d", val)
+		}
 	})
 }
 
@@ -583,6 +620,7 @@ func Test_C77_SSO_WithinRange_NoBoundary(t *testing.T) {
 		}
 		if val != 200 {
 			t.Errorf("expected raw value 200, got %d", val)
+		}
 	})
 }
 
@@ -600,6 +638,7 @@ func Test_C77_SSO_WithinRange_Invalid(t *testing.T) {
 		}
 		if val != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -614,6 +653,7 @@ func Test_C77_SSO_WithinRangeDefault(t *testing.T) {
 		// Assert
 		if !inRange || val != 50 {
 			t.Error("expected 50 in range")
+		}
 	})
 }
 
@@ -628,6 +668,7 @@ func Test_C77_SSO_Boolean_True_Values(t *testing.T) {
 			// Act & Assert
 			if !sso.Boolean(false) {
 				t.Errorf("expected true for '%s'", v)
+		}
 	})
 }
 
@@ -639,6 +680,7 @@ func Test_C77_SSO_Boolean_False_Values(t *testing.T) {
 		// Act & Assert
 		if sso.Boolean(false) {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -650,6 +692,7 @@ func Test_C77_SSO_Boolean_Invalid(t *testing.T) {
 		// Act & Assert
 		if sso.Boolean(false) {
 			t.Error("expected false for invalid")
+		}
 	})
 }
 
@@ -661,6 +704,7 @@ func Test_C77_SSO_Boolean_ConsiderInit_Uninitialized(t *testing.T) {
 		// Act & Assert
 		if sso.Boolean(true) {
 			t.Error("expected false for uninitialized with considerInit")
+		}
 	})
 }
 
@@ -672,6 +716,7 @@ func Test_C77_SSO_BooleanDefault(t *testing.T) {
 		// Act & Assert
 		if !sso.BooleanDefault() {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -686,6 +731,7 @@ func Test_C77_SSO_IsSetter_True(t *testing.T) {
 		// Assert
 		if result != issetter.True {
 			t.Errorf("expected True, got %v", result)
+		}
 	})
 }
 
@@ -700,6 +746,7 @@ func Test_C77_SSO_IsSetter_False(t *testing.T) {
 		// Assert
 		if result != issetter.False {
 			t.Errorf("expected False, got %v", result)
+		}
 	})
 }
 
@@ -714,6 +761,7 @@ func Test_C77_SSO_IsSetter_Invalid(t *testing.T) {
 		// Assert
 		if result != issetter.Uninitialized {
 			t.Errorf("expected Uninitialized, got %v", result)
+		}
 	})
 }
 
@@ -728,6 +776,7 @@ func Test_C77_SSO_IsSetter_ConsiderInit_Uninitialized(t *testing.T) {
 		// Assert
 		if result != issetter.False {
 			t.Errorf("expected False, got %v", result)
+		}
 	})
 }
 
@@ -743,6 +792,7 @@ func Test_C77_SSO_ValueInt(t *testing.T) {
 		}
 		if invalid.ValueInt(99) != 99 {
 			t.Error("expected 99")
+		}
 	})
 }
 
@@ -758,6 +808,7 @@ func Test_C77_SSO_ValueDefInt(t *testing.T) {
 		}
 		if invalid.ValueDefInt() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -777,6 +828,7 @@ func Test_C77_SSO_ValueByte(t *testing.T) {
 		}
 		if invalid.ValueByte(7) != 7 {
 			t.Error("expected 7 for invalid")
+		}
 	})
 }
 
@@ -792,6 +844,7 @@ func Test_C77_SSO_ValueDefByte(t *testing.T) {
 		}
 		if overflow.ValueDefByte() != 0 {
 			t.Error("expected 0")
+		}
 	})
 }
 
@@ -807,6 +860,7 @@ func Test_C77_SSO_ValueFloat64(t *testing.T) {
 		}
 		if invalid.ValueFloat64(1.5) != 1.5 {
 			t.Error("expected 1.5")
+		}
 	})
 }
 
@@ -818,6 +872,7 @@ func Test_C77_SSO_ValueDefFloat64(t *testing.T) {
 		// Act & Assert
 		if sso.ValueDefFloat64() != 2.5 {
 			t.Error("expected 2.5")
+		}
 	})
 }
 
@@ -836,6 +891,7 @@ func Test_C77_SSO_NonPtr_Ptr(t *testing.T) {
 		}
 		if ptr == nil {
 			t.Error("ptr nil")
+		}
 	})
 }
 
@@ -851,6 +907,7 @@ func Test_C77_SSO_HasSafeNonEmpty(t *testing.T) {
 		}
 		if empty.HasSafeNonEmpty() {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -865,6 +922,7 @@ func Test_C77_SSO_Is(t *testing.T) {
 		}
 		if sso.Is("world") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -879,6 +937,7 @@ func Test_C77_SSO_IsAnyOf(t *testing.T) {
 		}
 		if sso.IsAnyOf("x", "y") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -890,6 +949,7 @@ func Test_C77_SSO_IsAnyOf_Empty(t *testing.T) {
 		// Act & Assert — empty values returns true
 		if !sso.IsAnyOf() {
 			t.Error("expected true for empty values")
+		}
 	})
 }
 
@@ -904,6 +964,7 @@ func Test_C77_SSO_IsContains(t *testing.T) {
 		}
 		if sso.IsContains("xyz") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -918,6 +979,7 @@ func Test_C77_SSO_IsAnyContains(t *testing.T) {
 		}
 		if sso.IsAnyContains("abc", "def") {
 			t.Error("expected false")
+		}
 	})
 }
 
@@ -929,6 +991,7 @@ func Test_C77_SSO_IsAnyContains_Empty(t *testing.T) {
 		// Act & Assert
 		if !sso.IsAnyContains() {
 			t.Error("expected true for empty")
+		}
 	})
 }
 
@@ -940,6 +1003,7 @@ func Test_C77_SSO_IsEqualNonSensitive(t *testing.T) {
 		// Act & Assert
 		if !sso.IsEqualNonSensitive("hello") {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -955,6 +1019,7 @@ func Test_C77_SSO_IsRegexMatches(t *testing.T) {
 		}
 		if sso.IsRegexMatches(nil) {
 			t.Error("expected false for nil regex")
+		}
 	})
 }
 
@@ -970,6 +1035,7 @@ func Test_C77_SSO_RegexFindString(t *testing.T) {
 		// Assert
 		if result != "123" {
 			t.Errorf("expected '123', got '%s'", result)
+		}
 	})
 }
 
@@ -981,6 +1047,7 @@ func Test_C77_SSO_RegexFindString_Nil(t *testing.T) {
 		// Act & Assert
 		if sso.RegexFindString(nil) != "" {
 			t.Error("expected empty for nil regex")
+		}
 	})
 }
 
@@ -996,6 +1063,7 @@ func Test_C77_SSO_RegexFindAllStringsWithFlag(t *testing.T) {
 		// Assert
 		if !hasAny || len(items) != 3 {
 			t.Errorf("expected 3 matches, got %d", len(items))
+		}
 	})
 }
 
@@ -1010,6 +1078,7 @@ func Test_C77_SSO_RegexFindAllStringsWithFlag_Nil(t *testing.T) {
 		// Assert
 		if hasAny || len(items) != 0 {
 			t.Error("expected empty for nil regex")
+		}
 	})
 }
 
@@ -1025,6 +1094,7 @@ func Test_C77_SSO_RegexFindAllStrings(t *testing.T) {
 		// Assert
 		if len(items) != 2 {
 			t.Errorf("expected 2, got %d", len(items))
+		}
 	})
 }
 
@@ -1039,5 +1109,6 @@ func Test_C77_SSO_RegexFindAllStrings_Nil(t *testing.T) {
 		// Assert
 		if len(items) != 0 {
 			t.Error("expected empty")
+		}
 	})
 }

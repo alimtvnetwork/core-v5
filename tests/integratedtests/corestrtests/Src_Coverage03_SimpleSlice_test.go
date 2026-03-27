@@ -26,6 +26,7 @@ func Test_SrcC03_SimpleSlice_BasicState_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -43,6 +44,7 @@ func Test_SrcC03_SimpleSlice_NilReceiver_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -82,6 +84,7 @@ func Test_SrcC03_SimpleSlice_AddMethods_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -112,6 +115,7 @@ func Test_SrcC03_SimpleSlice_TitleValue_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -165,6 +169,7 @@ func Test_SrcC03_SimpleSlice_ConditionalAdds_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -190,6 +195,7 @@ func Test_SrcC03_SimpleSlice_AsError_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -277,6 +283,7 @@ func Test_SrcC03_SimpleSlice_CountFunc_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -301,6 +308,7 @@ func Test_SrcC03_SimpleSlice_Contains_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -320,6 +328,7 @@ func Test_SrcC03_SimpleSlice_ContainsFunc_Verification(t *testing.T) {
 		}
 		if notFound {
 			t.Fatal("expected not found")
+		}
 	})
 }
 
@@ -344,6 +353,7 @@ func Test_SrcC03_SimpleSlice_IndexOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	})
 }
 
@@ -363,6 +373,7 @@ func Test_SrcC03_SimpleSlice_IndexOfFunc_Verification(t *testing.T) {
 		}
 		if emptyIdx != -1 {
 			t.Fatal("expected -1")
+		}
 	})
 }
 

@@ -452,6 +452,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
 		// Assert
 		convey.Convey("AddsAnyUsingFilter break", t, func() {
 			convey.So(hs.Length(), convey.ShouldBeLessThanOrEqualTo, 2)
+		}
 	})
 }
 
@@ -865,6 +866,7 @@ func Test_Cov56_Hashset_MapStringAnyDiff(t *testing.T) {
 		// Assert
 		convey.Convey("MapStringAnyDiff", t, func() {
 			convey.So(result, convey.ShouldNotBeNil)
+		}
 	})
 }
 
@@ -1019,6 +1021,7 @@ func Test_Cov56_Hashset_DistinctDiffLinesRaw_Both(t *testing.T) {
 		// Assert
 		convey.Convey("DistinctDiffLinesRaw both have items", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
+		}
 	})
 }
 
@@ -1080,6 +1083,7 @@ func Test_Cov56_Hashset_DistinctDiffHashset(t *testing.T) {
 		// Assert
 		convey.Convey("DistinctDiffHashset", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
+		}
 	})
 }
 
@@ -1188,6 +1192,7 @@ func Test_Cov56_Hashset_JoinLine(t *testing.T) {
 		// Assert
 		convey.Convey("JoinLine", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1200,6 +1205,7 @@ func Test_Cov56_Hashset_NonEmptyJoins(t *testing.T) {
 		// Assert
 		convey.Convey("NonEmptyJoins", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1212,6 +1218,7 @@ func Test_Cov56_Hashset_NonWhitespaceJoins(t *testing.T) {
 		// Assert
 		convey.Convey("NonWhitespaceJoins", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1308,6 +1315,7 @@ func Test_Cov56_Hashset_GetFilteredItems_Break(t *testing.T) {
 		// Assert
 		convey.Convey("GetFilteredItems break", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
+		}
 	})
 }
 
@@ -1355,6 +1363,7 @@ func Test_Cov56_Hashset_GetFilteredCollection_Break(t *testing.T) {
 		// Assert
 		convey.Convey("GetFilteredCollection break", t, func() {
 			convey.So(result.Length(), convey.ShouldBeGreaterThan, 0)
+		}
 	})
 }
 
@@ -1481,6 +1490,7 @@ func Test_Cov56_Hashset_StringLock(t *testing.T) {
 		// Assert
 		convey.Convey("StringLock non-empty", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
+		}
 	})
 }
 
@@ -1493,6 +1503,7 @@ func Test_Cov56_Hashset_StringLock_Empty(t *testing.T) {
 		// Assert
 		convey.Convey("StringLock empty", t, func() {
 			convey.So(result, convey.ShouldContainSubstring, "No Element")
+		}
 	})
 }
 

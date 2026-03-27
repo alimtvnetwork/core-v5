@@ -29,6 +29,7 @@ func Test_CovKVP_01_Basic(t *testing.T) {
 		}
 		if !kv.IsValueEqual("alice") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -46,6 +47,7 @@ func Test_CovKVP_02_IsKey_IsVal_Is(t *testing.T) {
 		}
 		if kv.Is("x", "v") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -80,6 +82,7 @@ func Test_CovKVP_03_IsEmpty_Has(t *testing.T) {
 		}
 		if !kv2.IsKeyValueAnyEmpty() {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -91,6 +94,7 @@ func Test_CovKVP_04_Trim(t *testing.T) {
 		}
 		if kv.TrimValue() != "v" {
 			t.Fatal("expected v")
+		}
 	})
 }
 
@@ -107,6 +111,7 @@ func Test_CovKVP_05_ValueBool(t *testing.T) {
 		kv3 := corestr.KeyValuePair{Key: "k", Value: "abc"}
 		if kv3.ValueBool() {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -125,6 +130,7 @@ func Test_CovKVP_06_ValueInt_ValueDefInt(t *testing.T) {
 		}
 		if kv2.ValueDefInt() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -146,6 +152,7 @@ func Test_CovKVP_07_ValueByte_ValueDefByte(t *testing.T) {
 		kv3 := corestr.KeyValuePair{Key: "k", Value: "abc"}
 		if kv3.ValueByte(7) != 7 {
 			t.Fatal("expected 7")
+		}
 	})
 }
 
@@ -161,6 +168,7 @@ func Test_CovKVP_08_ValueFloat64_ValueDefFloat64(t *testing.T) {
 		kv2 := corestr.KeyValuePair{Key: "k", Value: "abc"}
 		if kv2.ValueFloat64(1.5) != 1.5 {
 			t.Fatal("expected 1.5")
+		}
 	})
 }
 
@@ -174,6 +182,7 @@ func Test_CovKVP_09_ValueValid_ValueValidOptions(t *testing.T) {
 		vv2 := kv.ValueValidOptions(false, "msg")
 		if vv2.IsValid || vv2.Message != "msg" {
 			t.Fatal("expected invalid with msg")
+		}
 	})
 }
 
@@ -233,6 +242,7 @@ func Test_CovKVC_01_IsEmpty_Length_Count(t *testing.T) {
 		}
 		if kvc.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -254,6 +264,7 @@ func Test_CovKVC_02_HasAnyItem_LastIndex_HasIndex(t *testing.T) {
 		}
 		if kvc.HasIndex(1) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -279,6 +290,7 @@ func Test_CovKVC_03_First_Last_OrDefault(t *testing.T) {
 		}
 		if kvc.LastOrDefault().Key != "b" {
 			t.Fatal("expected b")
+		}
 	})
 }
 
@@ -293,6 +305,7 @@ func Test_CovKVC_04_Add_AddIf(t *testing.T) {
 		kvc.AddIf(true, "b", "2")
 		if kvc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -306,6 +319,7 @@ func Test_CovKVC_05_AddStringBySplit_AddStringBySplitTrim(t *testing.T) {
 		kvc.AddStringBySplitTrim("=", " key = value ")
 		if kvc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -380,6 +394,7 @@ func Test_CovKVC_09_HasKey_IsContains_Get(t *testing.T) {
 		_, ok2 := kvc.Get("z")
 		if ok2 {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -399,6 +414,7 @@ func Test_CovKVC_10_AllKeys_AllKeysSorted_AllValues(t *testing.T) {
 		vals := kvc.AllValues()
 		if len(vals) != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -423,6 +439,7 @@ func Test_CovKVC_11_SafeValueAt_SafeValuesAtIndexes(t *testing.T) {
 		vals2 := kvc.SafeValuesAtIndexes()
 		if len(vals2) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -458,6 +475,7 @@ func Test_CovKVC_12_Find(t *testing.T) {
 		})
 		if len(r4) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -493,6 +511,7 @@ func Test_CovKVC_14_Hashmap_Map(t *testing.T) {
 		m := kvc.Map()
 		if len(m) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -514,6 +533,7 @@ func Test_CovKVC_16_SerializeMust(t *testing.T) {
 		b := kvc.SerializeMust()
 		if len(b) == 0 {
 			t.Fatal("expected bytes")
+		}
 	})
 }
 
@@ -541,6 +561,7 @@ func Test_CovKVC_17_JsonModel_MarshalUnmarshal(t *testing.T) {
 		err4 := kvc2.UnmarshalJSON([]byte("bad"))
 		if err4 == nil {
 			t.Fatal("expected error")
+		}
 	})
 }
 
@@ -554,6 +575,7 @@ func Test_CovKVC_18_Json_JsonPtr_ParseInject(t *testing.T) {
 		r, err := kvc2.ParseInjectUsingJson(jr)
 		if err != nil || r == nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -585,6 +607,7 @@ func Test_CovKVC_20_Serialize_Deserialize(t *testing.T) {
 		err2 := kvc.Deserialize(target)
 		if err2 != nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 

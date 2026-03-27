@@ -17,6 +17,7 @@ func Test_C27_KeyValueCollection_Add(t *testing.T) {
 		kvc.Add("k1", "v1").Add("k2", "v2")
 		if kvc.Length() != 2 {
 			t.Errorf("expected 2 got %d", kvc.Length())
+		}
 	})
 }
 
@@ -27,6 +28,7 @@ func Test_C27_KeyValueCollection_AddIf(t *testing.T) {
 		kvc.AddIf(true, "keep", "val")
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -36,6 +38,7 @@ func Test_C27_KeyValueCollection_Count(t *testing.T) {
 		kvc.Add("k", "v")
 		if kvc.Count() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -48,6 +51,7 @@ func Test_C27_KeyValueCollection_HasAnyItem(t *testing.T) {
 		kvc.Add("k", "v")
 		if !kvc.HasAnyItem() {
 			t.Error("should have items")
+		}
 	})
 }
 
@@ -60,6 +64,7 @@ func Test_C27_KeyValueCollection_LastIndex_HasIndex(t *testing.T) {
 		}
 		if !kvc.HasIndex(0) {
 			t.Error("should have index 0")
+		}
 	})
 }
 
@@ -72,6 +77,7 @@ func Test_C27_KeyValueCollection_First_Last(t *testing.T) {
 		}
 		if kvc.Last().Key != "k2" {
 			t.Error("last should be k2")
+		}
 	})
 }
 
@@ -80,6 +86,7 @@ func Test_C27_KeyValueCollection_FirstOrDefault_Empty(t *testing.T) {
 		kvc := corestr.Empty.KeyValueCollection()
 		if kvc.FirstOrDefault() != nil {
 			t.Error("should be nil")
+		}
 	})
 }
 
@@ -88,6 +95,7 @@ func Test_C27_KeyValueCollection_LastOrDefault_Empty(t *testing.T) {
 		kvc := corestr.Empty.KeyValueCollection()
 		if kvc.LastOrDefault() != nil {
 			t.Error("should be nil")
+		}
 	})
 }
 
@@ -100,6 +108,7 @@ func Test_C27_KeyValueCollection_Find(t *testing.T) {
 		})
 		if len(results) != 1 {
 			t.Errorf("expected 1 got %d", len(results))
+		}
 	})
 }
 
@@ -112,6 +121,7 @@ func Test_C27_KeyValueCollection_SafeValueAt(t *testing.T) {
 		}
 		if kvc.SafeValueAt(5) != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -122,6 +132,7 @@ func Test_C27_KeyValueCollection_SafeValuesAtIndexes(t *testing.T) {
 		vals := kvc.SafeValuesAtIndexes(0, 1)
 		if len(vals) != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -132,6 +143,7 @@ func Test_C27_KeyValueCollection_Strings(t *testing.T) {
 		strs := kvc.Strings()
 		if len(strs) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -142,6 +154,7 @@ func Test_C27_KeyValueCollection_StringsUsingFormat(t *testing.T) {
 		strs := kvc.StringsUsingFormat("%s=%s")
 		if len(strs) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -152,6 +165,7 @@ func Test_C27_KeyValueCollection_String(t *testing.T) {
 		s := kvc.String()
 		if s == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -164,6 +178,7 @@ func Test_C27_KeyValueCollection_Adds(t *testing.T) {
 		)
 		if kvc.Length() != 2 {
 			t.Errorf("expected 2 got %d", kvc.Length())
+		}
 	})
 }
 
@@ -173,6 +188,7 @@ func Test_C27_KeyValueCollection_AddStringBySplit(t *testing.T) {
 		kvc.AddStringBySplit("=", "key=value")
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -182,6 +198,7 @@ func Test_C27_KeyValueCollection_AddStringBySplitTrim(t *testing.T) {
 		kvc.AddStringBySplitTrim("=", " key = value ")
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -191,6 +208,7 @@ func Test_C27_KeyValueCollection_AddMap(t *testing.T) {
 		kvc.AddMap(map[string]string{"k": "v"})
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -200,6 +218,7 @@ func Test_C27_KeyValueCollection_AddHashsetMap(t *testing.T) {
 		kvc.AddHashsetMap(map[string]bool{"a": true})
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -210,6 +229,7 @@ func Test_C27_KeyValueCollection_AddHashset(t *testing.T) {
 		kvc.AddHashset(hs)
 		if kvc.Length() != 2 {
 			t.Errorf("expected 2 got %d", kvc.Length())
+		}
 	})
 }
 
@@ -221,6 +241,7 @@ func Test_C27_KeyValueCollection_AddsHashmap(t *testing.T) {
 		kvc.AddsHashmap(hm)
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -232,6 +253,7 @@ func Test_C27_KeyValueCollection_AddsHashmaps(t *testing.T) {
 		kvc.AddsHashmaps(hm)
 		if kvc.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -242,6 +264,7 @@ func Test_C27_KeyValueCollection_Hashmap(t *testing.T) {
 		hm := kvc.Hashmap()
 		if hm.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -251,6 +274,7 @@ func Test_C27_KeyValueCollection_IsContains(t *testing.T) {
 		kvc.Add("k", "v")
 		if !kvc.IsContains("k") {
 			t.Error("should contain k")
+		}
 	})
 }
 
@@ -261,6 +285,7 @@ func Test_C27_KeyValueCollection_Get(t *testing.T) {
 		val, found := kvc.Get("k")
 		if !found || val != "v" {
 			t.Error("should find k=v")
+		}
 	})
 }
 
@@ -270,6 +295,7 @@ func Test_C27_KeyValueCollection_HasKey(t *testing.T) {
 		kvc.Add("k", "v")
 		if !kvc.HasKey("k") {
 			t.Error("should have key")
+		}
 	})
 }
 
@@ -280,6 +306,7 @@ func Test_C27_KeyValueCollection_Map(t *testing.T) {
 		m := kvc.Map()
 		if m["k"] != "v" {
 			t.Error("expected v")
+		}
 	})
 }
 
@@ -290,6 +317,7 @@ func Test_C27_KeyValueCollection_AllKeys(t *testing.T) {
 		keys := kvc.AllKeys()
 		if len(keys) != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -300,6 +328,7 @@ func Test_C27_KeyValueCollection_AllKeysSorted(t *testing.T) {
 		keys := kvc.AllKeysSorted()
 		if keys[0] != "a" {
 			t.Error("first key should be a")
+		}
 	})
 }
 
@@ -310,6 +339,7 @@ func Test_C27_KeyValueCollection_AllValues(t *testing.T) {
 		vals := kvc.AllValues()
 		if len(vals) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -320,6 +350,7 @@ func Test_C27_KeyValueCollection_Join(t *testing.T) {
 		result := kvc.Join(",")
 		if result == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -330,6 +361,7 @@ func Test_C27_KeyValueCollection_JoinKeys(t *testing.T) {
 		result := kvc.JoinKeys(",")
 		if result == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -340,6 +372,7 @@ func Test_C27_KeyValueCollection_JoinValues(t *testing.T) {
 		result := kvc.JoinValues(",")
 		if result != "v" {
 			t.Errorf("expected v got %s", result)
+		}
 	})
 }
 
@@ -350,6 +383,7 @@ func Test_C27_KeyValueCollection_Json(t *testing.T) {
 		result := kvc.Json()
 		if result.HasError() {
 			t.Error("should not error")
+		}
 	})
 }
 
@@ -359,6 +393,7 @@ func Test_C27_KeyValueCollection_JsonPtr(t *testing.T) {
 		kvc.Add("k", "v")
 		if kvc.JsonPtr() == nil {
 			t.Error("should not be nil")
+		}
 	})
 }
 
@@ -369,6 +404,7 @@ func Test_C27_KeyValueCollection_Serialize(t *testing.T) {
 		_, err := kvc.Serialize()
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -379,6 +415,7 @@ func Test_C27_KeyValueCollection_SerializeMust(t *testing.T) {
 		data := kvc.SerializeMust()
 		if len(data) == 0 {
 			t.Error("should have data")
+		}
 	})
 }
 
@@ -391,6 +428,7 @@ func Test_C27_KeyValueCollection_ParseInjectUsingJson(t *testing.T) {
 		_, err := kvc2.ParseInjectUsingJson(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -403,6 +441,7 @@ func Test_C27_KeyValueCollection_JsonParseSelfInject(t *testing.T) {
 		err := kvc2.JsonParseSelfInject(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -417,6 +456,7 @@ func Test_C27_KeyValueCollection_AsJsonInterfaces(t *testing.T) {
 		}
 		if kvc.AsJsonParseSelfInjector() == nil {
 			t.Error("should not be nil")
+		}
 	})
 }
 
@@ -427,6 +467,7 @@ func Test_C27_KeyValueCollection_Clear(t *testing.T) {
 		kvc.Clear()
 		if kvc.Length() != 0 {
 			t.Error("should be 0")
+		}
 	})
 }
 
@@ -446,6 +487,7 @@ func Test_C27_KeyValueCollection_Deserialize(t *testing.T) {
 		err := kvc.Deserialize(&target)
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -456,6 +498,7 @@ func Test_C27_KeyValueCollection_Compile(t *testing.T) {
 		s := kvc.Compile()
 		if s == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -477,6 +520,7 @@ func Test_C27_KeyAnyValuePair_Basic(t *testing.T) {
 		}
 		if !kav.IsVariableNameEqual("name") {
 			t.Error("should be equal")
+		}
 	})
 }
 
@@ -486,6 +530,7 @@ func Test_C27_KeyAnyValuePair_ValueString(t *testing.T) {
 		s := kav.ValueString()
 		if s == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -494,6 +539,7 @@ func Test_C27_KeyAnyValuePair_IsValueNull(t *testing.T) {
 		kav := corestr.KeyAnyValuePair{Key: "k", Value: nil}
 		if !kav.IsValueNull() {
 			t.Error("should be null")
+		}
 	})
 }
 
@@ -505,6 +551,7 @@ func Test_C27_KeyAnyValuePair_HasNonNull(t *testing.T) {
 		}
 		if !kav.HasValue() {
 			t.Error("should have value")
+		}
 	})
 }
 
@@ -513,6 +560,7 @@ func Test_C27_KeyAnyValuePair_IsValueEmptyString(t *testing.T) {
 		kav := corestr.KeyAnyValuePair{Key: "k", Value: nil}
 		if !kav.IsValueEmptyString() {
 			t.Error("should be empty string")
+		}
 	})
 }
 
@@ -521,6 +569,7 @@ func Test_C27_KeyAnyValuePair_IsValueWhitespace(t *testing.T) {
 		kav := corestr.KeyAnyValuePair{Key: "k", Value: nil}
 		if !kav.IsValueWhitespace() {
 			t.Error("should be whitespace")
+		}
 	})
 }
 
@@ -530,6 +579,7 @@ func Test_C27_KeyAnyValuePair_String(t *testing.T) {
 		s := kav.String()
 		if s == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -538,6 +588,7 @@ func Test_C27_KeyAnyValuePair_Compile(t *testing.T) {
 		kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 		if kav.Compile() == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -547,6 +598,7 @@ func Test_C27_KeyAnyValuePair_SerializeMust(t *testing.T) {
 		data := kav.SerializeMust()
 		if len(data) == 0 {
 			t.Error("should have data")
+		}
 	})
 }
 
@@ -556,6 +608,7 @@ func Test_C27_KeyAnyValuePair_Serialize(t *testing.T) {
 		_, err := kav.Serialize()
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -565,6 +618,7 @@ func Test_C27_KeyAnyValuePair_Json(t *testing.T) {
 		result := kav.Json()
 		if result.HasError() {
 			t.Error("should not error")
+		}
 	})
 }
 
@@ -573,6 +627,7 @@ func Test_C27_KeyAnyValuePair_JsonPtr(t *testing.T) {
 		kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 		if kav.JsonPtr() == nil {
 			t.Error("should not be nil")
+		}
 	})
 }
 
@@ -584,6 +639,7 @@ func Test_C27_KeyAnyValuePair_ParseInjectUsingJson(t *testing.T) {
 		_, err := kav2.ParseInjectUsingJson(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -598,6 +654,7 @@ func Test_C27_KeyAnyValuePair_AsJsonInterfaces(t *testing.T) {
 		}
 		if kav.AsJsonParseSelfInjector() == nil {
 			t.Error("should not be nil")
+		}
 	})
 }
 
@@ -622,6 +679,7 @@ func Test_C27_ValidValue_NewValidValue(t *testing.T) {
 		vv := corestr.NewValidValue("hello")
 		if vv.Value != "hello" || !vv.IsValid {
 			t.Error("unexpected state")
+		}
 	})
 }
 
@@ -630,6 +688,7 @@ func Test_C27_ValidValue_NewValidValueEmpty(t *testing.T) {
 		vv := corestr.NewValidValueEmpty()
 		if vv.Value != "" || !vv.IsValid {
 			t.Error("unexpected state")
+		}
 	})
 }
 
@@ -638,6 +697,7 @@ func Test_C27_ValidValue_InvalidValidValue(t *testing.T) {
 		vv := corestr.InvalidValidValue("err")
 		if vv.IsValid || vv.Message != "err" {
 			t.Error("unexpected state")
+		}
 	})
 }
 
@@ -646,6 +706,7 @@ func Test_C27_ValidValue_InvalidValidValueNoMessage(t *testing.T) {
 		vv := corestr.InvalidValidValueNoMessage()
 		if vv.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -654,6 +715,7 @@ func Test_C27_ValidValue_NewValidValueUsingAny(t *testing.T) {
 		vv := corestr.NewValidValueUsingAny(false, true, "test")
 		if vv.Value == "" {
 			t.Error("should have value")
+		}
 	})
 }
 
@@ -662,6 +724,7 @@ func Test_C27_ValidValue_NewValidValueUsingAnyAutoValid(t *testing.T) {
 		vv := corestr.NewValidValueUsingAnyAutoValid(false, "test")
 		if vv.Value == "" {
 			t.Error("should have value")
+		}
 	})
 }
 
@@ -670,6 +733,7 @@ func Test_C27_ValidValue_IsEmpty(t *testing.T) {
 		vv := corestr.NewValidValue("")
 		if !vv.IsEmpty() {
 			t.Error("should be empty")
+		}
 	})
 }
 
@@ -678,6 +742,7 @@ func Test_C27_ValidValue_IsWhitespace(t *testing.T) {
 		vv := corestr.NewValidValue("   ")
 		if !vv.IsWhitespace() {
 			t.Error("should be whitespace")
+		}
 	})
 }
 
@@ -686,6 +751,7 @@ func Test_C27_ValidValue_Trim(t *testing.T) {
 		vv := corestr.NewValidValue("  hello  ")
 		if vv.Trim() != "hello" {
 			t.Error("expected trimmed")
+		}
 	})
 }
 
@@ -694,6 +760,7 @@ func Test_C27_ValidValue_HasValidNonEmpty(t *testing.T) {
 		vv := corestr.NewValidValue("hello")
 		if !vv.HasValidNonEmpty() {
 			t.Error("should have valid non-empty")
+		}
 	})
 }
 
@@ -702,6 +769,7 @@ func Test_C27_ValidValue_HasValidNonWhitespace(t *testing.T) {
 		vv := corestr.NewValidValue("hello")
 		if !vv.HasValidNonWhitespace() {
 			t.Error("should be valid non-whitespace")
+		}
 	})
 }
 
@@ -718,6 +786,7 @@ func Test_C27_ValidValue_ValueBool(t *testing.T) {
 		vv3 := corestr.NewValidValue("")
 		if vv3.ValueBool() {
 			t.Error("expected false for empty")
+		}
 	})
 }
 
@@ -730,6 +799,7 @@ func Test_C27_ValidValue_ValueInt(t *testing.T) {
 		vv2 := corestr.NewValidValue("invalid")
 		if vv2.ValueInt(99) != 99 {
 			t.Error("expected 99")
+		}
 	})
 }
 
@@ -738,6 +808,7 @@ func Test_C27_ValidValue_ValueDefInt(t *testing.T) {
 		vv := corestr.NewValidValue("10")
 		if vv.ValueDefInt() != 10 {
 			t.Error("expected 10")
+		}
 	})
 }
 
@@ -750,6 +821,7 @@ func Test_C27_ValidValue_ValueByte(t *testing.T) {
 		vv2 := corestr.NewValidValue("300")
 		if vv2.ValueByte(0) != 255 {
 			t.Errorf("expected 255 got %d", vv2.ValueByte(0))
+		}
 	})
 }
 
@@ -758,6 +830,7 @@ func Test_C27_ValidValue_ValueDefByte(t *testing.T) {
 		vv := corestr.NewValidValue("100")
 		if vv.ValueDefByte() != 100 {
 			t.Error("expected 100")
+		}
 	})
 }
 
@@ -766,6 +839,7 @@ func Test_C27_ValidValue_ValueFloat64(t *testing.T) {
 		vv := corestr.NewValidValue("3.14")
 		if vv.ValueFloat64(0) != 3.14 {
 			t.Error("expected 3.14")
+		}
 	})
 }
 
@@ -774,6 +848,7 @@ func Test_C27_ValidValue_ValueDefFloat64(t *testing.T) {
 		vv := corestr.NewValidValue("2.5")
 		if vv.ValueDefFloat64() != 2.5 {
 			t.Error("expected 2.5")
+		}
 	})
 }
 
@@ -788,6 +863,7 @@ func Test_C27_ValidValue_ValueBytesOnce(t *testing.T) {
 		bytes2 := vv.ValueBytesOnce()
 		if len(bytes2) != 5 {
 			t.Error("expected 5 bytes cached")
+		}
 	})
 }
 
@@ -797,6 +873,7 @@ func Test_C27_ValidValue_ValueBytesOncePtr(t *testing.T) {
 		bytes := vv.ValueBytesOncePtr()
 		if len(bytes) != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -805,6 +882,7 @@ func Test_C27_ValidValue_HasSafeNonEmpty(t *testing.T) {
 		vv := corestr.NewValidValue("hello")
 		if !vv.HasSafeNonEmpty() {
 			t.Error("expected true")
+		}
 	})
 }
 
@@ -813,6 +891,7 @@ func Test_C27_ValidValue_Is(t *testing.T) {
 		vv := corestr.NewValidValue("hello")
 		if !vv.Is("hello") {
 			t.Error("should match")
+		}
 	})
 }
 
@@ -824,6 +903,7 @@ func Test_C27_ValidValue_IsAnyOf(t *testing.T) {
 		}
 		if !vv.IsAnyOf() {
 			t.Error("empty list returns true")
+		}
 	})
 }
 
@@ -832,6 +912,7 @@ func Test_C27_ValidValue_IsContains(t *testing.T) {
 		vv := corestr.NewValidValue("hello world")
 		if !vv.IsContains("world") {
 			t.Error("should contain")
+		}
 	})
 }
 
@@ -840,6 +921,7 @@ func Test_C27_ValidValue_IsAnyContains(t *testing.T) {
 		vv := corestr.NewValidValue("hello world")
 		if !vv.IsAnyContains("xyz", "world") {
 			t.Error("should contain")
+		}
 	})
 }
 
@@ -848,6 +930,7 @@ func Test_C27_ValidValue_IsEqualNonSensitive(t *testing.T) {
 		vv := corestr.NewValidValue("Hello")
 		if !vv.IsEqualNonSensitive("hello") {
 			t.Error("should be equal")
+		}
 	})
 }
 
@@ -860,6 +943,7 @@ func Test_C27_ValidValue_IsRegexMatches(t *testing.T) {
 		}
 		if vv.IsRegexMatches(nil) {
 			t.Error("nil regex should return false")
+		}
 	})
 }
 
@@ -873,6 +957,7 @@ func Test_C27_ValidValue_RegexFindString(t *testing.T) {
 		}
 		if vv.RegexFindString(nil) != "" {
 			t.Error("nil regex should return empty")
+		}
 	})
 }
 
@@ -883,6 +968,7 @@ func Test_C27_ValidValue_RegexFindAllStrings(t *testing.T) {
 		results := vv.RegexFindAllStrings(re, -1)
 		if len(results) != 3 {
 			t.Errorf("expected 3 got %d", len(results))
+		}
 	})
 }
 
@@ -893,6 +979,7 @@ func Test_C27_ValidValue_RegexFindAllStringsWithFlag(t *testing.T) {
 		items, hasAny := vv.RegexFindAllStringsWithFlag(re, -1)
 		if !hasAny || len(items) != 2 {
 			t.Error("expected 2 items")
+		}
 	})
 }
 
@@ -902,6 +989,7 @@ func Test_C27_ValidValue_Split(t *testing.T) {
 		parts := vv.Split(",")
 		if len(parts) != 3 {
 			t.Error("expected 3")
+		}
 	})
 }
 
@@ -927,6 +1015,7 @@ func Test_C27_ValidValue_Clone(t *testing.T) {
 		cloned := vv.Clone()
 		if cloned.Value != "hello" {
 			t.Error("expected hello")
+		}
 	})
 }
 
@@ -935,6 +1024,7 @@ func Test_C27_ValidValue_String(t *testing.T) {
 		vv := corestr.NewValidValue("hello")
 		if vv.String() != "hello" {
 			t.Error("expected hello")
+		}
 	})
 }
 
@@ -944,6 +1034,7 @@ func Test_C27_ValidValue_FullString(t *testing.T) {
 		s := vv.FullString()
 		if s == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -965,6 +1056,7 @@ func Test_C27_ValidValue_Json(t *testing.T) {
 		result := vv.Json()
 		if result.HasError() {
 			t.Error("should not error")
+		}
 	})
 }
 
@@ -974,6 +1066,7 @@ func Test_C27_ValidValue_Serialize(t *testing.T) {
 		_, err := vv.Serialize()
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -985,6 +1078,7 @@ func Test_C27_ValidValue_ParseInjectUsingJson(t *testing.T) {
 		_, err := vv2.ParseInjectUsingJson(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
+		}
 	})
 }
 
@@ -997,6 +1091,7 @@ func Test_C27_ValidValues_Empty(t *testing.T) {
 		vvs := corestr.EmptyValidValues()
 		if !vvs.IsEmpty() {
 			t.Error("should be empty")
+		}
 	})
 }
 
@@ -1006,6 +1101,7 @@ func Test_C27_ValidValues_Add(t *testing.T) {
 		vvs.Add("a").Add("b")
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2 got %d", vvs.Length())
+		}
 	})
 }
 
@@ -1015,6 +1111,7 @@ func Test_C27_ValidValues_AddFull(t *testing.T) {
 		vvs.AddFull(true, "val", "msg")
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1027,6 +1124,7 @@ func Test_C27_ValidValues_Count_HasAnyItem(t *testing.T) {
 		}
 		if !vvs.HasAnyItem() {
 			t.Error("should have items")
+		}
 	})
 }
 
@@ -1039,6 +1137,7 @@ func Test_C27_ValidValues_Find(t *testing.T) {
 		})
 		if len(results) != 1 {
 			t.Errorf("expected 1 got %d", len(results))
+		}
 	})
 }
 
@@ -1051,6 +1150,7 @@ func Test_C27_ValidValues_SafeValueAt(t *testing.T) {
 		}
 		if vvs.SafeValueAt(5) != "" {
 			t.Error("expected empty")
+		}
 	})
 }
 
@@ -1060,6 +1160,7 @@ func Test_C27_ValidValues_SafeValidValueAt(t *testing.T) {
 		vvs.Add("a")
 		if vvs.SafeValidValueAt(0) != "a" {
 			t.Error("expected a")
+		}
 	})
 }
 
@@ -1070,6 +1171,7 @@ func Test_C27_ValidValues_SafeValuesAtIndexes(t *testing.T) {
 		vals := vvs.SafeValuesAtIndexes(0, 1)
 		if len(vals) != 2 {
 			t.Error("expected 2")
+		}
 	})
 }
 
@@ -1080,6 +1182,7 @@ func Test_C27_ValidValues_SafeValidValuesAtIndexes(t *testing.T) {
 		vals := vvs.SafeValidValuesAtIndexes(0)
 		if len(vals) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1090,6 +1193,7 @@ func Test_C27_ValidValues_Strings(t *testing.T) {
 		strs := vvs.Strings()
 		if len(strs) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1100,6 +1204,7 @@ func Test_C27_ValidValues_FullStrings(t *testing.T) {
 		strs := vvs.FullStrings()
 		if len(strs) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1109,6 +1214,7 @@ func Test_C27_ValidValues_String(t *testing.T) {
 		vvs.Add("a")
 		if vvs.String() == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -1118,6 +1224,7 @@ func Test_C27_ValidValues_Adds(t *testing.T) {
 		vvs.Adds(corestr.ValidValue{Value: "a", IsValid: true})
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1127,6 +1234,7 @@ func Test_C27_ValidValues_AddsPtr(t *testing.T) {
 		vvs.AddsPtr(corestr.NewValidValue("a"))
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1139,6 +1247,7 @@ func Test_C27_ValidValues_AddValidValues(t *testing.T) {
 		vvs1.AddValidValues(vvs2)
 		if vvs1.Length() != 2 {
 			t.Errorf("expected 2 got %d", vvs1.Length())
+		}
 	})
 }
 
@@ -1151,6 +1260,7 @@ func Test_C27_ValidValues_ConcatNew(t *testing.T) {
 		result := vvs.ConcatNew(false, vvs2)
 		if result.Length() != 2 {
 			t.Errorf("expected 2 got %d", result.Length())
+		}
 	})
 }
 
@@ -1160,6 +1270,7 @@ func Test_C27_ValidValues_AddHashsetMap(t *testing.T) {
 		vvs.AddHashsetMap(map[string]bool{"a": true})
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1170,6 +1281,7 @@ func Test_C27_ValidValues_AddHashset(t *testing.T) {
 		vvs.AddHashset(hs)
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1180,6 +1292,7 @@ func Test_C27_ValidValues_Hashmap(t *testing.T) {
 		hm := vvs.Hashmap()
 		if hm.Length() != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1190,6 +1303,7 @@ func Test_C27_ValidValues_Map(t *testing.T) {
 		m := vvs.Map()
 		if len(m) != 1 {
 			t.Error("expected 1")
+		}
 	})
 }
 
@@ -1201,6 +1315,7 @@ func Test_C27_ValidValues_NewValidValuesUsingValues(t *testing.T) {
 		)
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2 got %d", vvs.Length())
+		}
 	})
 }
 
@@ -1213,6 +1328,7 @@ func Test_C27_LeftRight_New(t *testing.T) {
 		lr := corestr.NewLeftRight("left", "right")
 		if lr.Left != "left" || lr.Right != "right" {
 			t.Error("unexpected values")
+		}
 	})
 }
 
@@ -1221,6 +1337,7 @@ func Test_C27_LeftRight_Invalid(t *testing.T) {
 		lr := corestr.InvalidLeftRight("err")
 		if lr.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1229,6 +1346,7 @@ func Test_C27_LeftRight_InvalidNoMessage(t *testing.T) {
 		lr := corestr.InvalidLeftRightNoMessage()
 		if lr.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1237,6 +1355,7 @@ func Test_C27_LeftRight_UsingSlice(t *testing.T) {
 		lr := corestr.LeftRightUsingSlice([]string{"a", "b"})
 		if lr.Left != "a" || lr.Right != "b" {
 			t.Error("unexpected values")
+		}
 	})
 }
 
@@ -1245,6 +1364,7 @@ func Test_C27_LeftRight_UsingSlice_Single(t *testing.T) {
 		lr := corestr.LeftRightUsingSlice([]string{"a"})
 		if lr.Left != "a" || lr.Right != "" {
 			t.Error("unexpected values")
+		}
 	})
 }
 
@@ -1253,6 +1373,7 @@ func Test_C27_LeftRight_UsingSlice_Empty(t *testing.T) {
 		lr := corestr.LeftRightUsingSlice(nil)
 		if lr.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1261,6 +1382,7 @@ func Test_C27_LeftRight_UsingSlicePtr(t *testing.T) {
 		lr := corestr.LeftRightUsingSlicePtr([]string{"a", "b"})
 		if lr.Left != "a" {
 			t.Error("expected a")
+		}
 	})
 }
 
@@ -1269,6 +1391,7 @@ func Test_C27_LeftRight_TrimmedUsingSlice(t *testing.T) {
 		lr := corestr.LeftRightTrimmedUsingSlice([]string{" a ", " b "})
 		if lr.Left != "a" || lr.Right != "b" {
 			t.Error("expected trimmed values")
+		}
 	})
 }
 
@@ -1316,6 +1439,7 @@ func Test_C27_LeftRight_Methods(t *testing.T) {
 		}
 		if !lr.IsRight("right") {
 			t.Error("should match")
+		}
 	})
 }
 
@@ -1325,6 +1449,7 @@ func Test_C27_LeftRight_IsEqual(t *testing.T) {
 		lr2 := corestr.NewLeftRight("a", "b")
 		if !lr1.IsEqual(lr2) {
 			t.Error("should be equal")
+		}
 	})
 }
 
@@ -1334,6 +1459,7 @@ func Test_C27_LeftRight_Clone(t *testing.T) {
 		cloned := lr.Clone()
 		if cloned.Left != "a" {
 			t.Error("expected a")
+		}
 	})
 }
 
@@ -1346,6 +1472,7 @@ func Test_C27_LeftRight_IsRegexMatch(t *testing.T) {
 		}
 		if lr.IsRightRegexMatch(re) {
 			t.Error("should not match")
+		}
 	})
 }
 
@@ -1366,6 +1493,7 @@ func Test_C27_LeftRight_NonPtr_Ptr(t *testing.T) {
 		ptr := lr.Ptr()
 		if ptr == nil {
 			t.Error("should not be nil")
+		}
 	})
 }
 
@@ -1378,6 +1506,7 @@ func Test_C27_LeftMiddleRight_New(t *testing.T) {
 		lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 		if lmr.Left != "l" || lmr.Middle != "m" || lmr.Right != "r" {
 			t.Error("unexpected values")
+		}
 	})
 }
 
@@ -1386,6 +1515,7 @@ func Test_C27_LeftMiddleRight_Invalid(t *testing.T) {
 		lmr := corestr.InvalidLeftMiddleRight("err")
 		if lmr.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1394,6 +1524,7 @@ func Test_C27_LeftMiddleRight_InvalidNoMessage(t *testing.T) {
 		lmr := corestr.InvalidLeftMiddleRightNoMessage()
 		if lmr.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1438,6 +1569,7 @@ func Test_C27_LeftMiddleRight_Methods(t *testing.T) {
 		}
 		if !lmr.Is("left", "right") {
 			t.Error("should match")
+		}
 	})
 }
 
@@ -1447,6 +1579,7 @@ func Test_C27_LeftMiddleRight_Clone(t *testing.T) {
 		cloned := lmr.Clone()
 		if cloned.Left != "l" {
 			t.Error("expected l")
+		}
 	})
 }
 
@@ -1456,6 +1589,7 @@ func Test_C27_LeftMiddleRight_ToLeftRight(t *testing.T) {
 		lr := lmr.ToLeftRight()
 		if lr.Left != "l" || lr.Right != "r" {
 			t.Error("unexpected values")
+		}
 	})
 }
 
@@ -1477,6 +1611,7 @@ func Test_C27_TextWithLineNumber_HasLineNumber(t *testing.T) {
 		twl := &corestr.TextWithLineNumber{LineNumber: 5, Text: "hello"}
 		if !twl.HasLineNumber() {
 			t.Error("should have line number")
+		}
 	})
 }
 
@@ -1485,6 +1620,7 @@ func Test_C27_TextWithLineNumber_IsInvalidLineNumber(t *testing.T) {
 		twl := &corestr.TextWithLineNumber{LineNumber: -1, Text: ""}
 		if !twl.IsInvalidLineNumber() {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1493,6 +1629,7 @@ func Test_C27_TextWithLineNumber_Length(t *testing.T) {
 		twl := &corestr.TextWithLineNumber{LineNumber: 1, Text: "hello"}
 		if twl.Length() != 5 {
 			t.Errorf("expected 5 got %d", twl.Length())
+		}
 	})
 }
 
@@ -1501,6 +1638,7 @@ func Test_C27_TextWithLineNumber_IsEmpty(t *testing.T) {
 		twl := &corestr.TextWithLineNumber{LineNumber: -1, Text: ""}
 		if !twl.IsEmpty() {
 			t.Error("should be empty")
+		}
 	})
 }
 
@@ -1509,6 +1647,7 @@ func Test_C27_TextWithLineNumber_IsEmptyText(t *testing.T) {
 		twl := &corestr.TextWithLineNumber{LineNumber: 1, Text: ""}
 		if !twl.IsEmptyText() {
 			t.Error("should be empty text")
+		}
 	})
 }
 
@@ -1517,6 +1656,7 @@ func Test_C27_TextWithLineNumber_IsEmptyTextLineBoth(t *testing.T) {
 		twl := &corestr.TextWithLineNumber{LineNumber: -1, Text: ""}
 		if !twl.IsEmptyTextLineBoth() {
 			t.Error("should be empty both")
+		}
 	})
 }
 
@@ -1529,6 +1669,7 @@ func Test_C27_ValueStatus_InvalidValueStatus(t *testing.T) {
 		vs := corestr.InvalidValueStatus("err")
 		if vs.ValueValid.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1537,6 +1678,7 @@ func Test_C27_ValueStatus_InvalidValueStatusNoMessage(t *testing.T) {
 		vs := corestr.InvalidValueStatusNoMessage()
 		if vs.ValueValid.IsValid {
 			t.Error("should be invalid")
+		}
 	})
 }
 
@@ -1549,6 +1691,7 @@ func Test_C27_ValueStatus_Clone(t *testing.T) {
 		cloned := vs.Clone()
 		if cloned.Index != 5 || cloned.ValueValid.Value != "hello" {
 			t.Error("clone mismatch")
+		}
 	})
 }
 
@@ -1607,6 +1750,7 @@ func Test_C27_EmptyCreator_All(t *testing.T) {
 		}
 		if corestr.Empty.CharHashsetMap() == nil {
 			t.Error("nil")
+		}
 	})
 }
 
@@ -1619,6 +1763,7 @@ func Test_C27_KeyValuePair_Basic(t *testing.T) {
 		kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 		if kv.String() == "" {
 			t.Error("should not be empty")
+		}
 	})
 }
 
@@ -1636,6 +1781,7 @@ func Test_C27_HashsetDataModel(t *testing.T) {
 		hs2 := corestr.NewHashsetUsingDataModel(dm)
 		if hs2 == nil || hs2.Length() != 2 {
 			t.Error("unexpected")
+		}
 	})
 }
 
@@ -1650,6 +1796,7 @@ func Test_C27_HashmapDataModel(t *testing.T) {
 		hm2 := corestr.NewHashmapUsingDataModel(dm)
 		if hm2 == nil || hm2.Length() != 1 {
 			t.Error("unexpected")
+		}
 	})
 }
 
@@ -1664,5 +1811,6 @@ func Test_C27_HashsetsCollectionDataModel(t *testing.T) {
 		hsc2 := corestr.NewHashsetsCollectionUsingDataModel(dm)
 		if hsc2 == nil {
 			t.Error("nil")
+		}
 	})
 }

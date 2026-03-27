@@ -20,6 +20,7 @@ func Test_CovSS2_01_Collection_ToCollection(t *testing.T) {
 		col2 := ss.ToCollection(true)
 		if col2.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -44,6 +45,7 @@ func Test_CovSS2_03_String(t *testing.T) {
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if e.String() != "" {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -54,6 +56,7 @@ func Test_CovSS2_04_ConcatNewSimpleSlices(t *testing.T) {
 		r := a.ConcatNewSimpleSlices(b)
 		if r.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -67,6 +70,7 @@ func Test_CovSS2_05_ConcatNewStrings_ConcatNew(t *testing.T) {
 		r2 := ss.ConcatNew("b")
 		if r2.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -123,6 +127,7 @@ func Test_CovSS2_08_MarshalJSON_UnmarshalJSON(t *testing.T) {
 		err3 := ss2.UnmarshalJSON([]byte("invalid"))
 		if err3 == nil {
 			t.Fatal("expected error")
+		}
 	})
 }
 
@@ -145,6 +150,7 @@ func Test_CovSS2_10_ParseInjectUsingJson(t *testing.T) {
 		}
 		if r.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -156,6 +162,7 @@ func Test_CovSS2_11_ParseInjectUsingJsonMust(t *testing.T) {
 		r := ss2.ParseInjectUsingJsonMust(jr)
 		if r.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -167,6 +174,7 @@ func Test_CovSS2_12_JsonParseSelfInject(t *testing.T) {
 		err := ss2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -210,6 +218,7 @@ func Test_CovSS2_15_Clone_ClonePtr_DeepClone_ShadowClone(t *testing.T) {
 		sc := ss.ShadowClone()
 		if sc.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -225,6 +234,7 @@ func Test_CovSS2_16_IsDistinctEqualRaw_IsDistinctEqual(t *testing.T) {
 		other := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
 		if !ss.IsDistinctEqual(other) {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -248,6 +258,7 @@ func Test_CovSS2_17_IsUnorderedEqualRaw(t *testing.T) {
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if !e.IsUnorderedEqualRaw(false) {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -267,6 +278,7 @@ func Test_CovSS2_18_IsUnorderedEqual(t *testing.T) {
 		// nil right
 		if ss.IsUnorderedEqual(false, nil) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -290,6 +302,7 @@ func Test_CovSS2_19_IsEqualByFunc(t *testing.T) {
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if !e.IsEqualByFunc(func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -318,6 +331,7 @@ func Test_CovSS2_20_IsEqualByFuncLinesSplit(t *testing.T) {
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if e.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected false for empty vs split-empty mismatch")
+		}
 	})
 }
 
@@ -332,6 +346,7 @@ func Test_CovSS2_21_DistinctDiffRaw(t *testing.T) {
 		r2 := ss.DistinctDiffRaw()
 		if len(r2) != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -347,6 +362,7 @@ func Test_CovSS2_22_DistinctDiff(t *testing.T) {
 		r2 := a.DistinctDiff(nil)
 		if len(r2) != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -359,6 +375,7 @@ func Test_CovSS2_23_AddedRemovedLinesDiff(t *testing.T) {
 		}
 		if len(removed) != 1 {
 			t.Fatalf("expected 1 removed, got %d", len(removed))
+		}
 	})
 }
 
@@ -382,6 +399,7 @@ func Test_CovSS2_24_RemoveIndexes(t *testing.T) {
 		_, err3 := e.RemoveIndexes(0)
 		if err3 == nil {
 			t.Fatal("expected error for empty slice")
+		}
 	})
 }
 
@@ -396,6 +414,7 @@ func Test_CovSS2_25_Serialize_Deserialize(t *testing.T) {
 		err2 := ss.Deserialize(target)
 		if err2 != nil {
 			t.Fatal("unexpected error")
+		}
 	})
 }
 
@@ -408,5 +427,6 @@ func Test_CovSS2_26_SafeStrings(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if len(ss.SafeStrings()) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }

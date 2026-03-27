@@ -14,6 +14,7 @@ func Test_C48_CharCollectionMap_Empty(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Empty()
 		if !m.IsEmpty() || m.HasItems() || m.Length() != 0 {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -25,6 +26,7 @@ func Test_C48_CharCollectionMap_Add(t *testing.T) {
 		m.Add("banana")
 		if m.Length() != 2 {
 			t.Fatalf("expected 2 char groups, got %d", m.Length())
+		}
 	})
 }
 
@@ -34,6 +36,7 @@ func Test_C48_CharCollectionMap_AddLock(t *testing.T) {
 		m.AddLock("abc")
 		if m.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -43,6 +46,7 @@ func Test_C48_CharCollectionMap_AddStrings(t *testing.T) {
 		m.AddStrings("apple", "banana", "avocado")
 		if m.Length() != 2 {
 			t.Fatalf("expected 2, got %d", m.Length())
+		}
 	})
 }
 
@@ -54,6 +58,7 @@ func Test_C48_CharCollectionMap_Has(t *testing.T) {
 		}
 		if m.Has("cherry") {
 			t.Fatal("should not have cherry")
+		}
 	})
 }
 
@@ -62,6 +67,7 @@ func Test_C48_CharCollectionMap_Has_Empty(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Empty()
 		if m.Has("x") {
 			t.Fatal("empty map should not have anything")
+		}
 	})
 }
 
@@ -75,6 +81,7 @@ func Test_C48_CharCollectionMap_HasWithCollection(t *testing.T) {
 		has2, _ := m.HasWithCollection("missing")
 		if has2 {
 			t.Fatal("should not find missing")
+		}
 	})
 }
 
@@ -84,6 +91,7 @@ func Test_C48_CharCollectionMap_HasWithCollection_Empty(t *testing.T) {
 		has, _ := m.HasWithCollection("x")
 		if has {
 			t.Fatal("empty should not have")
+		}
 	})
 }
 
@@ -93,6 +101,7 @@ func Test_C48_CharCollectionMap_HasWithCollectionLock(t *testing.T) {
 		has, _ := m.HasWithCollectionLock("apple")
 		if !has {
 			t.Fatal("should have apple")
+		}
 	})
 }
 
@@ -106,6 +115,7 @@ func Test_C48_CharCollectionMap_LengthOf(t *testing.T) {
 		l2 := m.LengthOf('z')
 		if l2 != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -115,6 +125,7 @@ func Test_C48_CharCollectionMap_LengthOfLock(t *testing.T) {
 		l := m.LengthOfLock('a')
 		if l != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -124,6 +135,7 @@ func Test_C48_CharCollectionMap_LengthOfCollectionFromFirstChar(t *testing.T) {
 		l := m.LengthOfCollectionFromFirstChar("any")
 		if l != 2 {
 			t.Fatalf("expected 2, got %d", l)
+		}
 	})
 }
 
@@ -133,6 +145,7 @@ func Test_C48_CharCollectionMap_AllLengthsSum(t *testing.T) {
 		sum := m.AllLengthsSum()
 		if sum != 3 {
 			t.Fatalf("expected 3, got %d", sum)
+		}
 	})
 }
 
@@ -142,6 +155,7 @@ func Test_C48_CharCollectionMap_AllLengthsSumLock(t *testing.T) {
 		sum := m.AllLengthsSumLock()
 		if sum != 1 {
 			t.Fatalf("expected 1, got %d", sum)
+		}
 	})
 }
 
@@ -155,6 +169,7 @@ func Test_C48_CharCollectionMap_GetChar(t *testing.T) {
 		c2 := m.GetChar("")
 		if c2 != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -172,6 +187,7 @@ func Test_C48_CharCollectionMap_GetCollection(t *testing.T) {
 		col3 := m.GetCollection("zzz", true)
 		if col3 == nil {
 			t.Fatal("expected new collection for 'z' with addNew=true")
+		}
 	})
 }
 
@@ -181,6 +197,7 @@ func Test_C48_CharCollectionMap_GetCollectionLock(t *testing.T) {
 		col := m.GetCollectionLock("apple", false)
 		if col == nil {
 			t.Fatal("expected collection")
+		}
 	})
 }
 
@@ -190,6 +207,7 @@ func Test_C48_CharCollectionMap_GetCollectionByChar(t *testing.T) {
 		col := m.GetCollectionByChar('a')
 		if col == nil {
 			t.Fatal("expected collection for 'a'")
+		}
 	})
 }
 
@@ -199,6 +217,7 @@ func Test_C48_CharCollectionMap_IsEquals(t *testing.T) {
 		m2 := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !m1.IsEquals(m2) {
 			t.Fatal("should be equal")
+		}
 	})
 }
 
@@ -207,6 +226,7 @@ func Test_C48_CharCollectionMap_IsEquals_Nil(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if m.IsEquals(nil) {
 			t.Fatal("nil should not be equal")
+		}
 	})
 }
 
@@ -215,6 +235,7 @@ func Test_C48_CharCollectionMap_IsEquals_SameRef(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !m.IsEquals(m) {
 			t.Fatal("same ref should be equal")
+		}
 	})
 }
 
@@ -224,6 +245,7 @@ func Test_C48_CharCollectionMap_IsEquals_DiffLength(t *testing.T) {
 		m2 := corestr.New.CharCollectionMap.Items([]string{"apple", "banana"})
 		if m1.IsEquals(m2) {
 			t.Fatal("diff length should not be equal")
+		}
 	})
 }
 
@@ -233,6 +255,7 @@ func Test_C48_CharCollectionMap_IsEqualsLock(t *testing.T) {
 		m2 := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !m1.IsEqualsLock(m2) {
 			t.Fatal("should be equal")
+		}
 	})
 }
 
@@ -242,6 +265,7 @@ func Test_C48_CharCollectionMap_IsEqualsCaseSensitive(t *testing.T) {
 		m2 := corestr.New.CharCollectionMap.Items([]string{"Apple"})
 		if !m1.IsEqualsCaseSensitive(true, m2) {
 			t.Fatal("should be equal")
+		}
 	})
 }
 
@@ -251,6 +275,7 @@ func Test_C48_CharCollectionMap_IsEqualsCaseSensitiveLock(t *testing.T) {
 		m2 := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if !m1.IsEqualsCaseSensitiveLock(true, m2) {
 			t.Fatal("should be equal")
+		}
 	})
 }
 
@@ -264,6 +289,7 @@ func Test_C48_CharCollectionMap_AddSameStartingCharItems(t *testing.T) {
 		m.AddSameStartingCharItems('a', []string{"apricot"}, false)
 		if m.LengthOf('a') != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -283,6 +309,7 @@ func Test_C48_CharCollectionMap_AddHashmapsValues(t *testing.T) {
 		m.AddHashmapsValues(hm)
 		if m.AllLengthsSum() != 2 {
 			t.Fatalf("expected 2, got %d", m.AllLengthsSum())
+		}
 	})
 }
 
@@ -301,6 +328,7 @@ func Test_C48_CharCollectionMap_AddHashmapsKeysValuesBoth(t *testing.T) {
 		m.AddHashmapsKeysValuesBoth(hm)
 		if m.AllLengthsSum() != 2 {
 			t.Fatalf("expected 2, got %d", m.AllLengthsSum())
+		}
 	})
 }
 
@@ -311,6 +339,7 @@ func Test_C48_CharCollectionMap_AddCollectionItems(t *testing.T) {
 		m.AddCollectionItems(col)
 		if m.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -328,6 +357,7 @@ func Test_C48_CharCollectionMap_AddCharHashsetMap(t *testing.T) {
 		m.AddCharHashsetMap(chm)
 		if m.AllLengthsSum() != 2 {
 			t.Fatalf("expected 2, got %d", m.AllLengthsSum())
+		}
 	})
 }
 
@@ -363,6 +393,7 @@ func Test_C48_CharCollectionMap_List(t *testing.T) {
 		list := m.List()
 		if len(list) != 2 {
 			t.Fatalf("expected 2, got %d", len(list))
+		}
 	})
 }
 
@@ -372,6 +403,7 @@ func Test_C48_CharCollectionMap_ListLock(t *testing.T) {
 		list := m.ListLock()
 		if len(list) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -384,6 +416,7 @@ func Test_C48_CharCollectionMap_SortedListAsc(t *testing.T) {
 		}
 		if list[0] != "apple" {
 			t.Fatalf("expected apple first, got %s", list[0])
+		}
 	})
 }
 
@@ -393,6 +426,7 @@ func Test_C48_CharCollectionMap_SortedListAsc_Empty(t *testing.T) {
 		list := m.SortedListAsc()
 		if len(list) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -402,6 +436,7 @@ func Test_C48_CharCollectionMap_String(t *testing.T) {
 		s := m.String()
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -411,6 +446,7 @@ func Test_C48_CharCollectionMap_SummaryString(t *testing.T) {
 		s := m.SummaryString()
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -420,6 +456,7 @@ func Test_C48_CharCollectionMap_StringLock(t *testing.T) {
 		s := m.StringLock()
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -429,6 +466,7 @@ func Test_C48_CharCollectionMap_SummaryStringLock(t *testing.T) {
 		s := m.SummaryStringLock()
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -453,6 +491,7 @@ func Test_C48_CharCollectionMap_IsEmptyLock(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Empty()
 		if !m.IsEmptyLock() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -461,6 +500,7 @@ func Test_C48_CharCollectionMap_LengthLock(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Items([]string{"apple"})
 		if m.LengthLock() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -474,6 +514,7 @@ func Test_C48_CharCollectionMap_HashsetByChar(t *testing.T) {
 		hs2 := m.HashsetByChar('z')
 		if hs2 != nil {
 			t.Fatal("expected nil for missing char")
+		}
 	})
 }
 
@@ -487,6 +528,7 @@ func Test_C48_CharCollectionMap_HashsetByCharLock(t *testing.T) {
 		hs2 := m.HashsetByCharLock('z')
 		if hs2 == nil {
 			t.Fatal("expected empty hashset, not nil")
+		}
 	})
 }
 
@@ -496,6 +538,7 @@ func Test_C48_CharCollectionMap_HashsetByStringFirstChar(t *testing.T) {
 		hs := m.HashsetByStringFirstChar("anything")
 		if hs == nil {
 			t.Fatal("expected hashset for 'a'")
+		}
 	})
 }
 
@@ -505,6 +548,7 @@ func Test_C48_CharCollectionMap_HashsetByStringFirstCharLock(t *testing.T) {
 		hs := m.HashsetByStringFirstCharLock("anything")
 		if hs == nil {
 			t.Fatal("expected hashset")
+		}
 	})
 }
 
@@ -514,6 +558,7 @@ func Test_C48_CharCollectionMap_HashsetsCollection(t *testing.T) {
 		hsc := m.HashsetsCollection()
 		if hsc.IsEmpty() {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -523,6 +568,7 @@ func Test_C48_CharCollectionMap_HashsetsCollection_Empty(t *testing.T) {
 		hsc := m.HashsetsCollection()
 		if !hsc.IsEmpty() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -532,6 +578,7 @@ func Test_C48_CharCollectionMap_HashsetsCollectionByChars(t *testing.T) {
 		hsc := m.HashsetsCollectionByChars('a')
 		if hsc.IsEmpty() {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -541,6 +588,7 @@ func Test_C48_CharCollectionMap_HashsetsCollectionByStringFirstChar(t *testing.T
 		hsc := m.HashsetsCollectionByStringFirstChar("anything")
 		if hsc.IsEmpty() {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -576,6 +624,7 @@ func Test_C48_CharCollectionMap_GetCharsGroups(t *testing.T) {
 		result := m.GetCharsGroups([]string{"apple", "banana"})
 		if result == nil {
 			t.Fatal("expected result")
+		}
 	})
 }
 
@@ -585,6 +634,7 @@ func Test_C48_CharCollectionMap_GetCharsGroups_Empty(t *testing.T) {
 		result := m.GetCharsGroups([]string{})
 		if result != m {
 			t.Fatal("expected self")
+		}
 	})
 }
 
@@ -594,6 +644,7 @@ func Test_C48_CharCollectionMap_GetCopyMapLock(t *testing.T) {
 		cm := m.GetCopyMapLock()
 		if len(cm) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -603,6 +654,7 @@ func Test_C48_CharCollectionMap_GetCopyMapLock_Empty(t *testing.T) {
 		cm := m.GetCopyMapLock()
 		if len(cm) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -612,6 +664,7 @@ func Test_C48_CharCollectionMap_GetMap(t *testing.T) {
 		gm := m.GetMap()
 		if len(gm) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -621,6 +674,7 @@ func Test_C48_CharCollectionMap_Clear(t *testing.T) {
 		m.Clear()
 		if !m.IsEmpty() {
 			t.Fatal("expected empty after clear")
+		}
 	})
 }
 
@@ -655,6 +709,7 @@ func Test_C48_CharCollectionMap_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Fatal("expected non-empty json")
+		}
 	})
 }
 
@@ -666,6 +721,7 @@ func Test_C48_CharCollectionMap_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal(data, m2)
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -675,6 +731,7 @@ func Test_C48_CharCollectionMap_Json(t *testing.T) {
 		j := m.Json()
 		if j.Error != nil {
 			t.Fatal(j.Error)
+		}
 	})
 }
 
@@ -684,6 +741,7 @@ func Test_C48_CharCollectionMap_JsonPtr(t *testing.T) {
 		j := m.JsonPtr()
 		if j == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -693,6 +751,7 @@ func Test_C48_CharCollectionMap_JsonModel(t *testing.T) {
 		jm := m.JsonModel()
 		if jm == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -702,6 +761,7 @@ func Test_C48_CharCollectionMap_JsonModelAny(t *testing.T) {
 		a := m.JsonModelAny()
 		if a == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -713,6 +773,7 @@ func Test_C48_CharCollectionMap_ParseInjectUsingJson(t *testing.T) {
 		_, err := m2.ParseInjectUsingJson(&j)
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -733,6 +794,7 @@ func Test_C48_CharCollectionMap_JsonParseSelfInject(t *testing.T) {
 		err := m2.JsonParseSelfInject(&j)
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -752,6 +814,7 @@ func Test_C48_CharCollectionMapCreator_CapSelfCap(t *testing.T) {
 		m := corestr.New.CharCollectionMap.CapSelfCap(20, 15)
 		if m == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -760,6 +823,7 @@ func Test_C48_CharCollectionMapCreator_ItemsPtrWithCap(t *testing.T) {
 		m := corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 10, []string{"apple"})
 		if m.AllLengthsSum() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -768,6 +832,7 @@ func Test_C48_CharCollectionMapCreator_ItemsPtrWithCap_Empty(t *testing.T) {
 		m := corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 10, []string{})
 		if m.AllLengthsSum() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -776,6 +841,7 @@ func Test_C48_CharCollectionMapCreator_Items_Empty(t *testing.T) {
 		m := corestr.New.CharCollectionMap.Items([]string{})
 		if !m.IsEmpty() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -787,6 +853,7 @@ func Test_C48_CharCollectionDataModel(t *testing.T) {
 		m2 := corestr.NewCharCollectionMapUsingDataModel(dm)
 		if m2.AllLengthsSum() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -796,6 +863,7 @@ func Test_C48_EmptyCreator_CharCollectionMap(t *testing.T) {
 		m := corestr.Empty.CharCollectionMap()
 		if m == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -806,6 +874,7 @@ func Test_C48_CharHashsetMap_Empty(t *testing.T) {
 		m := corestr.Empty.CharHashsetMap()
 		if m == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -814,6 +883,7 @@ func Test_C48_CharHashsetMap_Cap(t *testing.T) {
 		m := corestr.New.CharHashsetMap.Cap(20, 15)
 		if m == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -822,6 +892,7 @@ func Test_C48_CharHashsetMap_CapItems(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(20, 15, "apple", "banana")
 		if m.AllLengthsSum() != 2 {
 			t.Fatalf("expected 2, got %d", m.AllLengthsSum())
+		}
 	})
 }
 
@@ -830,6 +901,7 @@ func Test_C48_CharHashsetMap_Strings(t *testing.T) {
 		m := corestr.New.CharHashsetMap.Strings(10, []string{"apple", "banana"})
 		if m.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -838,6 +910,7 @@ func Test_C48_CharHashsetMap_Strings_Nil(t *testing.T) {
 		m := corestr.New.CharHashsetMap.Strings(10, nil)
 		if m.AllLengthsSum() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -849,6 +922,7 @@ func Test_C48_CharHashsetMap_Add(t *testing.T) {
 		m.Add("banana")
 		if m.Length() != 2 {
 			t.Fatalf("expected 2, got %d", m.Length())
+		}
 	})
 }
 
@@ -858,6 +932,7 @@ func Test_C48_CharHashsetMap_AddLock(t *testing.T) {
 		m.AddLock("abc")
 		if m.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -867,6 +942,7 @@ func Test_C48_CharHashsetMap_AddStrings(t *testing.T) {
 		m.AddStrings("apple", "banana")
 		if m.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -883,6 +959,7 @@ func Test_C48_CharHashsetMap_AddStringsLock(t *testing.T) {
 		m.AddStringsLock("apple")
 		if m.AllLengthsSum() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -901,6 +978,7 @@ func Test_C48_CharHashsetMap_Has(t *testing.T) {
 		}
 		if m.Has("cherry") {
 			t.Fatal("should not have cherry")
+		}
 	})
 }
 
@@ -909,6 +987,7 @@ func Test_C48_CharHashsetMap_Has_Empty(t *testing.T) {
 		m := corestr.Empty.CharHashsetMap()
 		if m.Has("x") {
 			t.Fatal("empty should not have")
+		}
 	})
 }
 
@@ -922,6 +1001,7 @@ func Test_C48_CharHashsetMap_HasWithHashset(t *testing.T) {
 		has2, _ := m.HasWithHashset("missing")
 		if has2 {
 			t.Fatal("should not have")
+		}
 	})
 }
 
@@ -931,6 +1011,7 @@ func Test_C48_CharHashsetMap_HasWithHashset_Empty(t *testing.T) {
 		has, _ := m.HasWithHashset("x")
 		if has {
 			t.Fatal("empty should not have")
+		}
 	})
 }
 
@@ -940,6 +1021,7 @@ func Test_C48_CharHashsetMap_HasWithHashsetLock(t *testing.T) {
 		has, _ := m.HasWithHashsetLock("apple")
 		if !has {
 			t.Fatal("should have")
+		}
 	})
 }
 
@@ -951,6 +1033,7 @@ func Test_C48_CharHashsetMap_LengthOf(t *testing.T) {
 		}
 		if m.LengthOf('z') != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -959,6 +1042,7 @@ func Test_C48_CharHashsetMap_LengthOfLock(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if m.LengthOfLock('a') != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -967,6 +1051,7 @@ func Test_C48_CharHashsetMap_LengthOfHashsetFromFirstChar(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if m.LengthOfHashsetFromFirstChar("any") != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -975,6 +1060,7 @@ func Test_C48_CharHashsetMap_AllLengthsSum(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple", "banana")
 		if m.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -983,6 +1069,7 @@ func Test_C48_CharHashsetMap_AllLengthsSumLock(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if m.AllLengthsSumLock() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -994,6 +1081,7 @@ func Test_C48_CharHashsetMap_GetChar(t *testing.T) {
 		}
 		if m.GetChar("") != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -1005,6 +1093,7 @@ func Test_C48_CharHashsetMap_GetCharOf(t *testing.T) {
 		}
 		if m.GetCharOf("") != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -1022,6 +1111,7 @@ func Test_C48_CharHashsetMap_GetHashset(t *testing.T) {
 		hs3 := m.GetHashset("zzz", true)
 		if hs3 == nil {
 			t.Fatal("expected new hashset")
+		}
 	})
 }
 
@@ -1031,6 +1121,7 @@ func Test_C48_CharHashsetMap_GetHashsetLock(t *testing.T) {
 		hs := m.GetHashsetLock(false, "apple")
 		if hs == nil {
 			t.Fatal("expected hashset")
+		}
 	})
 }
 
@@ -1040,6 +1131,7 @@ func Test_C48_CharHashsetMap_GetHashsetByChar(t *testing.T) {
 		hs := m.GetHashsetByChar('a')
 		if hs == nil {
 			t.Fatal("expected hashset")
+		}
 	})
 }
 
@@ -1049,6 +1141,7 @@ func Test_C48_CharHashsetMap_HashsetByChar(t *testing.T) {
 		hs := m.HashsetByChar('a')
 		if hs == nil {
 			t.Fatal("expected hashset")
+		}
 	})
 }
 
@@ -1062,6 +1155,7 @@ func Test_C48_CharHashsetMap_HashsetByCharLock(t *testing.T) {
 		hs2 := m.HashsetByCharLock('z')
 		if hs2 == nil {
 			t.Fatal("expected empty hashset")
+		}
 	})
 }
 
@@ -1071,6 +1165,7 @@ func Test_C48_CharHashsetMap_HashsetByStringFirstChar(t *testing.T) {
 		hs := m.HashsetByStringFirstChar("anything")
 		if hs == nil {
 			t.Fatal("expected hashset")
+		}
 	})
 }
 
@@ -1080,6 +1175,7 @@ func Test_C48_CharHashsetMap_HashsetByStringFirstCharLock(t *testing.T) {
 		hs := m.HashsetByStringFirstCharLock("anything")
 		if hs == nil {
 			t.Fatal("expected hashset")
+		}
 	})
 }
 
@@ -1089,6 +1185,7 @@ func Test_C48_CharHashsetMap_IsEquals(t *testing.T) {
 		m2 := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if !m1.IsEquals(m2) {
 			t.Fatal("should be equal")
+		}
 	})
 }
 
@@ -1097,6 +1194,7 @@ func Test_C48_CharHashsetMap_IsEquals_Nil(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if m.IsEquals(nil) {
 			t.Fatal("nil should not be equal")
+		}
 	})
 }
 
@@ -1105,6 +1203,7 @@ func Test_C48_CharHashsetMap_IsEquals_SameRef(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if !m.IsEquals(m) {
 			t.Fatal("same ref")
+		}
 	})
 }
 
@@ -1114,6 +1213,7 @@ func Test_C48_CharHashsetMap_IsEqualsLock(t *testing.T) {
 		m2 := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if !m1.IsEqualsLock(m2) {
 			t.Fatal("should be equal")
+		}
 	})
 }
 
@@ -1123,6 +1223,7 @@ func Test_C48_CharHashsetMap_List(t *testing.T) {
 		list := m.List()
 		if len(list) != 2 {
 			t.Fatalf("expected 2, got %d", len(list))
+		}
 	})
 }
 
@@ -1132,6 +1233,7 @@ func Test_C48_CharHashsetMap_SortedListAsc(t *testing.T) {
 		list := m.SortedListAsc()
 		if len(list) != 2 || list[0] != "apple" {
 			t.Fatal("expected sorted")
+		}
 	})
 }
 
@@ -1141,6 +1243,7 @@ func Test_C48_CharHashsetMap_SortedListDsc(t *testing.T) {
 		list := m.SortedListDsc()
 		if len(list) != 2 || list[0] != "banana" {
 			t.Fatal("expected descending")
+		}
 	})
 }
 
@@ -1150,6 +1253,7 @@ func Test_C48_CharHashsetMap_String(t *testing.T) {
 		s := m.String()
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -1159,6 +1263,7 @@ func Test_C48_CharHashsetMap_StringLock(t *testing.T) {
 		s := m.StringLock()
 		if s == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -1183,6 +1288,7 @@ func Test_C48_CharHashsetMap_IsEmptyLock(t *testing.T) {
 		m := corestr.Empty.CharHashsetMap()
 		if !m.IsEmptyLock() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -1191,6 +1297,7 @@ func Test_C48_CharHashsetMap_HasItems(t *testing.T) {
 		m := corestr.New.CharHashsetMap.CapItems(10, 10, "apple")
 		if !m.HasItems() {
 			t.Fatal("should have items")
+		}
 	})
 }
 
@@ -1200,6 +1307,7 @@ func Test_C48_CharHashsetMap_HashsetsCollection(t *testing.T) {
 		hsc := m.HashsetsCollection()
 		if hsc.IsEmpty() {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -1209,6 +1317,7 @@ func Test_C48_CharHashsetMap_HashsetsCollection_Empty(t *testing.T) {
 		hsc := m.HashsetsCollection()
 		if !hsc.IsEmpty() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -1218,6 +1327,7 @@ func Test_C48_CharHashsetMap_HashsetsCollectionByChars(t *testing.T) {
 		hsc := m.HashsetsCollectionByChars('a')
 		if hsc.IsEmpty() {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -1227,6 +1337,7 @@ func Test_C48_CharHashsetMap_HashsetsCollectionByStringsFirstChar(t *testing.T) 
 		hsc := m.HashsetsCollectionByStringsFirstChar("anything")
 		if hsc.IsEmpty() {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -1236,6 +1347,7 @@ func Test_C48_CharHashsetMap_GetCharsGroups(t *testing.T) {
 		result := m.GetCharsGroups("apple", "banana")
 		if result.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -1245,6 +1357,7 @@ func Test_C48_CharHashsetMap_GetCharsGroups_Empty(t *testing.T) {
 		result := m.GetCharsGroups()
 		if result != m {
 			t.Fatal("expected self")
+		}
 	})
 }
 
@@ -1254,6 +1367,7 @@ func Test_C48_CharHashsetMap_GetMap(t *testing.T) {
 		gm := m.GetMap()
 		if len(gm) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -1263,6 +1377,7 @@ func Test_C48_CharHashsetMap_GetCopyMapLock(t *testing.T) {
 		cm := m.GetCopyMapLock()
 		if len(cm) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -1272,6 +1387,7 @@ func Test_C48_CharHashsetMap_GetCopyMapLock_Empty(t *testing.T) {
 		cm := m.GetCopyMapLock()
 		if len(cm) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -1285,6 +1401,7 @@ func Test_C48_CharHashsetMap_AddSameStartingCharItems(t *testing.T) {
 		m.AddSameStartingCharItems('a', []string{"avocado"})
 		if m.LengthOf('a') != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -1302,6 +1419,7 @@ func Test_C48_CharHashsetMap_AddCollectionItems(t *testing.T) {
 		m.AddCollectionItems(col)
 		if m.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -1319,6 +1437,7 @@ func Test_C48_CharHashsetMap_AddCharCollectionMapItems(t *testing.T) {
 		m.AddCharCollectionMapItems(ccm)
 		if m.AllLengthsSum() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -1336,6 +1455,7 @@ func Test_C48_CharHashsetMap_AddHashsetItems(t *testing.T) {
 		m.AddHashsetItems(hs)
 		if m.AllLengthsSum() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -1394,6 +1514,7 @@ func Test_C48_CharHashsetMap_RemoveAll(t *testing.T) {
 		m.RemoveAll()
 		if !m.IsEmpty() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -1410,6 +1531,7 @@ func Test_C48_CharHashsetMap_Clear(t *testing.T) {
 		m.Clear()
 		if !m.IsEmpty() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -1430,6 +1552,7 @@ func Test_C48_CharHashsetMap_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -1441,6 +1564,7 @@ func Test_C48_CharHashsetMap_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal(data, m2)
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -1450,6 +1574,7 @@ func Test_C48_CharHashsetMap_Json(t *testing.T) {
 		j := m.Json()
 		if j.Error != nil {
 			t.Fatal(j.Error)
+		}
 	})
 }
 
@@ -1459,6 +1584,7 @@ func Test_C48_CharHashsetMap_JsonPtr(t *testing.T) {
 		j := m.JsonPtr()
 		if j == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -1468,6 +1594,7 @@ func Test_C48_CharHashsetMap_JsonModel(t *testing.T) {
 		jm := m.JsonModel()
 		if jm == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -1477,6 +1604,7 @@ func Test_C48_CharHashsetMap_JsonModelAny(t *testing.T) {
 		a := m.JsonModelAny()
 		if a == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -1488,6 +1616,7 @@ func Test_C48_CharHashsetMap_ParseInjectUsingJson(t *testing.T) {
 		_, err := m2.ParseInjectUsingJson(&j)
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -1508,6 +1637,7 @@ func Test_C48_CharHashsetMap_JsonParseSelfInject(t *testing.T) {
 		err := m2.JsonParseSelfInject(&j)
 		if err != nil {
 			t.Fatal(err)
+		}
 	})
 }
 
@@ -1529,5 +1659,6 @@ func Test_C48_CharHashsetDataModel(t *testing.T) {
 		m2 := corestr.NewCharHashsetMapUsingDataModel(dm)
 		if m2.AllLengthsSum() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }

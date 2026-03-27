@@ -132,6 +132,7 @@ func Test_SimpleSlice_InsertAt_Regression(t *testing.T) {
 				"item2":  items[2],
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
+		}
 	})
 }
 
@@ -213,6 +214,7 @@ func Test_Collection_RemoveAt_Regression(t *testing.T) {
 				"remainingLength": fmt.Sprintf("%d", col.Length()),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
+		}
 	})
 }
 
@@ -268,6 +270,7 @@ func Test_Hashmap_IsEqualPtr_Regression(t *testing.T) {
 			var hm1 *corestr.Hashmap
 			hm2 := corestr.New.Hashmap.Empty()
 			tc.ShouldBeEqual(t, 4, fmt.Sprintf("%v", hm1.IsEqualPtr(hm2)))
+		}
 	})
 }
 
@@ -322,6 +325,7 @@ func Test_Caching_Removal_Regression(t *testing.T) {
 				"length":  fmt.Sprintf("%d", hm.Length()),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
+		}
 	})
 }
 
@@ -359,6 +363,7 @@ func Test_SimpleSlice_SkipTake_Regression(t *testing.T) {
 			tc := simpleSliceTakeZeroTestCase
 			result := ss.Take(0)
 			tc.ShouldBeEqual(t, 3, fmt.Sprintf("%d", len(result)))
+		}
 	})
 }
 
@@ -380,6 +385,7 @@ func Test_HasIndex_Negative_Regression(t *testing.T) {
 			tc := hasIndexNegativeCollectionTestCase
 			col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 			tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", col.HasIndex(-1)))
+		}
 	})
 }
 
@@ -422,6 +428,7 @@ func Test_Hashmap_Clear_NilSafety_Regression(t *testing.T) {
 				"lengthAfterReAdd": fmt.Sprintf("%d", len(hm.ValuesList())),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
+		}
 	})
 }
 
@@ -473,6 +480,7 @@ func Test_Hashset_AddBool_CacheInvalidation_Regression(t *testing.T) {
 				"containsItem3": fmt.Sprintf("%v", hs.Has("c")),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
+		}
 	})
 }
 
@@ -526,5 +534,6 @@ func Test_Hashmap_AddOrUpdateCollection_LengthMismatch_Regression(t *testing.T) 
 			values := corestr.New.Collection.Strings([]string{"v1"})
 			hm.AddOrUpdateCollection(keys, values)
 			tc.ShouldBeEqual(t, 3, fmt.Sprintf("%d", hm.Length()))
+		}
 	})
 }

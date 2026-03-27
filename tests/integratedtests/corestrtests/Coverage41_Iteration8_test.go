@@ -213,6 +213,7 @@ func Test_I8_Collection_Filter(t *testing.T) {
 		})
 		_ = c.FilterPtrLock(func(s *string, i int) (*string, bool, bool) {
 			return s, true, false
+		}
 	})
 }
 
@@ -433,6 +434,7 @@ func Test_I8_Collection_AddStringsByFuncChecking(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		c.AddStringsByFuncChecking([]string{"aa", "b"}, func(s string) bool {
 			return len(s) > 1
+		}
 	})
 }
 
@@ -441,6 +443,7 @@ func Test_I8_Collection_ExpandSlicePlusAdd(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		c.ExpandSlicePlusAdd([]string{"a", "b"}, func(s string) []string {
 			return []string{strings.ToUpper(s)}
+		}
 	})
 }
 
@@ -1575,6 +1578,7 @@ func Test_I8_LeftMiddleRightFromSplit(t *testing.T) {
 		lmr := corestr.LeftMiddleRightFromSplit("a:b:c", ":")
 		if lmr.Left != "a" || lmr.Middle != "b" || lmr.Right != "c" {
 			t.Fatal("split failed")
+		}
 	})
 }
 

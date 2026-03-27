@@ -22,6 +22,7 @@ func Test_S11_01_SimpleSlice_Add(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -36,6 +37,7 @@ func Test_S11_02_SimpleSlice_AddSplit(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -51,6 +53,7 @@ func Test_S11_03_SimpleSlice_AddIf(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -65,6 +68,7 @@ func Test_S11_04_SimpleSlice_Adds(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -79,6 +83,7 @@ func Test_S11_05_SimpleSlice_Adds_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -93,6 +98,7 @@ func Test_S11_06_SimpleSlice_Append(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -107,6 +113,7 @@ func Test_S11_07_SimpleSlice_Append_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -121,6 +128,7 @@ func Test_S11_08_SimpleSlice_AppendFmt(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 || ss.First() != "hello world" {
 			t.Fatal("expected 'hello world'")
+		}
 	})
 }
 
@@ -135,6 +143,7 @@ func Test_S11_09_SimpleSlice_AppendFmt_EmptySkip(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -150,6 +159,7 @@ func Test_S11_10_SimpleSlice_AppendFmtIf(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -164,6 +174,7 @@ func Test_S11_11_SimpleSlice_AppendFmtIf_EmptyFormatSkip(t *testing.T) {
 		// Assert
 		if ss.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -178,6 +189,7 @@ func Test_S11_12_SimpleSlice_AddAsTitleValue(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -192,6 +204,7 @@ func Test_S11_13_SimpleSlice_AddAsCurlyTitleWrap(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -207,6 +220,7 @@ func Test_S11_14_SimpleSlice_AddAsCurlyTitleWrapIf(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -222,6 +236,7 @@ func Test_S11_15_SimpleSlice_AddAsTitleValueIf(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -236,6 +251,7 @@ func Test_S11_16_SimpleSlice_InsertAt(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -251,6 +267,7 @@ func Test_S11_17_SimpleSlice_InsertAt_OutOfRange(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1 — out of range skipped")
+		}
 	})
 }
 
@@ -266,6 +283,7 @@ func Test_S11_18_SimpleSlice_AddStruct(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -281,6 +299,7 @@ func Test_S11_19_SimpleSlice_AddPointer(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -296,6 +315,7 @@ func Test_S11_20_SimpleSlice_AddsIf(t *testing.T) {
 		// Assert
 		if ss.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -311,6 +331,7 @@ func Test_S11_21_SimpleSlice_AddError(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -325,6 +346,7 @@ func Test_S11_22_SimpleSlice_AsDefaultError(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
+		}
 	})
 }
 
@@ -339,6 +361,7 @@ func Test_S11_23_SimpleSlice_AsError_Empty(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Fatal("expected nil")
+		}
 	})
 }
 
@@ -359,6 +382,7 @@ func Test_S11_24_SimpleSlice_FirstAndLast(t *testing.T) {
 		}
 		if ss.LastDynamic().(string) != "c" {
 			t.Fatal("expected c dynamic")
+		}
 	})
 }
 
@@ -377,6 +401,7 @@ func Test_S11_25_SimpleSlice_FirstOrDefault(t *testing.T) {
 		}
 		if ss2.FirstOrDefault() != "x" {
 			t.Fatal("expected x")
+		}
 	})
 }
 
@@ -395,6 +420,7 @@ func Test_S11_26_SimpleSlice_LastOrDefault(t *testing.T) {
 		}
 		if ss2.LastOrDefault() != "x" {
 			t.Fatal("expected x")
+		}
 	})
 }
 
@@ -413,6 +439,7 @@ func Test_S11_27_SimpleSlice_Skip(t *testing.T) {
 		}
 		if len(skippedAll) != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -427,6 +454,7 @@ func Test_S11_28_SimpleSlice_SkipDynamic(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -445,6 +473,7 @@ func Test_S11_29_SimpleSlice_Take(t *testing.T) {
 		}
 		if len(takenAll) != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -459,6 +488,7 @@ func Test_S11_30_SimpleSlice_TakeDynamic(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -473,6 +503,7 @@ func Test_S11_31_SimpleSlice_LimitDynamic(t *testing.T) {
 		}
 		if len(ss.Limit(1)) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -484,6 +515,7 @@ func Test_S11_32_SimpleSlice_Length_Count(t *testing.T) {
 		// Act & Assert
 		if ss.Length() != 1 || ss.Count() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -495,6 +527,7 @@ func Test_S11_33_SimpleSlice_Length_Nil(t *testing.T) {
 		// Act & Assert
 		if ss.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -511,6 +544,7 @@ func Test_S11_34_SimpleSlice_CountFunc(t *testing.T) {
 		// Assert
 		if count != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -525,6 +559,7 @@ func Test_S11_35_SimpleSlice_CountFunc_Empty(t *testing.T) {
 		// Assert
 		if count != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -533,6 +568,7 @@ func Test_S11_36_SimpleSlice_IsEmpty(t *testing.T) {
 		// Act & Assert
 		if !corestr.Empty.SimpleSlice().IsEmpty() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -550,6 +586,7 @@ func Test_S11_37_SimpleSlice_IsContains(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().IsContains("a") {
 			t.Fatal("expected false for empty")
+		}
 	})
 }
 
@@ -564,6 +601,7 @@ func Test_S11_38_SimpleSlice_IsContainsFunc(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().IsContainsFunc("a", strings.Contains) {
 			t.Fatal("expected false for empty")
+		}
 	})
 }
 
@@ -581,6 +619,7 @@ func Test_S11_39_SimpleSlice_IndexOf(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().IndexOf("a") != -1 {
 			t.Fatal("expected -1 for empty")
+		}
 	})
 }
 
@@ -598,6 +637,7 @@ func Test_S11_40_SimpleSlice_IndexOfFunc(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().IndexOfFunc("a", strings.Contains) != -1 {
 			t.Fatal("expected -1 for empty")
+		}
 	})
 }
 
@@ -606,6 +646,7 @@ func Test_S11_41_SimpleSlice_HasAnyItem(t *testing.T) {
 		// Act & Assert
 		if !corestr.New.SimpleSlice.Strings([]string{"a"}).HasAnyItem() {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -623,6 +664,7 @@ func Test_S11_42_SimpleSlice_LastIndex_HasIndex(t *testing.T) {
 		}
 		if ss.HasIndex(2) || ss.HasIndex(-1) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -634,6 +676,7 @@ func Test_S11_43_SimpleSlice_Strings_List(t *testing.T) {
 		// Act & Assert
 		if len(ss.Strings()) != 1 || len(ss.List()) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -645,6 +688,7 @@ func Test_S11_44_SimpleSlice_WrapDoubleQuote(t *testing.T) {
 		// Act & Assert
 		if ss.WrapDoubleQuote().Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -653,6 +697,7 @@ func Test_S11_45_SimpleSlice_WrapSingleQuote(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.WrapSingleQuote().Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -661,6 +706,7 @@ func Test_S11_46_SimpleSlice_WrapTildaQuote(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.WrapTildaQuote().Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -669,6 +715,7 @@ func Test_S11_47_SimpleSlice_WrapDoubleQuoteIfMissing(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.WrapDoubleQuoteIfMissing().Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -677,6 +724,7 @@ func Test_S11_48_SimpleSlice_WrapSingleQuoteIfMissing(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.WrapSingleQuoteIfMissing().Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -691,6 +739,7 @@ func Test_S11_49_SimpleSlice_Transpile(t *testing.T) {
 		// Assert
 		if result.First() != "A" {
 			t.Fatal("expected A")
+		}
 	})
 }
 
@@ -705,6 +754,7 @@ func Test_S11_50_SimpleSlice_Transpile_Empty(t *testing.T) {
 		// Assert
 		if result.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -719,6 +769,7 @@ func Test_S11_51_SimpleSlice_TranspileJoin(t *testing.T) {
 		// Assert
 		if result != "A,B" {
 			t.Fatalf("expected 'A,B', got '%s'", result)
+		}
 	})
 }
 
@@ -733,6 +784,7 @@ func Test_S11_52_SimpleSlice_Hashset(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -747,6 +799,7 @@ func Test_S11_53_SimpleSlice_Join(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().Join(",") != "" {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -761,6 +814,7 @@ func Test_S11_54_SimpleSlice_JoinLine(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().JoinLine() != "" {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -778,6 +832,7 @@ func Test_S11_55_SimpleSlice_JoinLineEofLine(t *testing.T) {
 		}
 		if corestr.Empty.SimpleSlice().JoinLineEofLine() != "" {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -792,6 +847,7 @@ func Test_S11_56_SimpleSlice_JoinLineEofLine_AlreadyHas(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -800,6 +856,7 @@ func Test_S11_57_SimpleSlice_JoinSpace(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
 		if ss.JoinSpace() != "a b" {
 			t.Fatal("expected 'a b'")
+		}
 	})
 }
 
@@ -808,6 +865,7 @@ func Test_S11_58_SimpleSlice_JoinComma(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b"})
 		if ss.JoinComma() != "a,b" {
 			t.Fatal("expected 'a,b'")
+		}
 	})
 }
 
@@ -817,6 +875,7 @@ func Test_S11_59_SimpleSlice_JoinCsv(t *testing.T) {
 		result := ss.JoinCsv()
 		if result == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -825,6 +884,7 @@ func Test_S11_60_SimpleSlice_JoinCsvLine(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.JoinCsvLine() == "" {
 			t.Fatal("expected non-empty")
+		}
 	})
 }
 
@@ -839,6 +899,7 @@ func Test_S11_61_SimpleSlice_EachItemSplitBy(t *testing.T) {
 		// Assert
 		if result.Length() != 4 {
 			t.Fatalf("expected 4, got %d", result.Length())
+		}
 	})
 }
 
@@ -848,6 +909,7 @@ func Test_S11_62_SimpleSlice_PrependJoin(t *testing.T) {
 		result := ss.PrependJoin(",", "a")
 		if result != "a,b" {
 			t.Fatalf("expected 'a,b', got '%s'", result)
+		}
 	})
 }
 
@@ -857,6 +919,7 @@ func Test_S11_63_SimpleSlice_AppendJoin(t *testing.T) {
 		result := ss.AppendJoin(",", "b")
 		if result != "a,b" {
 			t.Fatalf("expected 'a,b', got '%s'", result)
+		}
 	})
 }
 
@@ -871,6 +934,7 @@ func Test_S11_64_SimpleSlice_PrependAppend(t *testing.T) {
 		// Assert
 		if ss.Length() != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -885,5 +949,6 @@ func Test_S11_65_SimpleSlice_PrependAppend_Empty(t *testing.T) {
 		// Assert
 		if ss.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }

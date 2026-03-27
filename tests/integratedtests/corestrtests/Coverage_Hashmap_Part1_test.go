@@ -26,6 +26,7 @@ func Test_CovHM1_01_IsEmpty_HasItems(t *testing.T) {
 		}
 		if !hm.HasItems() {
 			t.Fatal("expected items")
+		}
 	})
 }
 
@@ -34,6 +35,7 @@ func Test_CovHM1_02_IsEmptyLock(t *testing.T) {
 		hm := corestr.Empty.Hashmap()
 		if !hm.IsEmptyLock() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -44,6 +46,7 @@ func Test_CovHM1_03_Collection(t *testing.T) {
 		col := hm.Collection()
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -56,6 +59,7 @@ func Test_CovHM1_04_AddOrUpdateWithWgLock(t *testing.T) {
 		wg.Wait()
 		if !hm.Has("a") {
 			t.Fatal("expected a")
+		}
 	})
 }
 
@@ -66,6 +70,7 @@ func Test_CovHM1_05_AddOrUpdateKeyStrValInt(t *testing.T) {
 		v, _ := hm.Get("age")
 		if v != "25" {
 			t.Fatalf("expected '25', got '%s'", v)
+		}
 	})
 }
 
@@ -76,6 +81,7 @@ func Test_CovHM1_06_AddOrUpdateKeyStrValFloat(t *testing.T) {
 		_, ok := hm.Get("f")
 		if !ok {
 			t.Fatal("expected found")
+		}
 	})
 }
 
@@ -86,6 +92,7 @@ func Test_CovHM1_07_AddOrUpdateKeyStrValFloat64(t *testing.T) {
 		_, ok := hm.Get("f")
 		if !ok {
 			t.Fatal("expected found")
+		}
 	})
 }
 
@@ -95,6 +102,7 @@ func Test_CovHM1_08_AddOrUpdateKeyStrValAny(t *testing.T) {
 		hm.AddOrUpdateKeyStrValAny("k", 42)
 		if !hm.Has("k") {
 			t.Fatal("expected k")
+		}
 	})
 }
 
@@ -104,6 +112,7 @@ func Test_CovHM1_09_AddOrUpdateKeyValueAny(t *testing.T) {
 		hm.AddOrUpdateKeyValueAny(corestr.KeyAnyValuePair{Key: "k", Value: 42})
 		if !hm.Has("k") {
 			t.Fatal("expected k")
+		}
 	})
 }
 
@@ -117,6 +126,7 @@ func Test_CovHM1_10_AddOrUpdateKeyVal(t *testing.T) {
 		isNew2 := hm.AddOrUpdateKeyVal(corestr.KeyValuePair{Key: "k", Value: "v2"})
 		if isNew2 {
 			t.Fatal("expected not new")
+		}
 	})
 }
 
@@ -130,6 +140,7 @@ func Test_CovHM1_11_AddOrUpdate_Set(t *testing.T) {
 		isNew2 := hm.Set("a", "2")
 		if isNew2 {
 			t.Fatal("expected not new")
+		}
 	})
 }
 
@@ -139,6 +150,7 @@ func Test_CovHM1_12_SetTrim(t *testing.T) {
 		hm.SetTrim(" key ", " val ")
 		if !hm.Has("key") {
 			t.Fatal("expected trimmed key")
+		}
 	})
 }
 
@@ -155,6 +167,7 @@ func Test_CovHM1_13_SetBySplitter(t *testing.T) {
 		v2, _ := hm.Get("onlykey")
 		if v2 != "" {
 			t.Fatal("expected empty value")
+		}
 	})
 }
 
@@ -331,6 +344,7 @@ func Test_CovHM1_24_ConcatNew(t *testing.T) {
 		r2 := a.ConcatNew(false, b, nil)
 		if r2.Length() < 2 {
 			t.Fatal("expected at least 2")
+		}
 	})
 }
 
@@ -347,6 +361,7 @@ func Test_CovHM1_25_ConcatNewUsingMaps(t *testing.T) {
 		r2 := a.ConcatNewUsingMaps(false, map[string]string{"b": "2"}, nil)
 		if r2.Length() < 2 {
 			t.Fatal("expected at least 2")
+		}
 	})
 }
 
@@ -356,6 +371,7 @@ func Test_CovHM1_26_AddOrUpdateLock(t *testing.T) {
 		hm.AddOrUpdateLock("a", "1")
 		if !hm.Has("a") {
 			t.Fatal("expected a")
+		}
 	})
 }
 
@@ -377,6 +393,7 @@ func Test_CovHM1_27_Has_Contains_HasLock_HasWithLock(t *testing.T) {
 		}
 		if !hm.HasWithLock("a") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -392,6 +409,7 @@ func Test_CovHM1_28_IsKeyMissing_Lock(t *testing.T) {
 		}
 		if hm.IsKeyMissingLock("a") {
 			t.Fatal("expected found")
+		}
 	})
 }
 
@@ -408,6 +426,7 @@ func Test_CovHM1_29_HasAllStrings_HasAll(t *testing.T) {
 		}
 		if !hm.HasAll("a", "b") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -426,6 +445,7 @@ func Test_CovHM1_30_HasAnyItem_HasAny(t *testing.T) {
 		}
 		if hm.HasAny("x", "y") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -438,6 +458,7 @@ func Test_CovHM1_31_HasAllCollectionItems(t *testing.T) {
 		}
 		if hm.HasAllCollectionItems(nil) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -486,6 +507,7 @@ func Test_CovHM1_33_GetKeysFilteredItems(t *testing.T) {
 		})
 		if len(r4) != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -514,5 +536,6 @@ func Test_CovHM1_34_GetKeysFilteredCollection(t *testing.T) {
 		})
 		if col3.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }

@@ -20,6 +20,7 @@ func Test_CovS23_01_HashsetsCollection_IsEmpty_Empty(t *testing.T) {
 		// Assert
 		if !result {
 			t.Errorf("IsEmpty on empty collection should be true")
+		}
 	})
 }
 
@@ -35,6 +36,7 @@ func Test_CovS23_02_HashsetsCollection_HasItems_NonEmpty(t *testing.T) {
 		// Assert
 		if !result {
 			t.Errorf("HasItems should be true for non-empty collection")
+		}
 	})
 }
 
@@ -49,6 +51,7 @@ func Test_CovS23_03_HashsetsCollection_HasItems_Empty(t *testing.T) {
 		// Assert
 		if result {
 			t.Errorf("HasItems should be false for empty collection")
+		}
 	})
 }
 
@@ -65,6 +68,7 @@ func Test_CovS23_04_HashsetsCollection_Length(t *testing.T) {
 		// Assert
 		if length != 2 {
 			t.Errorf("Length expected 2, got %d", length)
+		}
 	})
 }
 
@@ -79,6 +83,7 @@ func Test_CovS23_05_HashsetsCollection_Length_Nil(t *testing.T) {
 		// Assert
 		if length != 0 {
 			t.Errorf("Length on nil should be 0, got %d", length)
+		}
 	})
 }
 
@@ -94,6 +99,7 @@ func Test_CovS23_06_HashsetsCollection_LastIndex(t *testing.T) {
 		// Assert
 		if lastIdx != 0 {
 			t.Errorf("LastIndex expected 0, got %d", lastIdx)
+		}
 	})
 }
 
@@ -108,6 +114,7 @@ func Test_CovS23_07_HashsetsCollection_LastIndex_Empty(t *testing.T) {
 		// Assert
 		if lastIdx != -1 {
 			t.Errorf("LastIndex on empty expected -1, got %d", lastIdx)
+		}
 	})
 }
 
@@ -127,6 +134,7 @@ func Test_CovS23_08_HashsetsCollection_Add(t *testing.T) {
 		// Assert
 		if hc.Length() != 1 {
 			t.Errorf("Add should result in length 1, got %d", hc.Length())
+		}
 	})
 }
 
@@ -141,6 +149,7 @@ func Test_CovS23_09_HashsetsCollection_AddNonNil_Nil(t *testing.T) {
 		// Assert
 		if hc.Length() != 0 {
 			t.Errorf("AddNonNil with nil should not add, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -156,6 +165,7 @@ func Test_CovS23_10_HashsetsCollection_AddNonNil_Valid(t *testing.T) {
 		// Assert
 		if hc.Length() != 1 {
 			t.Errorf("AddNonNil with valid should add, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -171,6 +181,7 @@ func Test_CovS23_11_HashsetsCollection_AddNonEmpty_Empty(t *testing.T) {
 		// Assert
 		if hc.Length() != 0 {
 			t.Errorf("AddNonEmpty with empty hashset should not add, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -186,6 +197,7 @@ func Test_CovS23_12_HashsetsCollection_AddNonEmpty_Valid(t *testing.T) {
 		// Assert
 		if hc.Length() != 1 {
 			t.Errorf("AddNonEmpty with valid should add, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -200,6 +212,7 @@ func Test_CovS23_13_HashsetsCollection_Adds_Nil(t *testing.T) {
 		// Assert
 		if hc.Length() != 0 {
 			t.Errorf("Adds with nil should not add, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -216,6 +229,7 @@ func Test_CovS23_14_HashsetsCollection_Adds_SkipsEmpty(t *testing.T) {
 		// Assert
 		if hc.Length() != 1 {
 			t.Errorf("Adds should skip empty hashsets, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -230,6 +244,7 @@ func Test_CovS23_15_HashsetsCollection_AddHashsetsCollection_Nil(t *testing.T) {
 		// Assert
 		if hc.Length() != 0 {
 			t.Errorf("AddHashsetsCollection nil should not add, got length %d", hc.Length())
+		}
 	})
 }
 
@@ -247,6 +262,7 @@ func Test_CovS23_16_HashsetsCollection_AddHashsetsCollection_Valid(t *testing.T)
 		// Assert
 		if hc1.Length() != 2 {
 			t.Errorf("AddHashsetsCollection should merge, got length %d", hc1.Length())
+		}
 	})
 }
 
@@ -266,6 +282,7 @@ func Test_CovS23_17_HashsetsCollection_ConcatNew_NoArgs(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Errorf("ConcatNew no args should clone, got length %d", result.Length())
+		}
 	})
 }
 
@@ -283,6 +300,7 @@ func Test_CovS23_18_HashsetsCollection_ConcatNew_WithCollections(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Errorf("ConcatNew should merge, got length %d", result.Length())
+		}
 	})
 }
 
@@ -302,6 +320,7 @@ func Test_CovS23_19_HashsetsCollection_List(t *testing.T) {
 		// Assert
 		if len(list) != 1 {
 			t.Errorf("List expected 1 item, got %d", len(list))
+		}
 	})
 }
 
@@ -317,6 +336,7 @@ func Test_CovS23_20_HashsetsCollection_ListPtr(t *testing.T) {
 		// Assert
 		if listPtr == nil || len(*listPtr) != 1 {
 			t.Errorf("ListPtr should return pointer to 1-item slice")
+		}
 	})
 }
 
@@ -332,6 +352,7 @@ func Test_CovS23_21_HashsetsCollection_ListDirectPtr(t *testing.T) {
 		// Assert
 		if listPtr == nil || len(*listPtr) != 1 {
 			t.Errorf("ListDirectPtr should return pointer to 1-item slice")
+		}
 	})
 }
 
@@ -346,6 +367,7 @@ func Test_CovS23_22_HashsetsCollection_StringsList_Empty(t *testing.T) {
 		// Assert
 		if len(list) != 0 {
 			t.Errorf("StringsList on empty expected 0, got %d", len(list))
+		}
 	})
 }
 
@@ -361,6 +383,7 @@ func Test_CovS23_23_HashsetsCollection_StringsList_NonEmpty(t *testing.T) {
 		// Assert
 		if len(list) != 2 {
 			t.Errorf("StringsList expected 2, got %d", len(list))
+		}
 	})
 }
 
@@ -380,6 +403,7 @@ func Test_CovS23_24_HashsetsCollection_IndexOf_Valid(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Errorf("IndexOf(0) should return valid hashset")
+		}
 	})
 }
 
@@ -394,6 +418,7 @@ func Test_CovS23_25_HashsetsCollection_IndexOf_Empty(t *testing.T) {
 		// Assert
 		if result != nil {
 			t.Errorf("IndexOf on empty should return nil")
+		}
 	})
 }
 
@@ -412,6 +437,7 @@ func Test_CovS23_26_HashsetsCollection_HasAll_Empty(t *testing.T) {
 		// Assert
 		if result {
 			t.Errorf("HasAll on empty should be false")
+		}
 	})
 }
 
@@ -427,6 +453,7 @@ func Test_CovS23_27_HashsetsCollection_HasAll_Found(t *testing.T) {
 		// Assert
 		if !result {
 			t.Errorf("HasAll should find all items")
+		}
 	})
 }
 
@@ -442,6 +469,7 @@ func Test_CovS23_28_HashsetsCollection_HasAll_NotFound(t *testing.T) {
 		// Assert
 		if result {
 			t.Errorf("HasAll should be false when not all items present")
+		}
 	})
 }
 
@@ -461,6 +489,7 @@ func Test_CovS23_29_HashsetsCollection_IsEqual_BothEmpty(t *testing.T) {
 		// Assert
 		if !result {
 			t.Errorf("IsEqual should be true for two empty collections")
+		}
 	})
 }
 
@@ -476,6 +505,7 @@ func Test_CovS23_30_HashsetsCollection_IsEqualPtr_SamePtr(t *testing.T) {
 		// Assert
 		if !result {
 			t.Errorf("IsEqualPtr same pointer should be true")
+		}
 	})
 }
 
@@ -490,6 +520,7 @@ func Test_CovS23_31_HashsetsCollection_IsEqualPtr_Nil(t *testing.T) {
 		// Assert
 		if result {
 			t.Errorf("IsEqualPtr with nil should be false")
+		}
 	})
 }
 
@@ -506,6 +537,7 @@ func Test_CovS23_32_HashsetsCollection_IsEqualPtr_DifferentLength(t *testing.T) 
 		// Assert
 		if result {
 			t.Errorf("IsEqualPtr different length should be false")
+		}
 	})
 }
 
@@ -523,6 +555,7 @@ func Test_CovS23_33_HashsetsCollection_IsEqualPtr_DifferentContent(t *testing.T)
 		// Assert
 		if result {
 			t.Errorf("IsEqualPtr different content should be false")
+		}
 	})
 }
 
@@ -540,6 +573,7 @@ func Test_CovS23_34_HashsetsCollection_IsEqualPtr_SameContent(t *testing.T) {
 		// Assert
 		if !result {
 			t.Errorf("IsEqualPtr same content should be true")
+		}
 	})
 }
 
@@ -558,6 +592,7 @@ func Test_CovS23_35_HashsetsCollection_String_Empty(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("String on empty should return NoElements indicator")
+		}
 	})
 }
 
@@ -573,6 +608,7 @@ func Test_CovS23_36_HashsetsCollection_String_NonEmpty(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Errorf("String on non-empty should return content")
+		}
 	})
 }
 
@@ -588,6 +624,7 @@ func Test_CovS23_37_HashsetsCollection_Join(t *testing.T) {
 		// Assert
 		if result != "a" {
 			t.Errorf("Join expected 'a', got '%s'", result)
+		}
 	})
 }
 
@@ -607,6 +644,7 @@ func Test_CovS23_38_HashsetsCollection_Json(t *testing.T) {
 		// Assert
 		if jsonResult.HasError() {
 			t.Errorf("Json should produce valid result, got error: %v", jsonResult.Error)
+		}
 	})
 }
 
@@ -622,6 +660,7 @@ func Test_CovS23_39_HashsetsCollection_JsonPtr(t *testing.T) {
 		// Assert
 		if jsonResult == nil {
 			t.Errorf("JsonPtr should not be nil")
+		}
 	})
 }
 
@@ -637,6 +676,7 @@ func Test_CovS23_40_HashsetsCollection_JsonModel(t *testing.T) {
 		// Assert
 		if model == nil {
 			t.Errorf("JsonModel should not be nil")
+		}
 	})
 }
 
@@ -652,6 +692,7 @@ func Test_CovS23_41_HashsetsCollection_JsonModelAny(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Errorf("JsonModelAny should not be nil")
+		}
 	})
 }
 
@@ -672,6 +713,7 @@ func Test_CovS23_42_HashsetsCollection_MarshalUnmarshalJSON(t *testing.T) {
 		// Assert
 		if err2 != nil {
 			t.Errorf("UnmarshalJSON error: %v", err2)
+		}
 	})
 }
 
@@ -686,6 +728,7 @@ func Test_CovS23_43_HashsetsCollection_UnmarshalJSON_InvalidData(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Errorf("UnmarshalJSON with invalid data should return error")
+		}
 	})
 }
 
@@ -701,6 +744,7 @@ func Test_CovS23_44_HashsetsCollection_Serialize(t *testing.T) {
 		// Assert
 		if err != nil || len(data) == 0 {
 			t.Errorf("Serialize should produce bytes, err: %v", err)
+		}
 	})
 }
 
@@ -717,6 +761,7 @@ func Test_CovS23_45_HashsetsCollection_Deserialize(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("Deserialize error: %v", err)
+		}
 	})
 }
 
@@ -734,6 +779,7 @@ func Test_CovS23_46_HashsetsCollection_ParseInjectUsingJson_Valid(t *testing.T) 
 		// Assert
 		if err != nil || result == nil {
 			t.Errorf("ParseInjectUsingJson should succeed, err: %v", err)
+		}
 	})
 }
 
@@ -749,6 +795,7 @@ func Test_CovS23_47_HashsetsCollection_ParseInjectUsingJson_Invalid(t *testing.T
 		// Assert
 		if err == nil {
 			t.Errorf("ParseInjectUsingJson with invalid JSON should error")
+		}
 	})
 }
 
@@ -766,6 +813,7 @@ func Test_CovS23_48_HashsetsCollection_ParseInjectUsingJsonMust_Valid(t *testing
 		// Assert
 		if result == nil {
 			t.Errorf("ParseInjectUsingJsonMust should succeed")
+		}
 	})
 }
 
@@ -799,6 +847,7 @@ func Test_CovS23_50_HashsetsCollection_JsonParseSelfInject(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("JsonParseSelfInject should succeed, err: %v", err)
+		}
 	})
 }
 
@@ -817,6 +866,7 @@ func Test_CovS23_51_HashsetsCollection_AsJsonContractsBinder(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Errorf("AsJsonContractsBinder should not be nil")
+		}
 	})
 }
 
@@ -831,6 +881,7 @@ func Test_CovS23_52_HashsetsCollection_AsJsoner(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Errorf("AsJsoner should not be nil")
+		}
 	})
 }
 
@@ -845,6 +896,7 @@ func Test_CovS23_53_HashsetsCollection_AsJsonParseSelfInjector(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Errorf("AsJsonParseSelfInjector should not be nil")
+		}
 	})
 }
 
@@ -859,6 +911,7 @@ func Test_CovS23_54_HashsetsCollection_AsJsonMarshaller(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Errorf("AsJsonMarshaller should not be nil")
+		}
 	})
 }
 
@@ -874,6 +927,7 @@ func Test_CovS23_55_Creator_Empty(t *testing.T) {
 		// Assert
 		if hc == nil || !hc.IsEmpty() {
 			t.Errorf("Empty() should create empty collection")
+		}
 	})
 }
 
@@ -888,6 +942,7 @@ func Test_CovS23_56_Creator_UsingHashsets(t *testing.T) {
 		// Assert
 		if hc.Length() != 1 {
 			t.Errorf("UsingHashsets expected 1, got %d", hc.Length())
+		}
 	})
 }
 
@@ -899,6 +954,7 @@ func Test_CovS23_57_Creator_UsingHashsets_Empty(t *testing.T) {
 		// Assert
 		if !hc.IsEmpty() {
 			t.Errorf("UsingHashsets() with no args should be empty")
+		}
 	})
 }
 
@@ -913,6 +969,7 @@ func Test_CovS23_58_Creator_UsingHashsetsPointers(t *testing.T) {
 		// Assert
 		if hc.Length() != 1 {
 			t.Errorf("UsingHashsetsPointers expected 1, got %d", hc.Length())
+		}
 	})
 }
 
@@ -924,6 +981,7 @@ func Test_CovS23_59_Creator_UsingHashsetsPointers_Empty(t *testing.T) {
 		// Assert
 		if !hc.IsEmpty() {
 			t.Errorf("UsingHashsetsPointers() with no args should be empty")
+		}
 	})
 }
 
@@ -935,6 +993,7 @@ func Test_CovS23_60_Creator_LenCap(t *testing.T) {
 		// Assert
 		if hc == nil || hc.Length() != 0 {
 			t.Errorf("LenCap should create empty collection with capacity")
+		}
 	})
 }
 
@@ -946,6 +1005,7 @@ func Test_CovS23_61_Creator_Cap(t *testing.T) {
 		// Assert
 		if hc == nil || hc.Length() != 0 {
 			t.Errorf("Cap should create empty collection with capacity")
+		}
 	})
 }
 

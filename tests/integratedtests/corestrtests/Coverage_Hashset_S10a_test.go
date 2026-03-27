@@ -26,6 +26,7 @@ func Test_S10_01_Hashset_IsEmpty(t *testing.T) {
 		}
 		if hs.IsEmpty() {
 			t.Fatal("expected not empty")
+		}
 	})
 }
 
@@ -37,6 +38,7 @@ func Test_S10_02_Hashset_IsEmpty_Nil(t *testing.T) {
 		// Act & Assert
 		if !hs.IsEmpty() {
 			t.Fatal("expected empty for nil")
+		}
 	})
 }
 
@@ -51,6 +53,7 @@ func Test_S10_03_Hashset_HasItems(t *testing.T) {
 		}
 		if corestr.Empty.Hashset().HasItems() {
 			t.Fatal("expected no items for empty")
+		}
 	})
 }
 
@@ -62,6 +65,7 @@ func Test_S10_04_Hashset_IsEmptyLock(t *testing.T) {
 		// Act & Assert
 		if !hs.IsEmptyLock() {
 			t.Fatal("expected empty")
+		}
 	})
 }
 
@@ -79,6 +83,7 @@ func Test_S10_05_Hashset_AddCapacities(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatal("expected 1 item preserved")
+		}
 	})
 }
 
@@ -93,6 +98,7 @@ func Test_S10_06_Hashset_AddCapacities_Empty(t *testing.T) {
 		// Assert
 		if result != hs {
 			t.Fatal("expected same pointer when no capacities")
+		}
 	})
 }
 
@@ -108,6 +114,7 @@ func Test_S10_07_Hashset_AddCapacitiesLock(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatal("expected 1 preserved")
+		}
 	})
 }
 
@@ -122,6 +129,7 @@ func Test_S10_08_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
 		// Assert
 		if result != hs {
 			t.Fatal("expected same pointer")
+		}
 	})
 }
 
@@ -138,6 +146,7 @@ func Test_S10_09_Hashset_Resize(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -152,6 +161,7 @@ func Test_S10_10_Hashset_Resize_SmallerThanLength(t *testing.T) {
 		// Assert
 		if result.Length() != 3 {
 			t.Fatal("expected 3 — no resize when capacity < length")
+		}
 	})
 }
 
@@ -166,6 +176,7 @@ func Test_S10_11_Hashset_ResizeLock(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -180,6 +191,7 @@ func Test_S10_12_Hashset_ResizeLock_SmallerThanLength(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Fatal("expected 2 — no resize")
+		}
 	})
 }
 
@@ -196,6 +208,7 @@ func Test_S10_13_Hashset_Collection(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -213,6 +226,7 @@ func Test_S10_14_Hashset_ConcatNewHashsets(t *testing.T) {
 		// Assert
 		if result.Length() < 2 {
 			t.Fatal("expected at least 2")
+		}
 	})
 }
 
@@ -227,6 +241,7 @@ func Test_S10_15_Hashset_ConcatNewHashsets_Empty(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -241,6 +256,7 @@ func Test_S10_16_Hashset_ConcatNewHashsets_NilInList(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -257,6 +273,7 @@ func Test_S10_17_Hashset_ConcatNewStrings(t *testing.T) {
 		// Assert
 		if result.Length() < 3 {
 			t.Fatal("expected at least 3")
+		}
 	})
 }
 
@@ -271,6 +288,7 @@ func Test_S10_18_Hashset_ConcatNewStrings_Empty(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Fatal("expected non-nil")
+		}
 	})
 }
 
@@ -287,6 +305,7 @@ func Test_S10_19_Hashset_Add(t *testing.T) {
 		// Assert
 		if !hs.Has("x") {
 			t.Fatal("expected has x")
+		}
 	})
 }
 
@@ -302,6 +321,7 @@ func Test_S10_20_Hashset_AddPtr(t *testing.T) {
 		// Assert
 		if !hs.Has("ptr-key") {
 			t.Fatal("expected has ptr-key")
+		}
 	})
 }
 
@@ -317,6 +337,7 @@ func Test_S10_21_Hashset_AddPtrLock(t *testing.T) {
 		// Assert
 		if !hs.Has("ptr-lock") {
 			t.Fatal("expected has ptr-lock")
+		}
 	})
 }
 
@@ -334,6 +355,7 @@ func Test_S10_22_Hashset_AddWithWgLock(t *testing.T) {
 		// Assert
 		if !hs.Has("wg-key") {
 			t.Fatal("expected has wg-key")
+		}
 	})
 }
 
@@ -352,6 +374,7 @@ func Test_S10_23_Hashset_AddBool(t *testing.T) {
 		}
 		if !existed2 {
 			t.Fatal("expected existed on second add")
+		}
 	})
 }
 
@@ -367,6 +390,7 @@ func Test_S10_24_Hashset_AddNonEmpty(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1 — empty string skipped")
+		}
 	})
 }
 
@@ -382,6 +406,7 @@ func Test_S10_25_Hashset_AddNonEmptyWhitespace(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1 — whitespace skipped")
+		}
 	})
 }
 
@@ -397,6 +422,7 @@ func Test_S10_26_Hashset_AddIf(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 || !hs.Has("yes") {
 			t.Fatal("expected only 'yes'")
+		}
 	})
 }
 
@@ -412,6 +438,7 @@ func Test_S10_27_Hashset_AddIfMany(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -426,6 +453,7 @@ func Test_S10_28_Hashset_AddFunc(t *testing.T) {
 		// Assert
 		if !hs.Has("func-val") {
 			t.Fatal("expected has func-val")
+		}
 	})
 }
 
@@ -443,6 +471,7 @@ func Test_S10_29_Hashset_AddFuncErr_NoError(t *testing.T) {
 		// Assert
 		if !hs.Has("ok") {
 			t.Fatal("expected has ok")
+		}
 	})
 }
 
@@ -482,6 +511,7 @@ func Test_S10_31_Hashset_AddStringsPtrWgLock(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -497,6 +527,7 @@ func Test_S10_32_Hashset_AddHashsetItems(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -511,6 +542,7 @@ func Test_S10_33_Hashset_AddHashsetItems_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -525,6 +557,7 @@ func Test_S10_34_Hashset_AddItemsMap(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2 — b is disabled")
+		}
 	})
 }
 
@@ -539,6 +572,7 @@ func Test_S10_35_Hashset_AddItemsMap_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -557,6 +591,7 @@ func Test_S10_36_Hashset_AddItemsMapWgLock(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -571,6 +606,7 @@ func Test_S10_37_Hashset_AddItemsMapWgLock_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -589,6 +625,7 @@ func Test_S10_38_Hashset_AddHashsetWgLock(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -603,6 +640,7 @@ func Test_S10_39_Hashset_AddHashsetWgLock_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -617,6 +655,7 @@ func Test_S10_40_Hashset_AddStrings(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -631,6 +670,7 @@ func Test_S10_41_Hashset_AddStrings_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -646,6 +686,7 @@ func Test_S10_42_Hashset_AddSimpleSlice(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -661,6 +702,7 @@ func Test_S10_43_Hashset_AddSimpleSlice_Empty(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -675,6 +717,7 @@ func Test_S10_44_Hashset_AddStringsLock(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -689,6 +732,7 @@ func Test_S10_45_Hashset_AddStringsLock_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -703,6 +747,7 @@ func Test_S10_46_Hashset_Adds(t *testing.T) {
 		// Assert
 		if hs.Length() != 3 {
 			t.Fatal("expected 3")
+		}
 	})
 }
 
@@ -717,6 +762,7 @@ func Test_S10_47_Hashset_Adds_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -732,6 +778,7 @@ func Test_S10_48_Hashset_AddCollection(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -746,6 +793,7 @@ func Test_S10_49_Hashset_AddCollection_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -762,6 +810,7 @@ func Test_S10_50_Hashset_AddCollections(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -776,6 +825,7 @@ func Test_S10_51_Hashset_AddCollections_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -795,6 +845,7 @@ func Test_S10_52_Hashset_AddsAnyUsingFilter(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -809,6 +860,7 @@ func Test_S10_53_Hashset_AddsAnyUsingFilter_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -826,6 +878,7 @@ func Test_S10_54_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1 due to break")
+		}
 	})
 }
 
@@ -843,6 +896,7 @@ func Test_S10_55_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1 — nil skipped")
+		}
 	})
 }
 
@@ -860,6 +914,7 @@ func Test_S10_56_Hashset_AddsAnyUsingFilter_Skip(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -877,6 +932,7 @@ func Test_S10_57_Hashset_AddsAnyUsingFilterLock(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -891,6 +947,7 @@ func Test_S10_58_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -913,6 +970,7 @@ func Test_S10_59_Hashset_AddsAnyUsingFilterLock_BreakAndSkip(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatalf("expected 1, got %d", hs.Length())
+		}
 	})
 }
 
@@ -930,6 +988,7 @@ func Test_S10_60_Hashset_AddsAnyUsingFilterLock_NilItem(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
+		}
 	})
 }
 
@@ -947,6 +1006,7 @@ func Test_S10_61_Hashset_AddsUsingFilter(t *testing.T) {
 		// Assert
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
+		}
 	})
 }
 
@@ -961,6 +1021,7 @@ func Test_S10_62_Hashset_AddsUsingFilter_Nil(t *testing.T) {
 		// Assert
 		if hs.Length() != 0 {
 			t.Fatal("expected 0")
+		}
 	})
 }
 
@@ -983,6 +1044,7 @@ func Test_S10_63_Hashset_AddsUsingFilter_BreakAndSkip(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatalf("expected 1, got %d", hs.Length())
+		}
 	})
 }
 
@@ -999,6 +1061,7 @@ func Test_S10_64_Hashset_AddLock(t *testing.T) {
 		// Assert
 		if !hs.Has("k") {
 			t.Fatal("expected has k")
+		}
 	})
 }
 
@@ -1015,6 +1078,7 @@ func Test_S10_65_Hashset_Has(t *testing.T) {
 		}
 		if hs.Has("z") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1026,6 +1090,7 @@ func Test_S10_66_Hashset_Contains(t *testing.T) {
 		// Act & Assert
 		if !hs.Contains("a") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -1037,6 +1102,7 @@ func Test_S10_67_Hashset_HasLock(t *testing.T) {
 		// Act & Assert
 		if !hs.HasLock("a") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -1048,6 +1114,7 @@ func Test_S10_68_Hashset_HasWithLock(t *testing.T) {
 		// Act & Assert
 		if !hs.HasWithLock("a") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -1062,6 +1129,7 @@ func Test_S10_69_Hashset_HasAnyItem(t *testing.T) {
 		}
 		if corestr.Empty.Hashset().HasAnyItem() {
 			t.Fatal("expected false for empty")
+		}
 	})
 }
 
@@ -1078,6 +1146,7 @@ func Test_S10_70_Hashset_IsMissing(t *testing.T) {
 		}
 		if !hs.IsMissing("z") {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -1089,6 +1158,7 @@ func Test_S10_71_Hashset_IsMissingLock(t *testing.T) {
 		// Act & Assert
 		if hs.IsMissingLock("a") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1105,6 +1175,7 @@ func Test_S10_72_Hashset_HasAllStrings(t *testing.T) {
 		}
 		if hs.HasAllStrings([]string{"a", "c"}) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1119,6 +1190,7 @@ func Test_S10_73_Hashset_HasAll(t *testing.T) {
 		}
 		if hs.HasAll("a", "c") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1131,6 +1203,7 @@ func Test_S10_74_Hashset_HasAllCollectionItems(t *testing.T) {
 		// Act & Assert
 		if !hs.HasAllCollectionItems(col) {
 			t.Fatal("expected true")
+		}
 	})
 }
 
@@ -1142,6 +1215,7 @@ func Test_S10_75_Hashset_HasAllCollectionItems_Nil(t *testing.T) {
 		// Act & Assert
 		if hs.HasAllCollectionItems(nil) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1153,6 +1227,7 @@ func Test_S10_76_Hashset_HasAllCollectionItems_Empty(t *testing.T) {
 		// Act & Assert
 		if hs.HasAllCollectionItems(corestr.Empty.Collection()) {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1169,6 +1244,7 @@ func Test_S10_77_Hashset_IsAllMissing(t *testing.T) {
 		}
 		if hs.IsAllMissing("a", "y") {
 			t.Fatal("expected false — a exists")
+		}
 	})
 }
 
@@ -1183,6 +1259,7 @@ func Test_S10_78_Hashset_HasAny(t *testing.T) {
 		}
 		if hs.HasAny("x", "y") {
 			t.Fatal("expected false")
+		}
 	})
 }
 
@@ -1197,6 +1274,7 @@ func Test_S10_79_Hashset_IsEqual(t *testing.T) {
 		// Act & Assert
 		if !a.IsEqual(b) {
 			t.Fatal("expected equal")
+		}
 	})
 }
 
@@ -1209,6 +1287,7 @@ func Test_S10_80_Hashset_IsEquals_BothNil(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(b) {
 			t.Fatal("expected equal")
+		}
 	})
 }
 
@@ -1221,6 +1300,7 @@ func Test_S10_81_Hashset_IsEquals_OneNil(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -1232,6 +1312,7 @@ func Test_S10_82_Hashset_IsEquals_SamePtr(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(a) {
 			t.Fatal("expected equal")
+		}
 	})
 }
 
@@ -1244,6 +1325,7 @@ func Test_S10_83_Hashset_IsEquals_BothEmpty(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(b) {
 			t.Fatal("expected equal")
+		}
 	})
 }
 
@@ -1256,6 +1338,7 @@ func Test_S10_84_Hashset_IsEquals_OneEmpty(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -1268,6 +1351,7 @@ func Test_S10_85_Hashset_IsEquals_DiffLength(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -1280,6 +1364,7 @@ func Test_S10_86_Hashset_IsEquals_DiffKeys(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal")
+		}
 	})
 }
 
@@ -1292,5 +1377,6 @@ func Test_S10_87_Hashset_IsEqualsLock(t *testing.T) {
 		// Act & Assert
 		if !a.IsEqualsLock(b) {
 			t.Fatal("expected equal")
+		}
 	})
 }
