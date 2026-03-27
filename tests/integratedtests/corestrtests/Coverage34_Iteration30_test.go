@@ -1276,9 +1276,11 @@ func Test_I30_Hashset_UnmarshalJSON_Err(t *testing.T) {
 		expected := args.Map{"hasErr": true}
 		expected.ShouldBeEqual(t, 0, "Hashset returns error -- UnmarshalJSON err", actual)
 	})
-}
+	})
 
+}
 func Test_I30_Hashset_Json(t *testing.T) {
+	safeTest(t, "Test_I30_Hashset_Json", func() {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		j := hs.Json()
 		actual := args.Map{"hasBytes": j.HasBytes()}
