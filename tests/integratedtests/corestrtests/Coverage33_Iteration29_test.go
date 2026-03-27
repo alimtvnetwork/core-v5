@@ -1002,6 +1002,8 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 	})
 }
 
+}
+
 func Test_I29_Hashmap_Json(t *testing.T) {
 	safeTest(t, "Test_I29_Hashmap_Json", func() {
 		hm := corestr.New.Hashmap.Cap(5)

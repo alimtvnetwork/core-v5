@@ -605,6 +605,8 @@ func Test_C38_Hashmap_JSON(t *testing.T) {
 	})
 
 }
+}
+
 func Test_C38_Hashmap_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C38_Hashmap_ParseInjectUsingJson", func() {
 		h := corestr.New.Hashmap.Cap(2)

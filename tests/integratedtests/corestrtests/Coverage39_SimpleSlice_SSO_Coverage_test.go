@@ -531,6 +531,8 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 	})
 
 }
+}
+
 func Test_C39_SimpleSlice_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C39_SimpleSlice_ParseInjectUsingJson", func() {
 		ss := corestr.New.SimpleSlice.Lines("a")

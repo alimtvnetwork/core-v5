@@ -1247,6 +1247,8 @@ func Test_C37_Collection_UnmarshalJSON(t *testing.T) {
 	})
 
 }
+}
+
 func Test_C37_Collection_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C37_Collection_ParseInjectUsingJson", func() {
 		c := corestr.New.Collection.Strings([]string{"a"})
