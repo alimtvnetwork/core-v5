@@ -25,12 +25,12 @@ for f in "$DIR"/*_test.go; do
     }
     NR == 1 { prev = $0 }
     END { exit (found > 0 ? 1 : 0) }
-  ' "$f" 2>/dev/null; then
+  ' "$f"; then
     ISSUES=1
   fi
 
   # Check 2: closure arg `}` missing `)` (avoid false-positives on if/for/switch/select blocks)
-  if ! python3 - "$f" <<'PY' 2>/dev/null
+  if ! python3 - "$f" <<'PY'
 import re
 import sys
 
@@ -87,7 +87,7 @@ done
 for f in "$DIR"/*_test.go; do
   [ -f "$f" ] || continue
 
-  if ! python3 - "$f" <<'PY2' 2>/dev/null
+  if ! python3 - "$f" <<'PY2'
 import sys, re
 path = sys.argv[1]
 lines = open(path, encoding="utf-8").read().splitlines()
@@ -123,7 +123,7 @@ done
 for f in "$DIR"/*_test.go; do
   [ -f "$f" ] || continue
 
-  if ! python3 - "$f" <<'PY3' 2>/dev/null
+  if ! python3 - "$f" <<'PY3'
 import re
 import sys
 
@@ -148,7 +148,7 @@ for i, line in enumerate(lines):
 
         if started and depth == 0:
             if lines[j].rstrip().endswith('})'):
-                print(f'  {path}:{j+1}: func assignment closes with }) (should close with } only)')
+                print('  ' + path + ':' + str(j+1) + ': func assignment closes with }) (should close with } only)')
                 sys.exit(1)
             break
 
@@ -163,7 +163,7 @@ done
 for f in "$DIR"/*_test.go; do
   [ -f "$f" ] || continue
 
-  if ! python3 - "$f" <<'PY4' 2>/dev/null
+  if ! python3 - "$f" <<'PY4'
 import sys
 
 path = sys.argv[1]
