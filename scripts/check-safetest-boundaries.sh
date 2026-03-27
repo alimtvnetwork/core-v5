@@ -83,11 +83,47 @@ PY
   fi
 done
 
+# ── Check 3: empty if blocks (comment-only body with no actual statement) ──
+for f in "$DIR"/*_test.go; do
+  [ -f "$f" ] || continue
+
+  if ! python3 - "$f" <<'PY2' 2>/dev/null
+import sys, re
+path = sys.argv[1]
+lines = open(path, encoding="utf-8").read().splitlines()
+if_re = re.compile(r'^(\t+)if\b.*\{\s*$')
+for i, line in enumerate(lines):
+    m = if_re.match(line)
+    if not m:
+        continue
+    indent = m.group(1)
+    close = indent + '}'
+    # scan body: skip blanks and comments, expect at least one real statement
+    has_stmt = False
+    for j in range(i + 1, min(i + 20, len(lines))):
+        body = lines[j]
+        stripped = body.strip()
+        if body.rstrip() == close or body.rstrip() == close + ')':
+            break
+        if stripped == '' or stripped.startswith('//'):
+            continue
+        has_stmt = True
+        break
+    if not has_stmt:
+        print(f'  {path}:{i+1}: empty if block (no statements)')
+        sys.exit(1)
+sys.exit(0)
+PY2
+  then
+    ISSUES=1
+  fi
+done
+
 if [ "$ISSUES" -ne 0 ]; then
   echo ""
-  echo "✗ Malformed safeTest boundaries detected. Fix missing closing braces."
+  echo "✗ Malformed safeTest boundaries or empty if blocks detected."
   exit 1
 else
-  echo "✓ All safeTest boundaries are clean."
+  echo "✓ All safeTest boundaries and if blocks are clean."
   exit 0
 fi

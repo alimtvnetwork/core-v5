@@ -17,6 +17,7 @@ func Test_C26_CharCollectionMap_Empty(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Empty()
 		if ccm.IsEmpty() {
 			// empty creator makes items non-nil but empty
+			t.Error("expected non-empty internal state")
 		}
 		if ccm.Length() != 0 {
 			t.Errorf("expected 0 got %d", ccm.Length())
