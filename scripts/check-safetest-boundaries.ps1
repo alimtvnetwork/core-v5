@@ -35,7 +35,7 @@ foreach ($file in $files) {
 
     # Check 2: closure arg `}` missing `)` (avoid false-positives on if/for/switch/select blocks)
     $controlRe = '^\t\t(?:if|for|switch|select|else)\b'
-    $funcOpenRe = '^\t\t[^\t](?!if\b|for\b|switch\b|select\b|else\b).*(?:\bfunc\(|\(func\().*\{\s*$'
+    $funcOpenRe = '^\t\t[^\t].*\(func\(.*\{\s*$'
     $blockOpenRe = '^\t\t[^\t].*\{\s*$'
 
     for ($i = 0; $i -lt $lines.Count; $i++) {
