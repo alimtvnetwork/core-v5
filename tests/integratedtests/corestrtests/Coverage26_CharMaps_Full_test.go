@@ -231,6 +231,8 @@ func Test_C26_CharCollectionMap_IsEmptyLock(t *testing.T) {
 		ccm := corestr.New.CharCollectionMap.Empty()
 		if !ccm.IsEmptyLock() {
 			// items map is non-nil but empty, so IsEmpty checks len
+			t.Error("expected empty")
+		}
 	})
 }
 
