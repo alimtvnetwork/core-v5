@@ -431,7 +431,7 @@ func Test_CovHS1_29_AddsAnyUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		})
+		}
 		hs.AddsAnyUsingFilter(filter, "a", nil, "b")
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
@@ -442,7 +442,7 @@ func Test_CovHS1_29_AddsAnyUsingFilter(t *testing.T) {
 		hs2 := corestr.New.Hashset.Empty()
 		breakFilter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		})
+		}
 		hs2.AddsAnyUsingFilter(breakFilter, "a", "b")
 		if hs2.Length() != 1 {
 			t.Fatal("expected 1 (break)")
@@ -455,7 +455,7 @@ func Test_CovHS1_30_AddsAnyUsingFilterLock(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		})
+		}
 		hs.AddsAnyUsingFilterLock(filter, "a", nil)
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
@@ -465,7 +465,7 @@ func Test_CovHS1_30_AddsAnyUsingFilterLock(t *testing.T) {
 		// break
 		breakFilter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		})
+		}
 		hs.AddsAnyUsingFilterLock(breakFilter, "x", "y")
 	})
 }
@@ -475,7 +475,7 @@ func Test_CovHS1_31_AddsUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, str != "skip", false
-		})
+		}
 		hs.AddsUsingFilter(filter, "a", "skip", "b")
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
@@ -485,7 +485,7 @@ func Test_CovHS1_31_AddsUsingFilter(t *testing.T) {
 		// break
 		breakFilter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		})
+		}
 		hs2 := corestr.New.Hashset.Empty()
 		hs2.AddsUsingFilter(breakFilter, "a", "b")
 		if hs2.Length() != 1 {

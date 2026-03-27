@@ -203,7 +203,7 @@ func Test_Cov59_Collection_AppendAnysUsingFilter(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s + "!", true, false
-		})
+		}
 		c.AppendAnysUsingFilter(filter, "a", nil, "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -216,7 +216,7 @@ func Test_Cov59_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		c.AppendAnysUsingFilter(filter, "a", "b", "c")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -229,7 +229,7 @@ func Test_Cov59_Collection_AppendAnysUsingFilter_Skip(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return "", false, false
-		})
+		}
 		c.AppendAnysUsingFilter(filter, "a")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 0}
@@ -253,7 +253,7 @@ func Test_Cov59_Collection_AppendAnysUsingFilterLock(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		c.AppendAnysUsingFilterLock(filter, "x", nil, "y")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -266,7 +266,7 @@ func Test_Cov59_Collection_AppendAnysUsingFilterLock_Break(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		c.AppendAnysUsingFilterLock(filter, "a", "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -279,7 +279,7 @@ func Test_Cov59_Collection_AppendAnysUsingFilterLock_Skip(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return "", false, false
-		})
+		}
 		c.AppendAnysUsingFilterLock(filter, "a")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 0}
@@ -437,7 +437,7 @@ func Test_Cov59_Collection_Filter(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"aa", "b", "cc"})
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, len(s) > 1, false
-		})
+		}
 		r := c.Filter(filter)
 		actual := args.Map{"len": len(r)}
 		expected := args.Map{"len": 2}
@@ -461,7 +461,7 @@ func Test_Cov59_Collection_Filter_Break(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, i >= 0
-		})
+		}
 		r := c.Filter(filter)
 		actual := args.Map{"len": len(r)}
 		expected := args.Map{"len": 1}
@@ -474,7 +474,7 @@ func Test_Cov59_Collection_FilterLock(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"x", "yy"})
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, len(s) > 1, false
-		})
+		}
 		r := c.FilterLock(filter)
 		actual := args.Map{"len": len(r)}
 		expected := args.Map{"len": 1}
@@ -487,7 +487,7 @@ func Test_Cov59_Collection_FilterLock_Break(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		r := c.FilterLock(filter)
 		actual := args.Map{"len": len(r)}
 		expected := args.Map{"len": 1}
@@ -500,7 +500,7 @@ func Test_Cov59_Collection_FilteredCollection(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"aa", "b"})
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, len(s) > 1, false
-		})
+		}
 		r := c.FilteredCollection(filter)
 		actual := args.Map{"len": r.Length()}
 		expected := args.Map{"len": 1}
@@ -513,7 +513,7 @@ func Test_Cov59_Collection_FilteredCollectionLock(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"aa", "b"})
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, len(s) > 1, false
-		})
+		}
 		r := c.FilteredCollectionLock(filter)
 		actual := args.Map{"len": r.Length()}
 		expected := args.Map{"len": 1}
@@ -526,7 +526,7 @@ func Test_Cov59_Collection_FilterPtr(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"aa", "b"})
 		filter := func(s *string, i int) (*string, bool, bool) {
 			return s, len(*s) > 1, false
-		})
+		}
 		r := c.FilterPtr(filter)
 		actual := args.Map{"len": len(*r)}
 		expected := args.Map{"len": 1}
@@ -550,7 +550,7 @@ func Test_Cov59_Collection_FilterPtr_Break(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(s *string, i int) (*string, bool, bool) {
 			return s, true, true
-		})
+		}
 		r := c.FilterPtr(filter)
 		actual := args.Map{"len": len(*r)}
 		expected := args.Map{"len": 1}
@@ -563,7 +563,7 @@ func Test_Cov59_Collection_FilterPtrLock(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"aa", "b"})
 		filter := func(s *string, i int) (*string, bool, bool) {
 			return s, len(*s) > 1, false
-		})
+		}
 		r := c.FilterPtrLock(filter)
 		actual := args.Map{"len": len(*r)}
 		expected := args.Map{"len": 1}
@@ -576,7 +576,7 @@ func Test_Cov59_Collection_FilterPtrLock_Break(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(s *string, i int) (*string, bool, bool) {
 			return s, true, true
-		})
+		}
 		r := c.FilterPtrLock(filter)
 		actual := args.Map{"len": len(*r)}
 		expected := args.Map{"len": 1}

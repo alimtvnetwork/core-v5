@@ -537,7 +537,7 @@ func Test_S09_32_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return pair.ValueString(), true, false
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesAnyUsingFilter(filter,
@@ -557,7 +557,7 @@ func Test_S09_33_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return pair.ValueString(), true, true
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesAnyUsingFilter(filter,
@@ -593,7 +593,7 @@ func Test_S09_35_Hashmap_AddsOrUpdatesAnyUsingFilter_Skip(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", false, false
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesAnyUsingFilter(filter,
@@ -613,7 +613,7 @@ func Test_S09_36_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return pair.ValueString(), true, false
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter,
@@ -653,7 +653,7 @@ func Test_S09_38_Hashmap_AddsOrUpdatesAnyUsingFilterLock_SkipAndBreak(t *testing
 				return "", false, false
 			}
 			return pair.ValueString(), true, true
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter,
@@ -675,7 +675,7 @@ func Test_S09_39_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, true, false
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesUsingFilter(filter,
@@ -710,7 +710,7 @@ func Test_S09_41_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, true, true
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesUsingFilter(filter,
@@ -731,7 +731,7 @@ func Test_S09_42_Hashmap_AddsOrUpdatesUsingFilter_Skip(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return "", false, false
-		})
+		}
 
 		// Act
 		hm.AddsOrUpdatesUsingFilter(filter,
@@ -1111,7 +1111,7 @@ func Test_S09_66_Hashmap_GetKeysFilteredItems(t *testing.T) {
 		hm.AddOrUpdate("banana", "2")
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, strings.HasPrefix(str, "a"), false
-		})
+		}
 
 		// Act
 		result := hm.GetKeysFilteredItems(filter)
@@ -1129,7 +1129,7 @@ func Test_S09_67_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
 		hm := corestr.Empty.Hashmap()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		})
+		}
 
 		// Act
 		result := hm.GetKeysFilteredItems(filter)
@@ -1149,7 +1149,7 @@ func Test_S09_68_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
 		hm.AddOrUpdate("b", "2")
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		})
+		}
 
 		// Act
 		result := hm.GetKeysFilteredItems(filter)
@@ -1168,7 +1168,7 @@ func Test_S09_69_Hashmap_GetKeysFilteredCollection(t *testing.T) {
 		hm.AddOrUpdate("x", "1")
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		})
+		}
 
 		// Act
 		result := hm.GetKeysFilteredCollection(filter)
@@ -1203,7 +1203,7 @@ func Test_S09_71_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
 		hm.AddOrUpdate("b", "2")
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		})
+		}
 
 		// Act
 		result := hm.GetKeysFilteredCollection(filter)

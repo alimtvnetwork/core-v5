@@ -558,7 +558,7 @@ func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v", "k2": "v2"})
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Key + "=" + pair.Value, true, false
-		})
+		}
 		c.AddHashmapsKeysValuesUsingFilter(filter, hm)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -574,7 +574,7 @@ func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) 
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			count++
 			return pair.Key, true, count >= 1
-		})
+		}
 		c.AddHashmapsKeysValuesUsingFilter(filter, hm)
 		actual := args.Map{"stopped": c.Length() <= 1}
 		expected := args.Map{"stopped": true}
@@ -599,7 +599,7 @@ func Test_Cov58_Collection_AddHashmapsKeysValuesUsingFilter_Skip(t *testing.T) {
 		hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return "", false, false
-		})
+		}
 		c.AddHashmapsKeysValuesUsingFilter(filter, hm)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 0}

@@ -351,7 +351,7 @@ func Test_Cov56_Hashset_AddsUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, s != "skip", false
-		})
+		}
 		// Act
 		hs.AddsUsingFilter(filter, "a", "skip", "b")
 		// Assert
@@ -370,7 +370,7 @@ func Test_Cov56_Hashset_AddsUsingFilter_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		// Act
 		hs.AddsUsingFilter(filter, "a", "b")
 		// Assert
@@ -389,7 +389,7 @@ func Test_Cov56_Hashset_AddsUsingFilter_Nil(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		hs.AddsUsingFilter(filter)
 		// Assert
@@ -408,7 +408,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		hs.AddsAnyUsingFilter(filter, "hello", 42)
 		// Assert
@@ -427,7 +427,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		hs.AddsAnyUsingFilter(filter, nil, "valid")
 		// Assert
@@ -446,7 +446,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		// Act
 		hs.AddsAnyUsingFilter(filter, "a", "b")
 		// Assert
@@ -462,7 +462,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilterLock(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		hs.AddsAnyUsingFilterLock(filter, "x")
 		// Assert
@@ -481,7 +481,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		hs.AddsAnyUsingFilterLock(filter)
 		// Assert
