@@ -1261,11 +1261,11 @@ func Test_C28_121_SimpleStringOnce_GetOnceFunc(t *testing.T) {
 		v := s.GetOnceFunc(func() string { return "hello" })
 		if v != "hello" {
 			t.Error("expected hello")
-		}
+		})
 		v2 := s.GetOnceFunc(func() string { return "world" })
 		if v2 != "hello" {
 			t.Error("expected hello still")
-		}
+		})
 	})
 }
 

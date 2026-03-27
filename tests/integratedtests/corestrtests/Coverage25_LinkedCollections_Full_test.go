@@ -564,7 +564,7 @@ func Test_C25_LinkedCollections_Loop_Empty(t *testing.T) {
 		lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 			t.Error("should not be called")
 			return false
-		}
+		})
 	})
 }
 
@@ -591,7 +591,7 @@ func Test_C25_LinkedCollections_FilterAsCollection(t *testing.T) {
 		}, 0)
 		if col.Length() != 3 {
 			t.Errorf("expected 3 got %d", col.Length())
-		}
+		})
 	})
 }
 

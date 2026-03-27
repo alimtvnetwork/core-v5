@@ -120,7 +120,7 @@ func Test_SrcC18_Add_Verification(t *testing.T) {
 			"addsLockLen": ll14.Length(),
 			"mapLen":      ll15.Length(),
 			"mapEmptyE":   !ll16.HasItems(),
-		}
+		})
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)

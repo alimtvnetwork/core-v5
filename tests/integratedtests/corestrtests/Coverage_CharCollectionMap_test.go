@@ -426,7 +426,7 @@ func Test_CovCCM_23_AddHashmapsKeysOrValuesBothUsingFilter(t *testing.T) {
 		hm.AddOrUpdate("key", "val")
 		filter := func(p corestr.KeyValuePair) (string, bool, bool) {
 			return p.Value, true, false
-		}
+		})
 		ccm.AddHashmapsKeysOrValuesBothUsingFilter(filter, hm, nil)
 		if ccm.AllLengthsSum() != 1 {
 			t.Fatal("expected 1")
@@ -436,7 +436,7 @@ func Test_CovCCM_23_AddHashmapsKeysOrValuesBothUsingFilter(t *testing.T) {
 		// break
 		breakFilter := func(p corestr.KeyValuePair) (string, bool, bool) {
 			return p.Value, true, true
-		}
+		})
 		ccm.AddHashmapsKeysOrValuesBothUsingFilter(breakFilter, hm)
 	})
 }

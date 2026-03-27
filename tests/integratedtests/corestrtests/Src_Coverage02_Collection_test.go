@@ -197,7 +197,7 @@ func Test_Src02_Collection_AddFunc(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": c.Length(),
-		}
+		})
 	})
 }
 

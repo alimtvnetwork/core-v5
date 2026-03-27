@@ -416,13 +416,13 @@ func Test_CovP2_26_Filter(t *testing.T) {
 		r := empty.Filter(func(s string, i int) (string, bool, bool) { return s, true, false })
 		if len(r) != 0 {
 			t.Fatal("expected 0")
-		}
+		})
 		// break
 		col2 := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		r2 := col2.Filter(func(s string, i int) (string, bool, bool) { return s, true, true })
 		if len(r2) != 1 {
 			t.Fatal("expected 1 (break on first)")
-		}
+		})
 	})
 }
 
@@ -439,7 +439,7 @@ func Test_CovP2_27_FilterLock(t *testing.T) {
 		r2 := col.FilterLock(func(s string, i int) (string, bool, bool) { return s, true, true })
 		if len(r2) != 1 {
 			t.Fatal("expected 1")
-		}
+		})
 	})
 }
 
@@ -488,7 +488,7 @@ func Test_CovP2_30_FilterPtrLock(t *testing.T) {
 		r3 := empty.FilterPtrLock(func(s *string, i int) (*string, bool, bool) { return s, true, false })
 		if len(*r3) != 0 {
 			t.Fatal("expected 0")
-		}
+		})
 	})
 }
 
@@ -513,7 +513,7 @@ func Test_CovP2_31_FilterPtr(t *testing.T) {
 		r3 := empty.FilterPtr(func(s *string, i int) (*string, bool, bool) { return s, true, false })
 		if len(*r3) != 0 {
 			t.Fatal("expected 0")
-		}
+		})
 	})
 }
 

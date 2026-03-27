@@ -173,7 +173,7 @@ func Test_S10_98_Hashset_GetFilteredItems(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"apple", "banana"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, strings.HasPrefix(str, "a"), false
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredItems(filter)
@@ -191,7 +191,7 @@ func Test_S10_99_Hashset_GetFilteredItems_Empty(t *testing.T) {
 		hs := corestr.Empty.Hashset()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredItems(filter)
@@ -209,7 +209,7 @@ func Test_S10_100_Hashset_GetFilteredItems_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredItems(filter)
@@ -227,7 +227,7 @@ func Test_S10_101_Hashset_GetFilteredItems_Skip(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, false, false
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredItems(filter)
@@ -247,7 +247,7 @@ func Test_S10_102_Hashset_GetFilteredCollection(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredCollection(filter)
@@ -280,7 +280,7 @@ func Test_S10_104_Hashset_GetFilteredCollection_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredCollection(filter)
@@ -298,7 +298,7 @@ func Test_S10_105_Hashset_GetFilteredCollection_Skip(t *testing.T) {
 		hs := corestr.New.Hashset.Strings([]string{"a"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, false, false
-		}
+		})
 
 		// Act
 		result := hs.GetFilteredCollection(filter)

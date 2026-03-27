@@ -153,7 +153,7 @@ func Test_Cov38_LL_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "hello" })
 		if ll.Length() != 1 || ll.Head().Element != "hello" {
 			t.Error("unexpected")
-		}
+		})
 	})
 }
 
@@ -456,7 +456,7 @@ func Test_Cov38_LL_Loop_Empty(t *testing.T) {
 		ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
 			t.Fatal("should not be called")
 			return false
-		}
+		})
 	})
 }
 

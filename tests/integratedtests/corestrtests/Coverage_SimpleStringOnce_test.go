@@ -88,12 +88,12 @@ func Test_CovSSO_05_GetOnceFunc(t *testing.T) {
 		v := sso.GetOnceFunc(func() string { return "computed" })
 		if v != "computed" {
 			t.Fatal("expected computed")
-		}
+		})
 		// already init
 		v2 := sso.GetOnceFunc(func() string { return "other" })
 		if v2 != "computed" {
 			t.Fatal("expected computed")
-		}
+		})
 	})
 }
 

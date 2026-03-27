@@ -214,7 +214,7 @@ func Test_CovLL1_13_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "hello" })
 		if ll.Length() != 1 || ll.Head().Element != "hello" {
 			t.Fatal("expected hello")
-		}
+		})
 	})
 }
 

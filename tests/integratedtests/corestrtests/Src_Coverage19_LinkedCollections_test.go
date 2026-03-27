@@ -300,7 +300,7 @@ func Test_SrcC19_LoopFilter_Verification(t *testing.T) {
 			"filterColLen":   col1.Length(),
 			"filterColEE":    !col2.HasItems(),
 			"filterColsLen":  len(cols),
-		}
+		})
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)

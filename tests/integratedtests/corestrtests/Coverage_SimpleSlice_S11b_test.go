@@ -656,7 +656,7 @@ func Test_S11_131_SimpleSlice_IsEqualByFunc(t *testing.T) {
 		result := ss.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "b")
 		if !result {
 			t.Fatal("expected true")
-		}
+		})
 	})
 }
 
@@ -665,7 +665,7 @@ func Test_S11_132_SimpleSlice_IsEqualByFunc_DiffLength(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.IsEqualByFunc(func(i int, l, r string) bool { return true }, "a", "b") {
 			t.Fatal("expected false")
-		}
+		})
 	})
 }
 
@@ -674,7 +674,7 @@ func Test_S11_133_SimpleSlice_IsEqualByFunc_Empty(t *testing.T) {
 		ss := corestr.Empty.SimpleSlice()
 		if !ss.IsEqualByFunc(func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected true for both empty")
-		}
+		})
 	})
 }
 
@@ -683,7 +683,7 @@ func Test_S11_134_SimpleSlice_IsEqualByFunc_Mismatch(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.IsEqualByFunc(func(i int, l, r string) bool { return false }, "a") {
 			t.Fatal("expected false")
-		}
+		})
 	})
 }
 
@@ -712,7 +712,7 @@ func Test_S11_137_SimpleSlice_IsEqualByFuncLinesSplit_DiffLength(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.IsEqualByFuncLinesSplit(false, ",", "a,b", func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected false")
-		}
+		})
 	})
 }
 
@@ -722,7 +722,7 @@ func Test_S11_138_SimpleSlice_IsEqualByFuncLinesSplit_Empty(t *testing.T) {
 		// strings.Split("", ",") returns [""] (length 1) which != 0, so returns false
 		if ss.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected false for empty vs split-empty mismatch")
-		}
+		})
 	})
 }
 
@@ -731,7 +731,7 @@ func Test_S11_139_SimpleSlice_IsEqualByFuncLinesSplit_Mismatch(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Strings([]string{"a"})
 		if ss.IsEqualByFuncLinesSplit(false, ",", "b", func(i int, l, r string) bool { return l == r }) {
 			t.Fatal("expected false")
-		}
+		})
 	})
 }
 

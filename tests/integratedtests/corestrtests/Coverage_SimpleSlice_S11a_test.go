@@ -559,7 +559,7 @@ func Test_S11_35_SimpleSlice_CountFunc_Empty(t *testing.T) {
 		// Assert
 		if count != 0 {
 			t.Fatal("expected 0")
-		}
+		})
 	})
 }
 

@@ -491,7 +491,7 @@ func Test_Cov39_LC_Loop_Empty(t *testing.T) {
 		lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 			t.Fatal("should not be called")
 			return false
-		}
+		})
 	})
 }
 
@@ -547,7 +547,7 @@ func Test_Cov39_LC_FilterAsCollection(t *testing.T) {
 		}, 0)
 		if col.Length() != 3 {
 			t.Errorf("expected 3, got %d", col.Length())
-		}
+		})
 	})
 }
 
@@ -559,7 +559,7 @@ func Test_Cov39_LC_FilterAsCollection_Empty(t *testing.T) {
 		}, 0)
 		if col.Length() != 0 {
 			t.Errorf("expected 0")
-		}
+		})
 	})
 }
 

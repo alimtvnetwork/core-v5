@@ -255,7 +255,7 @@ func Test_C77_SSO_GetOnceFunc(t *testing.T) {
 		// Assert
 		if result != "computed" {
 			t.Errorf("expected 'computed', got '%s'", result)
-		}
+		})
 	})
 }
 
@@ -270,7 +270,7 @@ func Test_C77_SSO_GetOnceFunc_AlreadyInit(t *testing.T) {
 		// Assert
 		if result != "existing" {
 			t.Errorf("expected 'existing'")
-		}
+		})
 	})
 }
 

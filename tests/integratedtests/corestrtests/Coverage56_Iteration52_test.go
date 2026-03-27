@@ -160,7 +160,7 @@ func Test_Cov56_Hashset_AddFunc(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "AddFunc",
 			ExpectedInput: args.Map{"Has": true},
-		}
+		})
 		actual := args.Map{"Has": hs.Has("computed")}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	})
@@ -351,7 +351,7 @@ func Test_Cov56_Hashset_AddsUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, s != "skip", false
-		}
+		})
 		// Act
 		hs.AddsUsingFilter(filter, "a", "skip", "b")
 		// Assert
@@ -370,7 +370,7 @@ func Test_Cov56_Hashset_AddsUsingFilter_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		}
+		})
 		// Act
 		hs.AddsUsingFilter(filter, "a", "b")
 		// Assert
@@ -389,7 +389,7 @@ func Test_Cov56_Hashset_AddsUsingFilter_Nil(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		}
+		})
 		// Act
 		hs.AddsUsingFilter(filter)
 		// Assert
@@ -408,7 +408,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		}
+		})
 		// Act
 		hs.AddsAnyUsingFilter(filter, "hello", 42)
 		// Assert
@@ -427,7 +427,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		}
+		})
 		// Act
 		hs.AddsAnyUsingFilter(filter, nil, "valid")
 		// Assert
@@ -446,13 +446,13 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		}
+		})
 		// Act
 		hs.AddsAnyUsingFilter(filter, "a", "b")
 		// Assert
 		convey.Convey("AddsAnyUsingFilter break", t, func() {
 			convey.So(hs.Length(), convey.ShouldBeLessThanOrEqualTo, 2)
-		}
+		})
 	})
 }
 
@@ -462,7 +462,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilterLock(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		}
+		})
 		// Act
 		hs.AddsAnyUsingFilterLock(filter, "x")
 		// Assert
@@ -481,7 +481,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
 		hs := corestr.New.Hashset.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		}
+		})
 		// Act
 		hs.AddsAnyUsingFilterLock(filter)
 		// Assert
@@ -606,7 +606,7 @@ func Test_Cov56_Hashset_Filter(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Filter",
 			ExpectedInput: args.Map{"Length": 2},
-		}
+		})
 		actual := args.Map{"Length": result.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	})
@@ -866,7 +866,7 @@ func Test_Cov56_Hashset_MapStringAnyDiff(t *testing.T) {
 		// Assert
 		convey.Convey("MapStringAnyDiff", t, func() {
 			convey.So(result, convey.ShouldNotBeNil)
-		}
+		})
 	})
 }
 
@@ -1021,7 +1021,7 @@ func Test_Cov56_Hashset_DistinctDiffLinesRaw_Both(t *testing.T) {
 		// Assert
 		convey.Convey("DistinctDiffLinesRaw both have items", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
-		}
+		})
 	})
 }
 
@@ -1083,7 +1083,7 @@ func Test_Cov56_Hashset_DistinctDiffHashset(t *testing.T) {
 		// Assert
 		convey.Convey("DistinctDiffHashset", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
-		}
+		})
 	})
 }
 
@@ -1097,7 +1097,7 @@ func Test_Cov56_Hashset_Transpile(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Transpile",
 			ExpectedInput: args.Map{"Has": true},
-		}
+		})
 		actual := args.Map{"Has": result.Has("[a]")}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	})
@@ -1113,7 +1113,7 @@ func Test_Cov56_Hashset_Transpile_Empty(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Transpile empty",
 			ExpectedInput: args.Map{"IsEmpty": true},
-		}
+		})
 		actual := args.Map{"IsEmpty": result.IsEmpty()}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	})
@@ -1192,7 +1192,7 @@ func Test_Cov56_Hashset_JoinLine(t *testing.T) {
 		// Assert
 		convey.Convey("JoinLine", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
-		}
+		})
 	})
 }
 
@@ -1205,7 +1205,7 @@ func Test_Cov56_Hashset_NonEmptyJoins(t *testing.T) {
 		// Assert
 		convey.Convey("NonEmptyJoins", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
-		}
+		})
 	})
 }
 
@@ -1218,7 +1218,7 @@ func Test_Cov56_Hashset_NonWhitespaceJoins(t *testing.T) {
 		// Assert
 		convey.Convey("NonWhitespaceJoins", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
-		}
+		})
 	})
 }
 
@@ -1315,7 +1315,7 @@ func Test_Cov56_Hashset_GetFilteredItems_Break(t *testing.T) {
 		// Assert
 		convey.Convey("GetFilteredItems break", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
-		}
+		})
 	})
 }
 
@@ -1363,7 +1363,7 @@ func Test_Cov56_Hashset_GetFilteredCollection_Break(t *testing.T) {
 		// Assert
 		convey.Convey("GetFilteredCollection break", t, func() {
 			convey.So(result.Length(), convey.ShouldBeGreaterThan, 0)
-		}
+		})
 	})
 }
 
@@ -1490,7 +1490,7 @@ func Test_Cov56_Hashset_StringLock(t *testing.T) {
 		// Assert
 		convey.Convey("StringLock non-empty", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
-		}
+		})
 	})
 }
 
@@ -1503,7 +1503,7 @@ func Test_Cov56_Hashset_StringLock_Empty(t *testing.T) {
 		// Assert
 		convey.Convey("StringLock empty", t, func() {
 			convey.So(result, convey.ShouldContainSubstring, "No Element")
-		}
+		})
 	})
 }
 

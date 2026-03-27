@@ -164,7 +164,7 @@ func Test_C33_LL_Loop(t *testing.T) {
 		ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
 			return false
-		}
+		})
 	})
 }
 
@@ -368,7 +368,7 @@ func Test_C33_LC_Loop(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings("a")
 		lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 			return false
-		}
+		})
 	})
 }
 
@@ -471,7 +471,7 @@ func Test_C33_LLN_LoopEndOfChain(t *testing.T) {
 		ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 		_, _ = ll.Head().LoopEndOfChain(func(arg *corestr.LinkedListProcessorParameter) bool {
 			return false
-		}
+		})
 	})
 }
 

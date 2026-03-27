@@ -108,7 +108,7 @@ func Test_Cov23_SimpleSlice_IsContainsFunc(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("abc", "def")
 		if !ss.IsContainsFunc("abc", func(a, b string) bool { return a == b }) {
 			t.Fatal("expected true")
-		}
+		})
 	})
 }
 
@@ -202,7 +202,7 @@ func Test_Cov23_SimpleSlice_Transpile(t *testing.T) {
 		result := ss.Transpile(func(s string) string { return s + "!" })
 		if !result.IsContains("a!") {
 			t.Fatal("expected transpiled")
-		}
+		})
 	})
 }
 
@@ -212,7 +212,7 @@ func Test_Cov23_SimpleSlice_TranspileJoin(t *testing.T) {
 		s := ss.TranspileJoin(func(s string) string { return s + "!" }, ",")
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
+		})
 	})
 }
 
@@ -317,7 +317,7 @@ func Test_Cov23_SimpleSlice_CountFunc(t *testing.T) {
 		cnt := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
 		if cnt != 2 {
 			t.Fatal("expected 2")
-		}
+		})
 	})
 }
 

@@ -533,7 +533,7 @@ func Test_C29_54_SimpleSlice_CountFunc_Empty(t *testing.T) {
 		count := s.CountFunc(func(i int, item string) bool { return true })
 		if count != 0 {
 			t.Error("expected 0")
-		}
+		})
 	})
 }
 
@@ -593,7 +593,7 @@ func Test_C29_60_SimpleSlice_IsContainsFunc_Empty(t *testing.T) {
 		s := corestr.New.SimpleSlice.Empty()
 		if s.IsContainsFunc("a", func(item, searching string) bool { return true }) {
 			t.Error("expected false")
-		}
+		})
 	})
 }
 
@@ -747,7 +747,7 @@ func Test_C29_75_SimpleSlice_Transpile(t *testing.T) {
 		result := s.Transpile(func(s string) string { return s + "!" })
 		if result.First() != "a!" {
 			t.Error("expected a!")
-		}
+		})
 	})
 }
 
@@ -757,7 +757,7 @@ func Test_C29_76_SimpleSlice_Transpile_Empty(t *testing.T) {
 		result := s.Transpile(func(s string) string { return s })
 		if result.Length() != 0 {
 			t.Error("expected 0")
-		}
+		})
 	})
 }
 
@@ -767,7 +767,7 @@ func Test_C29_77_SimpleSlice_TranspileJoin(t *testing.T) {
 		result := s.TranspileJoin(func(s string) string { return s + "!" }, ",")
 		if result != "a!,b!" {
 			t.Error("expected a!,b!")
-		}
+		})
 	})
 }
 
@@ -1595,7 +1595,7 @@ func Test_C29_164_SimpleSlice_IsEqualByFunc(t *testing.T) {
 		result := s.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "b")
 		if !result {
 			t.Error("expected true")
-		}
+		})
 	})
 }
 
@@ -1605,7 +1605,7 @@ func Test_C29_165_SimpleSlice_IsEqualByFunc_DiffLength(t *testing.T) {
 		result := s.IsEqualByFunc(func(i int, l, r string) bool { return true }, "a", "b")
 		if result {
 			t.Error("expected false")
-		}
+		})
 	})
 }
 
@@ -1615,7 +1615,7 @@ func Test_C29_166_SimpleSlice_IsEqualByFunc_Empty(t *testing.T) {
 		result := s.IsEqualByFunc(func(i int, l, r string) bool { return true })
 		if !result {
 			t.Error("expected true")
-		}
+		})
 	})
 }
 
@@ -1625,7 +1625,7 @@ func Test_C29_167_SimpleSlice_IsEqualByFunc_Mismatch(t *testing.T) {
 		result := s.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "x")
 		if result {
 			t.Error("expected false")
-		}
+		})
 	})
 }
 

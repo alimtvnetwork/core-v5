@@ -658,7 +658,7 @@ func Test_S08_42_Collection_AddFunc(t *testing.T) {
 		// Assert
 		if col.Length() != 1 || col.First() != "generated" {
 			t.Fatal("expected 'generated'")
-		}
+		})
 	})
 }
 
@@ -931,7 +931,7 @@ func Test_S08_58_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Key + "=" + pair.Value, true, false
-		}
+		})
 
 		// Act
 		col.AddHashmapsKeysValuesUsingFilter(filter, hm)
@@ -969,7 +969,7 @@ func Test_S08_60_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T)
 
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Key, true, true // break immediately after first
-		}
+		})
 
 		// Act
 		col.AddHashmapsKeysValuesUsingFilter(filter, hm)
@@ -990,7 +990,7 @@ func Test_S08_61_Collection_AddHashmapsKeysValuesUsingFilter_Skip(t *testing.T) 
 
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return "", false, false // skip all
-		}
+		})
 
 		// Act
 		col.AddHashmapsKeysValuesUsingFilter(filter, hm)

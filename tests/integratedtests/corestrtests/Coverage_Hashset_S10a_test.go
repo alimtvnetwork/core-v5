@@ -453,7 +453,7 @@ func Test_S10_28_Hashset_AddFunc(t *testing.T) {
 		// Assert
 		if !hs.Has("func-val") {
 			t.Fatal("expected has func-val")
-		}
+		})
 	})
 }
 
@@ -837,7 +837,7 @@ func Test_S10_52_Hashset_AddsAnyUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilter(filter, "a", "b")
@@ -870,7 +870,7 @@ func Test_S10_54_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilter(filter, "a", "b")
@@ -888,7 +888,7 @@ func Test_S10_55_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilter(filter, nil, "b")
@@ -906,7 +906,7 @@ func Test_S10_56_Hashset_AddsAnyUsingFilter_Skip(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, false, false
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilter(filter, "a")
@@ -924,7 +924,7 @@ func Test_S10_57_Hashset_AddsAnyUsingFilterLock(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilterLock(filter, "a")
@@ -962,7 +962,7 @@ func Test_S10_59_Hashset_AddsAnyUsingFilterLock_BreakAndSkip(t *testing.T) {
 				return "", false, false // skip
 			}
 			return str, true, true // keep + break
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilterLock(filter, "a", "b", "c")
@@ -980,7 +980,7 @@ func Test_S10_60_Hashset_AddsAnyUsingFilterLock_NilItem(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		hs.AddsAnyUsingFilterLock(filter, nil, "b")
@@ -998,7 +998,7 @@ func Test_S10_61_Hashset_AddsUsingFilter(t *testing.T) {
 		hs := corestr.New.Hashset.Cap(5)
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		hs.AddsUsingFilter(filter, "a", "b")
@@ -1036,7 +1036,7 @@ func Test_S10_63_Hashset_AddsUsingFilter_BreakAndSkip(t *testing.T) {
 				return "", false, false
 			}
 			return str, true, true
-		}
+		})
 
 		// Act
 		hs.AddsUsingFilter(filter, "a", "b", "c")

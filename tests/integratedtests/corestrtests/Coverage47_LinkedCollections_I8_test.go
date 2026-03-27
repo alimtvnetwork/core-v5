@@ -667,7 +667,7 @@ func Test_C47_LinkedCollections_Loop_Empty(t *testing.T) {
 		lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 			t.Fatal("should not call")
 			return false
-		}
+		})
 	})
 }
 
@@ -695,7 +695,7 @@ func Test_C47_LinkedCollections_FilterAsCollection(t *testing.T) {
 		}, 0)
 		if col.Length() != 3 {
 			t.Fatalf("expected 3, got %d", col.Length())
-		}
+		})
 	})
 }
 

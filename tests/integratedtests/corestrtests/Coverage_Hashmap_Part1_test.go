@@ -276,7 +276,7 @@ func Test_CovHM1_21_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		hm := corestr.Empty.Hashmap()
 		filter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return p.ValueString(), true, false
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "a", Value: 1})
 		if !hm.Has("a") {
 			t.Fatal("expected a")
@@ -286,7 +286,7 @@ func Test_CovHM1_21_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		// break
 		breakFilter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", true, true
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilter(breakFilter, corestr.KeyAnyValuePair{Key: "b", Value: 2})
 	})
 }
@@ -296,7 +296,7 @@ func Test_CovHM1_22_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		hm := corestr.Empty.Hashmap()
 		filter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return p.ValueString(), true, false
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter, corestr.KeyAnyValuePair{Key: "a", Value: 1})
 		if !hm.Has("a") {
 			t.Fatal("expected a")
@@ -305,7 +305,7 @@ func Test_CovHM1_22_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		// break
 		breakFilter := func(p corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", true, true
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilterLock(breakFilter, corestr.KeyAnyValuePair{Key: "x", Value: 1})
 	})
 }
@@ -315,7 +315,7 @@ func Test_CovHM1_23_AddsOrUpdatesUsingFilter(t *testing.T) {
 		hm := corestr.Empty.Hashmap()
 		filter := func(p corestr.KeyValuePair) (string, bool, bool) {
 			return p.Value, true, false
-		}
+		})
 		hm.AddsOrUpdatesUsingFilter(filter, corestr.KeyValuePair{Key: "a", Value: "1"})
 		if !hm.Has("a") {
 			t.Fatal("expected a")
@@ -324,7 +324,7 @@ func Test_CovHM1_23_AddsOrUpdatesUsingFilter(t *testing.T) {
 		// break
 		breakFilter := func(p corestr.KeyValuePair) (string, bool, bool) {
 			return "", true, true
-		}
+		})
 		hm.AddsOrUpdatesUsingFilter(breakFilter, corestr.KeyValuePair{Key: "x", Value: "1"})
 	})
 }

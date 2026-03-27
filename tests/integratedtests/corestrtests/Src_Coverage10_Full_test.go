@@ -330,7 +330,7 @@ func Test_SrcC10_Collection_AddFunc_Verification(t *testing.T) {
 		actual := args.Map{
 			"funcLen":   c1.Length(),
 			"filterLen": c2.Length(),
-		}
+		})
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -796,7 +796,7 @@ func Test_SrcC10_Hashmap_FilterFunc_Verification(t *testing.T) {
 		actual := args.Map{
 			"filterLen": filterLen,
 			"noPanic":   noPanic,
-		}
+		})
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
