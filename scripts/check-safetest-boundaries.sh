@@ -46,7 +46,7 @@ for i, line in enumerate(lines):
             if l == '\t\t})': depth += 1
             elif re.search(r'^\t\t\S.*func\(.*\{$', l) or re.search(r'^\t\t\S.*\(func\(', l):
                 if depth > 0: depth -= 1
-                else: print(f'  $f:{i+1}: closure } missing )'); sys.exit(1)
+                else: print(f'  $f:{i+1}: closure }} missing )'); sys.exit(1)
             elif l.startswith('func Test_') or l.startswith('\tsafeTest('): break
             elif l == '\t\t}': break
 " 2>/dev/null && true
