@@ -25,7 +25,6 @@ func Test_S08_01_Collection_JsonString(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Fatal("expected non-empty JSON string")
-		}
 	})
 }
 
@@ -40,7 +39,6 @@ func Test_S08_02_Collection_JsonStringMust(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Fatal("expected non-empty JSON string")
-		}
 	})
 }
 
@@ -58,7 +56,6 @@ func Test_S08_03_Collection_HasAnyItem(t *testing.T) {
 		}
 		if empty.HasAnyItem() {
 			t.Fatal("expected HasAnyItem false for empty")
-		}
 	})
 }
 
@@ -73,7 +70,6 @@ func Test_S08_04_Collection_LastIndex(t *testing.T) {
 		// Assert
 		if li != 2 {
 			t.Fatalf("expected 2, got %d", li)
-		}
 	})
 }
 
@@ -94,7 +90,6 @@ func Test_S08_05_Collection_HasIndex(t *testing.T) {
 		}
 		if col.HasIndex(-1) {
 			t.Fatal("expected HasIndex(-1) false")
-		}
 	})
 }
 
@@ -111,7 +106,6 @@ func Test_S08_06_Collection_ListStringsPtr(t *testing.T) {
 		// Assert
 		if len(items) != 2 {
 			t.Fatalf("expected 2 items, got %d", len(items))
-		}
 	})
 }
 
@@ -126,7 +120,6 @@ func Test_S08_07_Collection_ListStrings(t *testing.T) {
 		// Assert
 		if len(items) != 1 {
 			t.Fatal("expected 1 item")
-		}
 	})
 }
 
@@ -141,7 +134,6 @@ func Test_S08_08_Collection_StringJSON(t *testing.T) {
 		// Assert
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -161,7 +153,6 @@ func Test_S08_09_Collection_RemoveAt_Valid(t *testing.T) {
 		}
 		if col.Length() != 2 {
 			t.Fatalf("expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -176,7 +167,6 @@ func Test_S08_10_Collection_RemoveAt_Invalid(t *testing.T) {
 		}
 		if col.RemoveAt(5) {
 			t.Fatal("expected false for out of range")
-		}
 	})
 }
 
@@ -190,7 +180,6 @@ func Test_S08_11_Collection_Count(t *testing.T) {
 		// Act & Assert
 		if col.Count() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -216,7 +205,6 @@ func Test_S08_13_Collection_Length_Nil(t *testing.T) {
 		// Act & Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0 for nil")
-		}
 	})
 }
 
@@ -231,7 +219,6 @@ func Test_S08_14_Collection_LengthLock(t *testing.T) {
 		// Assert
 		if l != 3 {
 			t.Fatalf("expected 3, got %d", l)
-		}
 	})
 }
 
@@ -246,7 +233,6 @@ func Test_S08_15_Collection_IsEquals_SameContent(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(b) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -259,7 +245,6 @@ func Test_S08_16_Collection_IsEquals_DiffContent(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal")
-		}
 	})
 }
 
@@ -272,7 +257,6 @@ func Test_S08_17_Collection_IsEquals_DiffLength(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal on diff length")
-		}
 	})
 }
 
@@ -285,7 +269,6 @@ func Test_S08_18_Collection_IsEquals_BothEmpty(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(b) {
 			t.Fatal("expected equal for both empty")
-		}
 	})
 }
 
@@ -298,7 +281,6 @@ func Test_S08_19_Collection_IsEquals_OneEmpty(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal when one empty")
-		}
 	})
 }
 
@@ -311,7 +293,6 @@ func Test_S08_20_Collection_IsEquals_BothNil(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(b) {
 			t.Fatal("expected equal for both nil")
-		}
 	})
 }
 
@@ -324,7 +305,6 @@ func Test_S08_21_Collection_IsEquals_OneNil(t *testing.T) {
 		// Act & Assert
 		if a.IsEquals(b) {
 			t.Fatal("expected not equal when one nil")
-		}
 	})
 }
 
@@ -336,7 +316,6 @@ func Test_S08_22_Collection_IsEquals_SamePtr(t *testing.T) {
 		// Act & Assert
 		if !a.IsEquals(a) {
 			t.Fatal("expected equal for same pointer")
-		}
 	})
 }
 
@@ -352,7 +331,6 @@ func Test_S08_23_Collection_IsEqualsWithSensitive_CaseInsensitive(t *testing.T) 
 		}
 		if a.IsEqualsWithSensitive(true, b) {
 			t.Fatal("expected case-sensitive not equal")
-		}
 	})
 }
 
@@ -365,7 +343,6 @@ func Test_S08_24_Collection_IsEqualsWithSensitive_CaseInsensitiveNotEqual(t *tes
 		// Act & Assert
 		if a.IsEqualsWithSensitive(false, b) {
 			t.Fatal("expected not equal even case-insensitive")
-		}
 	})
 }
 
@@ -383,7 +360,6 @@ func Test_S08_25_Collection_IsEmpty(t *testing.T) {
 		}
 		if nonEmpty.IsEmpty() {
 			t.Fatal("expected not empty")
-		}
 	})
 }
 
@@ -395,7 +371,6 @@ func Test_S08_26_Collection_HasItems(t *testing.T) {
 		// Act & Assert
 		if !col.HasItems() {
 			t.Fatal("expected has items")
-		}
 	})
 }
 
@@ -407,7 +382,6 @@ func Test_S08_27_Collection_IsEmptyLock(t *testing.T) {
 		// Act & Assert
 		if !empty.IsEmptyLock() {
 			t.Fatal("expected empty lock")
-		}
 	})
 }
 
@@ -424,7 +398,6 @@ func Test_S08_28_Collection_Add(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -440,7 +413,6 @@ func Test_S08_29_Collection_AddLock(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -456,7 +428,6 @@ func Test_S08_30_Collection_AddNonEmpty(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1, empty should be skipped")
-		}
 	})
 }
 
@@ -473,7 +444,6 @@ func Test_S08_31_Collection_AddNonEmptyWhitespace(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -494,7 +464,6 @@ func Test_S08_32_Collection_AddError(t *testing.T) {
 		}
 		if col.First() != "test err" {
 			t.Fatalf("expected 'test err', got '%s'", col.First())
-		}
 	})
 }
 
@@ -511,7 +480,6 @@ func Test_S08_33_Collection_AsDefaultError(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -526,7 +494,6 @@ func Test_S08_34_Collection_AsError_Empty(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Fatal("expected nil error for empty collection")
-		}
 	})
 }
 
@@ -544,7 +511,6 @@ func Test_S08_35_Collection_AddIf_True(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -560,7 +526,6 @@ func Test_S08_36_Collection_AddIfMany(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -577,7 +542,6 @@ func Test_S08_37_Collection_EachItemSplitBy(t *testing.T) {
 		// Assert
 		if len(result) != 4 {
 			t.Fatalf("expected 4, got %d", len(result))
-		}
 	})
 }
 
@@ -594,7 +558,6 @@ func Test_S08_38_Collection_ConcatNew_WithItems(t *testing.T) {
 		// Assert
 		if newCol.Length() != 3 {
 			t.Fatalf("expected 3, got %d", newCol.Length())
-		}
 	})
 }
 
@@ -609,7 +572,6 @@ func Test_S08_39_Collection_ConcatNew_Empty(t *testing.T) {
 		// Assert
 		if newCol.Length() != 1 {
 			t.Fatalf("expected 1, got %d", newCol.Length())
-		}
 	})
 }
 
@@ -626,7 +588,6 @@ func Test_S08_40_Collection_ToError(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -641,7 +602,6 @@ func Test_S08_41_Collection_ToDefaultError(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -658,7 +618,6 @@ func Test_S08_42_Collection_AddFunc(t *testing.T) {
 		// Assert
 		if col.Length() != 1 || col.First() != "generated" {
 			t.Fatal("expected 'generated'")
-		}
 	})
 }
 
@@ -676,7 +635,6 @@ func Test_S08_43_Collection_AddFuncErr_Success(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -698,7 +656,6 @@ func Test_S08_44_Collection_AddFuncErr_Error(t *testing.T) {
 		}
 		if !called {
 			t.Fatal("expected error handler called")
-		}
 	})
 }
 
@@ -715,7 +672,6 @@ func Test_S08_45_Collection_AddsLock(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -730,7 +686,6 @@ func Test_S08_46_Collection_Adds(t *testing.T) {
 		// Assert
 		if col.Length() != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -745,7 +700,6 @@ func Test_S08_47_Collection_AddStrings(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -763,7 +717,6 @@ func Test_S08_48_Collection_AddCollection(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -779,7 +732,6 @@ func Test_S08_49_Collection_AddCollection_Empty(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -797,7 +749,6 @@ func Test_S08_50_Collection_AddCollections(t *testing.T) {
 		// Assert
 		if col.Length() != 3 {
 			t.Fatalf("expected 3, got %d", col.Length())
-		}
 	})
 }
 
@@ -815,7 +766,6 @@ func Test_S08_51_Collection_AddPointerCollectionsLock(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -835,7 +785,6 @@ func Test_S08_52_Collection_AddHashmapsValues(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatalf("expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -851,7 +800,6 @@ func Test_S08_53_Collection_AddHashmapsValues_NilAndEmpty(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -868,7 +816,6 @@ func Test_S08_54_Collection_AddHashmapsKeys(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -883,7 +830,6 @@ func Test_S08_55_Collection_AddHashmapsKeys_Nil(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -900,7 +846,6 @@ func Test_S08_56_Collection_AddHashmapsKeysValues(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatalf("expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -915,7 +860,6 @@ func Test_S08_57_Collection_AddHashmapsKeysValues_Nil(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -939,7 +883,6 @@ func Test_S08_58_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatalf("expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -954,7 +897,6 @@ func Test_S08_59_Collection_AddHashmapsKeysValuesUsingFilter_Nil(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -977,7 +919,6 @@ func Test_S08_60_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T)
 		// Assert
 		if col.Length() != 1 {
 			t.Fatalf("expected 1 (break after first), got %d", col.Length())
-		}
 	})
 }
 
@@ -998,7 +939,6 @@ func Test_S08_61_Collection_AddHashmapsKeysValuesUsingFilter_Skip(t *testing.T) 
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -1018,7 +958,6 @@ func Test_S08_62_Collection_AddWithWgLock(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1035,7 +974,6 @@ func Test_S08_63_Collection_IndexAt(t *testing.T) {
 		}
 		if col.IndexAt(2) != "c" {
 			t.Fatal("expected 'c'")
-		}
 	})
 }
 
@@ -1054,7 +992,6 @@ func Test_S08_64_Collection_SafeIndexAtUsingLength(t *testing.T) {
 		}
 		if v2 != "default" {
 			t.Fatalf("expected 'default', got '%s'", v2)
-		}
 	})
 }
 
@@ -1068,7 +1005,6 @@ func Test_S08_65_Collection_First(t *testing.T) {
 		// Act & Assert
 		if col.First() != "x" {
 			t.Fatal("expected 'x'")
-		}
 	})
 }
 
@@ -1080,7 +1016,6 @@ func Test_S08_66_Collection_Last(t *testing.T) {
 		// Act & Assert
 		if col.Last() != "y" {
 			t.Fatal("expected 'y'")
-		}
 	})
 }
 
@@ -1092,7 +1027,6 @@ func Test_S08_67_Collection_FirstOrDefault_NonEmpty(t *testing.T) {
 		// Act & Assert
 		if col.FirstOrDefault() != "a" {
 			t.Fatal("expected 'a'")
-		}
 	})
 }
 
@@ -1104,7 +1038,6 @@ func Test_S08_68_Collection_FirstOrDefault_Empty(t *testing.T) {
 		// Act & Assert
 		if col.FirstOrDefault() != "" {
 			t.Fatal("expected empty string")
-		}
 	})
 }
 
@@ -1116,7 +1049,6 @@ func Test_S08_69_Collection_LastOrDefault_NonEmpty(t *testing.T) {
 		// Act & Assert
 		if col.LastOrDefault() != "b" {
 			t.Fatal("expected 'b'")
-		}
 	})
 }
 
@@ -1128,7 +1060,6 @@ func Test_S08_70_Collection_LastOrDefault_Empty(t *testing.T) {
 		// Act & Assert
 		if col.LastOrDefault() != "" {
 			t.Fatal("expected empty string")
-		}
 	})
 }
 
@@ -1143,7 +1074,6 @@ func Test_S08_71_Collection_Single(t *testing.T) {
 		// Assert
 		if s != "only" {
 			t.Fatal("expected 'only'")
-		}
 	})
 }
 
@@ -1175,7 +1105,6 @@ func Test_S08_73_Collection_Take(t *testing.T) {
 		// Assert
 		if taken.Length() != 2 {
 			t.Fatalf("expected 2, got %d", taken.Length())
-		}
 	})
 }
 
@@ -1190,7 +1119,6 @@ func Test_S08_74_Collection_Take_MoreThanLength(t *testing.T) {
 		// Assert
 		if taken.Length() != 1 {
 			t.Fatal("expected original collection")
-		}
 	})
 }
 
@@ -1205,7 +1133,6 @@ func Test_S08_75_Collection_Take_Zero(t *testing.T) {
 		// Assert
 		if taken.Length() != 0 {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -1220,7 +1147,6 @@ func Test_S08_76_Collection_Skip(t *testing.T) {
 		// Assert
 		if skipped.Length() != 2 {
 			t.Fatalf("expected 2, got %d", skipped.Length())
-		}
 	})
 }
 
@@ -1235,7 +1161,6 @@ func Test_S08_77_Collection_Skip_Zero(t *testing.T) {
 		// Assert
 		if skipped.Length() != 2 {
 			t.Fatal("expected same collection")
-		}
 	})
 }
 
@@ -1252,7 +1177,6 @@ func Test_S08_78_Collection_Reverse(t *testing.T) {
 		// Assert
 		if col.First() != "c" || col.Last() != "a" {
 			t.Fatal("expected reversed")
-		}
 	})
 }
 
@@ -1267,7 +1191,6 @@ func Test_S08_79_Collection_Reverse_Two(t *testing.T) {
 		// Assert
 		if col.First() != "b" {
 			t.Fatal("expected 'b' first")
-		}
 	})
 }
 
@@ -1282,7 +1205,6 @@ func Test_S08_80_Collection_Reverse_Single(t *testing.T) {
 		// Assert
 		if col.First() != "a" {
 			t.Fatal("expected 'a' unchanged")
-		}
 	})
 }
 
@@ -1302,7 +1224,6 @@ func Test_S08_81_Collection_GetPagesSize(t *testing.T) {
 		}
 		if col.GetPagesSize(-1) != 0 {
 			t.Fatal("expected 0 for negative")
-		}
 	})
 }
 
@@ -1317,7 +1238,6 @@ func Test_S08_82_Collection_GetSinglePageCollection(t *testing.T) {
 		// Assert
 		if page.Length() != 2 {
 			t.Fatalf("expected 2, got %d", page.Length())
-		}
 	})
 }
 
@@ -1332,7 +1252,6 @@ func Test_S08_83_Collection_GetSinglePageCollection_LastPage(t *testing.T) {
 		// Assert
 		if page.Length() != 1 {
 			t.Fatalf("expected 1, got %d", page.Length())
-		}
 	})
 }
 
@@ -1347,7 +1266,6 @@ func Test_S08_84_Collection_GetSinglePageCollection_SmallerThanPageSize(t *testi
 		// Assert
 		if page.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1362,7 +1280,6 @@ func Test_S08_85_Collection_GetPagedCollection(t *testing.T) {
 		// Assert
 		if paged.Length() != 3 {
 			t.Fatalf("expected 3 pages, got %d", paged.Length())
-		}
 	})
 }
 
@@ -1377,7 +1294,6 @@ func Test_S08_86_Collection_GetPagedCollection_SmallerThanPageSize(t *testing.T)
 		// Assert
 		if paged.Length() != 1 {
 			t.Fatalf("expected 1, got %d", paged.Length())
-		}
 	})
 }
 
@@ -1401,7 +1317,6 @@ func Test_S08_87_Collection_ResizeForItems_IndirectViaAppendAnys(t *testing.T) {
 		// Assert
 		if col.Length() != 250 {
 			t.Fatalf("expected 250, got %d", col.Length())
-		}
 	})
 }
 
@@ -1419,7 +1334,6 @@ func Test_S08_88_Collection_AddStringsAsync_Empty(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -1436,7 +1350,6 @@ func Test_S08_89_Collection_InsertAt_AtEnd(t *testing.T) {
 		// Assert
 		if col.Length() != 3 {
 			t.Fatalf("expected 3, got %d", col.Length())
-		}
 	})
 }
 
@@ -1451,7 +1364,6 @@ func Test_S08_90_Collection_InsertAt_Empty(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1468,7 +1380,6 @@ func Test_S08_91_Collection_ChainRemoveAt(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -1485,7 +1396,6 @@ func Test_S08_92_Collection_RemoveItemsIndexes(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatalf("expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -1500,7 +1410,6 @@ func Test_S08_93_Collection_RemoveItemsIndexes_NilIndexes(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1515,7 +1424,6 @@ func Test_S08_94_Collection_RemoveItemsIndexesPtr_NilIndexes(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1545,7 +1453,6 @@ func Test_S08_96_Collection_RemoveItemsIndexesPtr_EmptyCollIgnore(t *testing.T) 
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -1563,7 +1470,6 @@ func Test_S08_97_Collection_AppendCollectionPtr(t *testing.T) {
 		// Assert
 		if col.Length() != 3 {
 			t.Fatalf("expected 3, got %d", col.Length())
-		}
 	})
 }
 
@@ -1580,7 +1486,6 @@ func Test_S08_98_Collection_AppendCollections(t *testing.T) {
 		// Assert
 		if col.Length() != 2 {
 			t.Fatalf("expected 2, got %d", col.Length())
-		}
 	})
 }
 
@@ -1595,6 +1500,5 @@ func Test_S08_99_Collection_AppendCollections_Empty(t *testing.T) {
 		// Assert
 		if col.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }

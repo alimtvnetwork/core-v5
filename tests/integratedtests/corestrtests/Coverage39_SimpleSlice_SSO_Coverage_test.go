@@ -529,8 +529,8 @@ func Test_C39_SimpleSlice_JSON(t *testing.T) {
 		err3 := ss2.UnmarshalJSON([]byte(`{bad`))
 		if err3 == nil { t.Fatal() }
 	})
-
 }
+
 func Test_C39_SimpleSlice_ParseInjectUsingJson(t *testing.T) {
 	safeTest(t, "Test_C39_SimpleSlice_ParseInjectUsingJson", func() {
 		ss := corestr.New.SimpleSlice.Lines("a")
@@ -970,7 +970,5 @@ func Test_C39_NewSSOCreator(t *testing.T) {
 		if s6.IsInitialized() { t.Fatal() }
 		s7 := corestr.New.SimpleStringOnce.Any(false, 42, true)
 		if s7.Value() == "" { t.Fatal() }
-	})
-}
 	})
 }

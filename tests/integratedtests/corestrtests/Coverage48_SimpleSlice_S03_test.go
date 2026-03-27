@@ -118,7 +118,6 @@ func Test_Cov48_SS_JoinLine(t *testing.T) {
 		result := ss.JoinLine()
 		if result == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -136,7 +135,6 @@ func Test_Cov48_SS_JoinLineEofLine(t *testing.T) {
 		result := ss.JoinLineEofLine()
 		if result == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -170,7 +168,6 @@ func Test_Cov48_SS_JoinCsv(t *testing.T) {
 		result := ss.JoinCsv()
 		if result == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -180,7 +177,6 @@ func Test_Cov48_SS_JoinCsvLine(t *testing.T) {
 		result := ss.JoinCsvLine()
 		if result == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -207,7 +203,6 @@ func Test_Cov48_SS_JoinCsvString(t *testing.T) {
 		result := ss.JoinCsvString(",")
 		if result == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -493,7 +488,6 @@ func Test_Cov48_SS_Ptr(t *testing.T) {
 		p := ss.Ptr()
 		if p == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -503,7 +497,6 @@ func Test_Cov48_SS_ToPtr(t *testing.T) {
 		p := ss.ToPtr()
 		if p == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -651,7 +644,6 @@ func Test_Cov48_SS_JsonModelAny(t *testing.T) {
 		a := ss.JsonModelAny()
 		if a == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -661,7 +653,6 @@ func Test_Cov48_SS_AsJsonContractsBinder(t *testing.T) {
 		b := ss.AsJsonContractsBinder()
 		if b == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -671,7 +662,6 @@ func Test_Cov48_SS_AsJsoner(t *testing.T) {
 		j := ss.AsJsoner()
 		if j == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -681,7 +671,6 @@ func Test_Cov48_SS_AsJsonParseSelfInjector(t *testing.T) {
 		inj := ss.AsJsonParseSelfInjector()
 		if inj == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -691,7 +680,6 @@ func Test_Cov48_SS_AsJsonMarshaller(t *testing.T) {
 		m := ss.AsJsonMarshaller()
 		if m == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -703,7 +691,6 @@ func Test_Cov48_SS_JsonParseSelfInject(t *testing.T) {
 		err := ss2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -726,7 +713,6 @@ func Test_Cov48_SS_UnmarshalJSON_Invalid(t *testing.T) {
 		err := json.Unmarshal([]byte("invalid"), ss)
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -747,7 +733,6 @@ func Test_Cov48_SS_Clear_Nil(t *testing.T) {
 		result := ss.Clear()
 		if result != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -796,7 +781,6 @@ func Test_Cov48_SS_ClonePtr_Nil(t *testing.T) {
 		cloned := ss.ClonePtr(true)
 		if cloned != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -981,7 +965,6 @@ func Test_Cov48_SS_DistinctDiffRaw(t *testing.T) {
 		result := ss.DistinctDiffRaw("b", "c")
 		if len(result) == 0 {
 			t.Fatal("expected diff items")
-		}
 	})
 }
 
@@ -1019,7 +1002,6 @@ func Test_Cov48_SS_DistinctDiff(t *testing.T) {
 		result := a.DistinctDiff(b)
 		if len(result) == 0 {
 			t.Fatal("expected diff items")
-		}
 	})
 }
 
@@ -1063,7 +1045,6 @@ func Test_Cov48_SS_AddedRemovedLinesDiff(t *testing.T) {
 		}
 		if len(removed) == 0 {
 			t.Fatal("expected removed items")
-		}
 	})
 }
 
@@ -1073,7 +1054,6 @@ func Test_Cov48_SS_AddedRemovedLinesDiff_BothNil(t *testing.T) {
 		added, removed := ss.AddedRemovedLinesDiff()
 		if added != nil || removed != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -1085,7 +1065,6 @@ func Test_Cov48_SS_RemoveIndexes_Empty(t *testing.T) {
 		_, err := ss.RemoveIndexes(0)
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -1098,7 +1077,6 @@ func Test_Cov48_SS_RemoveIndexes_InvalidIndex(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Fatal("expected 2 items still")
-		}
 	})
 }
 
@@ -1302,7 +1280,6 @@ func Test_Cov48_SS_Creator_UsingLine(t *testing.T) {
 		ss := corestr.New.SimpleSlice.UsingLine("a\nb")
 		if ss.Length() < 1 {
 			t.Fatal("expected at least 1")
-		}
 	})
 }
 
@@ -1367,6 +1344,5 @@ func Test_Cov48_SS_Creator_Deserialize_Invalid(t *testing.T) {
 		_, err := corestr.New.SimpleSlice.Deserialize([]byte("invalid"))
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }

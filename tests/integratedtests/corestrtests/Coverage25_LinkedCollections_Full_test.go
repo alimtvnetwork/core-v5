@@ -18,7 +18,6 @@ func Test_C25_LinkedCollectionNode_IsEmpty(t *testing.T) {
 		node := &corestr.LinkedCollectionNode{}
 		if !node.IsEmpty() {
 			t.Error("should be empty with nil element")
-		}
 	})
 }
 
@@ -28,7 +27,6 @@ func Test_C25_LinkedCollectionNode_HasElement(t *testing.T) {
 		node := &corestr.LinkedCollectionNode{Element: col}
 		if !node.HasElement() {
 			t.Error("should have element")
-		}
 	})
 }
 
@@ -42,7 +40,6 @@ func Test_C25_LinkedCollectionNode_EndOfChain(t *testing.T) {
 		}
 		if end == nil {
 			t.Error("end should not be nil")
-		}
 	})
 }
 
@@ -56,7 +53,6 @@ func Test_C25_LinkedCollectionNode_Clone(t *testing.T) {
 		}
 		if cloned.Element.Length() != 1 {
 			t.Error("cloned element should have 1 item")
-		}
 	})
 }
 
@@ -85,7 +81,6 @@ func Test_C25_LinkedCollectionNode_LoopEndOfChain_Break(t *testing.T) {
 		})
 		if length != 1 {
 			t.Errorf("expected 1 got %d", length)
-		}
 	})
 }
 
@@ -95,7 +90,6 @@ func Test_C25_LinkedCollectionNode_IsChainEqual(t *testing.T) {
 		lc2 := corestr.New.LinkedCollection.Strings("a", "b")
 		if !lc1.Head().IsChainEqual(lc2.Head()) {
 			t.Error("chains should be equal")
-		}
 	})
 }
 
@@ -107,7 +101,6 @@ func Test_C25_LinkedCollectionNode_IsEqual(t *testing.T) {
 		n2 := &corestr.LinkedCollectionNode{Element: col2}
 		if !n1.IsEqual(n2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -117,7 +110,6 @@ func Test_C25_LinkedCollectionNode_IsEqualValue(t *testing.T) {
 		node := &corestr.LinkedCollectionNode{Element: col}
 		if !node.IsEqualValue(col) {
 			t.Error("should be equal value")
-		}
 	})
 }
 
@@ -128,7 +120,6 @@ func Test_C25_LinkedCollectionNode_CreateLinkedList(t *testing.T) {
 		lc := node.CreateLinkedList()
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -139,7 +130,6 @@ func Test_C25_LinkedCollectionNode_List(t *testing.T) {
 		list := lc.Head().List()
 		if len(list) < 2 {
 			t.Errorf("expected at least 2 got %d", len(list))
-		}
 	})
 }
 
@@ -150,7 +140,6 @@ func Test_C25_LinkedCollectionNode_ListPtr(t *testing.T) {
 		ptr := node.ListPtr()
 		if ptr == nil || len(*ptr) != 1 {
 			t.Error("expected 1 element")
-		}
 	})
 }
 
@@ -161,7 +150,6 @@ func Test_C25_LinkedCollectionNode_Join(t *testing.T) {
 		result := node.Join(",")
 		if result != "a,b" {
 			t.Errorf("expected a,b got %s", result)
-		}
 	})
 }
 
@@ -172,7 +160,6 @@ func Test_C25_LinkedCollectionNode_StringList(t *testing.T) {
 		s := node.StringList("H:")
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -191,7 +178,6 @@ func Test_C25_LinkedCollectionNode_String(t *testing.T) {
 		s := node.String()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -202,7 +188,6 @@ func Test_C25_LinkedCollectionNode_AddNext(t *testing.T) {
 		lc.Head().AddNext(lc, col)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -212,7 +197,6 @@ func Test_C25_LinkedCollectionNode_AddStringsToNode(t *testing.T) {
 		lc.Head().AddStringsToNode(lc, false, []string{"b", "c"}, false)
 		if lc.Length() < 2 {
 			t.Error("should have added")
-		}
 	})
 }
 
@@ -223,7 +207,6 @@ func Test_C25_LinkedCollectionNode_AddCollectionToNode(t *testing.T) {
 		lc.Head().AddCollectionToNode(lc, false, col)
 		if lc.Length() < 2 {
 			t.Error("should have added")
-		}
 	})
 }
 
@@ -235,7 +218,6 @@ func Test_C25_LinkedCollectionNode_AddNextNode(t *testing.T) {
 		lc.Head().AddNextNode(lc, nextNode)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -251,7 +233,6 @@ func Test_C25_LinkedCollections_Empty(t *testing.T) {
 		}
 		if lc.HasItems() {
 			t.Error("should not have items")
-		}
 	})
 }
 
@@ -262,7 +243,6 @@ func Test_C25_LinkedCollections_Add(t *testing.T) {
 		lc.Add(col)
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -274,7 +254,6 @@ func Test_C25_LinkedCollections_FirstLastSingle(t *testing.T) {
 		single := lc.Single()
 		if first.Length() == 0 || last.Length() == 0 || single.Length() == 0 {
 			t.Error("should have items")
-		}
 	})
 }
 
@@ -284,7 +263,6 @@ func Test_C25_LinkedCollections_FirstOrDefault_Empty(t *testing.T) {
 		result := lc.FirstOrDefault()
 		if result == nil {
 			t.Error("should return empty collection, not nil")
-		}
 	})
 }
 
@@ -294,7 +272,6 @@ func Test_C25_LinkedCollections_LastOrDefault_Empty(t *testing.T) {
 		result := lc.LastOrDefault()
 		if result == nil {
 			t.Error("should return empty collection, not nil")
-		}
 	})
 }
 
@@ -305,7 +282,6 @@ func Test_C25_LinkedCollections_AllIndividualItemsLength(t *testing.T) {
 		length := lc.AllIndividualItemsLength()
 		if length != 3 {
 			t.Errorf("expected 3 got %d", length)
-		}
 	})
 }
 
@@ -314,7 +290,6 @@ func Test_C25_LinkedCollections_LengthLock(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings("a")
 		if lc.LengthLock() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -323,7 +298,6 @@ func Test_C25_LinkedCollections_IsEmptyLock(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Empty()
 		if !lc.IsEmptyLock() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -333,7 +307,6 @@ func Test_C25_LinkedCollections_IsEqualsPtr(t *testing.T) {
 		lc2 := corestr.New.LinkedCollection.Strings("a", "b")
 		if !lc1.IsEqualsPtr(lc2) {
 			t.Error("should be equal")
-		}
 	})
 }
 
@@ -342,7 +315,6 @@ func Test_C25_LinkedCollections_IsEqualsPtr_Nil(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings("a")
 		if lc.IsEqualsPtr(nil) {
 			t.Error("should not be equal to nil")
-		}
 	})
 }
 
@@ -352,7 +324,6 @@ func Test_C25_LinkedCollections_IsEqualsPtr_BothEmpty(t *testing.T) {
 		lc2 := corestr.New.LinkedCollection.Empty()
 		if !lc1.IsEqualsPtr(lc2) {
 			t.Error("both empty should be equal")
-		}
 	})
 }
 
@@ -362,7 +333,6 @@ func Test_C25_LinkedCollections_AddStrings(t *testing.T) {
 		lc.AddStrings("a", "b")
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 collection got %d", lc.Length())
-		}
 	})
 }
 
@@ -372,7 +342,6 @@ func Test_C25_LinkedCollections_AddStringsLock(t *testing.T) {
 		lc.AddStringsLock("a", "b")
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -383,7 +352,6 @@ func Test_C25_LinkedCollections_AddLock(t *testing.T) {
 		lc.AddLock(col)
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -394,7 +362,6 @@ func Test_C25_LinkedCollections_AddFront(t *testing.T) {
 		lc.AddFront(col)
 		if lc.First().List()[0] != "a" {
 			t.Error("first should be a")
-		}
 	})
 }
 
@@ -405,7 +372,6 @@ func Test_C25_LinkedCollections_AddFrontLock(t *testing.T) {
 		lc.AddFrontLock(col)
 		if lc.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -419,7 +385,6 @@ func Test_C25_LinkedCollections_Push_PushFront_PushBack(t *testing.T) {
 		lc.PushBackLock(col)
 		if lc.Length() != 4 {
 			t.Errorf("expected 4 got %d", lc.Length())
-		}
 	})
 }
 
@@ -431,7 +396,6 @@ func Test_C25_LinkedCollections_AddBackNode(t *testing.T) {
 		lc.AddBackNode(node)
 		if lc.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -443,7 +407,6 @@ func Test_C25_LinkedCollections_AppendNode_Empty(t *testing.T) {
 		lc.AppendNode(node)
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -455,7 +418,6 @@ func Test_C25_LinkedCollections_AppendChainOfNodes(t *testing.T) {
 		lc.AppendChainOfNodes(lc2.Head())
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -469,7 +431,6 @@ func Test_C25_LinkedCollections_AppendChainOfNodesAsync(t *testing.T) {
 		wg.Wait()
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -481,7 +442,6 @@ func Test_C25_LinkedCollections_InsertAt(t *testing.T) {
 		lc.InsertAt(1, col)
 		if lc.Length() != 3 {
 			t.Errorf("expected 3 got %d", lc.Length())
-		}
 	})
 }
 
@@ -492,7 +452,6 @@ func Test_C25_LinkedCollections_InsertAt_Front(t *testing.T) {
 		lc.InsertAt(0, col)
 		if lc.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -505,7 +464,6 @@ func Test_C25_LinkedCollections_AttachWithNode(t *testing.T) {
 		err := lc.AttachWithNode(node, addNode)
 		if err != nil {
 			t.Errorf("unexpected error: %v", err)
-		}
 	})
 }
 
@@ -517,7 +475,6 @@ func Test_C25_LinkedCollections_AttachWithNode_NilCurrent(t *testing.T) {
 		err := lc.AttachWithNode(nil, addNode)
 		if err == nil {
 			t.Error("expected error for nil current")
-		}
 	})
 }
 
@@ -529,7 +486,6 @@ func Test_C25_LinkedCollections_AddAnother(t *testing.T) {
 		lc1.AddAnother(lc2)
 		if lc1.Length() != 3 {
 			t.Errorf("expected 3 got %d", lc1.Length())
-		}
 	})
 }
 
@@ -539,7 +495,6 @@ func Test_C25_LinkedCollections_AddAnother_Nil(t *testing.T) {
 		lc.AddAnother(nil)
 		if lc.Length() != 1 {
 			t.Error("should remain 1")
-		}
 	})
 }
 
@@ -554,7 +509,6 @@ func Test_C25_LinkedCollections_Loop(t *testing.T) {
 		})
 		if count != 2 {
 			t.Errorf("expected 2 got %d", count)
-		}
 	})
 }
 
@@ -564,7 +518,6 @@ func Test_C25_LinkedCollections_Loop_Empty(t *testing.T) {
 		lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 			t.Error("should not be called")
 			return false
-		})
 	})
 }
 
@@ -578,7 +531,6 @@ func Test_C25_LinkedCollections_Filter(t *testing.T) {
 		})
 		if len(results) != 3 {
 			t.Errorf("expected 3 got %d", len(results))
-		}
 	})
 }
 
@@ -591,7 +543,6 @@ func Test_C25_LinkedCollections_FilterAsCollection(t *testing.T) {
 		}, 0)
 		if col.Length() != 3 {
 			t.Errorf("expected 3 got %d", col.Length())
-		}
 	})
 }
 
@@ -604,7 +555,6 @@ func Test_C25_LinkedCollections_FilterAsCollections(t *testing.T) {
 		})
 		if len(collections) != 2 {
 			t.Errorf("expected 2 got %d", len(collections))
-		}
 	})
 }
 
@@ -616,7 +566,6 @@ func Test_C25_LinkedCollections_GetNextNodes(t *testing.T) {
 		nodes := lc.GetNextNodes(2)
 		if len(nodes) != 2 {
 			t.Errorf("expected 2 got %d", len(nodes))
-		}
 	})
 }
 
@@ -627,7 +576,6 @@ func Test_C25_LinkedCollections_GetAllLinkedNodes(t *testing.T) {
 		nodes := lc.GetAllLinkedNodes()
 		if len(nodes) != 2 {
 			t.Errorf("expected 2 got %d", len(nodes))
-		}
 	})
 }
 
@@ -639,7 +587,6 @@ func Test_C25_LinkedCollections_RemoveNodeByIndex(t *testing.T) {
 		lc.RemoveNodeByIndex(1)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -650,7 +597,6 @@ func Test_C25_LinkedCollections_RemoveNodeByIndex_First(t *testing.T) {
 		lc.RemoveNodeByIndex(0)
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -661,7 +607,6 @@ func Test_C25_LinkedCollections_RemoveNodeByIndex_Last(t *testing.T) {
 		lc.RemoveNodeByIndex(1)
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -674,7 +619,6 @@ func Test_C25_LinkedCollections_RemoveNodeByIndexes(t *testing.T) {
 		lc.RemoveNodeByIndexes(false, 1, 3)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -686,7 +630,6 @@ func Test_C25_LinkedCollections_RemoveNode(t *testing.T) {
 		lc.RemoveNode(node)
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -698,7 +641,6 @@ func Test_C25_LinkedCollections_AppendCollections(t *testing.T) {
 		lc.AppendCollections(true, col1, nil, col2)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -710,7 +652,6 @@ func Test_C25_LinkedCollections_AppendCollectionsPointers(t *testing.T) {
 		lc.AppendCollectionsPointers(true, &cols)
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -722,7 +663,6 @@ func Test_C25_LinkedCollections_AppendCollectionsPointersLock(t *testing.T) {
 		lc.AppendCollectionsPointersLock(true, &cols)
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -733,7 +673,6 @@ func Test_C25_LinkedCollections_AddCollectionsToNode(t *testing.T) {
 		lc.AddCollectionsToNode(false, lc.Head(), col)
 		if lc.Length() < 2 {
 			t.Error("should have added")
-		}
 	})
 }
 
@@ -744,7 +683,6 @@ func Test_C25_LinkedCollections_AddCollectionToNode(t *testing.T) {
 		lc.AddCollectionToNode(false, lc.Head(), col)
 		if lc.Length() < 2 {
 			t.Error("should have added")
-		}
 	})
 }
 
@@ -755,7 +693,6 @@ func Test_C25_LinkedCollections_AddAfterNode(t *testing.T) {
 		lc.AddAfterNode(lc.Head(), col)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -766,7 +703,6 @@ func Test_C25_LinkedCollections_ConcatNew(t *testing.T) {
 		result := lc1.ConcatNew(false, lc2)
 		if result.Length() != 2 {
 			t.Errorf("expected 2 got %d", result.Length())
-		}
 	})
 }
 
@@ -776,7 +712,6 @@ func Test_C25_LinkedCollections_ConcatNew_Empty(t *testing.T) {
 		result := lc.ConcatNew(true)
 		if result.Length() != 1 {
 			t.Errorf("expected 1 got %d", result.Length())
-		}
 	})
 }
 
@@ -786,7 +721,6 @@ func Test_C25_LinkedCollections_ConcatNew_EmptyNoClone(t *testing.T) {
 		result := lc.ConcatNew(false)
 		if result != lc {
 			t.Error("should return same pointer")
-		}
 	})
 }
 
@@ -801,7 +735,6 @@ func Test_C25_LinkedCollections_AddAsyncFuncItems(t *testing.T) {
 		)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -811,7 +744,6 @@ func Test_C25_LinkedCollections_AddStringsOfStrings(t *testing.T) {
 		lc.AddStringsOfStrings(false, []string{"a"}, []string{"b"})
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -822,7 +754,6 @@ func Test_C25_LinkedCollections_IndexAt(t *testing.T) {
 		node := lc.IndexAt(1)
 		if node == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -838,7 +769,6 @@ func Test_C25_LinkedCollections_SafeIndexAt(t *testing.T) {
 		node := lc.SafeIndexAt(0)
 		if node == nil {
 			t.Error("expected node")
-		}
 	})
 }
 
@@ -851,7 +781,6 @@ func Test_C25_LinkedCollections_SafePointerIndexAt(t *testing.T) {
 		}
 		if lc.SafePointerIndexAt(5) != nil {
 			t.Error("expected nil")
-		}
 	})
 }
 
@@ -866,7 +795,6 @@ func Test_C25_LinkedCollections_AddCollection(t *testing.T) {
 		lc.AddCollection(col)
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -877,7 +805,6 @@ func Test_C25_LinkedCollections_AddCollections(t *testing.T) {
 		lc.AddCollections([]*corestr.Collection{col})
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -888,7 +815,6 @@ func Test_C25_LinkedCollections_AddCollectionsPtr(t *testing.T) {
 		lc.AddCollectionsPtr([]*corestr.Collection{col})
 		if lc.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -898,7 +824,6 @@ func Test_C25_LinkedCollections_ToStrings(t *testing.T) {
 		strs := lc.ToStrings()
 		if len(strs) != 2 {
 			t.Errorf("expected 2 got %d", len(strs))
-		}
 	})
 }
 
@@ -908,7 +833,6 @@ func Test_C25_LinkedCollections_ToStringsPtr(t *testing.T) {
 		ptr := lc.ToStringsPtr()
 		if ptr == nil || len(*ptr) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -918,7 +842,6 @@ func Test_C25_LinkedCollections_ToCollection(t *testing.T) {
 		col := lc.ToCollection(0)
 		if col.Length() != 2 {
 			t.Errorf("expected 2 got %d", col.Length())
-		}
 	})
 }
 
@@ -928,7 +851,6 @@ func Test_C25_LinkedCollections_ToCollectionSimple(t *testing.T) {
 		col := lc.ToCollectionSimple()
 		if col.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -938,7 +860,6 @@ func Test_C25_LinkedCollections_ToCollection_Empty(t *testing.T) {
 		col := lc.ToCollection(0)
 		if col.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -949,7 +870,6 @@ func Test_C25_LinkedCollections_ToCollectionsOfCollection(t *testing.T) {
 		coc := lc.ToCollectionsOfCollection(0)
 		if coc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -959,7 +879,6 @@ func Test_C25_LinkedCollections_ToCollectionsOfCollection_Empty(t *testing.T) {
 		coc := lc.ToCollectionsOfCollection(0)
 		if coc == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -970,7 +889,6 @@ func Test_C25_LinkedCollections_ItemsOfItems(t *testing.T) {
 		items := lc.ItemsOfItems()
 		if len(items) != 2 {
 			t.Errorf("expected 2 got %d", len(items))
-		}
 	})
 }
 
@@ -980,7 +898,6 @@ func Test_C25_LinkedCollections_ItemsOfItemsCollection(t *testing.T) {
 		items := lc.ItemsOfItemsCollection()
 		if len(items) != 1 {
 			t.Errorf("expected 1 got %d", len(items))
-		}
 	})
 }
 
@@ -990,7 +907,6 @@ func Test_C25_LinkedCollections_SimpleSlice(t *testing.T) {
 		ss := lc.SimpleSlice()
 		if ss == nil || ss.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -1000,7 +916,6 @@ func Test_C25_LinkedCollections_List(t *testing.T) {
 		list := lc.List()
 		if len(list) != 2 {
 			t.Errorf("expected 2 got %d", len(list))
-		}
 	})
 }
 
@@ -1010,7 +925,6 @@ func Test_C25_LinkedCollections_ListPtr(t *testing.T) {
 		ptr := lc.ListPtr()
 		if ptr == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1020,7 +934,6 @@ func Test_C25_LinkedCollections_String(t *testing.T) {
 		s := lc.String()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1030,7 +943,6 @@ func Test_C25_LinkedCollections_String_Empty(t *testing.T) {
 		s := lc.String()
 		if s == "" {
 			t.Error("should contain no elements text")
-		}
 	})
 }
 
@@ -1040,7 +952,6 @@ func Test_C25_LinkedCollections_StringLock(t *testing.T) {
 		s := lc.StringLock()
 		if s == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1050,7 +961,6 @@ func Test_C25_LinkedCollections_Join(t *testing.T) {
 		result := lc.Join(",")
 		if result != "a,b" {
 			t.Errorf("expected a,b got %s", result)
-		}
 	})
 }
 
@@ -1060,7 +970,6 @@ func Test_C25_LinkedCollections_Joins(t *testing.T) {
 		result := lc.Joins(",", "b")
 		if result == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1070,7 +979,6 @@ func Test_C25_LinkedCollections_Clear(t *testing.T) {
 		lc.Clear()
 		if lc.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1080,7 +988,6 @@ func Test_C25_LinkedCollections_RemoveAll(t *testing.T) {
 		lc.RemoveAll()
 		if lc.Length() != 0 {
 			t.Error("should be 0")
-		}
 	})
 }
 
@@ -1090,7 +997,6 @@ func Test_C25_LinkedCollections_Json(t *testing.T) {
 		result := lc.Json()
 		if result.HasError() {
 			t.Error("should not error")
-		}
 	})
 }
 
@@ -1100,7 +1006,6 @@ func Test_C25_LinkedCollections_JsonPtr(t *testing.T) {
 		ptr := lc.JsonPtr()
 		if ptr == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1110,7 +1015,6 @@ func Test_C25_LinkedCollections_JsonModel(t *testing.T) {
 		model := lc.JsonModel()
 		if len(model) != 2 {
 			t.Errorf("expected 2 got %d", len(model))
-		}
 	})
 }
 
@@ -1119,7 +1023,6 @@ func Test_C25_LinkedCollections_JsonModelAny(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings("a")
 		if lc.JsonModelAny() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1132,7 +1035,6 @@ func Test_C25_LinkedCollections_MarshalJSON(t *testing.T) {
 		}
 		if len(data) == 0 {
 			t.Error("should have data")
-		}
 	})
 }
 
@@ -1144,7 +1046,6 @@ func Test_C25_LinkedCollections_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal(data, lc2)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -1171,7 +1072,6 @@ func Test_C25_LinkedCollections_ParseInjectUsingJsonMust(t *testing.T) {
 		result := lc2.ParseInjectUsingJsonMust(&jsonResult)
 		if result == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1182,7 +1082,6 @@ func Test_C25_LinkedCollections_GetCompareSummary(t *testing.T) {
 		summary := lc1.GetCompareSummary(lc2, "left", "right")
 		if summary == "" {
 			t.Error("should not be empty")
-		}
 	})
 }
 
@@ -1196,7 +1095,6 @@ func Test_C25_LinkedCollections_JsonParseSelfInject(t *testing.T) {
 		err := lc2.JsonParseSelfInject(&jsonResult)
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -1214,7 +1112,6 @@ func Test_C25_LinkedCollections_AsJsonInterfaces(t *testing.T) {
 		}
 		if lc.AsJsonMarshaller() == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1228,7 +1125,6 @@ func Test_C25_LinkedCollections_AddAsync(t *testing.T) {
 		wg.Wait()
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -1242,7 +1138,6 @@ func Test_C25_LinkedCollections_AddAsyncFuncItemsPointer(t *testing.T) {
 		)
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -1258,7 +1153,6 @@ func Test_C25_NonChainedLinkedCollectionNodes_Empty(t *testing.T) {
 		}
 		if nc.HasItems() {
 			t.Error("should not have items")
-		}
 	})
 }
 
@@ -1275,7 +1169,6 @@ func Test_C25_NonChainedLinkedCollectionNodes_Adds(t *testing.T) {
 		}
 		if nc.Last() == nil {
 			t.Error("last should not be nil")
-		}
 	})
 }
 
@@ -1284,7 +1177,6 @@ func Test_C25_NonChainedLinkedCollectionNodes_FirstOrDefault_Empty(t *testing.T)
 		nc := corestr.NewNonChainedLinkedCollectionNodes(0)
 		if nc.FirstOrDefault() != nil {
 			t.Error("should be nil")
-		}
 	})
 }
 
@@ -1293,7 +1185,6 @@ func Test_C25_NonChainedLinkedCollectionNodes_LastOrDefault_Empty(t *testing.T) 
 		nc := corestr.NewNonChainedLinkedCollectionNodes(0)
 		if nc.LastOrDefault() != nil {
 			t.Error("should be nil")
-		}
 	})
 }
 
@@ -1312,7 +1203,6 @@ func Test_C25_NonChainedLinkedCollectionNodes_ApplyChaining(t *testing.T) {
 		}
 		if !nc.First().HasNext() {
 			t.Error("first should have next")
-		}
 	})
 }
 
@@ -1328,7 +1218,6 @@ func Test_C25_NonChainedLinkedCollectionNodes_ToChainedNodes(t *testing.T) {
 		chained := nc.ToChainedNodes()
 		if chained == nil {
 			t.Error("should not be nil")
-		}
 	})
 }
 
@@ -1341,7 +1230,6 @@ func Test_C25_NewLinkedCollection_Create(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Create()
 		if lc == nil || !lc.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1350,7 +1238,6 @@ func Test_C25_NewLinkedCollection_Empty(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Empty()
 		if !lc.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1359,7 +1246,6 @@ func Test_C25_NewLinkedCollection_Strings(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings("a", "b")
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 collection got %d", lc.Length())
-		}
 	})
 }
 
@@ -1368,7 +1254,6 @@ func Test_C25_NewLinkedCollection_Strings_Empty(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings()
 		if !lc.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }
 
@@ -1379,7 +1264,6 @@ func Test_C25_NewLinkedCollection_UsingCollections(t *testing.T) {
 		lc := corestr.New.LinkedCollection.UsingCollections(col1, col2)
 		if lc.Length() != 2 {
 			t.Errorf("expected 2 got %d", lc.Length())
-		}
 	})
 }
 
@@ -1390,7 +1274,6 @@ func Test_C25_NewLinkedCollection_PointerStringsPtr(t *testing.T) {
 		lc := corestr.New.LinkedCollection.PointerStringsPtr(&items)
 		if lc.Length() != 1 {
 			t.Errorf("expected 1 got %d", lc.Length())
-		}
 	})
 }
 
@@ -1399,6 +1282,5 @@ func Test_C25_NewLinkedCollection_PointerStringsPtr_Nil(t *testing.T) {
 		lc := corestr.New.LinkedCollection.PointerStringsPtr(nil)
 		if !lc.IsEmpty() {
 			t.Error("should be empty")
-		}
 	})
 }

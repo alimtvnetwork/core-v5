@@ -1668,9 +1668,7 @@ func Test_C35_Collection_ParseInjectUsingJson(t *testing.T) {
 		_, err2 := target.ParseInjectUsingJson(badJson)
 		if err2 == nil {
 			t.Error("expected error")
-		}
 	})
-
 }
 func Test_C35_Collection_ParseInjectUsingJsonMust(t *testing.T) {
 	safeTest(t, "Test_C35_Collection_ParseInjectUsingJsonMust", func() {
@@ -1680,7 +1678,6 @@ func Test_C35_Collection_ParseInjectUsingJsonMust(t *testing.T) {
 		result := target.ParseInjectUsingJsonMust(jsonR)
 		if result.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1692,7 +1689,6 @@ func Test_C35_Collection_JsonParseSelfInject(t *testing.T) {
 		err := target.JsonParseSelfInject(jsonR)
 		if err != nil {
 			t.Error("expected no error")
-		}
 	})
 }
 
@@ -1706,7 +1702,6 @@ func Test_C35_Collection_Clear(t *testing.T) {
 		var nilC *corestr.Collection
 		if nilC.Clear() != nil {
 			t.Error("nil clear should return nil")
-		}
 	})
 }
 
@@ -1724,7 +1719,6 @@ func Test_C35_Collection_AsJsonMarshaller(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if c.AsJsonMarshaller() == nil {
 			t.Error("expected non-nil")
-		}
 	})
 }
 
@@ -1733,7 +1727,6 @@ func Test_C35_Collection_AsJsonContractsBinder(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if c.AsJsonContractsBinder() == nil {
 			t.Error("expected non-nil")
-		}
 	})
 }
 
@@ -1743,7 +1736,6 @@ func Test_C35_Collection_Serialize(t *testing.T) {
 		data, err := c.Serialize()
 		if err != nil || len(data) == 0 {
 			t.Error("expected success")
-		}
 	})
 }
 
@@ -1754,7 +1746,6 @@ func Test_C35_Collection_Deserialize(t *testing.T) {
 		err := c.Deserialize(&target)
 		if err != nil || len(target) != 1 {
 			t.Error("expected success")
-		}
 	})
 }
 
@@ -1767,7 +1758,6 @@ func Test_C35_Collection_Join(t *testing.T) {
 		e := corestr.New.Collection.Empty()
 		if e.Join(",") != "" {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -1781,7 +1771,6 @@ func Test_C35_Collection_JoinLine(t *testing.T) {
 		e := corestr.New.Collection.Empty()
 		if e.JoinLine() != "" {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -1790,7 +1779,6 @@ func Test_C35_Collection_List(t *testing.T) {
 		c := corestr.New.Collection.Strings([]string{"a"})
 		if len(c.List()) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1801,7 +1789,6 @@ func Test_C35_NewCollection_Empty(t *testing.T) {
 		c := corestr.New.Collection.Empty()
 		if c.Length() != 0 {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -1810,7 +1797,6 @@ func Test_C35_NewCollection_Cap(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		if c.Length() != 0 {
 			t.Error("expected 0 length")
-		}
 	})
 }
 
@@ -1819,7 +1805,6 @@ func Test_C35_NewCollection_CloneStrings(t *testing.T) {
 		c := corestr.New.Collection.CloneStrings([]string{"a", "b"})
 		if c.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -1828,7 +1813,6 @@ func Test_C35_NewCollection_Create(t *testing.T) {
 		c := corestr.New.Collection.Create([]string{"a"})
 		if c.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1837,7 +1821,6 @@ func Test_C35_NewCollection_StringsOptions_Clone(t *testing.T) {
 		c := corestr.New.Collection.StringsOptions(true, []string{"a"})
 		if c.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1846,7 +1829,6 @@ func Test_C35_NewCollection_StringsOptions_NoClone_Empty(t *testing.T) {
 		c := corestr.New.Collection.StringsOptions(false, []string{})
 		if c.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1855,7 +1837,6 @@ func Test_C35_NewCollection_LineUsingSep(t *testing.T) {
 		c := corestr.New.Collection.LineUsingSep(",", "a,b,c")
 		if c.Length() != 3 {
 			t.Error("expected 3")
-		}
 	})
 }
 
@@ -1864,7 +1845,6 @@ func Test_C35_NewCollection_LineDefault(t *testing.T) {
 		c := corestr.New.Collection.LineDefault("a\nb")
 		if c.Length() != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -1877,7 +1857,6 @@ func Test_C35_NewCollection_StringsPlusCap(t *testing.T) {
 		c2 := corestr.New.Collection.StringsPlusCap(0, []string{"a"})
 		if c2.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1890,7 +1869,6 @@ func Test_C35_NewCollection_CapStrings(t *testing.T) {
 		c2 := corestr.New.Collection.CapStrings(0, []string{"a"})
 		if c2.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1899,7 +1877,6 @@ func Test_C35_NewCollection_LenCap(t *testing.T) {
 		c := corestr.New.Collection.LenCap(3, 10)
 		if c.Length() != 3 {
 			t.Error("expected 3")
-		}
 	})
 }
 
@@ -1913,7 +1890,6 @@ func Test_C35_AllIndividualStringsOfStringsLength(t *testing.T) {
 		}
 		if corestr.AllIndividualStringsOfStringsLength(nil) != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1929,7 +1905,6 @@ func Test_C35_AnyToString(t *testing.T) {
 		}
 		if corestr.AnyToString(false, "") != "" {
 			t.Error("expected empty for empty string")
-		}
 	})
 }
 
@@ -1942,8 +1917,5 @@ func Test_C35_CloneSlice(t *testing.T) {
 		}
 		if len(corestr.CloneSlice(nil)) != 0 {
 			t.Error("expected 0")
-		}
-	})
-}
 	})
 }

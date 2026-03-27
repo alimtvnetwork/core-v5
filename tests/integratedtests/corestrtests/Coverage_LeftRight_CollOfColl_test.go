@@ -19,7 +19,6 @@ func Test_CovLR_01_NewLeftRight(t *testing.T) {
 		}
 		if !lr.IsValid {
 			t.Fatal("expected valid")
-		}
 	})
 }
 
@@ -32,7 +31,6 @@ func Test_CovLR_02_InvalidLeftRight(t *testing.T) {
 		lr2 := corestr.InvalidLeftRightNoMessage()
 		if lr2.IsValid {
 			t.Fatal("expected invalid")
-		}
 	})
 }
 
@@ -61,7 +59,6 @@ func Test_CovLR_03_LeftRightUsingSlice(t *testing.T) {
 		lr5 := corestr.LeftRightUsingSlicePtr([]string{})
 		if lr5.IsValid {
 			t.Fatal("expected invalid")
-		}
 	})
 }
 
@@ -85,7 +82,6 @@ func Test_CovLR_04_LeftRightTrimmedUsingSlice(t *testing.T) {
 		lr4 := corestr.LeftRightTrimmedUsingSlice([]string{"a"})
 		if lr4.Left != "a" {
 			t.Fatal("expected a")
-		}
 	})
 }
 
@@ -94,7 +90,6 @@ func Test_CovLR_05_LeftRightFromSplit(t *testing.T) {
 		lr := corestr.LeftRightFromSplit("key=value", "=")
 		if lr.Left != "key" || lr.Right != "value" {
 			t.Fatal("expected key,value")
-		}
 	})
 }
 
@@ -103,7 +98,6 @@ func Test_CovLR_06_LeftRightFromSplitTrimmed(t *testing.T) {
 		lr := corestr.LeftRightFromSplitTrimmed(" key = value ", "=")
 		if lr.Left != "key" || lr.Right != "value" {
 			t.Fatalf("expected trimmed, got '%s','%s'", lr.Left, lr.Right)
-		}
 	})
 }
 
@@ -112,7 +106,6 @@ func Test_CovLR_07_LeftRightFromSplitFull(t *testing.T) {
 		lr := corestr.LeftRightFromSplitFull("a:b:c:d", ":")
 		if lr.Left != "a" || lr.Right != "b:c:d" {
 			t.Fatalf("expected a,b:c:d got '%s','%s'", lr.Left, lr.Right)
-		}
 	})
 }
 
@@ -121,7 +114,6 @@ func Test_CovLR_08_LeftRightFromSplitFullTrimmed(t *testing.T) {
 		lr := corestr.LeftRightFromSplitFullTrimmed(" a : b : c ", ":")
 		if lr.Left != "a" {
 			t.Fatalf("expected a, got '%s'", lr.Left)
-		}
 	})
 }
 
@@ -133,7 +125,6 @@ func Test_CovLR_09_LeftBytes_RightBytes(t *testing.T) {
 		}
 		if len(lr.RightBytes()) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -145,7 +136,6 @@ func Test_CovLR_10_LeftTrim_RightTrim(t *testing.T) {
 		}
 		if lr.RightTrim() != "b" {
 			t.Fatal("expected b")
-		}
 	})
 }
 
@@ -157,7 +147,6 @@ func Test_CovLR_11_IsLeftEmpty_IsRightEmpty(t *testing.T) {
 		}
 		if lr.IsRightEmpty() {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -169,7 +158,6 @@ func Test_CovLR_12_IsLeftWhitespace_IsRightWhitespace(t *testing.T) {
 		}
 		if !lr.IsRightWhitespace() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -190,7 +178,6 @@ func Test_CovLR_13_HasValidNonEmpty(t *testing.T) {
 		}
 		if !lr.HasSafeNonEmpty() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -204,7 +191,6 @@ func Test_CovLR_14_NonPtr_Ptr(t *testing.T) {
 		p := lr.Ptr()
 		if p.Left != "a" {
 			t.Fatal("expected a")
-		}
 	})
 }
 
@@ -223,7 +209,6 @@ func Test_CovLR_15_IsLeftRegexMatch_IsRightRegexMatch(t *testing.T) {
 		}
 		if lr.IsRightRegexMatch(nil) {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -241,7 +226,6 @@ func Test_CovLR_16_IsLeft_IsRight_Is(t *testing.T) {
 		}
 		if lr.Is("x", "b") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -262,7 +246,6 @@ func Test_CovLR_17_IsEqual(t *testing.T) {
 		var nilLR *corestr.LeftRight
 		if !nilLR.IsEqual(nil) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -297,7 +280,6 @@ func Test_CovCoC_01_IsEmpty_HasItems_Length(t *testing.T) {
 		}
 		if coc.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -360,7 +342,6 @@ func Test_CovCoC_04_AllIndividualItemsLength_Items_List(t *testing.T) {
 		list := coc.List(0)
 		if len(list) != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -371,7 +352,6 @@ func Test_CovCoC_05_ToCollection(t *testing.T) {
 		col := coc.ToCollection()
 		if col.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -401,7 +381,6 @@ func Test_CovCoC_07_JsonModel_MarshalUnmarshal(t *testing.T) {
 		err3 := coc2.UnmarshalJSON([]byte("bad"))
 		if err3 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -415,7 +394,6 @@ func Test_CovCoC_08_Json_ParseInject(t *testing.T) {
 		r, err := coc2.ParseInjectUsingJson(jr)
 		if err != nil || r == nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -428,7 +406,6 @@ func Test_CovCoC_09_ParseInjectMust(t *testing.T) {
 		r := coc2.ParseInjectUsingJsonMust(jr)
 		if r == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -485,7 +462,6 @@ func Test_CovCoC_11_Creators(t *testing.T) {
 		c7 := corestr.New.CollectionsOfCollection.StringsOptions(false, 5, []string{"a"})
 		if c7.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 

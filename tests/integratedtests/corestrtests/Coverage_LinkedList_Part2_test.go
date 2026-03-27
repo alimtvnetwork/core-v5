@@ -23,7 +23,6 @@ func Test_CovLL2_01_ToCollection(t *testing.T) {
 		col2 := ll.ToCollection(5)
 		if col2.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -45,7 +44,6 @@ func Test_CovLL2_02_List_ListPtr_ListLock_ListPtrLock(t *testing.T) {
 		}
 		if len(ll.ListPtrLock()) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -126,7 +124,6 @@ func Test_CovLL2_05_IsEquals(t *testing.T) {
 		// one empty
 		if a.IsEquals(e1) {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -141,7 +138,6 @@ func Test_CovLL2_06_IsEqualsWithSensitive(t *testing.T) {
 		}
 		if !a.IsEqualsWithSensitive(b, false) {
 			t.Fatal("expected true for case insensitive")
-		}
 	})
 }
 
@@ -177,7 +173,6 @@ func Test_CovLL2_08_MarshalJSON_UnmarshalJSON(t *testing.T) {
 		err3 := ll2.UnmarshalJSON([]byte("bad"))
 		if err3 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -196,7 +191,6 @@ func Test_CovLL2_09_Clear_RemoveAll(t *testing.T) {
 		ll.RemoveAll()
 		if ll.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -221,7 +215,6 @@ func Test_CovLL2_11_ParseInjectUsingJson(t *testing.T) {
 		}
 		if r.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -234,7 +227,6 @@ func Test_CovLL2_12_ParseInjectUsingJsonMust(t *testing.T) {
 		r := ll2.ParseInjectUsingJsonMust(jr)
 		if r.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -247,7 +239,6 @@ func Test_CovLL2_13_JsonParseSelfInject(t *testing.T) {
 		err := ll2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -276,7 +267,6 @@ func Test_CovLL2_15_Node_HasNext_Next(t *testing.T) {
 		}
 		if next.HasNext() {
 			t.Fatal("expected no next")
-		}
 	})
 }
 
@@ -290,7 +280,6 @@ func Test_CovLL2_16_Node_EndOfChain(t *testing.T) {
 		}
 		if end.Element != "c" {
 			t.Fatal("expected c")
-		}
 	})
 }
 
@@ -338,7 +327,6 @@ func Test_CovLL2_18_Node_Clone(t *testing.T) {
 		}
 		if c.HasNext() {
 			t.Fatal("expected no next")
-		}
 	})
 }
 
@@ -352,7 +340,6 @@ func Test_CovLL2_19_Node_AddNext(t *testing.T) {
 		}
 		if ll.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -363,7 +350,6 @@ func Test_CovLL2_20_Node_AddStringsToNode(t *testing.T) {
 		ll.Head().AddStringsToNode(ll, false, []string{"b", "c"})
 		if ll.Length() < 3 {
 			t.Fatal("expected at least 3")
-		}
 	})
 }
 
@@ -386,7 +372,6 @@ func Test_CovLL2_22_Node_AddCollectionToNode(t *testing.T) {
 		ll.Head().AddCollectionToNode(ll, true, col)
 		if ll.Length() < 3 {
 			t.Fatal("expected at least 3")
-		}
 	})
 }
 
@@ -398,7 +383,6 @@ func Test_CovLL2_23_Node_AddNextNode(t *testing.T) {
 		result := ll.Head().AddNextNode(ll, newNode)
 		if result.Element != "b" {
 			t.Fatal("expected b")
-		}
 	})
 }
 
@@ -428,7 +412,6 @@ func Test_CovLL2_24_Node_IsEqual(t *testing.T) {
 		ll3.Adds("x", "b")
 		if ll.Head().IsEqual(ll3.Head()) {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -458,7 +441,6 @@ func Test_CovLL2_25_Node_IsChainEqual(t *testing.T) {
 		// same pointer
 		if !ll.Head().IsChainEqual(ll.Head(), true) {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -485,7 +467,6 @@ func Test_CovLL2_26_Node_IsEqualSensitive(t *testing.T) {
 		}
 		if n.IsEqualSensitive(ll.Head(), true) {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -504,7 +485,6 @@ func Test_CovLL2_27_Node_IsEqualValue_IsEqualValueSensitive(t *testing.T) {
 		}
 		if !ll.Head().IsEqualValueSensitive("Hello", true) {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -515,7 +495,6 @@ func Test_CovLL2_28_Node_CreateLinkedList(t *testing.T) {
 		newLL := ll.Head().CreateLinkedList()
 		if newLL.Length() != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -525,7 +504,6 @@ func Test_CovLL2_29_Node_String(t *testing.T) {
 		ll.Add("hello")
 		if ll.Head().String() != "hello" {
 			t.Fatal("expected hello")
-		}
 	})
 }
 
@@ -540,7 +518,6 @@ func Test_CovLL2_30_Node_List_ListPtr(t *testing.T) {
 		items2 := ll.Head().ListPtr()
 		if len(items2) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -563,3 +540,5 @@ func Test_CovLL2_31_Node_Join_StringList_Print(t *testing.T) {
 
 // suppress unused import
 var _ = fmt.Sprintf
+	})
+}

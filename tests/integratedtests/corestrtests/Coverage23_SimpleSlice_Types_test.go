@@ -19,7 +19,6 @@ func Test_Cov23_SimpleSlice_BasicOps(t *testing.T) {
 		}
 		if ss.Count() != 3 {
 			t.Fatal("count wrong")
-		}
 	})
 }
 
@@ -69,7 +68,6 @@ func Test_Cov23_SimpleSlice_FirstLast(t *testing.T) {
 		e := corestr.New.SimpleSlice.Empty()
 		if e.FirstOrDefault() != "" || e.LastOrDefault() != "" {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -99,7 +97,6 @@ func Test_Cov23_SimpleSlice_IsContains(t *testing.T) {
 		}
 		if ss.IsContains("x") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -108,7 +105,6 @@ func Test_Cov23_SimpleSlice_IsContainsFunc(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("abc", "def")
 		if !ss.IsContainsFunc("abc", func(a, b string) bool { return a == b }) {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -120,7 +116,6 @@ func Test_Cov23_SimpleSlice_IndexOf(t *testing.T) {
 		}
 		if ss.IndexOf("x") != -1 {
 			t.Fatal("expected -1")
-		}
 	})
 }
 
@@ -130,7 +125,6 @@ func Test_Cov23_SimpleSlice_IndexOfFunc(t *testing.T) {
 		idx := ss.IndexOfFunc("b", func(a, b string) bool { return a == b })
 		if idx != 1 {
 			t.Fatal("wrong index")
-		}
 	})
 }
 
@@ -142,7 +136,6 @@ func Test_Cov23_SimpleSlice_HasIndex(t *testing.T) {
 		}
 		if ss.HasIndex(5) {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -202,7 +195,6 @@ func Test_Cov23_SimpleSlice_Transpile(t *testing.T) {
 		result := ss.Transpile(func(s string) string { return s + "!" })
 		if !result.IsContains("a!") {
 			t.Fatal("expected transpiled")
-		}
 	})
 }
 
@@ -212,7 +204,6 @@ func Test_Cov23_SimpleSlice_TranspileJoin(t *testing.T) {
 		s := ss.TranspileJoin(func(s string) string { return s + "!" }, ",")
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -222,7 +213,6 @@ func Test_Cov23_SimpleSlice_EachItemSplitBy(t *testing.T) {
 		result := ss.EachItemSplitBy(",")
 		if result.Length() != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -245,7 +235,6 @@ func Test_Cov23_SimpleSlice_PrependAppend(t *testing.T) {
 		ss.PrependAppend([]string{"a"}, []string{"c"})
 		if ss.Length() != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -259,7 +248,6 @@ func Test_Cov23_SimpleSlice_PrependAppendJoin(t *testing.T) {
 		s2 := ss.AppendJoin(",", "c")
 		if s2 == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -269,7 +257,6 @@ func Test_Cov23_SimpleSlice_IsEqual(t *testing.T) {
 		b := corestr.New.SimpleSlice.Lines("a", "b")
 		if !a.IsEqual(b) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -278,7 +265,6 @@ func Test_Cov23_SimpleSlice_IsEqualLines(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("a", "b")
 		if !ss.IsEqualLines([]string{"a", "b"}) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -287,7 +273,6 @@ func Test_Cov23_SimpleSlice_IsEqualUnorderedLines(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("b", "a")
 		if !ss.IsEqualUnorderedLines([]string{"a", "b"}) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -296,7 +281,6 @@ func Test_Cov23_SimpleSlice_IsEqualUnorderedLinesClone(t *testing.T) {
 		ss := corestr.New.SimpleSlice.Lines("b", "a")
 		if !ss.IsEqualUnorderedLinesClone([]string{"a", "b"}) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -317,7 +301,6 @@ func Test_Cov23_SimpleSlice_CountFunc(t *testing.T) {
 		cnt := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
 		if cnt != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -332,7 +315,6 @@ func Test_Cov23_SimpleSlice_AsError(t *testing.T) {
 		empty := corestr.New.SimpleSlice.Empty()
 		if empty.AsError(",") != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -345,7 +327,6 @@ func Test_Cov23_SimpleSlice_String(t *testing.T) {
 		empty := corestr.New.SimpleSlice.Empty()
 		if empty.String() != "" {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -359,7 +340,6 @@ func Test_Cov23_SimpleSlice_Sort_Reverse(t *testing.T) {
 		ss.Reverse()
 		if ss.First() != "c" {
 			t.Fatal("wrong reverse")
-		}
 	})
 }
 
@@ -369,7 +349,6 @@ func Test_Cov23_SimpleSlice_Hashset(t *testing.T) {
 		hs := ss.Hashset()
 		if hs.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -379,7 +358,6 @@ func Test_Cov23_SimpleSlice_CsvStrings(t *testing.T) {
 		csv := ss.CsvStrings()
 		if len(csv) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -430,7 +408,6 @@ func Test_Cov23_CollectionsOfCollection_AddStrings(t *testing.T) {
 		cc.AddStrings(true, []string{"a", "b"})
 		if cc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -440,7 +417,6 @@ func Test_Cov23_CollectionsOfCollection_AddsStringsOfStrings(t *testing.T) {
 		cc.AddsStringsOfStrings(true, []string{"a"}, []string{"b"})
 		if cc.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -452,7 +428,6 @@ func Test_Cov23_CollectionsOfCollection_AddCollections(t *testing.T) {
 		cc.Adds(c)
 		if cc.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -515,7 +490,6 @@ func Test_Cov23_KeyValuePair(t *testing.T) {
 		kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 		if kv.Key != "k" || kv.Value != "v" {
 			t.Fatal("wrong")
-		}
 	})
 }
 
@@ -525,7 +499,6 @@ func Test_Cov23_KeyAnyValuePair(t *testing.T) {
 		s := kav.ValueString()
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -550,7 +523,6 @@ func Test_Cov23_SimpleStringOnce(t *testing.T) {
 		sso2.GetSetOnce("again") // should not change
 		if sso2.Value() != "world" {
 			t.Fatal("should not change")
-		}
 	})
 }
 
@@ -592,6 +564,5 @@ func Test_Cov23_HashsetsCollection(t *testing.T) {
 		hc.Add(hs)
 		if hc.Length() != 1 || hc.IsEmpty() || !hc.HasItems() {
 			t.Fatal("filled checks failed")
-		}
 	})
 }

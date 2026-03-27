@@ -27,7 +27,6 @@ func Test_S09_01_Hashmap_IsEmpty(t *testing.T) {
 		}
 		if hm.IsEmpty() {
 			t.Fatal("expected not empty")
-		}
 	})
 }
 
@@ -43,7 +42,6 @@ func Test_S09_02_Hashmap_HasItems(t *testing.T) {
 		}
 		if corestr.Empty.Hashmap().HasItems() {
 			t.Fatal("expected no items for empty")
-		}
 	})
 }
 
@@ -55,7 +53,6 @@ func Test_S09_03_Hashmap_IsEmptyLock(t *testing.T) {
 		// Act & Assert
 		if !hm.IsEmptyLock() {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -71,7 +68,6 @@ func Test_S09_04_Hashmap_Collection(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -91,7 +87,6 @@ func Test_S09_05_Hashmap_AddOrUpdateWithWgLock(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -107,7 +102,6 @@ func Test_S09_06_Hashmap_AddOrUpdateKeyStrValInt(t *testing.T) {
 		v, ok := hm.Get("count")
 		if !ok || v != "42" {
 			t.Fatalf("expected '42', got '%s'", v)
-		}
 	})
 }
 
@@ -123,7 +117,6 @@ func Test_S09_07_Hashmap_AddOrUpdateKeyStrValFloat(t *testing.T) {
 		v, ok := hm.Get("pi")
 		if !ok || v == "" {
 			t.Fatal("expected float value")
-		}
 	})
 }
 
@@ -139,7 +132,6 @@ func Test_S09_08_Hashmap_AddOrUpdateKeyStrValFloat64(t *testing.T) {
 		v, ok := hm.Get("e")
 		if !ok || v == "" {
 			t.Fatal("expected float64 value")
-		}
 	})
 }
 
@@ -155,7 +147,6 @@ func Test_S09_09_Hashmap_AddOrUpdateKeyStrValAny(t *testing.T) {
 		v, ok := hm.Get("key")
 		if !ok || v == "" {
 			t.Fatal("expected value")
-		}
 	})
 }
 
@@ -171,7 +162,6 @@ func Test_S09_10_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -191,7 +181,6 @@ func Test_S09_11_Hashmap_AddOrUpdateKeyVal(t *testing.T) {
 		isNew2 := hm.AddOrUpdateKeyVal(kv)
 		if isNew2 {
 			t.Fatal("expected not new on second add")
-		}
 	})
 }
 
@@ -210,7 +199,6 @@ func Test_S09_12_Hashmap_AddOrUpdate(t *testing.T) {
 		}
 		if isNew2 {
 			t.Fatal("expected update not new")
-		}
 	})
 }
 
@@ -225,7 +213,6 @@ func Test_S09_13_Hashmap_Set(t *testing.T) {
 		// Assert
 		if !isNew {
 			t.Fatal("expected new")
-		}
 	})
 }
 
@@ -241,7 +228,6 @@ func Test_S09_14_Hashmap_SetTrim(t *testing.T) {
 		v, ok := hm.Get("key")
 		if !ok || v != "val" {
 			t.Fatalf("expected 'val', got '%s'", v)
-		}
 	})
 }
 
@@ -262,7 +248,6 @@ func Test_S09_15_Hashmap_SetBySplitter(t *testing.T) {
 		v2, ok2 := hm.Get("novalue")
 		if !ok2 || v2 != "" {
 			t.Fatalf("expected empty value, got '%s'", v2)
-		}
 	})
 }
 
@@ -280,7 +265,6 @@ func Test_S09_16_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 		// Assert
 		if hm.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -296,7 +280,6 @@ func Test_S09_17_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -331,7 +314,6 @@ func Test_S09_19_Hashmap_AddOrUpdateHashmap(t *testing.T) {
 		// Assert
 		if hm.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -346,7 +328,6 @@ func Test_S09_20_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -361,7 +342,6 @@ func Test_S09_21_Hashmap_AddOrUpdateMap(t *testing.T) {
 		// Assert
 		if hm.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -376,7 +356,6 @@ func Test_S09_22_Hashmap_AddOrUpdateMap_Empty(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -394,7 +373,6 @@ func Test_S09_23_Hashmap_AddsOrUpdates(t *testing.T) {
 		// Assert
 		if hm.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -409,7 +387,6 @@ func Test_S09_24_Hashmap_AddsOrUpdates_Nil(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -426,7 +403,6 @@ func Test_S09_25_Hashmap_AddOrUpdateKeyAnyValues(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -441,7 +417,6 @@ func Test_S09_26_Hashmap_AddOrUpdateKeyAnyValues_Empty(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -458,7 +433,6 @@ func Test_S09_27_Hashmap_AddOrUpdateKeyValues(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -473,7 +447,6 @@ func Test_S09_28_Hashmap_AddOrUpdateKeyValues_Empty(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -492,7 +465,6 @@ func Test_S09_29_Hashmap_AddOrUpdateCollection(t *testing.T) {
 		// Assert
 		if hm.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -508,7 +480,6 @@ func Test_S09_30_Hashmap_AddOrUpdateCollection_NilKeys(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -525,7 +496,6 @@ func Test_S09_31_Hashmap_AddOrUpdateCollection_LengthMismatch(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0 for length mismatch")
-		}
 	})
 }
 
@@ -547,7 +517,6 @@ func Test_S09_32_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -568,7 +537,6 @@ func Test_S09_33_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1 due to break")
-		}
 	})
 }
 
@@ -583,7 +551,6 @@ func Test_S09_34_Hashmap_AddsOrUpdatesAnyUsingFilter_Nil(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -603,7 +570,6 @@ func Test_S09_35_Hashmap_AddsOrUpdatesAnyUsingFilter_Skip(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0 — all skipped")
-		}
 	})
 }
 
@@ -623,7 +589,6 @@ func Test_S09_36_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -638,7 +603,6 @@ func Test_S09_37_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -665,7 +629,6 @@ func Test_S09_38_Hashmap_AddsOrUpdatesAnyUsingFilterLock_SkipAndBreak(t *testing
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatalf("expected 1, got %d", hm.Length())
-		}
 	})
 }
 
@@ -685,7 +648,6 @@ func Test_S09_39_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -700,7 +662,6 @@ func Test_S09_40_Hashmap_AddsOrUpdatesUsingFilter_Nil(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -721,7 +682,6 @@ func Test_S09_41_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1 due to break")
-		}
 	})
 }
 
@@ -741,7 +701,6 @@ func Test_S09_42_Hashmap_AddsOrUpdatesUsingFilter_Skip(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -761,7 +720,6 @@ func Test_S09_43_Hashmap_ConcatNew(t *testing.T) {
 		// Assert
 		if result.Length() < 2 {
 			t.Fatal("expected at least 2")
-		}
 	})
 }
 
@@ -777,7 +735,6 @@ func Test_S09_44_Hashmap_ConcatNew_Empty(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -793,7 +750,6 @@ func Test_S09_45_Hashmap_ConcatNew_NilInList(t *testing.T) {
 		// Assert
 		if result.Length() < 1 {
 			t.Fatal("expected at least 1")
-		}
 	})
 }
 
@@ -809,7 +765,6 @@ func Test_S09_46_Hashmap_ConcatNewUsingMaps(t *testing.T) {
 		// Assert
 		if result.Length() < 2 {
 			t.Fatal("expected at least 2")
-		}
 	})
 }
 
@@ -824,7 +779,6 @@ func Test_S09_47_Hashmap_ConcatNewUsingMaps_Empty(t *testing.T) {
 		// Assert
 		if result == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -840,7 +794,6 @@ func Test_S09_48_Hashmap_ConcatNewUsingMaps_NilInList(t *testing.T) {
 		// Assert
 		if result.Length() < 1 {
 			t.Fatal("expected at least 1")
-		}
 	})
 }
 
@@ -857,7 +810,6 @@ func Test_S09_49_Hashmap_AddOrUpdateLock(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -875,7 +827,6 @@ func Test_S09_50_Hashmap_Has(t *testing.T) {
 		}
 		if hm.Has("missing") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -888,7 +839,6 @@ func Test_S09_51_Hashmap_Contains(t *testing.T) {
 		// Act & Assert
 		if !hm.Contains("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -901,7 +851,6 @@ func Test_S09_52_Hashmap_ContainsLock(t *testing.T) {
 		// Act & Assert
 		if !hm.ContainsLock("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -917,7 +866,6 @@ func Test_S09_53_Hashmap_IsKeyMissing(t *testing.T) {
 		}
 		if !hm.IsKeyMissing("missing") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -930,7 +878,6 @@ func Test_S09_54_Hashmap_IsKeyMissingLock(t *testing.T) {
 		// Act & Assert
 		if hm.IsKeyMissingLock("k") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -943,7 +890,6 @@ func Test_S09_55_Hashmap_HasLock(t *testing.T) {
 		// Act & Assert
 		if !hm.HasLock("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -956,7 +902,6 @@ func Test_S09_56_Hashmap_HasWithLock(t *testing.T) {
 		// Act & Assert
 		if !hm.HasWithLock("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -975,7 +920,6 @@ func Test_S09_57_Hashmap_HasAllStrings(t *testing.T) {
 		}
 		if hm.HasAllStrings("a", "c") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -991,7 +935,6 @@ func Test_S09_58_Hashmap_HasAll(t *testing.T) {
 		}
 		if hm.HasAll("x", "y") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -1004,7 +947,6 @@ func Test_S09_59_Hashmap_HasAnyItem(t *testing.T) {
 		// Act & Assert
 		if !hm.HasAnyItem() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -1020,7 +962,6 @@ func Test_S09_60_Hashmap_HasAny(t *testing.T) {
 		}
 		if hm.HasAny("x", "y") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -1037,7 +978,6 @@ func Test_S09_61_Hashmap_HasAllCollectionItems(t *testing.T) {
 		// Act & Assert
 		if !hm.HasAllCollectionItems(col) {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -1049,7 +989,6 @@ func Test_S09_62_Hashmap_HasAllCollectionItems_Nil(t *testing.T) {
 		// Act & Assert
 		if hm.HasAllCollectionItems(nil) {
 			t.Fatal("expected false for nil")
-		}
 	})
 }
 
@@ -1061,7 +1000,6 @@ func Test_S09_63_Hashmap_HasAllCollectionItems_Empty(t *testing.T) {
 		// Act & Assert
 		if hm.HasAllCollectionItems(corestr.Empty.Collection()) {
 			t.Fatal("expected false for empty")
-		}
 	})
 }
 
@@ -1079,7 +1017,6 @@ func Test_S09_64_Hashmap_DiffRaw(t *testing.T) {
 		// Assert
 		if diff == nil {
 			t.Fatal("expected non-nil diff")
-		}
 	})
 }
 
@@ -1097,7 +1034,6 @@ func Test_S09_65_Hashmap_Diff(t *testing.T) {
 		// Assert
 		if diff == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -1119,7 +1055,6 @@ func Test_S09_66_Hashmap_GetKeysFilteredItems(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatalf("expected 1, got %d", len(result))
-		}
 	})
 }
 
@@ -1137,7 +1072,6 @@ func Test_S09_67_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
 		// Assert
 		if len(result) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -1157,7 +1091,6 @@ func Test_S09_68_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatalf("expected 1 due to break, got %d", len(result))
-		}
 	})
 }
 
@@ -1176,7 +1109,6 @@ func Test_S09_69_Hashmap_GetKeysFilteredCollection(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1191,7 +1123,6 @@ func Test_S09_70_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
 		// Assert
 		if !result.IsEmpty() {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -1211,7 +1142,6 @@ func Test_S09_71_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatalf("expected 1, got %d", result.Length())
-		}
 	})
 }
 
@@ -1226,7 +1156,6 @@ func Test_S09_72_Hashmap_Items(t *testing.T) {
 		// Act & Assert
 		if len(hm.Items()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1238,7 +1167,6 @@ func Test_S09_73_Hashmap_SafeItems(t *testing.T) {
 		// Act & Assert
 		if hm.SafeItems() != nil {
 			t.Fatal("expected nil for nil hashmap")
-		}
 	})
 }
 
@@ -1254,7 +1182,6 @@ func Test_S09_74_Hashmap_ItemsCopyLock(t *testing.T) {
 		// Assert
 		if len(*copied) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1272,7 +1199,6 @@ func Test_S09_75_Hashmap_ValuesCollection(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1288,7 +1214,6 @@ func Test_S09_76_Hashmap_ValuesHashset(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1304,7 +1229,6 @@ func Test_S09_77_Hashmap_ValuesCollectionLock(t *testing.T) {
 		// Assert
 		if col.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1320,7 +1244,6 @@ func Test_S09_78_Hashmap_ValuesHashsetLock(t *testing.T) {
 		// Assert
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1338,7 +1261,6 @@ func Test_S09_79_Hashmap_ValuesList(t *testing.T) {
 		// Assert
 		if len(list) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1354,7 +1276,6 @@ func Test_S09_80_Hashmap_KeysValuesCollection(t *testing.T) {
 		// Assert
 		if keys.Length() != 1 || values.Length() != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -1370,7 +1291,6 @@ func Test_S09_81_Hashmap_KeysValuesList(t *testing.T) {
 		// Assert
 		if len(keys) != 1 || len(values) != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -1386,7 +1306,6 @@ func Test_S09_82_Hashmap_KeysValuesListLock(t *testing.T) {
 		// Assert
 		if len(keys) != 1 || len(values) != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -1404,7 +1323,6 @@ func Test_S09_83_Hashmap_KeysValuePairs(t *testing.T) {
 		// Assert
 		if len(pairs) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1420,7 +1338,6 @@ func Test_S09_84_Hashmap_KeysValuePairsCollection(t *testing.T) {
 		// Assert
 		if kvc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1438,7 +1355,6 @@ func Test_S09_85_Hashmap_AllKeys(t *testing.T) {
 		// Assert
 		if len(keys) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1453,7 +1369,6 @@ func Test_S09_86_Hashmap_AllKeys_Empty(t *testing.T) {
 		// Assert
 		if len(keys) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -1466,7 +1381,6 @@ func Test_S09_87_Hashmap_Keys(t *testing.T) {
 		// Act & Assert
 		if len(hm.Keys()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1479,7 +1393,6 @@ func Test_S09_88_Hashmap_KeysCollection(t *testing.T) {
 		// Act & Assert
 		if hm.KeysCollection().Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1495,7 +1408,6 @@ func Test_S09_89_Hashmap_KeysLock(t *testing.T) {
 		// Assert
 		if len(keys) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1510,7 +1422,6 @@ func Test_S09_90_Hashmap_KeysLock_Empty(t *testing.T) {
 		// Assert
 		if len(keys) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -1528,7 +1439,6 @@ func Test_S09_91_Hashmap_ValuesListCopyLock(t *testing.T) {
 		// Assert
 		if len(list) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1546,7 +1456,6 @@ func Test_S09_92_Hashmap_KeysToLower(t *testing.T) {
 		// Assert
 		if !lowered.Has("key") {
 			t.Fatal("expected lowercased key")
-		}
 	})
 }
 
@@ -1562,7 +1471,6 @@ func Test_S09_93_Hashmap_ValuesToLower(t *testing.T) {
 		// Assert
 		if lowered == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -1577,7 +1485,6 @@ func Test_S09_94_Hashmap_Length(t *testing.T) {
 		// Act & Assert
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1589,7 +1496,6 @@ func Test_S09_95_Hashmap_Length_Nil(t *testing.T) {
 		// Act & Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0 for nil")
-		}
 	})
 }
 
@@ -1602,7 +1508,6 @@ func Test_S09_96_Hashmap_LengthLock(t *testing.T) {
 		// Act & Assert
 		if hm.LengthLock() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -1619,7 +1524,6 @@ func Test_S09_97_Hashmap_IsEqual_Same(t *testing.T) {
 		// Act & Assert
 		if !hm.IsEqualPtr(other) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -1634,7 +1538,6 @@ func Test_S09_98_Hashmap_IsEqualPtr_DiffValues(t *testing.T) {
 		// Act & Assert
 		if hm.IsEqualPtr(other) {
 			t.Fatal("expected not equal")
-		}
 	})
 }
 
@@ -1650,7 +1553,6 @@ func Test_S09_99_Hashmap_IsEqualPtr_DiffLength(t *testing.T) {
 		// Act & Assert
 		if hm.IsEqualPtr(other) {
 			t.Fatal("expected not equal")
-		}
 	})
 }
 
@@ -1663,7 +1565,6 @@ func Test_S09_100_Hashmap_IsEqualPtr_BothNil(t *testing.T) {
 		// Act & Assert
 		if !a.IsEqualPtr(b) {
 			t.Fatal("expected equal for both nil")
-		}
 	})
 }
 
@@ -1676,7 +1577,6 @@ func Test_S09_101_Hashmap_IsEqualPtr_OneNil(t *testing.T) {
 		// Act & Assert
 		if hm.IsEqualPtr(other) {
 			t.Fatal("expected not equal")
-		}
 	})
 }
 
@@ -1689,7 +1589,6 @@ func Test_S09_102_Hashmap_IsEqualPtr_SamePtr(t *testing.T) {
 		// Act & Assert
 		if !hm.IsEqualPtr(hm) {
 			t.Fatal("expected equal for same pointer")
-		}
 	})
 }
 
@@ -1702,7 +1601,6 @@ func Test_S09_103_Hashmap_IsEqualPtr_BothEmpty(t *testing.T) {
 		// Act & Assert
 		if !a.IsEqualPtr(b) {
 			t.Fatal("expected equal for both empty")
-		}
 	})
 }
 
@@ -1716,7 +1614,6 @@ func Test_S09_104_Hashmap_IsEqualPtr_OneEmpty(t *testing.T) {
 		// Act & Assert
 		if a.IsEqualPtr(b) {
 			t.Fatal("expected not equal")
-		}
 	})
 }
 
@@ -1731,7 +1628,6 @@ func Test_S09_105_Hashmap_IsEqualPtr_MissingKey(t *testing.T) {
 		// Act & Assert
 		if a.IsEqualPtr(b) {
 			t.Fatal("expected not equal — different keys")
-		}
 	})
 }
 
@@ -1746,7 +1642,6 @@ func Test_S09_106_Hashmap_IsEqual(t *testing.T) {
 		// Act & Assert — value receiver
 		if !hm.IsEqual(*other) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -1761,7 +1656,6 @@ func Test_S09_107_Hashmap_IsEqualPtrLock(t *testing.T) {
 		// Act & Assert
 		if !hm.IsEqualPtrLock(other) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -1779,7 +1673,6 @@ func Test_S09_108_Hashmap_Remove(t *testing.T) {
 		// Assert
 		if hm.Has("k") {
 			t.Fatal("expected removed")
-		}
 	})
 }
 
@@ -1795,7 +1688,6 @@ func Test_S09_109_Hashmap_RemoveWithLock(t *testing.T) {
 		// Assert
 		if hm.Has("k") {
 			t.Fatal("expected removed")
-		}
 	})
 }
 
@@ -1813,7 +1705,6 @@ func Test_S09_110_Hashmap_String(t *testing.T) {
 		// Assert
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -1828,7 +1719,6 @@ func Test_S09_111_Hashmap_String_Empty(t *testing.T) {
 		// Assert
 		if !strings.Contains(s, "No Element") {
 			t.Fatal("expected No Element")
-		}
 	})
 }
 
@@ -1844,7 +1734,6 @@ func Test_S09_112_Hashmap_StringLock(t *testing.T) {
 		// Assert
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -1859,7 +1748,6 @@ func Test_S09_113_Hashmap_StringLock_Empty(t *testing.T) {
 		// Assert
 		if !strings.Contains(s, "No Element") {
 			t.Fatal("expected No Element")
-		}
 	})
 }
 
@@ -1879,7 +1767,6 @@ func Test_S09_114_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatalf("expected 1, got %d", len(result))
-		}
 	})
 }
 
@@ -1895,7 +1782,6 @@ func Test_S09_115_Hashmap_GetValuesExceptKeysInHashset_NilHashset(t *testing.T) 
 		// Assert
 		if len(result) != 1 {
 			t.Fatal("expected all values")
-		}
 	})
 }
 
@@ -1911,7 +1797,6 @@ func Test_S09_116_Hashmap_GetValuesExceptKeysInHashset_EmptyHashset(t *testing.T
 		// Assert
 		if len(result) != 1 {
 			t.Fatal("expected all values")
-		}
 	})
 }
 
@@ -1928,7 +1813,6 @@ func Test_S09_117_Hashmap_GetValuesKeysExcept(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatalf("expected 1, got %d", len(result))
-		}
 	})
 }
 
@@ -1944,7 +1828,6 @@ func Test_S09_118_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatal("expected all values")
-		}
 	})
 }
 
@@ -1962,7 +1845,6 @@ func Test_S09_119_Hashmap_GetAllExceptCollection(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatalf("expected 1, got %d", len(result))
-		}
 	})
 }
 
@@ -1978,7 +1860,6 @@ func Test_S09_120_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Fatal("expected all values")
-		}
 	})
 }
 
@@ -1996,7 +1877,6 @@ func Test_S09_121_Hashmap_Join(t *testing.T) {
 		// Assert
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -2012,7 +1892,6 @@ func Test_S09_122_Hashmap_JoinKeys(t *testing.T) {
 		// Assert
 		if s != "k" {
 			t.Fatalf("expected 'k', got '%s'", s)
-		}
 	})
 }
 
@@ -2027,7 +1906,6 @@ func Test_S09_123_Hashmap_JsonModel(t *testing.T) {
 		// Act & Assert
 		if len(hm.JsonModel()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -2039,7 +1917,6 @@ func Test_S09_124_Hashmap_JsonModelAny(t *testing.T) {
 		// Act & Assert
 		if hm.JsonModelAny() == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -2055,7 +1932,6 @@ func Test_S09_125_Hashmap_MarshalJSON(t *testing.T) {
 		// Assert
 		if err != nil || len(data) == 0 {
 			t.Fatal("expected valid JSON bytes")
-		}
 	})
 }
 
@@ -2073,7 +1949,6 @@ func Test_S09_126_Hashmap_UnmarshalJSON(t *testing.T) {
 		}
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -2088,7 +1963,6 @@ func Test_S09_127_Hashmap_UnmarshalJSON_Invalid(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -2104,7 +1978,6 @@ func Test_S09_128_Hashmap_Json(t *testing.T) {
 		// Assert
 		if result.HasError() {
 			t.Fatal("expected no error")
-		}
 	})
 }
 
@@ -2116,7 +1989,6 @@ func Test_S09_129_Hashmap_JsonPtr(t *testing.T) {
 		// Act & Assert
 		if hm.JsonPtr() == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -2134,7 +2006,6 @@ func Test_S09_130_Hashmap_ParseInjectUsingJson(t *testing.T) {
 		// Assert
 		if err != nil || result.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -2152,7 +2023,6 @@ func Test_S09_131_Hashmap_ParseInjectUsingJsonMust(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -2170,7 +2040,6 @@ func Test_S09_132_Hashmap_JsonParseSelfInject(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Fatal("expected no error")
-		}
 	})
 }
 
@@ -2188,7 +2057,6 @@ func Test_S09_133_Hashmap_ToError(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -2204,7 +2072,6 @@ func Test_S09_134_Hashmap_ToDefaultError(t *testing.T) {
 		// Assert
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -2220,7 +2087,6 @@ func Test_S09_135_Hashmap_KeyValStringLines(t *testing.T) {
 		// Assert
 		if len(lines) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -2239,7 +2105,6 @@ func Test_S09_136_Hashmap_Clear(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -2254,7 +2119,6 @@ func Test_S09_137_Hashmap_Clear_Nil(t *testing.T) {
 		// Assert
 		if result != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -2270,7 +2134,6 @@ func Test_S09_138_Hashmap_Dispose(t *testing.T) {
 		// Assert
 		if hm.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -2300,7 +2163,6 @@ func Test_S09_140_Hashmap_ToStringsUsingCompiler(t *testing.T) {
 		// Assert
 		if len(lines) != 1 || lines[0] != "k=v" {
 			t.Fatal("expected 'k=v'")
-		}
 	})
 }
 
@@ -2317,7 +2179,6 @@ func Test_S09_141_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
 		// Assert
 		if len(lines) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -2328,7 +2189,6 @@ func Test_S09_142_Hashmap_AsJsoner(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		if hm.AsJsoner() == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -2337,7 +2197,6 @@ func Test_S09_143_Hashmap_AsJsonContractsBinder(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		if hm.AsJsonContractsBinder() == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -2346,7 +2205,6 @@ func Test_S09_144_Hashmap_AsJsonParseSelfInjector(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		if hm.AsJsonParseSelfInjector() == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -2355,7 +2213,6 @@ func Test_S09_145_Hashmap_AsJsonMarshaller(t *testing.T) {
 		hm := corestr.New.Hashmap.Cap(5)
 		if hm.AsJsonMarshaller() == nil {
 			t.Fatal("expected non-nil")
-		}
 	})
 }
 
@@ -2373,7 +2230,6 @@ func Test_S09_146_Hashmap_ClonePtr(t *testing.T) {
 		// Assert
 		if cloned == nil || cloned.Length() != 1 {
 			t.Fatal("expected cloned with 1 item")
-		}
 	})
 }
 
@@ -2388,7 +2244,6 @@ func Test_S09_147_Hashmap_ClonePtr_Nil(t *testing.T) {
 		// Assert
 		if cloned != nil {
 			t.Fatal("expected nil")
-		}
 	})
 }
 
@@ -2404,7 +2259,6 @@ func Test_S09_148_Hashmap_Clone(t *testing.T) {
 		// Assert
 		if cloned.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -2419,7 +2273,6 @@ func Test_S09_149_Hashmap_Clone_Empty(t *testing.T) {
 		// Assert
 		if cloned.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -2437,7 +2290,6 @@ func Test_S09_150_Hashmap_Get(t *testing.T) {
 		// Assert
 		if !ok || v != "v" {
 			t.Fatal("expected 'v'")
-		}
 	})
 }
 
@@ -2452,7 +2304,6 @@ func Test_S09_151_Hashmap_Get_Missing(t *testing.T) {
 		// Assert
 		if ok {
 			t.Fatal("expected not found")
-		}
 	})
 }
 
@@ -2468,7 +2319,6 @@ func Test_S09_152_Hashmap_GetValue(t *testing.T) {
 		// Assert
 		if !ok || v != "v" {
 			t.Fatal("expected 'v'")
-		}
 	})
 }
 
@@ -2486,7 +2336,6 @@ func Test_S09_153_Hashmap_Serialize(t *testing.T) {
 		// Assert
 		if err != nil || len(data) == 0 {
 			t.Fatal("expected valid bytes")
-		}
 	})
 }
 
@@ -2503,6 +2352,5 @@ func Test_S09_154_Hashmap_Deserialize(t *testing.T) {
 		// Assert
 		if err != nil || len(target) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }

@@ -19,7 +19,6 @@ func Test_CovHM2_01_Items_SafeItems(t *testing.T) {
 		}
 		if len(hm.SafeItems()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -30,7 +29,6 @@ func Test_CovHM2_02_ItemsCopyLock(t *testing.T) {
 		cp := hm.ItemsCopyLock()
 		if len(*cp) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -45,7 +43,6 @@ func Test_CovHM2_03_ValuesCollection_ValuesHashset(t *testing.T) {
 		hs := hm.ValuesHashset()
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -67,7 +64,6 @@ func Test_CovHM2_05_ValuesList_ValuesListCopyLock(t *testing.T) {
 		}
 		if len(hm.ValuesListCopyLock()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -78,7 +74,6 @@ func Test_CovHM2_06_KeysValuesCollection(t *testing.T) {
 		keys, vals := hm.KeysValuesCollection()
 		if keys.Length() != 1 || vals.Length() != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -89,7 +84,6 @@ func Test_CovHM2_07_KeysValuesList(t *testing.T) {
 		keys, vals := hm.KeysValuesList()
 		if len(keys) != 1 || len(vals) != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -100,7 +94,6 @@ func Test_CovHM2_08_KeysValuePairs(t *testing.T) {
 		pairs := hm.KeysValuePairs()
 		if len(pairs) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -111,7 +104,6 @@ func Test_CovHM2_09_KeysValuePairsCollection(t *testing.T) {
 		kvc := hm.KeysValuePairsCollection()
 		if kvc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -122,7 +114,6 @@ func Test_CovHM2_10_KeysValuesListLock(t *testing.T) {
 		keys, vals := hm.KeysValuesListLock()
 		if len(keys) != 1 || len(vals) != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -149,7 +140,6 @@ func Test_CovHM2_11_AllKeys_Keys_KeysCollection_KeysLock(t *testing.T) {
 		}
 		if len(e.KeysLock()) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -177,7 +167,6 @@ func Test_CovHM2_13_Length_LengthLock(t *testing.T) {
 		hm.AddOrUpdate("a", "1")
 		if hm.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -226,7 +215,6 @@ func Test_CovHM2_14_IsEqual_IsEqualPtr_IsEqualPtrLock(t *testing.T) {
 		// IsEqualPtrLock
 		if !a.IsEqualPtrLock(b) {
 			t.Fatal("expected equal")
-		}
 	})
 }
 
@@ -242,7 +230,6 @@ func Test_CovHM2_15_Remove_RemoveWithLock(t *testing.T) {
 		hm.RemoveWithLock("b")
 		if hm.Has("b") {
 			t.Fatal("expected removed")
-		}
 	})
 }
 
@@ -275,7 +262,6 @@ func Test_CovHM2_17_GetValuesExceptKeysInHashset(t *testing.T) {
 		r2 := hm.GetValuesExceptKeysInHashset(nil)
 		if len(r2) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -290,7 +276,6 @@ func Test_CovHM2_18_GetValuesKeysExcept(t *testing.T) {
 		r2 := hm.GetValuesKeysExcept(nil)
 		if len(r2) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -305,7 +290,6 @@ func Test_CovHM2_19_GetAllExceptCollection(t *testing.T) {
 		r2 := hm.GetAllExceptCollection(nil)
 		if len(r2) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -346,7 +330,6 @@ func Test_CovHM2_22_MarshalJSON_UnmarshalJSON(t *testing.T) {
 		err3 := hm2.UnmarshalJSON([]byte("bad"))
 		if err3 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -371,7 +354,6 @@ func Test_CovHM2_24_ParseInjectUsingJson(t *testing.T) {
 		}
 		if r.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -384,7 +366,6 @@ func Test_CovHM2_25_ParseInjectUsingJsonMust(t *testing.T) {
 		r := hm2.ParseInjectUsingJsonMust(jr)
 		if r.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -399,7 +380,6 @@ func Test_CovHM2_26_ToError_ToDefaultError(t *testing.T) {
 		e2 := hm.ToDefaultError()
 		if e2 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -410,7 +390,6 @@ func Test_CovHM2_27_KeyValStringLines(t *testing.T) {
 		lines := hm.KeyValStringLines()
 		if len(lines) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -439,7 +418,6 @@ func Test_CovHM2_29_ToStringsUsingCompiler(t *testing.T) {
 		r2 := hm.ToStringsUsingCompiler(func(k, v string) string { return k + "=" + v })
 		if len(r2) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -462,7 +440,6 @@ func Test_CovHM2_31_JsonParseSelfInject(t *testing.T) {
 		err := hm2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -483,7 +460,6 @@ func Test_CovHM2_32_Clone_ClonePtr(t *testing.T) {
 		ec := e.Clone()
 		if ec.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -502,7 +478,6 @@ func Test_CovHM2_33_Get_GetValue(t *testing.T) {
 		v2, _ := hm.GetValue("a")
 		if v2 != "1" {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -518,6 +493,5 @@ func Test_CovHM2_34_Serialize_Deserialize(t *testing.T) {
 		err2 := hm.Deserialize(target)
 		if err2 != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }

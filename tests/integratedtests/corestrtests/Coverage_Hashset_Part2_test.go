@@ -23,7 +23,6 @@ func Test_CovHS2_01_OrderedList(t *testing.T) {
 		list2 := e.OrderedList()
 		if len(list2) != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -36,7 +35,6 @@ func Test_CovHS2_02_SafeStrings(t *testing.T) {
 		hs.Add("a")
 		if len(hs.SafeStrings()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -49,7 +47,6 @@ func Test_CovHS2_03_Lines(t *testing.T) {
 		hs.Add("a")
 		if len(hs.Lines()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -64,7 +61,6 @@ func Test_CovHS2_04_SimpleSlice(t *testing.T) {
 		ss2 := hs.SimpleSlice()
 		if ss2.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -99,7 +95,6 @@ func Test_CovHS2_05_GetFilteredItems(t *testing.T) {
 		})
 		if len(r4) != 1 {
 			t.Fatal("expected 1 (break)")
-		}
 	})
 }
 
@@ -127,7 +122,6 @@ func Test_CovHS2_06_GetFilteredCollection(t *testing.T) {
 		})
 		if col3.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -150,7 +144,6 @@ func Test_CovHS2_07_GetAllExceptHashset(t *testing.T) {
 		r3 := hs.GetAllExceptHashset(corestr.New.Hashset.Empty())
 		if len(r3) != 3 {
 			t.Fatal("expected 3")
-		}
 	})
 }
 
@@ -166,7 +159,6 @@ func Test_CovHS2_08_GetAllExcept(t *testing.T) {
 		r2 := hs.GetAllExcept(nil)
 		if len(r2) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -182,7 +174,6 @@ func Test_CovHS2_09_GetAllExceptSpread(t *testing.T) {
 		r2 := hs.GetAllExceptSpread()
 		if len(r2) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -198,7 +189,6 @@ func Test_CovHS2_10_GetAllExceptCollection(t *testing.T) {
 		r2 := hs.GetAllExceptCollection(nil)
 		if len(r2) != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -209,7 +199,6 @@ func Test_CovHS2_11_Items(t *testing.T) {
 		items := hs.Items()
 		if !items["a"] {
 			t.Fatal("expected a")
-		}
 	})
 }
 
@@ -225,7 +214,6 @@ func Test_CovHS2_12_List_ListPtr_ListCopyLock(t *testing.T) {
 		}
 		if len(hs.ListCopyLock()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -256,7 +244,6 @@ func Test_CovHS2_14_JoinSorted(t *testing.T) {
 		s := hs.JoinSorted(",")
 		if s != "a,b" {
 			t.Fatalf("expected 'a,b', got '%s'", s)
-		}
 	})
 }
 
@@ -271,7 +258,6 @@ func Test_CovHS2_15_ListPtrSortedAsc_Dsc(t *testing.T) {
 		dsc := hs.ListPtrSortedDsc()
 		if dsc[0] != "c" {
 			t.Fatal("expected c first")
-		}
 	})
 }
 
@@ -305,7 +291,6 @@ func Test_CovHS2_17_Remove_SafeRemove_RemoveWithLock(t *testing.T) {
 		hs.RemoveWithLock("c")
 		if hs.Has("c") {
 			t.Fatal("expected removed")
-		}
 	})
 }
 
@@ -354,7 +339,6 @@ func Test_CovHS2_21_ToLowerSet(t *testing.T) {
 		lower := hs.ToLowerSet()
 		if !lower.Has("abc") {
 			t.Fatal("expected abc")
-		}
 	})
 }
 
@@ -370,7 +354,6 @@ func Test_CovHS2_22_Length_LengthLock(t *testing.T) {
 		hs.Add("a")
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -410,7 +393,6 @@ func Test_CovHS2_24_MarshalJSON_UnmarshalJSON(t *testing.T) {
 		err3 := hs2.UnmarshalJSON([]byte("invalid"))
 		if err3 == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -435,7 +417,6 @@ func Test_CovHS2_26_ParseInjectUsingJson(t *testing.T) {
 		}
 		if result.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -448,7 +429,6 @@ func Test_CovHS2_27_ParseInjectUsingJsonMust(t *testing.T) {
 		r := hs2.ParseInjectUsingJsonMust(jr)
 		if r.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -461,7 +441,6 @@ func Test_CovHS2_28_JsonParseSelfInject(t *testing.T) {
 		err := hs2.JsonParseSelfInject(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -498,7 +477,6 @@ func Test_CovHS2_30_DistinctDiffLinesRaw(t *testing.T) {
 		r4 := hs.DistinctDiffLinesRaw("a", "x")
 		if len(r4) != 1 {
 			t.Fatalf("expected 1 (only 'a'), got %d", len(r4))
-		}
 	})
 }
 
@@ -511,7 +489,6 @@ func Test_CovHS2_31_DistinctDiffHashset(t *testing.T) {
 		diff := a.DistinctDiffHashset(b)
 		if len(diff) != 2 {
 			t.Fatalf("expected 2, got %d", len(diff))
-		}
 	})
 }
 
@@ -539,7 +516,6 @@ func Test_CovHS2_32_DistinctDiffLines(t *testing.T) {
 		r4 := hs.DistinctDiffLines("a", "x")
 		if len(r4) != 1 {
 			t.Fatalf("expected 1, got %d", len(r4))
-		}
 	})
 }
 
@@ -555,7 +531,6 @@ func Test_CovHS2_33_Serialize_Deserialize(t *testing.T) {
 		err2 := hs.Deserialize(target)
 		if err2 != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -566,7 +541,6 @@ func Test_CovHS2_34_WrapDoubleQuote(t *testing.T) {
 		r := hs.WrapDoubleQuote()
 		if !r.Has(`"a"`) {
 			t.Fatal("expected wrapped")
-		}
 	})
 }
 
@@ -577,7 +551,6 @@ func Test_CovHS2_35_WrapDoubleQuoteIfMissing(t *testing.T) {
 		r := hs.WrapDoubleQuoteIfMissing()
 		if !r.Has(`"a"`) {
 			t.Fatal("expected wrapped")
-		}
 	})
 }
 
@@ -588,7 +561,6 @@ func Test_CovHS2_36_WrapSingleQuote(t *testing.T) {
 		r := hs.WrapSingleQuote()
 		if !r.Has("'a'") {
 			t.Fatal("expected wrapped")
-		}
 	})
 }
 
@@ -599,7 +571,6 @@ func Test_CovHS2_37_WrapSingleQuoteIfMissing(t *testing.T) {
 		r := hs.WrapSingleQuoteIfMissing()
 		if !r.Has("'a'") {
 			t.Fatal("expected wrapped")
-		}
 	})
 }
 
@@ -609,6 +580,5 @@ func Test_CovHS2_38_Transpile_Empty(t *testing.T) {
 		r := hs.Transpile(func(s string) string { return s })
 		if r.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }

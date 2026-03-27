@@ -23,7 +23,6 @@ func Test_C79_ValidValue_NewValidValue(t *testing.T) {
 		// Assert
 		if vv.Value != "hello" || !vv.IsValid {
 			t.Error("NewValidValue mismatch")
-		}
 	})
 }
 
@@ -35,7 +34,6 @@ func Test_C79_ValidValue_NewValidValueEmpty(t *testing.T) {
 		// Assert
 		if vv.Value != "" || !vv.IsValid {
 			t.Error("expected empty valid value")
-		}
 	})
 }
 
@@ -47,7 +45,6 @@ func Test_C79_ValidValue_InvalidValidValue(t *testing.T) {
 		// Assert
 		if vv.IsValid || vv.Message != "err msg" {
 			t.Error("expected invalid with message")
-		}
 	})
 }
 
@@ -59,7 +56,6 @@ func Test_C79_ValidValue_InvalidValidValueNoMessage(t *testing.T) {
 		// Assert
 		if vv.IsValid {
 			t.Error("expected invalid")
-		}
 	})
 }
 
@@ -71,7 +67,6 @@ func Test_C79_ValidValue_NewValidValueUsingAny(t *testing.T) {
 		// Assert
 		if vv.Value != "42" || !vv.IsValid {
 			t.Errorf("expected '42' valid, got '%s' %v", vv.Value, vv.IsValid)
-		}
 	})
 }
 
@@ -83,7 +78,6 @@ func Test_C79_ValidValue_NewValidValueUsingAnyAutoValid(t *testing.T) {
 		// Assert
 		if vv.Value == "" {
 			t.Error("expected non-empty value")
-		}
 	})
 }
 
@@ -99,7 +93,6 @@ func Test_C79_ValidValue_ValueBytesOnce(t *testing.T) {
 		// Assert
 		if string(bytes1) != "abc" || string(bytes2) != "abc" {
 			t.Error("bytes mismatch")
-		}
 	})
 }
 
@@ -114,7 +107,6 @@ func Test_C79_ValidValue_ValueBytesOncePtr(t *testing.T) {
 		// Assert
 		if string(result) != "xyz" {
 			t.Error("bytes mismatch")
-		}
 	})
 }
 
@@ -134,7 +126,6 @@ func Test_C79_ValidValue_IsEmpty_IsWhitespace(t *testing.T) {
 		}
 		if val.IsEmpty() {
 			t.Error("expected not empty")
-		}
 	})
 }
 
@@ -146,7 +137,6 @@ func Test_C79_ValidValue_Trim(t *testing.T) {
 		// Act & Assert
 		if vv.Trim() != "hello" {
 			t.Error("trim mismatch")
-		}
 	})
 }
 
@@ -162,7 +152,6 @@ func Test_C79_ValidValue_HasValidNonEmpty(t *testing.T) {
 		}
 		if invalid.HasValidNonEmpty() {
 			t.Error("expected false")
-		}
 	})
 }
 
@@ -178,7 +167,6 @@ func Test_C79_ValidValue_HasValidNonWhitespace(t *testing.T) {
 		}
 		if ws.HasValidNonWhitespace() {
 			t.Error("expected false for whitespace")
-		}
 	})
 }
 
@@ -202,7 +190,6 @@ func Test_C79_ValidValue_ValueBool(t *testing.T) {
 		}
 		if emptyVV.ValueBool() {
 			t.Error("expected false for empty")
-		}
 	})
 }
 
@@ -218,7 +205,6 @@ func Test_C79_ValidValue_ValueInt(t *testing.T) {
 		}
 		if invalid.ValueInt(99) != 99 {
 			t.Error("expected 99")
-		}
 	})
 }
 
@@ -234,7 +220,6 @@ func Test_C79_ValidValue_ValueDefInt(t *testing.T) {
 		}
 		if invalid.ValueDefInt() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -258,7 +243,6 @@ func Test_C79_ValidValue_ValueByte(t *testing.T) {
 		}
 		if invalid.ValueByte(0) != 0 {
 			t.Error("expected 0 for invalid")
-		}
 	})
 }
 
@@ -278,7 +262,6 @@ func Test_C79_ValidValue_ValueDefByte(t *testing.T) {
 		}
 		if negative.ValueDefByte() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -294,7 +277,6 @@ func Test_C79_ValidValue_ValueFloat64(t *testing.T) {
 		}
 		if invalid.ValueFloat64(1.5) != 1.5 {
 			t.Error("expected 1.5")
-		}
 	})
 }
 
@@ -306,7 +288,6 @@ func Test_C79_ValidValue_ValueDefFloat64(t *testing.T) {
 		// Act & Assert
 		if vv.ValueDefFloat64() != 2.5 {
 			t.Error("expected 2.5")
-		}
 	})
 }
 
@@ -322,7 +303,6 @@ func Test_C79_ValidValue_HasSafeNonEmpty(t *testing.T) {
 		}
 		if empty.HasSafeNonEmpty() {
 			t.Error("expected false")
-		}
 	})
 }
 
@@ -337,7 +317,6 @@ func Test_C79_ValidValue_Is(t *testing.T) {
 		}
 		if vv.Is("world") {
 			t.Error("expected false")
-		}
 	})
 }
 
@@ -355,7 +334,6 @@ func Test_C79_ValidValue_IsAnyOf(t *testing.T) {
 		}
 		if !vv.IsAnyOf() {
 			t.Error("expected true for empty")
-		}
 	})
 }
 
@@ -367,7 +345,6 @@ func Test_C79_ValidValue_IsContains(t *testing.T) {
 		// Act & Assert
 		if !vv.IsContains("world") {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -385,7 +362,6 @@ func Test_C79_ValidValue_IsAnyContains(t *testing.T) {
 		}
 		if !vv.IsAnyContains() {
 			t.Error("expected true for empty")
-		}
 	})
 }
 
@@ -397,7 +373,6 @@ func Test_C79_ValidValue_IsEqualNonSensitive(t *testing.T) {
 		// Act & Assert
 		if !vv.IsEqualNonSensitive("hello") {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -413,7 +388,6 @@ func Test_C79_ValidValue_IsRegexMatches(t *testing.T) {
 		}
 		if vv.IsRegexMatches(nil) {
 			t.Error("expected false for nil")
-		}
 	})
 }
 
@@ -429,7 +403,6 @@ func Test_C79_ValidValue_RegexFindString(t *testing.T) {
 		}
 		if vv.RegexFindString(nil) != "" {
 			t.Error("expected empty for nil")
-		}
 	})
 }
 
@@ -445,7 +418,6 @@ func Test_C79_ValidValue_RegexFindAllStringsWithFlag(t *testing.T) {
 		// Assert
 		if !hasAny || len(items) != 3 {
 			t.Error("expected 3 matches")
-		}
 	})
 }
 
@@ -460,7 +432,6 @@ func Test_C79_ValidValue_RegexFindAllStringsWithFlag_Nil(t *testing.T) {
 		// Assert
 		if hasAny || len(items) != 0 {
 			t.Error("expected empty for nil")
-		}
 	})
 }
 
@@ -476,7 +447,6 @@ func Test_C79_ValidValue_RegexFindAllStrings(t *testing.T) {
 		// Assert
 		if len(items) != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -488,7 +458,6 @@ func Test_C79_ValidValue_RegexFindAllStrings_Nil(t *testing.T) {
 		// Act & Assert
 		if len(vv.RegexFindAllStrings(nil, -1)) != 0 {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -503,7 +472,6 @@ func Test_C79_ValidValue_Split(t *testing.T) {
 		// Assert
 		if len(result) != 3 {
 			t.Errorf("expected 3, got %d", len(result))
-		}
 	})
 }
 
@@ -518,7 +486,6 @@ func Test_C79_ValidValue_SplitNonEmpty(t *testing.T) {
 		// Assert
 		if len(result) < 2 {
 			t.Errorf("expected at least 2, got %d", len(result))
-		}
 	})
 }
 
@@ -533,7 +500,6 @@ func Test_C79_ValidValue_SplitTrimNonWhitespace(t *testing.T) {
 		// Assert
 		if len(result) < 2 {
 			t.Errorf("expected at least 2, got %d", len(result))
-		}
 	})
 }
 
@@ -548,7 +514,6 @@ func Test_C79_ValidValue_Clone(t *testing.T) {
 		// Assert
 		if cloned == nil || cloned.Value != "x" {
 			t.Error("clone mismatch")
-		}
 	})
 }
 
@@ -563,7 +528,6 @@ func Test_C79_ValidValue_Clone_Nil(t *testing.T) {
 		// Assert
 		if cloned != nil {
 			t.Error("expected nil")
-		}
 	})
 }
 
@@ -575,7 +539,6 @@ func Test_C79_ValidValue_String(t *testing.T) {
 		// Act & Assert
 		if vv.String() != "hello" {
 			t.Error("String mismatch")
-		}
 	})
 }
 
@@ -587,7 +550,6 @@ func Test_C79_ValidValue_String_Nil(t *testing.T) {
 		// Act & Assert
 		if vv.String() != "" {
 			t.Error("expected empty for nil")
-		}
 	})
 }
 
@@ -602,7 +564,6 @@ func Test_C79_ValidValue_FullString(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Error("expected non-empty")
-		}
 	})
 }
 
@@ -614,7 +575,6 @@ func Test_C79_ValidValue_FullString_Nil(t *testing.T) {
 		// Act & Assert
 		if vv.FullString() != "" {
 			t.Error("expected empty for nil")
-		}
 	})
 }
 
@@ -629,7 +589,6 @@ func Test_C79_ValidValue_Clear_Dispose(t *testing.T) {
 		// Assert
 		if vv.Value != "" || vv.IsValid {
 			t.Error("expected cleared")
-		}
 	})
 }
 
@@ -659,7 +618,6 @@ func Test_C79_ValidValue_Json_Serialize(t *testing.T) {
 		}
 		if err != nil || len(bytes) == 0 {
 			t.Error("serialize error")
-		}
 	})
 }
 
@@ -679,7 +637,6 @@ func Test_C79_ValidValue_ParseInjectUsingJson(t *testing.T) {
 		}
 		if result.Value != "hello" {
 			t.Error("value mismatch")
-		}
 	})
 }
 
@@ -695,7 +652,6 @@ func Test_C79_ValidValue_Deserialize(t *testing.T) {
 		// Assert
 		if err != nil {
 			t.Errorf("error: %v", err)
-		}
 	})
 }
 
@@ -709,7 +665,6 @@ func Test_C79_ValidValues_NewValidValues(t *testing.T) {
 		// Assert
 		if vvs == nil || vvs.Length() != 0 {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -721,7 +676,6 @@ func Test_C79_ValidValues_EmptyValidValues(t *testing.T) {
 		// Assert
 		if vvs == nil || !vvs.IsEmpty() {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -736,7 +690,6 @@ func Test_C79_ValidValues_NewValidValuesUsingValues(t *testing.T) {
 		// Assert
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2, got %d", vvs.Length())
-		}
 	})
 }
 
@@ -748,7 +701,6 @@ func Test_C79_ValidValues_NewValidValuesUsingValues_Empty(t *testing.T) {
 		// Assert
 		if vvs.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -763,7 +715,6 @@ func Test_C79_ValidValues_Add(t *testing.T) {
 		// Assert
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2")
-		}
 	})
 }
 
@@ -778,7 +729,6 @@ func Test_C79_ValidValues_AddFull(t *testing.T) {
 		// Assert
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -794,7 +744,6 @@ func Test_C79_ValidValues_Count_HasAnyItem(t *testing.T) {
 		}
 		if !vvs.HasAnyItem() {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -813,7 +762,6 @@ func Test_C79_ValidValues_LastIndex_HasIndex(t *testing.T) {
 		}
 		if vvs.HasIndex(5) {
 			t.Error("expected false for 5")
-		}
 	})
 }
 
@@ -829,7 +777,6 @@ func Test_C79_ValidValues_SafeValueAt(t *testing.T) {
 		}
 		if vvs.SafeValueAt(5) != "" {
 			t.Error("expected empty for out of range")
-		}
 	})
 }
 
@@ -846,7 +793,6 @@ func Test_C79_ValidValues_SafeValidValueAt(t *testing.T) {
 		}
 		if vvs.SafeValidValueAt(1) != "" {
 			t.Error("expected empty for invalid value")
-		}
 	})
 }
 
@@ -862,7 +808,6 @@ func Test_C79_ValidValues_SafeValuesAtIndexes(t *testing.T) {
 		// Assert
 		if len(result) != 2 || result[0] != "a" || result[1] != "c" {
 			t.Errorf("expected [a, c], got %v", result)
-		}
 	})
 }
 
@@ -878,7 +823,6 @@ func Test_C79_ValidValues_SafeValidValuesAtIndexes(t *testing.T) {
 		// Assert
 		if len(result) != 2 || result[0] != "a" || result[1] != "" {
 			t.Errorf("unexpected result: %v", result)
-		}
 	})
 }
 
@@ -894,7 +838,6 @@ func Test_C79_ValidValues_Strings(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -906,7 +849,6 @@ func Test_C79_ValidValues_Strings_Empty(t *testing.T) {
 		// Act & Assert
 		if len(vvs.Strings()) != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -922,7 +864,6 @@ func Test_C79_ValidValues_FullStrings(t *testing.T) {
 		// Assert
 		if len(result) != 1 || result[0] == "" {
 			t.Error("expected non-empty full string")
-		}
 	})
 }
 
@@ -934,7 +875,6 @@ func Test_C79_ValidValues_FullStrings_Empty(t *testing.T) {
 		// Act & Assert
 		if len(vvs.FullStrings()) != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -950,7 +890,6 @@ func Test_C79_ValidValues_String(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Error("expected non-empty")
-		}
 	})
 }
 
@@ -968,7 +907,6 @@ func Test_C79_ValidValues_Find(t *testing.T) {
 		// Assert
 		if len(found) != 1 {
 			t.Errorf("expected 1, got %d", len(found))
-		}
 	})
 }
 
@@ -986,7 +924,6 @@ func Test_C79_ValidValues_Find_WithBreak(t *testing.T) {
 		// Assert
 		if len(found) != 1 {
 			t.Errorf("expected 1 due to break, got %d", len(found))
-		}
 	})
 }
 
@@ -1003,7 +940,6 @@ func Test_C79_ValidValues_Find_Empty(t *testing.T) {
 		// Assert
 		if len(found) != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1021,7 +957,6 @@ func Test_C79_ValidValues_Adds(t *testing.T) {
 		// Assert
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2")
-		}
 	})
 }
 
@@ -1036,7 +971,6 @@ func Test_C79_ValidValues_Adds_Empty(t *testing.T) {
 		// Assert
 		if vvs.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1052,7 +986,6 @@ func Test_C79_ValidValues_AddsPtr(t *testing.T) {
 		// Assert
 		if vvs.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1067,7 +1000,6 @@ func Test_C79_ValidValues_AddsPtr_Empty(t *testing.T) {
 		// Assert
 		if vvs.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1085,7 +1017,6 @@ func Test_C79_ValidValues_AddValidValues(t *testing.T) {
 		// Assert
 		if vvs1.Length() != 2 {
 			t.Errorf("expected 2, got %d", vvs1.Length())
-		}
 	})
 }
 
@@ -1100,7 +1031,6 @@ func Test_C79_ValidValues_AddValidValues_Nil(t *testing.T) {
 		// Assert
 		if vvs.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1118,7 +1048,6 @@ func Test_C79_ValidValues_ConcatNew(t *testing.T) {
 		// Assert
 		if result.Length() != 2 {
 			t.Errorf("expected 2, got %d", result.Length())
-		}
 	})
 }
 
@@ -1134,7 +1063,6 @@ func Test_C79_ValidValues_ConcatNew_EmptyWithClone(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Errorf("expected 1, got %d", result.Length())
-		}
 	})
 }
 
@@ -1150,7 +1078,6 @@ func Test_C79_ValidValues_ConcatNew_EmptyNoClone(t *testing.T) {
 		// Assert
 		if result.Length() != 1 {
 			t.Error("expected same instance")
-		}
 	})
 }
 
@@ -1165,7 +1092,6 @@ func Test_C79_ValidValues_AddHashsetMap(t *testing.T) {
 		// Assert
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2, got %d", vvs.Length())
-		}
 	})
 }
 
@@ -1180,7 +1106,6 @@ func Test_C79_ValidValues_AddHashsetMap_Nil(t *testing.T) {
 		// Assert
 		if vvs.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1196,7 +1121,6 @@ func Test_C79_ValidValues_AddHashset(t *testing.T) {
 		// Assert
 		if vvs.Length() != 2 {
 			t.Errorf("expected 2, got %d", vvs.Length())
-		}
 	})
 }
 
@@ -1211,7 +1135,6 @@ func Test_C79_ValidValues_AddHashset_Nil(t *testing.T) {
 		// Assert
 		if vvs.Length() != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1227,7 +1150,6 @@ func Test_C79_ValidValues_Hashmap(t *testing.T) {
 		// Assert
 		if hm.Length() != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1243,7 +1165,6 @@ func Test_C79_ValidValues_Map(t *testing.T) {
 		// Assert
 		if len(m) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1260,7 +1181,6 @@ func Test_C79_ValueStatus_InvalidValueStatusNoMessage(t *testing.T) {
 		}
 		if vs.Index != -1 {
 			t.Errorf("expected -1, got %d", vs.Index)
-		}
 	})
 }
 
@@ -1275,7 +1195,6 @@ func Test_C79_ValueStatus_InvalidValueStatus(t *testing.T) {
 		}
 		if vs.ValueValid.Message != "err" {
 			t.Error("message mismatch")
-		}
 	})
 }
 
@@ -1293,7 +1212,6 @@ func Test_C79_ValueStatus_Clone(t *testing.T) {
 		// Assert
 		if cloned.Index != 5 || cloned.ValueValid.Value != "x" {
 			t.Error("clone mismatch")
-		}
 	})
 }
 
@@ -1311,7 +1229,6 @@ func Test_C79_TWLN_HasLineNumber(t *testing.T) {
 		}
 		if invalid.HasLineNumber() {
 			t.Error("expected false for -1")
-		}
 	})
 }
 
@@ -1323,7 +1240,6 @@ func Test_C79_TWLN_HasLineNumber_Nil(t *testing.T) {
 		// Act & Assert
 		if twln.HasLineNumber() {
 			t.Error("expected false for nil")
-		}
 	})
 }
 
@@ -1339,7 +1255,6 @@ func Test_C79_TWLN_IsInvalidLineNumber(t *testing.T) {
 		}
 		if !invalid.IsInvalidLineNumber() {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -1351,7 +1266,6 @@ func Test_C79_TWLN_IsInvalidLineNumber_Nil(t *testing.T) {
 		// Act & Assert
 		if !twln.IsInvalidLineNumber() {
 			t.Error("expected true for nil")
-		}
 	})
 }
 
@@ -1363,7 +1277,6 @@ func Test_C79_TWLN_Length(t *testing.T) {
 		// Act & Assert
 		if twln.Length() != 5 {
 			t.Errorf("expected 5, got %d", twln.Length())
-		}
 	})
 }
 
@@ -1375,7 +1288,6 @@ func Test_C79_TWLN_Length_Nil(t *testing.T) {
 		// Act & Assert
 		if twln.Length() != 0 {
 			t.Error("expected 0 for nil")
-		}
 	})
 }
 
@@ -1391,7 +1303,6 @@ func Test_C79_TWLN_IsEmpty(t *testing.T) {
 		}
 		if valid.IsEmpty() {
 			t.Error("expected not empty")
-		}
 	})
 }
 
@@ -1403,7 +1314,6 @@ func Test_C79_TWLN_IsEmpty_Nil(t *testing.T) {
 		// Act & Assert
 		if !twln.IsEmpty() {
 			t.Error("expected true for nil")
-		}
 	})
 }
 
@@ -1419,7 +1329,6 @@ func Test_C79_TWLN_IsEmptyText(t *testing.T) {
 		}
 		if valid.IsEmptyText() {
 			t.Error("expected false")
-		}
 	})
 }
 
@@ -1431,7 +1340,6 @@ func Test_C79_TWLN_IsEmptyText_Nil(t *testing.T) {
 		// Act & Assert
 		if !twln.IsEmptyText() {
 			t.Error("expected true for nil")
-		}
 	})
 }
 
@@ -1443,7 +1351,6 @@ func Test_C79_TWLN_IsEmptyTextLineBoth(t *testing.T) {
 		// Act & Assert
 		if !empty.IsEmptyTextLineBoth() {
 			t.Error("expected true")
-		}
 	})
 }
 
@@ -1460,7 +1367,6 @@ func Test_C79_CloneSlice(t *testing.T) {
 		// Assert
 		if len(result) != 2 || result[0] != "a" {
 			t.Error("clone mismatch")
-		}
 	})
 }
 
@@ -1472,7 +1378,6 @@ func Test_C79_CloneSlice_Empty(t *testing.T) {
 		// Assert
 		if len(result) != 0 {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -1486,7 +1391,6 @@ func Test_C79_CloneSliceIf_Clone(t *testing.T) {
 		// Assert
 		if len(result) != 2 {
 			t.Error("expected 2")
-		}
 	})
 }
 
@@ -1498,7 +1402,6 @@ func Test_C79_CloneSliceIf_NoClone(t *testing.T) {
 		// Assert
 		if len(result) != 1 {
 			t.Error("expected 1")
-		}
 	})
 }
 
@@ -1510,7 +1413,6 @@ func Test_C79_CloneSliceIf_Empty(t *testing.T) {
 		// Assert
 		if len(result) != 0 {
 			t.Error("expected 0")
-		}
 	})
 }
 
@@ -1527,7 +1429,6 @@ func Test_C79_AnyToString_WithFieldNames(t *testing.T) {
 		// Assert
 		if result == "" {
 			t.Error("expected non-empty")
-		}
 	})
 }
 
@@ -1539,7 +1440,6 @@ func Test_C79_AnyToString_WithoutFieldNames(t *testing.T) {
 		// Assert
 		if result != "42" {
 			t.Errorf("expected '42', got '%s'", result)
-		}
 	})
 }
 
@@ -1551,7 +1451,6 @@ func Test_C79_AnyToString_EmptyString(t *testing.T) {
 		// Assert
 		if result != "" {
 			t.Error("expected empty")
-		}
 	})
 }
 
@@ -1565,7 +1464,6 @@ func Test_C79_Utils_WrapDouble(t *testing.T) {
 		// Assert
 		if result != `"x"` {
 			t.Errorf("expected '\"x\"', got '%s'", result)
-		}
 	})
 }
 
@@ -1577,7 +1475,6 @@ func Test_C79_Utils_WrapSingle(t *testing.T) {
 		// Assert
 		if result != "'x'" {
 			t.Errorf("expected \"'x'\", got '%s'", result)
-		}
 	})
 }
 
@@ -1589,7 +1486,6 @@ func Test_C79_Utils_WrapTilda(t *testing.T) {
 		// Assert
 		if result != "`x`" {
 			t.Errorf("expected \"`x`\", got '%s'", result)
-		}
 	})
 }
 
@@ -1601,7 +1497,6 @@ func Test_C79_Utils_WrapDoubleIfMissing_AlreadyWrapped(t *testing.T) {
 		// Assert
 		if result != `"hello"` {
 			t.Errorf("expected no change, got '%s'", result)
-		}
 	})
 }
 
@@ -1613,7 +1508,6 @@ func Test_C79_Utils_WrapDoubleIfMissing_NotWrapped(t *testing.T) {
 		// Assert
 		if result != `"hello"` {
 			t.Errorf("expected '\"hello\"', got '%s'", result)
-		}
 	})
 }
 
@@ -1625,7 +1519,6 @@ func Test_C79_Utils_WrapDoubleIfMissing_Empty(t *testing.T) {
 		// Assert
 		if result != `""` {
 			t.Errorf("expected '\"\"', got '%s'", result)
-		}
 	})
 }
 
@@ -1637,7 +1530,6 @@ func Test_C79_Utils_WrapSingleIfMissing_AlreadyWrapped(t *testing.T) {
 		// Assert
 		if result != "'hello'" {
 			t.Errorf("expected no change, got '%s'", result)
-		}
 	})
 }
 
@@ -1649,7 +1541,6 @@ func Test_C79_Utils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
 		// Assert
 		if result != "'hello'" {
 			t.Errorf("expected \"'hello'\", got '%s'", result)
-		}
 	})
 }
 
@@ -1661,6 +1552,5 @@ func Test_C79_Utils_WrapSingleIfMissing_Empty(t *testing.T) {
 		// Assert
 		if result != "''" {
 			t.Errorf("expected \"''\", got '%s'", result)
-		}
 	})
 }

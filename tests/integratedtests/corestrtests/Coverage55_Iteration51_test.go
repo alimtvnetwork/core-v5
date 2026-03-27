@@ -678,7 +678,6 @@ func Test_Cov55_Hashmap_Diff(t *testing.T) {
 		// Assert
 		convey.Convey("Diff returns non-nil", t, func() {
 			convey.So(diff, convey.ShouldNotBeNil)
-		})
 	})
 }
 
@@ -896,7 +895,6 @@ func Test_Cov55_Hashmap_StringLock(t *testing.T) {
 		// Assert
 		convey.Convey("StringLock non-empty", t, func() {
 			convey.So(result, convey.ShouldNotBeEmpty)
-		})
 	})
 }
 
@@ -909,7 +907,6 @@ func Test_Cov55_Hashmap_StringLock_Empty(t *testing.T) {
 		// Assert
 		convey.Convey("StringLock empty", t, func() {
 			convey.So(result, convey.ShouldContainSubstring, "No Element")
-		})
 	})
 }
 
@@ -967,7 +964,6 @@ func Test_Cov55_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
 		// Assert
 		convey.Convey("GetKeysFilteredItems break", t, func() {
 			convey.So(len(result), convey.ShouldBeGreaterThan, 0)
-		})
 	})
 }
 
@@ -1024,7 +1020,6 @@ func Test_Cov55_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
 		// Assert
 		convey.Convey("GetKeysFilteredCollection break", t, func() {
 			convey.So(result.Length(), convey.ShouldBeGreaterThan, 0)
-		})
 	})
 }
 
@@ -1037,7 +1032,6 @@ func Test_Cov55_Hashmap_SafeItems_Nil(t *testing.T) {
 		// Assert
 		convey.Convey("SafeItems nil", t, func() {
 			convey.So(result, convey.ShouldBeNil)
-		})
 	})
 }
 
@@ -1068,7 +1062,6 @@ func Test_Cov55_Hashmap_ToError(t *testing.T) {
 		// Assert
 		convey.Convey("ToError", t, func() {
 			convey.So(err, convey.ShouldNotBeNil)
-		})
 	})
 }
 
@@ -1082,7 +1075,6 @@ func Test_Cov55_Hashmap_ToDefaultError(t *testing.T) {
 		// Assert
 		convey.Convey("ToDefaultError", t, func() {
 			convey.So(err, convey.ShouldNotBeNil)
-		})
 	})
 }
 
@@ -1236,7 +1228,6 @@ func Test_Cov55_Hashmap_ClonePtr_Nil(t *testing.T) {
 		// Assert
 		convey.Convey("ClonePtr nil", t, func() {
 			convey.So(result, convey.ShouldBeNil)
-		})
 	})
 }
 
@@ -1350,7 +1341,6 @@ func Test_Cov55_EmptyCreator_KeyAnyValuePair(t *testing.T) {
 		convey.Convey("Empty.KeyAnyValuePair", t, func() {
 			convey.So(p, convey.ShouldNotBeNil)
 			convey.So(p.Key, convey.ShouldBeEmpty)
-		})
 	})
 }
 
@@ -1362,7 +1352,6 @@ func Test_Cov55_EmptyCreator_KeyValuePair(t *testing.T) {
 		convey.Convey("Empty.KeyValuePair", t, func() {
 			convey.So(p, convey.ShouldNotBeNil)
 			convey.So(p.Key, convey.ShouldBeEmpty)
-		})
 	})
 }
 
@@ -1471,7 +1460,6 @@ func Test_Cov55_EmptyCreator_KeyValuesCollection(t *testing.T) {
 		// Assert
 		convey.Convey("Empty.KeyValuesCollection", t, func() {
 			convey.So(kvc, convey.ShouldNotBeNil)
-		})
 	})
 }
 
@@ -1525,7 +1513,6 @@ func Test_Cov55_EmptyCreator_SimpleStringOncePtr(t *testing.T) {
 		convey.Convey("Empty.SimpleStringOncePtr", t, func() {
 			convey.So(sso, convey.ShouldNotBeNil)
 			convey.So(sso.IsInitialized(), convey.ShouldBeFalse)
-		})
 	})
 }
 
@@ -1690,7 +1677,6 @@ func Test_Cov55_Hashmap_DiffRaw(t *testing.T) {
 		// Assert
 		convey.Convey("DiffRaw", t, func() {
 			convey.So(result, convey.ShouldNotBeNil)
-		})
 	})
 }
 

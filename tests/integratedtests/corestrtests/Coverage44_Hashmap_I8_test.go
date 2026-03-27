@@ -17,7 +17,6 @@ func Test_I8_HM01_IsEmpty(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(5)
 		if !h.IsEmpty() {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -30,7 +29,6 @@ func Test_I8_HM02_HasItems(t *testing.T) {
 		h.AddOrUpdate("k", "v")
 		if !h.HasItems() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -39,7 +37,6 @@ func Test_I8_HM03_IsEmptyLock(t *testing.T) {
 		h := corestr.New.Hashmap.Cap(5)
 		if !h.IsEmptyLock() {
 			t.Fatal("expected empty")
-		}
 	})
 }
 
@@ -53,7 +50,6 @@ func Test_I8_HM04_AddOrUpdate(t *testing.T) {
 		isNew2 := h.AddOrUpdate("k", "v2")
 		if isNew2 {
 			t.Fatal("expected not new")
-		}
 	})
 }
 
@@ -63,7 +59,6 @@ func Test_I8_HM05_Set(t *testing.T) {
 		isNew := h.Set("k", "v")
 		if !isNew {
 			t.Fatal("expected new")
-		}
 	})
 }
 
@@ -73,7 +68,6 @@ func Test_I8_HM06_SetTrim(t *testing.T) {
 		h.SetTrim(" k ", " v ")
 		if !h.Has("k") {
 			t.Fatal("expected trimmed key")
-		}
 	})
 }
 
@@ -88,7 +82,6 @@ func Test_I8_HM07_SetBySplitter(t *testing.T) {
 		h.SetBySplitter("=", "nosplit")
 		if !h.Has("nosplit") {
 			t.Fatal("expected nosplit")
-		}
 	})
 }
 
@@ -98,7 +91,6 @@ func Test_I8_HM08_AddOrUpdateKeyStrValInt(t *testing.T) {
 		h.AddOrUpdateKeyStrValInt("k", 42)
 		if !h.Has("k") {
 			t.Fatal("expected key")
-		}
 	})
 }
 
@@ -108,7 +100,6 @@ func Test_I8_HM09_AddOrUpdateKeyStrValFloat(t *testing.T) {
 		h.AddOrUpdateKeyStrValFloat("k", 3.14)
 		if !h.Has("k") {
 			t.Fatal("expected key")
-		}
 	})
 }
 
@@ -118,7 +109,6 @@ func Test_I8_HM10_AddOrUpdateKeyStrValFloat64(t *testing.T) {
 		h.AddOrUpdateKeyStrValFloat64("k", 3.14)
 		if !h.Has("k") {
 			t.Fatal("expected key")
-		}
 	})
 }
 
@@ -128,7 +118,6 @@ func Test_I8_HM11_AddOrUpdateKeyStrValAny(t *testing.T) {
 		h.AddOrUpdateKeyStrValAny("k", "val")
 		if !h.Has("k") {
 			t.Fatal("expected key")
-		}
 	})
 }
 
@@ -138,7 +127,6 @@ func Test_I8_HM12_AddOrUpdateKeyVal(t *testing.T) {
 		isNew := h.AddOrUpdateKeyVal(corestr.KeyValuePair{Key: "k", Value: "v"})
 		if !isNew {
 			t.Fatal("expected new")
-		}
 	})
 }
 
@@ -148,7 +136,6 @@ func Test_I8_HM13_AddOrUpdateKeyValueAny(t *testing.T) {
 		h.AddOrUpdateKeyValueAny(corestr.KeyAnyValuePair{Key: "k", Value: 42})
 		if !h.Has("k") {
 			t.Fatal("expected key")
-		}
 	})
 }
 
@@ -158,7 +145,6 @@ func Test_I8_HM14_AddOrUpdateLock(t *testing.T) {
 		h.AddOrUpdateLock("k", "v")
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -171,7 +157,6 @@ func Test_I8_HM15_AddOrUpdateWithWgLock(t *testing.T) {
 		wg.Wait()
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -187,7 +172,6 @@ func Test_I8_HM16_AddOrUpdateHashmap(t *testing.T) {
 		h.AddOrUpdateHashmap(nil)
 		if h.Length() != 1 {
 			t.Fatal("expected still 1")
-		}
 	})
 }
 
@@ -211,7 +195,6 @@ func Test_I8_HM18_AddsOrUpdates(t *testing.T) {
 		)
 		if h.Length() != 2 {
 			t.Fatal("expected 2")
-		}
 	})
 }
 
@@ -223,7 +206,6 @@ func Test_I8_HM19_AddOrUpdateKeyAnyValues(t *testing.T) {
 		)
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -235,7 +217,6 @@ func Test_I8_HM20_AddOrUpdateKeyValues(t *testing.T) {
 		)
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -269,7 +250,6 @@ func Test_I8_HM22_Has(t *testing.T) {
 		}
 		if h.Has("z") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -279,7 +259,6 @@ func Test_I8_HM23_Contains(t *testing.T) {
 		h.Set("k", "v")
 		if !h.Contains("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -289,7 +268,6 @@ func Test_I8_HM24_ContainsLock(t *testing.T) {
 		h.Set("k", "v")
 		if !h.ContainsLock("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -302,7 +280,6 @@ func Test_I8_HM25_IsKeyMissing(t *testing.T) {
 		}
 		if !h.IsKeyMissing("z") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -312,7 +289,6 @@ func Test_I8_HM26_IsKeyMissingLock(t *testing.T) {
 		h.Set("k", "v")
 		if h.IsKeyMissingLock("k") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -322,7 +298,6 @@ func Test_I8_HM27_HasLock(t *testing.T) {
 		h.Set("k", "v")
 		if !h.HasLock("k") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -336,7 +311,6 @@ func Test_I8_HM28_HasAllStrings(t *testing.T) {
 		}
 		if h.HasAllStrings("a", "z") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -346,7 +320,6 @@ func Test_I8_HM29_HasAll(t *testing.T) {
 		h.Set("a", "1")
 		if !h.HasAll("a") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -359,7 +332,6 @@ func Test_I8_HM30_HasAnyItem(t *testing.T) {
 		h.Set("a", "1")
 		if !h.HasAnyItem() {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -372,7 +344,6 @@ func Test_I8_HM31_HasAny(t *testing.T) {
 		}
 		if h.HasAny("x", "y") {
 			t.Fatal("expected false")
-		}
 	})
 }
 
@@ -382,7 +353,6 @@ func Test_I8_HM32_HasWithLock(t *testing.T) {
 		h.Set("a", "1")
 		if !h.HasWithLock("a") {
 			t.Fatal("expected true")
-		}
 	})
 }
 
@@ -397,7 +367,6 @@ func Test_I8_HM33_HasAllCollectionItems(t *testing.T) {
 		}
 		if h.HasAllCollectionItems(nil) {
 			t.Fatal("expected false for nil")
-		}
 	})
 }
 
@@ -411,7 +380,6 @@ func Test_I8_HM34_Items(t *testing.T) {
 		h.Set("a", "1")
 		if len(h.Items()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -421,7 +389,6 @@ func Test_I8_HM35_SafeItems(t *testing.T) {
 		h.Set("a", "1")
 		if len(h.SafeItems()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -431,7 +398,6 @@ func Test_I8_HM36_ValuesList(t *testing.T) {
 		h.Set("a", "1")
 		if len(h.ValuesList()) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -442,7 +408,6 @@ func Test_I8_HM37_ValuesCollection(t *testing.T) {
 		c := h.ValuesCollection()
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -453,7 +418,6 @@ func Test_I8_HM38_ValuesHashset(t *testing.T) {
 		hs := h.ValuesHashset()
 		if hs.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -464,7 +428,6 @@ func Test_I8_HM39_KeysValuesCollection(t *testing.T) {
 		keys, values := h.KeysValuesCollection()
 		if keys.Length() != 1 || values.Length() != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -475,7 +438,6 @@ func Test_I8_HM40_KeysValuesList(t *testing.T) {
 		keys, values := h.KeysValuesList()
 		if len(keys) != 1 || len(values) != 1 {
 			t.Fatal("expected 1 each")
-		}
 	})
 }
 
@@ -486,7 +448,6 @@ func Test_I8_HM41_KeysValuePairs(t *testing.T) {
 		pairs := h.KeysValuePairs()
 		if len(pairs) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -500,7 +461,6 @@ func Test_I8_HM42_GetKeysFilteredItems(t *testing.T) {
 		})
 		if len(result) != 1 {
 			t.Fatalf("expected 1, got %d", len(result))
-		}
 	})
 }
 
@@ -513,7 +473,6 @@ func Test_I8_HM43_GetKeysFilteredCollection(t *testing.T) {
 		})
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -526,7 +485,6 @@ func Test_I8_HM44_ConcatNew(t *testing.T) {
 		result := h.ConcatNew(true, other)
 		if result.Length() < 2 {
 			t.Fatal("expected at least 2")
-		}
 	})
 }
 
@@ -537,7 +495,6 @@ func Test_I8_HM45_ConcatNew_Empty(t *testing.T) {
 		result := h.ConcatNew(true)
 		if result.Length() < 1 {
 			t.Fatal("expected at least 1")
-		}
 	})
 }
 
@@ -549,7 +506,6 @@ func Test_I8_HM46_ConcatNewUsingMaps(t *testing.T) {
 		result := h.ConcatNewUsingMaps(true, m)
 		if result.Length() < 2 {
 			t.Fatal("expected at least 2")
-		}
 	})
 }
 
@@ -582,7 +538,6 @@ func Test_I8_HM49_AddsOrUpdatesUsingFilter(t *testing.T) {
 		}, corestr.KeyValuePair{Key: "a", Value: "1"})
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -594,7 +549,6 @@ func Test_I8_HM50_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		}, corestr.KeyAnyValuePair{Key: "a", Value: 42})
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -605,7 +559,6 @@ func Test_I8_HM51_Json(t *testing.T) {
 		j := h.Json()
 		if j.JsonString() == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -618,7 +571,6 @@ func Test_I8_HM52_ParseInjectUsingJson(t *testing.T) {
 		_, err := h2.ParseInjectUsingJson(jr)
 		if err != nil {
 			t.Fatal("unexpected error")
-		}
 	})
 }
 
@@ -629,7 +581,6 @@ func Test_I8_HM53_ParseInjectUsingJson_Error(t *testing.T) {
 		_, err := h.ParseInjectUsingJson(bad)
 		if err == nil {
 			t.Fatal("expected error")
-		}
 	})
 }
 
@@ -640,7 +591,6 @@ func Test_I8_HM54_String(t *testing.T) {
 		s := h.String()
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
 	})
 }
 
@@ -651,7 +601,6 @@ func Test_I8_HM55_Clear(t *testing.T) {
 		h.Clear()
 		if h.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -662,7 +611,6 @@ func Test_I8_HM56_Dispose(t *testing.T) {
 		h.Dispose()
 		if h.Length() != 0 {
 			t.Fatal("expected 0")
-		}
 	})
 }
 
@@ -673,7 +621,6 @@ func Test_I8_HM57_ItemsCopyLock(t *testing.T) {
 		m := h.ItemsCopyLock()
 		if len(*m) != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -684,7 +631,6 @@ func Test_I8_HM58_Collection(t *testing.T) {
 		c := h.Collection()
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -697,7 +643,6 @@ func Test_I8_HM59_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 		wg.Wait()
 		if h.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }
 
@@ -708,6 +653,5 @@ func Test_I8_HM60_KeysValuePairsCollection(t *testing.T) {
 		kvc := h.KeysValuePairsCollection()
 		if kvc.Length() != 1 {
 			t.Fatal("expected 1")
-		}
 	})
 }

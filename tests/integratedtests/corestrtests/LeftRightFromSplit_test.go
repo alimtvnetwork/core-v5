@@ -84,7 +84,6 @@ func Test_LeftRightFromSplit(t *testing.T) {
 				"isValid": fmt.Sprintf("%v", lr.IsValid),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
-		}
 	})
 }
 
@@ -128,7 +127,6 @@ func Test_LeftRightFromSplitTrimmed(t *testing.T) {
 				"isValid": fmt.Sprintf("%v", lr.IsValid),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
-		}
 	})
 }
 
@@ -172,7 +170,6 @@ func Test_LeftRightFromSplitFull(t *testing.T) {
 				"isValid": fmt.Sprintf("%v", lr.IsValid),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
-		}
 	})
 }
 
@@ -204,6 +201,5 @@ func Test_LeftRightFromSplitFullTrimmed(t *testing.T) {
 				"isValid": fmt.Sprintf("%v", lr.IsValid),
 			}
 			tc.ShouldBeEqualMapFirst(t, actual)
-		}
 	})
 }
