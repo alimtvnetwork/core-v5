@@ -963,7 +963,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Accept(
 		hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, true, false
-		})
+		}
 		m.AddHashmapsKeysOrValuesBothUsingFilter(filter, hm)
 		tc := caseV1Compat{
 			Name:     "AddHashmapsKeysOrValuesBothUsingFilter accept",
@@ -981,7 +981,7 @@ func Test_Cov41_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter_Break(t
 		hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, false, true
-		})
+		}
 		m.AddHashmapsKeysOrValuesBothUsingFilter(filter, hm)
 		tc := caseV1Compat{
 			Name:     "AddHashmapsKeysOrValuesBothUsingFilter break",

@@ -419,7 +419,7 @@ func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return fmt.Sprintf("%v", pair.Value), true, false
-		})
+		}
 		// Act
 		h.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "k", Value: 1})
 		// Assert
@@ -438,7 +438,7 @@ func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", false, true
-		})
+		}
 		// Act
 		h.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "k", Value: 1})
 		// Assert
@@ -457,7 +457,7 @@ func Test_Cov55_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "val", true, false
-		})
+		}
 		// Act
 		h.AddsOrUpdatesAnyUsingFilterLock(filter, corestr.KeyAnyValuePair{Key: "k", Value: 1})
 		// Assert
@@ -476,7 +476,7 @@ func Test_Cov55_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, true, false
-		})
+		}
 		// Act
 		h.AddsOrUpdatesUsingFilter(filter, corestr.KeyValuePair{Key: "k", Value: "v"})
 		// Assert
@@ -921,7 +921,7 @@ func Test_Cov55_Hashmap_GetKeysFilteredItems(t *testing.T) {
 		h.AddOrUpdate("def", "2")
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, s == "abc", false
-		})
+		}
 		// Act
 		result := h.GetKeysFilteredItems(filter)
 		// Assert
@@ -940,7 +940,7 @@ func Test_Cov55_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		result := h.GetKeysFilteredItems(filter)
 		// Assert
@@ -961,7 +961,7 @@ func Test_Cov55_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
 		h.AddOrUpdate("b", "2")
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		// Act
 		result := h.GetKeysFilteredItems(filter)
 		// Assert
@@ -978,7 +978,7 @@ func Test_Cov55_Hashmap_GetKeysFilteredCollection(t *testing.T) {
 		h.AddOrUpdate("abc", "1")
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		result := h.GetKeysFilteredCollection(filter)
 		// Assert
@@ -997,7 +997,7 @@ func Test_Cov55_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
 		h := corestr.New.Hashmap.Empty()
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		})
+		}
 		// Act
 		result := h.GetKeysFilteredCollection(filter)
 		// Assert
@@ -1018,7 +1018,7 @@ func Test_Cov55_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
 		h.AddOrUpdate("b", "2")
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true
-		})
+		}
 		// Act
 		result := h.GetKeysFilteredCollection(filter)
 		// Assert

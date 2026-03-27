@@ -1645,7 +1645,7 @@ func Test_C49_LinkedCollections_AddsUsingProcessorAsync(t *testing.T) {
 		wg.Add(1)
 		processor := func(any any, index int) *corestr.Collection {
 			return corestr.New.Collection.Strings([]string{any.(string)})
-		})
+		}
 		lc.AddsUsingProcessorAsync(wg, processor, true, "hello")
 		wg.Wait()
 		if lc.LengthLock() != 1 {
@@ -1661,7 +1661,7 @@ func Test_C49_LinkedCollections_AddsUsingProcessorAsync_NilSkip(t *testing.T) {
 		wg.Add(1)
 		processor := func(any any, index int) *corestr.Collection {
 			return nil
-		})
+		}
 		lc.AddsUsingProcessorAsync(wg, processor, true)
 		wg.Wait()
 	})
