@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# check-safetest-boundaries.sh
-# Detects malformed safeTest/function boundaries in corestrtests.
-# Exit 1 if issues found, 0 if clean.
-
 set -euo pipefail
 
 DIR="tests/integratedtests/corestrtests"
@@ -16,8 +12,8 @@ fi
 for f in "$DIR"/*_test.go; do
   [ -f "$f" ] || continue
 
-  # Check 1: 3-tab statement immediately followed by \t}) (missing inner block close)
-  awk '
+  # Check 1: malformed safeTest boundary (missing inner `}` before `\t})`)
+  if ! awk '
     NR > 1 {
       if ($0 ~ /^\t\)\}$/ || $0 == "\t})") {
         if (prev ~ /^\t\t\t/ && prev !~ /^\t\t\t[[:space:]]*\}[[:space:]]*$/ && prev !~ /^\t\t\t[[:space:]]*\/\//) {
@@ -29,28 +25,60 @@ for f in "$DIR"/*_test.go; do
     }
     NR == 1 { prev = $0 }
     END { exit (found > 0 ? 1 : 0) }
-  ' "$f" 2>/dev/null && true
-  if [ $? -ne 0 ]; then
+  ' "$f" 2>/dev/null; then
     ISSUES=1
   fi
 
-  # Check 2: closure arg } missing ) — detects \t\t} where a func( opened above
-  python3 -c "
-import re, sys
-lines = open('$f').readlines()
+  # Check 2: closure arg `}` missing `)` (avoid false-positives on if/for/switch/select blocks)
+  if ! python3 - "$f" <<'PY' 2>/dev/null
+import re
+import sys
+
+path = sys.argv[1]
+lines = open(path, encoding="utf-8").read().splitlines()
+
+control_re = re.compile(r'^\t\t(?:if|for|switch|select|else)\b')
+func_open_re = re.compile(r'^\t\t(?!if\b|for\b|switch\b|select\b|else\b).*(?:\bfunc\(|\(func\().*\{\s*$')
+block_open_re = re.compile(r'^\t\t.*\{\s*$')
+
 for i, line in enumerate(lines):
-    if line.rstrip() == '\t\t}':
-        depth = 0
-        for j in range(i-1, max(i-30,-1), -1):
-            l = lines[j].rstrip()
-            if l == '\t\t})': depth += 1
-            elif re.search(r'^\t\t\S.*func\(.*\{$', l) or re.search(r'^\t\t\S.*\(func\(', l):
-                if depth > 0: depth -= 1
-                else: print(f'  $f:{i+1}: closure }} missing )'); sys.exit(1)
-            elif l.startswith('func Test_') or l.startswith('\tsafeTest('): break
-            elif l == '\t\t}': break
-" 2>/dev/null && true
-  if [ $? -ne 0 ]; then
+    if line.rstrip() != '\t\t}':
+        continue
+
+    depth = 0
+    for j in range(i - 1, max(i - 40, -1), -1):
+        l = lines[j].rstrip()
+
+        if not l:
+            continue
+
+        if l == '\t\t})':
+            depth += 1
+            continue
+
+        if l.startswith('func Test_') or l.startswith('\tsafeTest('):
+            break
+
+        if l == '\t\t}':
+            if depth == 0:
+                break
+            continue
+
+        if block_open_re.search(l):
+            if control_re.search(l):
+                break
+
+            if func_open_re.search(l):
+                if depth > 0:
+                    depth -= 1
+                else:
+                    print(f'  {path}:{i+1}: closure }} missing )')
+                    sys.exit(1)
+            break
+
+sys.exit(0)
+PY
+  then
     ISSUES=1
   fi
 done
