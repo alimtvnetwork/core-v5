@@ -414,7 +414,7 @@ func Test_C24_LinkedList_AddFunc(t *testing.T) {
 		ll.AddFunc(func() string { return "computed" })
 		if ll.Length() != 1 || ll.Head().Element != "computed" {
 			t.Error("AddFunc failed")
-		}
+		})
 	})
 }
 
@@ -787,9 +787,9 @@ func Test_C24_LinkedList_Loop_Empty(t *testing.T) {
 		ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
 			t.Error("should not be called")
 			return false
-		}
+		})
 	})
-}
+		})
 
 func Test_C24_LinkedList_Loop_Break(t *testing.T) {
 	safeTest(t, "Test_C24_LinkedList_Loop_Break", func() {

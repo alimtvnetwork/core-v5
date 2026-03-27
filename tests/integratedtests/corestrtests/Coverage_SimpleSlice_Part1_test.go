@@ -307,12 +307,12 @@ func Test_CovSS1_21_Length_Count_CountFunc(t *testing.T) {
 		c := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
 		if c != 2 {
 			t.Fatal("expected 2")
-		}
+		})
 		// empty
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if e.CountFunc(func(i int, s string) bool { return true }) != 0 {
 			t.Fatal("expected 0")
-		}
+		})
 	})
 }
 
@@ -365,7 +365,7 @@ func Test_CovSS1_24_IsContainsFunc(t *testing.T) {
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if e.IsContainsFunc("x", func(a, b string) bool { return a == b }) {
 			t.Fatal("expected false")
-		}
+		})
 	})
 }
 
@@ -391,7 +391,7 @@ func Test_CovSS1_25_IndexOf_IndexOfFunc(t *testing.T) {
 		}
 		if e.IndexOfFunc("a", func(a, b string) bool { return a == b }) != -1 {
 			t.Fatal("expected -1")
-		}
+		})
 	})
 }
 
@@ -452,7 +452,7 @@ func Test_CovSS1_29_Transpile_TranspileJoin(t *testing.T) {
 		r := ss.Transpile(func(s string) string { return s + "!" })
 		if (*r)[0] != "a!" {
 			t.Fatal("expected a!")
-		}
+		})
 		// empty
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		_ = e.Transpile(func(s string) string { return s })
@@ -460,7 +460,7 @@ func Test_CovSS1_29_Transpile_TranspileJoin(t *testing.T) {
 		s := ss.TranspileJoin(func(s string) string { return s }, ",")
 		if s == "" {
 			t.Fatal("expected non-empty")
-		}
+		})
 	})
 }
 

@@ -33,7 +33,7 @@ func Test_SrcC12_Collection_AddIfFuncErr_Verification(t *testing.T) {
 			"funcErrFail": cFail.Length(),
 			"errHandled":  errHandled,
 			"addErrVal":   cErr.First(),
-		}
+		})
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -83,7 +83,7 @@ func Test_SrcC12_Collection_HashmapMethods_Verification(t *testing.T) {
 			"hmFilterLen":   cF.Length(),
 			"hmFilterNil":   cFN.Length(),
 			"hmFilterBreak": cFB.Length(),
-		}
+		})
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)

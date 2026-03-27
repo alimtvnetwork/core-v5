@@ -260,7 +260,7 @@ func Test_Cov60_LC_AddsUsingProcessorAsyncOnComplete(t *testing.T) {
 		done := make(chan bool, 1)
 		processor := func(a any, i int) *corestr.Collection {
 			return corestr.New.Collection.Strings([]string{a.(string)})
-		}
+		})
 		lc.AddsUsingProcessorAsyncOnComplete(func(lc2 *corestr.LinkedCollections) {
 			done <- true
 		}, processor, false, "x")
@@ -277,7 +277,7 @@ func Test_Cov60_LC_AddsUsingProcessorAsyncOnComplete_NilSkip(t *testing.T) {
 		done := make(chan bool, 1)
 		processor := func(a any, i int) *corestr.Collection {
 			return nil
-		}
+		})
 		var anys []any
 		anys = nil
 		lc.AddsUsingProcessorAsyncOnComplete(func(lc2 *corestr.LinkedCollections) {
@@ -297,7 +297,7 @@ func Test_Cov60_LC_AddsUsingProcessorAsync(t *testing.T) {
 		wg.Add(1)
 		processor := func(a any, i int) *corestr.Collection {
 			return corestr.New.Collection.Strings([]string{a.(string)})
-		}
+		})
 		lc.AddsUsingProcessorAsync(wg, processor, false, "a")
 		wg.Wait()
 		actual := args.Map{"len": lc.Length()}
@@ -313,7 +313,7 @@ func Test_Cov60_LC_AddsUsingProcessorAsync_NilSkip(t *testing.T) {
 		wg.Add(1)
 		processor := func(a any, i int) *corestr.Collection {
 			return nil
-		}
+		})
 		var anys []any
 		anys = nil
 		lc.AddsUsingProcessorAsync(wg, processor, true, anys...)

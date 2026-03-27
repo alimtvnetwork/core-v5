@@ -97,7 +97,7 @@ func Test_S08b_06_Collection_AppendAnysUsingFilter(t *testing.T) {
 		col := corestr.Empty.Collection()
 		filter := func(str string, index int) (string, bool, bool) {
 			return strings.ToUpper(str), true, false
-		}
+		})
 
 		// Act
 		col.AppendAnysUsingFilter(filter, "hello", nil)
@@ -130,7 +130,7 @@ func Test_S08b_08_Collection_AppendAnysUsingFilter_Skip(t *testing.T) {
 		col := corestr.Empty.Collection()
 		filter := func(str string, index int) (string, bool, bool) {
 			return "", false, false // skip
-		}
+		})
 
 		// Act
 		col.AppendAnysUsingFilter(filter, "a")
@@ -148,7 +148,7 @@ func Test_S08b_09_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 		col := corestr.Empty.Collection()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true // keep and break
-		}
+		})
 
 		// Act
 		col.AppendAnysUsingFilter(filter, "a", "b", "c")
@@ -166,7 +166,7 @@ func Test_S08b_10_Collection_AppendAnysUsingFilterLock(t *testing.T) {
 		col := corestr.Empty.Collection()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		col.AppendAnysUsingFilterLock(filter, "x", nil, "y")
@@ -204,7 +204,7 @@ func Test_S08b_12_Collection_AppendAnysUsingFilterLock_SkipAndBreak(t *testing.T
 				return "", false, false // skip
 			}
 			return str, true, true // keep and break
-		}
+		})
 
 		// Act
 		col.AppendAnysUsingFilterLock(filter, "a", "b", "c")
@@ -437,7 +437,7 @@ func Test_S08b_26_Collection_Filter(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"apple", "banana", "avocado"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, strings.HasPrefix(str, "a"), false
-		}
+		})
 
 		// Act
 		result := col.Filter(filter)
@@ -472,7 +472,7 @@ func Test_S08b_28_Collection_Filter_Break(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, index == 0 // break after first
-		}
+		})
 
 		// Act
 		result := col.Filter(filter)
@@ -490,7 +490,7 @@ func Test_S08b_29_Collection_FilterLock(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		result := col.FilterLock(filter)
@@ -508,7 +508,7 @@ func Test_S08b_30_Collection_FilterLock_Break(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true // keep and break
-		}
+		})
 
 		// Act
 		result := col.FilterLock(filter)
@@ -526,7 +526,7 @@ func Test_S08b_31_Collection_FilteredCollection(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"x", "y", "z"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, str != "y", false
-		}
+		})
 
 		// Act
 		result := col.FilteredCollection(filter)
@@ -544,7 +544,7 @@ func Test_S08b_32_Collection_FilteredCollectionLock(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 
 		// Act
 		result := col.FilteredCollectionLock(filter)
@@ -564,7 +564,7 @@ func Test_S08b_33_Collection_FilterPtrLock(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(sp *string, index int) (*string, bool, bool) {
 			return sp, true, false
-		}
+		})
 
 		// Act
 		result := col.FilterPtrLock(filter)
@@ -582,7 +582,7 @@ func Test_S08b_34_Collection_FilterPtrLock_Empty(t *testing.T) {
 		col := corestr.Empty.Collection()
 		filter := func(sp *string, index int) (*string, bool, bool) {
 			return sp, true, false
-		}
+		})
 
 		// Act
 		result := col.FilterPtrLock(filter)
@@ -600,7 +600,7 @@ func Test_S08b_35_Collection_FilterPtrLock_Break(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		filter := func(sp *string, index int) (*string, bool, bool) {
 			return sp, true, true
-		}
+		})
 
 		// Act
 		result := col.FilterPtrLock(filter)
@@ -618,7 +618,7 @@ func Test_S08b_36_Collection_FilterPtr(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b"})
 		filter := func(sp *string, index int) (*string, bool, bool) {
 			return sp, true, false
-		}
+		})
 
 		// Act
 		result := col.FilterPtr(filter)
@@ -636,7 +636,7 @@ func Test_S08b_37_Collection_FilterPtr_Empty(t *testing.T) {
 		col := corestr.Empty.Collection()
 		filter := func(sp *string, index int) (*string, bool, bool) {
 			return sp, true, false
-		}
+		})
 
 		// Act
 		result := col.FilterPtr(filter)
@@ -654,7 +654,7 @@ func Test_S08b_38_Collection_FilterPtr_Break(t *testing.T) {
 		col := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 		filter := func(sp *string, index int) (*string, bool, bool) {
 			return sp, true, true
-		}
+		})
 
 		// Act
 		result := col.FilterPtr(filter)

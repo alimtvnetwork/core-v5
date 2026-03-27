@@ -288,21 +288,21 @@ func Test_CovSS2_19_IsEqualByFunc(t *testing.T) {
 		r := ss.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "b")
 		if !r {
 			t.Fatal("expected true")
-		}
+		})
 		// mismatch
 		r2 := ss.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "c")
 		if r2 {
 			t.Fatal("expected false")
-		}
+		})
 		// diff length
 		if ss.IsEqualByFunc(func(i int, l, r string) bool { return true }, "a") {
 			t.Fatal("expected false")
-		}
+		})
 		// both empty
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if !e.IsEqualByFunc(func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected true")
-		}
+		})
 	})
 }
 
@@ -322,16 +322,16 @@ func Test_CovSS2_20_IsEqualByFuncLinesSplit(t *testing.T) {
 		// diff length
 		if ss.IsEqualByFuncLinesSplit(false, ",", "a,b,c", func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected false")
-		}
+		})
 		// mismatch
 		if ss.IsEqualByFuncLinesSplit(false, ",", "a,c", func(i int, l, r string) bool { return l == r }) {
 			t.Fatal("expected false")
-		}
+		})
 		// empty — strings.Split("", ",") returns [""] (length 1) which != 0, so returns false
 		e := corestr.New.SimpleSlice.Strings([]string{})
 		if e.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
 			t.Fatal("expected false for empty vs split-empty mismatch")
-		}
+		})
 	})
 }
 

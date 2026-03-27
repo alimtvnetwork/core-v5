@@ -503,14 +503,14 @@ func Test_CovLC1_28_FilterAsCollection(t *testing.T) {
 		}, 0)
 		if col.Length() != 3 {
 			t.Fatalf("expected 3, got %d", col.Length())
-		}
+		})
 		// empty result
 		col2 := lc.FilterAsCollection(func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 			return &corestr.LinkedCollectionFilterResult{Value: arg.Node, IsKeep: false}
 		}, 0)
 		if col2.Length() != 0 {
 			t.Fatal("expected 0")
-		}
+		})
 	})
 }
 

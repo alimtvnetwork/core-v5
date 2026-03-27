@@ -511,7 +511,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilter(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s + "_f", s != "", false
-		}
+		})
 		c.AppendAnysUsingFilter(filter, "a", nil, "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -524,7 +524,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, i == 0 // break after first
-		}
+		})
 		c.AppendAnysUsingFilter(filter, "a", "b", "c")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -548,7 +548,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilterLock(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, false
-		}
+		})
 		c.AppendAnysUsingFilterLock(filter, "a", nil, "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}
@@ -572,7 +572,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilterLock_Break(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, true, true // always break
-		}
+		})
 		c.AppendAnysUsingFilterLock(filter, "a", "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -585,7 +585,7 @@ func Test_Seg2_Collection_AppendAnysUsingFilterLock_Skip(t *testing.T) {
 		c := corestr.New.Collection.Cap(10)
 		filter := func(s string, i int) (string, bool, bool) {
 			return s, false, false // skip all
-		}
+		})
 		c.AppendAnysUsingFilterLock(filter, "a", "b")
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 0}
@@ -770,7 +770,7 @@ func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		h.AddOrUpdate("skip", "v2")
 		filter := func(kvp corestr.KeyValuePair) (string, bool, bool) {
 			return kvp.Key + "=" + kvp.Value, kvp.Key == "keep", false
-		}
+		})
 		c.AddHashmapsKeysValuesUsingFilter(filter, h)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}
@@ -787,7 +787,7 @@ func Test_Seg2_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 		h.AddOrUpdate("c", "3")
 		filter := func(kvp corestr.KeyValuePair) (string, bool, bool) {
 			return kvp.Key, true, true // accept and break immediately
-		}
+		})
 		c.AddHashmapsKeysValuesUsingFilter(filter, h)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 1}

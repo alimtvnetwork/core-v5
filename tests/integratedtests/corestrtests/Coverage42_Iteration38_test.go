@@ -46,7 +46,7 @@ func Test_Cov42_Collection_AddHashmapsKeysValuesUsingFilter_Accept(t *testing.T)
 		hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, true, false
-		}
+		})
 		col.AddHashmapsKeysValuesUsingFilter(filter, hm)
 		tc := coretestcases.CaseV1{
 			Title:         "AddHashmapsKeysValuesUsingFilter accept",
@@ -63,7 +63,7 @@ func Test_Cov42_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) 
 		hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value, false, true
-		}
+		})
 		col.AddHashmapsKeysValuesUsingFilter(filter, hm)
 		tc := coretestcases.CaseV1{
 			Title:         "AddHashmapsKeysValuesUsingFilter break",
@@ -254,7 +254,7 @@ func Test_Cov42_Collection_AddFuncResult_Valid(t *testing.T) {
 			Title:         "AddFuncResult valid",
 			ExpectedInput: "hello",
 			ActualInput:   col.First(),
-		}
+		})
 		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
 	})
 }
@@ -762,7 +762,7 @@ func Test_Cov42_Collection_AppendAnysUsingFilter_Accept(t *testing.T) {
 		col := corestr.New.Collection.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 		col.AppendAnysUsingFilter(filter, "a", "b")
 		tc := coretestcases.CaseV1{
 			Title:         "AppendAnysUsingFilter accept",
@@ -778,7 +778,7 @@ func Test_Cov42_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 		col := corestr.New.Collection.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, true
-		}
+		})
 		col.AppendAnysUsingFilter(filter, "a", "b")
 		tc := coretestcases.CaseV1{
 			Title:         "AppendAnysUsingFilter break after first",
@@ -794,7 +794,7 @@ func Test_Cov42_Collection_AppendAnysUsingFilter_Skip(t *testing.T) {
 		col := corestr.New.Collection.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, false, false
-		}
+		})
 		col.AppendAnysUsingFilter(filter, "a")
 		tc := coretestcases.CaseV1{
 			Title:         "AppendAnysUsingFilter skip",
@@ -812,7 +812,7 @@ func Test_Cov42_Collection_AppendAnysUsingFilterLock_Accept(t *testing.T) {
 		col := corestr.New.Collection.Empty()
 		filter := func(str string, index int) (string, bool, bool) {
 			return str, true, false
-		}
+		})
 		col.AppendAnysUsingFilterLock(filter, "x")
 		tc := coretestcases.CaseV1{
 			Title:         "AppendAnysUsingFilterLock accept",

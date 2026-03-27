@@ -572,7 +572,7 @@ func Test_Cov37_CountFunc_Empty(t *testing.T) {
 		count := s.CountFunc(func(i int, item string) bool { return true })
 		if count != 0 {
 			t.Errorf("expected 0, got %d", count)
-		}
+		})
 	})
 }
 
@@ -1140,7 +1140,7 @@ func Test_Cov37_IsEqualByFunc_Match(t *testing.T) {
 		}, "A", "B")
 		if !result {
 			t.Error("expected true")
-		}
+		})
 	})
 }
 
@@ -1149,7 +1149,7 @@ func Test_Cov37_IsEqualByFunc_DiffLen(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqualByFunc(func(i int, l, r string) bool { return true }, "a", "b") {
 			t.Error("expected false")
-		}
+		})
 	})
 }
 
@@ -1158,7 +1158,7 @@ func Test_Cov37_IsEqualByFunc_Empty(t *testing.T) {
 		a := corestr.New.SimpleSlice.Empty()
 		if !a.IsEqualByFunc(func(i int, l, r string) bool { return true }) {
 			t.Error("expected true for both empty")
-		}
+		})
 	})
 }
 
@@ -1167,7 +1167,7 @@ func Test_Cov37_IsEqualByFunc_Mismatch(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a", "b")
 		if a.IsEqualByFunc(func(i int, l, r string) bool { return l == r }, "a", "X") {
 			t.Error("expected false")
-		}
+		})
 	})
 }
 
@@ -1200,7 +1200,7 @@ func Test_Cov37_IsEqualByFuncLinesSplit_DiffLen(t *testing.T) {
 		a := corestr.New.SimpleSlice.Lines("a")
 		if a.IsEqualByFuncLinesSplit(false, ",", "a,b", func(i int, l, r string) bool { return true }) {
 			t.Error("expected false")
-		}
+		})
 	})
 }
 

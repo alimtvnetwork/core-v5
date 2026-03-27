@@ -401,7 +401,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "filtered", true, false
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "a", Value: 1})
 		v, _ := hm.Get("a")
 		actual := args.Map{"val": v}
@@ -415,7 +415,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "v", true, true
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilter(filter,
 			corestr.KeyAnyValuePair{Key: "a", Value: 1},
 			corestr.KeyAnyValuePair{Key: "b", Value: 2},
@@ -431,7 +431,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilter_Skip(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", false, false
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilter(filter, corestr.KeyAnyValuePair{Key: "a", Value: 1})
 		actual := args.Map{"len": hm.Length()}
 		expected := args.Map{"len": 0}
@@ -444,7 +444,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilter_Nil(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", true, false
-		}
+		})
 		var pairs []corestr.KeyAnyValuePair
 		hm.AddsOrUpdatesAnyUsingFilter(filter, pairs...)
 		actual := args.Map{"len": hm.Length()}
@@ -458,7 +458,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "v", true, false
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter, corestr.KeyAnyValuePair{Key: "a", Value: 1})
 		actual := args.Map{"has": hm.Has("a")}
 		expected := args.Map{"has": true}
@@ -471,7 +471,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "v", true, true
-		}
+		})
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter,
 			corestr.KeyAnyValuePair{Key: "a", Value: 1},
 			corestr.KeyAnyValuePair{Key: "b", Value: 2},
@@ -487,7 +487,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 			return "", true, false
-		}
+		})
 		var pairs []corestr.KeyAnyValuePair
 		hm.AddsOrUpdatesAnyUsingFilterLock(filter, pairs...)
 		actual := args.Map{"len": hm.Length()}
@@ -501,7 +501,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return pair.Value + "!", true, false
-		}
+		})
 		hm.AddsOrUpdatesUsingFilter(filter, corestr.KeyValuePair{Key: "a", Value: "v"})
 		v, _ := hm.Get("a")
 		actual := args.Map{"val": v}
@@ -515,7 +515,7 @@ func Test_Cov62_Hashmap_AddsOrUpdatesUsingFilter_Nil(t *testing.T) {
 		hm := corestr.New.Hashmap.Empty()
 		filter := func(pair corestr.KeyValuePair) (string, bool, bool) {
 			return "", true, false
-		}
+		})
 		var pairs []corestr.KeyValuePair
 		hm.AddsOrUpdatesUsingFilter(filter, pairs...)
 		actual := args.Map{"len": hm.Length()}

@@ -672,7 +672,7 @@ func Test_Cov21_Collection_AddFuncResult(t *testing.T) {
 		c.AddFuncResult(func() string { return "a" })
 		if c.Length() != 1 {
 			t.Fatal("expected 1")
-		}
+		})
 	})
 }
 
@@ -729,7 +729,7 @@ func Test_Cov21_Collection_AppendAnysUsingFilter(t *testing.T) {
 		}, "a", nil, "b")
 		if c.Length() != 2 {
 			t.Fatal("expected 2")
-		}
+		})
 	})
 }
 

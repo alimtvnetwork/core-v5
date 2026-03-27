@@ -247,7 +247,7 @@ func Test_C34_KVC_Find(t *testing.T) {
 		kvc.Add("k", "v")
 		_ = kvc.Find(func(i int, kv corestr.KeyValuePair) (corestr.KeyValuePair, bool, bool) {
 			return kv, true, false
-		}
+		})
 	})
 }
 
@@ -620,7 +620,7 @@ func Test_C34_VVS_Find(t *testing.T) {
 		vvs.Add("a")
 		_ = vvs.Find(func(i int, v *corestr.ValidValue) (*corestr.ValidValue, bool, bool) {
 			return v, true, false
-		}
+		})
 	})
 }
 
