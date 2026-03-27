@@ -106,11 +106,56 @@ foreach ($file in $files) {
     }
 }
 
+# ── Check 4: func assignment closure must end with `}` (not `})`) ──
+$assignOpenRe = '^\s*(?:var\s+\w+\s*=\s*func\s*\(|\w+\s*(?::=|=)\s*func\s*\()'
+foreach ($file in $files) {
+    $lines = Get-Content -LiteralPath $file.FullName
+    $rel = $file.FullName.Replace($repoRoot, "").TrimStart([char]'\', [char]'/') -replace '\\', '/'
+
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -notmatch $assignOpenRe) { continue }
+
+        $depth = 0
+        $started = $false
+        $end = [Math]::Min($i + 300, $lines.Count)
+
+        for ($j = $i; $j -lt $end; $j++) {
+            $l = $lines[$j]
+            $openCount = ([regex]::Matches($l, '\{')).Count
+            $closeCount = ([regex]::Matches($l, '\}')).Count
+            if ($openCount -gt 0) { $started = $true }
+            $depth += $openCount
+            $depth -= $closeCount
+
+            if ($started -and $depth -eq 0) {
+                if ($lines[$j].TrimEnd() -match '\}\)\s*$') {
+                    Write-Host "  ${rel}:$($j + 1): func assignment closes with }) (should close with } only)"
+                    $issues = 1
+                }
+                break
+            }
+        }
+    }
+}
+
+# ── Check 5: placeholder `...` lines are forbidden ──
+foreach ($file in $files) {
+    $lines = Get-Content -LiteralPath $file.FullName
+    $rel = $file.FullName.Replace($repoRoot, "").TrimStart([char]'\', [char]'/') -replace '\\', '/'
+
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i].Trim() -eq '...') {
+            Write-Host "  ${rel}:$($i + 1): placeholder line ... is not allowed"
+            $issues = 1
+        }
+    }
+}
+
 if ($issues -ne 0) {
     Write-Host ""
-    Write-Host "✗ Malformed safeTest boundaries or empty if blocks detected."
+    Write-Host "✗ Malformed safeTest boundaries, empty if blocks, func assignment closures, or placeholder lines detected."
     exit 1
 }
 
-Write-Host "✓ All safeTest boundaries and if blocks are clean."
+Write-Host "✓ All safeTest boundaries, if blocks, assignment closures, and placeholder lines are clean."
 exit 0

@@ -119,11 +119,72 @@ PY2
   fi
 done
 
+# ── Check 4: func assignment closure must end with `}` (not `})`) ──
+for f in "$DIR"/*_test.go; do
+  [ -f "$f" ] || continue
+
+  if ! python3 - "$f" <<'PY3' 2>/dev/null
+import re
+import sys
+
+path = sys.argv[1]
+lines = open(path, encoding="utf-8").read().splitlines()
+assign_open_re = re.compile(r'^\s*(?:var\s+\w+\s*=\s*func\s*\(|\w+\s*(?::=|=)\s*func\s*\()')
+
+for i, line in enumerate(lines):
+    if not assign_open_re.search(line):
+        continue
+
+    depth = 0
+    started = False
+    for j in range(i, min(i + 300, len(lines))):
+        l = lines[j]
+        open_count = l.count('{')
+        close_count = l.count('}')
+        if open_count > 0:
+            started = True
+        depth += open_count
+        depth -= close_count
+
+        if started and depth == 0:
+            if lines[j].rstrip().endswith('})'):
+                print(f'  {path}:{j+1}: func assignment closes with }) (should close with } only)')
+                sys.exit(1)
+            break
+
+sys.exit(0)
+PY3
+  then
+    ISSUES=1
+  fi
+done
+
+# ── Check 5: placeholder `...` lines are forbidden ──
+for f in "$DIR"/*_test.go; do
+  [ -f "$f" ] || continue
+
+  if ! python3 - "$f" <<'PY4' 2>/dev/null
+import sys
+
+path = sys.argv[1]
+lines = open(path, encoding="utf-8").read().splitlines()
+for i, line in enumerate(lines):
+    if line.strip() == '...':
+        print(f'  {path}:{i+1}: placeholder line ... is not allowed')
+        sys.exit(1)
+
+sys.exit(0)
+PY4
+  then
+    ISSUES=1
+  fi
+done
+
 if [ "$ISSUES" -ne 0 ]; then
   echo ""
-  echo "✗ Malformed safeTest boundaries or empty if blocks detected."
+  echo "✗ Malformed safeTest boundaries, empty if blocks, func assignment closures, or placeholder lines detected."
   exit 1
 else
-  echo "✓ All safeTest boundaries and if blocks are clean."
+  echo "✓ All safeTest boundaries, if blocks, assignment closures, and placeholder lines are clean."
   exit 0
 fi
