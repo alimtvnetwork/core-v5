@@ -1207,9 +1207,10 @@ func Test_Cov37_IsEqualByFuncLinesSplit_DiffLen(t *testing.T) {
 func Test_Cov37_IsEqualByFuncLinesSplit_Empty(t *testing.T) {
 	safeTest(t, "Test_Cov37_IsEqualByFuncLinesSplit_Empty", func() {
 		a := corestr.New.SimpleSlice.Empty()
-		if !a.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
-			// "" split by "," yields [""] which has len 1, not 0
-			// So empty slice (len 0) != len 1 → false
+		if a.IsEqualByFuncLinesSplit(false, ",", "", func(i int, l, r string) bool { return true }) {
+			// "" split by "," yields [""] which has len 1, not 0.
+			t.Error("expected false for empty slice vs split-empty string")
+		}
 	})
 }
 
