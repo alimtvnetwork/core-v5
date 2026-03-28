@@ -734,6 +734,137 @@ function Invoke-TestCoverage {
         }
     }
 
+    # ── Per-file split for blocked packages ─────────────────────────
+    # When a package fails to compile, split each *_test.go into its own
+    # subfolder (with shared support files), recheck each independently,
+    # and promote passing subfolders into the coverage run. This prevents
+    # one broken file from blocking the entire package (e.g. corestrtests
+    # with 178 files / 14K tests).
+
+    $splitRecoveredCount = 0
+    $splitBlockedFiles = [System.Collections.Generic.List[string]]::new()
+    $splitCleanupDirs = [System.Collections.Generic.List[string]]::new()
+
+    if ($blockedPkgs.Count -gt 0) {
+        $blockedSnapshot = @($blockedPkgs)
+        foreach ($bp in $blockedSnapshot) {
+            $pkgDir = Join-Path "tests" "integratedtests" $bp
+            if (-not (Test-Path $pkgDir)) { continue }
+
+            $bpTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*_test.go" -File | Sort-Object Name
+            $bpSupportFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*.go" -File |
+                Where-Object { $_.Name -notlike "*_test.go" } | Sort-Object Name
+
+            if ($bpTestFiles.Count -lt 2) { continue }  # no benefit in splitting a single file
+
+            Write-Host ""
+            Write-Host "  Splitting $bp ($($bpTestFiles.Count) test files) for per-file recheck..." -ForegroundColor Yellow
+
+            $subfolderResults = [System.Collections.Generic.List[pscustomobject]]::new()
+
+            foreach ($tf in $bpTestFiles) {
+                $folderName = $tf.BaseName -replace '_test$', ''
+                $dest = Join-Path $pkgDir $folderName
+                if (-not (Test-Path $dest)) { New-Item -ItemType Directory -Path $dest -Force | Out-Null }
+                Copy-Item -LiteralPath $tf.FullName -Destination (Join-Path $dest $tf.Name) -Force
+                foreach ($sf in $bpSupportFiles) {
+                    Copy-Item -LiteralPath $sf.FullName -Destination (Join-Path $dest $sf.Name) -Force
+                }
+                $splitCleanupDirs.Add($dest)
+            }
+
+            # Compile-check each subfolder
+            $subDirs = Get-ChildItem -LiteralPath $pkgDir -Directory | Sort-Object Name
+
+            if ($isSyncMode) {
+                foreach ($sd in $subDirs) {
+                    $subPkg = "./tests/integratedtests/$bp/$($sd.Name)/"
+                    $prevPref = $ErrorActionPreference
+                    $ErrorActionPreference = "Continue"
+                    $subOut = & go test -count=1 -run '^$' -gcflags=all=-e "-coverpkg=$covPkgList" "$subPkg" 2>&1 | ForEach-Object { $_.ToString() }
+                    $subExit = $LASTEXITCODE
+                    $ErrorActionPreference = $prevPref
+                    $subfolderResults.Add([pscustomobject]@{
+                        Name     = $sd.Name
+                        Pkg      = $subPkg
+                        ExitCode = $subExit
+                        Output   = $subOut
+                    })
+                }
+            } else {
+                $throttle = [Math]::Min($subDirs.Count, [Environment]::ProcessorCount * 2)
+                $parallelResults = $subDirs | ForEach-Object -ThrottleLimit $throttle -Parallel {
+                    $sd = $_
+                    $bpName = $using:bp
+                    $covPkgs = $using:covPkgList
+                    $subPkg = "./tests/integratedtests/$bpName/$($sd.Name)/"
+                    $ErrorActionPreference = "Continue"
+                    $subOut = & go test -count=1 -run '^$' -gcflags=all=-e "-coverpkg=$covPkgs" "$subPkg" 2>&1 | ForEach-Object { $_.ToString() }
+                    [pscustomobject]@{
+                        Name     = $sd.Name
+                        Pkg      = $subPkg
+                        ExitCode = $LASTEXITCODE
+                        Output   = $subOut
+                    }
+                }
+                foreach ($pr in ($parallelResults | Sort-Object Name)) {
+                    $subfolderResults.Add($pr)
+                }
+            }
+
+            # Tally results
+            $subPass = @()
+            $subFail = @()
+            foreach ($sr in $subfolderResults) {
+                if ($sr.ExitCode -eq 0) {
+                    $subPass += $sr
+                } else {
+                    $subFail += $sr
+                }
+            }
+
+            Write-Host "    ✓ $($subPass.Count) subfolders compile OK" -ForegroundColor Green
+            if ($subFail.Count -gt 0) {
+                Write-Host "    ✗ $($subFail.Count) subfolders failed:" -ForegroundColor Red
+                foreach ($sf in $subFail) {
+                    Write-Host "      ✗ $($sf.Name)" -ForegroundColor Red
+                    $splitBlockedFiles.Add("$bp/$($sf.Name)")
+                }
+            }
+
+            # Promote passing subfolders into testPkgs for coverage
+            foreach ($sp in $subPass) {
+                # Resolve full Go package path for the subfolder
+                $fullSubPkg = $allTestPkgs | Where-Object { $_ -match "integratedtests/$bp$" } | Select-Object -First 1
+                if ($fullSubPkg) {
+                    $subFullPkg = $fullSubPkg + "/" + $sp.Name
+                } else {
+                    # Fallback: construct from relative path
+                    $subFullPkg = $sp.Pkg
+                }
+                $testPkgs.Add($subFullPkg)
+                $splitRecoveredCount++
+            }
+
+            # Remove the original blocked package entry (it's now replaced by subfolders)
+            $blockedPkgs.Remove($bp)
+            $blockedErrors.Remove($bp)
+
+            # Add individual file failures to blocked tracking
+            foreach ($sf in $subFail) {
+                $failName = "$bp/$($sf.Name)"
+                $blockedPkgs.Add($failName)
+                $blockedErrors[$failName] = ($sf.Output -join "`n")
+                Add-BuildErrorsForPackage $buildErrorsByPackage $failName $sf.Output
+            }
+        }
+
+        if ($splitRecoveredCount -gt 0) {
+            Write-Host ""
+            Write-Success "Recovered $splitRecoveredCount subfolders from blocked packages via per-file split"
+        }
+    }
+
     # Print blocked summary
     if ($blockedPkgs.Count -gt 0) {
         Write-Host ""
