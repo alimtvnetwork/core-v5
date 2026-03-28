@@ -136,6 +136,12 @@ func fixFile(path string) int {
 		}
 
 		totalFixes += fixes
+
+		if dryRun {
+			// Don't write changes in dry-run mode; stop after first pass
+			return totalFixes
+		}
+
 		result := strings.Join(lines, "\n")
 		if err := os.WriteFile(path, []byte(result), 0644); err != nil {
 			fmt.Fprintf(os.Stderr, "  ✗ %s: write error: %v\n", path, err)
