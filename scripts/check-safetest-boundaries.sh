@@ -153,31 +153,80 @@ for path in sorted(root.glob("*_test.go")):
                 found_close = True  # reported, stop scanning
                 break
 
-    # Check 7: brace balance per file (handles strings, raw strings, rune literals, comments)
+    # Check 7: brace balance per file (robust scanner over full content)
     depth = 0
-    in_str = False; in_raw = False; in_lc = False; in_rune = False; prev_ch = ''
+    in_str = False; in_raw = False; in_lc = False; in_rune = False
+    prev_ch = '\0'
     content = '\n'.join(lines)
+
     ci = 0
     while ci < len(content):
         ch = content[ci]
-        if ch == '\n': in_lc = False; prev_ch = ch; ci += 1; continue
-        if in_lc: prev_ch = ch; ci += 1; continue
+
+        if ch == '\n':
+            in_lc = False
+            prev_ch = ch
+            ci += 1
+            continue
+
+        if in_lc:
+            prev_ch = ch
+            ci += 1
+            continue
+
         if in_str:
-            if ch == '"' and prev_ch != '\\': in_str = False
-            prev_ch = ch; ci += 1; continue
+            if ch == '"' and prev_ch != '\\':
+                in_str = False
+            prev_ch = ch
+            ci += 1
+            continue
+
         if in_raw:
-            if ch == '`': in_raw = False
-            prev_ch = ch; ci += 1; continue
+            if ch == '`':
+                in_raw = False
+            prev_ch = ch
+            ci += 1
+            continue
+
         if in_rune:
-            if ch == "'" and prev_ch != '\\': in_rune = False
-            prev_ch = ch; ci += 1; continue
-        if ch == '/' and prev_ch == '/': in_lc = True; prev_ch = ch; ci += 1; continue
-        if ch == '"': in_str = True; prev_ch = ch; ci += 1; continue
-        if ch == '`': in_raw = True; prev_ch = ch; ci += 1; continue
-        if ch == "'": in_rune = True; prev_ch = ch; ci += 1; continue
-        if ch == '{': depth += 1
-        elif ch == '}': depth -= 1
-        prev_ch = ch; ci += 1
+            if ch == "'" and prev_ch != '\\':
+                in_rune = False
+            prev_ch = ch
+            ci += 1
+            continue
+
+        if ch == '/' and prev_ch == '/':
+            in_lc = True
+            prev_ch = ch
+            ci += 1
+            continue
+
+        if ch == '"':
+            in_str = True
+            prev_ch = ch
+            ci += 1
+            continue
+
+        if ch == '`':
+            in_raw = True
+            prev_ch = ch
+            ci += 1
+            continue
+
+        if ch == "'":
+            in_rune = True
+            prev_ch = ch
+            ci += 1
+            continue
+
+        if ch == '{':
+            depth += 1
+        elif ch == '}':
+            depth -= 1
+
+        prev_ch = ch
+        ci += 1
+
     if depth != 0:
         issues.append(f"  {rel}: unbalanced braces (depth={depth})")
 
