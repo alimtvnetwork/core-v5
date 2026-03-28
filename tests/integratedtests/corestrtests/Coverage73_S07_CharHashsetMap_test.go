@@ -309,9 +309,9 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
-			}
+		}
+	})
+}
 
 // ============================================================
 // GetHashset
