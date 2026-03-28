@@ -309,9 +309,9 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
-			}
+		}
+	})
+}
 
 // ============================================================
 // GetHashset
@@ -1191,6 +1191,7 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() < 2 {
 			// async may not have completed, but at least no panic
+			_ = 0
 		}
 	})
 
@@ -1276,5 +1277,6 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() < 3 {
 			// may be async
+			_ = 0
 		}
 	})

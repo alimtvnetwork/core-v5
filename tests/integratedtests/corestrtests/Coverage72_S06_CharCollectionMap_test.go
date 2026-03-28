@@ -446,9 +446,9 @@ func Test_CovS06_CharCollMap_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
-			}
+		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — HasWithCollection
@@ -548,9 +548,9 @@ func Test_CovS06_CharCollMap_List_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
-			}
+		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — JSON
@@ -1057,6 +1057,7 @@ func Test_CovS06_CharCollMap_HashsetVariants(t *testing.T) {
 		}
 		if hs4 == nil || !hs4.IsEmpty() {
 			// missing char returns Empty hashset
+			_ = 0
 		}
 	})
 }
