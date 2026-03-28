@@ -1395,4 +1395,4 @@ func Test_CovS06_CharCollMap_IsEquals_KeyMissing(t *testing.T) {
 
 func init() {
 	_ = sort.Strings
-	})
+}
