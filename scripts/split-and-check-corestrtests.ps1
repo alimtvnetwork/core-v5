@@ -11,8 +11,10 @@ if (-not (Test-Path $src)) {
     exit 1
 }
 
-# Collect test files and support files
-$testFiles = Get-ChildItem -LiteralPath $src -Filter "*_test.go" -File | Sort-Object Name
+# Collect test files, helper test files, and non-test support files
+$testFiles = Get-ChildItem -LiteralPath $src -Filter "*_test.go" -File |
+    Where-Object { $_.Name -notlike "*helper*" } | Sort-Object Name
+$helperTestFiles = Get-ChildItem -LiteralPath $src -Filter "*helper*_test.go" -File | Sort-Object Name
 $supportFiles = Get-ChildItem -LiteralPath $src -Filter "*.go" -File |
     Where-Object { $_.Name -notlike "*_test.go" } | Sort-Object Name
 
