@@ -1333,6 +1333,7 @@ func Test_Cov39_LC_UnmarshalJSON(t *testing.T) {
 		}
 		if lc.Length() != 1 { // unmarshal adds as single collection
 			// accept whatever the implementation does
+		}
 	})
 }
 
