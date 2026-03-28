@@ -1191,6 +1191,7 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() < 2 {
 			// async may not have completed, but at least no panic
+			_ = 0
 		}
 	})
 
