@@ -2075,10 +2075,28 @@ function Invoke-PreCommitCheck {
         }
     }
 
-    # ── Go syntax pre-check (bracecheck) ──────────────────────────────
+    # ── Go auto-fixer ─────────────────────────────────────────────────
+    $skipAutofix = $ExtraArgs -and ($ExtraArgs -contains '--no-autofix')
     $skipBrace = $ExtraArgs -and ($ExtraArgs -contains '--skip-bracecheck')
     if ($skipBrace) {
-        Write-Host "  Skipping Go syntax pre-check (--skip-bracecheck)" -ForegroundColor DarkYellow
+        Write-Host "  Skipping Go auto-fixer and syntax pre-check (--skip-bracecheck)" -ForegroundColor DarkYellow
+    } elseif ($skipAutofix) {
+        Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
+    } else {
+        Write-Host "  Running Go auto-fixer..." -ForegroundColor Yellow
+        $fixOut = & go run ./scripts/autofix/ 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host ($fixOut | Out-String) -ForegroundColor Red
+            Write-Fail "Go auto-fixer encountered errors."
+        } else {
+            $fixStr = ($fixOut | Out-String).Trim()
+            if ($fixStr) { Write-Success $fixStr }
+        }
+    }
+
+    # ── Go syntax pre-check (bracecheck) ──────────────────────────────
+    if ($skipBrace) {
+        # already logged above
     } else {
         Write-Host "  Running Go syntax pre-check (bracecheck)..." -ForegroundColor Yellow
         $braceOut = & go run ./scripts/bracecheck/ 2>&1
