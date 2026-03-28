@@ -1,0 +1,163 @@
+================================================================================
+  Syntax Checking Rules Reference
+  Tools: scripts/bracecheck/  &  scripts/autofix/
+================================================================================
+
+This document lists every syntax pattern detected by the bracecheck diagnostic
+tool and the autofix auto-repair tool, along with examples and resolutions.
+
+────────────────────────────────────────────────────────────────────────────────
+ BRACECHECK — Diagnostic Categories  (scripts/bracecheck/main.go)
+────────────────────────────────────────────────────────────────────────────────
+
+1. Missing trailing comma
+   Pattern:  "missing ',' before newline in argument list"
+   Cause:    In Go, multi-line function calls and composite literals require
+             a trailing comma after the last argument/element.
+   Example:
+       safeTest(t, "name", func() {
+           assert.Equal(t,
+               expected,
+               actual     // ← missing comma here
+           )
+       })
+   Fix:      Add a comma after the last argument on the offending line.
+
+2. Unexpected closing paren (inside block)
+   Pattern:  "expected statement, found ')'"
+   Cause:    An extra ')' appeared where a statement was expected, typically
+             inside a closure body. Common when '}' and ')' are split across
+             lines instead of written as '})'.
+   Example:
+       safeTest(t, "name", func() {
+           doSomething()
+       }
+       )    // ← stray ')' — should be '})'
+   Fix:      Merge the '}' and ')' into '})' on one line, or remove the
+             extra ')'.
+
+3. Unexpected ')' at top level
+   Pattern:  "expected declaration, found ')'"
+   Cause:    A ')' appeared at package level where only func/var/type/const
+             declarations are valid. Usually a leftover from a mismatched
+             safeTest closure.
+   Example:
+       })
+       }
+       )    // ← stray top-level ')'
+   Fix:      Remove the stray ')' line.
+
+4. Expression count mismatch
+   Pattern:  "expected 1 expression"
+   Cause:    A return statement or assignment has the wrong number of values
+             on one side.
+   Example:
+       return a, b    // but function signature returns only 1 value
+   Fix:      Match the number of return values to the function signature,
+             or fix the assignment to have equal sides.
+
+5. Unclosed brace at EOF
+   Pattern:  "expected '}', found 'EOF'"
+   Cause:    A '{' block was never closed before the file ended. Typically
+             the last function or closure is missing its closing '}'.
+   Example:
+       func TestSomething(t *testing.T) {
+           safeTest(t, "name", func() {
+               // ... code ...
+           })
+       // ← missing final '}'
+   Fix:      Add the missing '}' to close the function.
+
+6. Other / unclassified
+   Any Go parser error not matching the above patterns is reported as
+   "other" in the summary breakdown.
+
+
+────────────────────────────────────────────────────────────────────────────────
+ AUTOFIX — Auto-Repair Rules  (scripts/autofix/main.go)
+────────────────────────────────────────────────────────────────────────────────
+
+The autofix tool performs up to 10 iterative parse-fix cycles per file.
+It uses the Go parser to locate errors, then applies targeted line edits.
+
+Rule A: Fix missing trailing comma
+   Trigger:  "missing ',' before newline in argument list"
+   Action:   Finds the previous non-empty, non-comment line and appends ','
+             unless it already ends with ',', '{', '(', or '['.
+   Before:
+       assert.Equal(t,
+           expected,
+           actual
+       )
+   After:
+       assert.Equal(t,
+           expected,
+           actual,
+       )
+
+Rule B: Fix unexpected ')' inside block
+   Trigger:  "expected statement, found ')'"
+   Action:
+     • If line is just ")" and previous line is "}": merges into "})"
+     • If line is just ")": removes the stray line
+     • If line is "})}": normalizes to "})"
+   Before:
+       }
+       )
+   After:
+       })
+
+Rule C: Fix unexpected ')' at top level
+   Trigger:  "expected declaration, found ')'"
+   Action:   If line is just ")" at top level, removes it.
+   Before:
+       })
+       }
+       )
+   After:
+       })
+       }
+
+Rule D: Fix missing closing brace at EOF
+   Trigger:  "expected '}', found 'EOF'"
+   Action:   Appends "}" to the end of the file if the last non-empty
+             line is not already "}" or "})".
+
+
+────────────────────────────────────────────────────────────────────────────────
+ USAGE
+────────────────────────────────────────────────────────────────────────────────
+
+  # Run diagnostics only (no changes):
+  go run ./scripts/bracecheck/ [files or dirs...]
+
+  # Auto-fix detected issues:
+  go run ./scripts/autofix/ [files or dirs...]
+
+  # Preview what autofix would change (no writes):
+  go run ./scripts/autofix/ --dry-run [files or dirs...]
+
+  # Via run.ps1 pipeline (autofix → bracecheck → tests):
+  ./run.ps1 TC                    # full pipeline
+  ./run.ps1 TC --dry-run          # autofix in preview mode
+  ./run.ps1 TC --no-autofix       # skip autofix, still run bracecheck
+  ./run.ps1 TC --skip-bracecheck  # skip both autofix and bracecheck
+
+  Default target directory: tests/integratedtests/corestrtests/
+
+────────────────────────────────────────────────────────────────────────────────
+ safeTest CLOSURE PATTERN
+────────────────────────────────────────────────────────────────────────────────
+
+  The correct pattern for safeTest closures is:
+
+      safeTest(t, "test name", func() {
+          // test body
+      })
+
+  Common mistakes:
+      ✗  }  then  )  on separate lines  →  merge to  })
+      ✗  })}                            →  normalize to  })
+      ✗  stray  )  after  })  }         →  remove the  )
+
+================================================================================
