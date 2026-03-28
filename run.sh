@@ -406,6 +406,10 @@ cmd_test_coverage() {
         success "Coverage profile:  $cover_profile"
         success "HTML report:       $cover_html"
         success "Summary:           $cover_summary"
+        local syntax_file="$cover_dir/syntax-issues.txt"
+        if [[ -f "$syntax_file" ]]; then
+            success "Syntax issues:     $syntax_file"
+        fi
 
         # Open HTML if --open flag
         if has_flag "--open" "$@" && [[ -f "$cover_html" ]]; then
