@@ -1077,6 +1077,7 @@ func Test_CovS06_CharCollMap_HashsetVariants(t *testing.T) {
 		}
 		if hs4 == nil || !hs4.IsEmpty() {
 			// missing char returns Empty hashset
+		}
 	})
 }
 
