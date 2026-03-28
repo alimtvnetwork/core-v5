@@ -26,8 +26,9 @@
         H   | -h   | help          Show this help
 
     Mode options (for TC/TCP):
-        --sync        Run precompile + tests sequentially (default: parallel)
-        --open        Open HTML coverage report in browser (default: don't open)
+        --sync             Run precompile + tests sequentially (default: parallel)
+        --open             Open HTML coverage report in browser (default: don't open)
+        --skip-bracecheck  Skip the Go syntax pre-check for faster runs
 
 .EXAMPLE
     ./run.ps1 T
