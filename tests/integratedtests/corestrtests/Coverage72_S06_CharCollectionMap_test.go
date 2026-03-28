@@ -446,9 +446,9 @@ func Test_CovS06_CharCollMap_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
-			}
+		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — HasWithCollection
