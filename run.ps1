@@ -768,7 +768,9 @@ function Invoke-TestCoverage {
             $pkgDir = Join-Path "tests" "integratedtests" $bp
             if (-not (Test-Path $pkgDir)) { continue }
 
-            $bpTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*_test.go" -File | Sort-Object Name
+            $bpTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*_test.go" -File |
+                Where-Object { $_.Name -notlike "*helper*" } | Sort-Object Name
+            $bpHelperTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*helper*_test.go" -File | Sort-Object Name
             $bpSupportFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*.go" -File |
                 Where-Object { $_.Name -notlike "*_test.go" } | Sort-Object Name
 
@@ -786,6 +788,9 @@ function Invoke-TestCoverage {
                 Copy-Item -LiteralPath $tf.FullName -Destination (Join-Path $dest $tf.Name) -Force
                 foreach ($sf in $bpSupportFiles) {
                     Copy-Item -LiteralPath $sf.FullName -Destination (Join-Path $dest $sf.Name) -Force
+                }
+                foreach ($hf in $bpHelperTestFiles) {
+                    Copy-Item -LiteralPath $hf.FullName -Destination (Join-Path $dest $hf.Name) -Force
                 }
                 $splitCleanupDirs.Add($dest)
             }

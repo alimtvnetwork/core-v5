@@ -11,12 +11,14 @@ if (-not (Test-Path $src)) {
     exit 1
 }
 
-# Collect test files and support files
-$testFiles = Get-ChildItem -LiteralPath $src -Filter "*_test.go" -File | Sort-Object Name
+# Collect test files, helper test files, and non-test support files
+$testFiles = Get-ChildItem -LiteralPath $src -Filter "*_test.go" -File |
+    Where-Object { $_.Name -notlike "*helper*" } | Sort-Object Name
+$helperTestFiles = Get-ChildItem -LiteralPath $src -Filter "*helper*_test.go" -File | Sort-Object Name
 $supportFiles = Get-ChildItem -LiteralPath $src -Filter "*.go" -File |
     Where-Object { $_.Name -notlike "*_test.go" } | Sort-Object Name
 
-Write-Host "Found $($testFiles.Count) test files, $($supportFiles.Count) support files."
+Write-Host "Found $($testFiles.Count) test files, $($helperTestFiles.Count) helper files, $($supportFiles.Count) support files."
 Write-Host "Creating subfolders..."
 
 # Create a subfolder per test file, copy it + all support files
@@ -27,6 +29,9 @@ foreach ($tf in $testFiles) {
     Copy-Item -LiteralPath $tf.FullName -Destination (Join-Path $dest $tf.Name) -Force
     foreach ($sf in $supportFiles) {
         Copy-Item -LiteralPath $sf.FullName -Destination (Join-Path $dest $sf.Name) -Force
+    }
+    foreach ($hf in $helperTestFiles) {
+        Copy-Item -LiteralPath $hf.FullName -Destination (Join-Path $dest $hf.Name) -Force
     }
 }
 
