@@ -13,9 +13,29 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 )
 
 var dryRun bool
+
+// fixRecord tracks a single fix applied or detected.
+type fixRecord struct {
+	File    string
+	Line    int
+	Rule    string
+	Message string
+}
+
+var allRecords []fixRecord
+
+func addRecord(file string, line int, rule, message string) {
+	allRecords = append(allRecords, fixRecord{
+		File:    file,
+		Line:    line,
+		Rule:    rule,
+		Message: message,
+	})
+}
 
 func main() {
 	var args []string
@@ -73,6 +93,9 @@ func main() {
 		fmt.Printf("\n✓ Applied %d fix(es) across %d file(s).\n", totalFixed, totalFiles)
 		fmt.Println("  Run bracecheck again to verify: go run ./scripts/bracecheck/")
 	}
+
+	// Write syntax-issues.txt report to data/coverage/
+	writeReport(totalFixed, totalFiles, len(files))
 }
 
 // fixFile attempts up to maxPasses of parse-fix cycles on a single file.
