@@ -1718,6 +1718,18 @@ function copyForAI(){
         }
     }
     Open-FailingTestsIfAny
+
+    # ── Cleanup split subfolders ──
+    if ($splitCleanupDirs.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  Cleaning up $($splitCleanupDirs.Count) split subfolders..." -ForegroundColor Gray
+        foreach ($cleanDir in $splitCleanupDirs) {
+            if (Test-Path $cleanDir) {
+                Remove-Item -LiteralPath $cleanDir -Recurse -Force
+            }
+        }
+        Write-Host "  ✓ Split subfolders removed" -ForegroundColor Green
+    }
 }
 
 function Invoke-PackageTestCoverage {
