@@ -406,6 +406,10 @@ cmd_test_coverage() {
         success "Coverage profile:  $cover_profile"
         success "HTML report:       $cover_html"
         success "Summary:           $cover_summary"
+        local syntax_file="$cover_dir/syntax-issues.txt"
+        if [[ -f "$syntax_file" ]]; then
+            success "Syntax issues:     $syntax_file"
+        fi
 
         # Open HTML if --open flag
         if has_flag "--open" "$@" && [[ -f "$cover_html" ]]; then
@@ -469,6 +473,8 @@ cmd_test_coverage_pkg() {
         echo ""
         success "Coverage profile:  $cover_profile"
         success "HTML report:       $cover_html"
+        local syntax_file="$(dirname "$cover_profile")/../syntax-issues.txt"
+        [[ -f "$cover_dir/syntax-issues.txt" ]] && success "Syntax issues:     $cover_dir/syntax-issues.txt"
 
         if has_flag "--open" "$@" && [[ -f "$cover_html" ]]; then
             warn "Opening HTML coverage report..."
