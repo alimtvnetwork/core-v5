@@ -1743,6 +1743,10 @@ function copyForAI(){
             Write-Host "  │  $bFile" -ForegroundColor Gray
             Write-Host "  │  $bJsonFile" -ForegroundColor Gray
         }
+        $syntaxIssuesFile = Join-Path $coverDir "syntax-issues.txt"
+        if (Test-Path $syntaxIssuesFile) {
+            Write-Host "  │  $syntaxIssuesFile" -ForegroundColor Gray
+        }
         Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Gray
 
         # ── Generate AI coverage prompts ──────────────────────────────
