@@ -513,9 +513,12 @@ func writeReport(totalFixed, totalFiles, totalScanned int) {
 	b.WriteString("  Mode: " + mode + "\n")
 	b.WriteString("================================================================================\n\n")
 
-	b.WriteString(fmt.Sprintf("  Files scanned:  %d\n", totalScanned))
+	b.WriteString(fmt.Sprintf("  Files scanned:    %d\n", totalScanned))
 	b.WriteString(fmt.Sprintf("  Files with fixes: %d\n", totalFiles))
-	b.WriteString(fmt.Sprintf("  Total fixes:    %d\n\n", totalFixed))
+	b.WriteString(fmt.Sprintf("  Total fixes:      %d\n\n", totalFixed))
+
+	// ── Embedded rules reference ──
+	b.WriteString(rulesReference)
 
 	if len(allRecords) == 0 {
 		b.WriteString("  ✓ No syntax issues found.\n")
