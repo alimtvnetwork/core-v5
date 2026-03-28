@@ -126,6 +126,9 @@ func fixFile(path string) int {
 
 			case strings.Contains(e.Msg, "expected 1 expression"):
 				fixed = fixExpectedOneExpression(lines, lineIdx)
+
+			case strings.Contains(e.Msg, "expected operand, found"):
+				fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
 			}
 
 			if fixed {
