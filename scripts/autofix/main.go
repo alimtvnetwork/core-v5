@@ -134,29 +134,37 @@ func fixFile(path string) int {
 			}
 
 			fixed := false
+			rule := ""
 			switch {
 			case strings.Contains(e.Msg, "missing ',' before newline in argument list"):
 				fixed = fixMissingComma(lines, lineIdx)
+				rule = "missing-trailing-comma"
 
 			case strings.Contains(e.Msg, "expected statement, found ')'"):
 				fixed = fixUnexpectedCloseParen(lines, lineIdx)
+				rule = "unexpected-close-paren"
 
 			case strings.Contains(e.Msg, "expected declaration, found ')'"):
 				fixed = fixUnexpectedCloseParenTopLevel(lines, lineIdx)
+				rule = "stray-top-level-paren"
 
 			case strings.Contains(e.Msg, "expected '}', found 'EOF'"):
 				fixed = fixMissingCloseBrace(lines)
+				rule = "missing-close-brace-eof"
 
 			case strings.Contains(e.Msg, "expected 1 expression"):
 				fixed = fixExpectedOneExpression(lines, lineIdx)
+				rule = "expected-one-expression"
 
 			case strings.Contains(e.Msg, "expected operand, found"):
 				fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
+				rule = "expected-operand"
 			}
 
 			if fixed {
 				fixes++
 				applied[lineIdx] = true
+				addRecord(path, e.Pos.Line, rule, e.Msg)
 			}
 		}
 
