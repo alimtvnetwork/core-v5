@@ -1,6 +1,6 @@
 // Package main provides an auto-fixer for common Go test syntax errors.
 // It iteratively parses files, detects known error patterns, applies fixes, and re-checks.
-// Usage: go run ./scripts/autofix/ [files or dirs...]
+// Usage: go run ./scripts/autofix/ [--dry-run] [files or dirs...]
 // If no args, defaults to tests/integratedtests/corestrtests/
 package main
 
@@ -15,8 +15,17 @@ import (
 	"strings"
 )
 
+var dryRun bool
+
 func main() {
-	args := os.Args[1:]
+	var args []string
+	for _, a := range os.Args[1:] {
+		if a == "--dry-run" {
+			dryRun = true
+		} else {
+			args = append(args, a)
+		}
+	}
 	if len(args) == 0 {
 		args = []string{"tests/integratedtests/corestrtests/"}
 	}
@@ -48,12 +57,18 @@ func main() {
 		if n > 0 {
 			totalFiles++
 			totalFixed += n
-			fmt.Printf("  ✓ %s: %d fix(es) applied\n", f, n)
+			if dryRun {
+				fmt.Printf("  → %s: %d fix(es) would be applied\n", f, n)
+			} else {
+				fmt.Printf("  ✓ %s: %d fix(es) applied\n", f, n)
+			}
 		}
 	}
 
 	if totalFixed == 0 {
 		fmt.Println("✓ No fixable issues found.")
+	} else if dryRun {
+		fmt.Printf("\n→ Would apply %d fix(es) across %d file(s). (dry-run, no files modified)\n", totalFixed, totalFiles)
 	} else {
 		fmt.Printf("\n✓ Applied %d fix(es) across %d file(s).\n", totalFixed, totalFiles)
 		fmt.Println("  Run bracecheck again to verify: go run ./scripts/bracecheck/")
