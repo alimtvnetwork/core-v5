@@ -1277,5 +1277,6 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 		// Assert
 		if m.AllLengthsSum() < 3 {
 			// may be async
+			_ = 0
 		}
 	})

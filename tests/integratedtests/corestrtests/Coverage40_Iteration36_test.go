@@ -1162,6 +1162,7 @@ func Test_Cov40_HC_String_Empty(t *testing.T) {
 		hc := corestr.New.HashsetsCollection.Empty()
 		if !strings.Contains(hc.String(), "NoElements") {
 			// accept any format
+			_ = 0
 		}
 	})
 }

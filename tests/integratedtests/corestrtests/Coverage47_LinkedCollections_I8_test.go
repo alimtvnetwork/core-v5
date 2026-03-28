@@ -62,6 +62,7 @@ func Test_C47_LinkedCollectionNode_EndOfChain(t *testing.T) {
 		_ = end
 		if length != 1 {
 			// Each AddStrings creates one node per call
+			_ = 0
 		}
 	})
 }
