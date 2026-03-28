@@ -262,6 +262,66 @@ func fixMissingCloseBrace(lines []string) bool {
 	return false
 }
 
+// fixExpectedOneExpression handles "expected 1 expression" errors.
+// Common causes:
+//   - Bare "return" with trailing comma: "return a,"  → remove trailing comma
+//   - Multi-value return where only 1 expected: "return a, b" → keep first value
+//   - Stray comma in single-expression context: "x," → remove comma
+func fixExpectedOneExpression(lines []string, errLine int) bool {
+	if errLine < 0 || errLine >= len(lines) {
+		return false
+	}
+
+	line := lines[errLine]
+	trimmed := strings.TrimSpace(line)
+
+	// Case 1: "return something," — trailing comma after single return value
+	// e.g. "return nil," or "return err,"
+	if rxReturnTrailingComma.MatchString(trimmed) {
+		// Remove the trailing comma
+		indent := leadingWhitespace(line)
+		cleaned := strings.TrimRight(trimmed, " \t")
+		cleaned = strings.TrimRight(cleaned, ",")
+		lines[errLine] = indent + cleaned
+		return true
+	}
+
+	// Case 2: Line is a bare expression ending with comma (not a return)
+	// e.g. inside a composite literal or call where "x," is unexpected
+	if rxExprTrailingComma.MatchString(trimmed) && !strings.HasPrefix(trimmed, "return") {
+		indent := leadingWhitespace(line)
+		cleaned := strings.TrimRight(trimmed, " \t")
+		cleaned = strings.TrimRight(cleaned, ",")
+		lines[errLine] = indent + cleaned
+		return true
+	}
+
+	// Case 3: "return a, b" where function expects 1 return value
+	// The error column often points to the comma position.
+	// We remove everything from the first comma to end of expression.
+	if rxReturnMultiValue.MatchString(trimmed) {
+		indent := leadingWhitespace(line)
+		loc := rxReturnMultiValue.FindStringSubmatchIndex(trimmed)
+		if loc != nil {
+			// group 1 = the part before the comma
+			firstVal := trimmed[loc[2]:loc[3]]
+			lines[errLine] = indent + "return " + firstVal
+			return true
+		}
+	}
+
+	return false
+}
+
+// rxReturnTrailingComma matches "return <expr>," with a trailing comma
+var rxReturnTrailingComma = regexp.MustCompile(`^return\s+.+,\s*$`)
+
+// rxExprTrailingComma matches any expression ending with a trailing comma
+var rxExprTrailingComma = regexp.MustCompile(`^[^,]+,\s*$`)
+
+// rxReturnMultiValue matches "return <expr1>, <expr2>" (2+ values)
+var rxReturnMultiValue = regexp.MustCompile(`^return\s+(\S+)\s*,\s*.+$`)
+
 // --- helpers ---
 
 func findPrevNonEmpty(lines []string, from int) int {
