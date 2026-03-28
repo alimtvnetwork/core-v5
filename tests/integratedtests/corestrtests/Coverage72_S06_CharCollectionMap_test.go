@@ -127,8 +127,6 @@ func Test_CovS06_AnyToString_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // CharCollectionDataModel
@@ -188,7 +186,6 @@ func Test_CovS06_CloneSlice_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CloneSliceIf
@@ -299,7 +296,6 @@ func Test_CovS06_CharCollMap_GetCharsGroups_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — Basic: IsEmpty, HasItems, Length, AllLengthsSum
@@ -410,7 +406,6 @@ func Test_CovS06_CharCollMap_LengthOf_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — IsEquals
@@ -454,10 +449,6 @@ func Test_CovS06_CharCollMap_IsEquals_Verification(t *testing.T) {
 			}
 			}
 			}
-			}
-		}
-	})
-}
 
 // ============================================================
 // CharCollectionMap — HasWithCollection
@@ -560,9 +551,6 @@ func Test_CovS06_CharCollMap_List_Verification(t *testing.T) {
 			}
 			}
 			}
-		}
-	})
-}
 
 // ============================================================
 // CharCollectionMap — JSON
@@ -679,7 +667,6 @@ func Test_CovS06_CharCollMap_ClearDispose_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — HashsetByChar
@@ -732,7 +719,6 @@ func Test_CovS06_CharCollMap_HashsetsColl_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — AddHashmapsValues
@@ -767,7 +753,6 @@ func Test_CovS06_CharCollMap_AddHashmaps_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — AddCollectionItems
@@ -796,7 +781,6 @@ func Test_CovS06_CharCollMap_AddCollectionItems_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — String, SummaryString
@@ -825,7 +809,6 @@ func Test_CovS06_CharCollMap_StringOutput_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — Print (skip path)
@@ -935,7 +918,6 @@ func Test_CovS06_CharCollMap_AddCharHashsetMap_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // CharCollectionMap — AddSameCharsCollection
@@ -978,8 +960,6 @@ func Test_CovS06_CharCollMap_AddSameCharsColl_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // CharCollectionMap — Lock variants
@@ -1310,8 +1290,6 @@ func Test_CovS06_CharCollMap_NewCreator_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // CharCollectionMap — GetMap
@@ -1418,4 +1396,3 @@ func Test_CovS06_CharCollMap_IsEquals_KeyMissing(t *testing.T) {
 func init() {
 	_ = sort.Strings
 	})
-}

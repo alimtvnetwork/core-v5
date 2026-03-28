@@ -74,7 +74,6 @@ func Test_CovS07_GetChar_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // Basic: IsEmpty, HasItems, Length, AllLengthsSum
@@ -137,7 +136,6 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // HasWithHashset
@@ -207,8 +205,6 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // Add, AddStrings
@@ -316,10 +312,6 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 			}
 			}
 			}
-			}
-		}
-	})
-}
 
 // ============================================================
 // GetHashset
@@ -374,7 +366,6 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // List, SortedListAsc, SortedListDsc
@@ -416,8 +407,6 @@ func Test_CovS07_List_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // JSON
@@ -495,8 +484,6 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // AddSameCharsHashset
@@ -539,8 +526,6 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // AddCollectionItems, AddCharCollectionMapItems, AddHashsetItems
@@ -612,7 +597,6 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // Clear, RemoveAll
@@ -649,8 +633,6 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 			}
 			}
 		}
-	})
-}
 
 // ============================================================
 // String, SummaryString
@@ -679,7 +661,6 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 			}
 		}
 	})
-}
 
 // ============================================================
 // Print (skip path)
@@ -1212,7 +1193,6 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 			// async may not have completed, but at least no panic
 		}
 	})
-}
 
 // ============================================================
 // AddCollectionItemsAsyncLock — nil collection
@@ -1298,4 +1278,3 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 			// may be async
 		}
 	})
-}
