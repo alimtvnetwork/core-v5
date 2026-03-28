@@ -67,9 +67,12 @@ const rulesReference = `──────────────────�
 
  B. unexpected-close-paren
     Trigger:  "expected statement, found ')'"
-    Action:   Merges split '}' + ')' → '})'; removes stray ')'.
-    Before:   }             After:   })
+    Action:   Merges split '}' + ')' → '})'; removes stray ')'; or
+              changes '})' → '}' when '}' closed a struct/map literal
+              (not a func body) so ')' is extraneous.
+    Before:   }             After:   })       (split lines)
               )
+    Before:   })            After:   }        (struct close, not func close)
 
  C. stray-top-level-paren
     Trigger:  "expected declaration, found ')'"
