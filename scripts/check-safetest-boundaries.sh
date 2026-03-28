@@ -123,10 +123,61 @@ for path in sorted(root.glob("*_test.go")):
         if line.strip() == "...":
             issues.append(f"  {rel}:{i+1}: placeholder line ... is not allowed")
 
+    # Check 6: unclosed if/for blocks (missing closing } before }) or })
+    # Detects: if cond { ... }) where the if's own } is absent
+    if_for_re = re.compile(r'^(\t+)(?:if |for |select \{).*\{\s*$')
+    for i, line in enumerate(lines):
+        m = if_for_re.match(line)
+        if not m:
+            continue
+        block_indent = m.group(1)
+        block_tabs = len(block_indent)
+        # Scan forward for the matching close
+        found_close = False
+        for j in range(i + 1, min(i + 50, len(lines))):
+            inner = lines[j]
+            inner_stripped = inner.strip()
+            inner_tabs = len(inner) - len(inner.lstrip('\t'))
+            if inner_stripped == '':
+                continue
+            # Proper close: } at same indent as the if/for
+            if inner_stripped.startswith('}') and inner_tabs == block_tabs:
+                found_close = True
+                break
+            # If we hit a line at LOWER indent (e.g. }), }) at parent level),
+            # the if/for was never closed
+            if inner_tabs < block_tabs and inner_stripped != '':
+                issues.append(
+                    f"  {rel}:{i+1}: unclosed if/for block (no matching }} before line {j+1})"
+                )
+                found_close = True  # reported, stop scanning
+                break
+
+    # Check 7: brace balance per file
+    depth = 0
+    in_str = False; in_raw = False; in_lc = False; prev_ch = ''
+    for ch in '\n'.join(lines):
+        if ch == '\n': in_lc = False; prev_ch = ch; continue
+        if in_lc: prev_ch = ch; continue
+        if in_str:
+            if ch == '"' and prev_ch != '\\': in_str = False
+            prev_ch = ch; continue
+        if in_raw:
+            if ch == '`': in_raw = False
+            prev_ch = ch; continue
+        if ch == '/' and prev_ch == '/': in_lc = True; prev_ch = ch; continue
+        if ch == '"': in_str = True; prev_ch = ch; continue
+        if ch == '`': in_raw = True; prev_ch = ch; continue
+        if ch == '{': depth += 1
+        elif ch == '}': depth -= 1
+        prev_ch = ch
+    if depth != 0:
+        issues.append(f"  {rel}: unbalanced braces (depth={depth})")
+
 if issues:
     print("\n".join(issues))
     print("")
-    print("✗ Malformed safeTest boundaries, empty if blocks, func assignment closures, or placeholder lines detected.")
+    print("✗ Lint failures detected.")
     sys.exit(1)
 
 print("✓ All safeTest boundaries, if blocks, assignment closures, and placeholder lines are clean.")

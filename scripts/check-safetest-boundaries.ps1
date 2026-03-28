@@ -136,11 +136,63 @@ foreach ($file in $files) {
             $issues = 1
         }
     }
+
+    # Check 6: unclosed if/for blocks (missing closing } before parent })
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -notmatch '^(\t+)(?:if |for |select \{).*\{\s*$') { continue }
+        $blockIndent = $Matches[1]
+        $blockTabs = $blockIndent.Length
+        $foundClose = $false
+
+        $scanEnd = [Math]::Min($i + 50, $lines.Count)
+        for ($j = $i + 1; $j -lt $scanEnd; $j++) {
+            $inner = $lines[$j]
+            $innerStripped = $inner.Trim()
+            if ($innerStripped -eq '') { continue }
+            $innerTabs = 0
+            foreach ($c in $inner.ToCharArray()) {
+                if ($c -eq "`t") { $innerTabs++ } else { break }
+            }
+            # Proper close at same indent
+            if ($innerStripped.StartsWith('}') -and $innerTabs -eq $blockTabs) {
+                $foundClose = $true
+                break
+            }
+            # Hit lower indent without close = unclosed block
+            if ($innerTabs -lt $blockTabs -and $innerStripped -ne '') {
+                Write-Host "  ${rel}:$($i + 1): unclosed if/for block (no matching } before line $($j + 1))"
+                $issues = 1
+                $foundClose = $true
+                break
+            }
+        }
+    }
+
+    # Check 7: brace balance per file
+    $depth = 0; $inStr = $false; $inRaw = $false; $inLC = $false; $prevCh = ''
+    foreach ($line in $lines) {
+        foreach ($ch in $line.ToCharArray()) {
+            if ($inLC) { $prevCh = $ch; continue }
+            if ($inStr) { if ($ch -eq '"' -and $prevCh -ne '\') { $inStr = $false }; $prevCh = $ch; continue }
+            if ($inRaw) { if ($ch -eq '``') { $inRaw = $false }; $prevCh = $ch; continue }
+            if ($ch -eq '/' -and $prevCh -eq '/') { $inLC = $true; $prevCh = $ch; continue }
+            if ($ch -eq '"') { $inStr = $true; $prevCh = $ch; continue }
+            if ($ch -eq '``') { $inRaw = $true; $prevCh = $ch; continue }
+            if ($ch -eq '{') { $depth++ }
+            elseif ($ch -eq '}') { $depth-- }
+            $prevCh = $ch
+        }
+        $inLC = $false
+    }
+    if ($depth -ne 0) {
+        Write-Host "  ${rel}: unbalanced braces (depth=$depth)"
+        $issues = 1
+    }
 }
 
 if ($issues -ne 0) {
     Write-Host ""
-    Write-Host "✗ Malformed safeTest boundaries, empty if blocks, func assignment closures, or placeholder lines detected."
+    Write-Host "✗ Lint failures detected."
     exit 1
 }
 
