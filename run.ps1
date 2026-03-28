@@ -30,6 +30,7 @@
         --open             Open HTML coverage report in browser (default: don't open)
         --skip-bracecheck  Skip the Go syntax pre-check for faster runs
         --no-autofix       Skip the Go auto-fixer before bracecheck
+        --dry-run          Run auto-fixer in preview mode (show fixes without applying)
 
 .EXAMPLE
     ./run.ps1 T
@@ -639,8 +640,12 @@ function Invoke-TestCoverage {
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
     } else {
-        Write-Host "  Running Go auto-fixer..." -ForegroundColor Yellow
-        $fixOut = & go run ./scripts/autofix/ 2>&1
+        $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
+        $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
+        Write-Host "  Running Go auto-fixer$dryLabel..." -ForegroundColor Yellow
+        $fixArgs = @('./scripts/autofix/')
+        if ($dryRunFlag) { $fixArgs += '--dry-run' }
+        $fixOut = & go run @fixArgs 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
@@ -1812,8 +1817,12 @@ function Invoke-PackageTestCoverage {
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
     } else {
-        Write-Host "  Running Go auto-fixer..." -ForegroundColor Yellow
-        $fixOut = & go run ./scripts/autofix/ 2>&1
+        $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
+        $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
+        Write-Host "  Running Go auto-fixer$dryLabel..." -ForegroundColor Yellow
+        $fixArgs = @('./scripts/autofix/')
+        if ($dryRunFlag) { $fixArgs += '--dry-run' }
+        $fixOut = & go run @fixArgs 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
@@ -2083,8 +2092,12 @@ function Invoke-PreCommitCheck {
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
     } else {
-        Write-Host "  Running Go auto-fixer..." -ForegroundColor Yellow
-        $fixOut = & go run ./scripts/autofix/ 2>&1
+        $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
+        $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
+        Write-Host "  Running Go auto-fixer$dryLabel..." -ForegroundColor Yellow
+        $fixArgs = @('./scripts/autofix/')
+        if ($dryRunFlag) { $fixArgs += '--dry-run' }
+        $fixOut = & go run @fixArgs 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
