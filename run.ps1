@@ -1763,6 +1763,17 @@ function Invoke-PackageTestCoverage {
         }
     }
 
+    # ── Go syntax pre-check (bracecheck) ──────────────────────────────
+    Write-Host "  Running Go syntax pre-check (bracecheck)..." -ForegroundColor Yellow
+    $braceOut = & go run ./scripts/bracecheck/ 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host ($braceOut | Out-String) -ForegroundColor Red
+        Write-Fail "Go syntax check failed. Fix reported issues before TCP."
+        exit 1
+    } else {
+        Write-Success ($braceOut | Out-String).Trim()
+    }
+
     # Build check from tests/ dir
     Push-Location tests
     try { if (-not (Invoke-BuildCheck "./integratedtests/$pkg/...")) { return } }
