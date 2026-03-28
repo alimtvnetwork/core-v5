@@ -1898,6 +1898,7 @@ func Test_Cov39_Creator_LC_Strings(t *testing.T) {
 		lc := corestr.New.LinkedCollection.Strings("a", "b")
 		if lc.Length() != 1 { // all strings as one collection
 			// implementation may vary
+		}
 	})
 }
 
@@ -1930,6 +1931,4 @@ func Test_Cov39_Creator_LC_PointerStringsPtr_Nil(t *testing.T) {
 			t.Errorf("expected 0")
 		}
 	})
-}
-}
 }
