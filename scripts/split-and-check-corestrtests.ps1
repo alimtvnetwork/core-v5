@@ -18,7 +18,7 @@ $helperTestFiles = Get-ChildItem -LiteralPath $src -Filter "*helper*_test.go" -F
 $supportFiles = Get-ChildItem -LiteralPath $src -Filter "*.go" -File |
     Where-Object { $_.Name -notlike "*_test.go" } | Sort-Object Name
 
-Write-Host "Found $($testFiles.Count) test files, $($supportFiles.Count) support files."
+Write-Host "Found $($testFiles.Count) test files, $($helperTestFiles.Count) helper files, $($supportFiles.Count) support files."
 Write-Host "Creating subfolders..."
 
 # Create a subfolder per test file, copy it + all support files
