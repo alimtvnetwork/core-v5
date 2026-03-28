@@ -18,6 +18,89 @@ import (
 
 var dryRun bool
 
+const rulesReference = `────────────────────────────────────────────────────────────────────────────────
+ SYNTAX RULES REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+
+ BRACECHECK — Diagnostic Categories (scripts/bracecheck/main.go)
+ ───────────────────────────────────────────────────────────────
+
+ 1. Missing trailing comma
+    Pattern:  "missing ',' before newline in argument list"
+    Cause:    Multi-line calls/literals need a trailing comma after the last arg.
+    Example:
+        assert.Equal(t,
+            expected,
+            actual     // ← missing comma
+        )
+
+ 2. Unexpected closing paren (inside block)
+    Pattern:  "expected statement, found ')'"
+    Cause:    Extra ')' inside a closure, or '}' and ')' split across lines.
+    Example:
+        }
+        )    // ← should be '})'
+
+ 3. Unexpected ')' at top level
+    Pattern:  "expected declaration, found ')'"
+    Cause:    Stray ')' at package level from mismatched safeTest closure.
+
+ 4. Expression count mismatch
+    Pattern:  "expected 1 expression"
+    Cause:    Return/assignment has wrong number of values on one side.
+    Example:  return a, b    // but func returns 1 value
+
+ 5. Unclosed brace at EOF
+    Pattern:  "expected '}', found 'EOF'"
+    Cause:    A '{' block never closed before file end.
+
+ 6. Other / unclassified
+    Any Go parser error not matching the above patterns.
+
+ AUTOFIX — Auto-Repair Rules (scripts/autofix/main.go)
+ ─────────────────────────────────────────────────────
+
+ A. missing-trailing-comma
+    Trigger:  "missing ',' before newline in argument list"
+    Action:   Appends ',' to previous non-empty/non-comment line.
+    Before:   actual        After:   actual,
+
+ B. unexpected-close-paren
+    Trigger:  "expected statement, found ')'"
+    Action:   Merges split '}' + ')' → '})'; removes stray ')'.
+    Before:   }             After:   })
+              )
+
+ C. stray-top-level-paren
+    Trigger:  "expected declaration, found ')'"
+    Action:   Removes bare ')' at top level.
+
+ D. missing-close-brace-eof
+    Trigger:  "expected '}', found 'EOF'"
+    Action:   Appends '}' to end of file.
+
+ E. expected-one-expression
+    Trigger:  "expected 1 expression"
+    Action:   Removes trailing comma from returns ("return nil," → "return nil")
+              or trims multi-value return to first value ("return a, b" → "return a").
+
+ F. expected-operand
+    Trigger:  "expected operand, found '<token>'"
+    Action:   Fixes double commas ("a,, b" → "a, b"), empty argument slots
+              ("func(a, , b)" → "func(a, b)"), dangling operators (merges
+              with next line), and stray tokens where operand expected.
+
+ safeTest CLOSURE PATTERN
+ ────────────────────────
+    Correct:   safeTest(t, "name", func() { ... })
+    Wrong:     }  then  )  on separate lines → merge to  })
+    Wrong:     })}  → normalize to  })
+    Wrong:     stray  )  after  })  }  → remove the  )
+
+────────────────────────────────────────────────────────────────────────────────
+
+`
+
 // fixRecord tracks a single fix applied or detected.
 type fixRecord struct {
 	File    string
@@ -513,9 +596,12 @@ func writeReport(totalFixed, totalFiles, totalScanned int) {
 	b.WriteString("  Mode: " + mode + "\n")
 	b.WriteString("================================================================================\n\n")
 
-	b.WriteString(fmt.Sprintf("  Files scanned:  %d\n", totalScanned))
+	b.WriteString(fmt.Sprintf("  Files scanned:    %d\n", totalScanned))
 	b.WriteString(fmt.Sprintf("  Files with fixes: %d\n", totalFiles))
-	b.WriteString(fmt.Sprintf("  Total fixes:    %d\n\n", totalFixed))
+	b.WriteString(fmt.Sprintf("  Total fixes:      %d\n\n", totalFixed))
+
+	// ── Embedded rules reference ──
+	b.WriteString(rulesReference)
 
 	if len(allRecords) == 0 {
 		b.WriteString("  ✓ No syntax issues found.\n")
