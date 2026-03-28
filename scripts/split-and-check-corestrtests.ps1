@@ -30,6 +30,9 @@ foreach ($tf in $testFiles) {
     foreach ($sf in $supportFiles) {
         Copy-Item -LiteralPath $sf.FullName -Destination (Join-Path $dest $sf.Name) -Force
     }
+    foreach ($hf in $helperTestFiles) {
+        Copy-Item -LiteralPath $hf.FullName -Destination (Join-Path $dest $hf.Name) -Force
+    }
 }
 
 Write-Host "Created $($testFiles.Count) subfolders. Running parallel build checks..."

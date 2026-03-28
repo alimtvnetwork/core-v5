@@ -789,6 +789,9 @@ function Invoke-TestCoverage {
                 foreach ($sf in $bpSupportFiles) {
                     Copy-Item -LiteralPath $sf.FullName -Destination (Join-Path $dest $sf.Name) -Force
                 }
+                foreach ($hf in $bpHelperTestFiles) {
+                    Copy-Item -LiteralPath $hf.FullName -Destination (Join-Path $dest $hf.Name) -Force
+                }
                 $splitCleanupDirs.Add($dest)
             }
 
