@@ -67,9 +67,12 @@ const rulesReference = `──────────────────�
 
  B. unexpected-close-paren
     Trigger:  "expected statement, found ')'"
-    Action:   Merges split '}' + ')' → '})'; removes stray ')'.
-    Before:   }             After:   })
+    Action:   Merges split '}' + ')' → '})'; removes stray ')'; or
+              changes '})' → '}' when '}' closed a struct/map literal
+              (not a func body) so ')' is extraneous.
+    Before:   }             After:   })       (split lines)
               )
+    Before:   })            After:   }        (struct close, not func close)
 
  C. stray-top-level-paren
     Trigger:  "expected declaration, found ')'"
@@ -271,10 +274,20 @@ func fixFile(path string) int {
 	return totalFixes
 }
 
-// fixMissingComma adds a trailing comma to the line before the error.
-// The error points to the line AFTER the one missing the comma.
+// fixMissingComma adds a trailing comma to the line that needs it.
+// The error may point to the line itself (e.g. a closing '}') or the line after.
 func fixMissingComma(lines []string, errLine int) bool {
-	// The missing comma is on the previous non-empty line
+	// First, check if the error line itself needs the comma (e.g., "}" closing a map literal in an arg list)
+	if errLine >= 0 && errLine < len(lines) {
+		selfTrimmed := strings.TrimRight(lines[errLine], " \t\r")
+		selfClean := strings.TrimSpace(selfTrimmed)
+		if selfClean == "}" {
+			lines[errLine] = selfTrimmed + ","
+			return true
+		}
+	}
+
+	// Otherwise, the missing comma is on the previous non-empty line
 	target := -1
 	for i := errLine - 1; i >= 0; i-- {
 		trimmed := strings.TrimSpace(lines[i])
@@ -335,7 +348,16 @@ func fixUnexpectedCloseParen(lines []string, errLine int) bool {
 		return true
 	}
 
-	// Case 2: Line has "})}" or similar — normalize safeTest closure
+	// Case 2: Line is "})" but parser says ')' is unexpected as a statement.
+	// This means '}' closed a struct/map literal (not a func body), so ')' is wrong.
+	// Fix: remove the ')' → change "})" to "}"
+	if trimmed == "})" {
+		indent := leadingWhitespace(lines[errLine])
+		lines[errLine] = indent + "}"
+		return true
+	}
+
+	// Case 3: Line has "})}" or similar — normalize safeTest closure
 	if trimmed == "})}" {
 		indent := leadingWhitespace(lines[errLine])
 		lines[errLine] = indent + "})"
@@ -356,6 +378,26 @@ func fixUnexpectedCloseParenTopLevel(lines []string, errLine int) bool {
 	// If the line is just ")" at top level, remove it
 	if trimmed == ")" {
 		lines[errLine] = ""
+		return true
+	}
+
+	// If the line is "})" at top level, it's a safeTest closure that ended up
+	// at package scope due to earlier mismatches. Check if previous non-empty
+	// line is "}" — if so, merge into "})" on prev and blank this line.
+	if trimmed == "})" {
+		prev := findPrevNonEmpty(lines, errLine)
+		if prev >= 0 {
+			prevTrimmed := strings.TrimSpace(lines[prev])
+			if prevTrimmed == "}" {
+				indent := leadingWhitespace(lines[prev])
+				lines[prev] = indent + "})"
+				lines[errLine] = ""
+				return true
+			}
+		}
+		// Otherwise the '}' closed something, ')' is stray — keep just '}'
+		indent := leadingWhitespace(lines[errLine])
+		lines[errLine] = indent + "}"
 		return true
 	}
 
