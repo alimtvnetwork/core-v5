@@ -123,6 +123,9 @@ func fixFile(path string) int {
 
 			case strings.Contains(e.Msg, "expected '}', found 'EOF'"):
 				fixed = fixMissingCloseBrace(lines)
+
+			case strings.Contains(e.Msg, "expected 1 expression"):
+				fixed = fixExpectedOneExpression(lines, lineIdx)
 			}
 
 			if fixed {
