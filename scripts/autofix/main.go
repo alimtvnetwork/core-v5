@@ -126,6 +126,9 @@ func fixFile(path string) int {
 
 			case strings.Contains(e.Msg, "expected 1 expression"):
 				fixed = fixExpectedOneExpression(lines, lineIdx)
+
+			case strings.Contains(e.Msg, "expected operand, found"):
+				fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
 			}
 
 			if fixed {
@@ -321,6 +324,114 @@ var rxExprTrailingComma = regexp.MustCompile(`^[^,]+,\s*$`)
 
 // rxReturnMultiValue matches "return <expr1>, <expr2>" (2+ values)
 var rxReturnMultiValue = regexp.MustCompile(`^return\s+(\S+)\s*,\s*.+$`)
+
+// fixExpectedOperand handles "expected operand, found <token>" errors.
+// Common causes:
+//   - Double commas: "a,, b" → "a, b"
+//   - Trailing operator: "a +" on a line → remove the dangling operator
+//   - Empty argument slot: "func(a, , b)" → "func(a, b)"
+//   - Stray token like '}' or ')' where an expression is expected
+func fixExpectedOperand(lines []string, errLine int, msg string) bool {
+	if errLine < 0 || errLine >= len(lines) {
+		return false
+	}
+
+	line := lines[errLine]
+	trimmed := strings.TrimSpace(line)
+	indent := leadingWhitespace(line)
+
+	// Extract the unexpected token from the error message
+	// Format: "expected operand, found '<token>'"
+	foundToken := ""
+	if idx := strings.Index(msg, "found '"); idx >= 0 {
+		rest := msg[idx+7:]
+		if end := strings.Index(rest, "'"); end >= 0 {
+			foundToken = rest[:end]
+		}
+	}
+
+	// Case 1: Double commas anywhere in the line: ",," → ","
+	if strings.Contains(line, ",,") {
+		for strings.Contains(line, ",,") {
+			line = strings.ReplaceAll(line, ",,", ",")
+		}
+		lines[errLine] = line
+		return true
+	}
+
+	// Case 2: Empty argument slot: "(a, , b)" or "(, b)" — remove empty slot
+	if rxEmptyArgSlot.MatchString(trimmed) {
+		cleaned := rxEmptyArgSlot.ReplaceAllString(trimmed, "$1$2")
+		// Clean up leading comma after open paren: "(, " → "("
+		cleaned = rxLeadingComma.ReplaceAllString(cleaned, "$1")
+		lines[errLine] = indent + cleaned
+		return true
+	}
+
+	// Case 3: Line ends with a dangling binary operator (+, -, *, /, |, &, etc.)
+	if rxDanglingOperator.MatchString(trimmed) {
+		// Check if next non-empty line starts with an operand — merge them
+		next := findNextNonEmpty(lines, errLine)
+		if next >= 0 {
+			nextTrimmed := strings.TrimSpace(lines[next])
+			// Merge: keep the operator on this line but append next line's content
+			lines[errLine] = strings.TrimRight(line, " \t\r") + " " + nextTrimmed
+			lines[next] = ""
+			return true
+		}
+		// No next line to merge — remove the dangling operator
+		cleaned := rxDanglingOperator.ReplaceAllString(trimmed, "")
+		lines[errLine] = indent + cleaned
+		return true
+	}
+
+	// Case 4: Found '}' or ')' where operand expected — likely a missing argument
+	// before a closure end. Remove the offending line if it's just the token.
+	if foundToken == "}" || foundToken == ")" {
+		if trimmed == foundToken {
+			// Check if previous line could absorb this (e.g., split "})") 
+			prev := findPrevNonEmpty(lines, errLine)
+			if prev >= 0 && foundToken == ")" && strings.TrimSpace(lines[prev]) == "}" {
+				prevIndent := leadingWhitespace(lines[prev])
+				lines[prev] = prevIndent + "})"
+				lines[errLine] = ""
+				return true
+			}
+		}
+	}
+
+	// Case 5: Found 'newline' — the line before is incomplete (missing operand after operator)
+	if foundToken == "newline" {
+		// Check if previous line ends with an operator
+		prev := findPrevNonEmpty(lines, errLine)
+		if prev >= 0 && rxDanglingOperator.MatchString(strings.TrimSpace(lines[prev])) {
+			// Merge current line onto previous
+			lines[prev] = strings.TrimRight(lines[prev], " \t\r") + " " + trimmed
+			lines[errLine] = ""
+			return true
+		}
+	}
+
+	return false
+}
+
+// rxEmptyArgSlot matches ", ," or "(," patterns (empty argument slots)
+var rxEmptyArgSlot = regexp.MustCompile(`(,)\s*,(\s*)`)
+
+// rxLeadingComma matches "(, " at start of arg list
+var rxLeadingComma = regexp.MustCompile(`(\()\s*,\s*`)
+
+// rxDanglingOperator matches lines ending with a binary operator
+var rxDanglingOperator = regexp.MustCompile(`[+\-*/|&^%<>]=?\s*$`)
+
+func findNextNonEmpty(lines []string, from int) int {
+	for i := from + 1; i < len(lines); i++ {
+		if strings.TrimSpace(lines[i]) != "" {
+			return i
+		}
+	}
+	return -1
+}
 
 // --- helpers ---
 
