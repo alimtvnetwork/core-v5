@@ -2092,8 +2092,12 @@ function Invoke-PreCommitCheck {
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
     } else {
-        Write-Host "  Running Go auto-fixer..." -ForegroundColor Yellow
-        $fixOut = & go run ./scripts/autofix/ 2>&1
+        $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
+        $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
+        Write-Host "  Running Go auto-fixer$dryLabel..." -ForegroundColor Yellow
+        $fixArgs = @('./scripts/autofix/')
+        if ($dryRunFlag) { $fixArgs += '--dry-run' }
+        $fixOut = & go run @fixArgs 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
