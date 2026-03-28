@@ -493,6 +493,7 @@ func Test_S10_30_Hashset_AddFuncErr_WithError(t *testing.T) {
 		}
 		if hs.Has("") {
 			// it may have "" but the err path was exercised
+		}
 	})
 }
 

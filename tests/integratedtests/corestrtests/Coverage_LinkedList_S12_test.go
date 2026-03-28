@@ -458,6 +458,7 @@ func Test_S12_40_LinkedList_IsEqualsWithSensitive_CaseInsensitive(t *testing.T) 
 		b.Add("a")
 		if a.IsEqualsWithSensitive(b, false) {
 			// depends on LinkedListNode.IsChainEqual implementation
+		}
 	})
 }
 

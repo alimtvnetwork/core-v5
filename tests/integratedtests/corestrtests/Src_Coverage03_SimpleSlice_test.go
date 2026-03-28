@@ -449,4 +449,3 @@ func callPanicsSrcC03(fn func()) (panicked bool) {
 	fn()
 	return false
 	})
-}

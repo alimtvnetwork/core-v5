@@ -1024,6 +1024,7 @@ func Test_Cov38_LL_AddStringsToNode(t *testing.T) {
 			// The actual length depends on internal logic; just verify it grew
 			if ll.Length() < 4 {
 				t.Errorf("expected at least 4, got %d", ll.Length())
+			}
 		}
 	})
 }

@@ -288,4 +288,3 @@ func callPanicsSrcC15(fn func()) (panicked bool) {
 	fn()
 	return false
 	})
-}
