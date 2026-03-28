@@ -168,24 +168,46 @@ foreach ($file in $files) {
         }
     }
 
-    # Check 7: brace balance per file (handles strings, raw strings, rune literals, comments)
-    $depth = 0; $inStr = $false; $inRaw = $false; $inLC = $false; $inRune = $false; $prevCh = ''
-    foreach ($line in $lines) {
-        foreach ($ch in $line.ToCharArray()) {
-            if ($inLC) { $prevCh = $ch; continue }
-            if ($inStr) { if ($ch -eq '"' -and $prevCh -ne '\') { $inStr = $false }; $prevCh = $ch; continue }
-            if ($inRaw) { if ($ch -eq '``') { $inRaw = $false }; $prevCh = $ch; continue }
-            if ($inRune) { if ($ch -eq "'" -and $prevCh -ne '\') { $inRune = $false }; $prevCh = $ch; continue }
-            if ($ch -eq '/' -and $prevCh -eq '/') { $inLC = $true; $prevCh = $ch; continue }
-            if ($ch -eq '"') { $inStr = $true; $prevCh = $ch; continue }
-            if ($ch -eq '``') { $inRaw = $true; $prevCh = $ch; continue }
-            if ($ch -eq "'") { $inRune = $true; $prevCh = $ch; continue }
-            if ($ch -eq '{') { $depth++ }
-            elseif ($ch -eq '}') { $depth-- }
+    # Check 7: brace balance per file (robust scanner over full content)
+    $depth = 0; $inStr = $false; $inRaw = $false; $inLC = $false; $inRune = $false
+    $prevCh = [char]0
+    $content = ($lines -join "`n")
+
+    for ($idx = 0; $idx -lt $content.Length; $idx++) {
+        $ch = $content[$idx]
+
+        if ($ch -eq [char]10) { $inLC = $false; $prevCh = $ch; continue }
+        if ($inLC) { $prevCh = $ch; continue }
+
+        if ($inStr) {
+            if ($ch -eq [char]34 -and $prevCh -ne [char]92) { $inStr = $false }
             $prevCh = $ch
+            continue
         }
-        $inLC = $false
+
+        if ($inRaw) {
+            if ($ch -eq [char]96) { $inRaw = $false }
+            $prevCh = $ch
+            continue
+        }
+
+        if ($inRune) {
+            if ($ch -eq [char]39 -and $prevCh -ne [char]92) { $inRune = $false }
+            $prevCh = $ch
+            continue
+        }
+
+        if ($ch -eq [char]47 -and $prevCh -eq [char]47) { $inLC = $true; $prevCh = $ch; continue }
+        if ($ch -eq [char]34) { $inStr = $true; $prevCh = $ch; continue }
+        if ($ch -eq [char]96) { $inRaw = $true; $prevCh = $ch; continue }
+        if ($ch -eq [char]39) { $inRune = $true; $prevCh = $ch; continue }
+
+        if ($ch -eq [char]123) { $depth++ }
+        elseif ($ch -eq [char]125) { $depth-- }
+
+        $prevCh = $ch
     }
+
     if ($depth -ne 0) {
         Write-Host "  ${rel}: unbalanced braces (depth=$depth)"
         $issues = 1
