@@ -13,9 +13,29 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 )
 
 var dryRun bool
+
+// fixRecord tracks a single fix applied or detected.
+type fixRecord struct {
+	File    string
+	Line    int
+	Rule    string
+	Message string
+}
+
+var allRecords []fixRecord
+
+func addRecord(file string, line int, rule, message string) {
+	allRecords = append(allRecords, fixRecord{
+		File:    file,
+		Line:    line,
+		Rule:    rule,
+		Message: message,
+	})
+}
 
 func main() {
 	var args []string
@@ -73,6 +93,9 @@ func main() {
 		fmt.Printf("\n✓ Applied %d fix(es) across %d file(s).\n", totalFixed, totalFiles)
 		fmt.Println("  Run bracecheck again to verify: go run ./scripts/bracecheck/")
 	}
+
+	// Write syntax-issues.txt report to data/coverage/
+	writeReport(totalFixed, totalFiles, len(files))
 }
 
 // fixFile attempts up to maxPasses of parse-fix cycles on a single file.
@@ -111,29 +134,37 @@ func fixFile(path string) int {
 			}
 
 			fixed := false
+			rule := ""
 			switch {
 			case strings.Contains(e.Msg, "missing ',' before newline in argument list"):
 				fixed = fixMissingComma(lines, lineIdx)
+				rule = "missing-trailing-comma"
 
 			case strings.Contains(e.Msg, "expected statement, found ')'"):
 				fixed = fixUnexpectedCloseParen(lines, lineIdx)
+				rule = "unexpected-close-paren"
 
 			case strings.Contains(e.Msg, "expected declaration, found ')'"):
 				fixed = fixUnexpectedCloseParenTopLevel(lines, lineIdx)
+				rule = "stray-top-level-paren"
 
 			case strings.Contains(e.Msg, "expected '}', found 'EOF'"):
 				fixed = fixMissingCloseBrace(lines)
+				rule = "missing-close-brace-eof"
 
 			case strings.Contains(e.Msg, "expected 1 expression"):
 				fixed = fixExpectedOneExpression(lines, lineIdx)
+				rule = "expected-one-expression"
 
 			case strings.Contains(e.Msg, "expected operand, found"):
 				fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
+				rule = "expected-operand"
 			}
 
 			if fixed {
 				fixes++
 				applied[lineIdx] = true
+				addRecord(path, e.Pos.Line, rule, e.Msg)
 			}
 		}
 
@@ -458,4 +489,69 @@ func removeLineInPlace(lines []string, idx int) []string {
 	// This is simpler and avoids line-number drift in the same pass
 	lines[idx] = ""
 	return lines
+}
+
+// writeReport generates data/coverage/syntax-issues.txt with all fixes.
+func writeReport(totalFixed, totalFiles, totalScanned int) {
+	reportDir := "data/coverage"
+	if err := os.MkdirAll(reportDir, 0755); err != nil {
+		fmt.Fprintf(os.Stderr, "  ⚠ Cannot create report dir %s: %v\n", reportDir, err)
+		return
+	}
+
+	reportPath := filepath.Join(reportDir, "syntax-issues.txt")
+	var b strings.Builder
+
+	ts := time.Now().Format("2006-01-02 15:04:05")
+	mode := "applied"
+	if dryRun {
+		mode = "dry-run (no files modified)"
+	}
+
+	b.WriteString("================================================================================\n")
+	b.WriteString("  Syntax Issues Report — " + ts + "\n")
+	b.WriteString("  Mode: " + mode + "\n")
+	b.WriteString("================================================================================\n\n")
+
+	b.WriteString(fmt.Sprintf("  Files scanned:  %d\n", totalScanned))
+	b.WriteString(fmt.Sprintf("  Files with fixes: %d\n", totalFiles))
+	b.WriteString(fmt.Sprintf("  Total fixes:    %d\n\n", totalFixed))
+
+	if len(allRecords) == 0 {
+		b.WriteString("  ✓ No syntax issues found.\n")
+	} else {
+		// Summary by rule
+		ruleCounts := make(map[string]int)
+		for _, r := range allRecords {
+			ruleCounts[r.Rule]++
+		}
+		b.WriteString("────────────────────────────────────────────────────────────────────────────────\n")
+		b.WriteString(" SUMMARY BY RULE\n")
+		b.WriteString("────────────────────────────────────────────────────────────────────────────────\n\n")
+		for rule, count := range ruleCounts {
+			b.WriteString(fmt.Sprintf("  %-35s %d\n", rule, count))
+		}
+
+		// Per-file details
+		b.WriteString("\n────────────────────────────────────────────────────────────────────────────────\n")
+		b.WriteString(" DETAILS\n")
+		b.WriteString("────────────────────────────────────────────────────────────────────────────────\n\n")
+
+		currentFile := ""
+		for _, r := range allRecords {
+			if r.File != currentFile {
+				currentFile = r.File
+				b.WriteString(fmt.Sprintf("  %s\n", currentFile))
+			}
+			b.WriteString(fmt.Sprintf("    Line %-5d [%-30s] %s\n", r.Line, r.Rule, r.Message))
+		}
+	}
+
+	b.WriteString("\n================================================================================\n")
+
+	if err := os.WriteFile(reportPath, []byte(b.String()), 0644); err != nil {
+		fmt.Fprintf(os.Stderr, "  ⚠ Failed to write report: %v\n", err)
+		return
+	}
+	fmt.Printf("  Report → %s\n", reportPath)
 }
