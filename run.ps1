@@ -29,6 +29,7 @@
         --sync             Run precompile + tests sequentially (default: parallel)
         --open             Open HTML coverage report in browser (default: don't open)
         --skip-bracecheck  Skip the Go syntax pre-check for faster runs
+        --no-autofix       Skip the Go auto-fixer before bracecheck
 
 .EXAMPLE
     ./run.ps1 T
