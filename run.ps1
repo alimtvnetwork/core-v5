@@ -2011,6 +2011,17 @@ function Invoke-PreCommitCheck {
         }
     }
 
+    # ── Go syntax pre-check (bracecheck) ──────────────────────────────
+    Write-Host "  Running Go syntax pre-check (bracecheck)..." -ForegroundColor Yellow
+    $braceOut = & go run ./scripts/bracecheck/ 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host ($braceOut | Out-String) -ForegroundColor Red
+        Write-Fail "Go syntax check failed. Fix reported issues before PC."
+        exit 1
+    } else {
+        Write-Success ($braceOut | Out-String).Trim()
+    }
+
     # Discover test packages
     $testBaseDir = Join-Path $PSScriptRoot "tests" "integratedtests"
     if ($singlePkg) {
