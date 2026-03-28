@@ -123,6 +123,19 @@ Rule D: Fix missing closing brace at EOF
    Action:   Appends "}" to the end of the file if the last non-empty
              line is not already "}" or "})".
 
+Rule E: Fix 'expected 1 expression' errors
+   Trigger:  "expected 1 expression"
+   Action:
+     • "return expr," (trailing comma) → removes the comma
+     • "return a, b" (multi-value where 1 expected) → keeps first value
+     • "expr," (bare trailing comma in single-expression context) → removes comma
+   Before:
+       return nil,
+       return a, b
+   After:
+       return nil
+       return a
+
 
 ────────────────────────────────────────────────────────────────────────────────
  USAGE
