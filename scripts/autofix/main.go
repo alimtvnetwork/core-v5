@@ -378,6 +378,26 @@ func fixUnexpectedCloseParenTopLevel(lines []string, errLine int) bool {
 		return true
 	}
 
+	// If the line is "})" at top level, it's a safeTest closure that ended up
+	// at package scope due to earlier mismatches. Check if previous non-empty
+	// line is "}" — if so, merge into "})" on prev and blank this line.
+	if trimmed == "})" {
+		prev := findPrevNonEmpty(lines, errLine)
+		if prev >= 0 {
+			prevTrimmed := strings.TrimSpace(lines[prev])
+			if prevTrimmed == "}" {
+				indent := leadingWhitespace(lines[prev])
+				lines[prev] = indent + "})"
+				lines[errLine] = ""
+				return true
+			}
+		}
+		// Otherwise the '}' closed something, ')' is stray — keep just '}'
+		indent := leadingWhitespace(lines[errLine])
+		lines[errLine] = indent + "}"
+		return true
+	}
+
 	return false
 }
 
