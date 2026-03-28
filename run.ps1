@@ -768,7 +768,9 @@ function Invoke-TestCoverage {
             $pkgDir = Join-Path "tests" "integratedtests" $bp
             if (-not (Test-Path $pkgDir)) { continue }
 
-            $bpTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*_test.go" -File | Sort-Object Name
+            $bpTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*_test.go" -File |
+                Where-Object { $_.Name -like "*helper*" -eq $false } | Sort-Object Name
+            $bpHelperTestFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*helper*_test.go" -File | Sort-Object Name
             $bpSupportFiles = Get-ChildItem -LiteralPath $pkgDir -Filter "*.go" -File |
                 Where-Object { $_.Name -notlike "*_test.go" } | Sort-Object Name
 
