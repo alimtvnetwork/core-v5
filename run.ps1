@@ -629,6 +629,17 @@ function Invoke-TestCoverage {
         }
     }
 
+    # ── Go syntax pre-check (bracecheck) ──────────────────────────────
+    Write-Host "  Running Go syntax pre-check (bracecheck)..." -ForegroundColor Yellow
+    $braceOut = & go run ./scripts/bracecheck/ 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host ($braceOut | Out-String) -ForegroundColor Red
+        Write-Fail "Go syntax check failed. Fix reported issues before TC."
+        exit 1
+    } else {
+        Write-Success ($braceOut | Out-String).Trim()
+    }
+
     # ── Pre-coverage compile check ──────────────────────────────────
     # Build-check each test package individually (go test -run '^$') to detect
     # build failures BEFORE running coverage. Packages that fail to
