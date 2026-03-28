@@ -668,6 +668,7 @@ func Test_C77_SSO_Boolean_True_Values(t *testing.T) {
 			// Act & Assert
 			if !sso.Boolean(false) {
 				t.Errorf("expected true for '%s'", v)
+			}
 		}
 	})
 }

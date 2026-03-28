@@ -563,5 +563,4 @@ func Test_CovLL2_31_Node_Join_StringList_Print(t *testing.T) {
 
 // suppress unused import
 var _ = fmt.Sprintf
-	})
-}
+

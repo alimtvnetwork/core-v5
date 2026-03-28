@@ -1571,5 +1571,4 @@ func Test_Seg7_NCLN_Items(t *testing.T) {
 
 // suppress unused import warning
 var _ = fmt.Sprintf
-	})
-}
+

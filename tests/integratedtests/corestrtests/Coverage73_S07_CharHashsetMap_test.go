@@ -71,6 +71,7 @@ func Test_CovS07_GetChar_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
 		}
 	})
 }
@@ -133,6 +134,7 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
 		}
 	})
 }
@@ -202,6 +204,8 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
+			}
 		}
 	})
 }
@@ -309,6 +313,10 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
+			}
+			}
+			}
 		}
 	})
 }
@@ -363,6 +371,7 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
 		}
 	})
 }
@@ -404,6 +413,8 @@ func Test_CovS07_List_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
+			}
 		}
 	})
 }
@@ -481,6 +492,8 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
+			}
 		}
 	})
 }
@@ -523,6 +536,8 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
+			}
 		}
 	})
 }
@@ -594,6 +609,7 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
 		}
 	})
 }
@@ -630,6 +646,8 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
+			}
 		}
 	})
 }
@@ -658,6 +676,7 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			}
 		}
 	})
 }
