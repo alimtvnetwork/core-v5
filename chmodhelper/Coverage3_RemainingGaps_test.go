@@ -627,25 +627,32 @@ func Test_Cov3_GetRecursivePaths_NoSkipInvalid(t *testing.T) {
 	}
 }
 
-func Test_Cov3_GetRecursivePathsContinueOnError_SkipInvalid(t *testing.T) {
+func Test_Cov3_GetRecursivePathsContinueOnError_NonExistent(t *testing.T) {
 	// Arrange & Act
 	paths, err := GetRecursivePathsContinueOnError("/nonexistent/xyz")
 
-	// Assert
-	if err != nil {
-		t.Fatal("expected nil error on skip-invalid:", err)
+	// Assert — non-existent path returns error
+	if err == nil {
+		t.Fatal("expected error for non-existent path")
 	}
 	if len(paths) != 0 {
 		t.Fatal("expected empty paths")
 	}
 }
 
-func Test_Cov3_GetRecursivePathsContinueOnError_NoSkipInvalid(t *testing.T) {
-	// Arrange & Act
-	_, err := GetRecursivePathsContinueOnError("/nonexistent/xyz")
+func Test_Cov3_GetRecursivePathsContinueOnError_ValidDir(t *testing.T) {
+	// Arrange
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "f.txt"), []byte("x"), 0644)
+
+	// Act
+	paths, err := GetRecursivePathsContinueOnError(dir)
 
 	// Assert
-	if err == nil {
-		t.Fatal("expected error for non-existent without skip")
+	if err != nil {
+		t.Fatal("expected no error:", err)
+	}
+	if len(paths) == 0 {
+		t.Fatal("expected non-empty paths")
 	}
 }
