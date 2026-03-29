@@ -160,7 +160,7 @@ func Test_Cov56_Hashset_AddFunc(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "AddFunc",
 			ExpectedInput: args.Map{"Has": true},
-		})
+		}
 		actual := args.Map{"Has": hs.Has("computed")}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	}
@@ -606,7 +606,7 @@ func Test_Cov56_Hashset_Filter(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Filter",
 			ExpectedInput: args.Map{"Length": 2},
-		})
+		}
 		actual := args.Map{"Length": result.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	}
