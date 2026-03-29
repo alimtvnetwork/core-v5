@@ -133,7 +133,6 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
@@ -363,7 +362,6 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
@@ -594,7 +592,6 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
@@ -658,7 +655,6 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
