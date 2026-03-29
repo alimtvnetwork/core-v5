@@ -163,16 +163,16 @@ func (it *MethodProcessor) IsEqual(another *MethodProcessor) bool {
 	if it.IsInvalid() != another.IsInvalid() {
 		return false
 	}
-	if it.Name != it.Name {
+	if it.Name != another.Name {
 		return false
 	}
-	if it.IsPublicMethod() != it.IsPublicMethod() {
+	if it.IsPublicMethod() != another.IsPublicMethod() {
 		return false
 	}
-	if it.ArgsCount() != it.ArgsCount() {
+	if it.ArgsCount() != another.ArgsCount() {
 		return false
 	}
-	if it.ReturnLength() != it.ReturnLength() {
+	if it.ReturnLength() != another.ReturnLength() {
 		return false
 	}
 
