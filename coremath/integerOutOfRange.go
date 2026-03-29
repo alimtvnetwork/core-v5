@@ -4,7 +4,6 @@ import (
 	"math"
 
 	"github.com/alimtvnetwork/core/constants"
-	"github.com/alimtvnetwork/core/osconsts"
 )
 
 type integerOutOfRange struct{}
