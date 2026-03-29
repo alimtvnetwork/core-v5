@@ -5,6 +5,10 @@ func Equal(left, right error) bool {
 		return true
 	}
 
+	if left == nil && right == nil {
+		return true
+	}
+
 	if left == nil || right == nil {
 		return false
 	}

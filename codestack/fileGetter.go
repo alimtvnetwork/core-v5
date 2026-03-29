@@ -10,7 +10,12 @@ import (
 type fileGetter struct{}
 
 func (it fileGetter) Name(skipStack int) string {
-	_, file, _, _ := runtime.Caller(skipStack + defaultInternalSkip)
+	_, file, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
+
+	if !isOkay && file == "" {
+		return constants.EmptyString
+	}
+
 	_, fileName := filepath.Split(file)
 
 	return fileName
@@ -19,11 +24,11 @@ func (it fileGetter) Name(skipStack int) string {
 func (it fileGetter) Path(skipStack int) string {
 	_, file, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
 
-	if !isOkay {
-		return constants.EmptyString
+	if isOkay {
+		return file
 	}
 
-	return file
+	return constants.EmptyString
 }
 
 func (it fileGetter) PathLineSep(skipStack int) (
@@ -62,9 +67,9 @@ func (it fileGetter) PathLineStringDefault() string {
 func (it fileGetter) CurrentFilePath() string {
 	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
 
-	if !isOkay {
-		return constants.EmptyString
+	if isOkay {
+		return filePath
 	}
 
-	return filePath
+	return constants.EmptyString
 }
