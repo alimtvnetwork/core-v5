@@ -135,6 +135,7 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // HasWithHashset
@@ -201,9 +202,9 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // Add, AddStrings
@@ -364,6 +365,7 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // List, SortedListAsc, SortedListDsc
@@ -402,9 +404,9 @@ func Test_CovS07_List_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // JSON
@@ -479,9 +481,9 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // AddSameCharsHashset
@@ -521,9 +523,9 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // AddCollectionItems, AddCharCollectionMapItems, AddHashsetItems
@@ -594,6 +596,7 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // Clear, RemoveAll
@@ -627,9 +630,9 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // String, SummaryString
@@ -657,6 +660,7 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // Print (skip path)
@@ -1179,7 +1183,6 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 
 		// Wait for async completion
 		select {
-		}
 		case <-done:
 		case <-time.After(2 * time.Second):
 		}
@@ -1190,6 +1193,7 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 			_ = 0
 		}
 	})
+}
 
 // ============================================================
 // AddCollectionItemsAsyncLock — nil collection
@@ -1265,7 +1269,6 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 		})
 
 		select {
-		}
 		case <-done:
 		case <-time.After(2 * time.Second):
 		}
@@ -1276,3 +1279,4 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 			_ = 0
 		}
 	})
+}

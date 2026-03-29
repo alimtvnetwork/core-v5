@@ -295,6 +295,7 @@ func Test_CovS06_CharCollMap_GetCharsGroups_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — Basic: IsEmpty, HasItems, Length, AllLengthsSum
@@ -404,6 +405,7 @@ func Test_CovS06_CharCollMap_LengthOf_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — IsEquals
@@ -629,7 +631,7 @@ func Test_CovS06_CharCollMap_Resize_Verification(t *testing.T) {
 			if lengths, ok := input["lengths"]; ok {
 				m.AddLength(lengths.([]int)...)
 			}
-			actual := args.Map{"length": m.Length()},
+			actual := args.Map{"length": m.Length()}
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
@@ -664,6 +666,7 @@ func Test_CovS06_CharCollMap_ClearDispose_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — HashsetByChar
@@ -715,6 +718,7 @@ func Test_CovS06_CharCollMap_HashsetsColl_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — AddHashmapsValues
@@ -748,6 +752,7 @@ func Test_CovS06_CharCollMap_AddHashmaps_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — AddCollectionItems
@@ -775,6 +780,7 @@ func Test_CovS06_CharCollMap_AddCollectionItems_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — String, SummaryString
@@ -802,6 +808,7 @@ func Test_CovS06_CharCollMap_StringOutput_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — Print (skip path)
@@ -910,6 +917,7 @@ func Test_CovS06_CharCollMap_AddCharHashsetMap_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CharCollectionMap — AddSameCharsCollection
@@ -949,9 +957,9 @@ func Test_CovS06_CharCollMap_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — Lock variants
@@ -1275,14 +1283,14 @@ func Test_CovS06_CharCollMap_NewCreator_Verification(t *testing.T) {
 				"isNotNil": m != nil,
 			}
 			if _, ok := tc.ExpectedInput.(args.Map)["isEmpty"]; ok {
-				actual["isEmpty"] = m.IsEmpty(),
+				actual["isEmpty"] = m.IsEmpty()
 			}
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — GetMap
