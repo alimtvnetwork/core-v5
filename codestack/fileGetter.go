@@ -19,11 +19,11 @@ func (it fileGetter) Name(skipStack int) string {
 func (it fileGetter) Path(skipStack int) string {
 	_, file, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
 
-	if isOkay {
-		return file
+	if !isOkay {
+		return constants.EmptyString
 	}
 
-	return constants.EmptyString
+	return file
 }
 
 func (it fileGetter) PathLineSep(skipStack int) (
