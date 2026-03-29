@@ -587,7 +587,7 @@ func Test_C35_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		c.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Key + "=" + pair.Value, true, false
-			},
+			}
 			h,
 		)
 		if c.Length() != 1 {
@@ -605,7 +605,7 @@ func Test_C35_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
 		c.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Key, true, true
-			},
+			}
 			h,
 		)
 		if c.Length() != 1 {
@@ -620,7 +620,7 @@ func Test_C35_Collection_AddHashmapsKeysValuesUsingFilter_NilHashmaps(t *testing
 		c.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return "", false, false
-			},
+			}
 		)
 		if c.Length() != 0 {
 			t.Error("expected 0")
@@ -918,7 +918,7 @@ func Test_C35_Collection_AppendAnysUsingFilter(t *testing.T) {
 		c.AppendAnysUsingFilter(
 			func(s string, i int) (string, bool, bool) {
 				return s, true, false
-			},
+			}
 			"a", nil, "b",
 		)
 		if c.Length() != 2 {
@@ -933,7 +933,7 @@ func Test_C35_Collection_AppendAnysUsingFilter_Break(t *testing.T) {
 		c.AppendAnysUsingFilter(
 			func(s string, i int) (string, bool, bool) {
 				return s, true, true
-			},
+			}
 			"a", "b",
 		)
 		if c.Length() != 1 {
@@ -948,7 +948,7 @@ func Test_C35_Collection_AppendAnysUsingFilter_Skip(t *testing.T) {
 		c.AppendAnysUsingFilter(
 			func(s string, i int) (string, bool, bool) {
 				return s, false, false
-			},
+			}
 			"a",
 		)
 		if c.Length() != 0 {
@@ -963,7 +963,7 @@ func Test_C35_Collection_AppendAnysUsingFilterLock(t *testing.T) {
 		c.AppendAnysUsingFilterLock(
 			func(s string, i int) (string, bool, bool) {
 				return s, true, false
-			},
+			}
 			"a",
 		)
 		if c.Length() != 1 {
@@ -983,7 +983,7 @@ func Test_C35_Collection_AppendAnysUsingFilterLock_BreakAndSkip(t *testing.T) {
 		c.AppendAnysUsingFilterLock(
 			func(s string, i int) (string, bool, bool) {
 				return s, false, true
-			},
+			}
 			"a",
 		)
 		if c.Length() != 0 {

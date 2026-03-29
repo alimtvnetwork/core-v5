@@ -115,7 +115,7 @@ var srcC04ValidValueCloneTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"value": "hello",
 		},
-	},
+	}
 	{
 		Title: "ValidValue Clone returns nil -- nil receiver",
 		ArrangeInput: args.Map{
@@ -124,7 +124,7 @@ var srcC04ValidValueCloneTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNilResult": true,
 		},
-	},
+	}
 }
 
 // Branch: ValidValue String/FullString

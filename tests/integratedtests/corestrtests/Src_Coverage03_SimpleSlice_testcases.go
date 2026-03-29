@@ -16,7 +16,7 @@ var srcC03BasicStateTestCases = []coretestcases.CaseV1{
 			"count":     0,
 			"lastIndex": -1,
 		},
-	},
+	}
 }
 
 // Branch: SimpleSlice nil receiver
@@ -27,7 +27,7 @@ var srcC03NilReceiverTestCases = []coretestcases.CaseV1{
 			"length":  0,
 			"isEmpty": true,
 		},
-	},
+	}
 }
 
 // Branch: Add methods (Add, AddSplit, AddIf, Adds, Append, AppendFmt, AppendFmtIf)
@@ -40,7 +40,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 2,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddSplit returns correct length -- comma separated",
 		ArrangeInput: args.Map{
@@ -49,7 +49,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 3,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddIf returns correct length -- one true one false",
 		ArrangeInput: args.Map{
@@ -58,7 +58,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice Adds returns correct length -- empty then two items",
 		ArrangeInput: args.Map{
@@ -67,7 +67,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 2,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice Append returns correct length -- empty then one item",
 		ArrangeInput: args.Map{
@@ -76,7 +76,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AppendFmt returns correct length -- empty fmt skipped",
 		ArrangeInput: args.Map{
@@ -85,7 +85,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AppendFmtIf returns correct length -- false skipped true added",
 		ArrangeInput: args.Map{
@@ -94,7 +94,7 @@ var srcC03AddMethodsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 }
 
 // Branch: Title/Value and Curly wrap add methods
@@ -107,7 +107,7 @@ var srcC03TitleValueTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddAsCurlyTitleWrap returns 1 -- key val pair",
 		ArrangeInput: args.Map{
@@ -116,7 +116,7 @@ var srcC03TitleValueTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddAsCurlyTitleWrapIf returns 1 -- false skipped true added",
 		ArrangeInput: args.Map{
@@ -125,7 +125,7 @@ var srcC03TitleValueTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddAsTitleValueIf returns 1 -- false skipped true added",
 		ArrangeInput: args.Map{
@@ -134,7 +134,7 @@ var srcC03TitleValueTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 }
 
 // Branch: InsertAt including out-of-range
@@ -156,7 +156,7 @@ var srcC03ConditionalAddsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 2,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddError returns 1 -- nil skipped error added",
 		ArrangeInput: args.Map{
@@ -165,7 +165,7 @@ var srcC03ConditionalAddsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddStruct returns 1 -- nil skipped struct added",
 		ArrangeInput: args.Map{
@@ -174,7 +174,7 @@ var srcC03ConditionalAddsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AddPointer returns 1 -- nil skipped pointer added",
 		ArrangeInput: args.Map{
@@ -183,7 +183,7 @@ var srcC03ConditionalAddsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 1,
 		},
-	},
+	}
 }
 
 // Branch: AsError / AsDefaultError
@@ -197,7 +197,7 @@ var srcC03AsErrorTestCases = []coretestcases.CaseV1{
 			"defaultErrorNil": true,
 			"asErrorNil":      true,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice AsDefaultError returns non-nil -- has items",
 		ArrangeInput: args.Map{
@@ -206,7 +206,7 @@ var srcC03AsErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"defaultErrorNil": false,
 		},
-	},
+	}
 }
 
 // Branch: First/Last methods
@@ -254,7 +254,7 @@ var srcC03CountFuncTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"count": 2,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice CountFunc returns 0 -- empty slice",
 		ArrangeInput: args.Map{
@@ -263,7 +263,7 @@ var srcC03CountFuncTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"count": 0,
 		},
-	},
+	}
 }
 
 // Branch: IsContains / IsContainsFunc
@@ -277,7 +277,7 @@ var srcC03ContainsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"found": true,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice IsContains returns false -- item missing",
 		ArrangeInput: args.Map{
@@ -287,7 +287,7 @@ var srcC03ContainsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"found": false,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice IsContains returns false -- empty slice",
 		ArrangeInput: args.Map{
@@ -297,7 +297,7 @@ var srcC03ContainsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"found": false,
 		},
-	},
+	}
 }
 
 // Branch: IndexOf / IndexOfFunc
@@ -311,7 +311,7 @@ var srcC03IndexOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"index": 1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice IndexOf returns -1 -- item not found",
 		ArrangeInput: args.Map{
@@ -321,7 +321,7 @@ var srcC03IndexOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"index": -1,
 		},
-	},
+	}
 	{
 		Title: "SimpleSlice IndexOf returns -1 -- empty slice",
 		ArrangeInput: args.Map{
@@ -331,7 +331,7 @@ var srcC03IndexOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"index": -1,
 		},
-	},
+	}
 }
 
 // Branch: HasIndex

@@ -437,4 +437,4 @@ func callPanicsSrcC16(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+}

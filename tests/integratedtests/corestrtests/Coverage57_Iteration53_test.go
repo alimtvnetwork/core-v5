@@ -1231,7 +1231,7 @@ func Test_Cov57_LeftRight_ValidNonWhitespace(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lr.HasValidNonWhitespaceLeft(), "Right": lr.HasValidNonWhitespaceRight(),
 		})
-	}
+	})
 }
 
 func Test_Cov57_LeftRight_Is(t *testing.T) {
@@ -1294,7 +1294,7 @@ func Test_Cov57_LeftRight_RegexMatch(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"LeftMatch": lr.IsLeftRegexMatch(re), "RightMatch": lr.IsRightRegexMatch(re),
 		})
-	}
+	})
 }
 
 func Test_Cov57_LeftRight_RegexMatch_Nil(t *testing.T) {
@@ -1307,7 +1307,7 @@ func Test_Cov57_LeftRight_RegexMatch_Nil(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Left": lr.IsLeftRegexMatch(nil), "Right": lr.IsRightRegexMatch(nil),
 		})
-	}
+	})
 }
 
 func Test_Cov57_LeftRight_ClearDispose(t *testing.T) {
@@ -1559,7 +1559,7 @@ func Test_Cov57_LeftMiddleRight_ValidNonWhitespace(t *testing.T) {
 			"Left": lmr.HasValidNonWhitespaceLeft(), "Mid": lmr.HasValidNonWhitespaceMiddle(),
 			"Right": lmr.HasValidNonWhitespaceRight(),
 		})
-	}
+	})
 }
 
 func Test_Cov57_LeftMiddleRight_IsAll(t *testing.T) {
@@ -1786,7 +1786,7 @@ func Test_Cov57_ValidValue_IsAnyOf(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Found": vv.IsAnyOf("a", "b"), "NotFound": vv.IsAnyOf("c"), "Empty": vv.IsAnyOf(),
 		})
-	}
+	})
 }
 
 func Test_Cov57_ValidValue_IsContains(t *testing.T) {
@@ -1852,7 +1852,7 @@ func Test_Cov57_ValidValue_Regex_Nil(t *testing.T) {
 		tc.ShouldBeEqualMap(t, 0, args.Map{
 			"Matches": vv.IsRegexMatches(nil), "FindStr": vv.RegexFindString(nil),
 		})
-	}
+	})
 }
 
 func Test_Cov57_ValidValue_RegexFindAllStrings(t *testing.T) {

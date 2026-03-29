@@ -16,10 +16,10 @@ var hashmapClearNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Title: "Clear on nil Hashmap returns nil without panic",
 		Func: func(hm *corestr.Hashmap) bool {
 			return hm.Clear() == nil
-		},
+		}
 		Expected: results.ResultAny{
 			Value:    "true",
 			Panicked: false,
 		},
-	},
+	}
 }

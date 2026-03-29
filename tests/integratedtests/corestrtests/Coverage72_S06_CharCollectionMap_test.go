@@ -292,7 +292,7 @@ func Test_CovS06_CharCollMap_GetCharsGroups_Verification(t *testing.T) {
 			}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual),
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 			}
 		}
 	})
@@ -306,7 +306,7 @@ func Test_CovS06_CharCollMap_Basic_Verification(t *testing.T) {
 		for caseIndex, tc := range covS06CharCollMapBasicTestCases {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
-			useEmpty := input.GetAsBoolDefault("useEmpty", false),
+			useEmpty := input.GetAsBoolDefault("useEmpty", false)
 
 			var m *corestr.CharCollectionMap
 			if useEmpty {
@@ -403,7 +403,7 @@ func Test_CovS06_CharCollMap_LengthOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			},
+			}
 		}
 	})
 
@@ -419,13 +419,13 @@ func Test_CovS06_CharCollMap_IsEquals_Verification(t *testing.T) {
 			useSelf := input.GetAsBoolDefault("useSelf", false)
 			useNilOther := input.GetAsBoolDefault("useNilOther", false)
 			useEmpty1 := input.GetAsBoolDefault("useEmpty1", false)
-			useEmpty2 := input.GetAsBoolDefault("useEmpty2", false),
+			useEmpty2 := input.GetAsBoolDefault("useEmpty2", false)
 
 			var m1 *corestr.CharCollectionMap
 			if useEmpty1 {
 				m1 = corestr.New.CharCollectionMap.Empty()
 			} else if items1, ok := input["items1"]; ok {
-				m1 = corestr.New.CharCollectionMap.Items(items1.([]string)),
+				m1 = corestr.New.CharCollectionMap.Items(items1.([]string))
 			}
 
 			// Act
@@ -460,7 +460,7 @@ func Test_CovS06_CharCollMap_HasWithCollection_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			checkStr := input["checkStr"].(string),
+			checkStr := input["checkStr"].(string)
 
 			var m *corestr.CharCollectionMap
 			if useEmpty {
@@ -518,7 +518,7 @@ func Test_CovS06_CharCollMap_List_Verification(t *testing.T) {
 			input := tc.ArrangeInput.(args.Map)
 			expected := tc.ExpectedInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			useSorted := input.GetAsBoolDefault("sorted", false),
+			useSorted := input.GetAsBoolDefault("sorted", false)
 
 			var m *corestr.CharCollectionMap
 			if useEmpty {
@@ -626,11 +626,11 @@ func Test_CovS06_CharCollMap_Resize_Verification(t *testing.T) {
 
 			// Act
 			if newLen, ok := input["newLength"]; ok {
-				m.Resize(newLen.(int)),
+				m.Resize(newLen.(int))
 			}
 			if lengths, ok := input["lengths"]; ok {
-				m.AddLength(lengths.([]int)...),
-			},
+				m.AddLength(lengths.([]int)...)
+			}
 			actual := args.Map{"length": m.Length()},
 
 			// Assert
@@ -700,7 +700,7 @@ func Test_CovS06_CharCollMap_HashsetsColl_Verification(t *testing.T) {
 		for caseIndex, tc := range covS06HashsetsCollTestCases {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
-			useEmpty := input.GetAsBoolDefault("useEmpty", false),
+			useEmpty := input.GetAsBoolDefault("useEmpty", false)
 
 			var m *corestr.CharCollectionMap
 			if useEmpty {
@@ -935,8 +935,8 @@ func Test_CovS06_CharCollMap_AddSameCharsColl_Verification(t *testing.T) {
 
 			checkStr := "apple"
 			if cs, ok := input["checkStr"]; ok {
-				checkStr = cs.(string),
-			},
+				checkStr = cs.(string)
+			}
 
 			// Act
 			var resultColl *corestr.Collection
@@ -1206,7 +1206,7 @@ func Test_CovS06_CharCollMap_AddHashmapsFilter(t *testing.T) {
 		m.AddHashmapsKeysOrValuesBothUsingFilter(
 			func(kv corestr.KeyValuePair) (string, bool, bool) {
 				return kv.Value, true, false
-			},
+			}
 			hm,
 		)
 
@@ -1237,7 +1237,7 @@ func Test_CovS06_CharCollMap_AddHashmapsFilter_Break(t *testing.T) {
 			func(kv corestr.KeyValuePair) (string, bool, bool) {
 				count++,
 				return kv.Value, true, count >= 1
-			},
+			}
 			hm,
 		)
 
@@ -1259,7 +1259,7 @@ func Test_CovS06_CharCollMap_NewCreator_Verification(t *testing.T) {
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
 			useItems := input.GetAsBoolDefault("useItems", false)
-			useItemsPtr := input.GetAsBoolDefault("useItemsPtr", false),
+			useItemsPtr := input.GetAsBoolDefault("useItemsPtr", false)
 
 			// Act
 			var m *corestr.CharCollectionMap
@@ -1284,7 +1284,7 @@ func Test_CovS06_CharCollMap_NewCreator_Verification(t *testing.T) {
 			}
 			if _, ok := tc.ExpectedInput.(args.Map)["isEmpty"]; ok {
 				actual["isEmpty"] = m.IsEmpty(),
-			},
+			}
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)

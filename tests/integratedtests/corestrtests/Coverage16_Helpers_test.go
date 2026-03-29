@@ -768,7 +768,7 @@ func Test_Cov16_Collection_ExpandMerge(t *testing.T) {
 			[]string{"b", "c"},
 			func(line string) []string {
 				return []string{line}
-			},
+			}
 		)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 3}

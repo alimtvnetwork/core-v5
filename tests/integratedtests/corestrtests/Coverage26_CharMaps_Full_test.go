@@ -407,7 +407,7 @@ func Test_C26_CharCollectionMap_AddHashmapsKeysOrValuesBothUsingFilter(t *testin
 		ccm.AddHashmapsKeysOrValuesBothUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Value, true, false
-			},
+			}
 			hm,
 		)
 		if ccm.Length() < 1 {

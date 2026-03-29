@@ -299,7 +299,7 @@ func Test_Cov42_Collection_ExpandSlicePlusAdd(t *testing.T) {
 			[]string{"a,b", "c,d"},
 			func(line string) []string {
 				return []string{line}
-			},
+			}
 		)
 		tc := coretestcases.CaseV1{
 			Title:         "ExpandSlicePlusAdd",
@@ -497,7 +497,7 @@ func Test_Cov42_Collection_IsContainsAllSlice_True(t *testing.T) {
 			ActualInput:   col.IsContainsAllSlice([]string{"a", "b"}),
 		}
 		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
-	}
+	})
 }
 
 func Test_Cov42_Collection_IsContainsAllSlice_False(t *testing.T) {
@@ -509,7 +509,7 @@ func Test_Cov42_Collection_IsContainsAllSlice_False(t *testing.T) {
 			ActualInput:   col.IsContainsAllSlice([]string{"a", "c"}),
 		}
 		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
-	}
+	})
 }
 
 func Test_Cov42_Collection_IsContainsAllSlice_Empty(t *testing.T) {
@@ -521,7 +521,7 @@ func Test_Cov42_Collection_IsContainsAllSlice_Empty(t *testing.T) {
 			ActualInput:   col.IsContainsAllSlice([]string{}),
 		}
 		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
-	}
+	})
 }
 
 func Test_Cov42_Collection_IsContainsAllSlice_EmptyCollection(t *testing.T) {
@@ -533,7 +533,7 @@ func Test_Cov42_Collection_IsContainsAllSlice_EmptyCollection(t *testing.T) {
 			ActualInput:   col.IsContainsAllSlice([]string{"a"}),
 		}
 		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tc.Actual()))
-	}
+	})
 }
 
 // ─── Collection: IsContainsAll / IsContainsAllLock ──────

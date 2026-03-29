@@ -96,7 +96,7 @@ var extLeftMiddleRightTestCases = []coretestcases.CaseV1{
 			"left": "L", "middle": "M", "right": "R",
 			"isLeftEmpty": "false", "isMiddleEmpty": "false", "isRightEmpty": "false",
 		},
-	},
+	}
 }
 
 // ==========================================
@@ -115,7 +115,7 @@ var extHashsetTestCases = []coretestcases.CaseV1{
 			"hasB":    "true",
 			"hasMiss": "false",
 		},
-	},
+	}
 }
 
 // ==========================================

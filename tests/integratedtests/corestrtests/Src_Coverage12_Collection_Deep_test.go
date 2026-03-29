@@ -534,7 +534,7 @@ func Test_SrcC12_Collection_ExpandMergeChar_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	}
+	})
 }
 
 func Test_SrcC12_Collection_StringDeep_Verification(t *testing.T) {
@@ -673,7 +673,7 @@ func Test_SrcC12_Collection_SortedDeep_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	}
+	})
 }
 
 func Test_SrcC12_Collection_CapResize_Verification(t *testing.T) {
