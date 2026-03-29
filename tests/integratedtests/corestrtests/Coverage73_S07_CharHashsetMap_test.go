@@ -70,10 +70,10 @@ func Test_CovS07_GetChar_Verification(t *testing.T) {
 			actual := args.Map{"char": string(result)}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			},
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // Basic: IsEmpty, HasItems, Length, AllLengthsSum
