@@ -32,7 +32,7 @@ func Test_SrcC19_Creators_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC19_HeadTail_Verification(t *testing.T) {
@@ -55,7 +55,7 @@ func Test_SrcC19_HeadTail_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC19_Length_Verification(t *testing.T) {
@@ -71,7 +71,7 @@ func Test_SrcC19_Length_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC19_State_Verification(t *testing.T) {
@@ -300,7 +300,7 @@ func Test_SrcC19_LoopFilter_Verification(t *testing.T) {
 			"filterColLen":   col1.Length(),
 			"filterColEE":    !col2.HasItems(),
 			"filterColsLen":  len(cols),
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -345,7 +345,7 @@ func Test_SrcC19_Remove_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC19_ConcatIndex_Verification(t *testing.T) {
@@ -483,7 +483,7 @@ func Test_SrcC19_EqualsCompare_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC19_Json_Verification(t *testing.T) {
@@ -630,4 +630,4 @@ func callPanicsSrcC19(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+	}

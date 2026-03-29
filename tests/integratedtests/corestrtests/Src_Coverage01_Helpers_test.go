@@ -20,7 +20,7 @@ func Test_Src01_CloneSlice_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": len(result),
-		}
+		})
 	})
 }
 
@@ -36,7 +36,7 @@ func Test_Src01_CloneSlice_WithItems(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len":   len(result),
 			"first": result[0],
-		}
+		})
 	})
 }
 
@@ -53,7 +53,7 @@ func Test_Src01_CloneSliceIf_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": len(result),
-		}
+		})
 	})
 }
 
@@ -68,7 +68,7 @@ func Test_Src01_CloneSliceIf_NoClone(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": len(result),
-		}
+		})
 	})
 }
 
@@ -83,7 +83,7 @@ func Test_Src01_CloneSliceIf_Clone(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": len(result),
-		}
+		})
 	})
 }
 
@@ -100,7 +100,7 @@ func Test_Src01_AnyToString_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"isEmpty": result == "",
-		}
+		})
 	})
 }
 
@@ -115,7 +115,7 @@ func Test_Src01_AnyToString_WithFieldName(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"isEmpty": result == "",
-		}
+		})
 	})
 }
 
@@ -130,7 +130,7 @@ func Test_Src01_AnyToString_WithoutFieldName(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"isEmpty": result == "",
-		}
+		})
 	})
 }
 
@@ -146,7 +146,7 @@ func Test_Src01_AnyToString_Ptr(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"isEmpty": result == "",
-		}
+		})
 	})
 }
 
@@ -163,7 +163,7 @@ func Test_Src01_AllIndividualStringsOfStringsLength_Nil(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": result,
-		}
+		})
 	})
 }
 
@@ -179,7 +179,7 @@ func Test_Src01_AllIndividualStringsOfStringsLength_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": result,
-		}
+		})
 	})
 }
 
@@ -195,7 +195,7 @@ func Test_Src01_AllIndividualStringsOfStringsLength_WithItems(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": result,
-		}
+		})
 	})
 }
 
@@ -212,7 +212,7 @@ func Test_Src01_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": result,
-		}
+		})
 	})
 }
 
@@ -229,7 +229,7 @@ func Test_Src01_AllIndividualsLengthOfSimpleSlices_WithItems(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"len": result,
-		}
+		})
 	})
 }
 
@@ -246,7 +246,7 @@ func Test_Src01_Utils_WrapDouble(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -261,7 +261,7 @@ func Test_Src01_Utils_WrapSingle(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -276,7 +276,7 @@ func Test_Src01_Utils_WrapTilda(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -291,7 +291,7 @@ func Test_Src01_Utils_WrapDoubleIfMissing_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -306,7 +306,7 @@ func Test_Src01_Utils_WrapDoubleIfMissing_AlreadyWrapped(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -321,7 +321,7 @@ func Test_Src01_Utils_WrapDoubleIfMissing_NotWrapped(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -336,7 +336,7 @@ func Test_Src01_Utils_WrapSingleIfMissing_Empty(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -351,7 +351,7 @@ func Test_Src01_Utils_WrapSingleIfMissing_AlreadyWrapped(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -366,7 +366,7 @@ func Test_Src01_Utils_WrapSingleIfMissing_NotWrapped(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"result": result,
-		}
+		})
 	})
 }
 
@@ -398,7 +398,7 @@ func Test_Src01_EmptyCreator_All(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"allNonNil": allNonNil,
-		}
+		})
 	})
 }
 
@@ -420,7 +420,7 @@ func Test_Src01_CharCollectionDataModel(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"nonNil": ccm != nil && dm2 != nil,
-		}
+		})
 	})
 }
 
@@ -440,7 +440,7 @@ func Test_Src01_CharHashsetDataModel(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"nonNil": chm != nil && dm2 != nil,
-		}
+		})
 	})
 }
 
@@ -458,7 +458,7 @@ func Test_Src01_HashmapDataModel(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"nonNil":   dm2 != nil,
 			"nonEmpty": hm != nil && !hm.IsEmpty(),
-		}
+		})
 	})
 }
 
@@ -476,7 +476,7 @@ func Test_Src01_HashsetDataModel(t *testing.T) {
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"nonNil":   dm2 != nil,
 			"nonEmpty": hs != nil && !hs.IsEmpty(),
-		}
+		})
 	})
 }
 
@@ -493,7 +493,7 @@ func Test_Src01_HashsetsCollectionDataModel(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"nonNil": hc != nil && dm2 != nil,
-		}
+		})
 	})
 }
 
@@ -510,7 +510,7 @@ func Test_Src01_SimpleStringOnceModel(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"value": m.Value,
-		}
+		})
 	})
 }
 
@@ -527,6 +527,6 @@ func Test_Src01_CollectionsOfCollectionModel(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, args.Map{
 			"nonNil": m.Items != nil,
-		}
+		})
 	})
 }
