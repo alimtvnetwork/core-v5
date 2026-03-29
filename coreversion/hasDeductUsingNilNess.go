@@ -17,6 +17,10 @@ func hasDeductUsingNilNess(
 		return corecomparator.LeftLess, true
 	}
 
+	if left == nil || right == nil {
+		return corecomparator.NotEqual, true
+	}
+
 	if left == right {
 		return corecomparator.Equal, true
 	}

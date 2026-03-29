@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type MapStringStringOnce struct {
@@ -303,7 +304,14 @@ func (it *MapStringStringOnce) IsEqual(rightMap map[string]string) bool {
 }
 
 func (it MapStringStringOnce) JsonStringMust() string {
-	marshalledJsonBytes, _ := it.MarshalJSON()
+	marshalledJsonBytes, err := it.MarshalJSON()
+
+	if err != nil {
+		errcore.MarshallingFailedType.
+			HandleUsingPanic(
+				"MapStringStringOnce failed to marshall."+err.Error(), it.innerData)
+
+	}
 
 	return string(marshalledJsonBytes)
 }

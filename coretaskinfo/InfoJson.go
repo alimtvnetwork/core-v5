@@ -22,6 +22,10 @@ func (it *Info) JsonParseSelfInject(
 }
 
 func (it Info) JsonString() string {
+	if it.IsNull() {
+		return ""
+	}
+
 	return it.JsonPtr().JsonString()
 }
 
