@@ -124,9 +124,9 @@ func Test_CovS06_AnyToString_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			},
-			}
 		}
+	})
+}
 
 // ============================================================
 // CharCollectionDataModel
