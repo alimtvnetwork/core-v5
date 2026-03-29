@@ -54,7 +54,12 @@ const rulesReference = `──────────────────�
     Pattern:  "expected '}', found 'EOF'"
     Cause:    A '{' block never closed before file end.
 
- 6. Other / unclassified
+ 6. Semicolon expected, comma found
+    Pattern:  "expected ';', found ','"
+    Cause:    A '}' closing a code block (for/if/func) has a stray trailing ','
+              making the parser treat subsequent code as a composite literal.
+
+ 7. Other / unclassified
     Any Go parser error not matching the above patterns.
 
  AUTOFIX — Auto-Repair Rules (scripts/autofix/main.go)
@@ -92,6 +97,16 @@ const rulesReference = `──────────────────�
     Action:   Fixes double commas ("a,, b" → "a, b"), empty argument slots
               ("func(a, , b)" → "func(a, b)"), dangling operators (merges
               with next line), and stray tokens where operand expected.
+
+ G. semicolon-expected-comma-found
+    Trigger:  "expected ';', found ','"
+    Action:   Removes trailing ',' from '},' lines where '}' closes a code block.
+    Before:   },            After:   }
+
+ H. stray-comma-on-statement (pre-pass, no parser trigger)
+    Trigger:  Lines matching ':= <expr>,' or 'var <ident> <type>,' inside func bodies.
+    Action:   Removes the trailing comma that would cause cascading parser errors.
+    Before:   x := foo(),   After:   x := foo()
 
  safeTest CLOSURE PATTERN
  ────────────────────────
