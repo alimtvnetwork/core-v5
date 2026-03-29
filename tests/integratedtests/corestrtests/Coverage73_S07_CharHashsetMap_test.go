@@ -135,6 +135,7 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // HasWithHashset
@@ -364,6 +365,7 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // List, SortedListAsc, SortedListDsc
@@ -594,6 +596,7 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // Clear, RemoveAll
@@ -657,6 +660,7 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // Print (skip path)
@@ -1190,6 +1194,7 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 			_ = 0
 		}
 	})
+}
 
 // ============================================================
 // AddCollectionItemsAsyncLock — nil collection
