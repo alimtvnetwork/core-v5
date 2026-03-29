@@ -10,12 +10,7 @@ import (
 type fileGetter struct{}
 
 func (it fileGetter) Name(skipStack int) string {
-	_, file, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
-
-	if !isOkay && file == "" {
-		return constants.EmptyString
-	}
-
+	_, file, _, _ := runtime.Caller(skipStack + defaultInternalSkip)
 	_, fileName := filepath.Split(file)
 
 	return fileName
