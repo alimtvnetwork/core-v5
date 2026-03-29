@@ -268,10 +268,6 @@ func (it *Key) compileCompleteAdditional(joiner string, items ...any) string {
 }
 
 func (it *Key) compileCompleteAdditionalStrings(joiner string, items ...string) string {
-	if len(items) == 0 {
-		return constants.EmptyString
-	}
-
 	finalSlice := make([]string, 0, len(items))
 	finalSlice = stringslice.AppendStringsWithMainSlice(
 		it.option.IsSkipEmptyEntry,

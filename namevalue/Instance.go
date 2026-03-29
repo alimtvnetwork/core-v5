@@ -24,10 +24,6 @@ func (it Instance[K, V]) String() string {
 }
 
 func (it Instance[K, V]) JsonString() string {
-	if it.IsNull() {
-		return constants.EmptyString
-	}
-
 	rawBytes, err := json.Marshal(it)
 
 	if err != nil || rawBytes == nil {
