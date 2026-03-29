@@ -1183,7 +1183,6 @@ func Test_CovS07_AddCollectionItemsAsyncLock(t *testing.T) {
 
 		// Wait for async completion
 		select {
-		}
 		case <-done:
 		case <-time.After(2 * time.Second):
 		}
