@@ -17,10 +17,6 @@ func (it *Instance[K, V]) IsNull() bool {
 }
 
 func (it Instance[K, V]) String() string {
-	if it.IsNull() {
-		return constants.EmptyString
-	}
-
 	return fmt.Sprintf(
 		constants.KeyValShortFormat,
 		it.Name,
