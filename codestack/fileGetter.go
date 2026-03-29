@@ -62,9 +62,9 @@ func (it fileGetter) PathLineStringDefault() string {
 func (it fileGetter) CurrentFilePath() string {
 	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
 
-	if isOkay {
-		return filePath
+	if !isOkay {
+		return constants.EmptyString
 	}
 
-	return constants.EmptyString
+	return filePath
 }
