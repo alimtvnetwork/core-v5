@@ -619,10 +619,21 @@ function Invoke-TestCoverage {
     $covPkgList = $srcPkgs -join ","
 
     # Get all test packages to run individually (deterministic order)
-    $allTestPkgs = go list ./tests/integratedtests/... 2>&1 |
+    # Include both integration tests AND source packages with in-package _test.go files
+    $integrationTestPkgs = go list ./tests/integratedtests/... 2>&1 |
         ForEach-Object { $_.ToString() } |
-        Where-Object { $_ -and $_ -notmatch '^warning:' } |
-        Sort-Object
+        Where-Object { $_ -and $_ -notmatch '^warning:' }
+
+    # Find source packages that have _test.go files (for unexported symbol coverage)
+    $inPkgTestPkgs = @()
+    foreach ($srcPkg in $srcPkgs) {
+        $relPath = $srcPkg -replace '^github\.com/alimtvnetwork/core/', ''
+        if ($relPath -and (Test-Path $relPath) -and (Get-ChildItem -Path $relPath -Filter '*_test.go' -File -ErrorAction SilentlyContinue)) {
+            $inPkgTestPkgs += $srcPkg
+        }
+    }
+
+    $allTestPkgs = @($integrationTestPkgs) + @($inPkgTestPkgs) | Sort-Object -Unique
 
     # ── safeTest boundary + empty-if lint check ────────────────────
     $boundaryScript = Join-Path $PSScriptRoot "scripts" "check-safetest-boundaries.ps1"
