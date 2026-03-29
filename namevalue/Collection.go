@@ -380,11 +380,7 @@ func (it Collection[K, V]) JsonString() string {
 		return constants.EmptyString
 	}
 
-	jsonBytes, err := json.Marshal(it)
-
-	if err != nil || jsonBytes == nil {
-		return constants.EmptyString
-	}
+	jsonBytes, _ := json.Marshal(it)
 
 	return string(jsonBytes)
 }

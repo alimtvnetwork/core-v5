@@ -17,10 +17,6 @@ func (it *Instance[K, V]) IsNull() bool {
 }
 
 func (it Instance[K, V]) String() string {
-	if it.IsNull() {
-		return constants.EmptyString
-	}
-
 	return fmt.Sprintf(
 		constants.KeyValShortFormat,
 		it.Name,
@@ -28,10 +24,6 @@ func (it Instance[K, V]) String() string {
 }
 
 func (it Instance[K, V]) JsonString() string {
-	if it.IsNull() {
-		return constants.EmptyString
-	}
-
 	rawBytes, err := json.Marshal(it)
 
 	if err != nil || rawBytes == nil {

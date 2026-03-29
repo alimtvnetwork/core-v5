@@ -32,13 +32,7 @@ func IsEndsWith(
 		return true
 	}
 
-	remainingLength := basePathLength - endsWithLength
-
-	if remainingLength < 0 {
-		return false
-	}
-
-	remainingText := baseStr[remainingLength:]
+	remainingText := baseStr[basePathLength-endsWithLength:]
 
 	isCaseSensitive := !isIgnoreCase
 

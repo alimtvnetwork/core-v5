@@ -15,11 +15,11 @@ type dirGetter struct{}
 func (it dirGetter) CurDir() string {
 	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
 
-	if isOkay {
-		return filepath.Dir(filePath)
+	if !isOkay {
+		return constants.EmptyString
 	}
 
-	return constants.EmptyString
+	return filepath.Dir(filePath)
 }
 
 func (it dirGetter) CurDirJoin(relPaths ...string) string {
@@ -42,9 +42,9 @@ func (it dirGetter) RepoDirJoin(relPaths ...string) string {
 func (it dirGetter) Get(skipStack int) string {
 	_, filePath, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
 
-	if isOkay {
-		return filepath.Dir(filePath)
+	if !isOkay {
+		return constants.EmptyString
 	}
 
-	return constants.EmptyString
+	return filepath.Dir(filePath)
 }
