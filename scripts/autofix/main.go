@@ -225,6 +225,12 @@ func fixFile(path string) int {
 		lines := strings.Split(string(src), "\n")
 		fixes := 0
 
+		// Pre-pass: fix stray commas on statement lines (Rule H)
+		// These don't have their own parser error — they cause cascading errors
+		// on subsequent lines. Must run before the error-driven loop.
+		prePassFixes := fixStrayCommaStatements(lines, path)
+		fixes += prePassFixes
+
 		// Process errors in reverse line order so line numbers stay valid
 		applied := make(map[int]bool) // track lines already modified this pass
 		for i := len(errList) - 1; i >= 0; i-- {
@@ -257,14 +263,14 @@ func fixFile(path string) int {
 				fixed = fixExpectedOneExpression(lines, lineIdx)
 				rule = "expected-one-expression"
 
-		case strings.Contains(e.Msg, "expected operand, found"):
-			fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
-			rule = "expected-operand"
+			case strings.Contains(e.Msg, "expected operand, found"):
+				fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
+				rule = "expected-operand"
 
-		case strings.Contains(e.Msg, "expected ';', found ','"):
-			fixed = fixSemicolonExpectedCommaFound(lines, lineIdx)
-			rule = "semicolon-expected-comma-found"
-		}
+			case strings.Contains(e.Msg, "expected ';', found ','"):
+				fixed = fixSemicolonExpectedCommaFound(lines, lineIdx)
+				rule = "semicolon-expected-comma-found"
+			}
 
 			if fixed {
 				fixes++
