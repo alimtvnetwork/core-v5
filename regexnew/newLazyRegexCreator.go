@@ -1,5 +1,7 @@
 package regexnew
 
+import "regexp"
+
 type newLazyRegexCreator struct{}
 
 // New
