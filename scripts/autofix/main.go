@@ -257,10 +257,14 @@ func fixFile(path string) int {
 				fixed = fixExpectedOneExpression(lines, lineIdx)
 				rule = "expected-one-expression"
 
-			case strings.Contains(e.Msg, "expected operand, found"):
-				fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
-				rule = "expected-operand"
-			}
+		case strings.Contains(e.Msg, "expected operand, found"):
+			fixed = fixExpectedOperand(lines, lineIdx, e.Msg)
+			rule = "expected-operand"
+
+		case strings.Contains(e.Msg, "expected ';', found ','"):
+			fixed = fixSemicolonExpectedCommaFound(lines, lineIdx)
+			rule = "semicolon-expected-comma-found"
+		}
 
 			if fixed {
 				fixes++
