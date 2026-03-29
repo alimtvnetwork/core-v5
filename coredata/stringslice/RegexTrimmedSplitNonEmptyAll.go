@@ -14,9 +14,5 @@ func RegexTrimmedSplitNonEmptyAll(
 		content,
 		constants.TakeAllMinusOne)
 
-	if len(items) == 0 {
-		return []string{}
-	}
-
 	return TrimmedEachWords(items)
 }

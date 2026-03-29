@@ -82,11 +82,7 @@ func (it *within) StringRangeUint32(
 	// fix https://t.ly/6aoW,
 	// https://github.com/alimtvnetwork/core/-/issues/81
 	// use MaxInt32 instead of uint32Max
-	if finalInt <= math.MaxInt32 {
-		return uint32(finalInt), isInRange
-	}
-
-	return 0, isInRange
+	return uint32(finalInt), isInRange
 }
 
 func (it *within) StringRangeIntegerDefault(
