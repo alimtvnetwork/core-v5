@@ -33,7 +33,7 @@ func Test_SrcC12_Collection_AddIfFuncErr_Verification(t *testing.T) {
 			"funcErrFail": cFail.Length(),
 			"errHandled":  errHandled,
 			"addErrVal":   cErr.First(),
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -83,7 +83,7 @@ func Test_SrcC12_Collection_HashmapMethods_Verification(t *testing.T) {
 			"hmFilterLen":   cF.Length(),
 			"hmFilterNil":   cFN.Length(),
 			"hmFilterBreak": cFB.Length(),
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -534,7 +534,7 @@ func Test_SrcC12_Collection_ExpandMergeChar_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC12_Collection_StringDeep_Verification(t *testing.T) {
@@ -673,7 +673,7 @@ func Test_SrcC12_Collection_SortedDeep_Verification(t *testing.T) {
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
-	})
+	}
 }
 
 func Test_SrcC12_Collection_CapResize_Verification(t *testing.T) {
@@ -731,4 +731,4 @@ func callPanicsSrcC12(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+	}

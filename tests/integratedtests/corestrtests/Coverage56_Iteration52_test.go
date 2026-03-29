@@ -29,7 +29,7 @@ func Test_Cov56_Hashset_AddPtr(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("hello")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddPtrLock(t *testing.T) {
@@ -46,7 +46,7 @@ func Test_Cov56_Hashset_AddPtrLock(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("world")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddWithWgLock(t *testing.T) {
@@ -65,7 +65,7 @@ func Test_Cov56_Hashset_AddWithWgLock(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("item")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddBool_New(t *testing.T) {
@@ -81,7 +81,7 @@ func Test_Cov56_Hashset_AddBool_New(t *testing.T) {
 		}
 		actual := args.Map{"IsExist": isExist}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddBool_Existing(t *testing.T) {
@@ -98,7 +98,7 @@ func Test_Cov56_Hashset_AddBool_Existing(t *testing.T) {
 		}
 		actual := args.Map{"IsExist": isExist}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddNonEmptyWhitespace(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_Cov56_Hashset_AddNonEmptyWhitespace(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddIfMany_True(t *testing.T) {
@@ -131,7 +131,7 @@ func Test_Cov56_Hashset_AddIfMany_True(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddIfMany_False(t *testing.T) {
@@ -147,7 +147,7 @@ func Test_Cov56_Hashset_AddIfMany_False(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddFunc(t *testing.T) {
@@ -160,10 +160,10 @@ func Test_Cov56_Hashset_AddFunc(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "AddFunc",
 			ExpectedInput: args.Map{"Has": true},
-		})
+		}
 		actual := args.Map{"Has": hs.Has("computed")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddFuncErr_NoErr(t *testing.T) {
@@ -182,7 +182,7 @@ func Test_Cov56_Hashset_AddFuncErr_NoErr(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("ok")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddFuncErr_WithErr(t *testing.T) {
@@ -202,7 +202,7 @@ func Test_Cov56_Hashset_AddFuncErr_WithErr(t *testing.T) {
 		}
 		actual := args.Map{"HandlerCalled": handlerCalled, "Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddStringsPtrWgLock(t *testing.T) {
@@ -221,7 +221,7 @@ func Test_Cov56_Hashset_AddStringsPtrWgLock(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddHashsetWgLock(t *testing.T) {
@@ -241,7 +241,7 @@ func Test_Cov56_Hashset_AddHashsetWgLock(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddHashsetWgLock_Nil(t *testing.T) {
@@ -258,7 +258,7 @@ func Test_Cov56_Hashset_AddHashsetWgLock_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddSimpleSlice(t *testing.T) {
@@ -275,7 +275,7 @@ func Test_Cov56_Hashset_AddSimpleSlice(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCollection(t *testing.T) {
@@ -292,7 +292,7 @@ func Test_Cov56_Hashset_AddCollection(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCollection_Nil(t *testing.T) {
@@ -308,7 +308,7 @@ func Test_Cov56_Hashset_AddCollection_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCollections(t *testing.T) {
@@ -326,7 +326,7 @@ func Test_Cov56_Hashset_AddCollections(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCollections_Nil(t *testing.T) {
@@ -342,7 +342,7 @@ func Test_Cov56_Hashset_AddCollections_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsUsingFilter(t *testing.T) {
@@ -361,7 +361,7 @@ func Test_Cov56_Hashset_AddsUsingFilter(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsUsingFilter_Break(t *testing.T) {
@@ -380,7 +380,7 @@ func Test_Cov56_Hashset_AddsUsingFilter_Break(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsUsingFilter_Nil(t *testing.T) {
@@ -399,7 +399,7 @@ func Test_Cov56_Hashset_AddsUsingFilter_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsAnyUsingFilter(t *testing.T) {
@@ -418,7 +418,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
@@ -437,7 +437,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilter_NilItem(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsAnyUsingFilter_Break(t *testing.T) {
@@ -472,7 +472,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilterLock(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
@@ -491,7 +491,7 @@ func Test_Cov56_Hashset_AddsAnyUsingFilterLock_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddItemsMapWgLock(t *testing.T) {
@@ -511,7 +511,7 @@ func Test_Cov56_Hashset_AddItemsMapWgLock(t *testing.T) {
 		}
 		actual := args.Map{"HasA": hs.Has("a"), "HasB": hs.Has("b")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddItemsMapWgLock_Nil(t *testing.T) {
@@ -528,7 +528,7 @@ func Test_Cov56_Hashset_AddItemsMapWgLock_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ConcatNewHashsets(t *testing.T) {
@@ -545,7 +545,7 @@ func Test_Cov56_Hashset_ConcatNewHashsets(t *testing.T) {
 		}
 		actual := args.Map{"HasA": result.Has("a"), "HasB": result.Has("b")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ConcatNewHashsets_NoArgs(t *testing.T) {
@@ -561,7 +561,7 @@ func Test_Cov56_Hashset_ConcatNewHashsets_NoArgs(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ConcatNewStrings(t *testing.T) {
@@ -577,7 +577,7 @@ func Test_Cov56_Hashset_ConcatNewStrings(t *testing.T) {
 		}
 		actual := args.Map{"HasA": result.Has("a"), "HasB": result.Has("b")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ConcatNewStrings_Empty(t *testing.T) {
@@ -593,7 +593,7 @@ func Test_Cov56_Hashset_ConcatNewStrings_Empty(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Filter(t *testing.T) {
@@ -606,10 +606,10 @@ func Test_Cov56_Hashset_Filter(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Filter",
 			ExpectedInput: args.Map{"Length": 2},
-		})
+		}
 		actual := args.Map{"Length": result.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_IsMissing(t *testing.T) {
@@ -626,7 +626,7 @@ func Test_Cov56_Hashset_IsMissing(t *testing.T) {
 		}
 		actual := args.Map{"Missing": missing, "NotMissing": notMissing}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_IsMissingLock(t *testing.T) {
@@ -642,7 +642,7 @@ func Test_Cov56_Hashset_IsMissingLock(t *testing.T) {
 		}
 		actual := args.Map{"Missing": result}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_HasWithLock(t *testing.T) {
@@ -658,7 +658,7 @@ func Test_Cov56_Hashset_HasWithLock(t *testing.T) {
 		}
 		actual := args.Map{"Has": result}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_IsAllMissing(t *testing.T) {
@@ -675,7 +675,7 @@ func Test_Cov56_Hashset_IsAllMissing(t *testing.T) {
 		}
 		actual := args.Map{"AllMissing": allMissing, "NotAll": notAllMissing}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_HasAny(t *testing.T) {
@@ -692,7 +692,7 @@ func Test_Cov56_Hashset_HasAny(t *testing.T) {
 		}
 		actual := args.Map{"Found": found, "NotFound": notFound}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_HasAllCollectionItems(t *testing.T) {
@@ -710,7 +710,7 @@ func Test_Cov56_Hashset_HasAllCollectionItems(t *testing.T) {
 		}
 		actual := args.Map{"HasAll": result, "Nil": resultNil}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_OrderedList(t *testing.T) {
@@ -726,7 +726,7 @@ func Test_Cov56_Hashset_OrderedList(t *testing.T) {
 		}
 		actual := args.Map{"First": result[0], "Last": result[2]}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_OrderedList_Empty(t *testing.T) {
@@ -742,7 +742,7 @@ func Test_Cov56_Hashset_OrderedList_Empty(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_SafeStrings(t *testing.T) {
@@ -758,7 +758,7 @@ func Test_Cov56_Hashset_SafeStrings(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_SafeStrings_NonEmpty(t *testing.T) {
@@ -774,7 +774,7 @@ func Test_Cov56_Hashset_SafeStrings_NonEmpty(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Lines(t *testing.T) {
@@ -790,7 +790,7 @@ func Test_Cov56_Hashset_Lines(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_SimpleSlice(t *testing.T) {
@@ -806,7 +806,7 @@ func Test_Cov56_Hashset_SimpleSlice(t *testing.T) {
 		}
 		actual := args.Map{"Length": result.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_SimpleSlice_Empty(t *testing.T) {
@@ -822,7 +822,7 @@ func Test_Cov56_Hashset_SimpleSlice_Empty(t *testing.T) {
 		}
 		actual := args.Map{"IsEmpty": result.IsEmpty()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_MapStringAny(t *testing.T) {
@@ -838,7 +838,7 @@ func Test_Cov56_Hashset_MapStringAny(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_MapStringAny_Empty(t *testing.T) {
@@ -854,7 +854,7 @@ func Test_Cov56_Hashset_MapStringAny_Empty(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_MapStringAnyDiff(t *testing.T) {
@@ -913,7 +913,7 @@ func Test_Cov56_Hashset_ListPtrSortedAsc(t *testing.T) {
 		}
 		actual := args.Map{"First": result[0]}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ListPtrSortedDsc(t *testing.T) {
@@ -929,7 +929,7 @@ func Test_Cov56_Hashset_ListPtrSortedDsc(t *testing.T) {
 		}
 		actual := args.Map{"First": result[0]}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ListCopyLock(t *testing.T) {
@@ -945,7 +945,7 @@ func Test_Cov56_Hashset_ListCopyLock(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ToLowerSet(t *testing.T) {
@@ -961,7 +961,7 @@ func Test_Cov56_Hashset_ToLowerSet(t *testing.T) {
 		}
 		actual := args.Map{"HasAbc": result.Has("abc"), "HasDef": result.Has("def")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffLinesRaw_BothEmpty(t *testing.T) {
@@ -977,7 +977,7 @@ func Test_Cov56_Hashset_DistinctDiffLinesRaw_BothEmpty(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffLinesRaw_LeftOnly(t *testing.T) {
@@ -993,7 +993,7 @@ func Test_Cov56_Hashset_DistinctDiffLinesRaw_LeftOnly(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffLinesRaw_RightOnly(t *testing.T) {
@@ -1009,7 +1009,7 @@ func Test_Cov56_Hashset_DistinctDiffLinesRaw_RightOnly(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffLinesRaw_Both(t *testing.T) {
@@ -1038,7 +1038,7 @@ func Test_Cov56_Hashset_DistinctDiffLines_BothEmpty(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffLines_LeftOnly(t *testing.T) {
@@ -1054,7 +1054,7 @@ func Test_Cov56_Hashset_DistinctDiffLines_LeftOnly(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffLines_RightOnly(t *testing.T) {
@@ -1070,7 +1070,7 @@ func Test_Cov56_Hashset_DistinctDiffLines_RightOnly(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_DistinctDiffHashset(t *testing.T) {
@@ -1100,7 +1100,7 @@ func Test_Cov56_Hashset_Transpile(t *testing.T) {
 		})
 		actual := args.Map{"Has": result.Has("[a]")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Transpile_Empty(t *testing.T) {
@@ -1116,7 +1116,7 @@ func Test_Cov56_Hashset_Transpile_Empty(t *testing.T) {
 		})
 		actual := args.Map{"IsEmpty": result.IsEmpty()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_WrapDoubleQuote(t *testing.T) {
@@ -1132,7 +1132,7 @@ func Test_Cov56_Hashset_WrapDoubleQuote(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("\"a\"")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_WrapSingleQuote(t *testing.T) {
@@ -1148,7 +1148,7 @@ func Test_Cov56_Hashset_WrapSingleQuote(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("'a'")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_WrapDoubleQuoteIfMissing(t *testing.T) {
@@ -1164,7 +1164,7 @@ func Test_Cov56_Hashset_WrapDoubleQuoteIfMissing(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("\"a\"")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_WrapSingleQuoteIfMissing(t *testing.T) {
@@ -1180,7 +1180,7 @@ func Test_Cov56_Hashset_WrapSingleQuoteIfMissing(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("'a'")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_JoinLine(t *testing.T) {
@@ -1235,7 +1235,7 @@ func Test_Cov56_Hashset_SortedList(t *testing.T) {
 		}
 		actual := args.Map{"First": result[0], "Last": result[2]}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Contains(t *testing.T) {
@@ -1251,7 +1251,7 @@ func Test_Cov56_Hashset_Contains(t *testing.T) {
 		}
 		actual := args.Map{"Contains": result}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_IsEqual(t *testing.T) {
@@ -1268,7 +1268,7 @@ func Test_Cov56_Hashset_IsEqual(t *testing.T) {
 		}
 		actual := args.Map{"IsEqual": result}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetFilteredItems(t *testing.T) {
@@ -1285,7 +1285,7 @@ func Test_Cov56_Hashset_GetFilteredItems(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetFilteredItems_Empty(t *testing.T) {
@@ -1302,7 +1302,7 @@ func Test_Cov56_Hashset_GetFilteredItems_Empty(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetFilteredItems_Break(t *testing.T) {
@@ -1333,7 +1333,7 @@ func Test_Cov56_Hashset_GetFilteredCollection(t *testing.T) {
 		}
 		actual := args.Map{"Length": result.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetFilteredCollection_Empty(t *testing.T) {
@@ -1350,7 +1350,7 @@ func Test_Cov56_Hashset_GetFilteredCollection_Empty(t *testing.T) {
 		}
 		actual := args.Map{"IsEmpty": result.IsEmpty()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetFilteredCollection_Break(t *testing.T) {
@@ -1381,7 +1381,7 @@ func Test_Cov56_Hashset_GetAllExceptHashset(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetAllExceptHashset_Nil(t *testing.T) {
@@ -1397,7 +1397,7 @@ func Test_Cov56_Hashset_GetAllExceptHashset_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetAllExcept(t *testing.T) {
@@ -1413,7 +1413,7 @@ func Test_Cov56_Hashset_GetAllExcept(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetAllExcept_Nil(t *testing.T) {
@@ -1429,7 +1429,7 @@ func Test_Cov56_Hashset_GetAllExcept_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetAllExceptSpread(t *testing.T) {
@@ -1445,7 +1445,7 @@ func Test_Cov56_Hashset_GetAllExceptSpread(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetAllExceptCollection(t *testing.T) {
@@ -1462,7 +1462,7 @@ func Test_Cov56_Hashset_GetAllExceptCollection(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_GetAllExceptCollection_Nil(t *testing.T) {
@@ -1478,7 +1478,7 @@ func Test_Cov56_Hashset_GetAllExceptCollection_Nil(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_StringLock(t *testing.T) {
@@ -1522,7 +1522,7 @@ func Test_Cov56_Hashset_ParseInjectUsingJsonMust(t *testing.T) {
 		}
 		actual := args.Map{"Has": result.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Items(t *testing.T) {
@@ -1538,7 +1538,7 @@ func Test_Cov56_Hashset_Items(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Collection(t *testing.T) {
@@ -1554,7 +1554,7 @@ func Test_Cov56_Hashset_Collection(t *testing.T) {
 		}
 		actual := args.Map{"Length": result.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ListPtr(t *testing.T) {
@@ -1570,7 +1570,7 @@ func Test_Cov56_Hashset_ListPtr(t *testing.T) {
 		}
 		actual := args.Map{"Length": len(result)}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCapacities(t *testing.T) {
@@ -1586,7 +1586,7 @@ func Test_Cov56_Hashset_AddCapacities(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCapacities_Empty(t *testing.T) {
@@ -1602,7 +1602,7 @@ func Test_Cov56_Hashset_AddCapacities_Empty(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCapacitiesLock(t *testing.T) {
@@ -1618,7 +1618,7 @@ func Test_Cov56_Hashset_AddCapacitiesLock(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
@@ -1634,7 +1634,7 @@ func Test_Cov56_Hashset_AddCapacitiesLock_Empty(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Resize(t *testing.T) {
@@ -1650,7 +1650,7 @@ func Test_Cov56_Hashset_Resize(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_Resize_AlreadyLarger(t *testing.T) {
@@ -1666,7 +1666,7 @@ func Test_Cov56_Hashset_Resize_AlreadyLarger(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ResizeLock(t *testing.T) {
@@ -1682,7 +1682,7 @@ func Test_Cov56_Hashset_ResizeLock(t *testing.T) {
 		}
 		actual := args.Map{"Has": hs.Has("a")}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
 
 func Test_Cov56_Hashset_ResizeLock_AlreadyLarger(t *testing.T) {
@@ -1698,5 +1698,5 @@ func Test_Cov56_Hashset_ResizeLock_AlreadyLarger(t *testing.T) {
 		}
 		actual := args.Map{"Length": hs.Length()}
 		tc.ShouldBeEqualMap(t, 0, actual)
-	})
+	}
 }
