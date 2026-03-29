@@ -1279,3 +1279,4 @@ func Test_CovS07_AddStringsAsyncLock_SmallList(t *testing.T) {
 			_ = 0
 		}
 	})
+}
