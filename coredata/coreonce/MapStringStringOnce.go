@@ -8,7 +8,6 @@ import (
 	"sync"
 
 	"github.com/alimtvnetwork/core/constants"
-	"github.com/alimtvnetwork/core/errcore"
 )
 
 type MapStringStringOnce struct {
