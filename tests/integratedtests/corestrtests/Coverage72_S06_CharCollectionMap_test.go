@@ -957,9 +957,9 @@ func Test_CovS06_CharCollMap_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — Lock variants
@@ -1283,14 +1283,14 @@ func Test_CovS06_CharCollMap_NewCreator_Verification(t *testing.T) {
 				"isNotNil": m != nil,
 			}
 			if _, ok := tc.ExpectedInput.(args.Map)["isEmpty"]; ok {
-				actual["isEmpty"] = m.IsEmpty(),
+				actual["isEmpty"] = m.IsEmpty()
 			}
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // CharCollectionMap — GetMap

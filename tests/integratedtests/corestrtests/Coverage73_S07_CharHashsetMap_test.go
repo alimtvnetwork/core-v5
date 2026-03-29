@@ -202,9 +202,9 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // Add, AddStrings
@@ -404,9 +404,9 @@ func Test_CovS07_List_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // JSON
@@ -481,9 +481,9 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // AddSameCharsHashset
@@ -523,9 +523,9 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // AddCollectionItems, AddCharCollectionMapItems, AddHashsetItems
@@ -630,9 +630,9 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
-			}
 		}
+	})
+}
 
 // ============================================================
 // String, SummaryString
