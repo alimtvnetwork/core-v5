@@ -71,7 +71,7 @@ func Test_CovS07_GetChar_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
+			},
 		}
 	})
 
@@ -84,7 +84,7 @@ func Test_CovS07_Basic_Verification(t *testing.T) {
 		for caseIndex, tc := range covS07BasicTestCases {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
-			useEmpty := input.GetAsBoolDefault("useEmpty", false)
+			useEmpty := input.GetAsBoolDefault("useEmpty", false),
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -118,7 +118,7 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			checkStr := input["checkStr"].(string)
+			checkStr := input["checkStr"].(string),
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -147,7 +147,7 @@ func Test_CovS07_HasWithHashset_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			checkStr := input["checkStr"].(string)
+			checkStr := input["checkStr"].(string),
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -180,7 +180,7 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			expected := tc.ExpectedInput.(args.Map)
-			useEmpty := input.GetAsBoolDefault("useEmpty", false)
+			useEmpty := input.GetAsBoolDefault("useEmpty", false),
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -219,10 +219,10 @@ func Test_CovS07_Add_Verification(t *testing.T) {
 			m := corestr.New.CharHashsetMap.Cap(10, 5)
 
 			if addItem, ok := input["addItem"]; ok {
-				m.Add(addItem.(string))
+				m.Add(addItem.(string)),
 			}
 			if addItems, ok := input["addItems"]; ok {
-				m.AddStrings(addItems.([]string)...)
+				m.AddStrings(addItems.([]string)...),
 			}
 
 			// Act
@@ -282,13 +282,13 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 			useSelf := input.GetAsBoolDefault("useSelf", false)
 			useNilOther := input.GetAsBoolDefault("useNilOther", false)
 			useEmpty1 := input.GetAsBoolDefault("useEmpty1", false)
-			useEmpty2 := input.GetAsBoolDefault("useEmpty2", false)
+			useEmpty2 := input.GetAsBoolDefault("useEmpty2", false),
 
 			var m1 *corestr.CharHashsetMap
 			if useEmpty1 {
 				m1 = corestr.Empty.CharHashsetMap()
 			} else if items1, ok := input["items1"]; ok {
-				m1 = covS07MakeMap(items1.([]string))
+				m1 = covS07MakeMap(items1.([]string)),
 			}
 
 			// Act
@@ -384,14 +384,14 @@ func Test_CovS07_List_Verification(t *testing.T) {
 			// Act
 			var actual args.Map
 			if sortedDir == "asc" {
-				list := m.SortedListAsc()
+				list := m.SortedListAsc(),
 				first := ""
 				if len(list) > 0 {
 					first = list[0]
 				}
 				actual = args.Map{"first": first}
 			} else if sortedDir == "dsc" {
-				list := m.SortedListDsc()
+				list := m.SortedListDsc(),
 				first := ""
 				if len(list) > 0 {
 					first = list[0]
@@ -459,8 +459,8 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 
 			checkStr := "apple"
 			if cs, ok := input["checkStr"]; ok {
-				checkStr = cs.(string)
-			}
+				checkStr = cs.(string),
+			},
 
 			// Act
 			var resultHs *corestr.Hashset
@@ -501,8 +501,8 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 
 			checkStr := "apple"
 			if cs, ok := input["checkStr"]; ok {
-				checkStr = cs.(string)
-			}
+				checkStr = cs.(string),
+			},
 
 			// Act
 			var resultHs *corestr.Hashset
@@ -593,7 +593,7 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 			actual := args.Map{"hasItems": hsColl != nil && hsColl.Length() > 0}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			tc.ShouldBeEqualMap(t, caseIndex, actual),
 			}
 		}
 	})
@@ -608,7 +608,7 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			useRemove := input.GetAsBoolDefault("useRemove", false)
+			useRemove := input.GetAsBoolDefault("useRemove", false),
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -706,7 +706,7 @@ func Test_CovS07_LockVariants(t *testing.T) {
 			t.Error("LengthLock should be > 0")
 		}
 		if isEmptyLock {
-			t.Error("IsEmptyLock should be false")
+			t.Error("IsEmptyLock should be false"),
 		}
 		if allSumLock <= 0 {
 			t.Error("AllLengthsSumLock should be > 0")
@@ -715,7 +715,7 @@ func Test_CovS07_LockVariants(t *testing.T) {
 			t.Error("LengthOfLock should be > 0")
 		}
 		if !isEqLock {
-			t.Error("IsEqualsLock(self) should be true")
+			t.Error("IsEqualsLock(self) should be true"),
 		}
 	})
 }
@@ -734,10 +734,10 @@ func Test_CovS07_HasWithHashsetLock(t *testing.T) {
 
 		// Assert
 		if !found {
-			t.Error("HasWithHashsetLock should find 'alpha'")
+			t.Error("HasWithHashsetLock should find 'alpha'"),
 		}
 		if hs == nil {
-			t.Error("HasWithHashsetLock should return non-nil hashset")
+			t.Error("HasWithHashsetLock should return non-nil hashset"),
 		}
 	})
 }
@@ -800,22 +800,22 @@ func Test_CovS07_HashsetByChar(t *testing.T) {
 
 		// Assert
 		if hs1 == nil {
-			t.Error("HashsetByChar('a') should be non-nil")
+			t.Error("HashsetByChar('a') should be non-nil"),
 		}
 		if hs2 == nil {
-			t.Error("HashsetByCharLock('a') should be non-nil")
+			t.Error("HashsetByCharLock('a') should be non-nil"),
 		}
 		if hs3 == nil {
-			t.Error("HashsetByStringFirstChar should be non-nil")
+			t.Error("HashsetByStringFirstChar should be non-nil"),
 		}
 		if hs4 == nil {
-			t.Error("HashsetByStringFirstCharLock should be non-nil")
+			t.Error("HashsetByStringFirstCharLock should be non-nil"),
 		}
 		if hs5 == nil {
-			t.Error("GetHashsetByChar('a') should be non-nil")
+			t.Error("GetHashsetByChar('a') should be non-nil"),
 		}
 		if hsMissing == nil {
-			t.Error("HashsetByCharLock('z') should return empty hashset, not nil")
+			t.Error("HashsetByCharLock('z') should return empty hashset, not nil"),
 		}
 	})
 }
@@ -857,7 +857,7 @@ func Test_CovS07_GetMap(t *testing.T) {
 
 		// Assert
 		if rawMap == nil {
-			t.Error("GetMap should return non-nil")
+			t.Error("GetMap should return non-nil"),
 		}
 	})
 }
@@ -881,7 +881,7 @@ func Test_CovS07_InterfaceAdapters(t *testing.T) {
 
 		// Assert
 		if binder == nil || jsoner == nil || marshaller == nil || injector == nil {
-			t.Error("Interface adapters should return non-nil")
+			t.Error("Interface adapters should return non-nil"),
 		}
 	})
 }
@@ -905,7 +905,7 @@ func Test_CovS07_MarshalUnmarshal(t *testing.T) {
 			t.Errorf("MarshalJSON failed: %v", err)
 		}
 		if err2 != nil {
-			t.Errorf("UnmarshalJSON failed: %v", err2)
+			t.Errorf("UnmarshalJSON failed: %v", err2),
 		}
 	})
 }
@@ -926,7 +926,7 @@ func Test_CovS07_JsonParseSelfInject(t *testing.T) {
 
 		// Assert
 		if err != nil {
-			t.Errorf("JsonParseSelfInject should not error: %v", err)
+			t.Errorf("JsonParseSelfInject should not error: %v", err),
 		}
 	})
 }
@@ -947,7 +947,7 @@ func Test_CovS07_ParseInjectMust_Valid(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("ParseInjectUsingJsonMust should return non-nil")
+			t.Error("ParseInjectUsingJsonMust should return non-nil"),
 		}
 	})
 }
@@ -966,7 +966,7 @@ func Test_CovS07_JsonPtr(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("JsonPtr should return non-nil")
+			t.Error("JsonPtr should return non-nil"),
 		}
 	})
 }
@@ -986,7 +986,7 @@ func Test_CovS07_AddSameCharsCollLock(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("AddSameCharsCollectionLock should return non-nil")
+			t.Error("AddSameCharsCollectionLock should return non-nil"),
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
@@ -1008,7 +1008,7 @@ func Test_CovS07_AddSameCharsCollLock_NilColl_NewChar(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("should return non-nil hashset")
+			t.Error("should return non-nil hashset"),
 		}
 	})
 }
@@ -1028,7 +1028,7 @@ func Test_CovS07_AddSameCharsCollLock_NewChar_WithData(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("should return non-nil hashset")
+			t.Error("should return non-nil hashset"),
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
@@ -1051,7 +1051,7 @@ func Test_CovS07_AddHashsetLock(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("AddHashsetLock should return non-nil")
+			t.Error("AddHashsetLock should return non-nil"),
 		}
 	})
 }
@@ -1070,7 +1070,7 @@ func Test_CovS07_AddHashsetLock_NilHashset_NewChar(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("should return non-nil hashset")
+			t.Error("should return non-nil hashset"),
 		}
 	})
 }
@@ -1090,7 +1090,7 @@ func Test_CovS07_AddHashsetLock_NewChar_WithData(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("should return non-nil")
+			t.Error("should return non-nil"),
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
@@ -1113,10 +1113,10 @@ func Test_CovS07_GetHashsetLock(t *testing.T) {
 
 		// Assert
 		if hs == nil {
-			t.Error("GetHashsetLock should return non-nil for existing char")
+			t.Error("GetHashsetLock should return non-nil for existing char"),
 		}
 		if hsMissing != nil {
-			t.Error("GetHashsetLock should return nil for missing char with isAddNew=false")
+			t.Error("GetHashsetLock should return nil for missing char with isAddNew=false"),
 		}
 	})
 }
@@ -1131,7 +1131,7 @@ func Test_CovS07_NewCreator_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			expected := tc.ExpectedInput.(args.Map)
-			method, _ := input.GetAsString("method")
+			method, _ := input.GetAsString("method"),
 
 			// Act
 			var m *corestr.CharHashsetMap
@@ -1160,7 +1160,7 @@ func Test_CovS07_NewCreator_Verification(t *testing.T) {
 			}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual)
+			tc.ShouldBeEqualMap(t, caseIndex, actual),
 		}
 	})
 }
