@@ -258,10 +258,6 @@ func (it *Key) JoinUsingOption(
 }
 
 func (it *Key) compileCompleteAdditional(joiner string, items ...any) string {
-	if len(items) == 0 {
-		return constants.EmptyString
-	}
-
 	finalSlice := make([]string, 0, len(items))
 	finalSlice = appendAnyItemsWithBaseStrings(
 		it.option.IsSkipEmptyEntry,
