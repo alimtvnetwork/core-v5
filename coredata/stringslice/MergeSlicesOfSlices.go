@@ -8,12 +8,6 @@ func MergeSlicesOfSlices(slicesOfSlice ...[]string) []string {
 		return []string{}
 	}
 
-	sliceLength := len(slicesOfSlice)
-
-	if sliceLength == constants.Zero {
-		return []string{}
-	}
-
 	countOfAll := AllElemLengthSlices(slicesOfSlice...)
 
 	if countOfAll == constants.Zero {

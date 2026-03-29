@@ -41,13 +41,7 @@ func (it *MinMaxByte) Difference() byte {
 }
 
 func (it *MinMaxByte) DifferenceAbsolute() byte {
-	diff := it.Difference()
-
-	if diff < 0 {
-		return diff
-	}
-
-	return diff
+	return it.Difference()
 }
 
 func (it *MinMaxByte) IsMinEqual(val byte) bool {

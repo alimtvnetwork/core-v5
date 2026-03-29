@@ -246,14 +246,7 @@ func (it *StringsOnce) IsEqual(comparingItems ...string) bool {
 }
 
 func (it StringsOnce) JsonStringMust() string {
-	marshalledJsonBytes, err := it.MarshalJSON()
-
-	if err != nil {
-		errcore.MarshallingFailedType.
-			HandleUsingPanic(
-				"StringsOnce failed to marshall."+err.Error(), it.innerData)
-
-	}
+	marshalledJsonBytes, _ := it.MarshalJSON()
 
 	return string(marshalledJsonBytes)
 }
