@@ -15,6 +15,10 @@ func Conclusive(left, right any) (isEqual, isConclusive bool) {
 		return true, true
 	}
 
+	if left == nil && right == nil {
+		return true, true
+	}
+
 	if left == nil || right == nil {
 		return false, true
 	}
