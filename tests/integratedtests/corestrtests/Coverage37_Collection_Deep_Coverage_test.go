@@ -1364,7 +1364,7 @@ func Test_C37_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		c.AddHashmapsKeysValuesUsingFilter(
 			func(p corestr.KeyValuePair) (string, bool, bool) {
 				return p.Key + "=" + p.Value, true, false
-			}
+			},
 			h,
 		)
 		if c.Length() != 1 { t.Fatal("expected 1") }

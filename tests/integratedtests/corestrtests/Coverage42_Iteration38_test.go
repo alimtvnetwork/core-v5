@@ -299,7 +299,7 @@ func Test_Cov42_Collection_ExpandSlicePlusAdd(t *testing.T) {
 			[]string{"a,b", "c,d"},
 			func(line string) []string {
 				return []string{line}
-			}
+			},
 		)
 		tc := coretestcases.CaseV1{
 			Title:         "ExpandSlicePlusAdd",

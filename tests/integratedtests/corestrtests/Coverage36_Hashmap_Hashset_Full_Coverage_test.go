@@ -282,7 +282,7 @@ func Test_C36_Hashmap_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilter(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return "filtered", true, false
-			}
+			},
 			corestr.KeyAnyValuePair{Key: "k", Value: "v"},
 		)
 		if h.Length() != 1 {
@@ -297,7 +297,7 @@ func Test_C36_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilter(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return "v", true, true
-			}
+			},
 			corestr.KeyAnyValuePair{Key: "k1", Value: "v"},
 			corestr.KeyAnyValuePair{Key: "k2", Value: "v"},
 		)
@@ -313,7 +313,7 @@ func Test_C36_Hashmap_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilterLock(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return "v", true, false
-			}
+			},
 			corestr.KeyAnyValuePair{Key: "k", Value: "v"},
 		)
 		if h.Length() != 1 {
@@ -328,7 +328,7 @@ func Test_C36_Hashmap_AddsOrUpdatesUsingFilter(t *testing.T) {
 		h.AddsOrUpdatesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Value, true, false
-			}
+			},
 			corestr.KeyValuePair{Key: "k", Value: "v"},
 		)
 		if h.Length() != 1 {

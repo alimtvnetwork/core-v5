@@ -573,7 +573,7 @@ func Test_Seg6_CCM_AddHashmapsKeysOrValuesBothUsingFilter(t *testing.T) {
 		ccm.AddHashmapsKeysOrValuesBothUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Value, true, false
-			}
+			},
 			hm,
 		)
 		actual := args.Map{"has": ccm.Has("val")}
@@ -601,7 +601,7 @@ func Test_Seg6_CCM_AddHashmapsKeysOrValuesBothUsingFilter_Break(t *testing.T) {
 		ccm.AddHashmapsKeysOrValuesBothUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Value, true, true
-			}
+			},
 			hm,
 		)
 		actual := args.Map{"hasItems": ccm.AllLengthsSum() > 0}

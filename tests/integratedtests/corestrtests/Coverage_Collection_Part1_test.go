@@ -552,7 +552,7 @@ func Test_CovP1_41_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		col.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Key + "=" + pair.Value, true, false
-			}
+			},
 			hm,
 		)
 		if col.Length() < 1 {
@@ -572,7 +572,7 @@ func Test_CovP1_41_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		col2.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Key, true, true // break on first
-			}
+			},
 			hm,
 		)
 		// not keep
@@ -580,7 +580,7 @@ func Test_CovP1_41_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		col3.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return "", false, false
-			}
+			},
 			hm,
 		)
 	})

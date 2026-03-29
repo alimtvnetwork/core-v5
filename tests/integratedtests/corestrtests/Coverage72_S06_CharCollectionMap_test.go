@@ -4,8 +4,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // ============================================================
@@ -182,7 +182,7 @@ func Test_CovS06_CloneSlice_Verification(t *testing.T) {
 			actual := args.Map{"length": len(result)}
 
 			// Assert
-		tc.ShouldBeEqualMap(t, caseIndex, actual)
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
 }
@@ -473,7 +473,7 @@ func Test_CovS06_CharCollMap_HasWithCollection_Verification(t *testing.T) {
 			// Act
 			found, coll := m.HasWithCollection(checkStr)
 			actual := args.Map{
-				"found":           found,
+				"found":            found,
 				"collectionNotNil": coll != nil,
 			}
 
@@ -827,7 +827,7 @@ func Test_CovS06_CharCollMap_PrintSkip(t *testing.T) {
 		// Assert — no panic means success
 		expected := args.Map{"skipped": true}
 		if actual["skipped"] != expected["skipped"] {
-			t.Errorf("Print skip test failed"),
+			t.Errorf("Print skip test failed")
 		}
 	})
 }
@@ -885,7 +885,7 @@ func Test_CovS06_CharCollMap_MarshalUnmarshal(t *testing.T) {
 			"unmarshalOk": true,
 		}
 		if actual["marshalOk"] != expected["marshalOk"] || actual["unmarshalOk"] != expected["unmarshalOk"] {
-			t.Errorf("MarshalJSON/UnmarshalJSON failed: %v", actual),
+			t.Errorf("MarshalJSON/UnmarshalJSON failed: %v", actual)
 		}
 	})
 }
@@ -1002,7 +1002,7 @@ func Test_CovS06_CharCollMap_LockVariants(t *testing.T) {
 		}
 		for k, v := range expected {
 			if actual[k] != v {
-				t.Errorf("LockVariants %s: got %v, want %v", k, actual[k], v),
+				t.Errorf("LockVariants %s: got %v, want %v", k, actual[k], v)
 			}
 		}
 	})
@@ -1022,10 +1022,10 @@ func Test_CovS06_CharCollMap_HasWithCollectionLock(t *testing.T) {
 
 		// Assert
 		if !found {
-			t.Error("HasWithCollectionLock should find 'alpha'"),
+			t.Error("HasWithCollectionLock should find 'alpha'")
 		}
 		if coll == nil {
-			t.Error("HasWithCollectionLock should return non-nil collection"),
+			t.Error("HasWithCollectionLock should return non-nil collection")
 		}
 	})
 }
@@ -1050,10 +1050,10 @@ func Test_CovS06_CharCollMap_HashsetVariants(t *testing.T) {
 			t.Error("HashsetByCharLock('a') should return non-empty")
 		}
 		if hs2 == nil {
-			t.Error("HashsetByStringFirstChar should return non-nil"),
+			t.Error("HashsetByStringFirstChar should return non-nil")
 		}
 		if hs3 == nil {
-			t.Error("HashsetByStringFirstCharLock should return non-nil"),
+			t.Error("HashsetByStringFirstCharLock should return non-nil")
 		}
 		if hs4 == nil || !hs4.IsEmpty() {
 			// missing char returns Empty hashset
@@ -1120,7 +1120,7 @@ func Test_CovS06_CharCollMap_AddSameCharsCollLock(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("AddSameCharsCollectionLock should return non-nil"),
+			t.Error("AddSameCharsCollectionLock should return non-nil")
 		}
 		if m.AllLengthsSum() < 3 {
 			t.Errorf("Expected at least 3 items, got %d", m.AllLengthsSum())
@@ -1142,7 +1142,7 @@ func Test_CovS06_CharCollMap_GetCollectionByChar(t *testing.T) {
 
 		// Assert
 		if coll == nil {
-			t.Error("GetCollectionByChar('a') should return non-nil"),
+			t.Error("GetCollectionByChar('a') should return non-nil")
 		}
 	})
 }
@@ -1163,7 +1163,7 @@ func Test_CovS06_CharCollMap_JsonParseSelfInject(t *testing.T) {
 
 		// Assert
 		if err != nil {
-			t.Errorf("JsonParseSelfInject should not error: %v", err),
+			t.Errorf("JsonParseSelfInject should not error: %v", err)
 		}
 	})
 }
@@ -1184,7 +1184,7 @@ func Test_CovS06_CharCollMap_ParseInjectMust_Valid(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("ParseInjectUsingJsonMust should return non-nil"),
+			t.Error("ParseInjectUsingJsonMust should return non-nil")
 		}
 	})
 }
@@ -1206,7 +1206,7 @@ func Test_CovS06_CharCollMap_AddHashmapsFilter(t *testing.T) {
 		m.AddHashmapsKeysOrValuesBothUsingFilter(
 			func(kv corestr.KeyValuePair) (string, bool, bool) {
 				return kv.Value, true, false
-			}
+			},
 			hm,
 		)
 
@@ -1235,9 +1235,9 @@ func Test_CovS06_CharCollMap_AddHashmapsFilter_Break(t *testing.T) {
 		count := 0
 		m.AddHashmapsKeysOrValuesBothUsingFilter(
 			func(kv corestr.KeyValuePair) (string, bool, bool) {
-				count++,
+				count++
 				return kv.Value, true, count >= 1
-			}
+			},
 			hm,
 		)
 
@@ -1306,7 +1306,7 @@ func Test_CovS06_CharCollMap_GetMap(t *testing.T) {
 
 		// Assert
 		if rawMap == nil {
-			t.Error("GetMap should return non-nil"),
+			t.Error("GetMap should return non-nil")
 		}
 	})
 }
@@ -1325,7 +1325,7 @@ func Test_CovS06_CharCollMap_JsonPtr(t *testing.T) {
 
 		// Assert
 		if result == nil {
-			t.Error("JsonPtr should return non-nil"),
+			t.Error("JsonPtr should return non-nil")
 		}
 	})
 }
@@ -1345,7 +1345,7 @@ func Test_CovS06_CharCollMap_IsEquals_LenMismatch(t *testing.T) {
 
 		// Assert
 		if result {
-			t.Error("IsEquals should return false for different lengths"),
+			t.Error("IsEquals should return false for different lengths")
 		}
 	})
 }
@@ -1365,7 +1365,7 @@ func Test_CovS06_CharCollMap_IsEquals_OneEmpty(t *testing.T) {
 
 		// Assert
 		if result {
-			t.Error("IsEquals should return false when one is empty"),
+			t.Error("IsEquals should return false when one is empty")
 		}
 	})
 }
@@ -1385,7 +1385,7 @@ func Test_CovS06_CharCollMap_IsEquals_KeyMissing(t *testing.T) {
 
 		// Assert
 		if result {
-			t.Error("IsEquals should return false when keys differ"),
+			t.Error("IsEquals should return false when keys differ")
 		}
 	})
 }

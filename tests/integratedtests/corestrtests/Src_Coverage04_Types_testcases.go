@@ -36,22 +36,22 @@ var srcC04ValidValueInvalidTestCase = coretestcases.CaseV1{
 var srcC04ValidValueMethodsTestCase = coretestcases.CaseV1{
 	Title: "ValidValue methods return correct state -- hello input",
 	ExpectedInput: args.Map{
-		"isEmpty":                false,
-		"hasValidNonEmpty":       true,
-		"hasSafeNonEmpty":        true,
-		"isWhitespace":           false,
-		"hasValidNonWhitespace":  true,
-		"trim":                   "hello",
-		"isHello":                true,
-		"isWorld":                false,
-		"isAnyOfHelloWorld":      true,
-		"isAnyOfEmpty":           true,
-		"isAnyOfX":               false,
-		"isContainsHel":          true,
-		"isAnyContainsHel":       true,
-		"isAnyContainsEmpty":     true,
-		"isAnyContainsXyz":       false,
-		"isEqualNonSensitive":    true,
+		"isEmpty":               false,
+		"hasValidNonEmpty":      true,
+		"hasSafeNonEmpty":       true,
+		"isWhitespace":          false,
+		"hasValidNonWhitespace": true,
+		"trim":                  "hello",
+		"isHello":               true,
+		"isWorld":               false,
+		"isAnyOfHelloWorld":     true,
+		"isAnyOfEmpty":          true,
+		"isAnyOfX":              false,
+		"isContainsHel":         true,
+		"isAnyContainsHel":      true,
+		"isAnyContainsEmpty":    true,
+		"isAnyContainsXyz":      false,
+		"isEqualNonSensitive":   true,
 	},
 }
 
@@ -59,11 +59,11 @@ var srcC04ValidValueMethodsTestCase = coretestcases.CaseV1{
 var srcC04ValidValueConversionsTestCase = coretestcases.CaseV1{
 	Title: "ValidValue ValueInt ValueByte ValueFloat64 return correct -- 42",
 	ExpectedInput: args.Map{
-		"valueInt":      42,
-		"valueDefInt":   42,
-		"valueByte":     42,
-		"valueDefByte":  42,
-		"trueBool":      true,
+		"valueInt":     42,
+		"valueDefInt":  42,
+		"valueByte":    42,
+		"valueDefByte": 42,
+		"trueBool":     true,
 	},
 }
 
@@ -115,7 +115,7 @@ var srcC04ValidValueCloneTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"value": "hello",
 		},
-	}
+	},
 	{
 		Title: "ValidValue Clone returns nil -- nil receiver",
 		ArrangeInput: args.Map{
@@ -124,7 +124,7 @@ var srcC04ValidValueCloneTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNilResult": true,
 		},
-	}
+	},
 }
 
 // Branch: ValidValue String/FullString
@@ -186,21 +186,21 @@ var srcC04ValidValuesFactoriesTestCase = coretestcases.CaseV1{
 var srcC04ValidValuesSafeValuesTestCase = coretestcases.CaseV1{
 	Title: "ValidValues SafeValueAt returns correct values -- two items",
 	ExpectedInput: args.Map{
-		"safeAt0":           "a",
-		"safeAt99":          "",
-		"safeValidAt0":      "a",
-		"safeValidAt99":     "",
-		"safeValuesLen":     2,
-		"safeValidValsLen":  1,
+		"safeAt0":          "a",
+		"safeAt99":         "",
+		"safeValidAt0":     "a",
+		"safeValidAt99":    "",
+		"safeValuesLen":    2,
+		"safeValidValsLen": 1,
 	},
 }
 
 var srcC04ValidValuesStringsTestCase = coretestcases.CaseV1{
 	Title: "ValidValues Strings FullStrings String return non-empty -- one item",
 	ExpectedInput: args.Map{
-		"stringsLen":      1,
-		"fullStringsLen":  1,
-		"stringNonEmpty":  true,
+		"stringsLen":     1,
+		"fullStringsLen": 1,
+		"stringNonEmpty": true,
 	},
 }
 
@@ -283,51 +283,51 @@ var srcC04LeftRightFactoriesTestCase = coretestcases.CaseV1{
 var srcC04LeftRightMethodsTestCase = coretestcases.CaseV1{
 	Title: "LeftRight methods return correct state -- hello world pair",
 	ExpectedInput: args.Map{
-		"leftBytes":                 "hello",
-		"rightBytes":                "world",
-		"leftTrim":                  "hello",
-		"rightTrim":                 "world",
-		"isLeftEmpty":               false,
-		"isRightEmpty":              false,
-		"isLeftWhitespace":          false,
-		"isRightWhitespace":         false,
-		"hasValidNonEmptyLeft":      true,
-		"hasValidNonEmptyRight":     true,
-		"hasValidNonWsLeft":         true,
-		"hasValidNonWsRight":        true,
-		"hasSafeNonEmpty":           true,
-		"isLeft":                    true,
-		"isRight":                   true,
-		"is":                        true,
-		"isLeftRegexNil":            false,
-		"isRightRegexNil":           false,
-		"cloneLeft":                 "hello",
-		"isEqual":                   true,
+		"leftBytes":             "hello",
+		"rightBytes":            "world",
+		"leftTrim":              "hello",
+		"rightTrim":             "world",
+		"isLeftEmpty":           false,
+		"isRightEmpty":          false,
+		"isLeftWhitespace":      false,
+		"isRightWhitespace":     false,
+		"hasValidNonEmptyLeft":  true,
+		"hasValidNonEmptyRight": true,
+		"hasValidNonWsLeft":     true,
+		"hasValidNonWsRight":    true,
+		"hasSafeNonEmpty":       true,
+		"isLeft":                true,
+		"isRight":               true,
+		"is":                    true,
+		"isLeftRegexNil":        false,
+		"isRightRegexNil":       false,
+		"cloneLeft":             "hello",
+		"isEqual":               true,
 	},
 }
 
 var srcC04LeftRightFromSliceTestCase = coretestcases.CaseV1{
 	Title: "LeftRight FromSlice returns correct state -- various inputs",
 	ExpectedInput: args.Map{
-		"twoLeft":     "a",
-		"twoRight":    "b",
-		"oneLeft":     "a",
-		"oneRight":    "",
-		"nilIsValid":  false,
-		"trimLeft":    "a",
-		"trimRight":   "b",
+		"twoLeft":    "a",
+		"twoRight":   "b",
+		"oneLeft":    "a",
+		"oneRight":   "",
+		"nilIsValid": false,
+		"trimLeft":   "a",
+		"trimRight":  "b",
 	},
 }
 
 var srcC04LeftRightFromSplitTestCase = coretestcases.CaseV1{
 	Title: "LeftRight FromSplit returns correct state -- key=val",
 	ExpectedInput: args.Map{
-		"splitLeft":      "key",
-		"splitRight":     "val",
-		"trimLeft":       "key",
-		"trimRight":      "val",
-		"fullLeft":       "a",
-		"fullRight":      "b:c",
+		"splitLeft":  "key",
+		"splitRight": "val",
+		"trimLeft":   "key",
+		"trimRight":  "val",
+		"fullLeft":   "a",
+		"fullRight":  "b:c",
 	},
 }
 
@@ -355,12 +355,12 @@ var srcC04LeftMiddleRightTestCase = coretestcases.CaseV1{
 var srcC04LeftMiddleRightFromSplitTestCase = coretestcases.CaseV1{
 	Title: "LeftMiddleRight FromSplit returns correct -- a.b.c",
 	ExpectedInput: args.Map{
-		"left":      "a",
-		"middle":    "b",
-		"right":     "c",
-		"nLeft":     "a",
-		"nMiddle":   "b",
-		"nRight":    "c:d",
+		"left":    "a",
+		"middle":  "b",
+		"right":   "c",
+		"nLeft":   "a",
+		"nMiddle": "b",
+		"nRight":  "c:d",
 	},
 }
 
@@ -388,12 +388,12 @@ var srcC04KeyAnyValuePairTestCase = coretestcases.CaseV1{
 var srcC04HashmapDiffTestCase = coretestcases.CaseV1{
 	Title: "HashmapDiff methods return correct state -- one item",
 	ExpectedInput: args.Map{
-		"isEmpty":      false,
-		"hasAny":       true,
-		"length":       1,
-		"lastIndex":    0,
-		"hasChanges":   true,
-		"isRawEqual":   false,
-		"nilLength":    0,
+		"isEmpty":    false,
+		"hasAny":     true,
+		"length":     1,
+		"lastIndex":  0,
+		"hasChanges": true,
+		"isRawEqual": false,
+		"nilLength":  0,
 	},
 }

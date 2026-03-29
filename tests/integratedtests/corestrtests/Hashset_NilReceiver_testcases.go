@@ -18,7 +18,7 @@ var hashsetNilReceiverTestCases = []coretestcases.CaseNilSafe{
 			Value:    "true",
 			Panicked: false,
 		},
-	}
+	},
 	{
 		Title: "Length on nil returns 0",
 		Func:  (*corestr.Hashset).Length,
@@ -26,7 +26,7 @@ var hashsetNilReceiverTestCases = []coretestcases.CaseNilSafe{
 			Value:    "0",
 			Panicked: false,
 		},
-	}
+	},
 	{
 		Title: "HasItems on nil returns false",
 		Func:  (*corestr.Hashset).HasItems,
@@ -34,7 +34,7 @@ var hashsetNilReceiverTestCases = []coretestcases.CaseNilSafe{
 			Value:    "false",
 			Panicked: false,
 		},
-	}
+	},
 	{
 		Title: "HasAnyItem on nil returns false",
 		Func:  (*corestr.Hashset).HasAnyItem,
@@ -42,7 +42,7 @@ var hashsetNilReceiverTestCases = []coretestcases.CaseNilSafe{
 			Value:    "false",
 			Panicked: false,
 		},
-	}
+	},
 	{
 		Title: "Clear on nil returns nil",
 		Func:  (*corestr.Hashset).Clear,
@@ -50,5 +50,5 @@ var hashsetNilReceiverTestCases = []coretestcases.CaseNilSafe{
 			Value:    "<nil>",
 			Panicked: false,
 		},
-	}
+	},
 }
