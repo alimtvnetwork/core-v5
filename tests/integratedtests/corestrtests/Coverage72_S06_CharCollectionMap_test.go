@@ -182,10 +182,10 @@ func Test_CovS06_CloneSlice_Verification(t *testing.T) {
 			actual := args.Map{"length": len(result)}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
+}
 
 // ============================================================
 // CloneSliceIf
