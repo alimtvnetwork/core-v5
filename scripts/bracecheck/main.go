@@ -46,6 +46,11 @@ var categories = []errorCategory{
 		Description: "Unclosed brace at EOF",
 		Suggestion:  "A '{' block was never closed. Check for missing '}' in the last function or closure.",
 	},
+	{
+		Pattern:     "expected ';', found ','",
+		Description: "Stray comma after block brace",
+		Suggestion:  "A '}' closing a code block (for/if/func) has a trailing ',' — remove it. This causes massive cascading errors.",
+	},
 }
 
 func classifyError(msg string) *errorCategory {
