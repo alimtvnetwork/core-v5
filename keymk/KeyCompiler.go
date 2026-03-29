@@ -137,16 +137,6 @@ func (it *Key) onCompleteCompileInternalStrings(
 	return strings.Join(compiledTerms, joiner)
 }
 
-func (it *Key) compileSingleItem(
-	item string,
-) string {
-	if it.option.IsUseBrackets {
-		return it.option.StartBracket + item + it.option.EndBracket
-	}
-
-	return item
-}
-
 // CompileReplaceCurlyKeyMap
 //
 // Keys will be converted to {Key} then replaced
