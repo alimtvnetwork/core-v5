@@ -1097,7 +1097,7 @@ func Test_Cov56_Hashset_Transpile(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Transpile",
 			ExpectedInput: args.Map{"Has": true},
-		})
+		}
 		actual := args.Map{"Has": result.Has("[a]")}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	})
@@ -1113,7 +1113,7 @@ func Test_Cov56_Hashset_Transpile_Empty(t *testing.T) {
 		tc := coretestcases.CaseV1{
 			Title:         "Transpile empty",
 			ExpectedInput: args.Map{"IsEmpty": true},
-		})
+		}
 		actual := args.Map{"IsEmpty": result.IsEmpty()}
 		tc.ShouldBeEqualMap(t, 0, actual)
 	})
