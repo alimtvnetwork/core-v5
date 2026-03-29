@@ -596,6 +596,104 @@ func fixExpectedOperand(lines []string, errLine int, msg string) bool {
 	return false
 }
 
+// fixSemicolonExpectedCommaFound handles "expected ';', found ','".
+// This occurs when '}' closes a code block (for/if/func body) but has a stray
+// trailing comma, making the parser think it's a composite literal element.
+// Fix: remove the trailing comma.
+func fixSemicolonExpectedCommaFound(lines []string, errLine int) bool {
+	if errLine < 0 || errLine >= len(lines) {
+		return false
+	}
+	trimmed := strings.TrimSpace(lines[errLine])
+
+	// Case 1: Line is "}," — remove the comma
+	if trimmed == "}," {
+		indent := leadingWhitespace(lines[errLine])
+		lines[errLine] = indent + "}"
+		return true
+	}
+
+	// Case 2: Line ends with "}," as part of a longer expression (e.g., "},")
+	if strings.HasSuffix(trimmed, "},") {
+		// Only fix if the line is JUST closing braces (possibly nested)
+		// e.g., "},", "}},", etc. — not "foo},"
+		stripped := strings.TrimRight(trimmed, ",")
+		allBraces := true
+		for _, c := range stripped {
+			if c != '}' {
+				allBraces = false
+				break
+			}
+		}
+		if allBraces {
+			indent := leadingWhitespace(lines[errLine])
+			lines[errLine] = indent + stripped
+			return true
+		}
+	}
+
+	// Case 3: Line has a trailing comma after any expression where ';' expected
+	// e.g., "panicked = true," inside an if block
+	line := lines[errLine]
+	trimmedRight := strings.TrimRight(line, " \t\r")
+	if len(trimmedRight) > 0 && trimmedRight[len(trimmedRight)-1] == ',' {
+		lines[errLine] = trimmedRight[:len(trimmedRight)-1]
+		return true
+	}
+
+	return false
+}
+
+// rxStrayCommaStatement matches statement lines that end with a stray comma.
+// Covers:  x := expr,   |   var x Type,   |   x = expr,
+var rxStrayCommaStatement = regexp.MustCompile(
+	`^\s+` + // must be indented (inside a func body)
+		`(?:` +
+		`\w+\s*:=\s*.+` + // short var decl: x := expr
+		`|` +
+		`var\s+\w+\s+.+` + // var decl: var x Type
+		`|` +
+		`\w+\s*=\s*.+` + // assignment: x = expr
+		`)` +
+		`,\s*$`, // trailing comma
+)
+
+// fixStrayCommaStatements is a pre-pass that removes trailing commas from
+// statement lines (`:=`, `var`, `=`) inside function bodies. These don't
+// produce a unique parser error on the offending line — instead they cause
+// cascading "missing ','" or "expected operand" errors on subsequent lines.
+func fixStrayCommaStatements(lines []string, path string) int {
+	fixes := 0
+	for i, line := range lines {
+		if !rxStrayCommaStatement.MatchString(line) {
+			continue
+		}
+		trimmed := strings.TrimSpace(line)
+		// Skip lines that are legitimately inside composite literals.
+		// Heuristic: if the previous non-empty, non-comment line ends with '{',
+		// we're likely inside a struct/map literal — don't touch it.
+		prev := findPrevNonEmpty(lines, i)
+		if prev >= 0 {
+			prevTrimmed := strings.TrimSpace(lines[prev])
+			if strings.HasSuffix(prevTrimmed, "{") {
+				continue
+			}
+		}
+		// Don't fix if line contains ":=" inside a struct literal value
+		// (e.g., a map key with :=). Extra safety: skip if line starts with `"`
+		if strings.HasPrefix(trimmed, "\"") || strings.HasPrefix(trimmed, "`") {
+			continue
+		}
+		// Remove the trailing comma
+		cleaned := strings.TrimRight(line, " \t\r")
+		cleaned = cleaned[:len(cleaned)-1]
+		lines[i] = cleaned
+		fixes++
+		addRecord(path, i+1, "stray-comma-on-statement", "removed trailing comma from statement line")
+	}
+	return fixes
+}
+
 // rxEmptyArgSlot matches ", ," or "(," patterns (empty argument slots)
 var rxEmptyArgSlot = regexp.MustCompile(`(,)\s*,(\s*)`)
 
