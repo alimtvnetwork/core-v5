@@ -92,7 +92,7 @@ func Test_SrcC14_Hashset_AddVariants_Verification(t *testing.T) {
 			"addItemsMapHas": hsIM.Has("a"),
 			"addLockHas":      hsLk.Has("a"),
 			"addsLen":         hsAdds.Length(),
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -426,7 +426,7 @@ func Test_SrcC14_Hashset_FilterAdd_Verification(t *testing.T) {
 			"hsWgHas":          h6.Has("a"),
 			"simpleSliceLen":   h7.Length(),
 			"listPtrLen":       len(corestr.New.Hashset.Strings([]string{"a"}).ListPtr()),
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -441,4 +441,4 @@ func callPanicsSrcC14(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+}

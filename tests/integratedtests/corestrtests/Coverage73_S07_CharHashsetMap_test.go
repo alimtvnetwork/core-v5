@@ -84,7 +84,7 @@ func Test_CovS07_Basic_Verification(t *testing.T) {
 		for caseIndex, tc := range covS07BasicTestCases {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
-			useEmpty := input.GetAsBoolDefault("useEmpty", false),
+			useEmpty := input.GetAsBoolDefault("useEmpty", false)
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -118,7 +118,7 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			checkStr := input["checkStr"].(string),
+			checkStr := input["checkStr"].(string)
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -133,7 +133,6 @@ func Test_CovS07_Has_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
@@ -147,7 +146,7 @@ func Test_CovS07_HasWithHashset_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			checkStr := input["checkStr"].(string),
+			checkStr := input["checkStr"].(string)
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -180,7 +179,7 @@ func Test_CovS07_LengthOf_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			expected := tc.ExpectedInput.(args.Map)
-			useEmpty := input.GetAsBoolDefault("useEmpty", false),
+			useEmpty := input.GetAsBoolDefault("useEmpty", false)
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -219,10 +218,10 @@ func Test_CovS07_Add_Verification(t *testing.T) {
 			m := corestr.New.CharHashsetMap.Cap(10, 5)
 
 			if addItem, ok := input["addItem"]; ok {
-				m.Add(addItem.(string)),
+				m.Add(addItem.(string))
 			}
 			if addItems, ok := input["addItems"]; ok {
-				m.AddStrings(addItems.([]string)...),
+				m.AddStrings(addItems.([]string)...)
 			}
 
 			// Act
@@ -282,13 +281,13 @@ func Test_CovS07_IsEquals_Verification(t *testing.T) {
 			useSelf := input.GetAsBoolDefault("useSelf", false)
 			useNilOther := input.GetAsBoolDefault("useNilOther", false)
 			useEmpty1 := input.GetAsBoolDefault("useEmpty1", false)
-			useEmpty2 := input.GetAsBoolDefault("useEmpty2", false),
+			useEmpty2 := input.GetAsBoolDefault("useEmpty2", false)
 
 			var m1 *corestr.CharHashsetMap
 			if useEmpty1 {
 				m1 = corestr.Empty.CharHashsetMap()
 			} else if items1, ok := input["items1"]; ok {
-				m1 = covS07MakeMap(items1.([]string)),
+				m1 = covS07MakeMap(items1.([]string))
 			}
 
 			// Act
@@ -363,7 +362,6 @@ func Test_CovS07_GetCharsGroups_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
@@ -384,14 +382,14 @@ func Test_CovS07_List_Verification(t *testing.T) {
 			// Act
 			var actual args.Map
 			if sortedDir == "asc" {
-				list := m.SortedListAsc(),
+				list := m.SortedListAsc()
 				first := ""
 				if len(list) > 0 {
 					first = list[0]
 				}
 				actual = args.Map{"first": first}
 			} else if sortedDir == "dsc" {
-				list := m.SortedListDsc(),
+				list := m.SortedListDsc()
 				first := ""
 				if len(list) > 0 {
 					first = list[0]
@@ -459,8 +457,8 @@ func Test_CovS07_AddSameCharsColl_Verification(t *testing.T) {
 
 			checkStr := "apple"
 			if cs, ok := input["checkStr"]; ok {
-				checkStr = cs.(string),
-			},
+				checkStr = cs.(string)
+			}
 
 			// Act
 			var resultHs *corestr.Hashset
@@ -501,8 +499,8 @@ func Test_CovS07_AddSameCharsHashset_Verification(t *testing.T) {
 
 			checkStr := "apple"
 			if cs, ok := input["checkStr"]; ok {
-				checkStr = cs.(string),
-			},
+				checkStr = cs.(string)
+			}
 
 			// Act
 			var resultHs *corestr.Hashset
@@ -593,8 +591,7 @@ func Test_CovS07_HashsetsColl_Verification(t *testing.T) {
 			actual := args.Map{"hasItems": hsColl != nil && hsColl.Length() > 0}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual),
-			}
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
 
@@ -608,7 +605,7 @@ func Test_CovS07_Clear_Verification(t *testing.T) {
 			// Arrange
 			input := tc.ArrangeInput.(args.Map)
 			useEmpty := input.GetAsBoolDefault("useEmpty", false)
-			useRemove := input.GetAsBoolDefault("useRemove", false),
+			useRemove := input.GetAsBoolDefault("useRemove", false)
 
 			var m *corestr.CharHashsetMap
 			if useEmpty {
@@ -658,7 +655,6 @@ func Test_CovS07_StringOutput_Verification(t *testing.T) {
 
 			// Assert
 			tc.ShouldBeEqualMap(t, caseIndex, actual)
-			}
 		}
 	})
 
@@ -1160,7 +1156,7 @@ func Test_CovS07_NewCreator_Verification(t *testing.T) {
 			}
 
 			// Assert
-			tc.ShouldBeEqualMap(t, caseIndex, actual),
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	})
 }

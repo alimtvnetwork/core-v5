@@ -107,7 +107,7 @@ func Test_SrcC09_SimpleStringOnce_GetOnceFunc_Verification(t *testing.T) {
 		actual := args.Map{
 			"first":  v1,
 			"second": v2,
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -1265,4 +1265,4 @@ func callPanicsSrcC09(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+}

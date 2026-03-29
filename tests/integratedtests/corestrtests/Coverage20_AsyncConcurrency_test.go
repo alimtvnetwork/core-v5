@@ -294,7 +294,7 @@ func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 		c.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Key + "=" + pair.Value, true, false
-			},
+			}
 			hm,
 		)
 
@@ -333,7 +333,7 @@ func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) 
 		c.AddHashmapsKeysValuesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Key, true, true // break after first
-			},
+			}
 			hm,
 		)
 
@@ -488,7 +488,7 @@ func Test_Cov20_LinkedCollections_AddsAsyncOnComplete(t *testing.T) {
 		lc.AddsAsyncOnComplete(
 			func(lcs *corestr.LinkedCollections) {
 				done <- true
-			},
+			}
 			false,
 			c1, c2,
 		)
@@ -511,10 +511,10 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsyncOnComplete(t *testing.T
 		lc.AddsUsingProcessorAsyncOnComplete(
 			func(lcs *corestr.LinkedCollections) {
 				done <- true
-			},
+			}
 			func(a any, i int) *corestr.Collection {
 				return corestr.New.Collection.Strings([]string{a.(string)})
-			},
+			}
 			false,
 			"hello", "world",
 		)
@@ -537,10 +537,10 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsyncOnComplete_NilSkip(t *t
 		lc.AddsUsingProcessorAsyncOnComplete(
 			func(lcs *corestr.LinkedCollections) {
 				done <- true
-			},
+			}
 			func(a any, i int) *corestr.Collection {
 				return corestr.New.Collection.Strings([]string{a.(string)})
-			},
+			}
 			true,
 		)
 		<-done
@@ -564,7 +564,7 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsync(t *testing.T) {
 			wg,
 			func(a any, i int) *corestr.Collection {
 				return corestr.New.Collection.Strings([]string{a.(string)})
-			},
+			}
 			false,
 			"x", "y",
 		)
@@ -873,7 +873,7 @@ func Test_Cov20_LinkedCollections_FilterAsCollection(t *testing.T) {
 		result := lc.FilterAsCollection(
 			func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 				return &corestr.LinkedCollectionFilterResult{Value: arg.Node, IsKeep: true, IsBreak: false}
-			},
+			}
 			0,
 		)
 
@@ -893,7 +893,7 @@ func Test_Cov20_LinkedCollections_FilterAsCollection_Empty(t *testing.T) {
 		result := lc.FilterAsCollection(
 			func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 				return &corestr.LinkedCollectionFilterResult{Value: arg.Node, IsKeep: true, IsBreak: false}
-			},
+			}
 			0,
 		)
 
@@ -915,7 +915,7 @@ func Test_Cov20_LinkedCollections_FilterAsCollections(t *testing.T) {
 		result := lc.FilterAsCollections(
 			func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
 				return &corestr.LinkedCollectionFilterResult{Value: arg.Node, IsKeep: true, IsBreak: false}
-			},
+			}
 		)
 
 		// Assert

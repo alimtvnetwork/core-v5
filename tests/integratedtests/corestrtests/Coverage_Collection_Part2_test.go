@@ -262,7 +262,7 @@ func Test_CovP2_16_AppendAnysUsingFilter(t *testing.T) {
 		col.AppendAnysUsingFilter(
 			func(str string, i int) (string, bool, bool) {
 				return str, true, false
-			},
+			}
 			"a", nil, "b",
 		)
 		if col.Length() != 2 {

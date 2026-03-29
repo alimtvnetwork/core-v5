@@ -35,8 +35,8 @@ func safeTest(t *testing.T, name string, fn func()) {
 						msg,
 						should.BeEmpty,
 					)
-				},
+				}
 			)
-		},
+		}
 	}.Do()
 }

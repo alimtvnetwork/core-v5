@@ -671,7 +671,7 @@ func Test_Seg3_Collection_ExpandSlicePlusAdd(t *testing.T) {
 			[]string{"a,b", "c,d"},
 			func(line string) []string {
 				return []string{line + "_expanded"}
-			},
+			}
 		)
 		actual := args.Map{"len": c.Length()}
 		expected := args.Map{"len": 2}

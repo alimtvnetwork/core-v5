@@ -430,4 +430,4 @@ func callPanicsSrcC20(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+}

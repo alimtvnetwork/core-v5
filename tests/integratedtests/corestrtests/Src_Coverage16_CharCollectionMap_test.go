@@ -278,7 +278,7 @@ func Test_SrcC16_Ccm_AddColItemsHm_Verification(t *testing.T) {
 			"hmFilterNilE": !cm8.HasItems(),
 			"hmFilterBreak": cm9.AllLengthsSum(),
 			"charHsLen":    cm10.AllLengthsSum(),
-		})
+		}
 
 		// Assert
 		tc.ShouldBeEqualMapFirst(t, actual)
@@ -437,4 +437,4 @@ func callPanicsSrcC16(fn func()) (panicked bool) {
 	}()
 	fn()
 	return false
-	})
+}

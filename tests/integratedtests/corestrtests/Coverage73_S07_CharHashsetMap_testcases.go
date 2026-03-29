@@ -18,7 +18,7 @@ var covS07CharHashsetDataModelTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "NewCharHashsetMapDataModelUsing returns data model -- from hashset map",
 		ArrangeInput: args.Map{
@@ -28,7 +28,7 @@ var covS07CharHashsetDataModelTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -44,7 +44,7 @@ var covS07GetCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"char": "h",
 		},
-	},
+	}
 	{
 		Title: "GetChar returns emptyChar -- empty string",
 		ArrangeInput: args.Map{
@@ -53,7 +53,7 @@ var covS07GetCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"char": "\x00",
 		},
-	},
+	}
 	{
 		Title: "GetCharOf returns first byte -- non-empty string",
 		ArrangeInput: args.Map{
@@ -63,7 +63,7 @@ var covS07GetCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"char": "w",
 		},
-	},
+	}
 	{
 		Title: "GetCharOf returns emptyChar -- empty string",
 		ArrangeInput: args.Map{
@@ -73,7 +73,7 @@ var covS07GetCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"char": "\x00",
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -92,7 +92,7 @@ var covS07BasicTestCases = []coretestcases.CaseV1{
 			"length":        0,
 			"allLengthsSum": 0,
 		},
-	},
+	}
 	{
 		Title: "CharHashsetMap HasItems returns true -- populated map",
 		ArrangeInput: args.Map{
@@ -104,7 +104,7 @@ var covS07BasicTestCases = []coretestcases.CaseV1{
 			"length":        2,
 			"allLengthsSum": 2,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -121,7 +121,7 @@ var covS07HasTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"has": true,
 		},
-	},
+	}
 	{
 		Title: "Has returns false -- item missing",
 		ArrangeInput: args.Map{
@@ -131,7 +131,7 @@ var covS07HasTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"has": false,
 		},
-	},
+	}
 	{
 		Title: "Has returns false -- empty map",
 		ArrangeInput: args.Map{
@@ -141,7 +141,7 @@ var covS07HasTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"has": false,
 		},
-	},
+	}
 	{
 		Title: "Has returns false -- char group exists but item not in it",
 		ArrangeInput: args.Map{
@@ -151,7 +151,7 @@ var covS07HasTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"has": false,
 		},
-	},
+	}
 }
 
 // Branch: HasWithHashset
@@ -166,7 +166,7 @@ var covS07HasWithHashsetTestCases = []coretestcases.CaseV1{
 			"found":       true,
 			"hsNotNil":    true,
 		},
-	},
+	}
 	{
 		Title: "HasWithHashset returns false -- char missing",
 		ArrangeInput: args.Map{
@@ -177,7 +177,7 @@ var covS07HasWithHashsetTestCases = []coretestcases.CaseV1{
 			"found":    false,
 			"hsNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "HasWithHashset returns false -- empty map",
 		ArrangeInput: args.Map{
@@ -188,7 +188,7 @@ var covS07HasWithHashsetTestCases = []coretestcases.CaseV1{
 			"found":    false,
 			"hsNotNil": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -205,7 +205,7 @@ var covS07LengthOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"lengthOf": 2,
 		},
-	},
+	}
 	{
 		Title: "LengthOf returns 0 -- char missing",
 		ArrangeInput: args.Map{
@@ -215,7 +215,7 @@ var covS07LengthOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"lengthOf": 0,
 		},
-	},
+	}
 	{
 		Title: "LengthOf returns 0 -- empty map",
 		ArrangeInput: args.Map{
@@ -225,7 +225,7 @@ var covS07LengthOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"lengthOf": 0,
 		},
-	},
+	}
 	{
 		Title: "LengthOfHashsetFromFirstChar returns count -- matching string",
 		ArrangeInput: args.Map{
@@ -235,7 +235,7 @@ var covS07LengthOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"lengthFromChar": 2,
 		},
-	},
+	}
 	{
 		Title: "LengthOfHashsetFromFirstChar returns 0 -- no match",
 		ArrangeInput: args.Map{
@@ -245,7 +245,7 @@ var covS07LengthOfTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"lengthFromChar": 0,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -262,7 +262,7 @@ var covS07AddTestCases = []coretestcases.CaseV1{
 			"has":    true,
 			"length": 1,
 		},
-	},
+	}
 	{
 		Title: "Add adds to existing group -- same first char",
 		ArrangeInput: args.Map{
@@ -272,7 +272,7 @@ var covS07AddTestCases = []coretestcases.CaseV1{
 			"allLengthsSum": 3,
 			"charGroups":    1,
 		},
-	},
+	}
 	{
 		Title: "AddStrings adds multiple items -- mixed chars",
 		ArrangeInput: args.Map{
@@ -282,7 +282,7 @@ var covS07AddTestCases = []coretestcases.CaseV1{
 			"allLengthsSum": 3,
 			"charGroups":    2,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -300,7 +300,7 @@ var covS07AddSameCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 3,
 		},
-	},
+	}
 	{
 		Title: "AddSameStartingCharItems creates new -- char missing",
 		ArrangeInput: args.Map{
@@ -311,7 +311,7 @@ var covS07AddSameCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 2,
 		},
-	},
+	}
 	{
 		Title: "AddSameStartingCharItems returns self -- empty items",
 		ArrangeInput: args.Map{
@@ -322,7 +322,7 @@ var covS07AddSameCharTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 1,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -339,7 +339,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": true,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns false -- different items",
 		ArrangeInput: args.Map{
@@ -349,7 +349,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": false,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns false -- nil other",
 		ArrangeInput: args.Map{
@@ -359,7 +359,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": false,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns true -- both empty",
 		ArrangeInput: args.Map{
@@ -369,7 +369,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": true,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns true -- same pointer",
 		ArrangeInput: args.Map{
@@ -379,7 +379,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": true,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns false -- one empty one not",
 		ArrangeInput: args.Map{
@@ -389,7 +389,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": false,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns false -- different lengths",
 		ArrangeInput: args.Map{
@@ -399,7 +399,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": false,
 		},
-	},
+	}
 	{
 		Title: "IsEquals returns false -- same length different keys",
 		ArrangeInput: args.Map{
@@ -409,7 +409,7 @@ var covS07IsEqualsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEquals": false,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -427,7 +427,7 @@ var covS07GetHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "GetHashset returns nil -- char missing no-add",
 		ArrangeInput: args.Map{
@@ -438,7 +438,7 @@ var covS07GetHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": false,
 		},
-	},
+	}
 	{
 		Title: "GetHashset creates new -- char missing with add",
 		ArrangeInput: args.Map{
@@ -449,7 +449,7 @@ var covS07GetHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -465,7 +465,7 @@ var covS07GetCharsGroupsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "GetCharsGroups returns grouped map -- multiple items",
 		ArrangeInput: args.Map{
@@ -474,7 +474,7 @@ var covS07GetCharsGroupsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hasItems": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -490,7 +490,7 @@ var covS07ListTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": 2,
 		},
-	},
+	}
 	{
 		Title: "SortedListAsc returns sorted ascending -- populated map",
 		ArrangeInput: args.Map{
@@ -500,7 +500,7 @@ var covS07ListTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"first": "apple",
 		},
-	},
+	}
 	{
 		Title: "SortedListDsc returns sorted descending -- populated map",
 		ArrangeInput: args.Map{
@@ -510,7 +510,7 @@ var covS07ListTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"first": "banana",
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -527,7 +527,7 @@ var covS07JsonTestCases = []coretestcases.CaseV1{
 			"hasBytes": true,
 			"hasError": false,
 		},
-	},
+	}
 	{
 		Title: "CharHashsetMap ParseInjectUsingJson round-trips -- valid json",
 		ArrangeInput: args.Map{
@@ -536,7 +536,7 @@ var covS07JsonTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"roundTrip": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -553,7 +553,7 @@ var covS07AddSameCharsCollTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 3,
 		},
-	},
+	}
 	{
 		Title: "AddSameCharsCollection returns existing -- char exists nil collection",
 		ArrangeInput: args.Map{
@@ -563,7 +563,7 @@ var covS07AddSameCharsCollTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 1,
 		},
-	},
+	}
 	{
 		Title: "AddSameCharsCollection creates new empty -- char missing nil collection",
 		ArrangeInput: args.Map{
@@ -574,7 +574,7 @@ var covS07AddSameCharsCollTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hsNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "AddSameCharsCollection assigns from collection -- char missing with data",
 		ArrangeInput: args.Map{
@@ -585,7 +585,7 @@ var covS07AddSameCharsCollTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 3,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -602,7 +602,7 @@ var covS07AddSameCharsHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 2,
 		},
-	},
+	}
 	{
 		Title: "AddSameCharsHashset returns existing -- char exists nil hashset",
 		ArrangeInput: args.Map{
@@ -612,7 +612,7 @@ var covS07AddSameCharsHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 1,
 		},
-	},
+	}
 	{
 		Title: "AddSameCharsHashset creates new -- char missing nil hashset",
 		ArrangeInput: args.Map{
@@ -623,7 +623,7 @@ var covS07AddSameCharsHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hsNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "AddSameCharsHashset assigns hashset -- char missing with data",
 		ArrangeInput: args.Map{
@@ -634,7 +634,7 @@ var covS07AddSameCharsHashsetTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 3,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -651,7 +651,7 @@ var covS07AddFromSourceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 2,
 		},
-	},
+	}
 	{
 		Title: "AddCollectionItems returns self -- nil collection",
 		ArrangeInput: args.Map{
@@ -660,7 +660,7 @@ var covS07AddFromSourceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 0,
 		},
-	},
+	}
 	{
 		Title: "AddCharCollectionMapItems adds from char coll map -- non-empty",
 		ArrangeInput: args.Map{
@@ -670,7 +670,7 @@ var covS07AddFromSourceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 2,
 		},
-	},
+	}
 	{
 		Title: "AddCharCollectionMapItems returns self -- nil map",
 		ArrangeInput: args.Map{
@@ -679,7 +679,7 @@ var covS07AddFromSourceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 0,
 		},
-	},
+	}
 	{
 		Title: "AddHashsetItems adds from hashset -- non-empty",
 		ArrangeInput: args.Map{
@@ -689,7 +689,7 @@ var covS07AddFromSourceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 2,
 		},
-	},
+	}
 	{
 		Title: "AddHashsetItems returns self -- empty hashset",
 		ArrangeInput: args.Map{
@@ -698,7 +698,7 @@ var covS07AddFromSourceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"allLengthsSum": 0,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -714,7 +714,7 @@ var covS07HashsetsCollTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hasItems": true,
 		},
-	},
+	}
 	{
 		Title: "HashsetsCollection returns empty -- empty map",
 		ArrangeInput: args.Map{
@@ -723,7 +723,7 @@ var covS07HashsetsCollTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hasItems": false,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -739,7 +739,7 @@ var covS07ClearTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEmpty": true,
 		},
-	},
+	}
 	{
 		Title: "RemoveAll clears all items -- populated map",
 		ArrangeInput: args.Map{
@@ -749,7 +749,7 @@ var covS07ClearTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEmpty": true,
 		},
-	},
+	}
 	{
 		Title: "Clear returns self -- empty map",
 		ArrangeInput: args.Map{
@@ -758,7 +758,7 @@ var covS07ClearTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEmpty": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -774,7 +774,7 @@ var covS07StringOutputTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hasOutput": true,
 		},
-	},
+	}
 	{
 		Title: "SummaryString returns summary -- populated map",
 		ArrangeInput: args.Map{
@@ -784,7 +784,7 @@ var covS07StringOutputTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"hasOutput": true,
 		},
-	},
+	}
 }
 
 // ============================================================
@@ -803,7 +803,7 @@ var covS07NewCreatorTestCases = []coretestcases.CaseV1{
 			"isNotNil": true,
 			"isEmpty":  true,
 		},
-	},
+	}
 	{
 		Title: "Cap applies minimum -- small caps",
 		ArrangeInput: args.Map{
@@ -814,7 +814,7 @@ var covS07NewCreatorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
-	},
+	}
 	{
 		Title: "CapItems returns populated map -- with items",
 		ArrangeInput: args.Map{
@@ -827,7 +827,7 @@ var covS07NewCreatorTestCases = []coretestcases.CaseV1{
 			"isNotNil": true,
 			"isEmpty":  false,
 		},
-	},
+	}
 	{
 		Title: "Strings returns populated map -- with items",
 		ArrangeInput: args.Map{
@@ -839,7 +839,7 @@ var covS07NewCreatorTestCases = []coretestcases.CaseV1{
 			"isNotNil": true,
 			"isEmpty":  false,
 		},
-	},
+	}
 	{
 		Title: "Strings returns empty map -- nil items",
 		ArrangeInput: args.Map{
@@ -850,5 +850,5 @@ var covS07NewCreatorTestCases = []coretestcases.CaseV1{
 			"isNotNil": true,
 			"isEmpty":  true,
 		},
-	},
+	}
 }

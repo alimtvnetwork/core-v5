@@ -706,7 +706,7 @@ func Test_Seg5_HM_AddsOrUpdatesAnyUsingFilter(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilter(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return pair.ValueString(), true, false
-			},
+			}
 			corestr.KeyAnyValuePair{Key: "a", Value: 1},
 		)
 		actual := args.Map{"len": h.Length()}
@@ -721,7 +721,7 @@ func Test_Seg5_HM_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilter(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return pair.ValueString(), true, true
-			},
+			}
 			corestr.KeyAnyValuePair{Key: "a", Value: 1},
 			corestr.KeyAnyValuePair{Key: "b", Value: 2},
 		)
@@ -747,7 +747,7 @@ func Test_Seg5_HM_AddsOrUpdatesAnyUsingFilterLock(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilterLock(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return pair.ValueString(), true, false
-			},
+			}
 			corestr.KeyAnyValuePair{Key: "a", Value: 1},
 		)
 		actual := args.Map{"len": h.Length()}
@@ -762,7 +762,7 @@ func Test_Seg5_HM_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
 		h.AddsOrUpdatesAnyUsingFilterLock(
 			func(pair corestr.KeyAnyValuePair) (string, bool, bool) {
 				return pair.ValueString(), true, true
-			},
+			}
 			corestr.KeyAnyValuePair{Key: "a", Value: 1},
 			corestr.KeyAnyValuePair{Key: "b", Value: 2},
 		)
@@ -778,7 +778,7 @@ func Test_Seg5_HM_AddsOrUpdatesUsingFilter(t *testing.T) {
 		h.AddsOrUpdatesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Value, true, false
-			},
+			}
 			corestr.KeyValuePair{Key: "a", Value: "1"},
 		)
 		actual := args.Map{"len": h.Length()}
@@ -803,7 +803,7 @@ func Test_Seg5_HM_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
 		h.AddsOrUpdatesUsingFilter(
 			func(pair corestr.KeyValuePair) (string, bool, bool) {
 				return pair.Value, true, true
-			},
+			}
 			corestr.KeyValuePair{Key: "a", Value: "1"},
 			corestr.KeyValuePair{Key: "b", Value: "2"},
 		)
