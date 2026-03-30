@@ -23,7 +23,7 @@ func Test_Cov4_ToUnsignedInt32_X32Branch_InRange(t *testing.T) {
 	defer func() { osconsts.IsX32Architecture = original }()
 
 	// Act
-	result := coremath.IntegerOutOfRange.ToUnsignedInt32(100)
+	result := coremath.IsOutOfRange.Integer.ToUnsignedInt32(100)
 
 	// Assert
 	convey.Convey("ToUnsignedInt32 returns false for in-range value on x32", t, func() {
@@ -38,7 +38,7 @@ func Test_Cov4_ToUnsignedInt32_X32Branch_Negative(t *testing.T) {
 	defer func() { osconsts.IsX32Architecture = original }()
 
 	// Act
-	result := coremath.IntegerOutOfRange.ToUnsignedInt32(-1)
+	result := coremath.IsOutOfRange.Integer.ToUnsignedInt32(-1)
 
 	// Assert
 	convey.Convey("ToUnsignedInt32 returns true for negative value on x32", t, func() {
