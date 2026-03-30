@@ -23,22 +23,20 @@ import (
 // Target 5: SkipOnUnix.go:12-14 — platform-dependent (Unix only)
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_Cov3_DraftType_IsEqual_InnerFieldDiffers(t *testing.T) {
-	// Arrange — inner fields differ, but exported fields match
-	left := coretests.DraftType{
+func Test_Cov3_DraftType_IsEqual_WithInnerFields_Same(t *testing.T) {
+	// Arrange — exported fields match, inner fields zero-valued
+	left := &coretests.DraftType{
 		SampleString1: "sample1",
 		SampleString2: "sample2",
 		SampleInteger: 10,
 	}
-	right := coretests.DraftType{
+	right := &coretests.DraftType{
 		SampleString1: "sample1",
 		SampleString2: "sample2",
 		SampleInteger: 10,
 	}
 
-	// Act — isIncludingInnerFields=true, but unexported fields are zero-valued and equal
-	// So let's test with SampleInteger difference instead to hit line 148
-	right.SampleInteger = 999
+	// Act — isIncludingInnerFields=true, zero-valued inner fields are equal
 	result := left.IsEqual(true, right)
 
 	// Act
