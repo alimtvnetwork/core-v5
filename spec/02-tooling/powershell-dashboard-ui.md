@@ -636,3 +636,245 @@ Write-Dashboard $dashboardData
 | Coverage Run       | ✓  | ✗  | TC-only actual test execution            |
 | Coverage Report    | ✓  | ✗  | TC-only merge + HTML generation          |
 
+
+---
+
+## 13. Theme Variants (Dark / Light) with Auto-Detection
+
+### 13.1 Theme Detection Strategy
+
+PowerShell has no native API to read terminal background color. Use a layered detection approach:
+
+```powershell
+function Get-TerminalTheme {
+    # Priority 1: Explicit override via environment variable
+    if ($env:DASHBOARD_THEME) {
+        return $env:DASHBOARD_THEME.ToLower()  # "dark" or "light"
+    }
+
+    # Priority 2: Windows Terminal settings JSON
+    if ($env:WT_SESSION) {
+        $wtSettings = Join-Path $env:LOCALAPPDATA "Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+        if (Test-Path $wtSettings) {
+            try {
+                $json = Get-Content $wtSettings -Raw | ConvertFrom-Json
+                $schemeName = $json.profiles.defaults.colorScheme
+                if (-not $schemeName) {
+                    $schemeName = $json.profiles.list |
+                        Where-Object { $_.guid -eq $json.defaultProfile } |
+                        Select-Object -ExpandProperty colorScheme -ErrorAction SilentlyContinue
+                }
+                if ($schemeName) {
+                    $scheme = $json.schemes | Where-Object { $_.name -eq $schemeName }
+                    if ($scheme -and $scheme.background) {
+                        $bg = $scheme.background -replace '^#', ''
+                        $r = [convert]::ToInt32($bg.Substring(0,2), 16)
+                        $g = [convert]::ToInt32($bg.Substring(2,2), 16)
+                        $b = [convert]::ToInt32($bg.Substring(4,2), 16)
+                        # Relative luminance (ITU-R BT.709)
+                        $luminance = (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) / 255
+                        return if ($luminance -lt 0.5) { "dark" } else { "light" }
+                    }
+                }
+            } catch { }
+        }
+    }
+
+    # Priority 3: macOS/Linux — query terminal via OSC 11 (background color query)
+    if ($IsLinux -or $IsMacOS) {
+        try {
+            $sttyOld = stty -g 2>/dev/null
+            stty raw -echo min 0 time 1 2>/dev/null
+            [Console]::Write("$([char]27)]11;?$([char]27)\")
+            Start-Sleep -Milliseconds 100
+            $response = ""
+            while ([Console]::KeyAvailable) {
+                $response += [char][Console]::Read()
+            }
+            stty $sttyOld 2>/dev/null
+            # Response format: ESC]11;rgb:RRRR/GGGG/BBBB ESC\
+            if ($response -match 'rgb:([0-9a-f]{2,4})/([0-9a-f]{2,4})/([0-9a-f]{2,4})') {
+                $r = [convert]::ToInt32($Matches[1].Substring(0,2), 16)
+                $g = [convert]::ToInt32($Matches[2].Substring(0,2), 16)
+                $b = [convert]::ToInt32($Matches[3].Substring(0,2), 16)
+                $luminance = (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) / 255
+                return if ($luminance -lt 0.5) { "dark" } else { "light" }
+            }
+        } catch { }
+    }
+
+    # Priority 4: PowerShell host background heuristic
+    try {
+        $bg = $Host.UI.RawUI.BackgroundColor
+        $lightBgs = @("White", "Gray", "Yellow", "Cyan")
+        if ($bg -in $lightBgs) { return "light" }
+    } catch { }
+
+    # Default: dark (most developer terminals are dark)
+    return "dark"
+}
+```
+
+**Detection priority order:**
+1. `$env:DASHBOARD_THEME` — explicit user override (`dark` or `light`)
+2. Windows Terminal `settings.json` — parse active color scheme background
+3. OSC 11 query — terminal-standard background color query (macOS/Linux)
+4. `$Host.UI.RawUI.BackgroundColor` — PowerShell host fallback
+5. Default to `dark`
+
+### 13.2 Color Palettes by Theme
+
+#### Dark Theme (default — designed for dark terminal backgrounds)
+
+This is the palette defined in §2.1. No changes needed.
+
+| Token        | RGB             | Hex       | Rationale                         |
+|--------------|-----------------|-----------|-----------------------------------|
+| `$cLime`     | `163, 230, 53`  | `#a3e635` | High contrast on dark bg          |
+| `$cRed`      | `244, 63, 94`   | `#f43f5e` | Bright, urgent on dark bg         |
+| `$cPurple`   | `168, 85, 247`  | `#a855f7` | Vibrant on dark bg                |
+| `$cCyan`     | `6, 182, 212`   | `#06b6d4` | Clear info tone                   |
+| `$cYellow`   | `250, 204, 21`  | `#facc15` | Bright warning                    |
+| `$cMuted`    | `156, 163, 175` | `#9ca3af` | Subtle but readable on dark       |
+| `$cWhite`    | `255, 255, 255` | `#ffffff` | Maximum contrast on dark          |
+| `$cBarEmpty` | `100, 100, 100` | `#646464` | Dim but visible on dark           |
+| `$cBorder`   | `156, 163, 175` | `#9ca3af` | Same as muted (box-drawing chars) |
+
+#### Light Theme (designed for white/light terminal backgrounds)
+
+| Token        | RGB             | Hex       | Rationale                         |
+|--------------|-----------------|-----------|-----------------------------------|
+| `$cLime`     | `22, 163, 74`   | `#16a34a` | Darker green, readable on white   |
+| `$cRed`      | `185, 28, 28`   | `#b91c1c` | Deep red, not washed out          |
+| `$cPurple`   | `109, 40, 217`  | `#6d28d9` | Saturated purple on light bg      |
+| `$cCyan`     | `14, 116, 144`  | `#0e7490` | Teal, strong on white             |
+| `$cYellow`   | `161, 98, 7`    | `#a16207` | Amber/brown — yellow is invisible on white |
+| `$cMuted`    | `107, 114, 128` | `#6b7280` | Medium gray, visible on white     |
+| `$cWhite`    | `15, 23, 42`    | `#0f172a` | Near-black for text on light bg   |
+| `$cBarEmpty` | `209, 213, 219` | `#d1d5db` | Light gray, subtle on white       |
+| `$cBorder`   | `156, 163, 175` | `#9ca3af` | Medium gray borders               |
+
+**Key differences:**
+- `$cWhite` becomes near-black (it's the "primary text" token, not literal white)
+- `$cYellow` shifts to amber — pure yellow is invisible on white backgrounds
+- `$cLime` darkens significantly — neon green washes out on light
+- `$cBarEmpty` lightens — dark empty blocks are too prominent on light backgrounds
+
+### 13.3 Theme Initialization (Copy-Paste Block)
+
+```powershell
+$ESC    = [char]27
+$cReset = "$ESC[0m"
+$cBold  = "$ESC[1m"
+$cDim   = "$ESC[2m"
+
+$global:DashboardTheme = Get-TerminalTheme
+
+function Set-ThemeColors {
+    param([string]$Theme)
+
+    if ($Theme -eq "light") {
+        $script:cLime   = "$ESC[38;2;22;163;74m"
+        $script:cRed    = "$ESC[38;2;185;28;28m"
+        $script:cPurple = "$ESC[38;2;109;40;217m"
+        $script:cCyan   = "$ESC[38;2;14;116;144m"
+        $script:cYellow = "$ESC[38;2;161;98;7m"
+        $script:cMuted  = "$ESC[38;2;107;114;128m"
+        $script:cWhite  = "$ESC[38;2;15;23;42m"
+        $script:cBarE   = "$ESC[38;2;209;213;219m"
+        $script:cBorder = "$ESC[38;2;156;163;175m"
+    } else {
+        $script:cLime   = "$ESC[38;2;163;230;53m"
+        $script:cRed    = "$ESC[38;2;244;63;94m"
+        $script:cPurple = "$ESC[38;2;168;85;247m"
+        $script:cCyan   = "$ESC[38;2;6;182;212m"
+        $script:cYellow = "$ESC[38;2;250;204;21m"
+        $script:cMuted  = "$ESC[38;2;156;163;175m"
+        $script:cWhite  = "$ESC[38;2;255;255;255m"
+        $script:cBarE   = "$ESC[38;2;100;100;100m"
+        $script:cBorder = "$ESC[38;2;156;163;175m"
+    }
+}
+
+Set-ThemeColors $global:DashboardTheme
+```
+
+### 13.4 Overriding the Theme
+
+Users can force a theme via environment variable before running:
+
+```powershell
+# Force light theme
+$env:DASHBOARD_THEME = "light"
+./run.ps1 TC
+
+# Force dark theme
+$env:DASHBOARD_THEME = "dark"
+./run.ps1 PC
+
+# Or inline (PowerShell 7+)
+$env:DASHBOARD_THEME = "light"; ./run.ps1 TC
+```
+
+Or via a `--theme` flag if added to `run.ps1`:
+
+```powershell
+# In run.ps1 arg parsing
+if ($ExtraArgs -contains '--light') { $env:DASHBOARD_THEME = "light" }
+if ($ExtraArgs -contains '--dark')  { $env:DASHBOARD_THEME = "dark" }
+```
+
+### 13.5 Component Rendering Rules by Theme
+
+All rendering functions (§5, §6, §12) use the `$cXxx` variables — they are **never hardcoded** to specific RGB values. This means all components automatically adapt when `Set-ThemeColors` is called.
+
+Special per-theme rules:
+
+| Component            | Dark Theme                    | Light Theme                      |
+|----------------------|-------------------------------|----------------------------------|
+| Box borders (`║═`)   | `$cBorder` (gray)             | `$cBorder` (gray) — same        |
+| Progress bar filled  | `$cLime` (neon green `█`)     | `$cLime` (forest green `█`)     |
+| Progress bar empty   | `$cBarE` (dark gray `▒`)      | `$cBarE` (light gray `▒`)       |
+| Primary text         | `$cWhite` (white)             | `$cWhite` (near-black)          |
+| Error text           | `$cRed` (bright pink-red)     | `$cRed` (deep red)              |
+| Warning labels       | `$cYellow` (bright yellow)    | `$cYellow` (amber)              |
+| Footer tagline       | `$cLime` + `$cBold`           | `$cLime` + `$cBold`             |
+
+### 13.6 Testing Themes
+
+To visually verify both themes, add a test function:
+
+```powershell
+function Test-DashboardTheme {
+    foreach ($theme in @("dark", "light")) {
+        Set-ThemeColors $theme
+        Write-Host ""
+        Write-Host "${cBold}=== Theme: $theme ===${cReset}"
+        Write-Host "  ${cLime}✓ Success / Lime${cReset}"
+        Write-Host "  ${cRed}✗ Error / Red${cReset}"
+        Write-Host "  ${cPurple}● Purple / Todo${cReset}"
+        Write-Host "  ${cCyan}▶ Cyan / Info${cReset}"
+        Write-Host "  ${cYellow}⚠ Yellow / Warning${cReset}"
+        Write-Host "  ${cMuted}Muted text${cReset}"
+        Write-Host "  ${cWhite}Primary text${cReset}"
+        Write-Host "  Bar: $(Get-ProgressBar -Score 73)"
+        Write-Host ""
+    }
+    # Restore actual theme
+    Set-ThemeColors $global:DashboardTheme
+}
+```
+
+### 13.7 Luminance Formula Reference
+
+Used in detection (§13.1) and available for custom threshold tuning:
+
+```
+Relative Luminance (ITU-R BT.709):
+  L = (0.2126 × R + 0.7152 × G + 0.0722 × B) / 255
+
+  L < 0.5 → dark background → use dark theme
+  L ≥ 0.5 → light background → use light theme
+```
+
+Threshold can be adjusted. `0.5` works for most terminals. Lower values (e.g., `0.4`) bias toward dark detection.
