@@ -996,7 +996,13 @@ function Invoke-TestCoverage {
             Write-Host ""
             Write-Success "Recovered $splitRecoveredCount subfolders from blocked packages via per-file split"
         }
-    }
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+            Register-Phase "Split Recovery" "pass" "$splitRecoveredCount subfolders recovered"
+        }
+    } else {
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+            Register-Phase "Split Recovery" "skip" "not needed"
+        }
 
     # Print blocked summary
     if ($blockedPkgs.Count -gt 0) {
