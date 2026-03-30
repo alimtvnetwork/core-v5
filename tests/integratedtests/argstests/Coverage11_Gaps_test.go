@@ -532,7 +532,7 @@ func Test_Cov11_FuncDetector_GetFuncWrap_Map(t *testing.T) {
 	}
 
 	// Act
-	result := args.FuncDetect.GetFuncWrap(m)
+	result := args.FuncDetector.GetFuncWrap(m)
 
 	// Assert
 	convey.Convey("FuncDetector.GetFuncWrap handles Map input", t, func() {
