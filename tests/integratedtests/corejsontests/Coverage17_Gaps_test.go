@@ -236,7 +236,7 @@ func Test_Cov17_ResultsPtrCollection_UnmarshalAtSafe_NilResult(t *testing.T) {
 	var target string
 
 	// Act
-	err := coll.UnmarshalAtSafe(0, &target)
+	err := coll.UnmarshalAt(0, &target)
 
 	// Assert
 	convey.Convey("ResultsPtrCollection.UnmarshalAtSafe works for valid data", t, func() {
