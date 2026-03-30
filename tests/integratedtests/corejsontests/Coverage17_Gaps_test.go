@@ -250,7 +250,7 @@ func Test_Cov17_MapResults_UnmarshalMany_Error(t *testing.T) {
 	// Arrange
 	mr := corejson.NewMapResults.Empty()
 	r := corejson.New("test-value")
-	mr.Add("key1", &r)
+	mr.Add("key1", r)
 
 	// Act — unmarshal into incompatible type
 	var target int
