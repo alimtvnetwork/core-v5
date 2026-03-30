@@ -611,13 +611,24 @@ function Invoke-PackageTests([string]$pkg) {
 
 function Invoke-TestCoverage {
     Write-Header "Running tests with coverage"
+
+    # Reset phase tracker for this run
+    if (Get-Command Reset-Phases -ErrorAction SilentlyContinue) { Reset-Phases }
+
     Invoke-FetchLatest
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+        Register-Phase "Git Pull" "pass" "pulled from remote"
+        Register-Phase "Dependencies" "pass" "up to date"
+    }
 
     # Clean data folder before running tests
     $dataDir = Join-Path $PSScriptRoot "data"
     if (Test-Path $dataDir) {
         Remove-Item -Recurse -Force $dataDir
         Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
+    }
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+        Register-Phase "Data Cleanup" "pass" "cleaned"
     }
 
     $coverDir = Join-Path $PSScriptRoot "data" "coverage"
@@ -664,18 +675,22 @@ function Invoke-TestCoverage {
         Write-Host "  Running safeTest boundary + empty-if lint check..." -ForegroundColor Yellow
         & $boundaryScript
         if ($LASTEXITCODE -ne 0) {
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "SafeTest Lint" "fail" "boundary check failed" }
             Write-Fail "safeTest boundary check failed. Fix reported issues before TC."
             exit 1
         }
     }
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "SafeTest Lint" "pass" "all clean" }
 
     # ── Go auto-fixer ─────────────────────────────────────────────────
     $skipAutofix = $ExtraArgs -and ($ExtraArgs -contains '--no-autofix')
     $skipBrace = $ExtraArgs -and ($ExtraArgs -contains '--skip-bracecheck')
     if ($skipBrace) {
         Write-Host "  Skipping Go auto-fixer and syntax pre-check (--skip-bracecheck)" -ForegroundColor DarkYellow
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "skip" "skipped (--skip-bracecheck)" }
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "skip" "skipped (--no-autofix)" }
     } else {
         $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
         $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
@@ -686,24 +701,30 @@ function Invoke-TestCoverage {
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "warn" "errors encountered" }
         } else {
             $fixStr = ($fixOut | Out-String).Trim()
             if ($fixStr) { Write-Success $fixStr }
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "pass" "no fixable issues" }
         }
     }
 
     # ── Go syntax pre-check (bracecheck) ──────────────────────────────
     if ($skipBrace) {
         # already logged above
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "skip" "skipped (--skip-bracecheck)" }
     } else {
         Write-Host "  Running Go syntax pre-check (bracecheck)..." -ForegroundColor Yellow
         $braceOut = & go run ./scripts/bracecheck/ 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($braceOut | Out-String) -ForegroundColor Red
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "fail" "bracecheck failed" }
             Write-Fail "Go syntax check failed. Fix reported issues before TC."
             exit 1
         } else {
-            Write-Success ($braceOut | Out-String).Trim()
+            $braceStr2 = ($braceOut | Out-String).Trim()
+            Write-Success $braceStr2
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "pass" $braceStr2 }
         }
 
         # ── Write syntax-issues.txt report ────────────────────────────
@@ -975,7 +996,13 @@ function Invoke-TestCoverage {
             Write-Host ""
             Write-Success "Recovered $splitRecoveredCount subfolders from blocked packages via per-file split"
         }
-    }
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+            Register-Phase "Split Recovery" "pass" "$splitRecoveredCount subfolders recovered"
+        }
+    } else {
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+            Register-Phase "Split Recovery" "skip" "not needed"
+        }
 
     # Print blocked summary
     if ($blockedPkgs.Count -gt 0) {
@@ -1074,9 +1101,17 @@ function Invoke-TestCoverage {
         Write-Host ""
         Write-Success "All $($testPkgs.Count) packages compiled successfully"
     }
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+        if ($blockedPkgs.Count -gt 0) {
+            Register-Phase "Compile Check" "warn" "$($testPkgs.Count)/$($allTestPkgs.Count) passed, $($blockedPkgs.Count) blocked"
+        } else {
+            Register-Phase "Compile Check" "pass" "$($testPkgs.Count)/$($allTestPkgs.Count) passed"
+        }
+    }
 
     if ($testPkgs.Count -eq 0) {
         Write-Fail "No packages compiled — aborting coverage run"
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Coverage Run" "fail" "no packages to run" }
         return
     }
 
@@ -1836,6 +1871,12 @@ function copyForAI(){
     }
     Open-FailingTestsIfAny
 
+    # Register coverage phases
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+        Register-Phase "Coverage Run" "pass" "$($testPkgs.Count) packages"
+        Register-Phase "Coverage Report" "pass" "generated"
+    }
+
     # ── Cleanup split subfolders ──
     if ($splitCleanupDirs.Count -gt 0) {
         Write-Host ""
@@ -1846,6 +1887,12 @@ function copyForAI(){
             }
         }
         Write-Host "  ✓ Split subfolders removed" -ForegroundColor Green
+    }
+
+    # ── Dashboard Phase Summary ──
+    if (Get-Command Write-PhaseSummaryBox -ErrorAction SilentlyContinue) {
+        Write-Host ""
+        Write-PhaseSummaryBox
     }
 }
 
@@ -2144,6 +2191,9 @@ function Invoke-GoConvey {
 function Invoke-PreCommitCheck {
     param([string]$singlePkg)
 
+    # Reset phase tracker for this run
+    if (Get-Command Reset-Phases -ErrorAction SilentlyContinue) { Reset-Phases }
+
     Write-Header "Pre-commit API mismatch checker"
 
     $isSyncMode = $false
@@ -2169,9 +2219,11 @@ function Invoke-PreCommitCheck {
     }
 
     if ($LASTEXITCODE -ne 0) {
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Regression Guard" "fail" "regressions detected" }
         Write-Fail "Regression guard failed. Fix reported issues before PC."
         exit 1
     }
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Regression Guard" "pass" "no regressions" }
 
     # safeTest boundary + empty-if lint check
     $boundaryScript = Join-Path $PSScriptRoot "scripts" "check-safetest-boundaries.ps1"
@@ -2179,18 +2231,26 @@ function Invoke-PreCommitCheck {
         Write-Host "  Running safeTest boundary + empty-if lint check..." -ForegroundColor Yellow
         & $boundaryScript
         if ($LASTEXITCODE -ne 0) {
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "SafeTest Lint" "fail" "boundary check failed" }
             Write-Fail "safeTest boundary check failed. Fix reported issues before PC."
             exit 1
         }
     }
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "SafeTest Lint" "pass" "all clean" }
 
     # ── Go auto-fixer ─────────────────────────────────────────────────
     $skipAutofix = $ExtraArgs -and ($ExtraArgs -contains '--no-autofix')
     $skipBrace = $ExtraArgs -and ($ExtraArgs -contains '--skip-bracecheck')
     if ($skipBrace) {
         Write-Host "  Skipping Go auto-fixer and syntax pre-check (--skip-bracecheck)" -ForegroundColor DarkYellow
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+            Register-Phase "Auto-Fixer" "skip" "skipped (--skip-bracecheck)"
+        }
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+            Register-Phase "Auto-Fixer" "skip" "skipped (--no-autofix)"
+        }
     } else {
         $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
         $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
@@ -2201,24 +2261,30 @@ function Invoke-PreCommitCheck {
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "warn" "errors encountered" }
         } else {
             $fixStr = ($fixOut | Out-String).Trim()
             if ($fixStr) { Write-Success $fixStr }
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "pass" "no fixable issues" }
         }
     }
 
     # ── Go syntax pre-check (bracecheck) ──────────────────────────────
     if ($skipBrace) {
         # already logged above
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "skip" "skipped" }
     } else {
         Write-Host "  Running Go syntax pre-check (bracecheck)..." -ForegroundColor Yellow
         $braceOut = & go run ./scripts/bracecheck/ 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($braceOut | Out-String) -ForegroundColor Red
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "fail" "bracecheck failed" }
             Write-Fail "Go syntax check failed. Fix reported issues before PC."
             exit 1
         } else {
-            Write-Success ($braceOut | Out-String).Trim()
+            $braceStr3 = ($braceOut | Out-String).Trim()
+            Write-Success $braceStr3
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "pass" $braceStr3 }
         }
 
         # ── Write syntax-issues.txt report ────────────────────────────
@@ -2419,6 +2485,21 @@ function Invoke-PreCommitCheck {
     $jsonPath = Join-Path $compileTemp "api-check.json"
     $jsonReport | ConvertTo-Json -Depth 5 | Set-Content -Path $jsonPath -Encoding UTF8
     Write-Host "  Report → $jsonPath" -ForegroundColor Gray
+
+    # Register compile check phase
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+        if ($allPassed) {
+            Register-Phase "API Compile Check" "pass" "$passedCount/$($goTestPkgs.Count) passed"
+        } else {
+            Register-Phase "API Compile Check" "fail" "$($failures.Count) failed, $passedCount passed"
+        }
+    }
+
+    # ── Dashboard Phase Summary ──
+    if (Get-Command Write-PhaseSummaryBox -ErrorAction SilentlyContinue) {
+        Write-Host ""
+        Write-PhaseSummaryBox
+    }
 
     if (-not $allPassed) { exit 1 }
 }
