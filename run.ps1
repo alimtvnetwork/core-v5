@@ -687,8 +687,10 @@ function Invoke-TestCoverage {
     $skipBrace = $ExtraArgs -and ($ExtraArgs -contains '--skip-bracecheck')
     if ($skipBrace) {
         Write-Host "  Skipping Go auto-fixer and syntax pre-check (--skip-bracecheck)" -ForegroundColor DarkYellow
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "skip" "skipped (--skip-bracecheck)" }
     } elseif ($skipAutofix) {
         Write-Host "  Skipping Go auto-fixer (--no-autofix)" -ForegroundColor DarkYellow
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "skip" "skipped (--no-autofix)" }
     } else {
         $dryRunFlag = if ($ExtraArgs -and ($ExtraArgs -contains '--dry-run')) { '--dry-run' } else { $null }
         $dryLabel = if ($dryRunFlag) { " (dry-run)" } else { "" }
@@ -699,9 +701,11 @@ function Invoke-TestCoverage {
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "warn" "errors encountered" }
         } else {
             $fixStr = ($fixOut | Out-String).Trim()
             if ($fixStr) { Write-Success $fixStr }
+            if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "pass" "no fixable issues" }
         }
     }
 
