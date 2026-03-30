@@ -1870,7 +1870,6 @@ function copyForAI(){
             Start-Process $coverHtml
         }
     }
-    }
     Open-FailingTestsIfAny
 
     # Register coverage phases
