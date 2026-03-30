@@ -1101,9 +1101,17 @@ function Invoke-TestCoverage {
         Write-Host ""
         Write-Success "All $($testPkgs.Count) packages compiled successfully"
     }
+    if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+        if ($blockedPkgs.Count -gt 0) {
+            Register-Phase "Compile Check" "warn" "$($testPkgs.Count)/$($allTestPkgs.Count) passed, $($blockedPkgs.Count) blocked"
+        } else {
+            Register-Phase "Compile Check" "pass" "$($testPkgs.Count)/$($allTestPkgs.Count) passed"
+        }
+    }
 
     if ($testPkgs.Count -eq 0) {
         Write-Fail "No packages compiled — aborting coverage run"
+        if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Coverage Run" "fail" "no packages to run" }
         return
     }
 
