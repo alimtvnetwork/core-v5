@@ -70,7 +70,7 @@ func Test_Cov15_HandleFullStringsWithTracesGetter_NilError(t *testing.T) {
 
 func Test_Cov15_RawErrCollection_CompiledJsonStringWithStackTraces_Empty(t *testing.T) {
 	// Arrange
-	coll := errcore.NewRawErrCollection.Empty()
+	coll := &errcore.RawErrCollection{}
 
 	// Act
 	result := coll.CompiledJsonStringWithStackTraces()
