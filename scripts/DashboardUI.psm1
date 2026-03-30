@@ -919,6 +919,9 @@ Export-ModuleMember -Function @(
     'Write-PhaseEnd'
     'Write-PhaseSummaryBox'
 
+    # Coverage table
+    'Write-CoverageTable'
+
     # Composite
     'Write-Dashboard'
 
