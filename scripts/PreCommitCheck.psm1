@@ -109,7 +109,7 @@ function Invoke-PreCommitCheck {
             Write-Fail "Go auto-fixer encountered errors."
             if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "warn" "errors encountered" }
         } else {
-            $fixStr = ($fixOut | Out-String).Trim()
+            $fixStr = ($fixOut | Out-String).Trim() -replace '^\s*✓\s*', ''
             if ($fixStr) { Write-Success $fixStr }
             if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "pass" "no fixable issues" }
         }
