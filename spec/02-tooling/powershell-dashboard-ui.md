@@ -1153,7 +1153,7 @@ Phase statuses map to design tokens as defined in §8:
 
 ## 17. Error-Guarding Pattern (Module Availability)
 
-`run.ps1` is designed to function correctly even when `DashboardUI.psm1` is not loaded (e.g., missing file, import failure, minimal environments). Every call to a DashboardUI function is wrapped in a guard that silently skips the call if the function is unavailable.
+All modules in `scripts/` are designed to function correctly even when `DashboardUI.psm1` is not loaded. Every call to a DashboardUI function is wrapped in a guard that silently skips the call if the function is unavailable. The `run.ps1` dispatcher imports all modules but none are mandatory — missing modules simply disable the commands that depend on them.
 
 ### 17.1 Guard Pattern
 
