@@ -48,7 +48,7 @@ function Write-CoverageTable {
     Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$("AVERAGE".PadRight($pkgCol))$($script:cReset) $($script:cWhite)$($script:cBold)$(("{0:F1}%" -f $avgCoverage).PadLeft($pctCol))$($script:cReset)  $summaryBar  $($script:cMuted)$("$($sorted.Count)".PadLeft($testCol))$($script:cReset)" -Width $w
     $countText = "$($script:cLime)$at100Count$($script:cReset)$($script:cMuted) at 100%$($script:cReset)  $($script:cYellow)$below100Count$($script:cReset)$($script:cMuted) below$($script:cReset)"
     $countPad = ''.PadRight($pkgCol)
-    Write-BoxLine -Content "$countPad$countText" -Width $w -VisualLength ($pkgCol + 20)
+    Write-BoxLine -Content "$countPad$countText" -Width $w
     if ($ShowTarget) {
         $targetText = "$($script:cLime)$($script:cBold)100.0%$($script:cReset)$($script:cMuted) (non-internal packages)$($script:cReset)"
         Write-BoxLine -Content "$($script:cWhite)$("TARGET".PadRight($pkgCol))$($script:cReset)$targetText" -Width $w -VisualLength ($pkgCol + 30)
