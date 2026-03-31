@@ -45,7 +45,7 @@ function Write-CoverageTable {
     Write-BoxEmptyLine -Width $w; Write-BoxDivider -Width $w; Write-BoxEmptyLine -Width $w
     $avgCoverage = if ($sorted.Count -gt 0) { $totalCoverage / $sorted.Count } else { 0 }
     $summaryBar = Get-ProgressBar -Score ([int][math]::Round($avgCoverage)) -BarWidth $BarWidth
-    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$("AVERAGE".PadRight($pkgCol))$($script:cReset) $($script:cWhite)$($script:cBold)$(("{0:F1}%" -f $avgCoverage).PadLeft($pctCol))$($script:cReset)  $summaryBar  $($script:cMuted)$("$($sorted.Count)".PadLeft($testCol))$($script:cReset)" -Width $w -VisualLength $hdrVisLen
+    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$("AVERAGE".PadRight($pkgCol))$($script:cReset) $($script:cWhite)$($script:cBold)$(("{0:F1}%" -f $avgCoverage).PadLeft($pctCol))$($script:cReset)  $summaryBar  $($script:cMuted)$("$($sorted.Count)".PadLeft($testCol))$($script:cReset)" -Width $w
     $countText = "$($script:cLime)$at100Count$($script:cReset)$($script:cMuted) at 100%$($script:cReset)  $($script:cYellow)$below100Count$($script:cReset)$($script:cMuted) below$($script:cReset)"
     $countPad = ''.PadRight($pkgCol)
     Write-BoxLine -Content "$countPad$countText" -Width $w -VisualLength ($pkgCol + 20)
