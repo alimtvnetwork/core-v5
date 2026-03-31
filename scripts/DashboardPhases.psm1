@@ -110,29 +110,30 @@ function Write-PhaseSummaryBox {
 
         $label = $key.PadRight($phaseLabelWidth)
         $iconW = Get-IconVisualWidth $status
-        $visLen = 1 + $iconW + 1 + $phaseLabelWidth + $detail.Length
+        $visLen = $iconW + 1 + $phaseLabelWidth + $detail.Length
         Write-BoxLine -Content "$icon $($script:cWhite)$label$($script:cReset)$($script:cMuted)$detail$($script:cReset)" -Width $w -VisualLength $visLen
     }
 
     Write-BoxEmptyLine -Width $w; Write-BoxDivider -Width $w; Write-BoxEmptyLine -Width $w
 
     $total = $Phases.Count
-    $phasesLabel = "PHASES".PadRight($phaseLabelWidth - 6)
+    $phasesLabel = "PHASES".PadRight($phaseLabelWidth)
     $phasesVal = "$passCount/$total passed"
-    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$phasesLabel$($script:cReset) $($script:cWhite)$phasesVal$($script:cReset)" -Width $w -VisualLength (1 + $phasesLabel.Length + $phasesVal.Length)
+    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$phasesLabel$($script:cReset)$($script:cWhite)$phasesVal$($script:cReset)" -Width $w -VisualLength ($phasesLabel.Length + $phasesVal.Length)
 
-    $statusLabel = "STATUS".PadRight($phasesLabel.Length)
+    $statusLabel = "STATUS".PadRight($phaseLabelWidth)
     if ($failCount -gt 0) {
         $statusIcon = "$($script:cRed)✗$($script:cReset)"; $statusText = "$($script:cRed)BLOCKED$($script:cReset)"
-        $statusVisTextLen = 1 + 1 + "BLOCKED".Length
+        $statusIconW = 1
     } elseif ($warnCount -gt 0) {
         $statusIcon = "$($script:cYellow)⚠$($script:cReset)"; $statusText = "$($script:cYellow)REVIEW$($script:cReset)"
-        $statusVisTextLen = 2 + 1 + "REVIEW".Length
+        $statusIconW = 2
     } else {
         $statusIcon = "$($script:cLime)✓$($script:cReset)"; $statusText = "$($script:cLime)READY TO COMMIT$($script:cReset)"
-        $statusVisTextLen = 1 + 1 + "READY TO COMMIT".Length
+        $statusIconW = 1
     }
-    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$statusLabel$($script:cReset) $statusIcon $statusText" -Width $w -VisualLength (1 + $statusLabel.Length + 1 + $statusVisTextLen)
+    $statusTextPlain = if ($failCount -gt 0) { "BLOCKED" } elseif ($warnCount -gt 0) { "REVIEW" } else { "READY TO COMMIT" }
+    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$statusLabel$($script:cReset)$statusIcon $statusText" -Width $w -VisualLength ($statusLabel.Length + $statusIconW + 1 + $statusTextPlain.Length)
 
     Write-BoxEmptyLine -Width $w
     Write-BoxBottom -Width $w
