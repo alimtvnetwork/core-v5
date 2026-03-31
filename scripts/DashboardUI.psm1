@@ -478,6 +478,20 @@ function Reset-Phases {
     $script:Phases = [ordered]@{}
 }
 
+function Get-IconVisualWidth {
+    <#
+    .SYNOPSIS
+        Returns the terminal column width of a phase icon character.
+        ⚠ (U+26A0) is typically rendered as 2 columns in most terminals;
+        all other icons (✓ ✗ ⊘ ?) are 1 column.
+    #>
+    [CmdletBinding()]
+    [OutputType([int])]
+    param([string]$Status)
+
+    if ($Status -eq "warn") { return 2 } else { return 1 }
+}
+
 function Get-PhaseIcon {
     [CmdletBinding()]
     [OutputType([string])]
@@ -565,7 +579,8 @@ function Write-PhaseSummaryBox {
         }
 
         $label = $key.PadRight($phaseLabelWidth)
-        $visLen = 1 + 2 + $phaseLabelWidth + $detail.Length  # "║ ✓ label detail"
+        $iconW = Get-IconVisualWidth $status
+        $visLen = 1 + $iconW + 1 + $phaseLabelWidth + $detail.Length  # "║ icon space label detail"
         Write-BoxLine -Content "$icon $($script:cWhite)$label$($script:cReset)$($script:cMuted)$detail$($script:cReset)" -Width $w -VisualLength $visLen
     }
 
@@ -585,17 +600,20 @@ function Write-PhaseSummaryBox {
     if ($failCount -gt 0) {
         $statusIcon = "$($script:cRed)✗$($script:cReset)"
         $statusText = "$($script:cRed)BLOCKED$($script:cReset)"
-        $statusVisText = "✗ BLOCKED"
+        $statusIconW = 1
+        $statusVisTextLen = $statusIconW + 1 + "BLOCKED".Length  # "✗ BLOCKED"
     } elseif ($warnCount -gt 0) {
         $statusIcon = "$($script:cYellow)⚠$($script:cReset)"
         $statusText = "$($script:cYellow)REVIEW$($script:cReset)"
-        $statusVisText = "⚠ REVIEW"
+        $statusIconW = 2  # ⚠ is 2 columns wide
+        $statusVisTextLen = $statusIconW + 1 + "REVIEW".Length  # "⚠ REVIEW"
     } else {
         $statusIcon = "$($script:cLime)✓$($script:cReset)"
         $statusText = "$($script:cLime)READY TO COMMIT$($script:cReset)"
-        $statusVisText = "✓ READY TO COMMIT"
+        $statusIconW = 1
+        $statusVisTextLen = $statusIconW + 1 + "READY TO COMMIT".Length  # "✓ READY TO COMMIT"
     }
-    $visLen = 1 + $statusLabel.Length + 1 + $statusVisText.Length
+    $visLen = 1 + $statusLabel.Length + 1 + $statusVisTextLen
     Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$statusLabel$($script:cReset) $statusIcon $statusText" -Width $w -VisualLength $visLen
 
     Write-BoxEmptyLine -Width $w
