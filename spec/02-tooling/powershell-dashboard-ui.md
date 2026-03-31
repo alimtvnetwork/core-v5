@@ -19,6 +19,7 @@
 15. [Coverage Comparison (Regression Detection)](#15-coverage-comparison-regression-detection)
 16. [Phase Tracking Integration (TC & PC)](#16-phase-tracking-integration-tc--pc)
 17. [Error-Guarding Pattern (Module Availability)](#17-error-guarding-pattern-module-availability)
+18. [Modular Architecture](#18-modular-architecture)
 
 ---
 
@@ -619,10 +620,10 @@ When packages are blocked, render an error detail section below the dashboard bo
 
 ### 12.9 Integration Points
 
-To integrate into `run.ps1`, add `Register-Phase` calls at each phase boundary:
+Since `run.ps1` uses a modular architecture, `Register-Phase` calls live inside the individual modules (not in `run.ps1` itself):
 
 ```powershell
-# Example: in Invoke-FetchLatest
+# Example: in scripts/TestRunner.psm1 — Invoke-FetchLatest
 function Invoke-FetchLatest {
     Invoke-GitPull
     Register-Phase "Git Pull" "pass" "pulled from remote"
@@ -634,13 +635,22 @@ function Invoke-FetchLatest {
     } else {
         Register-Phase "Dependencies" "fail" "go mod tidy failed"
     }
-    # ... rest of function
 }
 
-# At end of TC or PC, render the dashboard:
-Write-PhaseSummaryBox $phases
-Write-Dashboard $dashboardData
+# At end of TC (in scripts/CoverageRunner.psm1) or PC (in scripts/PreCommitCheck.psm1):
+if (Get-Command Write-PhaseSummaryBox -ErrorAction SilentlyContinue) {
+    Write-Host ""
+    Write-PhaseSummaryBox
+}
 ```
+
+**Module locations for phase-producing commands:**
+
+| Command | Module | Function |
+|---------|--------|----------|
+| TC | `scripts/CoverageRunner.psm1` | `Invoke-TestCoverage` |
+| TCP | `scripts/CoverageRunner.psm1` | `Invoke-PackageTestCoverage` |
+| PC | `scripts/PreCommitCheck.psm1` | `Invoke-PreCommitCheck` |
 
 ### 12.10 Shared vs Command-Specific Phases
 
@@ -1019,7 +1029,7 @@ Returns `@()` if the file does not exist (first run).
 
 ### 15.3 Integration in TC and PC
 
-Both `Invoke-TestCoverage` (TC) and `Invoke-PackageTestCoverage` (PC) wire up the comparison flow after coverage data is collected:
+Both `Invoke-TestCoverage` (in `scripts/CoverageRunner.psm1`) and `Invoke-PackageTestCoverage` (in `scripts/CoverageRunner.psm1`) wire up the comparison flow after coverage data is collected:
 
 ```powershell
 if (Get-Command Write-CoverageComparison -ErrorAction SilentlyContinue) {
@@ -1036,8 +1046,9 @@ if (Get-Command Write-CoverageComparison -ErrorAction SilentlyContinue) {
 
 All calls are guarded per the error-guarding pattern (§17).
 
-- **TC**: builds `$currentCovData` from the `$srcPkgStmts` hashtable (statement-level aggregation).
-- **PC**: aggregates per-source-package coverage from `go tool cover -func` output lines.
+- **TC** (`Invoke-TestCoverage` in `scripts/CoverageRunner.psm1`): builds `$currentCovData` from the `$srcPkgStmts` hashtable (statement-level aggregation).
+- **TCP** (`Invoke-PackageTestCoverage` in `scripts/CoverageRunner.psm1`): aggregates per-source-package coverage from `go tool cover -func` output lines.
+- **PC** (`Invoke-PreCommitCheck` in `scripts/PreCommitCheck.psm1`): does not produce coverage data.
 
 > **Console output spec**: The rendered diff table is documented as **Section 4: Coverage Diff** in
 > [`spec/03-powershell-test-run/07-tc-console-output.md`](../03-powershell-test-run/07-tc-console-output.md#section-4-coverage-diff).
@@ -1056,7 +1067,7 @@ The comparison table ends with a summary line:
 
 ## 16. Phase Tracking Integration (TC & PC)
 
-Both `Invoke-TestCoverage` (TC) and `Invoke-PreCommitCheck` (PC) integrate the phase-tracking system (`Register-Phase` / `Write-PhaseSummaryBox`) to render a bordered execution summary at the end of each run.
+Both `Invoke-TestCoverage` (in `scripts/CoverageRunner.psm1`) and `Invoke-PreCommitCheck` (in `scripts/PreCommitCheck.psm1`) integrate the phase-tracking system (`Register-Phase` / `Write-PhaseSummaryBox`) to render a bordered execution summary at the end of each run.
 
 ### 16.1 Lifecycle
 
@@ -1143,7 +1154,7 @@ Phase statuses map to design tokens as defined in §8:
 
 ## 17. Error-Guarding Pattern (Module Availability)
 
-`run.ps1` is designed to function correctly even when `DashboardUI.psm1` is not loaded (e.g., missing file, import failure, minimal environments). Every call to a DashboardUI function is wrapped in a guard that silently skips the call if the function is unavailable.
+All modules in `scripts/` are designed to function correctly even when `DashboardUI.psm1` is not loaded. Every call to a DashboardUI function is wrapped in a guard that silently skips the call if the function is unavailable. The `run.ps1` dispatcher imports all modules but none are mandatory — missing modules simply disable the commands that depend on them.
 
 ### 17.1 Guard Pattern
 
@@ -1194,3 +1205,40 @@ This ensures the script does not fail at startup if the module file is missing o
 ### 17.5 Design Principle
 
 > **DashboardUI is always additive, never required.** All core functionality (testing, coverage, compilation) must work identically with or without the module. The dashboard layer provides enhanced visual feedback but never gates execution.
+
+---
+
+## 18. Modular Architecture
+
+As of the Task 10 refactor, `run.ps1` is a thin dispatcher (≤200 lines) that imports specialized `.psm1` modules from the `scripts/` directory. DashboardUI is one of these modules.
+
+### 18.1 Module Map
+
+| Module | Responsibility | DashboardUI Dependency |
+|--------|---------------|----------------------|
+| `DashboardUI.psm1` | ANSI rendering, phase tracking, coverage tables | — (this IS the module) |
+| `Utilities.psm1` | Console helpers, error extraction | Optional (graceful fallback) |
+| `TestLogWriter.psm1` | Go test output → log files | None |
+| `TestRunner.psm1` | Test execution, build checks, git ops | None |
+| `CoverageRunner.psm1` | TC + TCP coverage pipelines | Yes (phase tracking, coverage tables, diff) |
+| `BuildTools.psm1` | Build, format, vet, tidy, clean | None |
+| `PreCommitCheck.psm1` | PC pre-commit validation | Yes (phase tracking, summary box) |
+| `GoConvey.psm1` | GoConvey launcher | None |
+| `Help.psm1` | Help display, fail log, integrated tests | None |
+
+### 18.2 How DashboardUI Is Consumed
+
+Modules that use DashboardUI functions (primarily `CoverageRunner` and `PreCommitCheck`) guard every call:
+
+```powershell
+if (Get-Command Register-Phase -ErrorAction SilentlyContinue) {
+    Register-Phase "Compile Check" "pass" "42/42 passed"
+}
+```
+
+This means the dashboard UI layer can be removed, replaced, or broken without affecting test/coverage functionality.
+
+### 18.3 Reference
+
+Full module documentation: [`scripts/README.md`](../../scripts/README.md)
+Refactoring roadmap: [`.lovable/memory/workflow/06-powershell-refactor-plan.md`](../../.lovable/memory/workflow/06-powershell-refactor-plan.md)
