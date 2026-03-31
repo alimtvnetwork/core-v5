@@ -579,7 +579,8 @@ function Write-PhaseSummaryBox {
         }
 
         $label = $key.PadRight($phaseLabelWidth)
-        $visLen = 1 + 2 + $phaseLabelWidth + $detail.Length  # "║ ✓ label detail"
+        $iconW = Get-IconVisualWidth $status
+        $visLen = 1 + $iconW + 1 + $phaseLabelWidth + $detail.Length  # "║ icon space label detail"
         Write-BoxLine -Content "$icon $($script:cWhite)$label$($script:cReset)$($script:cMuted)$detail$($script:cReset)" -Width $w -VisualLength $visLen
     }
 
