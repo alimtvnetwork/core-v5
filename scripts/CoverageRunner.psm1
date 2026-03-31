@@ -1353,6 +1353,14 @@ function copyForAI(){
 }
 
 function Invoke-PackageTestCoverage {
+    <#
+    .SYNOPSIS
+        Run coverage for a single test package (TCP command).
+    .PARAMETER pkg
+        The test package directory name under tests/integratedtests/.
+    .EXAMPLE
+        Invoke-PackageTestCoverage "regexnewtests"
+    #>
     param([string]$pkg)
 
     if (-not $pkg) {
