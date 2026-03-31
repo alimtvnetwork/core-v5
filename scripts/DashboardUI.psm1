@@ -600,7 +600,8 @@ function Write-PhaseSummaryBox {
     if ($failCount -gt 0) {
         $statusIcon = "$($script:cRed)✗$($script:cReset)"
         $statusText = "$($script:cRed)BLOCKED$($script:cReset)"
-        $statusVisText = "✗ BLOCKED"
+        $statusIconW = 1
+        $statusVisTextLen = $statusIconW + 1 + "BLOCKED".Length  # "✗ BLOCKED"
     } elseif ($warnCount -gt 0) {
         $statusIcon = "$($script:cYellow)⚠$($script:cReset)"
         $statusText = "$($script:cYellow)REVIEW$($script:cReset)"
