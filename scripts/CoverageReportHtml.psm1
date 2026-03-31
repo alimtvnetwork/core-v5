@@ -17,12 +17,10 @@ function Write-CoverageHtmlWithAiButton {
     if ($htmlExitCode -ne 0 -or -not (Test-Path $CoverHtml)) {
         Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html' (exit: $htmlExitCode)" -ForegroundColor Red
         if ($htmlErr) { Write-Host "  Error: $htmlErr" -ForegroundColor Red }
-        $fallbackHtml = @"
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
-<style>body{font-family:monospace;padding:20px;background:#1e1e2e;color:#cdd6f4}
-pre{white-space:pre-wrap}</style></head><body>
-<h1>Coverage Report</h1><pre>$($FuncOutput -join "`n")</pre></body></html>
-"@
+        $fallbackHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>' +
+            '<style>body{font-family:monospace;padding:20px;background:#1e1e2e;color:#cdd6f4}' +
+            'pre{white-space:pre-wrap}</style></head><body>' +
+            "<h1>Coverage Report</h1><pre>$($FuncOutput -join "`n")</pre></body></html>"
         Set-Content -Path $CoverHtml -Value $fallbackHtml -Encoding UTF8
         Write-Host "  Generated fallback HTML report" -ForegroundColor Yellow
     }
