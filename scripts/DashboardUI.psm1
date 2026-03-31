@@ -478,6 +478,20 @@ function Reset-Phases {
     $script:Phases = [ordered]@{}
 }
 
+function Get-IconVisualWidth {
+    <#
+    .SYNOPSIS
+        Returns the terminal column width of a phase icon character.
+        ⚠ (U+26A0) is typically rendered as 2 columns in most terminals;
+        all other icons (✓ ✗ ⊘ ?) are 1 column.
+    #>
+    [CmdletBinding()]
+    [OutputType([int])]
+    param([string]$Status)
+
+    if ($Status -eq "warn") { return 2 } else { return 1 }
+}
+
 function Get-PhaseIcon {
     [CmdletBinding()]
     [OutputType([string])]
