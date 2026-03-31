@@ -604,13 +604,15 @@ function Write-PhaseSummaryBox {
     } elseif ($warnCount -gt 0) {
         $statusIcon = "$($script:cYellow)⚠$($script:cReset)"
         $statusText = "$($script:cYellow)REVIEW$($script:cReset)"
-        $statusVisText = "⚠ REVIEW"
+        $statusIconW = 2  # ⚠ is 2 columns wide
+        $statusVisTextLen = $statusIconW + 1 + "REVIEW".Length  # "⚠ REVIEW"
     } else {
         $statusIcon = "$($script:cLime)✓$($script:cReset)"
         $statusText = "$($script:cLime)READY TO COMMIT$($script:cReset)"
-        $statusVisText = "✓ READY TO COMMIT"
+        $statusIconW = 1
+        $statusVisTextLen = $statusIconW + 1 + "READY TO COMMIT".Length  # "✓ READY TO COMMIT"
     }
-    $visLen = 1 + $statusLabel.Length + 1 + $statusVisText.Length
+    $visLen = 1 + $statusLabel.Length + 1 + $statusVisTextLen
     Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$statusLabel$($script:cReset) $statusIcon $statusText" -Width $w -VisualLength $visLen
 
     Write-BoxEmptyLine -Width $w
