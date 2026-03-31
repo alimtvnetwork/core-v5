@@ -22,6 +22,8 @@ Use this guide when you want a package like `reqtype`, `ostype`, or `enums/versi
 10. [Case-Insensitive Parsing](#case-insensitive-parsing)
 11. [Formula Rule — Safe vs Unsafe](#formula-rule--safe-vs-unsafe)
 12. [AI Authoring Checklist](#ai-authoring-checklist)
+13. [UnmarshallEnumToValue — Deep Dive](#unmarshallEnumtovalue--deep-dive)
+14. [Format() — Deep Dive](#format--deep-dive)
 
 ---
 
