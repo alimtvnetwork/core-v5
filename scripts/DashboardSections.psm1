@@ -43,26 +43,26 @@ function Write-ScoreBox {
             if ($val -is [int] -or $val -is [double] -or $val -is [decimal]) {
                 $intVal = [int]$val; $scoreText = "$intVal/100".PadLeft($scoreCol)
                 $bar = Get-ProgressBar -Score $intVal -BarWidth $barWidth
-                Write-BoxLine -Content "$($script:cWhite)$label $scoreText  $bar" -Width $w -VisualLength ($labelCol + 1 + $scoreCol + 2 + $barWidth)
+                Write-BoxLine -Content "$($script:cWhite)$label $scoreText  $bar" -Width $w
             } else {
                 $valStr = "$val"
                 $colored = if ($valStr -eq "PASS") { "$($script:cLime)$($script:cBold)$valStr$($script:cReset)" }
                     elseif ($valStr -eq "FAIL") { "$($script:cRed)$($script:cBold)$valStr$($script:cReset)" }
                     else { "$($script:cWhite)$valStr$($script:cReset)" }
-                Write-BoxLine -Content "$($script:cWhite)$label $colored" -Width $w -VisualLength ($labelCol + 1 + $valStr.Length)
+                Write-BoxLine -Content "$($script:cWhite)$label $colored" -Width $w
             }
         }
     }
     Write-BoxEmptyLine -Width $w; Write-BoxDivider -Width $w; Write-BoxEmptyLine -Width $w
     $overallLabel = "OVERALL".PadRight($labelCol)
     $overallVal = if ($null -ne $Data.OverallScore) { "$($Data.OverallScore)/100" } else { "—" }
-    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$overallLabel $($overallVal.PadLeft($scoreCol))$($script:cReset)" -Width $w -VisualLength ($labelCol + 1 + $scoreCol)
+    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$overallLabel $($overallVal.PadLeft($scoreCol))$($script:cReset)" -Width $w
     $statusLabel = "STATUS".PadRight($labelCol)
     $statusText = if ($Data.Status) { $Data.Status } else { "UNKNOWN" }
     $statusReady = if ($null -ne $Data.StatusReady) { $Data.StatusReady } else { $false }
     $statusIcon = "$($script:cYellow)[?]$($script:cReset) "
     $statusColor = if ($statusReady) { $script:cLime } else { $script:cRed }
-    Write-BoxLine -Content "$($script:cWhite)$statusLabel $statusIcon$statusColor$statusText$($script:cReset)" -Width $w -VisualLength ($labelCol + 1 + 4 + $statusText.Length)
+    Write-BoxLine -Content "$($script:cWhite)$statusLabel $statusIcon$statusColor$statusText$($script:cReset)" -Width $w
     Write-BoxEmptyLine -Width $w; Write-BoxBottom -Width $w
 }
 

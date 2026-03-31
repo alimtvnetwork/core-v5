@@ -23,10 +23,9 @@ function Write-CoverageTable {
     Write-BoxTop -Width $w; Write-BoxLineCenter -Text $Title -Width $w
     Write-BoxDivider -Width $w; Write-BoxEmptyLine -Width $w
 
-    $hdrVisLen = $pkgCol + 1 + $pctCol + 2 + $BarWidth + 2 + $testCol
     $barHeader = ''.PadRight($BarWidth)
-    Write-BoxLine -Content "$($script:cMuted)$("Package".PadRight($pkgCol)) $("Cov %".PadLeft($pctCol))  $barHeader  $("Tests".PadLeft($testCol))$($script:cReset)" -Width $w -VisualLength $hdrVisLen
-    Write-BoxLine -Content "$($script:cMuted)$("─" * $pkgCol) $("─" * $pctCol)  $("─" * $BarWidth)  $("─" * $testCol)$($script:cReset)" -Width $w -VisualLength $hdrVisLen
+    Write-BoxLine -Content "$($script:cMuted)$("Package".PadRight($pkgCol)) $("Cov %".PadLeft($pctCol))  $barHeader  $("Tests".PadLeft($testCol))$($script:cReset)" -Width $w
+    Write-BoxLine -Content "$($script:cMuted)$("─" * $pkgCol) $("─" * $pctCol)  $("─" * $BarWidth)  $("─" * $testCol)$($script:cReset)" -Width $w
 
     $totalCoverage = 0.0; $at100Count = 0; $below100Count = 0
     foreach ($entry in $sorted) {
@@ -39,19 +38,19 @@ function Write-CoverageTable {
         $rowColor = if ($cov -ge 100.0) { $script:cLime } elseif ($cov -ge 98.0) { $script:cWhite } elseif ($cov -ge 95.0) { $script:cYellow } else { $script:cRed }
         $bar = Get-ProgressBar -Score ([int][math]::Round($cov)) -BarWidth $BarWidth
         $testStr = "$tests".PadLeft($testCol)
-        Write-BoxLine -Content "$rowColor$pkgStr$($script:cReset) $rowColor$pctStr$($script:cReset)  $bar  $($script:cMuted)$testStr$($script:cReset)" -Width $w -VisualLength $hdrVisLen
+        Write-BoxLine -Content "$rowColor$pkgStr$($script:cReset) $rowColor$pctStr$($script:cReset)  $bar  $($script:cMuted)$testStr$($script:cReset)" -Width $w
     }
 
     Write-BoxEmptyLine -Width $w; Write-BoxDivider -Width $w; Write-BoxEmptyLine -Width $w
     $avgCoverage = if ($sorted.Count -gt 0) { $totalCoverage / $sorted.Count } else { 0 }
     $summaryBar = Get-ProgressBar -Score ([int][math]::Round($avgCoverage)) -BarWidth $BarWidth
-    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$("AVERAGE".PadRight($pkgCol))$($script:cReset) $($script:cWhite)$($script:cBold)$(("{0:F1}%" -f $avgCoverage).PadLeft($pctCol))$($script:cReset)  $summaryBar  $($script:cMuted)$("$($sorted.Count)".PadLeft($testCol))$($script:cReset)" -Width $w -VisualLength $hdrVisLen
+    Write-BoxLine -Content "$($script:cWhite)$($script:cBold)$("AVERAGE".PadRight($pkgCol))$($script:cReset) $($script:cWhite)$($script:cBold)$(("{0:F1}%" -f $avgCoverage).PadLeft($pctCol))$($script:cReset)  $summaryBar  $($script:cMuted)$("$($sorted.Count)".PadLeft($testCol))$($script:cReset)" -Width $w
     $countText = "$($script:cLime)$at100Count$($script:cReset)$($script:cMuted) at 100%$($script:cReset)  $($script:cYellow)$below100Count$($script:cReset)$($script:cMuted) below$($script:cReset)"
     $countPad = ''.PadRight($pkgCol)
-    Write-BoxLine -Content "$countPad$countText" -Width $w -VisualLength ($pkgCol + 20)
+    Write-BoxLine -Content "$countPad$countText" -Width $w
     if ($ShowTarget) {
         $targetText = "$($script:cLime)$($script:cBold)100.0%$($script:cReset)$($script:cMuted) (non-internal packages)$($script:cReset)"
-        Write-BoxLine -Content "$($script:cWhite)$("TARGET".PadRight($pkgCol))$($script:cReset)$targetText" -Width $w -VisualLength ($pkgCol + 30)
+        Write-BoxLine -Content "$($script:cWhite)$("TARGET".PadRight($pkgCol))$($script:cReset)$targetText" -Width $w
     }
     Write-BoxEmptyLine -Width $w; Write-BoxBottom -Width $w
 }
