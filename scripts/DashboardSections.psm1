@@ -43,7 +43,7 @@ function Write-ScoreBox {
             if ($val -is [int] -or $val -is [double] -or $val -is [decimal]) {
                 $intVal = [int]$val; $scoreText = "$intVal/100".PadLeft($scoreCol)
                 $bar = Get-ProgressBar -Score $intVal -BarWidth $barWidth
-                Write-BoxLine -Content "$($script:cWhite)$label $scoreText  $bar" -Width $w -VisualLength (1 + $labelCol + 1 + $scoreCol + 2 + $barWidth)
+                Write-BoxLine -Content "$($script:cWhite)$label $scoreText  $bar" -Width $w -VisualLength ($labelCol + 1 + $scoreCol + 2 + $barWidth)
             } else {
                 $valStr = "$val"
                 $colored = if ($valStr -eq "PASS") { "$($script:cLime)$($script:cBold)$valStr$($script:cReset)" }
