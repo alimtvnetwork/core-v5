@@ -48,7 +48,7 @@ function Write-CoverageComparison {
     $pkgCol = 24; $prevCol = 7; $currCol = 7; $deltaCol = 8
     $w = [math]::Max($script:BoxWidth, $pkgCol + $prevCol + $currCol + $deltaCol + 8)
     Write-BoxTop -Width $w; Write-BoxLineCenter -Text $Title -Width $w; Write-BoxDivider -Width $w; Write-BoxEmptyLine -Width $w
-    $hdrVisLen = 1 + $pkgCol + 1 + $prevCol + 1 + $currCol + 1 + $deltaCol
+    $hdrVisLen = $pkgCol + 1 + $prevCol + 1 + $currCol + 1 + $deltaCol
     Write-BoxLine -Content "$($script:cMuted)$("Package".PadRight($pkgCol)) $("Prev".PadLeft($prevCol)) $("Curr".PadLeft($currCol)) $("Delta".PadLeft($deltaCol))$($script:cReset)" -Width $w -VisualLength $hdrVisLen
     Write-BoxLine -Content "$($script:cMuted)$("─" * $pkgCol) $("─" * $prevCol) $("─" * $currCol) $("─" * $deltaCol)$($script:cReset)" -Width $w -VisualLength $hdrVisLen
 
