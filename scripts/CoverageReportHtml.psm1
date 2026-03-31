@@ -72,7 +72,7 @@ function Write-CoverageHtmlWithAiButton {
             '<span id="ai-copy-status" style="display:none;color:#22c55e;font-size:13px;margin-top:4px;text-align:center;">Copied!</span>' +
             '</div>' +
             '<script>' +
-            'var __aiCoverageText ='
+            "var __aiCoverageText ='"
         $scriptEnd = "'" + ';' +
             'function copyForAI(){' +
             '  try {' +
