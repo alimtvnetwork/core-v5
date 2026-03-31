@@ -27,11 +27,22 @@
 
 ```
 <project-root>/
-├── run.ps1                              # Entry point — all commands
+├── run.ps1                              # Thin dispatcher (~167 lines)
 ├── scripts/
+│   ├── README.md                        # Module documentation + dependency graph
+│   ├── DashboardUI.psm1                 # ANSI dashboard rendering, phase tracking
+│   ├── Utilities.psm1                   # Console helpers, error extraction
+│   ├── TestLogWriter.psm1               # Go test output → structured log files
+│   ├── TestRunner.psm1                  # Test execution, build checks, git ops
+│   ├── CoverageRunner.psm1             # TC + TCP coverage pipelines
+│   ├── BuildTools.psm1                  # Build, format, vet, tidy, clean
+│   ├── PreCommitCheck.psm1              # PC pre-commit validation
+│   ├── GoConvey.psm1                    # GoConvey browser test runner
+│   ├── Help.psm1                        # Help, fail log, integrated tests
 │   ├── bracecheck/main.go               # Go syntax pre-checker
 │   ├── autofix/main.go                  # Auto-fixer for common syntax issues
 │   ├── check-safetest-boundaries.ps1    # SafeTest lint checker
+│   ├── check-integrated-regressions.ps1 # API-drift regression scanner
 │   └── coverage/
 │       └── Export-UncoveredMethodsJson.ps1
 ├── data/
@@ -43,6 +54,7 @@
 │   │   ├── per-package-coverage.json    # Per-package breakdown
 │   │   ├── blocked-packages.txt         # Compile failures
 │   │   ├── blocked-packages.json        # Machine-readable blocked
+│   │   ├── coverage-previous.json       # Snapshot for regression diff
 │   │   └── build-errors.txt             # Build error details
 │   └── test-logs/                       # Test output (generated)
 │       ├── raw-output.txt               # Full go test output
@@ -779,6 +791,32 @@ $OutputEncoding            = [System.Text.Encoding]::UTF8
 
 ## 8. PowerShell Runner Internals
 
+### Modular Architecture
+
+`run.ps1` is a thin dispatcher (~167 lines) that imports `.psm1` modules from `scripts/`:
+
+| Module | Key Functions | Responsibility |
+|--------|--------------|----------------|
+| `Utilities.psm1` | `Write-Header`, `Write-Success`, `ParseCompileErrors` | Common helpers |
+| `TestLogWriter.psm1` | `Write-TestLogs` | Parse Go test output → log files |
+| `TestRunner.psm1` | `Invoke-AllTests`, `Invoke-BuildCheck` | Test execution |
+| `CoverageRunner.psm1` | `Invoke-TestCoverage`, `Invoke-PackageTestCoverage` | TC + TCP pipelines |
+| `BuildTools.psm1` | `Invoke-Build`, `Invoke-Format`, `Invoke-Vet` | Build commands |
+| `PreCommitCheck.psm1` | `Invoke-PreCommitCheck` | PC pipeline |
+| `DashboardUI.psm1` | `Register-Phase`, `Write-PhaseSummaryBox` | ANSI dashboard (optional) |
+| `Help.psm1` | `Show-Help` | Help display |
+
+All DashboardUI calls are guarded with `Get-Command ... -ErrorAction SilentlyContinue` so the runner works without the UI module.
+
+### Go Syntax Validation
+
+Two Go tools validate syntax before compilation:
+
+1. **bracecheck** (`scripts/bracecheck/main.go`): Scans all `.go` files for unbalanced braces, brackets, and parentheses. Run via `go run ./scripts/bracecheck/`.
+2. **autofix** (`scripts/autofix/main.go`): Automatically fixes common syntax issues (trailing commas, missing imports). Run via `go run ./scripts/autofix/`. Supports `--dry-run`.
+
+Both are executed as phases in TC and PC pipelines (skippable via `--skip-bracecheck`).
+
 ### Profile Merging (MAX Count)
 
 When merging partial coverage profiles, use **MAX count** per line, not last-write-wins:
@@ -857,6 +895,7 @@ Raw `go test -c` output contains noise. Filter to actionable errors only:
 | `spec/01-app/27-unit-coverage-fix.md` | Unit coverage fix workflow spec |
 | `spec/05-failing-tests/01-blocked-packages-fixes.md` | Real-world blocked package fix examples |
 | `.lovable/memory/workflow/06-unit-coverage-fix-protocol.md` | Protocol memory (for AI agents) |
+| `scripts/README.md` | Module architecture, dependency graph, how to add commands |
 
 ---
 
@@ -864,4 +903,5 @@ Raw `go test -c` output contains noise. Filter to actionable errors only:
 
 | Date | Change |
 |------|--------|
+| 2026-03-31 | Updated directory layout, added §8 modular architecture, Go syntax validation docs |
 | 2026-03-30 | Initial creation — consolidated from run.ps1 overview, generic runner spec, testing guidelines, and unit coverage fix protocol |
