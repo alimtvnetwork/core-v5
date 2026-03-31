@@ -1409,7 +1409,7 @@ function Invoke-PackageTestCoverage {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
             Write-Fail "Go auto-fixer encountered errors."
         } else {
-            $fixStr = ($fixOut | Out-String).Trim()
+            $fixStr = ($fixOut | Out-String).Trim() -replace '^\s*✓\s*', ''
             if ($fixStr) { Write-Success $fixStr }
         }
     }
@@ -1425,7 +1425,8 @@ function Invoke-PackageTestCoverage {
             Write-Fail "Go syntax check failed. Fix reported issues before TCP."
             exit 1
         } else {
-            Write-Success ($braceOut | Out-String).Trim()
+            $braceStr2b = ($braceOut | Out-String).Trim() -replace '^\s*✓\s*', ''
+            Write-Success $braceStr2b
         }
 
         # ── Write syntax-issues.txt report ────────────────────────────
