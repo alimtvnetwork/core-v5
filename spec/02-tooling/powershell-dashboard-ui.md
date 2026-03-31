@@ -1066,7 +1066,7 @@ The comparison table ends with a summary line:
 
 ## 16. Phase Tracking Integration (TC & PC)
 
-Both `Invoke-TestCoverage` (TC) and `Invoke-PreCommitCheck` (PC) integrate the phase-tracking system (`Register-Phase` / `Write-PhaseSummaryBox`) to render a bordered execution summary at the end of each run.
+Both `Invoke-TestCoverage` (in `scripts/CoverageRunner.psm1`) and `Invoke-PreCommitCheck` (in `scripts/PreCommitCheck.psm1`) integrate the phase-tracking system (`Register-Phase` / `Write-PhaseSummaryBox`) to render a bordered execution summary at the end of each run.
 
 ### 16.1 Lifecycle
 
