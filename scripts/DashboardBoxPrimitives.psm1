@@ -4,30 +4,52 @@
 # Dependencies: DashboardTheme.psm1 (script-scope color variables)
 # ─────────────────────────────────────────────────────────────────────────────
 
+function Test-IsWideVisualCodePoint {
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param([Parameter(Mandatory)][int]$CodePoint)
+
+    return (
+        ($CodePoint -ge 0x1100 -and $CodePoint -le 0x115F) -or
+        ($CodePoint -ge 0x2329 -and $CodePoint -le 0x232A) -or
+        ($CodePoint -ge 0x2E80 -and $CodePoint -le 0xA4CF) -or
+        ($CodePoint -ge 0xAC00 -and $CodePoint -le 0xD7A3) -or
+        ($CodePoint -ge 0xF900 -and $CodePoint -le 0xFAFF) -or
+        ($CodePoint -ge 0xFE10 -and $CodePoint -le 0xFE19) -or
+        ($CodePoint -ge 0xFE30 -and $CodePoint -le 0xFE6F) -or
+        ($CodePoint -ge 0xFF01 -and $CodePoint -le 0xFF60) -or
+        ($CodePoint -ge 0xFFE0 -and $CodePoint -le 0xFFE6) -or
+        ($CodePoint -ge 0x1F300 -and $CodePoint -le 0x1FAFF)
+    )
+}
+
 function Get-AnsiVisualLength {
-    <# .SYNOPSIS Calculate visual column width of a string, stripping ANSI escape codes and accounting for wide Unicode chars (e.g. ⚠ = 2 columns). #>
+    <# .SYNOPSIS Calculate visual column width of a string, stripping ANSI escape codes and accounting for wide Unicode chars. #>
     [CmdletBinding()]
     [OutputType([int])]
     param([Parameter(Mandatory)][string]$Text)
+
     # Strip ANSI escape sequences: ESC[...m and ESC[...;...m etc.
     $stripped = $Text -replace "$([char]27)\[[0-9;]*m", ''
     $len = 0
-    foreach ($ch in $stripped.GetEnumerator()) {
-        $cp = [int]$ch
-        # Wide characters: CJK, fullwidth, and specific symbols like ⚠ (U+26A0)
-        if ($cp -eq 0x26A0 -or
-            ($cp -ge 0x2600 -and $cp -le 0x26FF) -or   # Misc Symbols
-            ($cp -ge 0x2700 -and $cp -le 0x27BF) -or   # Dingbats
-            ($cp -ge 0xFE00 -and $cp -le 0xFE0F) -or   # Variation Selectors
-            ($cp -ge 0x1F300 -and $cp -le 0x1F9FF) -or  # Emoji
-            ($cp -ge 0x3000 -and $cp -le 0x9FFF) -or    # CJK
-            ($cp -ge 0xF900 -and $cp -le 0xFAFF) -or    # CJK Compat
-            ($cp -ge 0xFF01 -and $cp -le 0xFF60)) {     # Fullwidth
+    $enumerator = [System.Globalization.StringInfo]::GetTextElementEnumerator($stripped)
+
+    while ($enumerator.MoveNext()) {
+        $element = [string]$enumerator.GetTextElement()
+
+        if ([string]::IsNullOrEmpty($element)) {
+            continue
+        }
+
+        $cp = [char]::ConvertToUtf32($element, 0)
+
+        if (Test-IsWideVisualCodePoint -CodePoint $cp) {
             $len += 2
         } else {
             $len += 1
         }
     }
+
     return $len
 }
 
