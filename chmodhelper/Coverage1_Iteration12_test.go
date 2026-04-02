@@ -3,6 +3,7 @@ package chmodhelper
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -60,6 +61,9 @@ func Test_I12_RwxWrapper_UsingFileMode(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_ApplyChmod(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "test.txt")
 	os.WriteFile(fp, []byte("data"), 0644)
@@ -81,6 +85,9 @@ func Test_I12_RwxWrapper_ApplyChmod(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_ApplyChmodOptions(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "opts.txt")
 	os.WriteFile(fp, []byte("data"), 0644)
@@ -104,6 +111,9 @@ func Test_I12_RwxWrapper_ApplyChmodOptions(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_ApplyRecursive(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	sub := filepath.Join(dir, "sub")
 	os.MkdirAll(sub, 0755)
@@ -134,6 +144,9 @@ func Test_I12_RwxWrapper_ApplyRecursive(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_MustApplyChmod_Success(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "must.txt")
 	os.WriteFile(fp, []byte("z"), 0644)
@@ -143,6 +156,9 @@ func Test_I12_RwxWrapper_MustApplyChmod_Success(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_HasChmod(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "hc.txt")
 	os.WriteFile(fp, []byte("z"), 0644)
@@ -153,6 +169,9 @@ func Test_I12_RwxWrapper_HasChmod(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_Verify(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "verify.txt")
 	os.WriteFile(fp, []byte("z"), 0644)
@@ -164,6 +183,9 @@ func Test_I12_RwxWrapper_Verify(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_VerifyPaths(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "vp.txt")
 	os.WriteFile(fp, []byte("z"), 0644)

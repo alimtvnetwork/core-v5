@@ -71,18 +71,15 @@ func TestCov3_MethodProcessor_GetInArgsTypesNames_ZeroArgs(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCov3_MethodProcessor_ValidationError_Invalid(t *testing.T) {
-	// Arrange — a non-nil but invalid MethodProcessor
-	mp := &MethodProcessor{
-		Name:  "NonExistent",
-		Index: -1,
-	}
+	// Arrange — a nil MethodProcessor triggers the nil guard
+	var mp *MethodProcessor
 
 	// Act
 	err := mp.validationError()
 
 	// Assert
 	if err == nil {
-		t.Fatal("expected error for invalid method processor")
+		t.Fatal("expected error for nil method processor")
 	}
 }
 

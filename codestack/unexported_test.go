@@ -881,7 +881,10 @@ func TestInternal_I15_TraceCollection_PagedItems_NegativeIndex(t *testing.T) {
 		}
 	}()
 	tc := New.traces.Default()
-	tc.Adds(New.Create(0))
+	// Add enough items so length >= eachPageSize to reach the negative index check
+	for i := 0; i < 15; i++ {
+		tc.Adds(New.Create(0))
+	}
 	tc.GetSinglePageCollection(10, -1)
 }
 
