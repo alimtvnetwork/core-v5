@@ -174,6 +174,9 @@ func Test_I12_RwxWrapper_Verify(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_VerifyPaths(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "vp.txt")
 	os.WriteFile(fp, []byte("z"), 0644)
