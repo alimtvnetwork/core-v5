@@ -69,7 +69,7 @@ function Open-FailingTestsIfAny {
     <# .SYNOPSIS Open the failing-tests log file if it contains failures. #>
     [CmdletBinding()]
     param()
-    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    $failingFile = Join-Path $global:TestLogDir "failing-tests.txt"
     if ((Test-Path $failingFile)) {
         $content = Get-Content $failingFile -Raw
         if ($content -and $content -notmatch '# Count: 0') {
