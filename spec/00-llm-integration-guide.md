@@ -746,49 +746,302 @@ import "github.com/alimtvnetwork/core/keymk"
 
 ## Testing Patterns
 
-### Test Structure
+> 📖 **Full reference**: [`/spec/testing-guidelines/`](/spec/testing-guidelines/) — 8 detailed guides.
+
+### Test Folder Structure
 
 ```
 tests/integratedtests/
-└── <package_name>/
-    ├── somefunc_testcases.go    # Test data (CaseV1 slices)
-    └── somefunc_test.go         # Test logic (AAA pattern)
+├── mypkgtests/                            # One directory per source package
+│   ├── params.go                          # Reusable key constants for args.Map
+│   ├── MyFunc_testcases.go                # Test data — expectations only (NO import "testing")
+│   ├── MyFunc_test.go                     # Test runner — assertions only (NO hardcoded values)
+│   ├── MyStruct_NilReceiver_testcases.go  # Nil-safety test data
+│   ├── NilReceiver_test.go                # Nil-safety test runner (one per package)
+│   └── helpers.go                         # Shared test-only structs/utilities
+└── anotherpkgtests/
+    └── ...
 ```
 
-### CaseV1 Pattern
+**Critical separation**: Test data (`_testcases.go`) is strictly separated from test logic (`_test.go`). Never put expected values in `_test.go` or test functions in `_testcases.go`.
+
+### CaseV1 — The Primary Workhorse
 
 ```go
-import (
-    "github.com/alimtvnetwork/core/coretests/coretestcases"
-    "github.com/alimtvnetwork/core/coretests/args"
-    "github.com/alimtvnetwork/core/coretests"
-)
+type CaseV1 struct {
+    Title         string  // "FuncName returns X -- given Y input"
+    ArrangeInput  any     // Input data (args.Map, args.One, etc.)
+    ActualInput   any     // Set dynamically after Act phase
+    ExpectedInput any     // Expected output (args.Map, string, []string, bool)
+}
+```
 
+#### CaseV1 with args.Map (Preferred — Multi-Field)
+
+```go
 // _testcases.go
-var myTestCases = []coretestcases.CaseV1{
+var validateEmailTestCases = []coretestcases.CaseV1{
     {
-        Title: "valid input returns expected output",
+        Title: "ValidateEmail returns valid -- given well-formed email",
         ArrangeInput: args.Map{
-            "actual": "hello",
-            "expect": "HELLO",
+            "email": "user@example.com",
         },
+        ExpectedInput: args.Map{
+            "isValid":    true,
+            "errorCount": 0,
+        },
+    },
+    {
+        Title: "ValidateEmail returns invalid -- given empty email",
+        ArrangeInput: args.Map{
+            "email": "",
+        },
+        ExpectedInput: args.Map{
+            "isValid":    false,
+            "errorCount": 1,
+        },
+    },
+}
+
+// _test.go
+func Test_ValidateEmail_Verification(t *testing.T) {
+    for caseIndex, tc := range validateEmailTestCases {
+        // Arrange
+        input := tc.ArrangeInput.(args.Map)
+        email, _ := input.GetAsString("email")
+
+        // Act
+        result := validator.ValidateEmail(email)
+        actual := args.Map{
+            "isValid":    result.IsValid,
+            "errorCount": len(result.Errors),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+#### CaseV1 — Single Test Case (Named Variable)
+
+For one-off tests, use a named standalone variable and `*First` methods:
+
+```go
+// _testcases.go
+var concatMessageNilTestCase = coretestcases.CaseV1{
+    Title: "ConcatMessageWithErr nil error returns nil",
+    ArrangeInput: args.Map{"message": "should not appear"},
+    ExpectedInput: args.Map{"isNil": true},
+}
+
+// _test.go
+func Test_ConcatMessageWithErr_NilPassthrough(t *testing.T) {
+    tc := concatMessageNilTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    msg, _ := input.GetAsString("message")
+
+    // Act
+    result := errcore.ConcatMessageWithErr(msg, nil)
+    actual := args.Map{"isNil": result == nil}
+
+    // Assert
+    tc.ShouldBeEqualMapFirst(t, actual)
+}
+```
+
+#### CaseV1 with String Assertions
+
+For simple single-value comparisons:
+
+```go
+// _testcases.go
+var toUpperTestCases = []coretestcases.CaseV1{
+    {
+        Title: "ToUpper converts lowercase -- given hello",
+        ArrangeInput: args.Map{"input": "hello"},
         ExpectedInput: []string{"HELLO"},
     },
 }
 
 // _test.go
-func Test_MyFunction(t *testing.T) {
-    for caseIndex, testCase := range myTestCases {
+func Test_ToUpper_Verification(t *testing.T) {
+    for caseIndex, tc := range toUpperTestCases {
         // Arrange
-        input := testCase.ArrangeInput.(args.Map)
+        input := tc.ArrangeInput.(args.Map)
+        str, _ := input.GetAsString("input")
+
         // Act
-        result := strings.ToUpper(input.Actual().(string))
+        result := strings.ToUpper(str)
+
         // Assert
-        actualLines := coretests.GetAssert.ToStrings(result)
-        testCase.ShouldBeEqual(t, caseIndex, actualLines...)
+        tc.ShouldBeEqual(t, caseIndex, result)
     }
 }
 ```
+
+### CaseNilSafe — Nil-Receiver Safety
+
+**Use ONLY for pointer-receiver methods**, never for package-level functions.
+
+```go
+// _NilReceiver_testcases.go
+var myStructNilSafeTestCases = []coretestcases.CaseNilSafe{
+    {
+        Title: "IsValid on nil returns false",
+        Func:  (*MyStruct).IsValid,   // Method expression (zero-arg)
+        Expected: results.ResultAny{
+            Value:    "false",
+            Panicked: false,
+        },
+    },
+    {
+        Title: "HasKey on nil returns false",
+        Func: func(m *MyStruct) bool {  // Wrap methods with args
+            return m.HasKey("anything")
+        },
+        Expected: results.ResultAny{
+            Value:    "false",
+            Panicked: false,
+        },
+    },
+    {
+        Title: "Clear on nil does not panic",
+        Func:  (*MyStruct).Clear,
+        Expected: results.ResultAny{Panicked: false},
+        CompareFields: []string{"panicked", "returnCount"},  // Void — explicit fields
+    },
+}
+
+// NilReceiver_test.go
+func Test_MyStruct_NilReceiver(t *testing.T) {
+    for caseIndex, tc := range myStructNilSafeTestCases {
+        tc.ShouldBeSafe(t, caseIndex)
+    }
+}
+```
+
+### MapGherkins — BDD-Style Tests
+
+Alias for `GenericGherkins[args.Map, args.Map]`. Use for multi-field I/O with BDD fields.
+
+```go
+// params.go — MANDATORY for args.Map key constants
+var params = struct {
+    pattern      string
+    compareInput string
+    isDefined    string
+    isApplicable string
+    isMatch      string
+}{
+    pattern:      "pattern",
+    compareInput: "compareInput",
+    isDefined:    "isDefined",
+    isApplicable: "isApplicable",
+    isMatch:      "isMatch",
+}
+
+// _testcases.go
+var lazyRegexTestCases = []coretestcases.MapGherkins{
+    {
+        Title: "New.Lazy matches word pattern",
+        When:  "given a simple word pattern",
+        Input: args.Map{
+            params.pattern:      "hello",
+            params.compareInput: "hello world",
+        },
+        Expected: args.Map{
+            params.isDefined:    true,
+            params.isApplicable: true,
+            params.isMatch:      true,
+        },
+    },
+}
+
+// _test.go
+func Test_LazyRegex_New_Verification(t *testing.T) {
+    for caseIndex, tc := range lazyRegexTestCases {
+        // Arrange
+        pattern, _ := tc.Input.GetAsString(params.pattern)
+        compareInput, _ := tc.Input.GetAsString(params.compareInput)
+
+        // Act
+        lazy := regexnew.New.Lazy(pattern)
+        actual := args.Map{
+            params.isDefined:    lazy.IsDefined(),
+            params.isApplicable: lazy.IsApplicable(),
+            params.isMatch:      lazy.IsMatch(compareInput),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+### args.Map Quick Reference
+
+```go
+type Map map[string]any
+
+// Typed getters (return value, ok):
+email, ok := input.GetAsString("email")
+count, ok := input.GetAsInt("count")
+flag, ok  := input.GetAsBool("isEnabled")
+items, ok := input.GetAsStrings("tags")
+
+// Default getters (no ok):
+count := input.GetAsIntDefault("count", 0)
+flag  := input.GetAsBoolDefault("isEnabled", false)
+
+// Presence checks:
+input.Has("key")           // exists (may be nil)
+input.HasDefined("key")    // exists AND non-nil
+input.IsKeyMissing("key")  // does not exist
+```
+
+### Decision Matrix
+
+| Condition | Use |
+|-----------|-----|
+| Standard input → string output | `CaseV1` + `ShouldBeEqual` |
+| Standard input → multi-field output | `CaseV1` + `args.Map` + `ShouldBeEqualMap` |
+| Nil-receiver safety | `CaseNilSafe` + `ShouldBeSafe` |
+| BDD with typed input/output | `GenericGherkins[T1, T2]` |
+| Multi-field I/O with semantic keys | `MapGherkins` |
+| Domain-specific data extraction | Custom wrapper embedding `CaseV1` |
+
+### Assertion Methods
+
+| Method | Use When |
+|--------|----------|
+| `ShouldBeEqual(t, idx, actual...)` | Loop, exact string match |
+| `ShouldBeEqualFirst(t, actual...)` | Single case (idx=0) |
+| `ShouldBeEqualMap(t, idx, actualMap)` | Loop, map comparison |
+| `ShouldBeEqualMapFirst(t, actualMap)` | Single case, map comparison |
+| `ShouldContains(t, idx, actual...)` | Substring match |
+| `ShouldStartsWith(t, idx, actual...)` | Prefix match |
+| `ShouldEndsWith(t, idx, actual...)` | Suffix match |
+| `ShouldBeNotEqual(t, idx, actual...)` | Inverse match |
+| `ShouldBeTrimEqual(t, idx, actual...)` | Trimmed comparison |
+| `ShouldBeSortedEqual(t, idx, actual...)` | Sorted + trimmed |
+| `ShouldBeRegex(t, idx, actual...)` | Regex match |
+| `ShouldBeSafe(t, idx)` | Nil-receiver safety |
+
+### Testing Anti-Patterns
+
+| ❌ Don't | ✅ Do |
+|----------|-------|
+| Raw `t.Error`/`t.Errorf` | Use `ShouldBeEqual`/`ShouldBeEqualMap` |
+| Expected values in `_test.go` | Move to `_testcases.go` |
+| `CaseNilSafe` for package functions | Use `CaseV1` |
+| Stringified booleans `"true"` | Use native `true` |
+| Inline `args.Map` with 2+ entries | Multi-line, one key-value per line |
+| Raw string keys `"isDefined"` | Use `params.isDefined` constants |
+| Missing AAA comments | Always include `// Arrange`, `// Act`, `// Assert` |
+| Vague title `"returns false"` | `"FuncName returns false -- given empty input"` |
 
 ---
 
