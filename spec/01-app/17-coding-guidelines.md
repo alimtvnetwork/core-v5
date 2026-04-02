@@ -1387,7 +1387,7 @@ func (it *SimpleSlice[string]) FirstNonEmptyOrDefault() string {
     return zero
 }
 
-// GetOrDefaultWithFallback tries the primary key, then a fallback key,
+// GetOrKeyOrDefault tries the primary key, then a fallback key,
 // then returns the default value.
 func (it *Hashmap[string, string]) GetOrKeyOrDefault(
     primaryKey string,
