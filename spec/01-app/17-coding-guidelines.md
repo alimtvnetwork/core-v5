@@ -1347,6 +1347,78 @@ CreateOrExistingLock.go   # CreateOrExistingLock(name) (*T, bool)
 CreateOrExistingLockIf.go # CreateOrExistingLockIf(isLock, name) (*T, bool)
 ```
 
+### Compound `*Or*` Naming in Filter Chains
+
+When a method tries multiple filter strategies in sequence, name it using `Or` to chain the filter names. This communicates the fallback logic directly in the method name.
+
+#### The Rule
+
+> **`AOrB` means: try filter A first, fall back to filter B if A yields nothing.**
+> Each filter name in the chain must be an established suffix (`NonEmpty`, `NonWhitespace`, `Trimmed`, etc.).
+
+#### Examples
+
+```go
+// NonEmptyItemsOrNonWhitespace tries NonEmpty first;
+// if all items are empty strings, falls back to NonWhitespace filtering.
+func (it *Collection[T]) NonEmptyItemsOrNonWhitespace() []T {
+    result := it.NonEmptyItems()
+    if len(result) > 0 {
+        return result
+    }
+
+    return it.NonWhitespaceItems()
+}
+
+// FirstNonEmptyOrDefault returns the first non-empty string,
+// or the zero value if none found.
+func (it *SimpleSlice[string]) FirstNonEmptyOrDefault() string {
+    for _, item := range *it {
+        if item != "" {
+            return item
+        }
+    }
+
+    var zero string
+    return zero
+}
+
+// GetOrDefaultWithFallback tries the primary key, then a fallback key,
+// then returns the default value.
+func (it *Hashmap[string, string]) GetOrKeyOrDefault(
+    primaryKey string,
+    fallbackKey string,
+    defaultVal string,
+) string {
+    if val, ok := it.Get(primaryKey); ok {
+        return val
+    }
+
+    if val, ok := it.Get(fallbackKey); ok {
+        return val
+    }
+
+    return defaultVal
+}
+```
+
+#### Naming Conventions for `Or` Chains
+
+| Pattern | Meaning |
+|---------|---------|
+| `NonEmptyOrNonWhitespace` | Try non-empty filter, fall back to non-whitespace |
+| `FirstNonEmptyOrDefault` | First non-empty item, or zero value |
+| `GetOrKeyOrDefault` | Primary key → fallback key → default value |
+| `TrimmedOrNonEmpty` | Try trimmed filter, fall back to non-empty |
+
+#### Rules
+
+1. **Each segment must be a real filter/fallback name** — don't invent ad-hoc words.
+2. **Evaluation order matches reading order** — `AOrB` tries A first, then B.
+3. **Delegate internally** — each branch should call the corresponding standalone method.
+4. **File naming** — use the full compound name: `NonEmptyItemsOrNonWhitespace.go`.
+5. **Don't exceed two `Or` segments** — if three fallbacks are needed, accept a slice of strategies or use a builder pattern instead.
+
 ---
 
 ## Deprecation Convention
