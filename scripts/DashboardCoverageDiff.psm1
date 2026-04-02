@@ -83,7 +83,7 @@ function Save-CoverageSnapshot {
     <# .SYNOPSIS Save current coverage data as JSON for future comparison. #>
     [CmdletBinding()]
     param([Parameter(Mandatory)][array]$CoverageData, [string]$Path)
-    if (-not $Path) { $Path = Join-Path $PSScriptRoot ".." "data" "coverage" "coverage-previous.json" }
+    if (-not $Path) { $Path = Join-Path $global:DataDir "coverage" "coverage-previous.json" }
     $dir = Split-Path $Path -Parent
     if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
     @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); packages = $CoverageData } |
@@ -96,7 +96,7 @@ function Load-CoverageSnapshot {
     [CmdletBinding()]
     [OutputType([array])]
     param([string]$Path)
-    if (-not $Path) { $Path = Join-Path $PSScriptRoot ".." "data" "coverage" "coverage-previous.json" }
+    if (-not $Path) { $Path = Join-Path $global:DataDir "coverage" "coverage-previous.json" }
     if (-not (Test-Path $Path)) { return $null }
     try { $json = Get-Content $Path -Raw | ConvertFrom-Json; if ($json.packages) { return $json.packages }; return $json } catch { return $null }
 }

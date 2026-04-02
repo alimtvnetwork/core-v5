@@ -29,11 +29,11 @@ function Invoke-TestCoverage {
     }
 
     # Clean data folder
-    $dataDir = Join-Path $PSScriptRoot "data"
+    $dataDir = $global:DataDir
     if (Test-Path $dataDir) { Remove-Item -Recurse -Force $dataDir; Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow }
     if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Data Cleanup" "pass" "cleaned" }
 
-    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    $coverDir = Join-Path $global:DataDir "coverage"
     $partialDir = Join-Path $coverDir "partial"
     New-Item -ItemType Directory -Path $partialDir -Force | Out-Null
 
@@ -262,7 +262,7 @@ function Invoke-TestCoverage {
         $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
         if (Test-Path $promptScript) {
             Write-Host ""; Write-Header "Generating coverage improvement prompts"
-            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir (Join-Path $PSScriptRoot "data" "prompts") -BatchSize 500 -ProjectRoot $PSScriptRoot
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir (Join-Path $global:DataDir "prompts") -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 
         # HTML auto-open

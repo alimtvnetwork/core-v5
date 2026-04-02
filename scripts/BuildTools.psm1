@@ -115,9 +115,9 @@ function Invoke-Clean {
     Write-Header "Cleaning build artifacts"
     if (Test-Path build) { Remove-Item -Recurse -Force build }
     if (Test-Path tests/coverage.out) { Remove-Item tests/coverage.out }
-    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    $coverDir = Join-Path $global:DataDir "coverage"
     if (Test-Path $coverDir) { Remove-Item -Recurse -Force $coverDir; Write-Success "Removed coverage reports" }
-    $precommitDir = Join-Path $PSScriptRoot "data" "precommit"
+    $precommitDir = Join-Path $global:DataDir "precommit"
     if (Test-Path $precommitDir) { Remove-Item -Recurse -Force $precommitDir; Write-Success "Removed precommit reports" }
     Write-Success "Clean complete"
 }

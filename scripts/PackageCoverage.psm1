@@ -29,14 +29,14 @@ function Invoke-PackageTestCoverage {
     Invoke-FetchLatest
 
     # Clean data folder
-    $dataDir = Join-Path $PSScriptRoot "data"
+    $dataDir = $global:DataDir
     if (Test-Path $dataDir) {
         Remove-Item -Recurse -Force $dataDir
         Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
     }
 
     # Pre-checks
-    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    $coverDir = Join-Path $global:DataDir "coverage"
     $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $PSScriptRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
     if (-not $preCheckOk) { exit 1 }
 
@@ -146,7 +146,7 @@ function Invoke-PackageTestCoverage {
         if (Test-Path $promptScript) {
             Write-Host ""
             Write-Header "Generating coverage improvement prompts"
-            $promptsDir = Join-Path $PSScriptRoot "data" "prompts"
+            $promptsDir = Join-Path $global:DataDir "prompts"
             & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 
