@@ -57,7 +57,7 @@ func Test_Cov17_Attributes_DeepClone(t *testing.T) {
 // ── AttributesSetters: HandleErr, HandleError, MustBeEmptyError ──
 // Covers AttributesSetters.go L13-15, L19-21, L29
 
-func Test_Cov17_Attributes_HandleErr_NoError(t *testing.T) {
+func Test_Cov17_I12_Attributes_HandleErr_NoError(t *testing.T) {
 	a := &corepayload.Attributes{}
 	a.HandleErr() // should not panic
 
