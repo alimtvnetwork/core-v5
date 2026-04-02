@@ -859,6 +859,10 @@ func (it *Result) CombineErrorWithRefError(references ...string) error {
 }
 
 func (it Result) IsEqual(another Result) bool {
+	if it.TypeName != another.TypeName {
+		return false
+	}
+
 	if it.Length() != another.Length() {
 		return false
 	}

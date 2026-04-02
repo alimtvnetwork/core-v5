@@ -323,9 +323,9 @@ func Test_I13_GetInArgsTypesNames_Cached(t *testing.T) {
 func Test_I13_IsEqual_SameSignatureDiffMethods(t *testing.T) {
 	mp1 := getPtrMP("ReturnErrorOnly")
 	mp2 := getPtrMP("ReturnNilError")
-	// Same signature (receiver → error), same name won't match but types will
+	// Same signature (receiver → error), but different names → not equal
 	actual := args.Map{"isEqual": mp1.IsEqual(mp2)}
-	expected := args.Map{"isEqual": true}
+	expected := args.Map{"isEqual": false}
 	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- same signature diff methods", actual)
 }
 

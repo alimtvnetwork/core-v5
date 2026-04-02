@@ -205,6 +205,10 @@ func (it *SliceValidators) VerifyAllErrorUsingActual(
 		}
 	}
 
+	if errs.IsEmpty() {
+		return nil
+	}
+
 	header := params.Header
 
 	errs.InsertAt(0, header)
