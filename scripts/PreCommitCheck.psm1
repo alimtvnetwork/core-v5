@@ -47,7 +47,7 @@ function Invoke-PreCommitCheck {
     if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Regression Guard" "pass" "no regressions" }
 
     # ── Pre-checks (safetest + autofix + bracecheck) via shared module ──
-    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    $coverDir = Join-Path $global:DataDir "coverage"
     $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $PSScriptRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
     if (-not $preCheckOk) { exit 1 }
 
