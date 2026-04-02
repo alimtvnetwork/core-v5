@@ -111,6 +111,9 @@ func Test_I12_RwxWrapper_ApplyChmodOptions(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_ApplyRecursive(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	sub := filepath.Join(dir, "sub")
 	os.MkdirAll(sub, 0755)
