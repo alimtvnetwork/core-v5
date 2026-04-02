@@ -52,7 +52,7 @@ function Invoke-PreCommitCheck {
     if (-not $preCheckOk) { exit 1 }
 
     # ── Discover Coverage* packages ──
-    $testBaseDir = Join-Path $PSScriptRoot "tests" "integratedtests"
+    $testBaseDir = Join-Path $global:ProjectRoot "tests" "integratedtests"
     if ($singlePkg) {
         $targetDirs = @(Join-Path $testBaseDir $singlePkg)
         if (-not (Test-Path $targetDirs[0])) { Write-Fail "Package not found: $singlePkg"; return }
