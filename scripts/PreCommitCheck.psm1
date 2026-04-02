@@ -32,7 +32,7 @@ function Invoke-PreCommitCheck {
     $isSyncMode = $ExtraArgs -and ($ExtraArgs -contains "--sync")
 
     # ── Regression guard ──
-    $regressionScript = Join-Path $PSScriptRoot "scripts" "check-integrated-regressions.ps1"
+    $regressionScript = Join-Path $global:ProjectRoot "scripts" "check-integrated-regressions.ps1"
     if (-not (Test-Path $regressionScript)) {
         Write-Fail "Regression guard script not found: $regressionScript"
         exit 1
@@ -48,11 +48,11 @@ function Invoke-PreCommitCheck {
 
     # ── Pre-checks (safetest + autofix + bracecheck) via shared module ──
     $coverDir = Join-Path $global:DataDir "coverage"
-    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $PSScriptRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
+    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $global:ProjectRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
     if (-not $preCheckOk) { exit 1 }
 
     # ── Discover Coverage* packages ──
-    $testBaseDir = Join-Path $PSScriptRoot "tests" "integratedtests"
+    $testBaseDir = Join-Path $global:ProjectRoot "tests" "integratedtests"
     if ($singlePkg) {
         $targetDirs = @(Join-Path $testBaseDir $singlePkg)
         if (-not (Test-Path $targetDirs[0])) { Write-Fail "Package not found: $singlePkg"; return }
@@ -74,7 +74,7 @@ function Invoke-PreCommitCheck {
 
     $goTestPkgs = [System.Collections.Generic.List[string]]::new()
     foreach ($dir in $pkgsWithCoverage) {
-        $relPath = $dir -replace [regex]::Escape($PSScriptRoot), '' -replace '^[\\/]', '' -replace '\\', '/'
+        $relPath = $dir -replace [regex]::Escape($global:ProjectRoot), '' -replace '^[\\/]', '' -replace '\\', '/'
         $goTestPkgs.Add("github.com/alimtvnetwork/core/$relPath")
     }
 

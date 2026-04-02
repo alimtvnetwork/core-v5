@@ -37,7 +37,7 @@ function Invoke-PackageTestCoverage {
 
     # Pre-checks
     $coverDir = Join-Path $global:DataDir "coverage"
-    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $PSScriptRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
+    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $global:ProjectRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
     if (-not $preCheckOk) { exit 1 }
 
     # Build check
@@ -142,12 +142,12 @@ function Invoke-PackageTestCoverage {
         }
 
         # AI coverage prompts
-        $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
+        $promptScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
         if (Test-Path $promptScript) {
             Write-Host ""
             Write-Header "Generating coverage improvement prompts"
             $promptsDir = Join-Path $global:DataDir "prompts"
-            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $global:ProjectRoot
         }
 
         # HTML auto-open

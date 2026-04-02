@@ -44,7 +44,7 @@ function Invoke-TestCoverage {
     # Repo build errors script
     $repoBuildErrorsFile = Join-Path $coverDir "repo-build-errors.txt"
     $repoBuildErrorsJsonFile = Join-Path $coverDir "repo-build-errors.json"
-    $repoBuildErrorsScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-RepoBuildErrors.ps1"
+    $repoBuildErrorsScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Export-RepoBuildErrors.ps1"
     if (Test-Path $repoBuildErrorsScript) {
         & $repoBuildErrorsScript -OutputTxt $repoBuildErrorsFile -OutputJson $repoBuildErrorsJsonFile
     }
@@ -67,7 +67,7 @@ function Invoke-TestCoverage {
     $allTestPkgs = @($integrationTestPkgs) + @($inPkgTestPkgs) | Sort-Object -Unique
 
     # ── Pre-checks ──
-    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $PSScriptRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
+    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $global:ProjectRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
     if (-not $preCheckOk) { exit 1 }
 
     # ── Compile check ──
@@ -219,10 +219,10 @@ function Invoke-TestCoverage {
     if (Test-Path $coverProfile) {
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
-        $uncoveredJsonScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-UncoveredMethodsJson.ps1"
+        $uncoveredJsonScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Export-UncoveredMethodsJson.ps1"
         if (Test-Path $uncoveredJsonScript) {
             $uncoveredJsonFile = Join-Path $coverDir "uncovered-method-lines.json"
-            & $uncoveredJsonScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputFile $uncoveredJsonFile -ProjectRoot $PSScriptRoot
+            & $uncoveredJsonScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputFile $uncoveredJsonFile -ProjectRoot $global:ProjectRoot
         }
 
         $srcPkgStmts = Build-SourcePackageCoverage $mergedLines
@@ -259,10 +259,10 @@ function Invoke-TestCoverage {
         Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Gray
 
         # AI prompts
-        $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
+        $promptScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
         if (Test-Path $promptScript) {
             Write-Host ""; Write-Header "Generating coverage improvement prompts"
-            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir (Join-Path $global:DataDir "prompts") -BatchSize 500 -ProjectRoot $PSScriptRoot
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir (Join-Path $global:DataDir "prompts") -BatchSize 500 -ProjectRoot $global:ProjectRoot
         }
 
         # HTML auto-open
