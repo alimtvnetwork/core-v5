@@ -1408,7 +1408,56 @@ func (it *lazyRegexMap) CreateOrExistingLockIf(
 
 **File naming**: `CreateOrExisting.go` / `CreateOrExistingLock.go` / `CreateOrExistingLockIf.go`.
 
+```
+First.go                  # First() T — panics
+FirstOrDefault.go         # FirstOrDefault() T — zero value
+FirstOrDefaultWith.go     # FirstOrDefaultWith(slice, default) T
+GetOrDefault.go           # GetOrDefault(key, default) V
+CreateOrExisting.go       # CreateOrExisting(name) (*T, bool)
+CreateOrExistingLock.go   # CreateOrExistingLock(name) (*T, bool)
+CreateOrExistingLockIf.go # CreateOrExistingLockIf(isLock, name) (*T, bool)
+```
+
 > **`*OrDefault` returns zero value. `*OrDefaultWith` accepts custom fallback. `*OrExisting` returns existing instance instead of creating new.**
+
+#### Compound `*Or*` Naming in Filter Chains
+
+When a method tries multiple filter strategies in sequence, name it using `Or` to chain the filter names.
+
+> **`AOrB` means: try filter A first, fall back to filter B if A yields nothing.**
+
+```go
+// NonEmptyItemsOrNonWhitespace tries NonEmpty first;
+// if all items are empty strings, falls back to NonWhitespace filtering.
+func (it *Collection[T]) NonEmptyItemsOrNonWhitespace() []T {
+    result := it.NonEmptyItems()
+    if len(result) > 0 {
+        return result
+    }
+    return it.NonWhitespaceItems()
+}
+
+// GetOrKeyOrDefault tries the primary key, then a fallback key,
+// then returns the default value.
+func (it *Hashmap[string, string]) GetOrKeyOrDefault(
+    primaryKey string,
+    fallbackKey string,
+    defaultVal string,
+) string {
+    if val, ok := it.Get(primaryKey); ok { return val }
+    if val, ok := it.Get(fallbackKey); ok { return val }
+    return defaultVal
+}
+```
+
+| Pattern | Meaning |
+|---------|---------|
+| `NonEmptyOrNonWhitespace` | Try non-empty filter, fall back to non-whitespace |
+| `FirstNonEmptyOrDefault` | First non-empty item, or zero value |
+| `GetOrKeyOrDefault` | Primary key → fallback key → default value |
+| `TrimmedOrNonEmpty` | Try trimmed filter, fall back to non-empty |
+
+**Rules**: (1) Each segment must be a real filter/fallback name. (2) Evaluation order matches reading order. (3) Delegate internally to standalone methods. (4) File uses full compound name: `NonEmptyItemsOrNonWhitespace.go`. (5) Max two `Or` segments.
 
 ### Deprecation Convention
 
