@@ -934,6 +934,47 @@ joined := stringslice.NonWhitespaceJoin(input, "\n")
 
 See **[Coding Guidelines — Method Writing](/spec/01-app/17-coding-guidelines.md#method-writing-split-boolean-flag-methods-into-expressive-pairs)** for full details and all patterns.
 
+### `*Must` Suffix (Panic-on-Error)
+
+```go
+// Deserialize returns (*T, error). DeserializeMust panics via errcore.HandleErr.
+func (it creator) Deserialize(bytes []byte) (*T, error) { ... }
+func (it creator) DeserializeMust(bytes []byte) *T {
+    result, err := it.Deserialize(bytes)
+    errcore.HandleErr(err)
+    return result
+}
+```
+
+### `*Slice` vs Variadic
+
+```go
+// Variadic is primary. *Slice companion accepts []T.
+func (it *Collection) AddNonEmptyStrings(items ...string) *Collection { ... }
+func (it *Collection) AddNonEmptyStringsSlice(items []string) *Collection {
+    return it.AddNonEmptyStrings(items...)  // delegates via spread
+}
+```
+
+### `*Or*` Fallback Pattern
+
+```go
+func (it *Collection[T]) First() T              { return it.items[0] }           // panics
+func (it *Collection[T]) FirstOrDefault() T     { ... }                          // zero value
+func FirstOrDefaultWith(s []string, d string) string { ... }                     // custom default
+func (it *Hashmap[K,V]) GetOrDefault(key K, d V) V { ... }                      // map fallback
+func (it *cache) CreateOrExisting(name string) (*T, bool) { ... }               // create-or-retrieve
+```
+
+### Deprecation Convention
+
+```go
+// Deprecated: Use EmptySlicePtr[any]() instead.
+func EmptyAnysPtr() *[]any { return EmptySlicePtr[any]() }
+```
+
+**Format**: Always `// Deprecated: Use X instead.` — name the exact replacement, delegate to it, never delete.
+
 ### Pointer Variants (`*Ptr` Suffix)
 
 Methods provide `*Ptr` variants for pointer return types and nil-safe pointer acceptance:

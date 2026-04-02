@@ -1140,6 +1140,287 @@ JsonPtr.go               # JsonPtr() *corejson.Result
 
 ---
 
+## Method Writing: `*Must` Suffix (Panic-on-Error)
+
+When a method returns `(T, error)`, provide a `*Must` variant that panics on error. This eliminates error-handling boilerplate for call sites that cannot recover.
+
+### The Rule
+
+> **If a method returns `(T, error)`, create a `*Must` variant returning `T` that panics via `errcore.HandleErr(err)`.**
+
+### Examples
+
+```go
+// Deserialize returns (*PayloadsCollection, error).
+func (it newPayloadsCollectionCreator) Deserialize(
+    rawBytes []byte,
+) (*PayloadsCollection, error) {
+    empty := it.Empty()
+    err := corejson.Deserialize.UsingBytes(rawBytes, empty)
+    if err != nil {
+        return nil, err
+    }
+    return empty, nil
+}
+
+// DeserializeMust panics on error — use when failure is unrecoverable.
+func (it newPayloadsCollectionCreator) DeserializeMust(
+    rawBytes []byte,
+) *PayloadsCollection {
+    collection, err := it.Deserialize(rawBytes)
+    errcore.HandleErr(err)
+    return collection
+}
+```
+
+```go
+// SerializeMust panics on serialization error.
+func (it *TypedPayloadWrapper[T]) SerializeMust() []byte {
+    if it == nil || it.Wrapper == nil {
+        panic(defaulterr.NilResult)
+    }
+    bytes, err := it.Serialize()
+    errcore.HandleErr(err)
+    return bytes
+}
+```
+
+### Rules
+
+1. **`*Must` always panics** — never log, return a default, or swallow the error.
+2. **Use `errcore.HandleErr(err)`** — not bare `panic(err)`.
+3. **The `*Must` variant calls the error-returning version** — never duplicate logic.
+4. **File naming**: `Deserialize.go` / `DeserializeMust.go`.
+5. **Combine with `*Ptr`**: `ResultMust` returns `T`, `ResultPtrMust` returns `*T`.
+
+---
+
+## Method Writing: `*Slice` vs Variadic (`...T`)
+
+When a method accepts multiple items, provide **both** a variadic version and a `*Slice` version that accepts `[]T`. This accommodates callers who have a pre-built slice.
+
+### The Rule
+
+> **Variadic (`...T`) is the primary form. `*Slice` is the companion that accepts `[]T`.**
+> **The `*Slice` variant calls the variadic version using `items...` spread.**
+
+### Examples
+
+```go
+// AddNonEmptyStrings accepts variadic string arguments.
+func (it *Collection) AddNonEmptyStrings(items ...string) *Collection {
+    for _, s := range items {
+        if s == "" {
+            continue
+        }
+        it.items = append(it.items, s)
+    }
+    return it
+}
+
+// AddNonEmptyStringsSlice accepts a []string — delegates to variadic.
+func (it *Collection) AddNonEmptyStringsSlice(items []string) *Collection {
+    return it.AddNonEmptyStrings(items...)
+}
+```
+
+```go
+// MergeNew accepts variadic additional items.
+func MergeNew(firstSlice []string, additionalItems ...string) []string {
+    // ... merge logic
+}
+
+// For pre-built slices, callers use: MergeNew(first, second...)
+// No separate *Slice needed when the first param is already []T.
+```
+
+### When to Provide `*Slice`
+
+| Scenario | Provide `*Slice`? | Reason |
+|----------|-------------------|--------|
+| Method accepts only `...T` (no other slice param) | **Yes** | Callers with `[]T` need it |
+| First param is already `[]T`, variadic is second | **No** | Caller can spread: `Fn(a, b...)` |
+| Standalone function (not method) with variadic | **Optional** | Only if frequently called with slices |
+
+### File Naming
+
+```
+AddNonEmptyStrings.go         # variadic: AddNonEmptyStrings(items ...string)
+AddNonEmptyStringsSlice.go    # slice:    AddNonEmptyStringsSlice(items []string)
+```
+
+---
+
+## Method Writing: `*Or*` Fallback Pattern
+
+When a method can fail or return nothing, provide an `*Or*` variant that returns a fallback instead of panicking or returning zero.
+
+### The Rule
+
+> **`*OrDefault` returns the zero value of `T`. `*OrDefaultWith` accepts a custom fallback.**
+> **`*OrExisting` returns an existing instance instead of creating new.**
+
+### Fallback Hierarchy
+
+| Suffix | Fallback | Example |
+|--------|----------|---------|
+| `First` | Panics if empty | `it.items[0]` |
+| `FirstOrDefault` | Returns zero value of `T` | `var zero T; return zero` |
+| `FirstOrDefaultWith(fallback)` | Returns caller-provided fallback | `return fallback` |
+
+### Examples
+
+```go
+// First panics if empty.
+func (it *Collection[T]) First() T {
+    return it.items[0]
+}
+
+// FirstOrDefault returns zero value if empty.
+func (it *Collection[T]) FirstOrDefault() T {
+    if it.IsEmpty() {
+        var zero T
+        return zero
+    }
+    return it.items[0]
+}
+
+// FirstOrDefaultWith returns a custom fallback if empty.
+func FirstOrDefaultWith(slice []string, defaultVal string) string {
+    if len(slice) == 0 {
+        return defaultVal
+    }
+    return slice[0]
+}
+```
+
+```go
+// GetOrDefault returns a fallback when key is missing.
+func (it *Hashmap[K, V]) GetOrDefault(key K, defaultVal V) V {
+    val, found := it.items[key]
+    if !found {
+        return defaultVal
+    }
+    return val
+}
+```
+
+#### `*OrExisting` Pattern
+
+Used when creating-or-retrieving from a cache/registry:
+
+```go
+// CreateOrExisting returns an existing LazyRegex or creates a new one.
+func (it *lazyRegexMap) CreateOrExisting(
+    patternName string,
+) (lazyRegex *LazyRegex, isExisting bool) {
+    existing, found := it.items[patternName]
+    if found {
+        return existing, true
+    }
+    created := NewLazyRegex(patternName)
+    it.items[patternName] = created
+    return created, false
+}
+
+// CreateOrExistingLockIf — combined: base + lock + if
+func (it *lazyRegexMap) CreateOrExistingLockIf(
+    isLock bool,
+    patternName string,
+) (*LazyRegex, bool) {
+    if isLock {
+        return it.CreateOrExistingLock(patternName)
+    }
+    return it.CreateOrExisting(patternName)
+}
+```
+
+### File Naming
+
+```
+First.go                  # First() T — panics
+FirstOrDefault.go         # FirstOrDefault() T — zero value
+FirstOrDefaultWith.go     # FirstOrDefaultWith(slice, default) T
+GetOrDefault.go           # GetOrDefault(key, default) V
+CreateOrExisting.go       # CreateOrExisting(name) (*T, bool)
+CreateOrExistingLock.go   # CreateOrExistingLock(name) (*T, bool)
+CreateOrExistingLockIf.go # CreateOrExistingLockIf(isLock, name) (*T, bool)
+```
+
+---
+
+## Deprecation Convention
+
+When a function or method is superseded, mark it with a **standardized `// Deprecated:` comment** that tells the caller exactly what to use instead.
+
+### The Format
+
+```go
+// Deprecated: Use <replacement> instead.
+func OldFunction(...) ... {
+    return NewFunction(...)
+}
+```
+
+### Rules
+
+1. **Always start with `// Deprecated: Use`** — this is recognized by Go tooling (`go vet`, IDE inspectors).
+2. **Name the exact replacement** — never just "deprecated", always "Use X instead."
+3. **The deprecated function delegates to the replacement** — do not duplicate logic.
+4. **Keep the deprecated function** — do not delete it; let callers migrate at their own pace.
+5. **One file per deprecated function** — same as all other methods.
+
+### Examples from the Codebase
+
+```go
+// Deprecated: Use EmptySlicePtr[any]() instead.
+func EmptyAnysPtr() *[]any {
+    return EmptySlicePtr[any]()
+}
+
+// Deprecated: Use EmptySlicePtr[string]() instead.
+func EmptyStringsPtr() *[]string {
+    return EmptySlicePtr[string]()
+}
+
+// Deprecated: Use the built-in max() function (Go 1.21+).
+func MaxByte(a, b byte) byte { ... }
+
+// Deprecated: Use MakeLen instead.
+func MakeLenPtr(length int) []string {
+    return make([]string, length)
+}
+
+// Deprecated: Use FirstLastDefault instead.
+func FirstLastDefaultPtr(slice []string) (first, last string) {
+    ...
+}
+
+// Deprecated: Use SafeValues instead.
+func (it *Result) SafeValuesPtr() []byte {
+    if it.HasIssuesOrEmpty() {
+        return []byte{}
+    }
+    return it.Bytes
+}
+
+// Deprecated: No longer needed - slices are used directly.
+func SlicePtr(slice []string) []string {
+    ...
+}
+```
+
+### Common Deprecation Patterns
+
+| Old Pattern | Replacement | Reason |
+|-------------|-------------|--------|
+| Type-specific `EmptyXPtr()` | Generic `EmptySlicePtr[T]()` | Go generics replaced manual variants |
+| `*Ptr` suffix on slice functions | Non-pointer version | Original `*Ptr` naming was misleading |
+| `MaxByte`, `MinFloat32` | Built-in `max()`, `min()` | Go 1.21+ built-ins |
+| Redundant wrappers | Direct usage | `SlicePtr(s)` → just use `s` |
+
+---
+
 ## Related Docs
 
 - [Design Philosophy](/spec/01-app/00-repo-overview.md)
