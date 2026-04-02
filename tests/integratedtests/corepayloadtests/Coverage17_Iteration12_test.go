@@ -117,7 +117,7 @@ func Test_Cov17_PayloadWrapper_UnmarshalJSON_Nil(t *testing.T) {
 // ── PayloadWrapper: BasicError (has error vs no error) ──
 // Covers PayloadWrapper.go L134-136
 
-func Test_Cov17_PayloadWrapper_BasicError_NoError(t *testing.T) {
+func Test_Cov17_I12_PayloadWrapper_BasicError_NoError(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{}
 	result := pw.BasicError()
 
