@@ -98,7 +98,8 @@ if (Get-Command Initialize-DashboardUI -ErrorAction SilentlyContinue) {
 }
 
 # -- Shared Variables --
-$global:TestLogDir = Join-Path $PSScriptRoot "data" "test-logs"
+$global:DataDir    = Join-Path $PSScriptRoot "data"
+$global:TestLogDir = Join-Path $global:DataDir "test-logs"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Command Dispatch

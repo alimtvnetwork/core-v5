@@ -197,7 +197,7 @@ func Test_Cov17_PayloadWrapper_SetUserInfo(t *testing.T) {
 // ── PayloadWrapper: HandleError ──
 // Covers PayloadWrapper.go L294-296
 
-func Test_Cov17_PayloadWrapper_HandleError_NoError(t *testing.T) {
+func Test_Cov17_I12_PayloadWrapper_HandleError_NoError(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{}
 	pw.HandleError() // should not panic
 

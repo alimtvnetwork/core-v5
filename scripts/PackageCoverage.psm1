@@ -146,7 +146,7 @@ function Invoke-PackageTestCoverage {
         if (Test-Path $promptScript) {
             Write-Host ""
             Write-Header "Generating coverage improvement prompts"
-            $promptsDir = Join-Path $PSScriptRoot "data" "prompts"
+            $promptsDir = Join-Path $global:DataDir "prompts"
             & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
         }
 

@@ -79,7 +79,7 @@ function Invoke-PreCommitCheck {
     }
 
     # ── Compile check ──
-    $compileTemp = Join-Path $PSScriptRoot "data" "precommit"
+    $compileTemp = Join-Path $global:DataDir "precommit"
     if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
     New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
 

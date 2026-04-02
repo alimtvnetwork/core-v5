@@ -96,7 +96,7 @@ function Load-CoverageSnapshot {
     [CmdletBinding()]
     [OutputType([array])]
     param([string]$Path)
-    if (-not $Path) { $Path = Join-Path $PSScriptRoot ".." "data" "coverage" "coverage-previous.json" }
+    if (-not $Path) { $Path = Join-Path $global:DataDir "coverage" "coverage-previous.json" }
     if (-not (Test-Path $Path)) { return $null }
     try { $json = Get-Content $Path -Raw | ConvertFrom-Json; if ($json.packages) { return $json.packages }; return $json } catch { return $null }
 }
