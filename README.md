@@ -556,57 +556,270 @@ results, err := conditional.TypedErrorFunctionsExecuteResults[string](
 
 ---
 
-## Unit Test Pattern
+## Unit Testing
 
 This project follows the **Arrange-Act-Assert (AAA)** pattern with `coretestcases.CaseV1`, GoConvey assertions, and `errcore.AssertDiffOnMismatch`.
 
-> 📖 **[Full Testing Guidelines](/spec/01-app/16-testing-guidelines.md)** — comprehensive reference covering all assertion methods, `args.Map` usage, named test case variables, `SliceValidator`, comparison modes (Equal/Contains/Regex/Sorted), custom test wrappers, panic testing, concurrency testing, anti-patterns, and a CaseV2 proposal.
+> 📖 **Complete testing documentation**: [`/spec/testing-guidelines/`](/spec/testing-guidelines/) — 8 detailed guides covering folder structure, all case types, args reference, assertion patterns, branch coverage, diagnostics, good-vs-bad examples, and custom case creation.
+>
+> 📖 **[Full Testing Guidelines](/spec/01-app/16-testing-guidelines.md)** — comprehensive reference covering all assertion methods, `args.Map` usage, named test case variables, `SliceValidator`, comparison modes, custom test wrappers, panic testing, concurrency testing, anti-patterns, and a CaseV2 proposal.
 
-### Quick Example
+### Test Folder Structure
 
+```
+tests/integratedtests/
+├── mypkgtests/                            # One directory per source package
+│   ├── params.go                          # Reusable key constants for args.Map
+│   ├── MyFunc_testcases.go                # Test data — expectations only
+│   ├── MyFunc_test.go                     # Test runner — assertions only
+│   ├── MyStruct_NilReceiver_testcases.go  # Nil-safety test data
+│   ├── NilReceiver_test.go                # Nil-safety test runner
+│   └── helpers.go                         # Shared test-only structs/utilities
+└── anotherpkgtests/
+    └── ...
+```
+
+**Separation rules**:
+- `_testcases.go` — ONLY `var` declarations, NO `import "testing"`, NO `func Test_`
+- `_test.go` — ONLY test functions with AAA comments, NO hardcoded expected values
+- `helpers.go` — shared structs/utilities, NO test functions or test data
+
+### CaseV1 — Primary Test Case Type
+
+The workhorse for most tests. Supports string-based and map-based assertions.
+
+**`_testcases.go`:**
 ```go
+package mypkgtests
+
 import (
-    "testing"
-    "github.com/alimtvnetwork/core/coretests/coretestcases"
     "github.com/alimtvnetwork/core/coretests/args"
-    "github.com/alimtvnetwork/core/coretests"
+    "github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
-// In _testcases.go file:
-var myTestCases = []coretestcases.CaseV1{
+var validateEmailTestCases = []coretestcases.CaseV1{
     {
-        Title: "valid input returns expected output",
+        Title: "ValidateEmail returns valid -- given well-formed email",
         ArrangeInput: args.Map{
-            "when":   "given valid input",
-            "actual": "hello",
-            "expect": "HELLO",
+            "email": "user@example.com",
         },
-        ExpectedInput: []string{"HELLO"},
+        ExpectedInput: args.Map{
+            "isValid":    true,
+            "errorCount": 0,
+        },
+    },
+    {
+        Title: "ValidateEmail returns invalid -- given empty email",
+        ArrangeInput: args.Map{
+            "email": "",
+        },
+        ExpectedInput: args.Map{
+            "isValid":    false,
+            "errorCount": 1,
+        },
     },
 }
+```
 
-// In _test.go file:
-func Test_MyFunction_Verification(t *testing.T) {
-    for caseIndex, testCase := range myTestCases {
+**`_test.go`:**
+```go
+package mypkgtests
+
+import (
+    "testing"
+    "github.com/alimtvnetwork/core/coretests/args"
+)
+
+func Test_ValidateEmail_Verification(t *testing.T) {
+    for caseIndex, tc := range validateEmailTestCases {
         // Arrange
-        input := testCase.ArrangeInput.(args.Map)
+        input := tc.ArrangeInput.(args.Map)
+        email, _ := input.GetAsString("email")
 
         // Act
-        result := strings.ToUpper(input.Actual().(string))
+        result := validator.ValidateEmail(email)
+        actual := args.Map{
+            "isValid":    result.IsValid,
+            "errorCount": len(result.Errors),
+        }
 
         // Assert
-        actualLines := coretests.GetAssert.ToStrings(result)
-        testCase.ShouldBeEqual(t, caseIndex, actualLines...)
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
     }
 }
 ```
+
+### CaseV1 — Single Test Case (Named Variable)
+
+For one-off tests, use a named standalone variable (not a slice) and `*First` assertion methods:
+
+```go
+// _testcases.go
+var concatMessageNilTestCase = coretestcases.CaseV1{
+    Title: "ConcatMessageWithErr nil error returns nil",
+    ArrangeInput: args.Map{
+        "message": "should not appear",
+    },
+    ExpectedInput: args.Map{
+        "isNil": true,
+    },
+}
+
+// _test.go
+func Test_ConcatMessageWithErr_NilPassthrough(t *testing.T) {
+    tc := concatMessageNilTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    msg, _ := input.GetAsString("message")
+
+    // Act
+    result := errcore.ConcatMessageWithErr(msg, nil)
+    actual := args.Map{
+        "isNil": result == nil,
+    }
+
+    // Assert
+    tc.ShouldBeEqualMapFirst(t, actual)
+}
+```
+
+### CaseNilSafe — Nil-Receiver Safety
+
+For testing pointer-receiver methods that must not panic on nil:
+
+```go
+// _NilReceiver_testcases.go
+var myStructNilSafeTestCases = []coretestcases.CaseNilSafe{
+    {
+        Title: "IsValid on nil returns false",
+        Func:  (*MyStruct).IsValid,
+        Expected: results.ResultAny{
+            Value:    "false",
+            Panicked: false,
+        },
+    },
+    {
+        Title: "HasKey on nil returns false",
+        Func: func(m *MyStruct) bool {
+            return m.HasKey("anything")
+        },
+        Expected: results.ResultAny{
+            Value:    "false",
+            Panicked: false,
+        },
+    },
+    {
+        Title: "Clear on nil does not panic",
+        Func:  (*MyStruct).Clear,
+        Expected: results.ResultAny{
+            Panicked: false,
+        },
+        CompareFields: []string{"panicked", "returnCount"},
+    },
+}
+
+// NilReceiver_test.go
+func Test_MyStruct_NilReceiver(t *testing.T) {
+    for caseIndex, tc := range myStructNilSafeTestCases {
+        tc.ShouldBeSafe(t, caseIndex)
+    }
+}
+```
+
+### MapGherkins — BDD-Style with Typed Maps
+
+For multi-field input → multi-field output with semantic keys and BDD fields (`When`, `Given`, `Then`):
+
+```go
+// params.go
+package mypkgtests
+
+var params = struct {
+    pattern      string
+    compareInput string
+    isDefined    string
+    isApplicable string
+    isMatch      string
+}{
+    pattern:      "pattern",
+    compareInput: "compareInput",
+    isDefined:    "isDefined",
+    isApplicable: "isApplicable",
+    isMatch:      "isMatch",
+}
+
+// _testcases.go
+var lazyRegexTestCases = []coretestcases.MapGherkins{
+    {
+        Title: "New.Lazy matches word pattern",
+        When:  "given a simple word pattern",
+        Input: args.Map{
+            params.pattern:      "hello",
+            params.compareInput: "hello world",
+        },
+        Expected: args.Map{
+            params.isDefined:    true,
+            params.isApplicable: true,
+            params.isMatch:      true,
+        },
+    },
+}
+
+// _test.go
+func Test_LazyRegex_New_Verification(t *testing.T) {
+    for caseIndex, tc := range lazyRegexTestCases {
+        // Arrange
+        pattern, _ := tc.Input.GetAsString(params.pattern)
+        compareInput, _ := tc.Input.GetAsString(params.compareInput)
+
+        // Act
+        lazy := regexnew.New.Lazy(pattern)
+        actual := args.Map{
+            params.isDefined:    lazy.IsDefined(),
+            params.isApplicable: lazy.IsApplicable(),
+            params.isMatch:      lazy.IsMatch(compareInput),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+### Test Case Type Decision Matrix
+
+| Condition | Use |
+|-----------|-----|
+| Standard input → string output | `CaseV1` + `ShouldBeEqual` |
+| Standard input → multi-field output | `CaseV1` + `args.Map` + `ShouldBeEqualMap` |
+| Nil-receiver safety | `CaseNilSafe` + `ShouldBeSafe` |
+| BDD with typed input/output | `GenericGherkins[T1, T2]` |
+| Multi-field I/O with semantic keys | `MapGherkins` (alias for `GenericGherkins[args.Map, args.Map]`) |
+| Domain-specific data extraction | Custom wrapper embedding `CaseV1` |
+
+### Assertion Method Quick Reference
+
+| Method | Use When |
+|--------|----------|
+| `ShouldBeEqual(t, caseIndex, actual...)` | Loop-based, exact string match |
+| `ShouldBeEqualFirst(t, actual...)` | Single test case (caseIndex=0) |
+| `ShouldBeEqualMap(t, caseIndex, actualMap)` | Map-based comparison |
+| `ShouldBeEqualMapFirst(t, actualMap)` | Single test case, map comparison |
+| `ShouldContains(t, caseIndex, actual...)` | Substring match |
+| `ShouldStartsWith(t, caseIndex, actual...)` | Prefix match |
+| `ShouldBeSafe(t, caseIndex)` | Nil-receiver safety |
+| `ShouldBeSafeFirst(t)` | Single nil-safety case |
 
 ### Key Principles
 
 1. **Separate test data** — `_testcases.go` files keep data out of test logic.
 2. **AAA comments** — always label `// Arrange`, `// Act`, `// Assert` sections.
 3. **Index tracking** — always pass `caseIndex` for precise failure identification.
-4. **String-line comparison** — convert results to `[]string` for readable diffs.
+4. **Native types in `args.Map`** — use `true` not `"true"`, use `5` not `"5"`.
+5. **`params.go` constants** — never use raw string literals for map keys.
+6. **Descriptive titles** — `"FuncName returns X -- given Y input"` with `--` separator.
+7. **Multi-line `args.Map`** — for 2+ entries, each key-value pair on its own line.
 
 ---
 
