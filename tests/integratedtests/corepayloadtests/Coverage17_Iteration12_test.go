@@ -66,7 +66,7 @@ func Test_Cov17_I12_Attributes_HandleErr_NoError(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "HandleErr does nothing -- no error", actual)
 }
 
-func Test_Cov17_Attributes_HandleError_NoError(t *testing.T) {
+func Test_Cov17_I12_Attributes_HandleError_NoError(t *testing.T) {
 	a := &corepayload.Attributes{}
 	a.HandleError() // should not panic
 
