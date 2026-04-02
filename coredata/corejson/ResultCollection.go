@@ -816,7 +816,7 @@ func (it ResultsCollection) Clone(isDeepCloneEach bool) ResultsCollection {
 	newResults := NewResultsCollection.
 		UsingCap(it.Length())
 
-	if newResults.Length() == 0 {
+	if it.Length() == 0 {
 		return *newResults
 	}
 
@@ -835,7 +835,7 @@ func (it *ResultsCollection) ClonePtr(isDeepCloneEach bool) *ResultsCollection {
 	newResults := NewResultsCollection.UsingCap(
 		it.Length())
 
-	if newResults.Length() == 0 {
+	if it.Length() == 0 {
 		return newResults
 	}
 

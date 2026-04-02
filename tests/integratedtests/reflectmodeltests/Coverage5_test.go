@@ -196,13 +196,12 @@ func Test_Cov5_MethodProcessor_IsEqual_SameSignature(t *testing.T) {
 	mp1 := newCov5MethodProcessor("ReturnError")
 	mp2 := newCov5MethodProcessor("ReturnNilError")
 	// Both have same signature: (receiver) -> error
-	// But note: IsEqual has a bug where it compares it.Name != it.Name (always false)
-	// So this should return true since the bug means name check always passes
+	// IsEqual compares names first — different names means not equal
 	actual := args.Map{
 		"equal": mp1.IsEqual(mp2),
 	}
 	expected := args.Map{
-		"equal": true,
+		"equal": false,
 	}
 	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- same signature different name", actual)
 }
