@@ -6,7 +6,6 @@ import (
 
 	"github.com/alimtvnetwork/core/coredata/corepayload"
 	"github.com/alimtvnetwork/core/coretests/args"
-	"github.com/alimtvnetwork/core/errcore"
 )
 
 // testUser is declared in TypedCollection_testcases.go
