@@ -29,11 +29,11 @@ function Invoke-TestCoverage {
     }
 
     # Clean data folder
-    $dataDir = Join-Path $PSScriptRoot "data"
+    $dataDir = $global:DataDir
     if (Test-Path $dataDir) { Remove-Item -Recurse -Force $dataDir; Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow }
     if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Data Cleanup" "pass" "cleaned" }
 
-    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    $coverDir = Join-Path $global:DataDir "coverage"
     $partialDir = Join-Path $coverDir "partial"
     New-Item -ItemType Directory -Path $partialDir -Force | Out-Null
 
