@@ -200,6 +200,32 @@ Pre-defined aliases for all common primitives are in `types.go`:
 - Zero-nil safety: nil receivers return safe defaults (0, empty, false).
 - Constraint hierarchy: `cmp.Ordered ⊂ comparable ⊂ any`.
 
+### Compound `*Or*` Fallback Naming
+
+Method names using `Or` indicate a **filter chain**: try strategy A first, then fall back to B.
+
+| Method | Meaning |
+|--------|---------|
+| `NonEmptyItemsOrNonWhitespace()` | Return non-empty items; if none, return non-whitespace items |
+| `GetOrKeyOrDefault(primary, fallback, def)` | Try primary key, then fallback key, then return default |
+
+**Rules:**
+1. Maximum **two `Or` segments** (e.g., `AOrB` or `AOrBOrC`).
+2. Each segment must use an established suffix (`NonEmpty`, `NonWhitespace`, `OrDefault`, etc.).
+3. Internally, each segment delegates to its standalone method — no duplicated logic.
+4. Source file uses the **full compound name** (e.g., `NonEmptyItemsOrNonWhitespace.go`).
+
+```go
+// NonEmptyItemsOrNonWhitespace tries NonEmpty first, falls back to NonWhitespace.
+func (it *Collection[T]) NonEmptyItemsOrNonWhitespace() *Collection[T] {
+    result := it.NonEmptyItems()
+    if result.IsEmpty() {
+        return it.NonWhitespaceItems()
+    }
+    return result
+}
+```
+
 ## How to Extend Safely
 
 - **New primitive type**: Add a field to each `newXCreator` struct and a type alias in `types.go`.
