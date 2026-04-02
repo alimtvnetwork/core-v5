@@ -219,10 +219,10 @@ function Invoke-TestCoverage {
     if (Test-Path $coverProfile) {
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
-        $uncoveredJsonScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-UncoveredMethodsJson.ps1"
+        $uncoveredJsonScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Export-UncoveredMethodsJson.ps1"
         if (Test-Path $uncoveredJsonScript) {
             $uncoveredJsonFile = Join-Path $coverDir "uncovered-method-lines.json"
-            & $uncoveredJsonScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputFile $uncoveredJsonFile -ProjectRoot $PSScriptRoot
+            & $uncoveredJsonScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputFile $uncoveredJsonFile -ProjectRoot $global:ProjectRoot
         }
 
         $srcPkgStmts = Build-SourcePackageCoverage $mergedLines
