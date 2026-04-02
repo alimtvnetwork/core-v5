@@ -44,7 +44,7 @@ function Invoke-TestCoverage {
     # Repo build errors script
     $repoBuildErrorsFile = Join-Path $coverDir "repo-build-errors.txt"
     $repoBuildErrorsJsonFile = Join-Path $coverDir "repo-build-errors.json"
-    $repoBuildErrorsScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-RepoBuildErrors.ps1"
+    $repoBuildErrorsScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Export-RepoBuildErrors.ps1"
     if (Test-Path $repoBuildErrorsScript) {
         & $repoBuildErrorsScript -OutputTxt $repoBuildErrorsFile -OutputJson $repoBuildErrorsJsonFile
     }
