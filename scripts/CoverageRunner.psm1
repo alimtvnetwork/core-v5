@@ -67,7 +67,7 @@ function Invoke-TestCoverage {
     $allTestPkgs = @($integrationTestPkgs) + @($inPkgTestPkgs) | Sort-Object -Unique
 
     # ── Pre-checks ──
-    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $PSScriptRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
+    $preCheckOk = Invoke-CoveragePreChecks -ScriptRoot $global:ProjectRoot -ExtraArgs $ExtraArgs -CoverDir $coverDir
     if (-not $preCheckOk) { exit 1 }
 
     # ── Compile check ──
