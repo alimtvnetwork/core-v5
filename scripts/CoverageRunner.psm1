@@ -259,10 +259,10 @@ function Invoke-TestCoverage {
         Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Gray
 
         # AI prompts
-        $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
+        $promptScript = Join-Path $global:ProjectRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
         if (Test-Path $promptScript) {
             Write-Host ""; Write-Header "Generating coverage improvement prompts"
-            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir (Join-Path $global:DataDir "prompts") -BatchSize 500 -ProjectRoot $PSScriptRoot
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir (Join-Path $global:DataDir "prompts") -BatchSize 500 -ProjectRoot $global:ProjectRoot
         }
 
         # HTML auto-open
