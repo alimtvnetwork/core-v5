@@ -1305,10 +1305,14 @@ Detailed architecture and conventions documentation for AI agents and contributo
 | Go Modernization Plan        | [`/spec/01-app/11-go-modernization.md`](/spec/01-app/11-go-modernization.md)                                               |
 | CMD Entrypoints              | [`/spec/01-app/12-cmd-entrypoints.md`](/spec/01-app/12-cmd-entrypoints.md)                                                 |
 | Testing Patterns             | [`/spec/01-app/13-testing-patterns.md`](/spec/01-app/13-testing-patterns.md)                                               |
-| **newCreator Convention**    | [`/spec/01-app/18-new-creator-convention.md`](/spec/01-app/18-new-creator-convention.md)                                   |
-| Interface Conventions        | [`/spec/01-app/14-core-interface-conventions.md`](/spec/01-app/14-core-interface-conventions.md)                           |
-| Code Review Report           | [`/spec/01-app/15-code-review-report.md`](/spec/01-app/15-code-review-report.md)                                           |
 | **Testing Guidelines**       | [`/spec/01-app/16-testing-guidelines.md`](/spec/01-app/16-testing-guidelines.md)                                           |
+| **Testing Reference Guides** | [`/spec/testing-guidelines/`](/spec/testing-guidelines/) — Complete testing docs                                           |
+| ↳ Folder Structure           | [`/spec/testing-guidelines/01-folder-structure.md`](/spec/testing-guidelines/01-folder-structure.md)                       |
+| ↳ Test Case Types            | [`/spec/testing-guidelines/02-test-case-types.md`](/spec/testing-guidelines/02-test-case-types.md)                         |
+| ↳ Args Reference             | [`/spec/testing-guidelines/03-args-reference.md`](/spec/testing-guidelines/03-args-reference.md)                           |
+| ↳ Assertion Patterns         | [`/spec/testing-guidelines/05-assertion-patterns.md`](/spec/testing-guidelines/05-assertion-patterns.md)                   |
+| ↳ Good vs Bad Tests          | [`/spec/testing-guidelines/07-good-vs-bad.md`](/spec/testing-guidelines/07-good-vs-bad.md)                                 |
+| ↳ Custom Case Types          | [`/spec/testing-guidelines/08-creating-custom-cases.md`](/spec/testing-guidelines/08-creating-custom-cases.md)             |
 | **Coding Guidelines**        | [`/spec/01-app/17-coding-guidelines.md`](/spec/01-app/17-coding-guidelines.md)                                             |
 | **Code Strengths Review**    | [`/spec/01-app/19-code-strengths.md`](/spec/01-app/19-code-strengths.md)                                                   |
 | **Improvement Plan**         | [`/spec/01-app/20-improvement-plan.md`](/spec/01-app/20-improvement-plan.md)                                               |
