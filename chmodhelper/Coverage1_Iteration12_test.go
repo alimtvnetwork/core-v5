@@ -147,6 +147,9 @@ func Test_I12_RwxWrapper_MustApplyChmod_Success(t *testing.T) {
 }
 
 func Test_I12_RwxWrapper_HasChmod(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod not supported on Windows")
+	}
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "hc.txt")
 	os.WriteFile(fp, []byte("z"), 0644)
