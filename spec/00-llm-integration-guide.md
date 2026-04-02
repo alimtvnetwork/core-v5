@@ -1852,6 +1852,125 @@ triple := coregeneric.New.Triple.DivideIntWeighted(100, 0.2, 0.3) // {20, 30, 50
 
 ---
 
+### Package-Level Functional Helpers (`funcs.go` + `orderedfuncs.go`)
+
+Go does not allow generic methods with additional type parameters on a generic receiver.
+These **package-level functions** bridge that gap, enabling cross-type transformations, aggregations, and ordered operations on `Collection[T]`, `SimpleSlice[T]`, `Hashset[T]`, and `Hashmap[K,V]`.
+
+#### Cross-Type Transformations (`funcs.go`)
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `MapCollection` | `[T,U any](source, mapper) → *Collection[U]` | Transform each item to a different type |
+| `FlatMapCollection` | `[T,U any](source, mapper) → *Collection[U]` | Map then flatten slices |
+| `ReduceCollection` | `[T,U any](source, initial, reducer) → U` | Fold into a single value |
+| `GroupByCollection` | `[T any, K comparable](source, keyFunc) → map[K]*Collection[T]` | Group items by key |
+| `ContainsFunc` | `[T any](source, predicate) → bool` | Predicate search (non-comparable T) |
+| `IndexOfFunc` | `[T any](source, predicate) → int` | Index of first match, or -1 |
+| `ContainsItem` | `[T comparable](source, item) → bool` | Equality check for comparable T |
+| `IndexOfItem` | `[T comparable](source, item) → int` | Index of first occurrence, or -1 |
+| `Distinct` | `[T comparable](source) → *Collection[T]` | Remove duplicates, preserve order |
+| `MapSimpleSlice` | `[T,U any](source, mapper) → *SimpleSlice[U]` | Transform SimpleSlice items |
+
+```go
+// MapCollection — transform users to names
+names := coregeneric.MapCollection(users, func(u User) string { return u.Name })
+
+// FlatMapCollection — flatten tags from posts
+allTags := coregeneric.FlatMapCollection(posts, func(p Post) []string { return p.Tags })
+
+// ReduceCollection — sum prices
+total := coregeneric.ReduceCollection(prices, 0, func(acc int, p Price) int { return acc + p.Amount })
+
+// GroupByCollection — group by department
+groups := coregeneric.GroupByCollection(employees, func(e Employee) string { return e.Dept })
+
+// Distinct — deduplicate
+unique := coregeneric.Distinct(ids)
+
+// ContainsFunc / IndexOfFunc — non-comparable search
+found := coregeneric.ContainsFunc(items, func(it Item) bool { return it.ID == targetID })
+idx   := coregeneric.IndexOfFunc(items, func(it Item) bool { return it.Name == "x" })
+
+// ContainsItem / IndexOfItem — comparable search
+has := coregeneric.ContainsItem(names, "Alice")
+pos := coregeneric.IndexOfItem(nums, 42)
+
+// MapSimpleSlice — transform SimpleSlice
+lengths := coregeneric.MapSimpleSlice(words, func(w string) int { return len(w) })
+```
+
+#### Ordered Operations (`orderedfuncs.go`)
+
+Require `T` (or `K`/`V`) to satisfy `cmp.Ordered`. Use `slices.Sort` / `slices.Min` / `slices.Max` internally.
+
+**Collection[T] ordered helpers:**
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `SortCollection` | `[T cmp.Ordered](source) → *Collection[T]` | In-place ascending sort |
+| `SortCollectionDesc` | `[T cmp.Ordered](source) → *Collection[T]` | In-place descending sort |
+| `MinCollection` / `MaxCollection` | `[T cmp.Ordered](source) → T` | Min/max (panics if empty) |
+| `MinCollectionOrDefault` / `MaxCollectionOrDefault` | `[T cmp.Ordered](source, defVal) → T` | Min/max with fallback |
+| `IsSortedCollection` | `[T cmp.Ordered](source) → bool` | Check ascending order |
+| `SumCollection` | `[T cmp.Ordered](source) → T` | Sum all elements |
+| `ClampCollection` | `[T cmp.Ordered](source, min, max) → *Collection[T]` | Clamp values in-place |
+
+**SimpleSlice[T] ordered helpers:**
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `SortSimpleSlice` | `[T cmp.Ordered](source) → *SimpleSlice[T]` | In-place ascending sort |
+| `SortSimpleSliceDesc` | `[T cmp.Ordered](source) → *SimpleSlice[T]` | In-place descending sort |
+| `MinSimpleSlice` / `MaxSimpleSlice` | `[T cmp.Ordered](source) → T` | Min/max (panics if empty) |
+| `SumSimpleSlice` | `[T cmp.Ordered](source) → T` | Sum all elements |
+
+**Hashset[T] ordered helpers:**
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `SortedListHashset` / `SortedListDescHashset` | `[T cmp.Ordered](source) → []T` | Sorted slice from set |
+| `SortedCollectionHashset` | `[T cmp.Ordered](source) → *Collection[T]` | Sorted Collection from set |
+| `MinHashset` / `MaxHashset` | `[T cmp.Ordered](source) → T` | Min/max (panics if empty) |
+| `MinHashsetOrDefault` / `MaxHashsetOrDefault` | `[T cmp.Ordered](source, defVal) → T` | Min/max with fallback |
+
+**Hashmap[K,V] ordered helpers:**
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `SortedKeysHashmap` / `SortedKeysDescHashmap` | `[K cmp.Ordered, V any](source) → []K` | Sorted keys |
+| `MinKeyHashmap` / `MaxKeyHashmap` | `[K cmp.Ordered, V any](source) → K` | Min/max key |
+| `MinKeyHashmapOrDefault` / `MaxKeyHashmapOrDefault` | `[K cmp.Ordered, V any](source, defVal) → K` | Min/max key with fallback |
+| `SortedValuesHashmap` | `[K comparable, V cmp.Ordered](source) → []V` | Sorted values |
+| `MinValueHashmap` / `MaxValueHashmap` | `[K comparable, V cmp.Ordered](source) → V` | Min/max value |
+| `MinValueHashmapOrDefault` / `MaxValueHashmapOrDefault` | `[K comparable, V cmp.Ordered](source, defVal) → V` | Min/max value with fallback |
+
+```go
+// Sort + min/max on Collection
+coregeneric.SortCollection(scores)           // in-place ascending
+best := coregeneric.MaxCollection(scores)    // panics if empty
+safe := coregeneric.MinCollectionOrDefault(scores, 0)
+
+// Sort SimpleSlice
+coregeneric.SortSimpleSlice(names)           // in-place ascending
+coregeneric.SortSimpleSliceDesc(names)       // in-place descending
+
+// Sum
+total := coregeneric.SumCollection(amounts)
+ssTotal := coregeneric.SumSimpleSlice(values)
+
+// Hashset → sorted slice
+sorted := coregeneric.SortedListHashset(tagSet)
+
+// Hashmap sorted keys/values
+keys := coregeneric.SortedKeysHashmap(config)
+minKey := coregeneric.MinKeyHashmapOrDefault(config, "")
+```
+
+> **Why package-level?** Go prohibits `func (c *Collection[T]) Map[U any](...)` — methods cannot introduce new type parameters. Package-level functions like `MapCollection[T, U]` work around this limitation.
+
+---
+
 ## Further Reading
 
 | Topic | Location |
