@@ -1302,6 +1302,59 @@ func (it *Hashset[T]) ListPtr() *[]T  { list := it.List(); return &list }
 
 **File naming**: Each variant in its own file — `IsEmpty.go` / `IsEmptyPtr.go`, `Clone.go` / `ClonePtr.go`.
 
+### Method Writing: `*Must` Suffix (Panic-on-Error)
+
+```go
+// Deserialize returns (*T, error). DeserializeMust panics on error.
+func (it creator) Deserialize(bytes []byte) (*T, error) { ... }
+func (it creator) DeserializeMust(bytes []byte) *T {
+    result, err := it.Deserialize(bytes)
+    errcore.HandleErr(err)
+    return result
+}
+```
+
+**Rules**: (1) Always panics via `errcore.HandleErr`. (2) Delegates to error-returning version. (3) File: `Deserialize.go` / `DeserializeMust.go`. (4) Combine with `*Ptr`: `ResultPtrMust`.
+
+### Method Writing: `*Slice` vs Variadic
+
+```go
+// Variadic is primary form
+func (it *Collection) AddNonEmptyStrings(items ...string) *Collection { ... }
+
+// *Slice companion accepts []string — delegates via spread
+func (it *Collection) AddNonEmptyStringsSlice(items []string) *Collection {
+    return it.AddNonEmptyStrings(items...)
+}
+```
+
+**When**: Provide `*Slice` when method only has variadic `...T`. Skip if first param is already `[]T` (caller can spread).
+
+### Method Writing: `*Or*` Fallback Pattern
+
+```go
+// First() panics. FirstOrDefault() returns zero. FirstOrDefaultWith() returns custom.
+func (it *Collection[T]) First() T             { return it.items[0] }
+func (it *Collection[T]) FirstOrDefault() T    { if it.IsEmpty() { var z T; return z }; return it.items[0] }
+func FirstOrDefaultWith(s []string, d string) string { if len(s)==0 { return d }; return s[0] }
+
+// *OrExisting — create-or-retrieve from cache
+func (it *lazyRegexMap) CreateOrExisting(name string) (*LazyRegex, bool) { ... }
+func (it *lazyRegexMap) CreateOrExistingLockIf(isLock bool, name string) (*LazyRegex, bool) { ... }
+```
+
+### Deprecation Convention
+
+```go
+// Deprecated: Use EmptySlicePtr[any]() instead.
+func EmptyAnysPtr() *[]any { return EmptySlicePtr[any]() }
+
+// Deprecated: Use the built-in max() function (Go 1.21+).
+func MaxByte(a, b byte) byte { ... }
+```
+
+**Rules**: (1) Always `// Deprecated: Use X instead.` (Go tooling recognizes this). (2) Name exact replacement. (3) Delegate to replacement — don't duplicate logic. (4) Keep the function — don't delete.
+
 ---
 
 ## Common Mistakes to Avoid
