@@ -33,7 +33,8 @@ function Extract-BuildErrorLines {
         if ($null -eq $raw) { continue }; $line = $raw.ToString().TrimEnd("`r"); $trimmed = $line.Trim()
         if (-not $trimmed) { continue }
         if ($trimmed -match '\.go:\d+(?::\d+)?:' -or $trimmed -match '^#\s+\S+' -or
-            $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b') {
+            $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b' -or
+            $trimmed -match '\[setup failed\]') {
             if ($seen.Add($line)) { $errors.Add($line) | Out-Null }
         }
     }
@@ -53,6 +54,7 @@ function Extract-ExecutionFailureLines {
         if (-not $trimmed) { continue }
         if ($trimmed -match '\.go:\d+(?::\d+)?:' -or $trimmed -match '^#\s+\S+' -or
             $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b' -or
+            $trimmed -match '\[setup failed\]' -or
             $trimmed -match '^(?i)panic:' -or $trimmed -match '^(?i)fatal error:' -or
             $trimmed -match '^--- FAIL:\s+' -or $trimmed -match '^\s*FAIL\s+\S+' -or
             $trimmed -match '^\s*exit status \d+\s*$') {
@@ -76,14 +78,36 @@ function Extract-RuntimeFailureLines {
         if ($trimmed -match '^(?i)panic:' -or $trimmed -match '^(?i)fatal error:' -or
             $trimmed -match '^(?i)goroutine \d+' -or $trimmed -match '^--- FAIL:\s+' -or
             $trimmed -match '^\s*FAIL\s+\S+' -or $trimmed -match '^\s*exit status \d+\s*$' -or
-            $trimmed -match '(?i)signal:\s+' -or $trimmed -match '(?i)runtime error:') {
+            $trimmed -match '(?i)signal:\s+' -or $trimmed -match '(?i)runtime error:' -or
+            $trimmed -match '\[setup failed\]') {
             if ($seen.Add($line)) { $errors.Add($line) | Out-Null }
         }
     }
     return $errors.ToArray()
 }
 
+function Get-RawFallbackLines {
+    <#
+    .SYNOPSIS
+        Return all non-empty filtered lines as fallback when extractors find nothing actionable.
+    .DESCRIPTION
+        Used when Extract-BuildErrorLines and Extract-ExecutionFailureLines both return empty.
+        Returns Filter-BlockedCompileLines output so plain-text error messages are preserved.
+    #>
+    [CmdletBinding()]
+    [OutputType([string[]])]
+    param([string[]]$lines)
+    $candidates = Filter-BlockedCompileLines $lines
+    $result = [System.Collections.Generic.List[string]]::new()
+    foreach ($raw in $candidates) {
+        if ($null -eq $raw) { continue }; $line = $raw.ToString().TrimEnd("`r")
+        if ($line.Trim()) { $result.Add($line) | Out-Null }
+    }
+    return $result.ToArray()
+}
+
 Export-ModuleMember -Function @(
     'Filter-BlockedCompileLines', 'Extract-BuildErrorLines',
-    'Extract-ExecutionFailureLines', 'Extract-RuntimeFailureLines'
+    'Extract-ExecutionFailureLines', 'Extract-RuntimeFailureLines',
+    'Get-RawFallbackLines'
 )

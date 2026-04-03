@@ -5,11 +5,13 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 function Add-BuildErrorsForPackage {
-    <# .SYNOPSIS Accumulate build errors into a per-package hashtable. #>
+    <# .SYNOPSIS Accumulate build errors into a per-package hashtable. Falls back to raw output when extractors return empty. #>
     [CmdletBinding()]
     param([hashtable]$BuildErrorMap, [string]$PackageName, [string[]]$Lines)
     if (-not $BuildErrorMap -or -not $PackageName) { return }
     $buildLines = Extract-BuildErrorLines $Lines
+    if (-not $buildLines -or $buildLines.Count -eq 0) { $buildLines = Extract-ExecutionFailureLines $Lines }
+    if (-not $buildLines -or $buildLines.Count -eq 0) { $buildLines = Get-RawFallbackLines $Lines }
     if (-not $buildLines -or $buildLines.Count -eq 0) { return }
     if (-not $BuildErrorMap.ContainsKey($PackageName)) { $BuildErrorMap[$PackageName] = [System.Collections.Generic.List[string]]::new() }
     foreach ($line in $buildLines) {
@@ -18,11 +20,12 @@ function Add-BuildErrorsForPackage {
 }
 
 function Add-RuntimeFailuresForPackage {
-    <# .SYNOPSIS Accumulate runtime failures into a per-package hashtable. #>
+    <# .SYNOPSIS Accumulate runtime failures into a per-package hashtable. Falls back to raw output when extractors return empty. #>
     [CmdletBinding()]
     param([hashtable]$FailureMap, [string]$PackageName, [string[]]$Lines)
     if (-not $FailureMap -or -not $PackageName) { return }
     $runtimeLines = Extract-RuntimeFailureLines $Lines
+    if (-not $runtimeLines -or $runtimeLines.Count -eq 0) { $runtimeLines = Get-RawFallbackLines $Lines }
     if (-not $runtimeLines -or $runtimeLines.Count -eq 0) { return }
     if (-not $FailureMap.ContainsKey($PackageName)) { $FailureMap[$PackageName] = [System.Collections.Generic.List[string]]::new() }
     foreach ($line in $runtimeLines) {
