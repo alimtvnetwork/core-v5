@@ -356,14 +356,14 @@ func Test_Cov17_PathExistStat_MeaningfulError_HasError(t *testing.T) {
 // ── RwxPartialToInstructionExecutor ──────────────────────────────────────────
 
 func Test_Cov17_RwxPartialToInstructionExecutor_ParseError(t *testing.T) {
-	// Arrange & Act — rwxPartial that will fail parsing
+	// Arrange & Act — nil condition triggers CannotBeNilOrEmpty error
 	_, err := chmodhelper.RwxPartialToInstructionExecutor(
-		"",
-		&chmodins.Condition{},
+		"-rwxr-xr-x",
+		nil,
 	)
 
 	// Assert
-	convey.Convey("RwxPartialToInstructionExecutor returns error for empty partial", t, func() {
+	convey.Convey("RwxPartialToInstructionExecutor returns error for nil condition", t, func() {
 		convey.So(err, convey.ShouldNotBeNil)
 	})
 }
