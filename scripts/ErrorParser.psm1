@@ -1,7 +1,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # ErrorParser.psm1 — Error accumulation + compile error parser
 #
-# Dependencies: ErrorExtractor.psm1 (Extract-BuildErrorLines, Extract-RuntimeFailureLines)
+# Dependencies: ErrorExtractor.psm1 (Extract-BuildErrorLines, Extract-RuntimeFailureLines,
+#               Extract-SetupFailedContext, Get-RawFallbackLines)
 # ─────────────────────────────────────────────────────────────────────────────
 
 function Add-BuildErrorsForPackage {
