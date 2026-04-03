@@ -313,7 +313,7 @@ Same as TC but scoped to a single package. Uses the same diff/snapshot flow.
 
 ---
 
-## 8. AI Agent Interaction Guide
+## 9. AI Agent Interaction Guide
 
 ### How to Modify the Toolchain
 
