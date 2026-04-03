@@ -36,6 +36,8 @@ function Invoke-CoverageCompileCheck {
                 $diagOut = & go test -count=1 -run '^$' -gcflags=all=-e "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
                 $ErrorActionPreference = $prevPref
                 $combinedOut = Merge-UniqueOutputLines $compileOut $diagOut
+                $callerSource = Get-CallerSource
+                Write-Fail "Blocked: $shortName (source: $callerSource)"
                 $blockedPkgs.Add($shortName); $blockedErrors[$shortName] = ($combinedOut -join "`n")
                 Add-BuildErrorsForPackage $buildErrorsByPackage $shortName $combinedOut
                 Add-RuntimeFailuresForPackage $runtimeFailuresByPackage $shortName $combinedOut
