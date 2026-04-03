@@ -92,9 +92,9 @@ func Test_Cov25_Attributes_IsEqual_DynamicPayloadsDifferent(t *testing.T) {
 
 func Test_Cov25_Attributes_IsEqual_AnyKeyValuePairsDifferent(t *testing.T) {
 	// Arrange
-	m1 := coredynamic.NewMapAnyItems()
+	m1 := coredynamic.NewMapAnyItems(2)
 	m1.Add("key", "val1")
-	m2 := coredynamic.NewMapAnyItems()
+	m2 := coredynamic.NewMapAnyItems(2)
 	m2.Add("key", "val2")
 	a1 := corepayload.New.Attributes.All(nil, nil, m1, nil, nil, nil, nil)
 	a2 := corepayload.New.Attributes.All(nil, nil, m2, nil, nil, nil, nil)
