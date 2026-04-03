@@ -339,11 +339,21 @@ $source = Get-CallerSource
 | Module | Context | Format |
 |--------|---------|--------|
 | `TestRunnerCore.psm1` | `Invoke-BuildCheck` build failure | `# Source:` header in `failing-tests.txt` + console `Write-Fail` |
+| `TestRunnerCore.psm1` | `Invoke-GitPull`, `Invoke-FetchLatest` | Console `Write-Fail` with source |
+| `TestRunner.psm1` | `Invoke-AllTests`, `Invoke-PackageTests` | Console `Write-Fail` with source |
 | `TestLogWriter.psm1` | `Write-TestLogs` pass/fail logs | `# Source:` header in `passing-tests.txt` and `failing-tests.txt` |
 | `CoverageReportJson.psm1` | JSON reports | `"source"` field in `build-errors.json` and `runtime-failures.json` |
 | `CoverageReportJson.psm1` | Text reports | `# Source:` header in `build-errors.txt` and `runtime-failures.txt` |
-| `CoverageRunner.psm1` | Blocked packages list | `# Source:` header in `blocked-packages.txt` |
+| `CoverageRunner.psm1` | Blocked packages list + exit paths | `# Source:` header in `blocked-packages.txt` + console `Write-Fail` |
 | `CoverageCompileCheck.psm1` | Compile-check failures | Console `Write-Fail` with source for both sync and parallel modes |
+| `CoveragePreChecks.psm1` | Pre-check validation failures | Console `Write-Fail` with source |
+| `CoverageSplitRecovery.psm1` | Subfolder recovery failures | Console `Write-Fail` with source |
+| `CoverageReportHtml.psm1` | HTML report generation errors | Console `Write-Fail` with source |
+| `BuildTools.psm1` | `Invoke-Build`, `Invoke-Vet` | Console `Write-Fail` with source |
+| `PreCommitCheck.psm1` | Pre-commit regression failures | Console `Write-Fail` + `"source"` field in JSON report |
+| `GoConvey.psm1` | GoConvey install failure | Console `Write-Fail` with source |
+| `Help.psm1` | Help/utility error paths | Console `Write-Fail` with source |
+| `PackageCoverage.psm1` | Package coverage failures | Console `Write-Fail` with source |
 
 ### Report Format Examples
 
@@ -419,5 +429,5 @@ $source = Get-CallerSource
 
 | Date | Change |
 |------|--------|
-| 2026-04-03 | Added §8 Error Attribution System — `Get-CallerSource` and report integration |
+| 2026-04-03 | Expanded §8 Error Attribution — now covers all 16 modules with attribution |
 | 2026-03-31 | Initial creation — documents modular architecture post-refactor |
