@@ -32,9 +32,7 @@ function Extract-BuildErrorLines {
     foreach ($raw in $candidates) {
         if ($null -eq $raw) { continue }; $line = $raw.ToString().TrimEnd("`r"); $trimmed = $line.Trim()
         if (-not $trimmed) { continue }
-        if ($trimmed -match '\.go:\d+(?::\d+)?:' -or $trimmed -match '^#\s+\S+' -or
-            $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b' -or
-            $trimmed -match '\[setup failed\]') {
+        if ($trimmed -match '\.go:\d+(?::\d+)?:' -or $trimmed -match '^#\s+\S+') {
             if ($seen.Add($line)) { $errors.Add($line) | Out-Null }
         }
     }
@@ -52,11 +50,11 @@ function Extract-ExecutionFailureLines {
     foreach ($raw in $candidates) {
         if ($null -eq $raw) { continue }; $line = $raw.ToString().TrimEnd("`r"); $trimmed = $line.Trim()
         if (-not $trimmed) { continue }
+        $isSetupOrBuildFail = $trimmed -match '\[setup failed\]' -or $trimmed -match '\[build failed\]' -or
+            $trimmed -match '(?i)\bsetup failed\b' -or $trimmed -match '(?i)\bbuild failed\b'
         if ($trimmed -match '\.go:\d+(?::\d+)?:' -or $trimmed -match '^#\s+\S+' -or
-            $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b' -or
-            $trimmed -match '\[setup failed\]' -or
             $trimmed -match '^(?i)panic:' -or $trimmed -match '^(?i)fatal error:' -or
-            $trimmed -match '^--- FAIL:\s+' -or $trimmed -match '^\s*FAIL\s+\S+' -or
+            $trimmed -match '^--- FAIL:\s+' -or ($trimmed -match '^\s*FAIL\s+\S+' -and -not $isSetupOrBuildFail) -or
             $trimmed -match '^\s*exit status \d+\s*$') {
             if ($seen.Add($line)) { $errors.Add($line) | Out-Null }
         }
@@ -75,11 +73,13 @@ function Extract-RuntimeFailureLines {
     foreach ($raw in $candidates) {
         if ($null -eq $raw) { continue }; $line = $raw.ToString().TrimEnd("`r"); $trimmed = $line.Trim()
         if (-not $trimmed) { continue }
+        $isSetupOrBuildFail = $trimmed -match '\[setup failed\]' -or $trimmed -match '\[build failed\]' -or
+            $trimmed -match '(?i)\bsetup failed\b' -or $trimmed -match '(?i)\bbuild failed\b'
         if ($trimmed -match '^(?i)panic:' -or $trimmed -match '^(?i)fatal error:' -or
             $trimmed -match '^(?i)goroutine \d+' -or $trimmed -match '^--- FAIL:\s+' -or
-            $trimmed -match '^\s*FAIL\s+\S+' -or $trimmed -match '^\s*exit status \d+\s*$' -or
-            $trimmed -match '(?i)signal:\s+' -or $trimmed -match '(?i)runtime error:' -or
-            $trimmed -match '\[setup failed\]') {
+            ($trimmed -match '^\s*FAIL\s+\S+' -and -not $isSetupOrBuildFail) -or
+            $trimmed -match '^\s*exit status \d+\s*$' -or $trimmed -match '(?i)signal:\s+' -or
+            $trimmed -match '(?i)runtime error:') {
             if ($seen.Add($line)) { $errors.Add($line) | Out-Null }
         }
     }
@@ -157,8 +157,42 @@ function Get-RawFallbackLines {
     return $result.ToArray()
 }
 
+function Resolve-BuildDiagnosticLines {
+    <# .SYNOPSIS Return the most useful diagnostic lines for compile/setup failures. #>
+    [CmdletBinding()]
+    [OutputType([string[]])]
+    param([string[]]$lines)
+
+    $setupContext = Extract-SetupFailedContext $lines
+    if ($setupContext -and $setupContext.Count -gt 0) { return $setupContext }
+
+    $buildLines = Extract-BuildErrorLines $lines
+    if ($buildLines -and $buildLines.Count -gt 0) { return $buildLines }
+
+    $executionLines = Extract-ExecutionFailureLines $lines
+    if ($executionLines -and $executionLines.Count -gt 0) { return $executionLines }
+
+    return Get-RawFallbackLines $lines
+}
+
+function Resolve-RuntimeDiagnosticLines {
+    <# .SYNOPSIS Return the most useful diagnostic lines for runtime/setup failures. #>
+    [CmdletBinding()]
+    [OutputType([string[]])]
+    param([string[]]$lines)
+
+    $setupContext = Extract-SetupFailedContext $lines
+    if ($setupContext -and $setupContext.Count -gt 0) { return $setupContext }
+
+    $runtimeLines = Extract-RuntimeFailureLines $lines
+    if ($runtimeLines -and $runtimeLines.Count -gt 0) { return $runtimeLines }
+
+    return Get-RawFallbackLines $lines
+}
+
 Export-ModuleMember -Function @(
     'Filter-BlockedCompileLines', 'Extract-BuildErrorLines',
     'Extract-ExecutionFailureLines', 'Extract-RuntimeFailureLines',
-    'Extract-SetupFailedContext', 'Get-RawFallbackLines'
+    'Extract-SetupFailedContext', 'Get-RawFallbackLines',
+    'Resolve-BuildDiagnosticLines', 'Resolve-RuntimeDiagnosticLines'
 )
