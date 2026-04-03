@@ -943,6 +943,19 @@ $callerSource = "CoverageCompileCheck.psm1 → Invoke-CoverageCompileCheck (para
   ✗ Blocked: subpkg/foo (source: CoverageCompileCheck.psm1 → Invoke-CoverageCompileCheck)
 ```
 
+### Error Extraction Pipeline (4-Tier Fallback)
+
+When a blocked or failing package produces output, diagnostic lines are extracted via a 4-tier fallback chain (first non-empty result wins):
+
+| Tier | Function | What it captures |
+|------|----------|-----------------|
+| 1 | `Extract-BuildErrorLines` | `.go:line:` errors, `[build failed]`, `[setup failed]`, `# pkg` headers |
+| 2 | `Extract-ExecutionFailureLines` | Tier 1 + `panic:`, `fatal error:`, `--- FAIL:`, `FAIL pkg`, `exit status` |
+| 3 | `Extract-SetupFailedContext` | Walks backward from `[setup failed]`/`[build failed]` FAIL lines, captures up to 10 preceding context lines (plain-text error messages) |
+| 4 | `Get-RawFallbackLines` | All non-empty lines after noise removal (last resort — nothing is lost) |
+
+All four functions are defined in `ErrorExtractor.psm1`. The chain is used by `ErrorParser.psm1` (accumulation), `CoverageReportJson.psm1` (reports), and `CoverageRunner.psm1` (blocked-packages files).
+
 ---
 
 ## 10. Related Spec Files
