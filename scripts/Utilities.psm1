@@ -63,6 +63,44 @@ function Ensure-TestLogDir {
     }
 }
 
+function Get-CallerSource {
+    <#
+    .SYNOPSIS
+        Return the calling module and function name from the call stack for error attribution.
+    .DESCRIPTION
+        Walks Get-PSCallStack to find the first caller outside Utilities.psm1.
+        Returns a string like "CoverageRunner.psm1 → Invoke-TestCoverage" or
+        "TestRunnerCore.psm1 → Invoke-BuildCheck" so error reports can trace
+        which PowerShell module triggered the failure.
+    .EXAMPLE
+        $source = Get-CallerSource
+        # Returns: "TestRunnerCore.psm1 → Invoke-BuildCheck"
+    #>
+    [CmdletBinding()]
+    [OutputType([string])]
+    param()
+
+    $stack = Get-PSCallStack
+    foreach ($frame in $stack) {
+        $scriptName = if ($frame.ScriptName) { Split-Path $frame.ScriptName -Leaf } else { "" }
+        $funcName = $frame.FunctionName
+        # Skip this function, internal PS frames, and the Utilities module itself
+        if ($funcName -eq "Get-CallerSource") { continue }
+        if ($funcName -eq "<ScriptBlock>") { continue }
+        if ($scriptName -eq "Utilities.psm1") { continue }
+        if ($scriptName -and $funcName) {
+            return "$scriptName → $funcName"
+        }
+        if ($scriptName) {
+            return "$scriptName"
+        }
+        if ($funcName -and $funcName -ne "<ScriptBlock>") {
+            return "$funcName"
+        }
+    }
+    return "unknown"
+}
+
 function Filter-TestWarnings {
     <#
     .SYNOPSIS
@@ -101,5 +139,6 @@ function Merge-UniqueOutputLines {
 
 Export-ModuleMember -Function @(
     'Write-Header', 'Write-Success', 'Write-Fail',
-    'Ensure-TestLogDir', 'Filter-TestWarnings', 'Merge-UniqueOutputLines'
+    'Ensure-TestLogDir', 'Filter-TestWarnings', 'Merge-UniqueOutputLines',
+    'Get-CallerSource'
 )

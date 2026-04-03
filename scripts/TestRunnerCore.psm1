@@ -35,14 +35,15 @@ function Invoke-BuildCheck {
     $exitCode = $LASTEXITCODE; $ErrorActionPreference = $prevPref
 
     if ($exitCode -ne 0) {
-        Write-Fail "Build failed — skipping tests"
+        $callerSource = Get-CallerSource
+        Write-Fail "Build failed — skipping tests (source: $callerSource)"
         Ensure-TestLogDir
         $failingFile = Join-Path $global:TestLogDir "failing-tests.txt"
         $rawFile     = Join-Path $global:TestLogDir "raw-output.txt"
         $timestamp   = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         $buildErrors = Extract-BuildErrorLines $output
         $errorCount = if ($buildErrors.Count -gt 0) { $buildErrors.Count } else { 1 }
-        $failingContent = @("# Failing Tests — $timestamp", "# Count: $errorCount", "", "# Build Failed — tests were NOT run", "", "# ── Build Errors ──", "")
+        $failingContent = @("# Failing Tests — $timestamp", "# Count: $errorCount", "# Source: $callerSource (TestRunnerCore.psm1 → Invoke-BuildCheck)", "", "# Build Failed — tests were NOT run", "", "# ── Build Errors ──", "")
         if ($buildErrors.Count -gt 0) { $failingContent += $buildErrors } else { $failingContent += $output }
         Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
         Set-Content -Path $rawFile -Value ($output -join "`n") -Encoding UTF8
