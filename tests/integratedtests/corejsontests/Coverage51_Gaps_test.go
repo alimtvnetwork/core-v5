@@ -510,7 +510,7 @@ func Test_Cov51_NewBytesCollectionCreator_Deserialize_Error(t *testing.T) {
 	badResult := corejson.NewResult.UsingBytes([]byte(`{invalid`))
 
 	// Act
-	coll, err := corejson.NewBytesCollection.Deserialize(&badResult)
+	coll, err := corejson.NewBytesCollection.DeserializeUsingResult(&badResult)
 
 	// Assert
 	actual := args.Map{
@@ -547,7 +547,7 @@ func Test_Cov51_NewMapResultsCreator_Deserialize_Error(t *testing.T) {
 	badResult := corejson.NewResult.UsingBytes([]byte(`{invalid`))
 
 	// Act
-	mr, err := corejson.NewMapResults.Deserialize(&badResult)
+	mr, err := corejson.NewMapResults.DeserializeUsingResult(&badResult)
 
 	// Assert
 	actual := args.Map{
@@ -595,7 +595,7 @@ func Test_Cov51_NewResultsCollectionCreator_Deserialize_Error(t *testing.T) {
 	badResult := corejson.NewResult.UsingBytes([]byte(`{invalid`))
 
 	// Act
-	coll, err := corejson.NewResultsCollection.Deserialize(&badResult)
+	coll, err := corejson.NewResultsCollection.DeserializeUsingResult(&badResult)
 
 	// Assert
 	actual := args.Map{
@@ -662,7 +662,7 @@ func Test_Cov51_NewResultsPtrCollectionCreator_Deserialize_Error(t *testing.T) {
 	badResult := corejson.NewResult.UsingBytes([]byte(`{invalid`))
 
 	// Act
-	coll, err := corejson.NewResultsPtrCollection.Deserialize(&badResult)
+	coll, err := corejson.NewResultsPtrCollection.DeserializeUsingResult(&badResult)
 
 	// Assert
 	actual := args.Map{
