@@ -462,5 +462,5 @@ $context = Extract-SetupFailedContext $rawOutput -ContextLineCount 10
 
 | Date | Change |
 |------|--------|
-| 2026-04-03 | Expanded §8 Error Attribution — now covers all 16 modules with attribution |
+| 2026-04-03 | Added §8 Error Extraction Pipeline (4-tier fallback) with `Extract-SetupFailedContext` |
 | 2026-03-31 | Initial creation — documents modular architecture post-refactor |
