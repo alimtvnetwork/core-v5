@@ -312,6 +312,10 @@ func Test_Cov17_SimpleFileReaderWriter_WriteRelativePath_Error(t *testing.T) {
 // ── fwChmodVerifier ──────────────────────────────────────────────────────────
 
 func Test_Cov17_FwChmodVerifier_IsEqualFile(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows does not support Unix file permissions")
+	}
+
 	// Arrange
 	dir := t.TempDir()
 	fp := filepath.Join(dir, "test.txt")
