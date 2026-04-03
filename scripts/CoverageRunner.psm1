@@ -107,6 +107,7 @@ function Invoke-TestCoverage {
                 $rawErrLines = $blockedErrors[$bp] -split "`n"
                 $filtered = Extract-BuildErrorLines $rawErrLines
                 if ($filtered.Count -eq 0) { $filtered = Extract-ExecutionFailureLines $rawErrLines }
+                if ($filtered.Count -eq 0) { $filtered = Extract-SetupFailedContext $rawErrLines }
                 if ($filtered.Count -eq 0) { $filtered = Get-RawFallbackLines $rawErrLines }
                 if ($filtered.Count -gt 0) { $blockedContent += ($filtered -join "`n") } else { $blockedContent += "(no actionable compile errors captured)" }
             }
