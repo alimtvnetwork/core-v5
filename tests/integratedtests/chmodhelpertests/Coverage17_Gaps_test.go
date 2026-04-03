@@ -290,21 +290,7 @@ func Test_Cov17_SimpleFileReaderWriter_WriteRelativePath_Error(t *testing.T) {
 	})
 }
 
-func Test_Cov17_SimpleFileReaderWriter_GetOnExist_Error(t *testing.T) {
-	// Arrange — file doesn't exist
-	rw := chmodhelper.SimpleFileReaderWriter{
-		FilePath: "/nonexistent/file.txt",
-	}
-
-	// Act
-	var target map[string]string
-	err := rw.GetOnExist(&target)
-
-	// Assert
-	convey.Convey("GetOnExist returns error when file doesn't exist", t, func() {
-		convey.So(err, convey.ShouldNotBeNil)
-	})
-}
+// NOTE: getOnExist is unexported — tested in-package via Coverage6_UnexportedGaps_test.go
 
 // ── fwChmodVerifier ──────────────────────────────────────────────────────────
 
