@@ -480,7 +480,7 @@ func Test_Cov51_DeserializerLogic_UsingDeserializer_Nil(t *testing.T) {
 	var target exampleStruct
 
 	// Act
-	err := corejson.Deserialize.UsingDeserializer(nil, &target)
+	err := corejson.Deserialize.UsingDeserializerToOption(false, nil, &target)
 
 	// Assert
 	actual := args.Map{"hasErr": err != nil}
