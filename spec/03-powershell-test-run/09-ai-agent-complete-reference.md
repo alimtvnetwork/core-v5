@@ -966,6 +966,6 @@ $callerSource = "CoverageCompileCheck.psm1 → Invoke-CoverageCompileCheck (para
 
 | Date | Change |
 |------|--------|
-| 2026-04-03 | Added §9 Error Attribution System — `Get-CallerSource`, integration points, parallel caveat |
+| 2026-04-03 | Expanded §9 Error Attribution — now covers all 16 modules with attribution |
 | 2026-03-31 | Updated directory layout, added §8 modular architecture, Go syntax validation docs |
 | 2026-03-30 | Initial creation — consolidated from run.ps1 overview, generic runner spec, testing guidelines, and unit coverage fix protocol |

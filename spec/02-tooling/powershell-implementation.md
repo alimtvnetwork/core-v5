@@ -429,5 +429,5 @@ $source = Get-CallerSource
 
 | Date | Change |
 |------|--------|
-| 2026-04-03 | Added §8 Error Attribution System — `Get-CallerSource` and report integration |
+| 2026-04-03 | Expanded §8 Error Attribution — now covers all 16 modules with attribution |
 | 2026-03-31 | Initial creation — documents modular architecture post-refactor |
