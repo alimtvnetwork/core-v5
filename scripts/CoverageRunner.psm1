@@ -99,7 +99,8 @@ function Invoke-TestCoverage {
         # Write blocked details file
         $blockedFile = Join-Path $coverDir "blocked-packages.txt"
         $sortedBlocked = $blockedPkgs | Sort-Object
-        $blockedContent = @("# Blocked Packages — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')", "# Count: $($blockedPkgs.Count)", "")
+        $callerSource = Get-CallerSource
+        $blockedContent = @("# Blocked Packages — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')", "# Count: $($blockedPkgs.Count)", "# Source: $callerSource (CoverageRunner.psm1 → Invoke-TestCoverage)", "")
         foreach ($bp in $sortedBlocked) {
             $blockedContent += "## $bp"
             if ($blockedErrors.ContainsKey($bp)) {
