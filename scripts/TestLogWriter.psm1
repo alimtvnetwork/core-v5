@@ -136,13 +136,14 @@ function Write-TestLogs {
     }
 
     # ── Write passing tests ──
-    $passingContent = @("# Passing Tests — $timestamp", "# Count: $($passing.Count)", "")
+    $callerSource = Get-CallerSource
+    $passingContent = @("# Passing Tests — $timestamp", "# Count: $($passing.Count)", "# Source: $callerSource (TestLogWriter.psm1 → Write-TestLogs)", "")
     $passingContent += $passing
     Set-Content -Path $passingFile -Value ($passingContent -join "`n") -Encoding UTF8
 
     # ── Write failing tests ──
     $failCount = $failedNames.Count
-    $failingContent = @("# Failing Tests — $timestamp", "# Count: $failCount", "")
+    $failingContent = @("# Failing Tests — $timestamp", "# Count: $failCount", "# Source: $callerSource (TestLogWriter.psm1 → Write-TestLogs)", "")
 
     # Summary section: list failed test names first
     if ($failCount -gt 0) {

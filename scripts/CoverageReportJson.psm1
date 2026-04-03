@@ -145,7 +145,7 @@ function Write-RuntimeFailuresReport {
         }
     }
     Set-Content -Path $runtimeFailuresFile -Value ($rtLines -join "`n") -Encoding UTF8
-    @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); packageCount = $runtimeFailurePkgs.Count; packages = $rtJsonItems.ToArray() } |
+    @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); packageCount = $runtimeFailurePkgs.Count; source = $callerSource; packages = $rtJsonItems.ToArray() } |
         ConvertTo-Json -Depth 5 | Set-Content -Path $runtimeFailuresJsonFile -Encoding UTF8
 
     if ($runtimeFailurePkgs.Count -gt 0) {
