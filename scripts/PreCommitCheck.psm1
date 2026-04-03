@@ -41,7 +41,7 @@ function Invoke-PreCommitCheck {
     if ($singlePkg) { & $regressionScript -SinglePackage $singlePkg } else { & $regressionScript }
     if ($LASTEXITCODE -ne 0) {
         if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Regression Guard" "fail" "regressions detected" }
-        Write-Fail "Regression guard failed. Fix reported issues before PC."
+        $s = Get-CallerSource; Write-Fail "Regression guard failed. Fix reported issues before PC. (source: $s)"
         exit 1
     }
     if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Regression Guard" "pass" "no regressions" }
