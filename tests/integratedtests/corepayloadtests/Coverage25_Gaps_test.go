@@ -461,7 +461,7 @@ func Test_Cov25_PayloadWrapper_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 func Test_Cov25_PayloadWrapper_Clone_Error(t *testing.T) {
 	// Arrange
 	// Create an attributes with AnyKeyValuePairs containing un-cloneable data
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(2)
 	anyMap.Add("ch", make(chan int))
 	attr := corepayload.New.Attributes.All(nil, nil, anyMap, nil, nil, nil, nil)
 	pw := &corepayload.PayloadWrapper{Attributes: attr}
