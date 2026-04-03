@@ -906,10 +906,20 @@ $source = Get-CallerSource
 | Module | Function | Report File | Field |
 |--------|----------|-------------|-------|
 | `TestRunnerCore.psm1` | `Invoke-BuildCheck` | `failing-tests.txt` | `# Source:` header |
+| `TestRunnerCore.psm1` | `Invoke-GitPull`, `Invoke-FetchLatest` | Console only | `Write-Fail` with source |
+| `TestRunner.psm1` | `Invoke-AllTests`, `Invoke-PackageTests` | Console only | `Write-Fail` with source |
 | `TestLogWriter.psm1` | `Write-TestLogs` | `passing-tests.txt`, `failing-tests.txt` | `# Source:` header |
 | `CoverageReportJson.psm1` | JSON/text export | `build-errors.json/.txt`, `runtime-failures.json/.txt` | `"source"` / `# Source:` |
-| `CoverageRunner.psm1` | Blocked packages | `blocked-packages.txt` | `# Source:` header |
+| `CoverageRunner.psm1` | Blocked packages + exit paths | `blocked-packages.txt` | `# Source:` header + `Write-Fail` |
 | `CoverageCompileCheck.psm1` | Compile check | Console only | `Write-Fail` with source |
+| `CoveragePreChecks.psm1` | Pre-check validation | Console only | `Write-Fail` with source |
+| `CoverageSplitRecovery.psm1` | Subfolder recovery | Console only | `Write-Fail` with source |
+| `CoverageReportHtml.psm1` | HTML report generation | Console only | `Write-Fail` with source |
+| `BuildTools.psm1` | `Invoke-Build`, `Invoke-Vet` | Console only | `Write-Fail` with source |
+| `PreCommitCheck.psm1` | Pre-commit validation | Console + JSON report | `Write-Fail` + `"source"` field |
+| `GoConvey.psm1` | GoConvey install | Console only | `Write-Fail` with source |
+| `Help.psm1` | Error paths | Console only | `Write-Fail` with source |
+| `PackageCoverage.psm1` | Package coverage | Console only | `Write-Fail` with source |
 
 ### Parallel Mode Caveat
 
