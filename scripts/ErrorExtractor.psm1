@@ -33,7 +33,8 @@ function Extract-BuildErrorLines {
         if ($null -eq $raw) { continue }; $line = $raw.ToString().TrimEnd("`r"); $trimmed = $line.Trim()
         if (-not $trimmed) { continue }
         if ($trimmed -match '\.go:\d+(?::\d+)?:' -or $trimmed -match '^#\s+\S+' -or
-            $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b') {
+            $trimmed -match '\[build failed\]' -or $trimmed -match '(?i)\bbuild failed\b' -or
+            $trimmed -match '\[setup failed\]') {
             if ($seen.Add($line)) { $errors.Add($line) | Out-Null }
         }
     }
