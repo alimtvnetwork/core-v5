@@ -36,7 +36,7 @@ function Invoke-Build {
     if (-not (Test-Path $buildDir)) { New-Item -ItemType Directory -Path $buildDir | Out-Null }
     go build -o "$buildDir/cli" ./cmd/main/
     if ($LASTEXITCODE -eq 0) { Write-Success "Build complete: $buildDir/cli" }
-    else { Write-Fail "Build failed" }
+    else { $s = Get-CallerSource; Write-Fail "Build failed (source: $s)" }
 }
 
 function Invoke-BuildRun {
