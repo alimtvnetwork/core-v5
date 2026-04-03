@@ -61,7 +61,7 @@ function Invoke-CoveragePreChecks {
         $fixOut = & go run @fixArgs 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($fixOut | Out-String) -ForegroundColor Red
-            Write-Fail "Go auto-fixer encountered errors."
+            $s = Get-CallerSource; Write-Fail "Go auto-fixer encountered errors. (source: $s)"
             if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Auto-Fixer" "warn" "errors encountered" }
         } else {
             $fixStr = ($fixOut | Out-String).Trim() -replace '^\s*✓\s*', ''
