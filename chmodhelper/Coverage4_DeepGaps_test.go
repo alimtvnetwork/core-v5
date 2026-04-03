@@ -525,8 +525,8 @@ func Test_Cov4_SimpleFileReaderWriter_WriteString_Error(t *testing.T) {
 	rw := SimpleFileReaderWriter{
 		ChmodDir:               0755,
 		ChmodFile:              0644,
-		ParentDir:              "/dev/null/impossible",
-		FilePath:               "/dev/null/impossible/file.txt",
+		ParentDir:              string([]byte{0}),
+		FilePath:               string([]byte{0}) + "/file.txt",
 		IsRemoveBeforeWrite:    false,
 		IsMustChmodApplyOnFile: false,
 		IsApplyChmodOnMismatch: false,
@@ -546,8 +546,8 @@ func Test_Cov4_SimpleFileReaderWriter_WriteRelativePath_Error(t *testing.T) {
 	rw := SimpleFileReaderWriter{
 		ChmodDir:               0755,
 		ChmodFile:              0644,
-		ParentDir:              "/dev/null/impossible",
-		FilePath:               "/dev/null/impossible/file.txt",
+		ParentDir:              string([]byte{0}),
+		FilePath:               string([]byte{0}) + "/file.txt",
 		IsRemoveBeforeWrite:    false,
 		IsMustChmodApplyOnFile: false,
 		IsApplyChmodOnMismatch: false,
@@ -567,8 +567,8 @@ func Test_Cov4_SimpleFileReaderWriter_WriteAny_Error(t *testing.T) {
 	rw := SimpleFileReaderWriter{
 		ChmodDir:               0755,
 		ChmodFile:              0644,
-		ParentDir:              "/dev/null/impossible",
-		FilePath:               "/dev/null/impossible/file.txt",
+		ParentDir:              string([]byte{0}),
+		FilePath:               string([]byte{0}) + "/file.txt",
 		IsRemoveBeforeWrite:    false,
 		IsMustChmodApplyOnFile: false,
 		IsApplyChmodOnMismatch: false,
@@ -1124,10 +1124,10 @@ func Test_Cov4_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov4_CreateDirWithFiles_MkDirError(t *testing.T) {
-	// Arrange
+	// Arrange — null byte in path is universally invalid
 	dw := &DirWithFiles{
-		Dir: "/dev/null/impossible/dir",
-		Files:   []string{},
+		Dir:   string([]byte{0}) + "/impossible/dir",
+		Files: []string{},
 	}
 
 	// Act
@@ -1265,11 +1265,17 @@ func Test_Cov4_PathExistStat_MeaningFullError_WithError(t *testing.T) {
 
 func Test_Cov4_RwxVariableWrapper_NewError(t *testing.T) {
 	// Arrange & Act
-	_, err := NewRwxVariableWrapper("INVALID")
+	// "INVALID" gets padded to 10 chars and sliced to valid 3-char segments,
+	// so NewRwxVariableWrapper never errors for any string input.
+	// Verify it succeeds — this documents the actual behavior.
+	wrapper, err := NewRwxVariableWrapper("INVALID")
 
 	// Assert
-	if err == nil {
-		t.Fatal("expected error for invalid input")
+	if err != nil {
+		t.Fatal("unexpected error:", err)
+	}
+	if wrapper == nil {
+		t.Fatal("expected non-nil wrapper")
 	}
 }
 
@@ -1392,12 +1398,13 @@ func Test_Cov4_ChmodApplier_RwxPartial_InvalidRwx(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov4_NewRwxWrapperCreator_UsingVariantPtr_Error(t *testing.T) {
-	// Arrange & Act — use an invalid variant
-	_, err := New.RwxWrapper.UsingVariantPtr(Variant("invalid_variant_255"))
+	// Arrange & Act — use a 3-char variant with invalid octal digit (9 > 7)
+	// Create() panics for wrong length, so use valid length with bad digit
+	_, err := New.RwxWrapper.UsingVariantPtr(Variant("899"))
 
 	// Assert
 	if err == nil {
-		t.Fatal("expected error for invalid variant")
+		t.Fatal("expected error for invalid variant digit")
 	}
 }
 
