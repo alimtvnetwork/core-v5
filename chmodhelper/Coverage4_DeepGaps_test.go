@@ -1124,10 +1124,10 @@ func Test_Cov4_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov4_CreateDirWithFiles_MkDirError(t *testing.T) {
-	// Arrange
+	// Arrange — null byte in path is universally invalid
 	dw := &DirWithFiles{
-		Dir: "/dev/null/impossible/dir",
-		Files:   []string{},
+		Dir:   string([]byte{0}) + "/impossible/dir",
+		Files: []string{},
 	}
 
 	// Act
