@@ -202,7 +202,7 @@ func Test_Cov17_SingleRwx_ToDisabledRwxWrapper_Valid(t *testing.T) {
 	// Arrange
 	single := &chmodhelper.SingleRwx{
 		Rwx:       "rwx",
-		ClassType: chmodhelper.AllClassType(),
+		ClassType: chmodclasstype.All,
 	}
 
 	// Act
@@ -219,7 +219,7 @@ func Test_Cov17_SingleRwx_ToRwxWrapper_NonAll(t *testing.T) {
 	// Arrange
 	single := &chmodhelper.SingleRwx{
 		Rwx:       "rwx",
-		ClassType: chmodhelper.OwnerClassType(),
+		ClassType: chmodclasstype.Owner,
 	}
 
 	// Act
