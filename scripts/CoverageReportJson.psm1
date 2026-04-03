@@ -85,8 +85,10 @@ function Write-BuildErrorsReport {
     $buildErrorsFile = Join-Path $CoverDir "build-errors.txt"
     $buildErrorsJsonFile = Join-Path $CoverDir "build-errors.json"
     $buildErrorPkgs = @($BuildErrorsByPackage.Keys | Sort-Object)
+    $callerSource = Get-CallerSource
     $lines = [System.Collections.Generic.List[string]]::new()
-    $lines.Add("# Build Errors — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"); $lines.Add("# Count: $($buildErrorPkgs.Count)"); $lines.Add("")
+    $lines.Add("# Build Errors — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"); $lines.Add("# Count: $($buildErrorPkgs.Count)")
+    $lines.Add("# Source: $callerSource (CoverageReportJson.psm1 → Write-BuildErrorsReport)"); $lines.Add("")
     $jsonItems = [System.Collections.Generic.List[object]]::new()
 
     if ($buildErrorPkgs.Count -eq 0) { $lines.Add("No build errors captured.") }
@@ -101,7 +103,7 @@ function Write-BuildErrorsReport {
         }
     }
     Set-Content -Path $buildErrorsFile -Value ($lines -join "`n") -Encoding UTF8
-    @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); packageCount = $buildErrorPkgs.Count; blockedCount = $BlockedPkgs.Count; packages = $jsonItems.ToArray() } |
+    @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); packageCount = $buildErrorPkgs.Count; blockedCount = $BlockedPkgs.Count; source = $callerSource; packages = $jsonItems.ToArray() } |
         ConvertTo-Json -Depth 5 | Set-Content -Path $buildErrorsJsonFile -Encoding UTF8
 }
 
