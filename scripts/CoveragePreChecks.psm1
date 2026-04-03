@@ -79,7 +79,7 @@ function Invoke-CoveragePreChecks {
         if ($LASTEXITCODE -ne 0) {
             Write-Host ($braceOut | Out-String) -ForegroundColor Red
             if (Get-Command Register-Phase -ErrorAction SilentlyContinue) { Register-Phase "Syntax Check" "fail" "bracecheck failed" }
-            Write-Fail "Go syntax check failed. Fix reported issues before TC."
+            $s = Get-CallerSource; Write-Fail "Go syntax check failed. Fix reported issues before TC. (source: $s)"
             return $false
         } else {
             $braceStr2 = ($braceOut | Out-String).Trim() -replace '^\s*✓\s*', ''

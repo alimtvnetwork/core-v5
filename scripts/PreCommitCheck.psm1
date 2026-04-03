@@ -165,7 +165,8 @@ function Invoke-PreCommitCheck {
     }
 
     # JSON report
-    $jsonReport = @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); passed = $allPassed; checkedCount = $goTestPkgs.Count; passedCount = $passedCount; failedCount = $failures.Count; failures = $failures.ToArray() }
+    $pcSource = Get-CallerSource
+    $jsonReport = @{ timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"); passed = $allPassed; checkedCount = $goTestPkgs.Count; passedCount = $passedCount; failedCount = $failures.Count; source = $pcSource; failures = $failures.ToArray() }
     $jsonPath = Join-Path $compileTemp "api-check.json"
     $jsonReport | ConvertTo-Json -Depth 5 | Set-Content -Path $jsonPath -Encoding UTF8
     Write-Host "  Report → $jsonPath" -ForegroundColor Gray

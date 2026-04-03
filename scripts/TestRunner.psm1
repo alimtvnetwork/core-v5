@@ -46,7 +46,7 @@ function Invoke-PackageTests {
         Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
         if ($exitCode -eq 0) { Write-Success "Package tests passed" }
-        else { Write-Fail "Package tests failed (exit code: $exitCode)" }
+        else { $s = Get-CallerSource; Write-Fail "Package tests failed (exit code: $exitCode) (source: $s)" }
     }
     finally { Pop-Location }
     Open-FailingTestsIfAny

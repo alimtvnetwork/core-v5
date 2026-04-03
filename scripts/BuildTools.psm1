@@ -84,7 +84,7 @@ function Invoke-Vet {
     Write-Header "Running go vet"
     go vet ./...
     if ($LASTEXITCODE -eq 0) { Write-Success "No issues found" }
-    else { Write-Fail "Issues found" }
+    else { $s = Get-CallerSource; Write-Fail "Issues found (source: $s)" }
 }
 
 function Invoke-Tidy {
