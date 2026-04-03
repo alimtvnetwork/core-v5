@@ -15,7 +15,8 @@
 5. [Go Syntax Validation Pipeline](#5-go-syntax-validation-pipeline)
 6. [Go Test Patterns](#6-go-test-patterns)
 7. [Coverage Generation Workflow](#7-coverage-generation-workflow)
-8. [AI Agent Interaction Guide](#8-ai-agent-interaction-guide)
+8. [Error Attribution System](#8-error-attribution-system)
+9. [AI Agent Interaction Guide](#9-ai-agent-interaction-guide)
 
 ---
 
